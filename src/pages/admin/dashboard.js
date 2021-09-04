@@ -6,8 +6,35 @@ import { Donut1 } from "../../components/dashboard/donut-chart";
 import { Line1 } from "../../components/dashboard/line-chart";
 import Dropdown1 from "../../components/widgets/dropdown-1";
 import { FiHome, FiUserCheck, FiUsers } from "react-icons/fi";
+import { useEffect, useState } from "react";
+import { totalUser } from "../../lib/users";
+import { totalIbo } from "../../lib/ibos";
+import { totalLandlord } from "../../lib/landlords";
 
 const Index = () => {
+  const [userCount, setUserCount] = useState(0);
+  const [iboCount, setIboCount] = useState(0);
+  const [landlordCount, setLandlordCount] = useState(0);
+  const [rentedPropertyCount, setRentedPropertyCount] = useState(0);
+
+  useEffect(() => {
+    (async () => {
+      const user = await totalUser();
+      const landlord = await totalLandlord();
+      const ibo = await totalIbo();
+
+      if (user?.status) {
+        setUserCount(user.data);
+      }
+      if (ibo?.status) {
+        setIboCount(user.data);
+      }
+      if (landlord?.status) {
+        setLandlordCount(user.data);
+      }
+    })();
+  }, []);
+
   return (
     <>
       <SectionTitle title="Overview" subtitle="Dashboard" />
@@ -16,7 +43,7 @@ const Index = () => {
         <div className="w-full lg:w-1/4">
           <Widget1
             title="Total Rented"
-            description={400}
+            description={rentedPropertyCount}
             right={
               <FiHome size={24} className="stroke-current text-gray-500" />
             }
@@ -26,7 +53,7 @@ const Index = () => {
         <div className="w-full lg:w-1/4">
           <Widget1
             title="Users"
-            description={588}
+            description={userCount}
             right={
               <FiUsers size={24} className="stroke-current text-gray-500" />
             }
@@ -36,7 +63,7 @@ const Index = () => {
         <div className="w-full lg:w-1/4">
           <Widget1
             title="IBOs"
-            description={(1, 435)}
+            description={iboCount}
             right={
               <FiUserCheck size={24} className="stroke-current text-gray-500" />
             }
@@ -46,7 +73,7 @@ const Index = () => {
         <div className="w-full lg:w-1/4">
           <Widget1
             title="Landlords"
-            description={100}
+            description={landlordCount}
             right={
               <FiUserCheck size={24} className="stroke-current text-gray-500" />
             }

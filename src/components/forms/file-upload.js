@@ -11,7 +11,7 @@ const getBase64 = (file) => {
   });
 };
 
-function FileUpload({ name }) {
+function FileUpload(props) {
   const [image, setImage] = useState("");
 
   const handleChange = (e) => {
@@ -25,22 +25,26 @@ function FileUpload({ name }) {
     <div className="flex items-center justify-center relative">
       <label
         htmlFor="fileupload"
-        className="w-24 h-24 bg-gray-300 rounded-full overflow-hidden cursor-pointer"
+        className={`${
+          props.error ? "bg-red-300" : "bg-gray-300"
+        } rounded-full overflow-hidden cursor-pointer ${
+          props.size === "small" ? "w-10 h-10" : "w-24 h-24 "
+        }`}
       >
         <input
           type="file"
-          name={name}
+          name={props.name}
           hidden
           accept="image/*"
           onChange={handleChange}
           id="fileupload"
         />
-        {image && (
+        {(image || props.value) && (
           <Image
             className="object-cover"
-            src={image}
-            width={100}
-            height={100}
+            src={image || props.value}
+            width={props.size === "small" ? 50 : 100}
+            height={props.size === "small" ? 50 : 100}
           />
         )}
         <FiUpload

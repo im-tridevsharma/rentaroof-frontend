@@ -3,58 +3,58 @@ import server from "../server";
 
 const cookies = new Cookies();
 
-const getUsers = async () => {
+const getIbos = async () => {
   const token = cookies.get("_token");
-  let users = false;
+  let ibos = false;
 
   if (token) {
     await server
-      .get("/admin/users", {
+      .get("/admin/ibos", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
         if (response.data) {
-          users = response.data;
+          ibos = response.data;
         }
       })
       .catch((error) => {
-        users = error.response.data;
+        ibos = error.response.data;
       });
   }
 
-  return users;
+  return ibos;
 };
 
-export const getUserById = async (id) => {
+export const getIBOById = async (id) => {
   const token = cookies.get("_token");
-  let user = false;
+  let ibo = false;
 
   if (id && token) {
     await server
-      .get(`/admin/users/${id}`, {
+      .get(`/admin/ibos/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
         if (response.data) {
-          user = response.data;
+          ibo = response.data;
         }
       })
       .catch((error) => {
-        user = error.response.data;
+        ibo = error.response.data;
       });
   }
 
-  return user;
+  return ibo;
 };
 
-export const deleteUser = async (id) => {
+export const deleteIBO = async (id) => {
   const token = cookies.get("_token");
   let res = false;
 
   if (id) {
     if (token) {
       await server
-        .delete(`/admin/users/${id}`, {
+        .delete(`/admin/ibos/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
@@ -71,13 +71,13 @@ export const deleteUser = async (id) => {
   return res;
 };
 
-export const addUser = async (data) => {
+export const addIBO = async (data) => {
   const token = cookies.get("_token");
-  let user = false;
+  let ibo = false;
 
   if (token) {
     await server
-      .post(`/admin/users/`, data, {
+      .post(`/admin/ibos/`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -85,50 +85,50 @@ export const addUser = async (data) => {
       })
       .then((response) => {
         if (response) {
-          user = response.data;
+          ibo = response.data;
         }
       })
       .catch((error) => {
         if (error) {
-          user = error.response.data;
+          ibo = error.response.data;
         }
       });
   }
 
-  return user;
+  return ibo;
 };
 
-export const updateUser = async (id, data) => {
+export const updateIBO = async (id, data) => {
   const token = cookies.get("_token");
-  let user = false;
+  let ibo = false;
 
   if (id && data) {
     if (token) {
       await server
-        .post(`/admin/users/${id}`, data, {
+        .post(`/admin/ibos/${id}`, data, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
           if (response.data) {
-            user = response.data;
+            ibo = response.data;
           }
         })
         .catch((error) => {
-          user = error.response.data;
+          ibo = error.response.data;
         });
     }
   }
 
-  return user;
+  return ibo;
 };
 
-export const totalUser = async () => {
+export const totalIbo = async () => {
   const token = cookies.get("_token");
   let count = false;
 
   if (token) {
     await server
-      .get(`/admin/users/total`, {
+      .get(`/admin/ibos/total`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
@@ -144,4 +144,4 @@ export const totalUser = async () => {
   return count;
 };
 
-export default getUsers;
+export default getIbos;

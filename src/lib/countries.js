@@ -67,7 +67,7 @@ export const deleteCountry = async (id) => {
         })
         .then((response) => {
           if (response.data) {
-            res = response.data.data;
+            res = response.data;
           } else {
             res = false;
           }
@@ -99,7 +99,7 @@ export const addCountry = async (name, code) => {
         )
         .then((response) => {
           if (response.data) {
-            country = response.data.data;
+            country = response.data;
           } else {
             country = false;
           }
@@ -131,7 +131,7 @@ export const updateCountry = async (id, name, code) => {
         )
         .then((response) => {
           if (response.data) {
-            country = response.data.data;
+            country = response.data;
           } else {
             country = false;
           }

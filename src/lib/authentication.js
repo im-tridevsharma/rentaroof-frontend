@@ -19,14 +19,10 @@ const getUser = async () => {
       .then((response) => {
         if (response.data) {
           user = response.data.user;
-        } else {
-          user = false;
         }
       })
       .catch((error) => {
-        if (error) {
-          user = false;
-        }
+        user = error.response.data;
       });
   }
 
@@ -48,41 +44,29 @@ export const logoutUser = async () => {
     .then((response) => {
       if (response.data) {
         user = response.data;
-      } else {
-        user = false;
       }
     })
     .catch((error) => {
-      if (error) {
-        user = false;
-      }
+      user = error.response.data;
     });
 
   return user;
 };
 
 export const loginUser = async (email, password) => {
-  if (email && password) {
-    let user = false;
-    await server
-      .post("/auth/login", { email, password })
-      .then((response) => {
-        if (response.data) {
-          user = response.data;
-        } else {
-          user = false;
-        }
-      })
-      .catch((err) => {
-        if (err) {
-          user = false;
-        }
-      });
+  let user = false;
+  await server
+    .post("/auth/login", { email, password })
+    .then((response) => {
+      if (response.data) {
+        user = response.data;
+      }
+    })
+    .catch((err) => {
+      user = err.response.data;
+    });
 
-    return user;
-  } else {
-    return false;
-  }
+  return user;
 };
 
 export const setAuthToken = (token) => {
@@ -107,15 +91,11 @@ export const refreshToken = async (token) => {
       )
       .then((response) => {
         if (response.data) {
-          newToken = response.data.access_token;
-        } else {
-          newToken = "";
+          newToken = response.data;
         }
       })
       .catch((err) => {
-        if (err) {
-          newToken = "";
-        }
+        newToken = err.response.data;
       });
     cookies.set("_token", newToken, { path: "/" });
     return true;

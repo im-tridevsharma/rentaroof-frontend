@@ -59,24 +59,24 @@
 [data-background="dark"] {
   .table {
     thead tr th {
-      border-color: color(theme('colors.gray.900') tint(10%));
+      border-color: color(theme("colors.gray.900") tint(10%));
       @apply text-gray-500;
     }
     tbody tr td {
-      border-color: color(theme('colors.gray.900') tint(10%));
+      border-color: color(theme("colors.gray.900") tint(10%));
     }
     &.striped {
       thead tr th {
-        background: color(theme('colors.gray.900') tint(6%));
-        border-color: color(theme('colors.gray.900') tint(6%));
+        background: color(theme("colors.gray.900") tint(6%));
+        border-color: color(theme("colors.gray.900") tint(6%));
       }
       tbody tr:nth-child(odd) td {
-        background: color(theme('colors.gray.900') tint(6%));
-        border-color: color(theme('colors.gray.900') tint(6%));
+        background: color(theme("colors.gray.900") tint(6%));
+        border-color: color(theme("colors.gray.900") tint(6%));
       }
       tbody tr:nth-child(even) td {
-        background: color(theme('colors.gray.900') tint(3%));
-        border-color: color(theme('colors.gray.900') tint(3%));
+        background: color(theme("colors.gray.900") tint(3%));
+        border-color: color(theme("colors.gray.900") tint(3%));
       }
     }
   }

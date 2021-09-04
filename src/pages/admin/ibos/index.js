@@ -5,44 +5,42 @@ import { useRouter } from "next/router";
 import { FiEdit, FiEye, FiTrash } from "react-icons/fi";
 import Datatable from "../../../components/datatable";
 import SectionTitle from "../../../components/section-title";
-import getUsers, { deleteUser } from "../../../lib/users";
+import getIbos, { deleteIBO } from "../../../lib/ibos";
 
 function Index() {
-  const [users, setUsers] = useState([]);
+  const [ibos, setIbos] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
     (async () => {
-      const response = await getUsers();
-      if (response) {
-        setUsers(response.data);
-      } else {
-        router.push("/admin");
+      const response = await getIbos();
+      if (response?.status) {
+        setIbos(response.data);
       }
     })();
   }, []);
 
-  const editUser = (id) => {
+  const editIBO = (id) => {
     if (id) {
-      router.push(`/admin/users/${id}`);
+      router.push(`/admin/ibos/${id}`);
     }
   };
 
-  const delUser = async (id) => {
+  const delIBO = async (id) => {
     // eslint-disable-next-line no-restricted-globals
     const go = confirm("It will delete it permanantly!");
     if (go && id) {
-      const response = await deleteUser(id);
-      const newUsers = users.filter((item) => item.id !== response.id);
-      setUsers(newUsers);
+      const response = await deleteIBO(id);
+      const newIbos = ibos.filter((item) => item.id !== response.id);
+      setIbos(newIbos);
     }
   };
 
   const viewProfile = (id) => {};
 
-  const AddUser = () => {
+  const AddIBO = () => {
     return (
-      <Link href="/admin/users/add">
+      <Link href="/admin/ibos/add">
         <a className="btn btn-default bg-blue-500 text-white rounded-lg hover:bg-blue-400">
           Add New
         </a>
@@ -52,17 +50,12 @@ function Index() {
 
   return (
     <>
-      <SectionTitle title="Users" subtitle="All Users" right={<AddUser />} />
+      <SectionTitle title="Ibos" subtitle="All Ibos" right={<AddIBO />} />
       <div className="bg-white px-2 py-3 rounded-lg border-gray-100 border-2">
-        {users?.length ? (
-          <Table
-            users={users}
-            edit={editUser}
-            del={delUser}
-            view={viewProfile}
-          />
+        {ibos?.length ? (
+          <Table ibos={ibos} edit={editIBO} del={delIBO} view={viewProfile} />
         ) : (
-          <p className="mt-5">No users found!</p>
+          <p className="mt-5">No ibos found!</p>
         )}
       </div>
     </>
@@ -71,7 +64,7 @@ function Index() {
 
 export default Index;
 
-const Table = ({ users, edit, del, view }) => {
+const Table = ({ ibos, edit, del, view }) => {
   const columns = [
     {
       Header: "Proile Pic",
@@ -128,6 +121,21 @@ const Table = ({ users, edit, del, view }) => {
       },
     },
     {
+      Header: "KYC",
+      accessor: "kyc.is_verified",
+      Cell: (props) => {
+        return props.value === 1 ? (
+          <span className="px-1 text-xs bg-green-400 rounded-full">
+            Verified
+          </span>
+        ) : (
+          <span className="px-1 text-xs bg-red-400 rounded-full">
+            Not Verified
+          </span>
+        );
+      },
+    },
+    {
       Header: "Action",
       accessor: "id",
       Cell: (props) => {
@@ -156,5 +164,5 @@ const Table = ({ users, edit, del, view }) => {
       },
     },
   ];
-  return <Datatable columns={columns} data={users} />;
+  return <Datatable columns={columns} data={ibos} />;
 };

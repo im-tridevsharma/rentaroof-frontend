@@ -37,7 +37,7 @@ const initialState = [
           },
           {
             url: "/admin/users/add",
-            title: "New User",
+            title: "Add New",
             items: [],
           },
         ],
@@ -48,13 +48,13 @@ const initialState = [
         title: "IBO",
         items: [
           {
-            url: "/admin/newIBO",
-            title: "New IBO",
+            url: "/admin/ibos",
+            title: "All IBOs",
             items: [],
           },
           {
-            url: "/admin/allIBOs",
-            title: "All IBOs",
+            url: "/admin/ibos/add",
+            title: "Add New",
             items: [],
           },
         ],
@@ -65,13 +65,13 @@ const initialState = [
         title: "Landlord",
         items: [
           {
-            url: "/admin/newLandlord",
-            title: "New Landlord",
+            url: "/admin/landlords",
+            title: "All Landlords",
             items: [],
           },
           {
-            url: "/admin/allLandlords",
-            title: "All Landlords",
+            url: "/admin/landlords/add",
+            title: "Add New",
             items: [],
           },
         ],
@@ -82,19 +82,30 @@ const initialState = [
         title: "Property",
         items: [
           {
-            url: "/admin/newProperty",
-            title: "New Property",
-            items: [],
-          },
-          {
-            url: "/admin/allProperties",
+            url: "/admin/properties",
             title: "All Properties",
             items: [],
           },
           {
-            url: "/admin/allAmenities",
-            title: "All Amenities",
+            url: "/admin/properties/add",
+            title: "Add New",
             items: [],
+          },
+          {
+            url: "",
+            title: "Amenities",
+            items: [
+              {
+                url: "/admin/amenities",
+                title: "All",
+                items: [],
+              },
+              {
+                url: "/admin/amenities/add",
+                title: "New",
+                items: [],
+              },
+            ],
           },
         ],
       },

@@ -3,58 +3,58 @@ import server from "../server";
 
 const cookies = new Cookies();
 
-const getUsers = async () => {
+const getAmenities = async () => {
   const token = cookies.get("_token");
-  let users = false;
+  let amenities = false;
 
   if (token) {
     await server
-      .get("/admin/users", {
+      .get("/admin/amenities", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
         if (response.data) {
-          users = response.data;
+          amenities = response.data;
         }
       })
       .catch((error) => {
-        users = error.response.data;
+        amenities = error.response.data;
       });
   }
 
-  return users;
+  return amenities;
 };
 
-export const getUserById = async (id) => {
+export const getAmenityById = async (id) => {
   const token = cookies.get("_token");
-  let user = false;
+  let amenity = false;
 
   if (id && token) {
     await server
-      .get(`/admin/users/${id}`, {
+      .get(`/admin/amenities/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
         if (response.data) {
-          user = response.data;
+          amenity = response.data;
         }
       })
       .catch((error) => {
-        user = error.response.data;
+        amenity = error.response.data;
       });
   }
 
-  return user;
+  return amenity;
 };
 
-export const deleteUser = async (id) => {
+export const deleteAmenity = async (id) => {
   const token = cookies.get("_token");
   let res = false;
 
   if (id) {
     if (token) {
       await server
-        .delete(`/admin/users/${id}`, {
+        .delete(`/admin/amenities/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
@@ -71,77 +71,57 @@ export const deleteUser = async (id) => {
   return res;
 };
 
-export const addUser = async (data) => {
+export const addAmenity = async (data) => {
   const token = cookies.get("_token");
-  let user = false;
+  let amenity = false;
 
   if (token) {
     await server
-      .post(`/admin/users/`, data, {
+      .post(`/admin/amenities/`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
       })
       .then((response) => {
-        if (response) {
-          user = response.data;
+        if (response.data) {
+          amenity = response.data;
         }
       })
       .catch((error) => {
-        if (error) {
-          user = error.response.data;
-        }
+        amenity = error.response.data;
       });
   }
 
-  return user;
+  return amenity;
 };
 
-export const updateUser = async (id, data) => {
+export const updateAmenity = async (id, name, code) => {
   const token = cookies.get("_token");
-  let user = false;
+  let amenity = false;
 
-  if (id && data) {
+  if (id && name && code) {
     if (token) {
       await server
-        .post(`/admin/users/${id}`, data, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
+        .post(
+          `/admin/amenities/${id}`,
+          { name, code, _method: "PUT" },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
         .then((response) => {
           if (response.data) {
-            user = response.data;
+            amenity = response.data.data;
           }
         })
         .catch((error) => {
-          user = error.response.data;
+          amenity = error.response.data;
         });
     }
   }
 
-  return user;
+  return amenity;
 };
 
-export const totalUser = async () => {
-  const token = cookies.get("_token");
-  let count = false;
-
-  if (token) {
-    await server
-      .get(`/admin/users/total`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((response) => {
-        if (response.data) {
-          count = response.data;
-        }
-      })
-      .catch((error) => {
-        count = error.response.data;
-      });
-  }
-
-  return count;
-};
-
-export default getUsers;
+export default getAmenities;

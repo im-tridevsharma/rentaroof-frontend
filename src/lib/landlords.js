@@ -3,58 +3,58 @@ import server from "../server";
 
 const cookies = new Cookies();
 
-const getUsers = async () => {
+const getLandlords = async () => {
   const token = cookies.get("_token");
-  let users = false;
+  let landlords = false;
 
   if (token) {
     await server
-      .get("/admin/users", {
+      .get("/admin/landlords", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
         if (response.data) {
-          users = response.data;
+          landlords = response.data;
         }
       })
       .catch((error) => {
-        users = error.response.data;
+        landlords = error.response.data;
       });
   }
 
-  return users;
+  return landlords;
 };
 
-export const getUserById = async (id) => {
+export const getLandlordById = async (id) => {
   const token = cookies.get("_token");
-  let user = false;
+  let Landlord = false;
 
   if (id && token) {
     await server
-      .get(`/admin/users/${id}`, {
+      .get(`/admin/landlords/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
         if (response.data) {
-          user = response.data;
+          Landlord = response.data;
         }
       })
       .catch((error) => {
-        user = error.response.data;
+        Landlord = error.response.data;
       });
   }
 
-  return user;
+  return Landlord;
 };
 
-export const deleteUser = async (id) => {
+export const deleteLandlord = async (id) => {
   const token = cookies.get("_token");
   let res = false;
 
   if (id) {
     if (token) {
       await server
-        .delete(`/admin/users/${id}`, {
+        .delete(`/admin/landlords/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
@@ -71,13 +71,13 @@ export const deleteUser = async (id) => {
   return res;
 };
 
-export const addUser = async (data) => {
+export const addLandlord = async (data) => {
   const token = cookies.get("_token");
-  let user = false;
+  let Landlord = false;
 
   if (token) {
     await server
-      .post(`/admin/users/`, data, {
+      .post(`/admin/landlords/`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -85,50 +85,50 @@ export const addUser = async (data) => {
       })
       .then((response) => {
         if (response) {
-          user = response.data;
+          Landlord = response.data;
         }
       })
       .catch((error) => {
         if (error) {
-          user = error.response.data;
+          Landlord = error.response.data;
         }
       });
   }
 
-  return user;
+  return Landlord;
 };
 
-export const updateUser = async (id, data) => {
+export const updateLandlord = async (id, data) => {
   const token = cookies.get("_token");
-  let user = false;
+  let Landlord = false;
 
   if (id && data) {
     if (token) {
       await server
-        .post(`/admin/users/${id}`, data, {
+        .post(`/admin/landlords/${id}`, data, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
           if (response.data) {
-            user = response.data;
+            Landlord = response.data;
           }
         })
         .catch((error) => {
-          user = error.response.data;
+          Landlord = error.response.data;
         });
     }
   }
 
-  return user;
+  return Landlord;
 };
 
-export const totalUser = async () => {
+export const totalLandlord = async () => {
   const token = cookies.get("_token");
   let count = false;
 
   if (token) {
     await server
-      .get(`/admin/users/total`, {
+      .get(`/admin/landlords/total`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
@@ -144,4 +144,4 @@ export const totalUser = async () => {
   return count;
 };
 
-export default getUsers;
+export default getLandlords;

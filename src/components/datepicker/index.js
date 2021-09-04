@@ -1,17 +1,18 @@
 import React from "react";
 import Datetime from "react-datetime";
+import moment from "moment";
 
-const Datepicker = ({ name }) => {
+const Datepicker = (props) => {
   return (
     <Datetime
-      defaultValue={new Date()}
+      value={props.value && moment(props.value).format("DD-MM-YYYY")}
       dateFormat="DD-MM-YYYY"
       timeFormat={false}
       input={true}
       inputProps={{
         className: "form-input",
         placeholder: "Select date",
-        name,
+        name: props.name,
       }}
       viewMode={"days"}
     />

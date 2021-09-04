@@ -7,9 +7,10 @@ import getUser, {
   refreshToken,
   setAuthToken,
 } from "../../lib/authentication";
+import { FiAlertCircle } from "react-icons/fi";
 
 function Index() {
-  const [error, setError] = useState("");
+  const [verror, setVError] = useState(false);
   const [loggedIn, setLoggedIn] = useState("");
   const email = useRef(null);
   const password = useRef(null);
@@ -18,7 +19,7 @@ function Index() {
   useEffect(() => {
     (async () => {
       const user = await getUser();
-      if (user) {
+      if (user?.status) {
         router.push("/admin/dashboard");
       }
     })();
@@ -26,33 +27,22 @@ function Index() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (!email.current.value) {
-      setError("Please enter your email.");
-      email.current.focus();
-      return;
-    }
-
-    if (!password.current.value) {
-      setError("Please enter your password.");
-      password.current.focus();
-      return;
-    }
-
-    if (email.current.value && password.current.value) {
-      submitForm(email.current.value, password.current.value);
-    }
+    submitForm(email.current.value, password.current.value);
   };
 
   const submitForm = async (email, password) => {
     const response = await loginUser(email, password);
-    if (response.access_token) {
-      if (setAuthToken(response.access_token)) {
-        setLoggedIn(true);
-        router.push("/admin/dashboard");
-      } else {
-        setError("Something went wrong!");
-      }
+    if (setAuthToken(response?.access_token)) {
+      setLoggedIn(true);
+      setVError(false);
+      router.push("/admin/dashboard");
+    } else if (response?.error) {
+      setVError(response.error);
+    } else {
+      setVError({ message: response.message });
     }
+
+    console.log(response);
   };
 
   return (
@@ -62,15 +52,20 @@ function Index() {
       </Head>
       <div className="flex items-center flex-col p-10 bg-white shadow-md">
         <h1 className="text-2xl mb-5">Admin Login</h1>
-        {error && (
-          <div className="w-full mb-4">
-            <Alert
-              color="bg-transparent border-red-500 text-red-500"
-              borderLeft
-              raised
-            >
-              {error}
-            </Alert>
+        {verror && (
+          <div className="errors">
+            {Object.keys(verror).map((index, i) => (
+              <div className="w-full mb-2" key={i}>
+                <Alert
+                  icon={<FiAlertCircle className="mr-2" />}
+                  color="bg-white border-red-500 text-red-500"
+                  borderLeft
+                  raised
+                >
+                  {verror[index]}
+                </Alert>
+              </div>
+            ))}
           </div>
         )}
         {loggedIn && (
