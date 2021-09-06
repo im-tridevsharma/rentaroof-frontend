@@ -18,7 +18,7 @@ const getLandlords = async () => {
         }
       })
       .catch((error) => {
-        landlords = error.response.data;
+        landlords = error.response?.data;
       });
   }
 
@@ -40,7 +40,7 @@ export const getLandlordById = async (id) => {
         }
       })
       .catch((error) => {
-        Landlord = error.response.data;
+        Landlord = error.response?.data;
       });
   }
 
@@ -63,7 +63,7 @@ export const deleteLandlord = async (id) => {
           }
         })
         .catch((error) => {
-          res = error.response.data;
+          res = error.response?.data;
         });
     }
   }
@@ -90,7 +90,7 @@ export const addLandlord = async (data) => {
       })
       .catch((error) => {
         if (error) {
-          Landlord = error.response.data;
+          Landlord = error.response?.data;
         }
       });
   }
@@ -114,7 +114,7 @@ export const updateLandlord = async (id, data) => {
           }
         })
         .catch((error) => {
-          Landlord = error.response.data;
+          Landlord = error.response?.data;
         });
     }
   }
@@ -137,7 +137,7 @@ export const totalLandlord = async () => {
         }
       })
       .catch((error) => {
-        count = error.response.data;
+        count = error.response?.data;
       });
   }
 

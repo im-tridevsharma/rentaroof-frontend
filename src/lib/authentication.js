@@ -18,11 +18,11 @@ const getUser = async () => {
       )
       .then((response) => {
         if (response.data) {
-          user = response.data.user;
+          user = response.data;
         }
       })
       .catch((error) => {
-        user = error.response.data;
+        user = error.response?.data;
       });
   }
 
@@ -47,7 +47,7 @@ export const logoutUser = async () => {
       }
     })
     .catch((error) => {
-      user = error.response.data;
+      user = error.response?.data;
     });
 
   return user;
@@ -63,7 +63,7 @@ export const loginUser = async (email, password) => {
       }
     })
     .catch((err) => {
-      user = err.response.data;
+      user = err.response?.data;
     });
 
   return user;
@@ -95,7 +95,7 @@ export const refreshToken = async (token) => {
         }
       })
       .catch((err) => {
-        newToken = err.response.data;
+        newToken = err.response?.data;
       });
     cookies.set("_token", newToken, { path: "/" });
     return true;

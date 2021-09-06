@@ -38,7 +38,9 @@ function Index() {
     }
   };
 
-  const viewProfile = (id) => {};
+  const viewProfile = (id) => {
+    
+  };
 
   const AddUser = () => {
     return (

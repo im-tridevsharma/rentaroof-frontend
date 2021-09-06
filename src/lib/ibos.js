@@ -18,7 +18,7 @@ const getIbos = async () => {
         }
       })
       .catch((error) => {
-        ibos = error.response.data;
+        ibos = error.response?.data;
       });
   }
 
@@ -40,7 +40,7 @@ export const getIBOById = async (id) => {
         }
       })
       .catch((error) => {
-        ibo = error.response.data;
+        ibo = error.response?.data;
       });
   }
 
@@ -63,7 +63,7 @@ export const deleteIBO = async (id) => {
           }
         })
         .catch((error) => {
-          res = error.response.data;
+          res = error.response?.data;
         });
     }
   }
@@ -90,7 +90,7 @@ export const addIBO = async (data) => {
       })
       .catch((error) => {
         if (error) {
-          ibo = error.response.data;
+          ibo = error.response?.data;
         }
       });
   }
@@ -114,7 +114,7 @@ export const updateIBO = async (id, data) => {
           }
         })
         .catch((error) => {
-          ibo = error.response.data;
+          ibo = error.response?.data;
         });
     }
   }
@@ -137,7 +137,7 @@ export const totalIbo = async () => {
         }
       })
       .catch((error) => {
-        count = error.response.data;
+        count = error.response?.data;
       });
   }
 

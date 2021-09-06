@@ -18,7 +18,7 @@ const getUsers = async () => {
         }
       })
       .catch((error) => {
-        users = error.response.data;
+        users = error.response?.data;
       });
   }
 
@@ -40,7 +40,7 @@ export const getUserById = async (id) => {
         }
       })
       .catch((error) => {
-        user = error.response.data;
+        user = error.response?.data;
       });
   }
 
@@ -63,7 +63,7 @@ export const deleteUser = async (id) => {
           }
         })
         .catch((error) => {
-          res = error.response.data;
+          res = error.response?.data;
         });
     }
   }
@@ -90,7 +90,7 @@ export const addUser = async (data) => {
       })
       .catch((error) => {
         if (error) {
-          user = error.response.data;
+          user = error.response?.data;
         }
       });
   }
@@ -114,7 +114,7 @@ export const updateUser = async (id, data) => {
           }
         })
         .catch((error) => {
-          user = error.response.data;
+          user = error.response?.data;
         });
     }
   }
@@ -137,7 +137,7 @@ export const totalUser = async () => {
         }
       })
       .catch((error) => {
-        count = error.response.data;
+        count = error.response?.data;
       });
   }
 

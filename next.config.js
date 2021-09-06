@@ -1,5 +1,5 @@
 module.exports = {
   images: {
-    domains: ["i.pinimg.com", "localhost"],
+    domains: ["testspacefile.fra1.cdn.digitaloceanspaces.com", "localhost"],
   },
 };
