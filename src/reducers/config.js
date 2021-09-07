@@ -7,6 +7,14 @@ export default function config(
     collapsed: false,
     rightSidebar: false,
     backdrop: false,
+    notification: {
+      content: "",
+      outerClassNames: "",
+      innerClassNames: "",
+      icon: "",
+      animation: "",
+      visible: false,
+    },
   },
   action
 ) {

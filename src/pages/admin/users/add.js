@@ -84,7 +84,7 @@ function Add() {
       setIsAdded(true);
       setValidationError(false);
       document.querySelector(".main").scrollIntoView();
-      document.forms.user.reset();
+      document.forms.user?.reset();
     } else if (response?.error) {
       setIsAdded(false);
       setValidationError(response.error);

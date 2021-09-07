@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import getUser, {
   loginUser,
   refreshToken,
+  removeAuthToken,
   setAuthToken,
 } from "../../lib/authentication";
 import { FiAlertCircle } from "react-icons/fi";
@@ -18,9 +19,11 @@ function Index() {
 
   useEffect(() => {
     (async () => {
-      const user = await getUser();
-      if (user?.status) {
+      const response = await getUser();
+      if (response?.user) {
         router.push("/admin/dashboard");
+      } else {
+        removeAuthToken();
       }
     })();
   });
@@ -41,8 +44,6 @@ function Index() {
     } else {
       setVError({ message: response.message });
     }
-
-    console.log(response);
   };
 
   return (

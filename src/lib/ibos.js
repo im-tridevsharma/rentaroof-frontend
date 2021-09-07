@@ -1,10 +1,8 @@
-import Cookies from "universal-cookie";
 import server from "../server";
-
-const cookies = new Cookies();
+import { getToken } from "./authentication";
 
 const getIbos = async () => {
-  const token = cookies.get("_token");
+  const token = getToken();
   let ibos = false;
 
   if (token) {
@@ -26,7 +24,7 @@ const getIbos = async () => {
 };
 
 export const getIBOById = async (id) => {
-  const token = cookies.get("_token");
+  const token = getToken();
   let ibo = false;
 
   if (id && token) {
@@ -48,7 +46,7 @@ export const getIBOById = async (id) => {
 };
 
 export const deleteIBO = async (id) => {
-  const token = cookies.get("_token");
+  const token = getToken();
   let res = false;
 
   if (id) {
@@ -72,7 +70,7 @@ export const deleteIBO = async (id) => {
 };
 
 export const addIBO = async (data) => {
-  const token = cookies.get("_token");
+  const token = getToken();
   let ibo = false;
 
   if (token) {
@@ -99,7 +97,7 @@ export const addIBO = async (data) => {
 };
 
 export const updateIBO = async (id, data) => {
-  const token = cookies.get("_token");
+  const token = getToken();
   let ibo = false;
 
   if (id && data) {
@@ -123,7 +121,7 @@ export const updateIBO = async (id, data) => {
 };
 
 export const totalIbo = async () => {
-  const token = cookies.get("_token");
+  const token = getToken();
   let count = false;
 
   if (token) {

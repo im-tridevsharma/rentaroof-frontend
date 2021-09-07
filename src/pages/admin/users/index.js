@@ -5,10 +5,13 @@ import { useRouter } from "next/router";
 import { FiEdit, FiEye, FiTrash } from "react-icons/fi";
 import Datatable from "../../../components/datatable";
 import SectionTitle from "../../../components/section-title";
-import getUsers, { deleteUser } from "../../../lib/users";
+import getUsers, { deleteUser, getUserById } from "../../../lib/users";
+import UserDetails from "../../../components/user-details";
 
 function Index() {
   const [users, setUsers] = useState([]);
+  const [showDetail, setShowDetail] = useState(false);
+  const [user, setUser] = useState({});
   const router = useRouter();
 
   useEffect(() => {
@@ -38,8 +41,12 @@ function Index() {
     }
   };
 
-  const viewProfile = (id) => {
-    
+  const viewProfile = async (id) => {
+    const response = await getUserById(id);
+    if (response?.status) {
+      setUser(response.data);
+      setShowDetail(true);
+    }
   };
 
   const AddUser = () => {
@@ -53,7 +60,16 @@ function Index() {
   };
 
   return (
-    <>
+    <div className="relative">
+      {showDetail && (
+        <UserDetails
+          title="User Details"
+          subtitle="All the information of user."
+          user={user}
+          address={user?.address}
+          toggle={setShowDetail}
+        />
+      )}
       <SectionTitle title="Users" subtitle="All Users" right={<AddUser />} />
       <div className="bg-white px-2 py-3 rounded-lg border-gray-100 border-2">
         {users?.length ? (
@@ -67,7 +83,7 @@ function Index() {
           <p className="mt-5">No users found!</p>
         )}
       </div>
-    </>
+    </div>
   );
 }
 

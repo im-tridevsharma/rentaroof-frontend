@@ -5,10 +5,16 @@ import { useRouter } from "next/router";
 import { FiEdit, FiEye, FiTrash } from "react-icons/fi";
 import Datatable from "../../../components/datatable";
 import SectionTitle from "../../../components/section-title";
-import getLandlords, { deleteLandlord } from "../../../lib/landlords";
+import getLandlords, {
+  deleteLandlord,
+  getLandlordById,
+} from "../../../lib/landlords";
+import UserDetails from "../../../components/user-details";
 
 function Index() {
   const [landlords, setLandlords] = useState([]);
+  const [landlord, setLandlord] = useState({});
+  const [showDetail, setShowDetail] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -36,7 +42,13 @@ function Index() {
     }
   };
 
-  const viewProfile = (id) => {};
+  const viewProfile = async (id) => {
+    const response = await getLandlordById(id);
+    if (response?.status) {
+      setLandlord(response.data);
+      setShowDetail(true);
+    }
+  };
 
   const AddLandlord = () => {
     return (
@@ -49,7 +61,17 @@ function Index() {
   };
 
   return (
-    <>
+    <div className="relative">
+      {showDetail && (
+        <UserDetails
+          title="Landlord Details"
+          subtitle={`All the information of ${landlord?.first} ${landlord?.last}.`}
+          toggle={setShowDetail}
+          user={landlord}
+          address={landlord.address}
+          kyc={landlord.kyc}
+        />
+      )}
       <SectionTitle
         title="Landlords"
         subtitle="All Landlords"
@@ -67,7 +89,7 @@ function Index() {
           <p className="mt-5">No landlords found!</p>
         )}
       </div>
-    </>
+    </div>
   );
 }
 

@@ -1,10 +1,8 @@
-import Cookies from "universal-cookie";
 import server from "../server";
-
-const cookies = new Cookies();
+import { getToken } from "./authentication";
 
 const getLandlords = async () => {
-  const token = cookies.get("_token");
+  const token = getToken();
   let landlords = false;
 
   if (token) {
@@ -26,7 +24,7 @@ const getLandlords = async () => {
 };
 
 export const getLandlordById = async (id) => {
-  const token = cookies.get("_token");
+  const token = getToken();
   let Landlord = false;
 
   if (id && token) {
@@ -48,7 +46,7 @@ export const getLandlordById = async (id) => {
 };
 
 export const deleteLandlord = async (id) => {
-  const token = cookies.get("_token");
+  const token = getToken();
   let res = false;
 
   if (id) {
@@ -72,7 +70,7 @@ export const deleteLandlord = async (id) => {
 };
 
 export const addLandlord = async (data) => {
-  const token = cookies.get("_token");
+  const token = getToken();
   let Landlord = false;
 
   if (token) {
@@ -99,7 +97,7 @@ export const addLandlord = async (data) => {
 };
 
 export const updateLandlord = async (id, data) => {
-  const token = cookies.get("_token");
+  const token = getToken();
   let Landlord = false;
 
   if (id && data) {
@@ -123,7 +121,7 @@ export const updateLandlord = async (id, data) => {
 };
 
 export const totalLandlord = async () => {
-  const token = cookies.get("_token");
+  const token = getToken();
   let count = false;
 
   if (token) {

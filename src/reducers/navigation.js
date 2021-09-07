@@ -201,13 +201,13 @@ const initialState = [
         title: "Pages",
         items: [
           {
-            url: "/admin/newPage",
-            title: "New Page",
+            url: "/admin/pages",
+            title: "All Pages",
             items: [],
           },
           {
-            url: "/admin/allPages",
-            title: "All Pages",
+            url: "/admin/pages/add",
+            title: "Add New",
             items: [],
           },
         ],

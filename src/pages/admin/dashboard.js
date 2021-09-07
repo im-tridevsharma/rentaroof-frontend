@@ -27,10 +27,10 @@ const Index = () => {
         setUserCount(user.data);
       }
       if (ibo?.status) {
-        setIboCount(user.data);
+        setIboCount(ibo.data);
       }
       if (landlord?.status) {
-        setLandlordCount(user.data);
+        setLandlordCount(landlord.data);
       }
     })();
   }, []);

@@ -52,10 +52,10 @@ function Update() {
         setCities(city_data.data);
       }
       setFilteredState(
-        states.filter((item) => item.country_id === user.address.country)
+        states.filter((item) => item.country_id === user?.address?.country)
       );
       setFilteredCity(
-        cities.filter((item) => item.state_id === user.address.state)
+        cities.filter((item) => item.state_id === user?.address?.state)
       );
     })();
   }, []);

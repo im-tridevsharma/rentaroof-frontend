@@ -21,9 +21,12 @@ const AccountLinks = () => {
   ];
 
   const endSession = async () => {
-    const user = await logoutUser();
-    if (user) {
-      if (removeAuthToken()) router.push("/admin");
+    const response = await logoutUser();
+    if (response?.success) {
+      removeAuthToken();
+      router.push("/admin");
+    } else {
+      console.error("Something went wrong!");
     }
   };
 

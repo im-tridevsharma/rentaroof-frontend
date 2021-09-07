@@ -5,10 +5,13 @@ import { useRouter } from "next/router";
 import { FiEdit, FiEye, FiTrash } from "react-icons/fi";
 import Datatable from "../../../components/datatable";
 import SectionTitle from "../../../components/section-title";
-import getIbos, { deleteIBO } from "../../../lib/ibos";
+import getIbos, { deleteIBO, getIBOById } from "../../../lib/ibos";
+import UserDetails from "../../../components/user-details";
 
 function Index() {
   const [ibos, setIbos] = useState([]);
+  const [ibo, setIbo] = useState({});
+  const [showDetail, setShowDetail] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -36,7 +39,13 @@ function Index() {
     }
   };
 
-  const viewProfile = (id) => {};
+  const viewProfile = async (id) => {
+    const response = await getIBOById(id);
+    if (response?.status) {
+      setIbo(response.data);
+      setShowDetail(true);
+    }
+  };
 
   const AddIBO = () => {
     return (
@@ -49,7 +58,17 @@ function Index() {
   };
 
   return (
-    <>
+    <div className="relative">
+      {showDetail && (
+        <UserDetails
+          title="IBO Details"
+          subtitle={`All the information of ${ibo?.first} ${ibo?.last}.`}
+          toggle={setShowDetail}
+          user={ibo}
+          address={ibo.address}
+          kyc={ibo.kyc}
+        />
+      )}
       <SectionTitle title="Ibos" subtitle="All Ibos" right={<AddIBO />} />
       <div className="bg-white px-2 py-3 rounded-lg border-gray-100 border-2">
         {ibos?.length ? (
@@ -58,7 +77,7 @@ function Index() {
           <p className="mt-5">No ibos found!</p>
         )}
       </div>
-    </>
+    </div>
   );
 }
 

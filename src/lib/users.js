@@ -1,10 +1,8 @@
-import Cookies from "universal-cookie";
 import server from "../server";
-
-const cookies = new Cookies();
+import { getToken } from "./authentication";
 
 const getUsers = async () => {
-  const token = cookies.get("_token");
+  const token = getToken();
   let users = false;
 
   if (token) {
@@ -26,7 +24,7 @@ const getUsers = async () => {
 };
 
 export const getUserById = async (id) => {
-  const token = cookies.get("_token");
+  const token = getToken();
   let user = false;
 
   if (id && token) {
@@ -48,7 +46,7 @@ export const getUserById = async (id) => {
 };
 
 export const deleteUser = async (id) => {
-  const token = cookies.get("_token");
+  const token = getToken();
   let res = false;
 
   if (id) {
@@ -72,7 +70,7 @@ export const deleteUser = async (id) => {
 };
 
 export const addUser = async (data) => {
-  const token = cookies.get("_token");
+  const token = getToken();
   let user = false;
 
   if (token) {
@@ -99,7 +97,7 @@ export const addUser = async (data) => {
 };
 
 export const updateUser = async (id, data) => {
-  const token = cookies.get("_token");
+  const token = getToken();
   let user = false;
 
   if (id && data) {
@@ -123,7 +121,7 @@ export const updateUser = async (id, data) => {
 };
 
 export const totalUser = async () => {
-  const token = cookies.get("_token");
+  const token = getToken();
   let count = false;
 
   if (token) {
