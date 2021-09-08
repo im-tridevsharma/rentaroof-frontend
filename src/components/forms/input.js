@@ -23,6 +23,7 @@ function Input(props) {
         {type !== "select" && type !== "textarea" ? (
           <input
             type={type}
+            name={name}
             className={`form-input ${
               error[name] ? "border-red-400 border-2" : ""
             }`}
@@ -42,6 +43,7 @@ function Input(props) {
             className={`form-input ${
               error[name] ? "border-red-400 border-2" : ""
             }`}
+            name={name}
             onChange={(e) => {
               if (required) {
                 e.target.value !== ""
@@ -54,8 +56,10 @@ function Input(props) {
           >
             <option value="">Select</option>
             {options &&
-              options.map((option) => (
-                <option value={option.value}>{option.label}</option>
+              options.map((option, index) => (
+                <option key={index} value={option.value}>
+                  {option.label}
+                </option>
               ))}
           </select>
         ) : (
@@ -63,6 +67,7 @@ function Input(props) {
             className={`form-input ${
               error[name] ? "border-red-400 border-2" : ""
             }`}
+            name={name}
             onChange={(e) => {
               if (required) {
                 e.target.value !== ""

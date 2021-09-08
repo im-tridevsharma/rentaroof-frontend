@@ -46,8 +46,10 @@ function Index() {
     const go = confirm("It will delete it permanantly!");
     if (go && id) {
       const response = await deletePage(id);
-      const newPages = pages.filter((item) => item.id !== response.id);
-      setPages(newPages);
+      if (response?.status) {
+        const newPages = pages.filter((item) => item.id !== response.data.id);
+        setPages(newPages);
+      }
     }
   };
 

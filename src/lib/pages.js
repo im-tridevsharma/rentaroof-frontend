@@ -63,46 +63,36 @@ export const deletePage = async (id) => {
   return res;
 };
 
-export const addPage = async (name, code) => {
+export const addPage = async (data) => {
   const token = getToken();
   let page = false;
 
-  if (name && code) {
-    if (token) {
-      await server
-        .post(
-          `/admin/pages/`,
-          { name, code },
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        )
-        .then((response) => {
-          page = response?.data;
-        })
-        .catch((error) => {
-          page = error?.response?.data;
-        });
-    }
+  if (token) {
+    await server
+      .post(`/admin/pages/`, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        page = response?.data;
+      })
+      .catch((error) => {
+        page = error?.response?.data;
+      });
   }
 
   return page;
 };
 
-export const updatePage = async (id, name, code) => {
+export const updatePage = async (id, data) => {
   const token = getToken();
   let page = false;
 
-  if (id && name && code) {
+  if (id) {
     if (token) {
       await server
-        .post(
-          `/admin/pages/${id}`,
-          { name, code, _method: "PUT" },
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        )
+        .post(`/admin/pages/${id}`, data, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
         .then((response) => {
           page = response?.data;
         })

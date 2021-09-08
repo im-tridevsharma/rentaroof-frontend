@@ -1,35 +1,33 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import Alert from "../../../components/alerts";
 import SectionTitle from "../../../components/section-title";
-import getPages, { addPage } from "../../../lib/pages";
+import getPages, { getPageById, updatePage } from "../../../lib/pages";
 import { FiAlertCircle, FiCheck } from "react-icons/fi";
 import Input from "../../../components/forms/input";
 import { Editor } from "@tinymce/tinymce-react";
 import { useDispatch } from "react-redux";
 
-function Add() {
+function Update() {
   const editorRef = useRef(null);
-  const [isAdded, setIsAdded] = useState(false);
+  const [isUpdated, setIsUpdated] = useState(false);
   const [validationError, setValidationError] = useState({
     name: false,
     slug: false,
   });
   const [parent, setParent] = useState([]);
   const dispatch = useDispatch();
-  const [page, setPage] = useState({
-    name: "",
-    slug: "",
-    content: "",
-    parent: "",
-    meta_title: "",
-    meta_keywords: "",
-    meta_description: "",
-  });
+  const router = useRouter();
+  const [page, setPage] = useState(false);
 
   useEffect(() => {
     (async () => {
       const response = await getPages();
+      const page_res = await getPageById(router.query?.id);
+      if (page_res?.status) {
+        setPage(page_res.data);
+      }
       if (response?.status) {
         setParent(response.data);
       } else if (response?.error) {
@@ -53,6 +51,7 @@ function Add() {
   const handleSubmit = (e) => {
     e.preventDefault();
     page.content = editorRef.current?.getContent();
+    page._method = "PUT";
     const iserror = Object.keys(validationError).filter(
       (index) => validationError[index] !== false
     );
@@ -76,23 +75,13 @@ function Add() {
   };
 
   const submitData = async (page) => {
-    const response = await addPage(page);
+    const response = await updatePage(page?.id, page);
     if (response?.status) {
-      setIsAdded(true);
-      setValidationError({ name: false, slug: false });
+      setIsUpdated(true);
+      setValidationError(false);
       document.querySelector(".main").scrollIntoView();
-      setPage({
-        name: "",
-        slug: "",
-        content: "",
-        parent: "",
-        meta_title: "",
-        meta_keywords: "",
-        meta_description: "",
-      });
-      document.forms?.page?.reset();
     } else if (response?.error) {
-      setIsAdded(false);
+      setIsUpdated(false);
       setValidationError(response.error);
       document.querySelector(".main").scrollIntoView();
     }
@@ -129,7 +118,7 @@ function Add() {
 
   return (
     <>
-      <SectionTitle title="Pages" subtitle="Add New" right={<AllPage />} />
+      <SectionTitle title="Pages" subtitle="Update Page" right={<AllPage />} />
       {validationError && (
         <div className="errors">
           {Object.keys(validationError).map((index, i) => {
@@ -150,7 +139,7 @@ function Add() {
           })}
         </div>
       )}
-      {isAdded && (
+      {isUpdated && (
         <div className="w-full mb-4">
           <Alert
             icon={<FiCheck className="mr-2" />}
@@ -158,92 +147,95 @@ function Add() {
             borderLeft
             raised
           >
-            New Page added successfully.
+            Page information updated successfully.
           </Alert>
         </div>
       )}
-      <div className="bg-white flex flex-col px-5 py-3 rounded-lg border-gray-100 border-2">
-        <form method="POST" onSubmit={handleSubmit} name="page">
-          <Input
-            label="Page Name"
-            type="text"
-            name="name"
-            error={validationError}
-            errsetter={setValidationError}
-            v={page}
-            vsetter={setPage}
-            required
-            onBlur={(e) => generateSlug(e)}
-          />
-
-          <div className="grid sm:grid-cols-2 sm:space-x-2">
+      {page && (
+        <div className="bg-white flex flex-col px-5 py-3 rounded-lg border-gray-100 border-2">
+          <form method="POST" onSubmit={handleSubmit} name="page">
             <Input
-              label="Page Slug"
-              sublabel="auto generated"
+              label="Page Name"
               type="text"
-              name="slug"
+              name="name"
               error={validationError}
               errsetter={setValidationError}
               v={page}
               vsetter={setPage}
               required
+              onBlur={(e) => generateSlug(e)}
             />
+
+            <div className="grid sm:grid-cols-2 sm:space-x-2">
+              <Input
+                label="Page Slug"
+                sublabel="auto generated"
+                type="text"
+                name="slug"
+                error={validationError}
+                errsetter={setValidationError}
+                v={page}
+                vsetter={setPage}
+                required
+              />
+              <Input
+                label="Parent"
+                type="select"
+                name="parent"
+                error={validationError}
+                errsetter={setValidationError}
+                v={page}
+                vsetter={setPage}
+                options={parentOptions}
+              />
+            </div>
+            <div className="form-element">
+              <div className="form-label">Page Content</div>
+              <Editor
+                onInit={(e, editor) => (editorRef.current = editor)}
+                init={{
+                  height: 300,
+                  menubar: false,
+                }}
+                initialValue={page?.content}
+                apiKey={process.env.TINY_API_KEY}
+              />
+            </div>
             <Input
-              label="Parent"
-              type="select"
-              name="parent"
+              label="Meta Title"
+              type="text"
+              name="meta_title"
               error={validationError}
               errsetter={setValidationError}
               v={page}
               vsetter={setPage}
-              options={parentOptions}
             />
-          </div>
-          <div className="form-element">
-            <div className="form-label">Page Content</div>
-            <Editor
-              onInit={(e, editor) => (editorRef.current = editor)}
-              init={{
-                height: 300,
-                menubar: false,
-              }}
-              apiKey={process.env.TINY_API_KEY}
+            <Input
+              label="Meta Keywords"
+              type="text"
+              name="meta_keywords"
+              error={validationError}
+              errsetter={setValidationError}
+              v={page}
+              vsetter={setPage}
             />
-          </div>
-          <Input
-            label="Meta Title"
-            type="text"
-            name="meta_title"
-            error={validationError}
-            errsetter={setValidationError}
-            v={page}
-            vsetter={setPage}
-          />
-          <Input
-            label="Meta Keywords"
-            type="text"
-            name="meta_keywords"
-            error={validationError}
-            errsetter={setValidationError}
-            v={page}
-            vsetter={setPage}
-          />
-          <Input
-            label="Meta Description"
-            type="textarea"
-            name="meta_description"
-            error={validationError}
-            errsetter={setValidationError}
-            v={page}
-            vsetter={setPage}
-          />
-          <button className="btn btn-default bg-blue-400 float-right text-white rounded-sm hover:bg-blue-500">
-            Submit
-          </button>
-        </form>
-      </div>
+            <Input
+              label="Meta Description"
+              type="textarea"
+              name="meta_description"
+              error={validationError}
+              errsetter={setValidationError}
+              v={page}
+              vsetter={setPage}
+            />
+            <button className="btn btn-default bg-blue-400 float-right text-white rounded-sm hover:bg-blue-500">
+              Submit
+            </button>
+          </form>
+        </div>
+      )}
     </>
   );
 }
 
-export default Add;
+export default Update;
