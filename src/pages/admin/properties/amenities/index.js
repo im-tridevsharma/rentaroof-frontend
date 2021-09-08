@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { FiEdit, FiTrash } from "react-icons/fi";
-import Datatable from "../../../components/datatable";
-import SectionTitle from "../../../components/section-title";
-import getAmenities, { deleteAmenity } from "../../../lib/amenities";
+import Datatable from "../../../../components/datatable";
+import SectionTitle from "../../../../components/section-title";
+import getAmenities, { deleteAmenity } from "../../../../lib/amenities";
 
 function Index() {
   const [amenities, setAmenities] = useState([]);
@@ -22,7 +23,7 @@ function Index() {
 
   const editAmenity = (id) => {
     if (id) {
-      router.push(`/admin/amenities/${id}`);
+      router.push(`/admin/properties/amenities/${id}`);
     }
   };
 
@@ -38,7 +39,7 @@ function Index() {
 
   const AddAmenity = () => {
     return (
-      <Link href="/admin/amenities/add">
+      <Link href="/admin/properties/amenities/add">
         <a className="btn btn-default bg-blue-500 text-white rounded-lg hover:bg-blue-400">
           Add New
         </a>
@@ -48,6 +49,9 @@ function Index() {
 
   return (
     <>
+      <Head>
+        <title>Amenities | Rent a Roof</title>
+      </Head>
       <SectionTitle
         title="Amenities"
         subtitle="All Amenities"

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import Alert from "../../../components/alerts";
 import SectionTitle from "../../../components/section-title";
@@ -28,8 +29,6 @@ function Add() {
 
   const [filteredState, setFilteredState] = useState([]);
   const [filteredCity, setFilteredCity] = useState([]);
-
-  const router = useRouter();
 
   useEffect(() => {
     (async () => {
@@ -104,6 +103,9 @@ function Add() {
 
   return (
     <>
+      <Head>
+        <title>Add User | Rent a Roof</title>
+      </Head>
       <SectionTitle title="Users" subtitle="Add New" right={<AllUser />} />
       {validationError && (
         <div className="errors">

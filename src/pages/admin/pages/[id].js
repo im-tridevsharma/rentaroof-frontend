@@ -112,8 +112,12 @@ function Update() {
 
   const parentOptions =
     parent &&
-    parent.map((page) => {
-      return { label: page.name, value: page.id };
+    parent.map((d) => {
+      let option = "";
+      if (d.id !== page.id) {
+        option = { label: d.name, value: d.id };
+      }
+      return option;
     });
 
   return (

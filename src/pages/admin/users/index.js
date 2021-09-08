@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { FiEdit, FiEye, FiTrash } from "react-icons/fi";
 import Datatable from "../../../components/datatable";
@@ -61,6 +62,9 @@ function Index() {
 
   return (
     <div className="relative">
+      <Head>
+        <title>Users | Rent a Roof</title>
+      </Head>
       {showDetail && (
         <UserDetails
           title="User Details"

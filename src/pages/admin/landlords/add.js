@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Head from "next/head";
 import Alert from "../../../components/alerts";
 import SectionTitle from "../../../components/section-title";
 import { addLandlord } from "../../../lib/landlords";
@@ -101,7 +102,14 @@ function Add() {
 
   return (
     <>
-      <SectionTitle title="Landlords" subtitle="Add New" right={<AllLandlord />} />
+      <Head>
+        <title>Add Landlord | Rent a Roof</title>
+      </Head>
+      <SectionTitle
+        title="Landlords"
+        subtitle="Add New"
+        right={<AllLandlord />}
+      />
       {validationError && (
         <div className="errors">
           {Object.keys(validationError).map((index, i) => (

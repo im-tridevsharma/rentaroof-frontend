@@ -1,10 +1,11 @@
 import { useState } from "react";
 import Link from "next/link";
-import Alert from "../../../components/alerts";
-import SectionTitle from "../../../components/section-title";
-import { addAmenity } from "../../../lib/amenities";
+import Head from "next/head";
+import Alert from "../../../../components/alerts";
+import SectionTitle from "../../../../components/section-title";
+import { addAmenity } from "../../../../lib/amenities";
 import { FiAlertCircle, FiCheck } from "react-icons/fi";
-import FileUpload from "../../../components/forms/file-upload";
+import FileUpload from "../../../../components/forms/file-upload";
 
 function Add() {
   const [isAdded, setIsAdded] = useState(false);
@@ -45,7 +46,7 @@ function Add() {
 
   const AllAmenity = () => {
     return (
-      <Link href="/admin/amenities">
+      <Link href="/admin/properties/amenities">
         <a className="btn btn-default bg-blue-500 text-white rounded-lg hover:bg-blue-400">
           All Amenities
         </a>
@@ -55,6 +56,9 @@ function Add() {
 
   return (
     <>
+      <Head>
+        <title>Add Amenity | Rent a Roof</title>
+      </Head>
       <SectionTitle
         title="Amenities"
         subtitle="Add New"

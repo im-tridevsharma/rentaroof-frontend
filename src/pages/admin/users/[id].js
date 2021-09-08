@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import Alert from "../../../components/alerts";
 import SectionTitle from "../../../components/section-title";
@@ -115,6 +116,9 @@ function Update() {
 
   return (
     <>
+      <Head>
+        <title>Update User | Rent a Roof</title>
+      </Head>
       <SectionTitle title="Users" subtitle="Update User" right={<AllUser />} />
       {validationError && (
         <div className="errors">

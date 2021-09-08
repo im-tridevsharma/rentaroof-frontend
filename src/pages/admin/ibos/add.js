@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Head from "next/head";
 import Alert from "../../../components/alerts";
 import SectionTitle from "../../../components/section-title";
 import { addIBO } from "../../../lib/ibos";
@@ -101,6 +102,9 @@ function Add() {
 
   return (
     <>
+      <Head>
+        <title>Add IBO | Rent a Roof</title>
+      </Head>
       <SectionTitle title="IBOs" subtitle="Add New" right={<AllIBO />} />
       {validationError && (
         <div className="errors">

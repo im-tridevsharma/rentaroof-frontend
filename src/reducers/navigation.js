@@ -96,12 +96,12 @@ const initialState = [
             title: "Amenities",
             items: [
               {
-                url: "/admin/amenities",
+                url: "/admin/properties/amenities",
                 title: "All",
                 items: [],
               },
               {
-                url: "/admin/amenities/add",
+                url: "/admin/properties/amenities/add",
                 title: "New",
                 items: [],
               },
@@ -115,19 +115,30 @@ const initialState = [
         title: "Employee",
         items: [
           {
-            url: "/admin/newEmployee",
-            title: "New Employee",
-            items: [],
-          },
-          {
-            url: "/admin/allEmployees",
+            url: "/admin/employees",
             title: "All Employees",
             items: [],
           },
           {
-            url: "/admin/manageRoles",
-            title: "Manage Roles",
+            url: "/admin/employees/add",
+            title: "Add New",
             items: [],
+          },
+          {
+            url: "",
+            title: "Manage Roles",
+            items: [
+              {
+                url: "/admin/employees/roles",
+                title: "All Roles",
+                items: [],
+              },
+              {
+                url: "/admin/employees/roles/add",
+                title: "Add New",
+                items: [],
+              },
+            ],
           },
         ],
       },

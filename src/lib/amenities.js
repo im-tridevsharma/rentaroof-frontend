@@ -11,12 +11,10 @@ const getAmenities = async () => {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
-        if (response.data) {
-          amenities = response.data;
-        }
+        amenities = response?.data;
       })
       .catch((error) => {
-        amenities = error.response.data;
+        amenities = error?.response?.data;
       });
   }
 
@@ -33,12 +31,10 @@ export const getAmenityById = async (id) => {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
-        if (response.data) {
-          amenity = response.data;
-        }
+        amenity = response?.data;
       })
       .catch((error) => {
-        amenity = error.response.data;
+        amenity = error?.response?.data;
       });
   }
 
@@ -56,12 +52,10 @@ export const deleteAmenity = async (id) => {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
-          if (response.data) {
-            res = response.data.data;
-          }
+          res = response?.data?.data;
         })
         .catch((error) => {
-          res = error.response.data;
+          res = error?.response?.data;
         });
     }
   }
@@ -82,39 +76,31 @@ export const addAmenity = async (data) => {
         },
       })
       .then((response) => {
-        if (response.data) {
-          amenity = response.data;
-        }
+        amenity = response?.data;
       })
       .catch((error) => {
-        amenity = error.response.data;
+        amenity = error?.response?.data;
       });
   }
 
   return amenity;
 };
 
-export const updateAmenity = async (id, name, code) => {
+export const updateAmenity = async (id, data) => {
   const token = getToken();
   let amenity = false;
 
-  if (id && name && code) {
+  if (id && data) {
     if (token) {
       await server
-        .post(
-          `/admin/amenities/${id}`,
-          { name, code, _method: "PUT" },
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        )
+        .post(`/admin/amenities/${id}`, data, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
         .then((response) => {
-          if (response.data) {
-            amenity = response.data.data;
-          }
+          amenity = response?.data;
         })
         .catch((error) => {
-          amenity = error.response.data;
+          amenity = error?.response?.data;
         });
     }
   }

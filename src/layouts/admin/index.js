@@ -35,7 +35,10 @@ const Admin = ({ children }) => {
           key: "notification",
           value: {
             content:
-              response?.error || response?.message || response?.exception,
+              response?.error ||
+              response?.message ||
+              response?.exception ||
+              "Session ended!",
             outerClassNames: "bg-red-400",
             innerClassNames: "",
             icon: <FiAlertCircle className="mr-2" />,

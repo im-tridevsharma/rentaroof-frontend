@@ -56,11 +56,14 @@ function Input(props) {
           >
             <option value="">Select</option>
             {options &&
-              options.map((option, index) => (
-                <option key={index} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
+              options.map(
+                (option, index) =>
+                  option && (
+                    <option key={index} value={option.value}>
+                      {option.label}
+                    </option>
+                  )
+              )}
           </select>
         ) : (
           <textarea
