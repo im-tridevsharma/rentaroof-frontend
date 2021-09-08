@@ -1,4 +1,5 @@
-import { FiBox, FiMenu } from "react-icons/fi";
+import { FiMenu } from "react-icons/fi";
+import Image from "next/image";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import Link from "next/link";
 
@@ -18,7 +19,7 @@ const Logo = () => {
       <div className="logo truncate">
         <Link href="/admin">
           <a className="flex flex-row items-center justify-start space-x-2">
-            <FiBox size={28} />
+            <Image src="/icons/ms-icon-310x310.png" width={50} height={50} />
             <span>{name}</span>
           </a>
         </Link>

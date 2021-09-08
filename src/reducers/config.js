@@ -1,8 +1,8 @@
 export default function config(
   state = {
-    name: "Demo2",
+    name: "Rent a Roof",
     description: "Description",
-    url: "https://d-board-nextjs.mobifica.com",
+    url: "http://localhost:3000",
     layout: "layout-1",
     collapsed: false,
     rightSidebar: false,
