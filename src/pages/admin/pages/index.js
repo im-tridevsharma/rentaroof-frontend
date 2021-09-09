@@ -78,7 +78,7 @@ function Index() {
       </Head>
       {isLoading && <Loader />}
       <SectionTitle title="Pages" subtitle="All Pages" right={<AddPage />} />
-      <div className="bg-white px-2 py-3 rounded-lg border-gray-100 border-2">
+      <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
         {pages?.length ? (
           <Table pages={pages} edit={editPage} del={delPage} />
         ) : (

@@ -54,7 +54,7 @@ function Index() {
         subtitle="All Countries"
         right={<AddCountry />}
       />
-      <div className="bg-white px-2 py-3 rounded-lg border-gray-100 border-2">
+      <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
         {countries?.length ? (
           <Table countries={countries} edit={editCountry} del={delCountry} />
         ) : (

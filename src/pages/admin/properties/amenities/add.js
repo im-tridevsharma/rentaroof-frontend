@@ -100,7 +100,7 @@ function Add() {
           </Alert>
         </div>
       )}
-      <div className="bg-white flex flex-col px-5 py-3 rounded-lg border-gray-100 border-2">
+      <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
         <form method="POST" onSubmit={handleSubmit} name="amenity">
           <div className="grid sm:grid-cols-2 space-x-2">
             <div className="form-element">

@@ -26,7 +26,7 @@ function FileUpload(props) {
       <label
         htmlFor="fileupload"
         className={`${
-          props.error ? "bg-red-300" : "bg-gray-300"
+          props.error ? "bg-red-300" : "bg-gray-300 dark:bg-gray-900"
         } rounded-full overflow-hidden cursor-pointer ${
           props.size === "small" ? "w-10 h-10" : "w-24 h-24 "
         }`}

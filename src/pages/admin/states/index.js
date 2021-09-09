@@ -50,7 +50,7 @@ function Index() {
   return (
     <>
       <SectionTitle title="States" subtitle="All States" right={<AddState />} />
-      <div className="bg-white px-2 py-3 rounded-lg border-gray-100 border-2">
+      <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
         {states?.length ? (
           <Table states={states} edit={editState} del={delState} />
         ) : (

@@ -80,7 +80,7 @@ function Index() {
       </Head>
       {isLoading && <Loader />}
       <SectionTitle title="Roles" subtitle="All Roles" right={<AddRole />} />
-      <div className="bg-white px-2 py-3 rounded-lg border-gray-100 border-2">
+      <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
         {roles?.length ? (
           <Table roles={roles} edit={editRole} del={delRole} />
         ) : (

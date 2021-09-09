@@ -85,7 +85,7 @@ function Index() {
         />
       )}
       <SectionTitle title="Users" subtitle="All Users" right={<AddUser />} />
-      <div className="bg-white px-2 py-3 rounded-lg border-gray-100 border-2">
+      <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
         {users?.length ? (
           <Table
             users={users}

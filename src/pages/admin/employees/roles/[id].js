@@ -103,7 +103,7 @@ function Update() {
                 <div className="w-full mb-2" key={i}>
                   <Alert
                     icon={<FiAlertCircle className="mr-2" />}
-                    color="bg-white border-red-500 text-red-500"
+                    color="bg-white dark:bg-gray-800 border-red-500 text-red-500"
                     borderLeft
                     raised
                   >
@@ -119,7 +119,7 @@ function Update() {
         <div className="w-full mb-4">
           <Alert
             icon={<FiCheck className="mr-2" />}
-            color="bg-white border-green-500 text-green-500"
+            color="bg-white dark:bg-gray-800 border-green-500 text-green-500"
             borderLeft
             raised
           >
@@ -128,7 +128,7 @@ function Update() {
         </div>
       )}
 
-      <div className="bg-white flex flex-col px-5 py-3 rounded-lg border-gray-100 border-2">
+      <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
         <form method="POST" onSubmit={handleSubmit} name="role">
           <Input
             label="Title"

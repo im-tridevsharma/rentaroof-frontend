@@ -85,7 +85,7 @@ function Index() {
         />
       )}
       <SectionTitle title="Ibos" subtitle="All Ibos" right={<AddIBO />} />
-      <div className="bg-white px-2 py-3 rounded-lg border-gray-100 border-2">
+      <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
         {ibos?.length ? (
           <Table ibos={ibos} edit={editIBO} del={delIBO} view={viewProfile} />
         ) : (

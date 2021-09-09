@@ -87,7 +87,7 @@ function Update() {
         <div className="w-full mb-4">
           <Alert
             icon={<FiCheck className="mr-2" />}
-            color="bg-white border-green-500 text-green-500"
+            color="bg-white dark:bg-gray-800 border-green-500 text-green-500"
             borderLeft
             raised
           >
@@ -95,7 +95,7 @@ function Update() {
           </Alert>
         </div>
       )}
-      <div className="bg-white flex flex-col px-5 py-3 rounded-lg border-gray-100 border-2">
+      <div className="bg-white flex flex-col dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
         <form method="POST" onSubmit={handleSubmit} name="state">
           <div className="grid sm:grid-cols-2 space-x-2">
             <div className="form-element">
