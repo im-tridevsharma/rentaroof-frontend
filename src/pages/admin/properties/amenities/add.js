@@ -6,10 +6,12 @@ import SectionTitle from "../../../../components/section-title";
 import { addAmenity } from "../../../../lib/amenities";
 import { FiAlertCircle, FiCheck } from "react-icons/fi";
 import FileUpload from "../../../../components/forms/file-upload";
+import Loader from "../../../../components/loader";
 
 function Add() {
   const [isAdded, setIsAdded] = useState(false);
   const [verror, setVErrors] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({
     title: false,
     icon: false,
@@ -17,11 +19,14 @@ function Add() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     if (document.forms.amenity.title.value === "") {
       setErrors({ ...errors, title: true });
+      setIsLoading(false);
       return;
     } else if (!document.forms.amenity.icon.files[0]) {
       setErrors({ ...errors, icon: true });
+      setIsLoading(false);
       return;
     } else {
       setErrors({ ...errors, icon: false });
@@ -37,10 +42,12 @@ function Add() {
       setVErrors(false);
       document.forms.amenity.reset();
       document.querySelector(".main").scrollIntoView();
+      setIsLoading(false);
     } else if (response?.error) {
       setVErrors(response.error);
       setIsAdded(false);
       document.querySelector(".main").scrollIntoView();
+      setIsLoading(false);
     }
   };
 
@@ -59,6 +66,7 @@ function Add() {
       <Head>
         <title>Add Amenity | Rent a Roof</title>
       </Head>
+      {isLoading && <Loader />}
       <SectionTitle
         title="Amenities"
         subtitle="Add New"

@@ -1,0 +1,66 @@
+[
+  {
+    "label": "User Management",
+    "value": "user_management"
+  },
+  {
+    "label": "IBO Management",
+    "value": "ibo_management"
+  },
+  {
+    "label": "Landlord Management",
+    "value": "landlord_management"
+  },
+  {
+    "label": "Property Management",
+    "value": "property_management"
+  },
+  {
+    "label": "Training Management",
+    "value": "training_management"
+  },
+  {
+    "label": "SOS Management",
+    "value": "sos_management"
+  },
+  {
+    "label": "Agreement Management",
+    "value": "agreement_management"
+  },
+  {
+    "label": "Enquiry Management",
+    "value": "enquiry_management"
+  },
+  {
+    "label": "Meeting Management",
+    "value": "meeting_management"
+  },
+  {
+    "label": "Tracking Management",
+    "value": "tracking_management"
+  },
+  {
+    "label": "Page Management",
+    "value": "page_management"
+  },
+  {
+    "label": "Country Management",
+    "value": "country_management"
+  },
+  {
+    "label": "State Management",
+    "value": "state_management"
+  },
+  {
+    "label": "City Management",
+    "value": "city_management"
+  },
+  {
+    "label": "Commision Management",
+    "value": "commission_management"
+  },
+  {
+    "label": "Website Management",
+    "value": "website_management"
+  }
+]

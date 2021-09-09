@@ -33,7 +33,10 @@ function Index(props) {
                 <tbody>
                   <tr>
                     <td>Name</td>
-                    <td>{`${props.user.first} ${props.user.last} `}</td>
+                    {props.user.first && (
+                      <td>{`${props.user.first} ${props.user.last} `}</td>
+                    )}
+                    {props.user.name && <td>{props.user.name}</td>}
                   </tr>
                   <tr>
                     <td>Email</td>
@@ -43,13 +46,15 @@ function Index(props) {
                     <td>Mobile</td>
                     <td>{props.user.mobile}</td>
                   </tr>
-                  <tr>
-                    <td>DOB</td>
-                    <td>
-                      {props.user.dob &&
-                        moment(props.user.dob).format("DD-MM-YYYY")}
-                    </td>
-                  </tr>
+                  {props.user.dob && (
+                    <tr>
+                      <td>DOB</td>
+                      <td>
+                        {props.user.dob &&
+                          moment(props.user.dob).format("DD-MM-YYYY")}
+                      </td>
+                    </tr>
+                  )}
                   <tr>
                     <td>Gender</td>
                     <td>{props.user.gender}</td>

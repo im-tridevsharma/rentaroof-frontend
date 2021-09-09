@@ -1,22 +1,27 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { FiAlertCircle, FiEdit, FiTrash } from "react-icons/fi";
 import Datatable from "../../../components/datatable";
 import SectionTitle from "../../../components/section-title";
 import getPages, { deletePage } from "../../../lib/pages";
 import { useDispatch } from "react-redux";
+import Loader from "../../../components/loader";
 
 function Index() {
   const [pages, setPages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
 
   useEffect(() => {
+    setIsLoading(true);
     (async () => {
       const response = await getPages();
       if (response?.status) {
         setPages(response.data);
+        setIsLoading(false);
       } else {
         dispatch({
           type: "SET_CONFIG_KEY",
@@ -31,6 +36,7 @@ function Index() {
             visible: true,
           },
         });
+        setIsLoading(false);
       }
     })();
   }, []);
@@ -45,8 +51,10 @@ function Index() {
     // eslint-disable-next-line no-restricted-globals
     const go = confirm("It will delete it permanantly!");
     if (go && id) {
+      setIsLoading(true);
       const response = await deletePage(id);
       if (response?.status) {
+        setIsLoading(false);
         const newPages = pages.filter((item) => item.id !== response.data.id);
         setPages(newPages);
       }
@@ -65,6 +73,10 @@ function Index() {
 
   return (
     <>
+      <Head>
+        <title>Pages | Rent a Roof</title>
+      </Head>
+      {isLoading && <Loader />}
       <SectionTitle title="Pages" subtitle="All Pages" right={<AddPage />} />
       <div className="bg-white px-2 py-3 rounded-lg border-gray-100 border-2">
         {pages?.length ? (

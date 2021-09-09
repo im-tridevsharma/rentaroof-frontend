@@ -7,12 +7,14 @@ import SectionTitle from "../../../../components/section-title";
 import { getAmenityById, updateAmenity } from "../../../../lib/amenities";
 import { FiAlertCircle, FiCheck } from "react-icons/fi";
 import FileUpload from "../../../../components/forms/file-upload";
+import Loader from "../../../../components/loader";
 import { useDispatch } from "react-redux";
 
 function Update() {
   const [isUpdated, setIsUpdated] = useState(false);
   const [amenity, setAmenity] = useState({});
   const [verror, setVErrors] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({
     title: false,
     icon: false,
@@ -21,10 +23,12 @@ function Update() {
   const dispatch = useDispatch();
 
   useState(() => {
+    setIsLoading(true);
     (async () => {
       const response = await getAmenityById(router.query?.id);
       if (response?.status) {
         setAmenity(response.data);
+        setIsLoading(false);
       } else if (response?.error) {
         dispatch({
           type: "SET_CONFIG_KEY",
@@ -39,17 +43,21 @@ function Update() {
           },
         });
         document.querySelector(".main").scrollIntoView();
+        setIsLoading(false);
       }
     })();
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     if (document.forms.amenity.title.value === "") {
       setErrors({ ...errors, title: true });
+      setIsLoading(false);
       return;
     } else if (!document.forms.amenity.icon.files[0] && !amenity.icon) {
       setErrors({ ...errors, icon: true });
+      setIsLoading(false);
       return;
     } else {
       setErrors({ ...errors, icon: false });
@@ -63,11 +71,13 @@ function Update() {
     if (response?.status) {
       setIsUpdated(true);
       setVErrors(false);
+      setIsLoading(false);
       document.forms.amenity.reset();
       document.querySelector(".main").scrollIntoView();
     } else if (response?.error) {
       setVErrors(response.error);
       setIsUpdated(false);
+      setIsLoading(false);
       document.querySelector(".main").scrollIntoView();
     }
   };
@@ -87,6 +97,7 @@ function Update() {
       <Head>
         <title>Add Amenity | Rent a Roof</title>
       </Head>
+      {isLoading && <Loader />}
       <SectionTitle
         title="Amenities"
         subtitle="Add New"

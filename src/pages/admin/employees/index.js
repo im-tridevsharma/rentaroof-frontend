@@ -3,66 +3,86 @@ import Link from "next/link";
 import Image from "next/image";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { FiEdit, FiEye, FiTrash } from "react-icons/fi";
+import { FiAlertCircle, FiEdit, FiEye, FiTrash } from "react-icons/fi";
 import Datatable from "../../../components/datatable";
 import SectionTitle from "../../../components/section-title";
-import getUsers, { deleteUser, getUserById } from "../../../lib/users";
+import getEmployees, {
+  deleteEmployee,
+  getEmployeeById,
+} from "../../../lib/employees";
 import UserDetails from "../../../components/user-details";
 import Loader from "../../../components/loader";
+import { useDispatch } from "react-redux";
 
 function Index() {
-  const [users, setUsers] = useState([]);
+  const [employees, setEmployees] = useState([]);
+  const [employee, setEmployee] = useState({});
   const [showDetail, setShowDetail] = useState(false);
-  const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setIsLoading(true);
     (async () => {
-      const response = await getUsers();
+      setIsLoading(true);
+      const response = await getEmployees();
       if (response?.status) {
+        setEmployees(response.data);
         setIsLoading(false);
-        setUsers(response.data);
-      } else {
-        router.push("/admin");
       }
     })();
   }, []);
 
-  const editUser = (id) => {
+  const editEmployee = (id) => {
     if (id) {
-      router.push(`/admin/users/${id}`);
+      router.push(`/admin/employees/${id}`);
     }
   };
 
-  const delUser = async (id) => {
+  const delEmployee = async (id) => {
     // eslint-disable-next-line no-restricted-globals
     const go = confirm("It will delete it permanantly!");
     if (go && id) {
       setIsLoading(true);
-      const response = await deleteUser(id);
-      if (response?.id) {
-        const newUsers = users.filter((item) => item.id !== response.id);
-        setUsers(newUsers);
+      const response = await deleteEmployee(id);
+      if (response?.status) {
+        const newEmployees = employees.filter(
+          (item) => item.id !== response.data?.id
+        );
+        setEmployees(newEmployees);
         setIsLoading(false);
+      } else {
+        dispatch({
+          type: "SET_CONFIG_KEY",
+          key: "notification",
+          value: {
+            content: response.message || response.exception,
+            outerClassNames: "bg-red-400",
+            innerClassNames: "",
+            icon: <FiAlertCircle className="mr-2" />,
+            animation: "",
+            visible: true,
+          },
+        });
+        setIsLoading(false);
+        document.querySelector("#portal").scrollIntoView();
       }
     }
   };
 
   const viewProfile = async (id) => {
     setIsLoading(true);
-    const response = await getUserById(id);
+    const response = await getEmployeeById(id);
     if (response?.status) {
-      setUser(response.data);
+      setEmployee(response.data);
       setShowDetail(true);
       setIsLoading(false);
     }
   };
 
-  const AddUser = () => {
+  const AddEmployee = () => {
     return (
-      <Link href="/admin/users/add">
+      <Link href="/admin/employees/add">
         <a className="btn btn-default bg-blue-500 text-white rounded-lg hover:bg-blue-400">
           Add New
         </a>
@@ -73,38 +93,43 @@ function Index() {
   return (
     <div className="relative">
       <Head>
-        <title>Users | Rent a Roof</title>
+        <title>Employees | Rent a Roof</title>
       </Head>
+      {isLoading && <Loader />}
       {showDetail && (
         <UserDetails
-          title="User Details"
-          subtitle="All the information of user."
-          user={user}
-          address={user?.address}
+          title="Employee Details"
+          subtitle={`All the information of ${employee?.name}.`}
           toggle={setShowDetail}
+          user={employee}
+          address={employee.address}
+          kyc={employee.kyc}
         />
       )}
-      <SectionTitle title="Users" subtitle="All Users" right={<AddUser />} />
+      <SectionTitle
+        title="Employees"
+        subtitle="All Employees"
+        right={<AddEmployee />}
+      />
       <div className="bg-white px-2 py-3 rounded-lg border-gray-100 border-2">
-        {users?.length ? (
+        {employees?.length ? (
           <Table
-            users={users}
-            edit={editUser}
-            del={delUser}
+            employees={employees}
+            edit={editEmployee}
+            del={delEmployee}
             view={viewProfile}
           />
         ) : (
-          <p className="mt-5">No users found!</p>
+          <p className="mt-5">No employees found!</p>
         )}
       </div>
-      {isLoading && <Loader />}
     </div>
   );
 }
 
 export default Index;
 
-const Table = ({ users, edit, del, view }) => {
+const Table = ({ employees, edit, del, view }) => {
   const columns = [
     {
       Header: "Proile Pic",
@@ -124,7 +149,7 @@ const Table = ({ users, edit, del, view }) => {
     },
     {
       Header: "Name",
-      accessor: "first",
+      accessor: "name",
     },
     {
       Header: "Email",
@@ -189,5 +214,5 @@ const Table = ({ users, edit, del, view }) => {
       },
     },
   ];
-  return <Datatable columns={columns} data={users} />;
+  return <Datatable columns={columns} data={employees} />;
 };

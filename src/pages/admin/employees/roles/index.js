@@ -1,55 +1,71 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { FiEdit, FiTrash } from "react-icons/fi";
+import { FiAlertCircle, FiEdit, FiTrash } from "react-icons/fi";
 import Datatable from "../../../../components/datatable";
 import SectionTitle from "../../../../components/section-title";
-import getAmenities, { deleteAmenity } from "../../../../lib/amenities";
+import getRoles, { deleteRole } from "../../../../lib/roles";
 import Loader from "../../../../components/loader";
+import { useDispatch } from "react-redux";
 
 function Index() {
-  const [amenities, setAmenities] = useState([]);
+  const [roles, setRoles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setIsLoading(true);
     (async () => {
-      const response = await getAmenities();
+      setIsLoading(true);
+      const response = await getRoles();
       if (response?.status) {
-        setAmenities(response.data);
+        setRoles(response.data);
+        setIsLoading(false);
+      } else {
         setIsLoading(false);
       }
     })();
   }, []);
 
-  const editAmenity = (id) => {
+  const editRole = (id) => {
     if (id) {
-      router.push(`/admin/properties/amenities/${id}`);
+      router.push(`/admin/employees/roles/${id}`);
     }
   };
 
-  const delAmenity = async (id) => {
+  const delRole = async (id) => {
     // eslint-disable-next-line no-restricted-globals
     const go = confirm("It will delete it permanantly!");
     if (go && id) {
       setIsLoading(true);
-      const response = await deleteAmenity(id);
+      const response = await deleteRole(id);
       if (response?.id) {
-        const newAmenities = amenities.filter(
-          (item) => item.id !== response.id
-        );
-        setAmenities(newAmenities);
+        const newRoles = roles.filter((item) => item.id !== response.id);
+        setRoles(newRoles);
         setIsLoading(false);
+      } else {
+        dispatch({
+          type: "SET_CONFIG_KEY",
+          key: "notification",
+          value: {
+            content: response.message || response.exception,
+            outerClassNames: "bg-red-400",
+            innerClassNames: "",
+            icon: <FiAlertCircle className="mr-2" />,
+            animation: "",
+            visible: true,
+          },
+        });
+        setIsLoading(false);
+        document.querySelector("#portal").scrollIntoView();
       }
     }
   };
 
-  const AddAmenity = () => {
+  const AddRole = () => {
     return (
-      <Link href="/admin/properties/amenities/add">
+      <Link href="/admin/employees/roles/add">
         <a className="btn btn-default bg-blue-500 text-white rounded-lg hover:bg-blue-400">
           Add New
         </a>
@@ -60,19 +76,15 @@ function Index() {
   return (
     <>
       <Head>
-        <title>Amenities | Rent a Roof</title>
+        <title>Roles | Rent a Roof</title>
       </Head>
       {isLoading && <Loader />}
-      <SectionTitle
-        title="Amenities"
-        subtitle="All Amenities"
-        right={<AddAmenity />}
-      />
+      <SectionTitle title="Roles" subtitle="All Roles" right={<AddRole />} />
       <div className="bg-white px-2 py-3 rounded-lg border-gray-100 border-2">
-        {amenities?.length ? (
-          <Table amenities={amenities} edit={editAmenity} del={delAmenity} />
+        {roles?.length ? (
+          <Table roles={roles} edit={editRole} del={delRole} />
         ) : (
-          <p className="mt-5">No amenities found!</p>
+          <p className="mt-5">No roles found!</p>
         )}
       </div>
     </>
@@ -81,7 +93,7 @@ function Index() {
 
 export default Index;
 
-const Table = ({ amenities, edit, del }) => {
+const Table = ({ roles, edit, del }) => {
   const columns = [
     {
       Header: "Title",
@@ -95,18 +107,15 @@ const Table = ({ amenities, edit, del }) => {
       },
     },
     {
-      Header: "Icon",
-      accessor: "icon",
+      Header: "Permissions",
+      accessor: "permissions",
       Cell: (props) => {
-        return props.value ? (
-          <Image
-            width={30}
-            height={30}
-            className="rounded-full object-contain"
-            src={props.value}
-          />
-        ) : (
-          "-"
+        return (
+          <span title={JSON.parse(props.value).toString()} className="truncate">
+            {JSON.parse(props.value).toString().length > 25
+              ? JSON.parse(props.value).toString().substring(0, 25) + "..."
+              : JSON.parse(props.value).toString()}
+          </span>
         );
       },
     },
@@ -133,5 +142,5 @@ const Table = ({ amenities, edit, del }) => {
       },
     },
   ];
-  return <Datatable columns={columns} data={amenities} />;
+  return <Datatable columns={columns} data={roles} />;
 };

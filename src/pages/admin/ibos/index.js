@@ -8,17 +8,21 @@ import Datatable from "../../../components/datatable";
 import SectionTitle from "../../../components/section-title";
 import getIbos, { deleteIBO, getIBOById } from "../../../lib/ibos";
 import UserDetails from "../../../components/user-details";
+import Loader from "../../../components/loader";
 
 function Index() {
   const [ibos, setIbos] = useState([]);
   const [ibo, setIbo] = useState({});
   const [showDetail, setShowDetail] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
+    setIsLoading(true);
     (async () => {
       const response = await getIbos();
       if (response?.status) {
+        setIsLoading(false);
         setIbos(response.data);
       }
     })();
@@ -34,17 +38,23 @@ function Index() {
     // eslint-disable-next-line no-restricted-globals
     const go = confirm("It will delete it permanantly!");
     if (go && id) {
+      setIsLoading(true);
       const response = await deleteIBO(id);
-      const newIbos = ibos.filter((item) => item.id !== response.id);
-      setIbos(newIbos);
+      if (response?.id) {
+        const newIbos = ibos.filter((item) => item.id !== response.id);
+        setIbos(newIbos);
+        setIsLoading(false);
+      }
     }
   };
 
   const viewProfile = async (id) => {
+    setIsLoading(true);
     const response = await getIBOById(id);
     if (response?.status) {
       setIbo(response.data);
       setShowDetail(true);
+      setIsLoading(false);
     }
   };
 
@@ -63,6 +73,7 @@ function Index() {
       <Head>
         <title>IBOs | Rent a Roof</title>
       </Head>
+      {isLoading && <Loader />}
       {showDetail && (
         <UserDetails
           title="IBO Details"

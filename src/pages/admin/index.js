@@ -9,10 +9,12 @@ import getUser, {
   setAuthToken,
 } from "../../lib/authentication";
 import { FiAlertCircle } from "react-icons/fi";
+import Loader from "../../components/loader";
 
 function Index() {
   const [verror, setVError] = useState(false);
   const [loggedIn, setLoggedIn] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const email = useRef(null);
   const password = useRef(null);
   const router = useRouter();
@@ -30,6 +32,7 @@ function Index() {
 
   const handleLogin = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     submitForm(email.current.value, password.current.value);
   };
 
@@ -38,11 +41,14 @@ function Index() {
     if (setAuthToken(response?.access_token)) {
       setLoggedIn(true);
       setVError(false);
+      setIsLoading(false);
       router.push("/admin/dashboard");
     } else if (response?.error) {
       setVError(response.error);
+      setIsLoading(false);
     } else {
       setVError({ message: response.message });
+      setIsLoading(false);
     }
   };
 
@@ -103,6 +109,7 @@ function Index() {
             Login
           </button>
         </form>
+        {isLoading && <Loader />}
       </div>
     </>
   );

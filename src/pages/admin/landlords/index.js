@@ -11,18 +11,22 @@ import getLandlords, {
   getLandlordById,
 } from "../../../lib/landlords";
 import UserDetails from "../../../components/user-details";
+import Loader from "../../../components/loader";
 
 function Index() {
   const [landlords, setLandlords] = useState([]);
   const [landlord, setLandlord] = useState({});
   const [showDetail, setShowDetail] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
+    setIsLoading(true);
     (async () => {
       const response = await getLandlords();
       if (response?.status) {
         setLandlords(response.data);
+        setIsLoading(false);
       }
     })();
   }, []);
@@ -37,17 +41,25 @@ function Index() {
     // eslint-disable-next-line no-restricted-globals
     const go = confirm("It will delete it permanantly!");
     if (go && id) {
+      setIsLoading(true);
       const response = await deleteLandlord(id);
-      const newLandlords = landlords.filter((item) => item.id !== response.id);
-      setLandlords(newLandlords);
+      if (response?.id) {
+        const newLandlords = landlords.filter(
+          (item) => item.id !== response.id
+        );
+        setLandlords(newLandlords);
+        setIsLoading(false);
+      }
     }
   };
 
   const viewProfile = async (id) => {
+    setIsLoading(true);
     const response = await getLandlordById(id);
     if (response?.status) {
       setLandlord(response.data);
       setShowDetail(true);
+      setIsLoading(false);
     }
   };
 
@@ -66,6 +78,7 @@ function Index() {
       <Head>
         <title>Landlords | Rent a Roof</title>
       </Head>
+      {isLoading && <Loader />}
       {showDetail && (
         <UserDetails
           title="Landlord Details"

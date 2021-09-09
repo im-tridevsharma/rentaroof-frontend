@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Head from "next/head";
 import Alert from "../../../components/alerts";
 import SectionTitle from "../../../components/section-title";
 import getPages, { addPage } from "../../../lib/pages";
@@ -7,10 +8,12 @@ import { FiAlertCircle, FiCheck } from "react-icons/fi";
 import Input from "../../../components/forms/input";
 import { Editor } from "@tinymce/tinymce-react";
 import { useDispatch } from "react-redux";
+import Loader from "../../../components/loader";
 
 function Add() {
   const editorRef = useRef(null);
   const [isAdded, setIsAdded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [validationError, setValidationError] = useState({
     name: false,
     slug: false,
@@ -28,9 +31,11 @@ function Add() {
   });
 
   useEffect(() => {
+    setIsLoading(true);
     (async () => {
       const response = await getPages();
       if (response?.status) {
+        setIsLoading(false);
         setParent(response.data);
       } else if (response?.error) {
         dispatch({
@@ -45,6 +50,7 @@ function Add() {
             visible: true,
           },
         });
+        setIsLoading(false);
         document.querySelector(".main").scrollIntoView();
       }
     })();
@@ -52,6 +58,7 @@ function Add() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     page.content = editorRef.current?.getContent();
     const iserror = Object.keys(validationError).filter(
       (index) => validationError[index] !== false
@@ -79,6 +86,7 @@ function Add() {
     const response = await addPage(page);
     if (response?.status) {
       setIsAdded(true);
+      setIsLoading(false);
       setValidationError({ name: false, slug: false });
       document.querySelector(".main").scrollIntoView();
       setPage({
@@ -95,6 +103,7 @@ function Add() {
       setIsAdded(false);
       setValidationError(response.error);
       document.querySelector(".main").scrollIntoView();
+      setIsLoading(false);
     }
   };
 
@@ -129,6 +138,10 @@ function Add() {
 
   return (
     <>
+      <Head>
+        <title>Add Page | Rent a Roof</title>
+      </Head>
+      {isLoading && <Loader />}
       <SectionTitle title="Pages" subtitle="Add New" right={<AllPage />} />
       {validationError && (
         <div className="errors">

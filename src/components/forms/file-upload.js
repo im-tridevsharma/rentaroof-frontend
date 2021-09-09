@@ -48,8 +48,8 @@ function FileUpload(props) {
           />
         )}
         <FiUpload
-          className="absolute bottom-3 
-        text-gray-500 text-2xl left-1/2 
+          className="absolute bottom-0
+        text-gray-100 text-xl left-1/2 
         transform -translate-x-1/2 "
         />
       </label>

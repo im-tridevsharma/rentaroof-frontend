@@ -11,6 +11,7 @@ import getCities from "../../../lib/cities";
 import { FiAlertCircle, FiCheck } from "react-icons/fi";
 import Datepicker from "../../../components/datepicker";
 import FileUpload from "../../../components/forms/file-upload";
+import Loader from "../../../components/loader";
 
 function Update() {
   const [errors, setErros] = useState({
@@ -27,6 +28,7 @@ function Update() {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [user, setUser] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const [filteredState, setFilteredState] = useState([]);
   const [filteredCity, setFilteredCity] = useState([]);
@@ -34,6 +36,7 @@ function Update() {
   const router = useRouter();
 
   useEffect(() => {
+    setIsLoading(true);
     (async () => {
       const country_data = await getCountries();
       const state_data = await getStates();
@@ -41,6 +44,7 @@ function Update() {
       const userdata = await getUserById(router.query.id);
 
       if (userdata?.status) {
+        setIsLoading(false);
         setUser(userdata.data);
       }
       if (country_data) {
@@ -81,6 +85,7 @@ function Update() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const formdata = new FormData(document.forms.user);
     const iserror = Object.keys(errors).filter(
       (index) => errors[index] !== false
@@ -97,10 +102,12 @@ function Update() {
       setValidationError(false);
       document.querySelector(".main").scrollIntoView();
       document.forms.user.reset();
+      setIsLoading(false);
     } else if (response?.error) {
       setIsUpdated(false);
       setValidationError(response.error);
       document.querySelector(".main").scrollIntoView();
+      setIsLoading(false);
     }
   };
 
@@ -119,6 +126,7 @@ function Update() {
       <Head>
         <title>Update User | Rent a Roof</title>
       </Head>
+      {isLoading && <Loader />}
       <SectionTitle title="Users" subtitle="Update User" right={<AllUser />} />
       {validationError && (
         <div className="errors">

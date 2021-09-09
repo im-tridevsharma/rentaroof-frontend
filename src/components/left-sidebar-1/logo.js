@@ -12,15 +12,14 @@ const Logo = () => {
     }),
     shallowEqual
   );
-  const { name, collapsed } = { ...config };
+  const { collapsed } = { ...config };
   const { showLogo } = { ...leftSidebar };
   if (showLogo) {
     return (
       <div className="logo truncate">
-        <Link href="/admin">
-          <a className="flex flex-row items-center justify-start space-x-2">
-            <Image src="/icons/ms-icon-310x310.png" width={50} height={50} />
-            <span>{name}</span>
+        <Link href="/admin/dashboard">
+          <a className="flex items-center justify-center w-full mt-8 -m-3">
+            <Image src="/icons/ms-icon-150x150.png" width={70} height={70} />
           </a>
         </Link>
         <button

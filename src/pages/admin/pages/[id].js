@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import Alert from "../../../components/alerts";
 import SectionTitle from "../../../components/section-title";
@@ -8,10 +9,12 @@ import { FiAlertCircle, FiCheck } from "react-icons/fi";
 import Input from "../../../components/forms/input";
 import { Editor } from "@tinymce/tinymce-react";
 import { useDispatch } from "react-redux";
+import Loader from "../../../components/loader";
 
 function Update() {
   const editorRef = useRef(null);
   const [isUpdated, setIsUpdated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [validationError, setValidationError] = useState({
     name: false,
     slug: false,
@@ -22,11 +25,13 @@ function Update() {
   const [page, setPage] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     (async () => {
       const response = await getPages();
       const page_res = await getPageById(router.query?.id);
       if (page_res?.status) {
         setPage(page_res.data);
+        setIsLoading(false);
       }
       if (response?.status) {
         setParent(response.data);
@@ -43,6 +48,7 @@ function Update() {
             visible: true,
           },
         });
+        setIsLoading(false);
         document.querySelector(".main").scrollIntoView();
       }
     })();
@@ -50,6 +56,7 @@ function Update() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     page.content = editorRef.current?.getContent();
     page._method = "PUT";
     const iserror = Object.keys(validationError).filter(
@@ -78,10 +85,12 @@ function Update() {
     const response = await updatePage(page?.id, page);
     if (response?.status) {
       setIsUpdated(true);
+      setIsLoading(false);
       setValidationError(false);
       document.querySelector(".main").scrollIntoView();
     } else if (response?.error) {
       setIsUpdated(false);
+      setIsLoading(false);
       setValidationError(response.error);
       document.querySelector(".main").scrollIntoView();
     }
@@ -122,6 +131,10 @@ function Update() {
 
   return (
     <>
+      <Head>
+        <title>Update Page | Rent a Roof</title>
+      </Head>
+      {isLoading && <Loader />}
       <SectionTitle title="Pages" subtitle="Update Page" right={<AllPage />} />
       {validationError && (
         <div className="errors">

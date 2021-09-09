@@ -3,23 +3,23 @@ import Link from "next/link";
 import Head from "next/head";
 import Alert from "../../../components/alerts";
 import SectionTitle from "../../../components/section-title";
-import { addUser } from "../../../lib/users";
+import { addEmployee } from "../../../lib/employees";
 import getCountries from "../../../lib/countries";
 import getStates from "../../../lib/states";
 import getCities from "../../../lib/cities";
 import { FiAlertCircle, FiCheck } from "react-icons/fi";
-import Datepicker from "../../../components/datepicker";
 import FileUpload from "../../../components/forms/file-upload";
 import Loader from "../../../components/loader";
+import getRoles from "../../../lib/roles";
 
 function Add() {
   const [errors, setErros] = useState({
-    firstname: false,
-    lastname: false,
+    name: false,
     email: false,
     mobile: false,
     password: false,
     gender: false,
+    role: false,
   });
   const [validationError, setValidationError] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
@@ -27,6 +27,7 @@ function Add() {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [roles, setRoles] = useState([]);
 
   const [filteredState, setFilteredState] = useState([]);
   const [filteredCity, setFilteredCity] = useState([]);
@@ -36,15 +37,19 @@ function Add() {
       const country_data = await getCountries();
       const state_data = await getStates();
       const city_data = await getCities();
+      const role_data = await getRoles();
 
-      if (country_data) {
+      if (country_data?.status) {
         setCountries(country_data.data);
       }
-      if (state_data) {
+      if (state_data?.status) {
         setStates(state_data.data);
       }
-      if (city_data) {
+      if (city_data?.status) {
         setCities(city_data.data);
+      }
+      if (role_data?.status) {
+        setRoles(role_data.data);
       }
     })();
   }, []);
@@ -70,7 +75,7 @@ function Add() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
-    const formdata = new FormData(document.forms.user);
+    const formdata = new FormData(document.forms.employee);
     const iserror = Object.keys(errors).filter(
       (index) => errors[index] !== false
     );
@@ -79,13 +84,13 @@ function Add() {
     }
   };
 
-  const submitData = async (user) => {
-    const response = await addUser(user);
+  const submitData = async (employee) => {
+    const response = await addEmployee(employee);
     if (response?.status) {
       setIsAdded(true);
       setValidationError(false);
       document.querySelector(".main").scrollIntoView();
-      document.forms.user?.reset();
+      document.forms.employee?.reset();
       setIsLoading(false);
     } else if (response?.error) {
       setIsAdded(false);
@@ -95,11 +100,11 @@ function Add() {
     }
   };
 
-  const AllUser = () => {
+  const AllEmployee = () => {
     return (
-      <Link href="/admin/users">
+      <Link href="/admin/employees">
         <a className="btn btn-default bg-blue-500 text-white rounded-lg hover:bg-blue-400">
-          All Users
+          All Employees
         </a>
       </Link>
     );
@@ -108,10 +113,14 @@ function Add() {
   return (
     <>
       <Head>
-        <title>Add User | Rent a Roof</title>
+        <title>Add Employee | Rent a Roof</title>
       </Head>
       {isLoading && <Loader />}
-      <SectionTitle title="Users" subtitle="Add New" right={<AllUser />} />
+      <SectionTitle
+        title="Employees"
+        subtitle="Add New"
+        right={<AllEmployee />}
+      />
       {validationError && (
         <div className="errors">
           {Object.keys(validationError).map((index, i) => (
@@ -136,7 +145,7 @@ function Add() {
             borderLeft
             raised
           >
-            New User added successfully.
+            New Employee added successfully.
           </Alert>
         </div>
       )}
@@ -144,7 +153,7 @@ function Add() {
         <form
           method="POST"
           onSubmit={handleSubmit}
-          name="user"
+          name="employee"
           encType="multipart/form-data"
         >
           <div className="form-element">
@@ -154,43 +163,22 @@ function Add() {
           <div className="grid sm:grid-cols-2 sm:space-x-2">
             <div className="form-element">
               <div className="form-label">
-                First Name<span className="text-red-500">*</span>
+                Full Name<span className="text-red-500">*</span>
               </div>
               <input
                 type="text"
-                name="firstname"
+                name="name"
                 required
                 className={`form-input ${
-                  errors.firstname && "border-red-400 border-1"
+                  errors.name && "border-red-400 border-1"
                 }`}
                 onChange={(e) => {
                   e.target.value === ""
-                    ? setErros({ ...errors, firstname: true })
-                    : setErros({ ...errors, firstname: false });
+                    ? setErros({ ...errors, name: true })
+                    : setErros({ ...errors, name: false });
                 }}
               />
             </div>
-            <div className="form-element">
-              <div className="form-label">
-                Last Name<span className="text-red-500">*</span>
-              </div>
-              <input
-                type="text"
-                name="lastname"
-                required
-                className={`form-input ${
-                  errors.lastname && "border-red-400 border-1"
-                }`}
-                onChange={(e) => {
-                  e.target.value === ""
-                    ? setErros({ ...errors, lastname: true })
-                    : setErros({ ...errors, lastname: false });
-                }}
-              />
-            </div>
-          </div>
-
-          <div className="grid sm:grid-cols-2 sm:space-x-2">
             <div className="form-element">
               <div className="form-label">
                 Email<span className="text-red-500">*</span>
@@ -209,6 +197,8 @@ function Add() {
                 }}
               />
             </div>
+          </div>
+          <div className="grid sm:grid-cols-2 sm:space-x-2">
             <div className="form-element">
               <div className="form-label">
                 Mobile<span className="text-red-500">*</span>
@@ -227,9 +217,6 @@ function Add() {
                 }}
               />
             </div>
-          </div>
-
-          <div className="grid sm:grid-cols-2 sm:space-x-2">
             <div className="form-element">
               <div className="form-label">
                 Gender<span className="text-red-500">*</span>
@@ -252,16 +239,33 @@ function Add() {
                 <option value="other">Other</option>
               </select>
             </div>
-            <div className="form-element">
-              <div className="form-label">DOB</div>
-              <Datepicker name="dob" />
-            </div>
           </div>
 
           <div className="grid sm:grid-cols-2 sm:space-x-2">
             <div className="form-element">
-              <div className="form-label">Username</div>
-              <input type="text" name="username" className="form-input" />
+              <div className="form-label">
+                Role<span className="text-red-500">*</span>
+              </div>
+              <select
+                name="role"
+                className={`form-input ${
+                  errors.role && "border-red-400 border-1"
+                }`}
+                onChange={(e) => {
+                  e.target.value === ""
+                    ? setErros({ ...errors, role: true })
+                    : setErros({ ...errors, role: false });
+                }}
+                required
+              >
+                <option value="">Select</option>
+                {roles &&
+                  roles.map((role, i) => (
+                    <option key={i} value={role.id}>
+                      {role.title}
+                    </option>
+                  ))}
+              </select>
             </div>
             <div className="form-element">
               <div className="form-label">
