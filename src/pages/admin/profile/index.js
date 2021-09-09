@@ -1,10 +1,11 @@
 import React from "react";
+import SectionTitle from "../../../components/section-title";
 
 function Index() {
   return (
-    <div>
-      <p>Profile</p>
-    </div>
+    <>
+      <SectionTitle title="Profile" subtitle="Manage Profile" />
+    </>
   );
 }
 
