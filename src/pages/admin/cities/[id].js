@@ -6,6 +6,7 @@ import Alert from "../../../components/alerts";
 import SectionTitle from "../../../components/section-title";
 import getStates from "../../../lib/states";
 import { getCityById, updateCity } from "../../../lib/cities";
+import Loader from "../../../components/loader";
 
 function Update() {
   const router = useRouter();
@@ -14,18 +15,21 @@ function Update() {
   const [stateError, setStateError] = useState(false);
   const [states, setStates] = useState([]);
   const [isUpdated, setIsUpdated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const id = router.query.id;
     if (id) {
       (async () => {
+        setIsLoading(true);
         const state = await getStates();
         if (state) {
           setStates(state.data);
+          setIsLoading(false);
         }
         //fetch city
         const response = await getCityById(id);
-        if (response) {
+        if (response?.status) {
           setCity(response.data);
         } else {
           router.push("/admin");
@@ -36,14 +40,17 @@ function Update() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     if (!city?.name) {
       setNameError(true);
       document.forms.state.name.focus();
+      setIsLoading(false);
       return;
     }
     if (!city?.state_id) {
       setStateError(true);
       document.forms.state_id.code.focus();
+      setIsLoading(false);
       return;
     }
 
@@ -55,13 +62,12 @@ function Update() {
   const submitData = async (data) => {
     if (data?.name && data?.state_id) {
       const response = await updateCity(data?.id, data?.name, data?.state_id);
-      if (response) {
+      if (response?.status) {
         setIsUpdated(true);
         setTimeout(() => {
           setIsUpdated(false);
         }, 1000);
-      } else {
-        router.push("/admin");
+        setIsLoading(false);
       }
     }
   };
@@ -78,6 +84,7 @@ function Update() {
 
   return (
     <>
+      {isLoading && <Loader />}
       <SectionTitle
         title="Cities"
         subtitle="Update City"

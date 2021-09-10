@@ -56,6 +56,7 @@ function Update() {
       if (city_data) {
         setCities(city_data.data);
       }
+
       setFilteredState(
         states.filter((item) => item.country_id === user?.address?.country)
       );
@@ -156,7 +157,7 @@ function Update() {
           </Alert>
         </div>
       )}
-      <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
+      <div className="bg-white flex flex-col dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
         <form
           method="POST"
           onSubmit={handleSubmit}

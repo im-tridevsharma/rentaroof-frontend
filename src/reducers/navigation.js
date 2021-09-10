@@ -148,13 +148,13 @@ const initialState = [
         title: "Training",
         items: [
           {
-            url: "/admin/newTraining",
-            title: "New Training",
+            url: "/admin/trainings",
+            title: "All Trainings",
             items: [],
           },
           {
-            url: "/admin/allTrainings",
-            title: "All Trainings",
+            url: "/admin/trainings/add",
+            title: "Add New",
             items: [],
           },
         ],
@@ -165,7 +165,7 @@ const initialState = [
         title: "SOS",
         items: [
           {
-            url: "/admin/viewSOS",
+            url: "/admin/sos",
             title: "View All",
             items: [],
           },
@@ -177,26 +177,26 @@ const initialState = [
         title: "Agreement",
         items: [
           {
-            url: "/admin/viewAgreement",
+            url: "/admin/agreements",
             title: "View All",
             items: [],
           },
         ],
       },
       {
-        url: "/admin/viewEnquiries",
+        url: "/admin/enquiries",
         icon: <RiContactsLine size={20} />,
         title: "Enquiries",
         items: [],
       },
       {
-        url: "/admin/viewMeetings",
+        url: "/admin/meetings",
         icon: <GiWalk size={20} />,
         title: "Mettings",
         items: [],
       },
       {
-        url: "/admin/trackUsers",
+        url: "/admin/tracking",
         icon: <CgTrack size={20} />,
         title: "Tracking",
         items: [],
@@ -285,13 +285,13 @@ const initialState = [
     title: "Settings",
     items: [
       {
-        url: "/admin/comissionSetting",
+        url: "/admin/settings/comission",
         icon: <FiPercent size={20} />,
         title: "Comission",
         items: [],
       },
       {
-        url: "/admin/websiteSetting",
+        url: "/admin/settings/website",
         icon: <CgWebsite size={20} />,
         title: "Website",
         items: [],

@@ -1,8 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import AccountLinks from "./account-links";
 
 const Dropdown = () => {
   const [hidden, setHidden] = useState(true);
+  const { config } = useSelector(
+    (state) => ({
+      config: state.config,
+    }),
+    shallowEqual
+  );
+  const { user } = { ...config };
 
   const buttonRef = useRef(null);
   const dropdownRef = useRef(null);
@@ -38,7 +46,7 @@ const Dropdown = () => {
         <span className="absolute top-0 left-0 pt-4">
           <img
             className="h-8 w-8 rounded-full shadow"
-            src={`/images/faces/m1.png`}
+            src={user?.profile_pic ? user.profile_pic : `/images/faces/m1.png`}
             alt="avatar"
           />
         </span>

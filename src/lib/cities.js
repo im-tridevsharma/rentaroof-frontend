@@ -129,7 +129,7 @@ export const updateCity = async (id, name, state_id) => {
         )
         .then((response) => {
           if (response.data) {
-            city = response.data.data;
+            city = response.data;
           } else {
             city = false;
           }

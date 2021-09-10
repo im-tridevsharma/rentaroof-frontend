@@ -3,7 +3,7 @@ import Link from "next/link";
 import Head from "next/head";
 import Alert from "../../../components/alerts";
 import SectionTitle from "../../../components/section-title";
-import { addIBO } from "../../../lib/ibos";
+import { getLandlordById, updateLandlord } from "../../../lib/landlords";
 import getCountries from "../../../lib/countries";
 import getStates from "../../../lib/states";
 import getCities from "../../../lib/cities";
@@ -11,8 +11,9 @@ import { FiAlertCircle, FiCheck } from "react-icons/fi";
 import Datepicker from "../../../components/datepicker";
 import FileUpload from "../../../components/forms/file-upload";
 import Loader from "../../../components/loader";
+import { useRouter } from "next/router";
 
-function Add() {
+function Update() {
   const [errors, setErros] = useState({
     firstname: false,
     lastname: false,
@@ -22,21 +23,29 @@ function Add() {
     gender: false,
   });
   const [validationError, setValidationError] = useState(false);
-  const [isAdded, setIsAdded] = useState(false);
+  const [isUpdated, setIsUpdated] = useState(false);
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [landlord, setLandlord] = useState({});
+  const router = useRouter();
 
   const [filteredState, setFilteredState] = useState([]);
   const [filteredCity, setFilteredCity] = useState([]);
 
   useEffect(() => {
     (async () => {
+      setIsLoading(true);
       const country_data = await getCountries();
       const state_data = await getStates();
       const city_data = await getCities();
+      const landlorddata = await getLandlordById(router.query.id);
 
+      if (landlorddata?.status) {
+        setIsLoading(false);
+        setLandlord(landlorddata.data);
+      }
       if (country_data) {
         setCountries(country_data.data);
       }
@@ -70,7 +79,7 @@ function Add() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
-    const formdata = new FormData(document.forms.ibo);
+    const formdata = new FormData(document.forms.landlord);
     const iserror = Object.keys(errors).filter(
       (index) => errors[index] !== false
     );
@@ -79,27 +88,27 @@ function Add() {
     }
   };
 
-  const submitData = async (ibo) => {
-    const response = await addIBO(ibo);
+  const submitData = async (data) => {
+    const response = await updateLandlord(landlord.id, data);
     if (response?.status) {
-      setIsAdded(true);
+      setIsUpdated(true);
       setValidationError(false);
       document.querySelector(".main").scrollIntoView();
-      document.forms.ibo.reset();
+      document.forms.landlord.reset();
       setIsLoading(false);
     } else if (response?.error) {
-      setIsAdded(false);
+      setIsUpdated(false);
       setValidationError(response.error);
       document.querySelector(".main").scrollIntoView();
       setIsLoading(false);
     }
   };
 
-  const AllIBO = () => {
+  const AllLandlord = () => {
     return (
-      <Link href="/admin/ibos">
+      <Link href="/admin/landlords">
         <a className="btn btn-default bg-blue-500 text-white rounded-lg hover:bg-blue-400">
-          All IBOs
+          All Landlords
         </a>
       </Link>
     );
@@ -108,10 +117,14 @@ function Add() {
   return (
     <>
       <Head>
-        <title>Add IBO | Rent a Roof</title>
+        <title>Update Landlord | Rent a Roof</title>
       </Head>
       {isLoading && <Loader />}
-      <SectionTitle title="IBOs" subtitle="Add New" right={<AllIBO />} />
+      <SectionTitle
+        title="Landlords"
+        subtitle="Update New"
+        right={<AllLandlord />}
+      />
       {validationError && (
         <div className="errors">
           {Object.keys(validationError).map((index, i) => (
@@ -128,7 +141,7 @@ function Add() {
           ))}
         </div>
       )}
-      {isAdded && (
+      {isUpdated && (
         <div className="w-full mb-4 success">
           <Alert
             icon={<FiCheck className="mr-2" />}
@@ -136,7 +149,7 @@ function Add() {
             borderLeft
             raised
           >
-            New IBO added successfully.
+            Landlord's information updated successfully.
           </Alert>
         </div>
       )}
@@ -144,9 +157,10 @@ function Add() {
         <form
           method="POST"
           onSubmit={handleSubmit}
-          name="ibo"
+          name="landlord"
           encType="multipart/form-data"
         >
+          <input type="hidden" name="_method" value="PUT" />
           <div className="form-element">
             <div className="form-label text-center">Profile Pic</div>
             <FileUpload name="profile_pic" />
@@ -160,6 +174,7 @@ function Add() {
                 type="text"
                 name="firstname"
                 required
+                value={landlord?.first ? landlord.first : ""}
                 className={`form-input ${
                   errors.firstname && "border-red-400 border-1"
                 }`}
@@ -167,6 +182,7 @@ function Add() {
                   e.target.value === ""
                     ? setErros({ ...errors, firstname: true })
                     : setErros({ ...errors, firstname: false });
+                  setLandlord({ ...landlord, first: e.target.value });
                 }}
               />
             </div>
@@ -178,6 +194,7 @@ function Add() {
                 type="text"
                 name="lastname"
                 required
+                value={landlord?.last ? landlord.last : ""}
                 className={`form-input ${
                   errors.lastname && "border-red-400 border-1"
                 }`}
@@ -185,6 +202,7 @@ function Add() {
                   e.target.value === ""
                     ? setErros({ ...errors, lastname: true })
                     : setErros({ ...errors, lastname: false });
+                  setLandlord({ ...landlord, last: e.target.value });
                 }}
               />
             </div>
@@ -199,6 +217,7 @@ function Add() {
                 type="email"
                 name="email"
                 required
+                value={landlord?.email ? landlord.email : ""}
                 className={`form-input ${
                   errors.email && "border-red-400 border-1"
                 }`}
@@ -206,6 +225,7 @@ function Add() {
                   e.target.value === ""
                     ? setErros({ ...errors, email: true })
                     : setErros({ ...errors, email: false });
+                  setLandlord({ ...landlord, email: e.target.value });
                 }}
               />
             </div>
@@ -217,6 +237,7 @@ function Add() {
                 type="text"
                 name="mobile"
                 required
+                value={landlord?.mobile ? landlord.mobile : ""}
                 className={`form-input ${
                   errors.mobile && "border-red-400 border-1"
                 }`}
@@ -224,6 +245,7 @@ function Add() {
                   e.target.value === ""
                     ? setErros({ ...errors, mobile: true })
                     : setErros({ ...errors, mobile: false });
+                  setLandlord({ ...landlord, mobile: e.target.value });
                 }}
               />
             </div>
@@ -243,8 +265,10 @@ function Add() {
                   e.target.value === ""
                     ? setErros({ ...errors, gender: true })
                     : setErros({ ...errors, gender: false });
+                  setLandlord({ ...landlord, gender: e.target.value });
                 }}
                 required
+                value={landlord?.gender ? landlord.gender : ""}
               >
                 <option value="">Select</option>
                 <option value="male">Male</option>
@@ -254,14 +278,25 @@ function Add() {
             </div>
             <div className="form-element">
               <div className="form-label">DOB</div>
-              <Datepicker name="dob" />
+              <Datepicker
+                name="dob"
+                value={landlord?.dob ? landlord.dob : ""}
+              />
             </div>
           </div>
 
           <div className="grid sm:grid-cols-2 sm:space-x-2">
             <div className="form-element">
               <div className="form-label">Username</div>
-              <input type="text" name="username" className="form-input" />
+              <input
+                type="text"
+                name="username"
+                className="form-input"
+                value={landlord?.username ? landlord.username : ""}
+                onChange={(e) => {
+                  setLandlord({ ...landlord, username: e.target.value });
+                }}
+              />
             </div>
             <div className="form-element">
               <div className="form-label">
@@ -278,6 +313,7 @@ function Add() {
                   e.target.value === ""
                     ? setErros({ ...errors, password: true })
                     : setErros({ ...errors, password: false });
+                  setLandlord({ ...landlord, password: e.target.value });
                 }}
               />
             </div>
@@ -289,15 +325,59 @@ function Add() {
           <div className="grid sm:grid-cols-3 sm:space-x-2">
             <div className="form-element">
               <div className="form-label">Landmark</div>
-              <input type="text" name="landmark" className="form-input" />
+              <input
+                type="text"
+                name="landmark"
+                className="form-input"
+                value={
+                  landlord?.address?.landmark ? landlord.address.landmark : ""
+                }
+                onChange={(e) => {
+                  setLandlord({
+                    ...landlord,
+                    address: { ...landlord.address, landmark: e.target.value },
+                  });
+                }}
+              />
             </div>
             <div className="form-element">
               <div className="form-label">House No.</div>
-              <input type="text" name="houseno" className="form-input" />
+              <input
+                type="text"
+                name="houseno"
+                value={
+                  landlord?.address?.house_number
+                    ? landlord.address.house_number
+                    : ""
+                }
+                className="form-input"
+                onChange={(e) => {
+                  setLandlord({
+                    ...landlord,
+                    address: {
+                      ...landlord.address,
+                      house_number: e.target.value,
+                    },
+                  });
+                }}
+              />
             </div>
             <div className="form-element">
               <div className="form-label">Pincode</div>
-              <input type="text" name="pincode" className="form-input" />
+              <input
+                type="text"
+                name="pincode"
+                className="form-input"
+                value={
+                  landlord?.address?.pincode ? landlord.address.pincode : ""
+                }
+                onChange={(e) => {
+                  setLandlord({
+                    ...landlord,
+                    address: { ...landlord.address, pincode: e.target.value },
+                  });
+                }}
+              />
             </div>
           </div>
 
@@ -307,7 +387,16 @@ function Add() {
               <select
                 name="country"
                 className="form-input"
-                onChange={filterState}
+                value={
+                  landlord?.address?.country ? landlord.address.country : ""
+                }
+                onChange={(e) => {
+                  setLandlord({
+                    ...landlord,
+                    address: { ...landlord.address, country: e.target.value },
+                  });
+                  filterState(e);
+                }}
               >
                 <option value="">Select</option>
                 {countries?.length &&
@@ -320,7 +409,18 @@ function Add() {
             </div>
             <div className="form-element">
               <div className="form-label">State</div>
-              <select name="state" className="form-input" onChange={filterCity}>
+              <select
+                name="state"
+                className="form-input"
+                value={landlord?.address?.state ? landlord.address.state : ""}
+                onChange={(e) => {
+                  setLandlord({
+                    ...landlord,
+                    address: { ...landlord.address, state: e.target.value },
+                  });
+                  filterCity(e);
+                }}
+              >
                 <option value="">Select</option>
                 {filteredState?.length &&
                   filteredState.map((item, index) => (
@@ -332,7 +432,17 @@ function Add() {
             </div>
             <div className="form-element">
               <div className="form-label">City</div>
-              <select name="city" className="form-input">
+              <select
+                name="city"
+                className="form-input"
+                value={landlord?.address?.city ? landlord.address.city : ""}
+                onChange={(e) => {
+                  setLandlord({
+                    ...landlord,
+                    address: { ...landlord.address, city: e.target.value },
+                  });
+                }}
+              >
                 <option value="">Select</option>
                 {filteredCity?.length &&
                   filteredCity.map((item, index) => (
@@ -346,7 +456,24 @@ function Add() {
 
           <div className="form-element">
             <div className="form-label">Full Address</div>
-            <textarea name="fulladdress" className="form-input"></textarea>
+            <textarea
+              name="fulladdress"
+              value={
+                landlord?.address?.full_address
+                  ? landlord.address.full_address
+                  : ""
+              }
+              className="form-input"
+              onChange={(e) => {
+                setLandlord({
+                  ...landlord,
+                  address: {
+                    ...landlord.address,
+                    full_address: e.target.value,
+                  },
+                });
+              }}
+            ></textarea>
           </div>
 
           <hr />
@@ -361,6 +488,15 @@ function Add() {
                   value="aadhar"
                   id="aadhar"
                   className="mr-2"
+                  checked={
+                    landlord.kyc?.document_type === "aadhar" ? true : false
+                  }
+                  onChange={(e) => {
+                    setLandlord({
+                      ...landlord,
+                      kyc: { ...landlord.kyc, document_type: e.target.value },
+                    });
+                  }}
                 />
                 Aadhar
               </label>
@@ -371,6 +507,13 @@ function Add() {
                   value="pan"
                   id="pan"
                   className="mr-2"
+                  checked={landlord.kyc?.document_type === "pan" ? true : false}
+                  onChange={(e) => {
+                    setLandlord({
+                      ...landlord,
+                      kyc: { ...landlord.kyc, document_type: e.target.value },
+                    });
+                  }}
                 />
                 Pan Card
               </label>
@@ -381,6 +524,15 @@ function Add() {
                   value="idcard"
                   id="idcard"
                   className="mr-2"
+                  checked={
+                    landlord.kyc?.document_type === "idcard" ? true : false
+                  }
+                  onChange={(e) => {
+                    setLandlord({
+                      ...landlord,
+                      kyc: { ...landlord.kyc, document_type: e.target.value },
+                    });
+                  }}
                 />
                 Identity Card
               </label>
@@ -391,6 +543,17 @@ function Add() {
                   value="driving_license"
                   id="driving_license"
                   className="mr-2"
+                  checked={
+                    landlord.kyc?.document_type === "driving_license"
+                      ? true
+                      : false
+                  }
+                  onChange={(e) => {
+                    setLandlord({
+                      ...landlord,
+                      kyc: { ...landlord.kyc, document_type: e.target.value },
+                    });
+                  }}
                 />
                 Driving License
               </label>
@@ -403,11 +566,32 @@ function Add() {
                 type="text"
                 name="document_number"
                 className="form-input"
+                value={
+                  landlord.kyc?.document_number
+                    ? landlord.kyc.document_number
+                    : ""
+                }
+                onChange={(e) => {
+                  setLandlord({
+                    ...landlord,
+                    kyc: { ...landlord.kyc, document_number: e.target.value },
+                  });
+                }}
               />
             </div>
-            <div className="form-element">
+            <div className="form-element relative">
               <div className="form-label">Upload Document</div>
               <input type="file" name="document_file" />
+              {landlord.kyc?.document_upload && (
+                <a
+                  href={landlord.kyc.document_upload}
+                  rel="noreferrer"
+                  target="_blank"
+                  className="btn btn-default absolute right-0 top-5 text-white bg-blue-400 hover:bg-blue-300"
+                >
+                  View Uploaded
+                </a>
+              )}
             </div>
           </div>
           <button className="btn btn-default bg-blue-400 float-right text-white rounded-sm hover:bg-blue-500">
@@ -419,4 +603,4 @@ function Add() {
   );
 }
 
-export default Add;
+export default Update;

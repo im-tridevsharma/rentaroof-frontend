@@ -6,6 +6,7 @@ import Alert from "../../../components/alerts";
 import SectionTitle from "../../../components/section-title";
 import getCountries from "../../../lib/countries";
 import { getStateById, updateState } from "../../../lib/states";
+import Loader from "../../../components/loader";
 
 function Update() {
   const router = useRouter();
@@ -14,20 +15,21 @@ function Update() {
   const [countryError, setCountryError] = useState(false);
   const [countries, setCountries] = useState([]);
   const [isUpdated, setIsUpdated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const id = router.query.id;
     if (id) {
       (async () => {
+        setIsLoading(true);
         const response = await getStateById(id);
         const country = await getCountries();
         if (country) {
           setCountries(country.data);
         }
-        if (response) {
+        if (response?.status) {
           setState(response.data);
-        } else {
-          router.push("/admin");
+          setIsLoading(false);
         }
       })();
     }
@@ -35,14 +37,17 @@ function Update() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     if (!state?.name) {
       setNameError(true);
       document.forms.state.name.focus();
+      setIsLoading(false);
       return;
     }
     if (!state?.country_id) {
       setCountryError(true);
       document.forms.state.country_id.focus();
+      setIsLoading(false);
       return;
     }
 
@@ -63,8 +68,7 @@ function Update() {
         setTimeout(() => {
           setIsUpdated(false);
         }, 1000);
-      } else {
-        router.push("/admin");
+        setIsLoading(false);
       }
     }
   };
@@ -81,6 +85,7 @@ function Update() {
 
   return (
     <>
+      {isLoading && <Loader />}
       <SectionTitle
         title="States"
         subtitle="Update State"
@@ -98,7 +103,7 @@ function Update() {
           </Alert>
         </div>
       )}
-      <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
+      <div className="bg-white flex flex-col dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
         <form method="POST" onSubmit={handleSubmit} name="state">
           <div className="grid sm:grid-cols-2 space-x-2">
             <div className="form-element">

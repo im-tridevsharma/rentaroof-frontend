@@ -3,7 +3,7 @@ import server, { __e, __d } from "../server";
 
 const cookies = new Cookies();
 
-const getUser = async () => {
+const getUser = async (details = false) => {
   const token = __d(cookies.get("__NEXT"));
   let user = false;
 
@@ -11,7 +11,7 @@ const getUser = async () => {
     await server
       .post(
         "/auth/profile",
-        {},
+        { mode: details },
         {
           headers: { Authorization: `Bearer ${token}` },
         }

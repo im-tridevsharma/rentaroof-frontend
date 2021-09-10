@@ -10,6 +10,7 @@ import getUser, {
 } from "../../lib/authentication";
 import { FiAlertCircle } from "react-icons/fi";
 import Loader from "../../components/loader";
+import { useDispatch } from "react-redux";
 
 function Index() {
   const [verror, setVError] = useState(false);
@@ -18,6 +19,7 @@ function Index() {
   const email = useRef(null);
   const password = useRef(null);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
@@ -42,6 +44,17 @@ function Index() {
       setLoggedIn(true);
       setVError(false);
       setIsLoading(false);
+      dispatch({
+        type: "SET_CONFIG_KEY",
+        key: "user",
+        value: {
+          name: response.user?.fullname,
+          email: response.user?.email,
+          role: response.user?.role,
+          permissions: response.user?.permissions || [],
+          profile_pic: response.user?.profile_pic,
+        },
+      });
       router.push("/admin/dashboard");
     } else if (response?.error) {
       setVError(response.error);

@@ -37,6 +37,7 @@ function Input(props) {
             }}
             value={v[name] || ""}
             onBlur={onBlur}
+            required={required}
           />
         ) : type === "select" ? (
           <select
@@ -53,6 +54,7 @@ function Input(props) {
               vsetter({ ...v, [name]: e.target.value });
             }}
             value={v[name] || ""}
+            required={required}
           >
             <option value="">Select</option>
             {options &&
@@ -80,6 +82,7 @@ function Input(props) {
               vsetter({ ...v, [name]: e.target.value });
             }}
             value={v[name] || ""}
+            required={required}
           ></textarea>
         )}
       </div>

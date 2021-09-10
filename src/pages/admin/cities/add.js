@@ -5,30 +5,36 @@ import SectionTitle from "../../../components/section-title";
 import { addCity } from "../../../lib/cities";
 import { FiCheck } from "react-icons/fi";
 import getStates from "../../../lib/states";
+import Loader from "../../../components/loader";
 
 function Add() {
   const [nameError, setNameError] = useState(false);
   const [stateError, setStateError] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
   const [states, setStates] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const name = useRef(null);
   const state_id = useRef(null);
 
   useEffect(() => {
     (async () => {
+      setIsLoading(true);
       const response = await getStates();
-      if (response) {
+      if (response?.status) {
         setStates(response.data);
+        setIsLoading(false);
       }
     })();
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     if (!name.current.value) {
       setNameError(true);
       name.current.focus();
+      setIsLoading(false);
       return;
     } else {
       setNameError("");
@@ -36,6 +42,7 @@ function Add() {
     if (!state_id.current.value) {
       setStateError(true);
       state_id.current.focus();
+      setIsLoading(false);
       return;
     } else {
       setStateError("");
@@ -53,6 +60,7 @@ function Add() {
       setTimeout(() => {
         setIsAdded(false);
       }, 1000);
+      setIsLoading(false);
       document.forms.state.reset();
     } else {
       setIsAdded(false);
@@ -71,6 +79,7 @@ function Add() {
 
   return (
     <>
+      {isLoading && <Loader />}
       <SectionTitle title="Cities" subtitle="Add New" right={<AllCities />} />
       {isAdded && (
         <div className="w-full mb-4">

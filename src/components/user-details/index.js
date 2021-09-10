@@ -66,7 +66,7 @@ function Index(props) {
         </div>
         <div className="mt-2">
           <h1 className="text-xl text-gray-700">Address</h1>
-
+          <hr />
           {props.address && (
             <table className=" table-auto w-full mb-2 mt-2">
               <tbody>
@@ -123,6 +123,19 @@ function Index(props) {
                       {props.kyc.is_verified === 1
                         ? "Verified"
                         : "Not Verified"}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Document File</td>
+                    <td className="pt-5">
+                      <a
+                        href={props.kyc.document_upload}
+                        rel="noreferrer"
+                        target="_blank"
+                        className="btn btn-default bg-blue-400 text-white hover:bg-blue-300"
+                      >
+                        View Document
+                      </a>
                     </td>
                   </tr>
                 </tbody>

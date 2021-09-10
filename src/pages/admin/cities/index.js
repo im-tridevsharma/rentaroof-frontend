@@ -5,18 +5,20 @@ import { FiEdit, FiTrash } from "react-icons/fi";
 import Datatable from "../../../components/datatable";
 import SectionTitle from "../../../components/section-title";
 import getCities, { deleteCity } from "../../../lib/cities";
+import Loader from "../../../components/loader";
 
 function Index() {
   const [cities, setCities] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     (async () => {
+      setIsLoading(true);
       const response = await getCities();
-      if (response) {
+      if (response?.status) {
         setCities(response.data);
-      } else {
-        router.push("/admin");
+        setIsLoading(false);
       }
     })();
   }, []);
@@ -31,9 +33,13 @@ function Index() {
     // eslint-disable-next-line no-restricted-globals
     const go = confirm("It will delete it permanantly!");
     if (go && id) {
+      setIsLoading(true);
       const response = await deleteCity(id);
-      const newCities = cities.filter((item) => item.id !== response.id);
-      setCities(newCities);
+      if (response?.id) {
+        const newCities = cities.filter((item) => item.id !== response.id);
+        setCities(newCities);
+        setIsLoading(false);
+      }
     }
   };
 
@@ -49,6 +55,7 @@ function Index() {
 
   return (
     <>
+      {isLoading && <Loader />}
       <SectionTitle title="Cities" subtitle="All Cities" right={<AddCity />} />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
         {cities?.length ? (

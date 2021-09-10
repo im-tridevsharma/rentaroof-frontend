@@ -15,6 +15,13 @@ export default function config(
       animation: "",
       visible: false,
     },
+    user: {
+      name: "",
+      email: "",
+      role: "",
+      permissions: [],
+      profile_pic: "",
+    },
   },
   action
 ) {

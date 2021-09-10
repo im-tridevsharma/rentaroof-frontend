@@ -10,6 +10,7 @@ import getCities from "../../../lib/cities";
 import { FiAlertCircle, FiCheck } from "react-icons/fi";
 import Datepicker from "../../../components/datepicker";
 import FileUpload from "../../../components/forms/file-upload";
+import Loader from "../../../components/loader";
 
 function Add() {
   const [errors, setErros] = useState({
@@ -25,6 +26,7 @@ function Add() {
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [filteredState, setFilteredState] = useState([]);
   const [filteredCity, setFilteredCity] = useState([]);
@@ -67,6 +69,7 @@ function Add() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const formdata = new FormData(document.forms.landlord);
     const iserror = Object.keys(errors).filter(
       (index) => errors[index] !== false
@@ -82,11 +85,13 @@ function Add() {
       setIsAdded(true);
       setValidationError(false);
       document.querySelector(".main").scrollIntoView();
-      document.forms.Landlord.reset();
+      document.forms.landlord.reset();
+      setIsLoading(false);
     } else if (response?.error) {
       setIsAdded(false);
       setValidationError(response.error);
       document.querySelector(".main").scrollIntoView();
+      setIsLoading(false);
     }
   };
 
@@ -105,6 +110,7 @@ function Add() {
       <Head>
         <title>Add Landlord | Rent a Roof</title>
       </Head>
+      {isLoading && <Loader />}
       <SectionTitle
         title="Landlords"
         subtitle="Add New"
@@ -138,7 +144,7 @@ function Add() {
           </Alert>
         </div>
       )}
-      <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
+      <div className="bg-white flex flex-col dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
         <form
           method="POST"
           onSubmit={handleSubmit}
@@ -258,8 +264,8 @@ function Add() {
 
           <div className="grid sm:grid-cols-2 sm:space-x-2">
             <div className="form-element">
-              <div className="form-label">Landlordname</div>
-              <input type="text" name="Landlordname" className="form-input" />
+              <div className="form-label">Username</div>
+              <input type="text" name="username" className="form-input" />
             </div>
             <div className="form-element">
               <div className="form-label">
@@ -347,6 +353,67 @@ function Add() {
             <textarea name="fulladdress" className="form-input"></textarea>
           </div>
 
+          <hr />
+          <h5 className="py-3">KYC Details</h5>
+          <div className="form-element">
+            <div className="form-label">Document Type</div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 sm:space-x-2">
+              <label htmlFor="aadhar" className="flex items-center">
+                <input
+                  type="radio"
+                  name="document_type"
+                  value="aadhar"
+                  id="aadhar"
+                  className="mr-2"
+                />
+                Aadhar
+              </label>
+              <label htmlFor="pan" className="flex items-center">
+                <input
+                  type="radio"
+                  name="document_type"
+                  value="pan"
+                  id="pan"
+                  className="mr-2"
+                />
+                Pan Card
+              </label>
+              <label htmlFor="idcard" className="flex items-center">
+                <input
+                  type="radio"
+                  name="document_type"
+                  value="idcard"
+                  id="idcard"
+                  className="mr-2"
+                />
+                Identity Card
+              </label>
+              <label htmlFor="driving_license" className="flex items-center">
+                <input
+                  type="radio"
+                  name="document_type"
+                  value="driving_license"
+                  id="driving_license"
+                  className="mr-2"
+                />
+                Driving License
+              </label>
+            </div>
+          </div>
+          <div className="grid sm:grid-cols-2 sm:space-x-2">
+            <div className="form-element">
+              <div className="form-label">Document Number</div>
+              <input
+                type="text"
+                name="document_number"
+                className="form-input"
+              />
+            </div>
+            <div className="form-element">
+              <div className="form-label">Upload Document</div>
+              <input type="file" name="document_file" />
+            </div>
+          </div>
           <button className="btn btn-default bg-blue-400 float-right text-white rounded-sm hover:bg-blue-500">
             Submit
           </button>

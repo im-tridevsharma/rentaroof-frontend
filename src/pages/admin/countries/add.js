@@ -4,19 +4,23 @@ import Alert from "../../../components/alerts";
 import SectionTitle from "../../../components/section-title";
 import { addCountry } from "../../../lib/countries";
 import { FiCheck } from "react-icons/fi";
+import Loader from "../../../components/loader";
 
 function Add() {
   const [nameError, setNameError] = useState(false);
   const [codeError, setCodeError] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const name = useRef(null);
   const code = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     if (!name.current.value) {
       setNameError(true);
       name.current.focus();
+      setIsLoading(false);
       return;
     } else {
       setNameError("");
@@ -24,6 +28,7 @@ function Add() {
     if (!code.current.value) {
       setCodeError(true);
       code.current.focus();
+      setIsLoading(false);
       return;
     } else {
       setCodeError("");
@@ -41,6 +46,7 @@ function Add() {
       setTimeout(() => {
         setIsAdded(false);
       }, 1000);
+      setIsLoading(false);
       document.forms.country.reset();
     } else {
       setIsAdded(false);
@@ -59,6 +65,7 @@ function Add() {
 
   return (
     <>
+      {isLoading && <Loader />}
       <SectionTitle
         title="Countries"
         subtitle="Add New"
@@ -76,7 +83,7 @@ function Add() {
           </Alert>
         </div>
       )}
-      <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
+      <div className="bg-white flex flex-col dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
         <form method="POST" onSubmit={handleSubmit} name="country">
           <div className="grid sm:grid-cols-2 space-x-2">
             <div className="form-element">

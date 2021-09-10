@@ -5,18 +5,20 @@ import { FiEdit, FiTrash } from "react-icons/fi";
 import Datatable from "../../../components/datatable";
 import SectionTitle from "../../../components/section-title";
 import getCountries, { deleteCountry } from "../../../lib/countries";
+import Loader from "../../../components/loader";
 
 function Index() {
   const [countries, setCountries] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     (async () => {
+      setIsLoading(true);
       const response = await getCountries();
-      if (response) {
+      if (response?.status) {
         setCountries(response.data);
-      } else {
-        router.push("/admin");
+        setIsLoading(false);
       }
     })();
   }, []);
@@ -31,9 +33,15 @@ function Index() {
     // eslint-disable-next-line no-restricted-globals
     const go = confirm("It will delete it permanantly!");
     if (go && id) {
+      setIsLoading(true);
       const response = await deleteCountry(id);
-      const newCountries = countries.filter((item) => item.id !== response.id);
-      setCountries(newCountries);
+      if (response?.status) {
+        const newCountries = countries.filter(
+          (item) => item.id !== response.data.id
+        );
+        setCountries(newCountries);
+        setIsLoading(false);
+      }
     }
   };
 
@@ -49,6 +57,7 @@ function Index() {
 
   return (
     <>
+      {isLoading && <Loader />}
       <SectionTitle
         title="Countries"
         subtitle="All Countries"

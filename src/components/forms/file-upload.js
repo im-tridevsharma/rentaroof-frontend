@@ -28,7 +28,11 @@ function FileUpload(props) {
         className={`${
           props.error ? "bg-red-300" : "bg-gray-300 dark:bg-gray-900"
         } rounded-full overflow-hidden cursor-pointer ${
-          props.size === "small" ? "w-10 h-10" : "w-24 h-24 "
+          props.size === "small"
+            ? "w-10 h-10"
+            : props.size === "big"
+            ? "w-36 h-36"
+            : "w-24 h-24"
         }`}
       >
         <input
@@ -43,8 +47,12 @@ function FileUpload(props) {
           <Image
             className="object-cover"
             src={image || props.value}
-            width={props.size === "small" ? 50 : 100}
-            height={props.size === "small" ? 50 : 100}
+            width={
+              props.size === "small" ? 50 : props.size === "big" ? 150 : 100
+            }
+            height={
+              props.size === "small" ? 50 : props.size === "big" ? 150 : 100
+            }
           />
         )}
         <FiUpload

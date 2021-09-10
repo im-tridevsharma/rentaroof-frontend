@@ -5,18 +5,20 @@ import { FiEdit, FiTrash } from "react-icons/fi";
 import Datatable from "../../../components/datatable";
 import SectionTitle from "../../../components/section-title";
 import getStates, { deleteState } from "../../../lib/states";
+import Loader from "../../../components/loader";
 
 function Index() {
   const [states, setStates] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     (async () => {
+      setIsLoading(true);
       const response = await getStates();
-      if (response) {
+      if (response?.status) {
         setStates(response.data);
-      } else {
-        router.push("/admin");
+        setIsLoading(false);
       }
     })();
   }, []);
@@ -31,9 +33,13 @@ function Index() {
     // eslint-disable-next-line no-restricted-globals
     const go = confirm("It will delete it permanantly!");
     if (go && id) {
+      setIsLoading(true);
       const response = await deleteState(id);
-      const newStates = states.filter((item) => item.id !== response.id);
-      setStates(newStates);
+      if (response?.status) {
+        const newStates = states.filter((item) => item.id !== response.data.id);
+        setStates(newStates);
+        setIsLoading(false);
+      }
     }
   };
 
@@ -49,6 +55,7 @@ function Index() {
 
   return (
     <>
+      {isLoading && <Loader />}
       <SectionTitle title="States" subtitle="All States" right={<AddState />} />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
         {states?.length ? (

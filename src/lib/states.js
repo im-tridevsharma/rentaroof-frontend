@@ -65,7 +65,7 @@ export const deleteState = async (id) => {
         })
         .then((response) => {
           if (response.data) {
-            res = response.data.data;
+            res = response.data;
           } else {
             res = false;
           }

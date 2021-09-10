@@ -5,6 +5,7 @@ import { FiCheck } from "react-icons/fi";
 import Alert from "../../../components/alerts";
 import SectionTitle from "../../../components/section-title";
 import { getCountryById, updateCountry } from "../../../lib/countries";
+import Loader from "../../../components/loader";
 
 function Update() {
   const router = useRouter();
@@ -12,16 +13,17 @@ function Update() {
   const [nameError, setNameError] = useState(false);
   const [codeError, setCodeError] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const id = router.query.id;
     if (id) {
       (async () => {
+        setIsLoading(true);
         const response = await getCountryById(id);
-        if (response) {
+        if (response?.status) {
           setCountry(response.data);
-        } else {
-          router.push("/admin");
+          setIsLoading(false);
         }
       })();
     }
@@ -29,14 +31,17 @@ function Update() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     if (!country?.name) {
       setNameError(true);
       document.forms.country.name.focus();
+      setIsLoading(false);
       return;
     }
     if (!country?.code) {
       setCodeError(true);
       document.forms.country.code.focus();
+      setIsLoading(false);
       return;
     }
 
@@ -53,6 +58,7 @@ function Update() {
         setTimeout(() => {
           setIsUpdated(false);
         }, 1000);
+        setIsLoading(false);
       } else {
         router.push("/admin");
       }
@@ -71,6 +77,7 @@ function Update() {
 
   return (
     <>
+      {isLoading && <Loader />}
       <SectionTitle
         title="Countries"
         subtitle="Update Country"
@@ -88,7 +95,7 @@ function Update() {
           </Alert>
         </div>
       )}
-      <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
+      <div className="bg-white flex flex-col dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
         <form method="POST" onSubmit={handleSubmit} name="country">
           <div className="grid sm:grid-cols-2 space-x-2">
             <div className="form-element">
