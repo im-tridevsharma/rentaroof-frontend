@@ -112,6 +112,17 @@ const Table = ({ pages, edit, del }) => {
       accessor: "description",
     },
     {
+      Header: "Type",
+      accessor: "type",
+    },
+    {
+      Header: "Users",
+      accessor: "user_ids",
+      Cell: (props) => {
+        return <span>{props.value && JSON.parse(props.value).length}</span>;
+      },
+    },
+    {
       Header: "Pdfs",
       accessor: "attachments",
       Cell: (props) => {
@@ -120,7 +131,7 @@ const Table = ({ pages, edit, del }) => {
     },
     {
       Header: "Videos",
-      accessor: "video_links",
+      accessor: "video_urls",
       Cell: (props) => {
         return <span>{props.value && JSON.parse(props.value).length}</span>;
       },

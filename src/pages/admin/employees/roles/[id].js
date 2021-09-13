@@ -51,7 +51,6 @@ function Update() {
     if (response?.status) {
       setIsUpdated(true);
       setIsLoading(false);
-      setRole({ title: "", description: "", permissions: [] });
       setErrors({ title: false, permissions: false });
       document.forms.role?.reset();
       document.querySelector(".main").scrollIntoView();

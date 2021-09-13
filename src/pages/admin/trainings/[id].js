@@ -1,39 +1,61 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import Loader from "../../../components/loader";
 import SectionTitle from "../../../components/section-title";
-import { FiAlertCircle, FiCheck } from "react-icons/fi";
+import {
+  FiAlertCircle,
+  FiCheck,
+  FiFile,
+  FiInfo,
+  FiVideo,
+} from "react-icons/fi";
 import Alert from "../../../components/alerts";
 import Input from "../../../components/forms/input";
 import Dropzone from "react-dropzone";
-import { addTraining, searchUsers } from "../../../lib/trainings";
+import {
+  updateTraining,
+  searchUsers,
+  getTrainingById,
+} from "../../../lib/trainings";
 
-function Add() {
+function Update() {
   const [isLoading, setIsLoading] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
   const [pdfFiles, setPdfFiles] = useState([]);
   const [videoFiles, setVideoFiles] = useState([]);
+  const [oldFiles, setOldFiles] = useState({ pdfs: [], videos: [] });
   const [errors, setErrors] = useState({
     title: false,
     description: false,
     type: false,
     user: false,
   });
-  const [training, setTraining] = useState({
-    title: "",
-    description: "",
-    type: "",
-    user: "",
-  });
+  const [training, setTraining] = useState({});
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
+      setIsLoading(true);
       const response = await searchUsers(
         "type=ibo,landlord&select=id,first,last,role"
       );
+      const training_res = await getTrainingById(router.query.id);
+      if (training_res?.status) {
+        setTraining(training_res.data);
+        setOldFiles({
+          pdfs: training_res.data?.attachments
+            ? JSON.parse(training_res.data.attachments)
+            : [],
+          videos: training_res.data?.video_urls
+            ? JSON.parse(training_res.data.video_urls)
+            : [],
+        });
+        setIsLoading(false);
+      }
       if (response?.status) {
         setUsers(response.data);
         setFilteredUsers(response.data);
@@ -63,7 +85,7 @@ function Add() {
   };
 
   const submitData = async (data) => {
-    const response = await addTraining(data);
+    const response = await updateTraining(training.id, data);
     if (response?.status) {
       setIsAdded(true);
       setErrors({ title: false, description: false, type: false });
@@ -71,10 +93,33 @@ function Add() {
       setTraining({ title: "", description: "", type: "" });
       setPdfFiles([]);
       setVideoFiles([]);
+      setOldFiles({
+        pdfs: response.data?.attachments
+          ? JSON.parse(response.data.attachments)
+          : [],
+        videos: response.data?.video_urls
+          ? JSON.parse(response.data.video_urls)
+          : [],
+      });
       document.querySelector(".main").scrollIntoView();
     } else {
       setIsLoading(false);
       console.log(response);
+    }
+  };
+
+  const userHandler = (e) => {
+    const value = e.target.value;
+    if (!training?.user_ids.includes(value)) {
+      setTraining((prev) => ({
+        ...prev,
+        user_ids: [...training.user_ids, value],
+      }));
+    } else {
+      setTraining((prev) => ({
+        ...prev,
+        user_ids: training.user_ids.filter((id) => id !== value),
+      }));
     }
   };
 
@@ -92,12 +137,12 @@ function Add() {
   return (
     <>
       <Head>
-        <title>Add Training | Rent a Roof</title>
+        <title>Update Training | Rent a Roof</title>
       </Head>
       {isLoading && <Loader />}
       <SectionTitle
         title="Trainings"
-        subtitle="Add New"
+        subtitle="Update Training"
         right={<AllTraining />}
       />
       {errors && (
@@ -128,7 +173,7 @@ function Add() {
             borderLeft
             raised
           >
-            New Training added successfully.
+            Training updated successfully.
           </Alert>
         </div>
       )}
@@ -141,6 +186,7 @@ function Add() {
           name="training"
           encType="multipart/form-data"
         >
+          <input type="hidden" name="_method" value="PUT" />
           <div className="grid sm:grid-cols-2 sm:space-x-2">
             <Input
               label="Title"
@@ -200,6 +246,13 @@ function Add() {
                         name="users[]"
                         id={`user-${i}`}
                         value={user.id}
+                        onChange={(e) => userHandler(e)}
+                        checked={
+                          training?.user_ids?.length &&
+                          training?.user_ids.includes(String(user.id))
+                            ? true
+                            : false
+                        }
                       />
                       <span className="ml-2">{`${user.first} ${user.last} - ${user.role}`}</span>
                     </label>
@@ -231,7 +284,7 @@ function Add() {
                   <div {...getRootProps()}>
                     <input {...getInputProps()} />
                     <p>
-                      Drag 'n' drop pdf files here, or click to select files
+                      Drag and drop pdf files here, or click to select files
                     </p>
                   </div>
                 </section>
@@ -252,6 +305,36 @@ function Add() {
                 </ul>
               </div>
             )}
+
+            <fieldset className="py-2 my-2 border-2 border-gray-100 grid sm:grid-cols-8 grid-cols-2">
+              {pdfFiles?.length > 0 ? (
+                <legend>
+                  {" "}
+                  <input type="checkbox" name="remove_prev_pdf" value="yes" />
+                  <span className="ml-2 text-red-500">
+                    Remove Previous Pdf Files{" "}
+                    <FiInfo
+                      className="inline"
+                      title="If not checked files will be appended."
+                    />
+                  </span>
+                </legend>
+              ) : (
+                <legend>Previous Pdf Files</legend>
+              )}
+              {oldFiles?.pdfs?.length > 0 &&
+                oldFiles.pdfs.map((item, i) => (
+                  <a
+                    href={item}
+                    rel="noreferrer"
+                    target="_blank"
+                    key={i}
+                    className="flex p-1 items-center"
+                  >
+                    <FiFile className="mr-1" /> {`Pdf ${i + 1}`}
+                  </a>
+                ))}
+            </fieldset>
           </div>
           <div className="form-element">
             <div className="form-label">Video Uploads</div>
@@ -264,7 +347,7 @@ function Add() {
                   <div {...getRootProps()}>
                     <input {...getInputProps()} />
                     <p>
-                      Drag 'n' drop video files here, or click to select files
+                      Drag and drop video files here, or click to select files
                     </p>
                   </div>
                 </section>
@@ -285,6 +368,35 @@ function Add() {
                 </ul>
               </div>
             )}
+            <fieldset className="py-2 my-2 border-2 border-gray-100 grid sm:grid-cols-8 grid-cols-2">
+              {videoFiles?.length > 0 ? (
+                <legend>
+                  {" "}
+                  <input type="checkbox" name="remove_prev_video" value="yes" />
+                  <span className="ml-2 text-red-500">
+                    Remove Previous Video Files{" "}
+                    <FiInfo
+                      className="inline"
+                      title="If not checked files will be appended."
+                    />
+                  </span>
+                </legend>
+              ) : (
+                <legend>Previous Video Files</legend>
+              )}
+              {oldFiles?.videos?.length > 0 &&
+                oldFiles.videos.map((item, i) => (
+                  <a
+                    href={item}
+                    rel="noreferrer"
+                    target="_blank"
+                    key={i}
+                    className="flex p-1 items-center"
+                  >
+                    <FiVideo className="mr-1" /> {`Video ${i + 1}`}
+                  </a>
+                ))}
+            </fieldset>
           </div>
           <button className="btn btn-default bg-blue-400 float-right text-white rounded-sm hover:bg-blue-500">
             Submit
@@ -295,4 +407,4 @@ function Add() {
   );
 }
 
-export default Add;
+export default Update;

@@ -108,4 +108,24 @@ export const updateTraining = async (id, data) => {
   return training;
 };
 
+export const searchUsers = async (query) => {
+  const token = getToken();
+  let users = false;
+
+  if (token) {
+    await server
+      .get(`/users/search?${query}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        users = response?.data;
+      })
+      .catch((error) => {
+        users = error?.response?.data;
+      });
+  }
+
+  return users;
+};
+
 export default getTrainings;
