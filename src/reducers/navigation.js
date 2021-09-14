@@ -159,18 +159,7 @@ const initialState = [
           },
         ],
       },
-      {
-        url: "/",
-        icon: <RiAlarmWarningFill size={20} />,
-        title: "SOS",
-        items: [
-          {
-            url: "/admin/sos",
-            title: "View All",
-            items: [],
-          },
-        ],
-      },
+
       {
         url: "/",
         icon: <FiPenTool size={20} />,
@@ -182,6 +171,12 @@ const initialState = [
             items: [],
           },
         ],
+      },
+      {
+        url: "/admin/sos",
+        icon: <RiAlarmWarningFill size={20} />,
+        title: "SOS",
+        items: [],
       },
       {
         url: "/admin/enquiries",

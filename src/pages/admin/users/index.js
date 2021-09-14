@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { FiEdit, FiEye, FiTrash } from "react-icons/fi";
+import { FiEdit, FiEye, FiRefreshCw, FiTrash } from "react-icons/fi";
 import Datatable from "../../../components/datatable";
 import SectionTitle from "../../../components/section-title";
 import getUsers, { deleteUser, getUserById } from "../../../lib/users";
@@ -15,6 +15,7 @@ function Index() {
   const [showDetail, setShowDetail] = useState(false);
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [isRefresh, setIsRefresh] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -28,7 +29,7 @@ function Index() {
         router.push("/admin");
       }
     })();
-  }, []);
+  }, [isRefresh]);
 
   const editUser = (id) => {
     if (id) {
@@ -62,11 +63,19 @@ function Index() {
 
   const AddUser = () => {
     return (
-      <Link href="/admin/users/add">
-        <a className="btn btn-default bg-blue-500 text-white rounded-lg hover:bg-blue-400">
-          Add New
-        </a>
-      </Link>
+      <div className="flex items-center">
+        <Link href="/admin/users/add">
+          <a className="btn btn-default bg-blue-500 text-white rounded-lg hover:bg-blue-400">
+            Add New
+          </a>
+        </Link>
+        <button
+          onClick={() => setIsRefresh(!isRefresh)}
+          className="p-2 ml-2 bg-green-500 text-white rounded-lg hover:bg-green-400"
+        >
+          <FiRefreshCw className="text-lg" />
+        </button>
+      </div>
     );
   };
 

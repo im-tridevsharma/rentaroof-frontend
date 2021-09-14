@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FiEdit, FiTrash } from "react-icons/fi";
+import { FiEdit, FiRefreshCw, FiTrash } from "react-icons/fi";
 import Datatable from "../../../components/datatable";
 import SectionTitle from "../../../components/section-title";
 import getCities, { deleteCity } from "../../../lib/cities";
@@ -10,6 +10,7 @@ import Loader from "../../../components/loader";
 function Index() {
   const [cities, setCities] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isRefresh, setIsRefresh] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -21,7 +22,7 @@ function Index() {
         setIsLoading(false);
       }
     })();
-  }, []);
+  }, [isRefresh]);
 
   const editCity = (id) => {
     if (id) {
@@ -45,11 +46,19 @@ function Index() {
 
   const AddCity = () => {
     return (
-      <Link href="/admin/cities/add">
-        <a className="btn btn-default bg-blue-500 text-white rounded-lg hover:bg-blue-400">
-          Add New
-        </a>
-      </Link>
+      <div className="flex items-center">
+        <Link href="/admin/cities/add">
+          <a className="btn btn-default bg-blue-500 text-white rounded-lg hover:bg-blue-400">
+            Add New
+          </a>
+        </Link>
+        <button
+          onClick={() => setIsRefresh(!isRefresh)}
+          className="p-2 ml-2 bg-green-500 text-white rounded-lg hover:bg-green-400"
+        >
+          <FiRefreshCw className="text-lg" />
+        </button>
+      </div>
     );
   };
 

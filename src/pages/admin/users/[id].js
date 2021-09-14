@@ -334,10 +334,10 @@ function Update() {
                 className="form-input"
                 value={user?.address?.landmark ? user.address.landmark : ""}
                 onChange={(e) =>
-                  setUser({
-                    ...user,
-                    address: { ...user.address, landmark: e.target.value },
-                  })
+                  setUser((prev) => ({
+                    ...prev,
+                    address: { ...prev.address, landmark: e.target.value },
+                  }))
                 }
               />
             </div>
@@ -351,10 +351,10 @@ function Update() {
                   user?.address?.house_number ? user.address.house_number : ""
                 }
                 onChange={(e) =>
-                  setUser({
-                    ...user,
-                    address: { ...user.address, house_number: e.target.value },
-                  })
+                  setUser((prev) => ({
+                    ...prev,
+                    address: { ...prev.address, house_number: e.target.value },
+                  }))
                 }
               />
             </div>
@@ -366,10 +366,10 @@ function Update() {
                 className="form-input"
                 value={user?.address?.pincode ? user.address.pincode : ""}
                 onChange={(e) =>
-                  setUser({
-                    ...user,
-                    address: { ...user.address, pincode: e.target.value },
-                  })
+                  setUser((prev) => ({
+                    ...prev,
+                    address: { ...prev.address, pincode: e.target.value },
+                  }))
                 }
               />
             </div>
@@ -382,10 +382,10 @@ function Update() {
                 name="country"
                 className="form-input"
                 onChange={(e) => {
-                  setUser({
-                    ...user,
-                    address: { ...user.address, country: e.target.value },
-                  });
+                  setUser((prev) => ({
+                    ...prev,
+                    address: { ...prev.address, country: e.target.value },
+                  }));
                   filterState(e);
                 }}
                 value={user?.address?.country ? user.address.country : ""}
@@ -405,10 +405,10 @@ function Update() {
                 name="state"
                 className="form-input"
                 onChange={(e) => {
-                  setUser({
-                    ...user,
-                    address: { ...user.address, state: e.target.value },
-                  });
+                  setUser((prev) => ({
+                    ...prev,
+                    address: { ...prev.address, state: e.target.value },
+                  }));
                   filterCity(e);
                 }}
                 value={user?.address?.state ? user.address.state : ""}

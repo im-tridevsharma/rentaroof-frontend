@@ -90,7 +90,6 @@ function Update() {
       setIsAdded(true);
       setErrors({ title: false, description: false, type: false });
       setIsLoading(false);
-      setTraining({ title: "", description: "", type: "" });
       setPdfFiles([]);
       setVideoFiles([]);
       setOldFiles({
@@ -322,7 +321,7 @@ function Update() {
               ) : (
                 <legend>Previous Pdf Files</legend>
               )}
-              {oldFiles?.pdfs?.length > 0 &&
+              {oldFiles?.pdfs?.length > 0 ? (
                 oldFiles.pdfs.map((item, i) => (
                   <a
                     href={item}
@@ -333,7 +332,10 @@ function Update() {
                   >
                     <FiFile className="mr-1" /> {`Pdf ${i + 1}`}
                   </a>
-                ))}
+                ))
+              ) : (
+                <p className="text-xs ml-2 text-red-400">No files found</p>
+              )}
             </fieldset>
           </div>
           <div className="form-element">
@@ -384,7 +386,7 @@ function Update() {
               ) : (
                 <legend>Previous Video Files</legend>
               )}
-              {oldFiles?.videos?.length > 0 &&
+              {oldFiles?.videos?.length > 0 ? (
                 oldFiles.videos.map((item, i) => (
                   <a
                     href={item}
@@ -395,7 +397,10 @@ function Update() {
                   >
                     <FiVideo className="mr-1" /> {`Video ${i + 1}`}
                   </a>
-                ))}
+                ))
+              ) : (
+                <p className="text-xs ml-2 text-red-400">No files found</p>
+              )}
             </fieldset>
           </div>
           <button className="btn btn-default bg-blue-400 float-right text-white rounded-sm hover:bg-blue-500">
