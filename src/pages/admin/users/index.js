@@ -9,6 +9,7 @@ import SectionTitle from "../../../components/section-title";
 import getUsers, { deleteUser, getUserById } from "../../../lib/users";
 import UserDetails from "../../../components/user-details";
 import Loader from "../../../components/loader";
+import parseData from "../../../lib/parser";
 
 function Index() {
   const [users, setUsers] = useState([]);
@@ -24,7 +25,7 @@ function Index() {
       const response = await getUsers();
       if (response?.status) {
         setIsLoading(false);
-        setUsers(response.data);
+        setUsers(parseData(response.data));
       } else {
         router.push("/admin");
       }

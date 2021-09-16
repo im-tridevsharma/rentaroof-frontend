@@ -127,38 +127,35 @@ function View() {
           <>
             <div className="grid sm:grid-cols-2">
               <div className="flex flex-col my-1">
-                <small>Name</small>
-                <p className="text-lg">{sos?.name}</p>
+                <small className="text-blue-500">Name</small>
+                <p>{sos?.name}</p>
               </div>
               <div className="flex flex-col my-1">
-                <small>Email</small>
-                <p className="text-lg">{sos?.email}</p>
+                <small className="text-blue-500">Email</small>
+                <p>{sos?.email}</p>
               </div>
             </div>
             <div className="grid sm:grid-cols-2">
               <div className="flex flex-col my-1">
-                <small>Role</small>
-                <p className="text-lg">{sos?.user_type?.toUpperCase()}</p>
+                <small className="text-blue-500">Role</small>
+                <p>{sos?.user_type?.toUpperCase()}</p>
               </div>
               <div className="flex flex-col my-1">
-                <small>Status</small>
-                <p className="text-lg">{sos?.resolve_status?.toUpperCase()}</p>
+                <small className="text-blue-500">Status</small>
+                <p>{sos?.resolve_status?.toUpperCase()}</p>
               </div>
             </div>
             <div className="flex flex-col my-1">
-              <small>Description</small>
-              <p className="text-lg">{sos?.sos_content}</p>
+              <small className="text-blue-500">Description</small>
+              <p>{sos?.sos_content}</p>
             </div>
-            <hr className="mt-2" />
             <div className="grid sm:grid-cols-2">
               <div className="flex flex-col my-3">
-                <small>Created At</small>
-                <p className="text-lg">
-                  {sos?.created_at && moment(sos.created_at).fromNow()}
-                </p>
+                <small className="text-blue-500">Created At</small>
+                <p>{sos?.created_at && moment(sos.created_at).fromNow()}</p>
               </div>
             </div>
-            <h4>Status History</h4>
+            <h5 className="text-red-400">Status History</h5>
             <table className="table">
               <thead>
                 <tr>
@@ -168,7 +165,7 @@ function View() {
               </thead>
               <tbody>
                 {sos?.status_history?.length > 0 &&
-                  sos.status_history.reverse().map((item, i) => (
+                  sos.status_history.map((item, i) => (
                     <tr key={i}>
                       <td>{item.status?.toUpperCase()}</td>
                       <td>{item.message}</td>
@@ -176,7 +173,7 @@ function View() {
                   ))}
               </tbody>
             </table>
-            <h4 className="my-2 text-blue-500">Update Status</h4>
+            <h5 className="my-2 text-red-400">Update Status</h5>
 
             <form
               name="sos_status"

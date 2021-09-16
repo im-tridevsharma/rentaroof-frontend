@@ -69,43 +69,42 @@ function View() {
           <>
             <div className="grid sm:grid-cols-2">
               <div className="flex flex-col my-1">
-                <small>Name</small>
-                <p className="text-lg">{enquiry?.name}</p>
+                <small className="text-blue-500">Name</small>
+                <p>{enquiry?.name}</p>
               </div>
               <div className="flex flex-col my-1">
-                <small>Email</small>
-                <p className="text-lg">{enquiry?.email}</p>
+                <small className="text-blue-500">Email</small>
+                <p>{enquiry?.email}</p>
               </div>
             </div>
             <div className="grid sm:grid-cols-2">
               <div className="flex flex-col my-1">
-                <small>Mobile</small>
-                <p className="text-lg">{enquiry?.mobile}</p>
+                <small className="text-blue-500">Mobile</small>
+                <p>{enquiry?.mobile}</p>
               </div>
               <div className="flex flex-col my-1">
-                <small>System IP</small>
-                <p className="text-lg">{enquiry?.system_ip}</p>
+                <small className="text-blue-500">System IP</small>
+                <p>{enquiry?.system_ip}</p>
               </div>
             </div>
             <div className="flex flex-col my-1">
-              <small>Title</small>
-              <p className="text-lg">{enquiry?.title}</p>
+              <small className="text-blue-500">Title</small>
+              <p>{enquiry?.title}</p>
             </div>
             <div className="flex flex-col my-1">
-              <small>Description</small>
-              <p className="text-lg">{enquiry?.description}</p>
+              <small className="text-blue-500">Description</small>
+              <p>{enquiry?.description}</p>
             </div>
-            <hr className="mt-2" />
             <div className="grid sm:grid-cols-2">
               <div className="flex flex-col my-3">
-                <small>Created At</small>
-                <p className="text-lg">
+                <small className="text-blue-500">Created At</small>
+                <p>
                   {enquiry?.created_at && moment(enquiry.created_at).fromNow()}
                 </p>
               </div>
               <div className="flex flex-col my-3">
-                <small>Updated At</small>
-                <p className="text-lg">
+                <small className="text-blue-500">Updated At</small>
+                <p>
                   {enquiry?.updated_at && moment(enquiry.updated_at).fromNow()}
                 </p>
               </div>
