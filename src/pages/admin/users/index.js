@@ -44,8 +44,9 @@ function Index() {
     if (go && id) {
       setIsLoading(true);
       const response = await deleteUser(id);
-      if (response?.id) {
-        const newUsers = users.filter((item) => item.id !== response.id);
+      if (response?.status) {
+        const data = parseData(response.data);
+        const newUsers = users.filter((item) => item.id !== data.id);
         setUsers(newUsers);
         setIsLoading(false);
       }
@@ -56,7 +57,7 @@ function Index() {
     setIsLoading(true);
     const response = await getUserById(id);
     if (response?.status) {
-      setUser(response.data);
+      setUser(parseData(response.data));
       setShowDetail(true);
       setIsLoading(false);
     }

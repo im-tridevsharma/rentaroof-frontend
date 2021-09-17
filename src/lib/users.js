@@ -57,7 +57,7 @@ export const deleteUser = async (id) => {
         })
         .then((response) => {
           if (response.data) {
-            res = response.data.data;
+            res = response.data;
           }
         })
         .catch((error) => {

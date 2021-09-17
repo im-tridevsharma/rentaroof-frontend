@@ -6,12 +6,15 @@ import { BsBuilding } from "react-icons/bs";
 import { IoMdGlobe } from "react-icons/io";
 import { RiCustomerService2Fill } from "react-icons/ri";
 import { IoHomeOutline } from "react-icons/io5";
-import { FiPercent, FiPlayCircle } from "react-icons/fi";
+import { FiPercent, FiPlayCircle, FiSearch } from "react-icons/fi";
 import { VscCallOutgoing } from "react-icons/vsc";
 import CountIcon from "../components/website/CountIcon";
 import Option from "../components/website/Option";
 import { GrClose } from "react-icons/gr";
 import { useState } from "react";
+import Testimonial from "../components/website/Testimonial";
+import BlogItem from "../components/website/BlogItem";
+import Footer from "../components/website/Footer";
 
 function Index() {
   const [play, setPlay] = useState(false);
@@ -57,7 +60,6 @@ function Index() {
         {/**About us section */}
         <div
           className="relative grid grid-cols-1 sm:grid-cols-2 sm:space-x-5 px-10 sm:px-32 text-center sm:text-left py-10 h-128
-          bg-gradient-to-r from-white to-transparent 
           "
           style={{
             backgroundImage:
@@ -224,6 +226,38 @@ function Index() {
             </div>
           )}
         </div>
+
+        {/**testimonial section */}
+        <Testimonial
+          bgImage="https://www.hakaimagazine.com/wp-content/uploads/header-electrocuting-birds.jpg"
+          title="WHAT OUR CUSTOMERS SAY..."
+          testimonials={[
+            {
+              author: "Tridev Sharma",
+              subtitle: "Founder, CEO",
+              text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+            },
+            {
+              author: "Mithesh Sharma",
+              subtitle: "Founder, CEO",
+              text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+            },
+          ]}
+        />
+
+        {/**blogs */}
+        <div className="flex flex-col items-center justify-between bg-white p-10">
+          <h5 className="font-bold mb-5 text-center">
+            Have you read our real estate blog?
+          </h5>
+          <div className="flex flex-col sm:flex-row">
+            <BlogItem />
+            <BlogItem />
+            <BlogItem />
+          </div>
+        </div>
+        {/**footer */}
+        <Footer />
       </div>
     </>
   );

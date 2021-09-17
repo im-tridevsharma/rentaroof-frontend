@@ -74,21 +74,21 @@ function Header() {
               </Link>
             </li>
             <li className="mx-2">
-              <Link href="/for-ibo">
+              <Link href="/">
                 <a className="py-2 px-3 border-b-2 border-transparent">
                   For IBO
                 </a>
               </Link>
             </li>
             <li className="mx-2">
-              <Link href="/for-owners">
+              <Link href="/">
                 <a className="py-2 px-3 border-b-2 border-transparent">
                   For Owners
                 </a>
               </Link>
             </li>
             <li className="mx-2">
-              <Link href="/list-property">
+              <Link href="/">
                 <a className="py-2 px-3 border-b-2 border-transparent">
                   List Property
                 </a>
@@ -96,7 +96,7 @@ function Header() {
             </li>
           </ul>
           <div className="flex ml-5">
-            <Link href="signup">
+            <Link href="/">
               <a
                 className="py-1 px-4 rounded-md text-white"
                 style={{ backgroundColor: "#7b4a9c" }}
@@ -104,7 +104,7 @@ function Header() {
                 Signup
               </a>
             </Link>
-            <Link href="login">
+            <Link href="/">
               <a
                 className="py-1 px-4 rounded-md text-white ml-2"
                 style={{ backgroundColor: "#0179ae" }}

@@ -7,6 +7,7 @@ module.exports = {
   },
   env: {
     BASE_URL: "http://localhost:3000",
-    TINY_API_KEY: "252imz3i3d431bhawu1mjw54lpll8vp4aj0517t8amvffh9i",
+    TINY_API_KEY: process.env.TINY_API_KEY,
+    PARSER_KEY: process.env.PARSER_KEY,
   },
 };

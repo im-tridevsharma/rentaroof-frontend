@@ -1,7 +1,7 @@
 import CryptoJS from "crypto-js";
 
 const parseData = (encryptStr) => {
-  var key = "ZAysJ/+qQGUa9HUrYGUFPFCcT2e+sPC32cHjVPlPON8=";
+  var key = process.env.PARSER_KEY;
   let encrypted = atob(encryptStr);
   encrypted = JSON.parse(encrypted);
   const iv = CryptoJS.enc.Base64.parse(encrypted.iv);
