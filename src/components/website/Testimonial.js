@@ -32,22 +32,32 @@ function Testimonial({ bgImage, title, testimonials }) {
   return (
     <div
       style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, 0.5)),url(${bgImage})`,
-        backgroundPosition: "top",
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, .8), rgba(0, 0, 0, 0.7)),url(${bgImage})`,
+        backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
+        fontFamily: "Opensans-regular",
       }}
       className="px-10 py-5 flex flex-col items-center text-white"
     >
-      <h4 className="text-lg my-10 sm:my-5">{title}</h4>
+      <h4
+        className="text-lg my-10 sm:my-5"
+        style={{ fontFamily: "Opensans-semi-bold" }}
+      >
+        {title}
+      </h4>
       <div className="flex items-center sm:items-start  justify-between mt-1 sm:mt-5 w-full">
-        <div className="mr-5 cursor-pointer" onClick={handlePrev}>
-          <FiArrowLeftCircle className="text-4xl" />
-        </div>
-        <div className="block overflow-hidden">
+        <img
+          src="/icons/home/home_icon7.png"
+          alt="prev"
+          className="cursor-pointer h-10 object-contain"
+          onClick={handlePrev}
+        />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 overflow-hidden px-5">
           {testimonials[index - 1] && (
             <div
-              className={`w-full sm:w-1/2 float-left transition-all duration-300 opacity-${opacity}`}
+              className={`w-full transition-all px-2 duration-300 opacity-${opacity}`}
             >
               <p className="text-gray-200">{testimonials[index - 1]?.text}</p>
               <p className="text-gray-100 mt-5">
@@ -60,7 +70,7 @@ function Testimonial({ bgImage, title, testimonials }) {
           )}
           {testimonials[index] && (
             <div
-              className={`w-full hidden sm:block sm:w-1/2 float-left transition-all duration-300 opacity-${opacity}`}
+              className={`w-full hidden sm:block px-2  transition-all duration-300 opacity-${opacity}`}
             >
               <p className="text-gray-200">{testimonials[index]?.text}</p>
               <p className="text-gray-100 mt-5">
@@ -72,9 +82,12 @@ function Testimonial({ bgImage, title, testimonials }) {
             </div>
           )}
         </div>
-        <div className="ml-5 cursor-pointer" onClick={handleNext}>
-          <FiArrowRightCircle className="text-4xl" />
-        </div>
+        <img
+          src="/icons/home/home_icon8.png"
+          alt="next"
+          className="cursor-pointer h-10 object-contain"
+          onClick={handleNext}
+        />
       </div>
     </div>
   );

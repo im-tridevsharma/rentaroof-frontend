@@ -42,9 +42,17 @@ function Footer() {
       {/**agent finder */}
       <form
         className="flex items-center justify-center p-3"
-        style={{ backgroundColor: "#7b4a9c" }}
+        style={{
+          backgroundColor: "var(--primary-color)",
+          fontFamily: "Opensans-regular",
+        }}
       >
-        <label className="uppercase font-bold text-white">Find an Agent</label>
+        <label
+          className="uppercase font-bold text-white"
+          style={{ fontFamily: "Opensans-semi-bold" }}
+        >
+          Find an Agent
+        </label>
         <input
           type="text"
           name="agent"
@@ -55,7 +63,11 @@ function Footer() {
           type="submit"
           className="bg-gray-400 ml-2 py-2 px-8 rounded-md text-white"
         >
-          <FiSearch />
+          <img
+            src="/icons/home/home_search_icon.png"
+            className="h-4 object-contain"
+            alt="search"
+          />
         </button>
       </form>
       <div className="flex flex-col p-10 pb-0">
@@ -67,42 +79,39 @@ function Footer() {
 
           {/**payment */}
           <div className="flex flex-col mt-3 sm:mt-0">
-            <b className="uppercase text-gray-500">Secure Payments</b>
+            <b
+              className="uppercase text-gray-500"
+              style={{ fontFamily: "Opensans-bold" }}
+            >
+              Secure Payments
+            </b>
             <div className="grid grid-cols-2">
-              <div className="bg-blue-100 my-1 mr-1 p-2 rounded-lg flex items-center justify-center">
-                <img
-                  className="h-7 w-30 object-cover"
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/SOFORT_%C3%9CBERWEISUNG_Logo.svg/1280px-SOFORT_%C3%9CBERWEISUNG_Logo.svg.png"
-                  alt="payment1"
-                />
+              <div className="my-1 mr-1 flex items-center justify-center">
+                <img src="/icons/home/paylogo1.png" alt="payment1" />
               </div>
-              <div className="bg-blue-100 my-1 mr-1 p-2 rounded-lg flex items-center justify-center">
-                <img
-                  className="h-7 w-30 object-cover"
-                  src="https://www.pngall.com/wp-content/uploads/2017/05/Visa-Logo-PNG-Pic.png"
-                  alt="payment2"
-                />
+              <div className="my-1 mr-1 flex items-center justify-center">
+                <img src="/icons/home/paylogo2.png" alt="payment1" />
               </div>
-              <div className="bg-blue-100 my-1 mr-1 p-2 rounded-lg flex items-center justify-center">
-                <img
-                  className="h-7 w-30 object-cover"
-                  src="https://www.vippng.com/png/full/23-235694_american-express-svg-logo.png"
-                  alt="payment3"
-                />
+              <div className="my-1 mr-1 flex items-center justify-center">
+                <img src="/icons/home/paylogo3.png" alt="payment1" />
               </div>
-              <div className="bg-blue-100 my-1 mr-1 p-2 rounded-lg flex items-center justify-center">
-                <img
-                  className="h-7 w-30 object-cover"
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/MasterCard_early_1990s_logo.png/1200px-MasterCard_early_1990s_logo.png"
-                  alt="payment4"
-                />
+              <div className="my-1 mr-1 flex items-center justify-center">
+                <img src="/icons/home/paylogo4.png" alt="payment1" />
               </div>
             </div>
           </div>
           {/**questions */}
           <div className="flex flex-col sm:pl-20 mt-3 sm:mt-0">
-            <b className="uppercase text-gray-500">Have questions?</b>
-            <div className="flex flex-col items-start mt-2">
+            <b
+              className="uppercase text-gray-500"
+              style={{ fontFamily: "Opensans-bold" }}
+            >
+              Have questions?
+            </b>
+            <div
+              className="flex flex-col items-start mt-2"
+              style={{ fontFamily: "Opensans-regular" }}
+            >
               <div className="flex text-gray-700">
                 <FiPhoneCall className="mt-1" />
                 <p className="flex flex-col ml-2 leading-3">
@@ -120,16 +129,21 @@ function Footer() {
                 </p>
               </div>
               <div className="mt-3 flex flex-col">
-                <b className="uppercase text-gray-500">Follow Us</b>
+                <b
+                  className="uppercase text-gray-500"
+                  style={{ fontFamily: "Opensans-bold" }}
+                >
+                  Follow Us
+                </b>
                 <div className="flex text-xl text-gray-500 mt-1">
                   <a href="http://facebook.com">
-                    <FaFacebookSquare />
+                    <img src="/icons/home/fb_grey.png" alt="fb" />
                   </a>
                   <a href="http://twitter.com" className="ml-2">
-                    <FaTwitter />
+                    <img src="/icons/home/twt_grey.png" alt="twitter" />
                   </a>
                   <a href="http://instagram.com" className="ml-2">
-                    <FaInstagram />
+                    <img src="/icons/home/instagrey.png" alt="insa" />
                   </a>
                 </div>
               </div>
@@ -140,7 +154,10 @@ function Footer() {
           className="text-center p-5 border-gray-300"
           style={{ borderTopWidth: "1px" }}
         >
-          <p className="uppercase text-gray-500">
+          <p
+            className="uppercase text-gray-500"
+            style={{ fontFamily: "Opensans-regular" }}
+          >
             &copy; 2021 Rent a Roof | All Rights Reserved.
           </p>
         </div>

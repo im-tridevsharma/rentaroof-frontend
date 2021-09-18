@@ -11,18 +11,25 @@ function BlogItem() {
           alt="blog1"
         />
       </div>
-      <h6 className="text-gray-900 font-bold uppercase text-center">
+      <h6
+        className="text-gray-900 font-bold uppercase text-center"
+        style={{ fontFamily: "Opensans-bold" }}
+      >
         APK Title goes here
       </h6>
-      <p className="text-gray-500 text-center leading-4">
+      <p
+        className="text-gray-500 text-center leading-4"
+        style={{ fontFamily: "Opensans-regular" }}
+      >
         This is a sample content of blog with some content.
       </p>
       <Link href="/">
         <a
           className="uppercase my-2 font-bold flex items-center"
-          style={{ color: "#7b4a9c" }}
+          style={{ color: "#7b4a9c", fontFamily: "Opensans-semi-bold" }}
         >
-          Read More <FiArrowRight className="ml-1" />
+          Read More{" "}
+          <img src="/icons/home/side_arrow.png" className="ml-2" alt="arrow" />
         </a>
       </Link>
     </div>

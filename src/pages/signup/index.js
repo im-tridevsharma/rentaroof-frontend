@@ -45,8 +45,9 @@ function Index() {
           setIsLoading(false);
         }
       })();
+    } else {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   return (
@@ -60,11 +61,13 @@ function Index() {
         <div className="px-5 py-0 absolute sm:relative bg-white w-full h-screen overflow-y-auto">
           <div className="w-28 h-28 overflow-hidden">
             {/**logo */}
-            <img
-              src="/logos/logo.png"
-              alt="logo"
-              className="h-full w-full object-cover"
-            />
+            <Link href="/">
+              <img
+                src="/logos/logo.png"
+                alt="logo"
+                className="h-full w-full object-cover cursor-pointer"
+              />
+            </Link>
           </div>
           {success && (
             <div className="py-2 px-2 text-green-600">

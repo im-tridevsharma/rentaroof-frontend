@@ -13,12 +13,17 @@ function PropertyItem() {
       </div>
       {/**property details */}
       <div className="flex flex-col py-5 items-start">
-        <b>Residental House Villa for Rent in Mumbai </b>
-        <p className="font-thin">APN, Hill palace, Mumbai</p>
+        <b style={{ fontFamily: "Opensans-bold" }}>
+          Residental House Villa for Rent in Mumbai{" "}
+        </b>
+        <p className="font-thin" style={{ fontFamily: "Opensans-semi-bold" }}>
+          APN, Hill palace, Mumbai
+        </p>
         <h6
           className="my-2 font-bold"
           style={{
             color: "var(--primary-color)",
+            fontFamily: "Opensans-bold",
           }}
         >
           ₹ 8,500/month
@@ -27,6 +32,7 @@ function PropertyItem() {
           className="px-3 py-2 text-white uppercase text-2xs rounded-md"
           style={{
             backgroundColor: "var(--secondary-color)",
+            fontFamily: "Opensans-semi-bold",
           }}
         >
           More Info

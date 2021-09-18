@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { FaSearch } from "react-icons/fa";
 import Search from "./forms/Search";
 import Loader from "../../components/loader";
 
@@ -20,7 +19,7 @@ function Banner() {
       {isLoading && <Loader />}
       <div className="w-full h-128 bg-gray-500 relative">
         <img
-          src="https://www.wallpaperkiss.com/wimg/b/216-2169318_big.jpg"
+          src="/images/website/home-house.jpg"
           alt="banner"
           className="w-full h-128 object-cover filter brightness-50"
         />
@@ -29,6 +28,7 @@ function Banner() {
             className="font-bold text-2xl text-white drop-shadow-lg"
             style={{
               fontFamily: "Opensans-bold",
+              textShadow: "0px 2px 1px rgba(0,0,0,.8)",
             }}
           >
             Find Your Perfect Rental Home
@@ -47,7 +47,7 @@ function Banner() {
                   name="type"
                   readOnly
                   value="Rent"
-                  className="rounded-sm w-20 text-gray-500 sm:w-40 border-none h-10 text-sm text-center sm:text-left mb-1 sm:mb-0"
+                  className="rounded-sm w-20 text-gray-500 sm:w-38 border-none h-10 text-sm text-center sm:text-left mb-1 sm:mb-0"
                 />
                 <input
                   type="text"
@@ -60,7 +60,11 @@ function Banner() {
                   className="px-8 sm:px-10 py-2 text-white rounded-md ml-3 text-xl"
                   style={{ backgroundColor: "var(--primary-color)" }}
                 >
-                  <FaSearch />
+                  <img
+                    src="/icons/home/home_search_icon.png"
+                    className="h-5 object-contain"
+                    alt="search"
+                  />
                 </button>
               </div>
               <div className="flex mt-1 flex-col sm:flex-row">

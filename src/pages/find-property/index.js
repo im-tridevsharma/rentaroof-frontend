@@ -29,13 +29,19 @@ function Index() {
         <div className="flex flex-col max-w-2xl w-full">
           {/**refine search */}
           <div className="flex items-center mb-5">
-            <h6 className="font-bold text-sm">Refine Search</h6>
+            <h6
+              className="font-bold text-sm"
+              style={{ fontFamily: "Opensans-bold" }}
+            >
+              Refine Search
+            </h6>
             <form
               name="refineSearch"
               method="POST"
               style={{
                 borderBottomWidth: "1px",
                 borderColor: "var(--primary-color)",
+                fontFamily: "Opensans-regular",
               }}
               className="flex-1 flex px-3 ml-3"
             >
@@ -51,7 +57,9 @@ function Index() {
             </form>
           </div>
           {/**result count */}
-          <p className="font-bold">983 Apartments for "{search}"</p>
+          <p className="font-bold" style={{ fontFamily: "Opensans-bold" }}>
+            983 Apartments for "{search}"
+          </p>
           {/**properties */}
           <div className="flex flex-col mt-3 sm:max-h-128 h-full sm:overflow-hidden sm:overflow-y-auto">
             <PropertyItem />

@@ -2,12 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import Banner from "../components/website/Banner";
 import Header from "../components/website/Header";
-import { BsBuilding } from "react-icons/bs";
-import { IoMdGlobe } from "react-icons/io";
-import { RiCustomerService2Fill } from "react-icons/ri";
-import { IoHomeOutline } from "react-icons/io5";
-import { FiPercent, FiPlayCircle } from "react-icons/fi";
-import { VscCallOutgoing } from "react-icons/vsc";
+import { FiPlayCircle } from "react-icons/fi";
 import CountIcon from "../components/website/CountIcon";
 import Option from "../components/website/Option";
 import { GrClose } from "react-icons/gr";
@@ -36,21 +31,21 @@ function Index() {
         >
           {/**1st */}
           <CountIcon
-            Icon={BsBuilding}
+            Icon={<img src="/icons/home/home_icon1.png" alt="property" />}
             bold1="432,592"
             bold2="New Properties"
             text="added within the last 30 days"
           />
           {/**2nd */}
           <CountIcon
-            Icon={IoMdGlobe}
+            Icon={<img src="/icons/home/home_icon2.png" alt="websites" />}
             bold1="28,998"
             bold2="Visited our website"
             text="within the last 30 days"
           />
           {/**3rd */}
           <CountIcon
-            Icon={RiCustomerService2Fill}
+            Icon={<img src="/icons/home/home_icon3.png" alt="support" />}
             bold1="CUSTOMER SUPPORT"
             bold2="Week Days"
             text="from 10:00-16:00"
@@ -78,7 +73,7 @@ function Index() {
               ></div>
               <div className="w-40 h-48 bg-red-300 overflow-hidden">
                 <img
-                  src="https://images.adsttc.com/media/images/5d71/1cfc/284d/d1d1/4a00/03bd/newsletter/t3.jpg?1567694068"
+                  src="/images/website/building.jpg"
                   alt="img1"
                   className="object-cover h-48"
                 />
@@ -87,7 +82,7 @@ function Index() {
             <div className="flex flex-col mt-3">
               <div className="w-40 h-48 bg-red-300 mb-3 ml-3">
                 <img
-                  src="https://media.istockphoto.com/photos/green-building-picture-id533747483?k=20&m=533747483&s=612x612&w=0&h=mKsH98ad9-xQob6RX3v1QsMzK3i8O-aO2Aj-FKUNEx8="
+                  src="/images/website/office-buildings.jpg"
                   alt="img2"
                   className="object-cover h-48"
                 />
@@ -107,7 +102,10 @@ function Index() {
             >
               Discover Our Apartments
             </h1>
-            <p className="text-gray-700 text-xs">
+            <p
+              className="text-gray-700 text-xs"
+              style={{ fontFamily: "Opensans-regular" }}
+            >
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's standard dummy text
               ever since the 1500s, when an unknown printer took a galley of
@@ -128,22 +126,25 @@ function Index() {
 
         {/**rental section */}
         <div className="flex flex-col items-center justify-center p-10">
-          <h3 className="text-2xl font-semibold text-center">
+          <h3
+            className="text-2xl font-semibold text-center"
+            style={{ fontFamily: "Opensans-bold" }}
+          >
             Are you looking for a rental home?{" "}
           </h3>
           <div className="grid sm:grid-cols-3 sm:space-x-10 p-10">
             <Option
-              Icon={IoHomeOutline}
+              Icon={<img src="/icons/home/home_icon4.png" alt="properties" />}
               title="All properties in one place"
               description="One caveat of the multiple background technique is that a background-color cannot be layered."
             />
             <Option
-              Icon={FiPercent}
+              Icon={<img src="/icons/home/home_icon5.png" alt="money" />}
               title="Compare and save money"
               description="One caveat of the multiple background technique is that a background-color cannot be layered."
             />
             <Option
-              Icon={VscCallOutgoing}
+              Icon={<img src="/icons/home/home_icon6.png" alt="contact" />}
               title="Quick contact"
               description="One caveat of the multiple background technique is that a background-color cannot be layered."
             />
@@ -173,7 +174,7 @@ function Index() {
             <img
               className="object-cover"
               style={{ height: "350px", width: "100%" }}
-              src="https://www.ljhooker.com.au/getmedia/60241a1f-1ed3-48e3-8564-8fd98bf627e4/when-you-know-support_1.jpg.aspx?width=1680&height=853&ext=.jpg"
+              src="/images/website/playvideo.jpg"
               alt="support"
             />
             <FiPlayCircle
@@ -232,7 +233,7 @@ function Index() {
 
         {/**testimonial section */}
         <Testimonial
-          bgImage="https://www.hakaimagazine.com/wp-content/uploads/header-electrocuting-birds.jpg"
+          bgImage="/images/website/night.jpg"
           title="WHAT OUR CUSTOMERS SAY..."
           testimonials={[
             {
@@ -250,7 +251,10 @@ function Index() {
 
         {/**blogs */}
         <div className="flex flex-col items-center justify-between bg-white p-10">
-          <h5 className="font-bold mb-5 text-center">
+          <h5
+            className="font-bold mb-5 text-center"
+            style={{ fontFamily: "Opensans-bold" }}
+          >
             Have you read our real estate blog?
           </h5>
           <div className="flex flex-col sm:flex-row">

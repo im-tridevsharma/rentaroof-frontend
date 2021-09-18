@@ -1,15 +1,6 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  GrFacebookOption,
-  GrInstagram,
-  GrLinkedinOption,
-  GrMail,
-  GrTwitter,
-  GrYoutube,
-} from "react-icons/gr";
-import { FaPhoneAlt } from "react-icons/fa";
 
 function Header() {
   return (
@@ -17,16 +8,19 @@ function Header() {
       {/**header top part */}
       <div
         className="flex flex-col items-center sm:flex-row sm:justify-between px-5 py-3 text-white"
-        style={{ backgroundColor: "var(--primary-color)" }}
+        style={{
+          backgroundColor: "var(--primary-color)",
+          fontFamily: "Opensans-regular",
+        }}
       >
         {/**header top left */}
         <div className="flex flex-col items-center sm:flex-row sm:justify-between max-w-3xl w-full">
           <div className="flex items-center mb-1 sm:mb-0">
-            <GrMail className="text-lg mr-1" />
+            <img src="/icons/home/email_icon.png" alt="mail" className="mr-1" />
             <span>contact@example.com</span>
           </div>
           <div className="flex items-center mb-1 sm:mb-0">
-            <FaPhoneAlt className="text-sm mr-1" />
+            <img src="/icons/home/phone_icon.png" alt="mail" className="mr-1" />
             <span>(123) 456 7890</span>
           </div>
           <div className="flex items-center mb-1 sm:mb-0 text-center">
@@ -38,19 +32,27 @@ function Header() {
         {/**header top right */}
         <div className="flex items-center mt-2 sm:mt-0">
           <a href="http://twitter.com" className="mx-2 hover:text-gray-300">
-            <GrTwitter />
+            <img src="/icons/home/twitter.png" alt="twitter" />
           </a>
           <a href="http://facebook.com" className="mx-2 hover:text-gray-300">
-            <GrFacebookOption />
+            <img
+              src="/icons/home/fb.png"
+              alt="facebook"
+              className="object-contain h-4"
+            />
           </a>
           <a href="http://instagram.com" className="mx-2 hover:text-gray-300">
-            <GrInstagram />
+            <img
+              src="/icons/home/insta.png"
+              alt="instagram"
+              className="object-contain h-4"
+            />
           </a>
           <a href="http://linkedin.com" className="mx-2 hover:text-gray-300">
-            <GrLinkedinOption />
+            <img src="/icons/home/in.png" alt="linkedin" />
           </a>
           <a href="http://youtube.com" className="mx-2 hover:text-gray-300">
-            <GrYoutube />
+            <img src="/icons/home/youtube.png" alt="youtube" />
           </a>
         </div>
       </div>
