@@ -17,7 +17,7 @@ function Header() {
       {/**header top part */}
       <div
         className="flex flex-col items-center sm:flex-row sm:justify-between px-5 py-3 text-white"
-        style={{ backgroundColor: "#7b4a9c" }}
+        style={{ backgroundColor: "var(--primary-color)" }}
       >
         {/**header top left */}
         <div className="flex flex-col items-center sm:flex-row sm:justify-between max-w-3xl w-full">
@@ -66,7 +66,10 @@ function Header() {
           />
         </div>
         {/**navigation */}
-        <div className="flex items-center flex-col sm:flex-row">
+        <div
+          className="flex items-center flex-col sm:flex-row"
+          style={{ fontFamily: "Opensans-semi-bold" }}
+        >
           <ul className="hidden sm:flex sm:items-center">
             <li className="mx-2">
               <Link href="/">
@@ -96,10 +99,10 @@ function Header() {
             </li>
           </ul>
           <div className="flex ml-5">
-            <Link href="/">
+            <Link href="/signup">
               <a
                 className="py-1 px-4 rounded-md text-white"
-                style={{ backgroundColor: "#7b4a9c" }}
+                style={{ backgroundColor: "var(--primary-color)" }}
               >
                 Signup
               </a>
@@ -107,7 +110,7 @@ function Header() {
             <Link href="/">
               <a
                 className="py-1 px-4 rounded-md text-white ml-2"
-                style={{ backgroundColor: "#0179ae" }}
+                style={{ backgroundColor: "var(--secondary-color)" }}
               >
                 Login
               </a>

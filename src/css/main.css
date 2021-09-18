@@ -1,5 +1,55 @@
 @import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.6/css/flag-icon.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Grechen+Fuemen&display=swap");
+
+/* import fonts */
+@font-face {
+  font-family: "Opensans-bold";
+  src: url("../../public/fonts/OPENSANS-BOLD_1.TTF");
+}
+@font-face {
+  font-family: "Opensans-bold-italic";
+  src: url("../../public/fonts/OPENSANS-BOLDITALIC_1.TTF");
+}
+@font-face {
+  font-family: "Opensans-extra-bold";
+  src: url("../../public/fonts/OPENSANS-EXTRABOLD_1.TTF");
+}
+@font-face {
+  font-family: "Opensans-extra-bold-italic";
+  src: url("../../public/fonts/OPENSANS-EXTRABOLDITALIC_1.TTF");
+}
+@font-face {
+  font-family: "Opensans-italic";
+  src: url("../../public/fonts/OPENSANS-ITALIC_1.TTF");
+}
+@font-face {
+  font-family: "Opensans-light";
+  src: url("../../public/fonts/OPENSANS-LIGHT_1.TTF");
+}
+@font-face {
+  font-family: "Opensans-light-italic";
+  src: url("../../public/fonts/OPENSANS-LIGHTITALIC_1.TTF");
+}
+@font-face {
+  font-family: "Opensans-regular";
+  src: url("../../public/fonts/OPENSANS-REGULAR_1.TTF");
+}
+@font-face {
+  font-family: "Opensans-semi-bold";
+  src: url("../../public/fonts/OPENSANS-SEMIBOLD_1.TTF");
+}
+@font-face {
+  font-family: "Opensans-semi-bold-italic";
+  src: url("../../public/fonts/OPENSANS-SEMIBOLDITALIC_1.TTF");
+}
+
+:root {
+  --primary-color: #7b4a9c;
+  --secondary-color: rgb(22 121 178);
+  --orange: #fbb031;
+  --blue: rgb(5 79 138);
+}
 
 h1 {
   @apply text-5xl;

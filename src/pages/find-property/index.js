@@ -35,7 +35,7 @@ function Index() {
               method="POST"
               style={{
                 borderBottomWidth: "1px",
-                borderColor: "#7b4a9c",
+                borderColor: "var(--primary-color)",
               }}
               className="flex-1 flex px-3 ml-3"
             >

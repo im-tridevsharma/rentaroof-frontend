@@ -18,7 +18,7 @@ function PropertyItem() {
         <h6
           className="my-2 font-bold"
           style={{
-            color: "#7b4a9c",
+            color: "var(--primary-color)",
           }}
         >
           ₹ 8,500/month
@@ -26,7 +26,7 @@ function PropertyItem() {
         <button
           className="px-3 py-2 text-white uppercase text-2xs rounded-md"
           style={{
-            backgroundColor: "rgb(16 125 174)",
+            backgroundColor: "var(--secondary-color)",
           }}
         >
           More Info

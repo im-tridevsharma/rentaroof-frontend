@@ -6,7 +6,7 @@ import { BsBuilding } from "react-icons/bs";
 import { IoMdGlobe } from "react-icons/io";
 import { RiCustomerService2Fill } from "react-icons/ri";
 import { IoHomeOutline } from "react-icons/io5";
-import { FiPercent, FiPlayCircle, FiSearch } from "react-icons/fi";
+import { FiPercent, FiPlayCircle } from "react-icons/fi";
 import { VscCallOutgoing } from "react-icons/vsc";
 import CountIcon from "../components/website/CountIcon";
 import Option from "../components/website/Option";
@@ -32,7 +32,7 @@ function Index() {
         {/**counts */}
         <div
           className="grid sm:grid-cols-3 sm:space-x-10 px-10 py-7 text-gray-50"
-          style={{ backgroundColor: "#7b4a9c" }}
+          style={{ backgroundColor: "var(--primary-color)" }}
         >
           {/**1st */}
           <CountIcon
@@ -101,7 +101,10 @@ function Index() {
           {/**about content */}
           <div className="flex flex-col mt-20 sm:mt-0 sm:py-10">
             <b className="text-sm">ABOUT US</b>
-            <h1 className="font-thin text-gray-700 text-3xl w-full sm:w-52 my-3">
+            <h1
+              className="font-thin text-gray-700 text-3xl w-full sm:w-52 my-3"
+              style={{ fontFamily: "Opensans-light" }}
+            >
               Discover Our Apartments
             </h1>
             <p className="text-gray-700 text-xs">
@@ -114,7 +117,7 @@ function Index() {
               <Link href="/">
                 <a
                   className="py-1 px-2 rounded-md text-white"
-                  style={{ backgroundColor: "#7b4a9c" }}
+                  style={{ backgroundColor: "var(--primary-color)" }}
                 >
                   BOOK NOW
                 </a>

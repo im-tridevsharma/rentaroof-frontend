@@ -25,12 +25,20 @@ function Banner() {
           className="w-full h-128 object-cover filter brightness-50"
         />
         <div className="absolute  max-w-4xl w-full text-center top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          <h2 className="font-bold text-2xl text-white drop-shadow-lg">
+          <h2
+            className="font-bold text-2xl text-white drop-shadow-lg"
+            style={{
+              fontFamily: "Opensans-bold",
+            }}
+          >
             Find Your Perfect Rental Home
           </h2>
           <div
             className="p-2 rounded-lg"
-            style={{ backgroundColor: "rgba(0,0,0,.5)" }}
+            style={{
+              backgroundColor: "rgba(0,0,0,.5)",
+              fontFamily: "Opensans-regular",
+            }}
           >
             <form name="findProperty" method="POST" onSubmit={handleSubmit}>
               <div className="flex flex-col sm:flex-row items-center">
@@ -50,7 +58,7 @@ function Banner() {
                 <button
                   type="submit"
                   className="px-8 sm:px-10 py-2 text-white rounded-md ml-3 text-xl"
-                  style={{ backgroundColor: "#7b4a9c" }}
+                  style={{ backgroundColor: "var(--primary-color)" }}
                 >
                   <FaSearch />
                 </button>

@@ -5,7 +5,7 @@ function Breadcrumb({ tagline, path }) {
     <div
       className="flex items-center justify-between py-7 px-6 text-white font-bold"
       style={{
-        backgroundColor: "rgb(16 125 174)",
+        backgroundColor: "var(--secondary-color)",
       }}
     >
       {/**tag line */}
