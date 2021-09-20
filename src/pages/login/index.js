@@ -1,20 +1,28 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { BiBadgeCheck, BiError } from "react-icons/bi";
 import Loader from "../../components/loader";
-import { registerUser } from "../../lib/frontend/auth";
+import { loginUser, setAuthToken } from "../../lib/frontend/auth";
+import Cookies from "universal-cookie";
+import { __e } from "../../server";
+import UseAuthentication from "../../hooks/UseAuthentication";
+import RenderError from "../../components/website/RenderError";
 
 function Index() {
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [state, setState] = useState({
-    role: "",
-    name: "",
     email: "",
     password: "",
+    remember: false,
   });
   const [errors, setErrors] = useState(false);
+  const router = useRouter();
+  const cookies = new Cookies();
+  //check is loggedin
+  const { isAuthenticated } = UseAuthentication();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,18 +38,22 @@ function Index() {
 
     if (!iserror) {
       (async () => {
-        const response = await registerUser(state);
-        if (response?.status) {
+        const response = await loginUser(state);
+        if (response?.access_token) {
           setSuccess(true);
           setErrors(false);
           setIsLoading(false);
-          setState({ role: "", name: "", email: "", password: "" });
-          document.forms.signup.reset();
+          setState({ email: "", password: "", remember: false });
+          setAuthToken(response.access_token);
+          cookies.set("surole", __e(response?.user?.role));
           setTimeout(() => {
             setSuccess(false);
-          }, 2500);
-        } else if (response?.error) {
-          setErrors(response.error);
+            if (response?.user?.role) {
+              router.push(`/${response.user.role}/dashboard`);
+            }
+          }, 1500);
+        } else if (response?.error || response?.message) {
+          setErrors(response.error || { message: [response.message] });
           setIsLoading(false);
         }
       })();
@@ -50,10 +62,10 @@ function Index() {
     }
   };
 
-  return (
+  return !isAuthenticated ? (
     <>
       <Head>
-        <title>SignUp</title>
+        <title>Login</title>
       </Head>
       {isLoading && <Loader />}
       <div className="grid sm:grid-cols-2">
@@ -72,8 +84,8 @@ function Index() {
           {success && (
             <div className="py-2 px-2 text-green-600">
               <p className="flex items-center">
-                <BiBadgeCheck className="text-2xl mr-1" /> Congratulations! You
-                are registered successfully.
+                <BiBadgeCheck className="text-2xl mr-1" />
+                Loggedin successfully! Redirecting to dashboard.
               </p>
             </div>
           )}
@@ -93,7 +105,7 @@ function Index() {
                 fontFamily: "Opensans-bold",
               }}
             >
-              Sign Up
+              Login
               <span
                 className="absolute bottom-0 left-0 w-7 h-1 rounded-full"
                 style={{
@@ -103,71 +115,18 @@ function Index() {
             </h6>
             {/**signup form */}
             <form
-              name="signup"
+              name="login"
               method="POST"
               onSubmit={handleSubmit}
               className="mt-10 px-2 w-full md:w-96"
             >
-              <div className="flex items-start justify-between">
-                <label htmlFor="tenant" className="font-bold">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="tenant"
-                    id="tenant"
-                    onChange={handleChange}
-                  />
-                  <span
-                    className="ml-3"
-                    style={{ fontFamily: "Opensans-bold" }}
-                  >
-                    Tenant
-                  </span>
-                </label>
-                <label htmlFor="ibo" className="font-bold">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="ibo"
-                    id="ibo"
-                    onChange={handleChange}
-                  />
-                  <span
-                    className="ml-3"
-                    style={{ fontFamily: "Opensans-bold" }}
-                  >
-                    IBO
-                  </span>
-                </label>
-                <label htmlFor="landlord" className="font-bold">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="landlord"
-                    id="landlord"
-                    onChange={handleChange}
-                  />
-                  <span
-                    className="ml-3"
-                    style={{ fontFamily: "Opensans-bold" }}
-                  >
-                    Landlord
-                  </span>
-                </label>
-              </div>
-              <div
-                className="form-element mt-5 text-gray-700"
+              <p
+                className="text-gray-700"
                 style={{ fontFamily: "Opensans-semi-bold" }}
               >
-                <div className="form-label">Name</div>
-                <input
-                  type="text"
-                  name="name"
-                  className="form-input rounded-md border-2 border-gray-400"
-                  value={state?.name ? state.name : ""}
-                  onChange={handleChange}
-                />
-              </div>
+                Please login to use the app
+              </p>
+
               <div
                 className="form-element mt-5 text-gray-700"
                 style={{ fontFamily: "Opensans-semi-bold" }}
@@ -193,6 +152,25 @@ function Index() {
                   value={state?.password ? state.password : ""}
                   onChange={handleChange}
                 />
+                <p className="mt-1 flex items-center justify-between">
+                  <label htmlFor="remember">
+                    <input
+                      type="checkbox"
+                      name="remember"
+                      id="remember"
+                      onChange={(e) => {
+                        setState((prev) => ({
+                          ...prev,
+                          remember: e.target.checked ? "yes" : false,
+                        }));
+                      }}
+                    />
+                    <span className="ml-1">Remember me</span>
+                  </label>
+                  <Link href="/">
+                    <a>Forgot password?</a>
+                  </Link>
+                </p>
               </div>
               <button
                 type="submit"
@@ -202,7 +180,7 @@ function Index() {
                   fontFamily: "Opensans-bold",
                 }}
               >
-                Sign Up
+                Login
               </button>
             </form>
 
@@ -239,9 +217,9 @@ function Index() {
                 className="text-center text-gray-500 mt-5"
                 style={{ fontFamily: "Opensans-semi-bold" }}
               >
-                Already have an account ?{" "}
-                <Link href="/login">
-                  <a style={{ color: "var(--blue)" }}>Login</a>
+                Don't have an account ?{" "}
+                <Link href="/signup">
+                  <a style={{ color: "var(--blue)" }}>Sign Up</a>
                 </Link>
               </div>
 
@@ -303,6 +281,8 @@ function Index() {
         </div>
       </div>
     </>
+  ) : (
+    <RenderError error="Redirecting to dashboard..." />
   );
 }
 

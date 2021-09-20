@@ -9,5 +9,6 @@ module.exports = {
     BASE_URL: "http://localhost:3000",
     TINY_API_KEY: process.env.TINY_API_KEY,
     PARSER_KEY: process.env.PARSER_KEY,
+    JWT: process.env.JWT,
   },
 };

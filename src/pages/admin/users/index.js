@@ -9,7 +9,7 @@ import SectionTitle from "../../../components/section-title";
 import getUsers, { deleteUser, getUserById } from "../../../lib/users";
 import UserDetails from "../../../components/user-details";
 import Loader from "../../../components/loader";
-import parseData from "../../../lib/parser";
+import { __d } from "../../../server";
 
 function Index() {
   const [users, setUsers] = useState([]);
@@ -25,7 +25,7 @@ function Index() {
       const response = await getUsers();
       if (response?.status) {
         setIsLoading(false);
-        setUsers(parseData(response.data));
+        setUsers(__d(response.data, true));
       } else {
         router.push("/admin");
       }
@@ -45,7 +45,7 @@ function Index() {
       setIsLoading(true);
       const response = await deleteUser(id);
       if (response?.status) {
-        const data = parseData(response.data);
+        const data = __d(response.data, true);
         const newUsers = users.filter((item) => item.id !== data.id);
         setUsers(newUsers);
         setIsLoading(false);
@@ -57,7 +57,7 @@ function Index() {
     setIsLoading(true);
     const response = await getUserById(id);
     if (response?.status) {
-      setUser(parseData(response.data));
+      setUser(__d(response.data, true));
       setShowDetail(true);
       setIsLoading(false);
     }

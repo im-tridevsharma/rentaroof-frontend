@@ -12,7 +12,7 @@ import { FiAlertCircle, FiCheck } from "react-icons/fi";
 import Datepicker from "../../../components/datepicker";
 import FileUpload from "../../../components/forms/file-upload";
 import Loader from "../../../components/loader";
-import parseData from "../../../lib/parser";
+import { __d } from "../../../server";
 
 function Update() {
   const [errors, setErros] = useState({
@@ -46,7 +46,7 @@ function Update() {
 
       if (userdata?.status) {
         setIsLoading(false);
-        setUser(parseData(userdata.data));
+        setUser(__d(userdata.data, true));
       }
       if (country_data) {
         setCountries(country_data.data);

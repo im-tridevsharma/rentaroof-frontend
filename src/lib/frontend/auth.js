@@ -1,30 +1,23 @@
 import Cookies from "universal-cookie";
 import server, { __e, __d } from "../../server";
+import jwt from "jsonwebtoken";
 
 const cookies = new Cookies();
 
-const getUser = async (details = false) => {
+const isAuthenticated = () => {
   const token = __d(cookies.get("_SYNC_"));
-  let user = false;
-
   if (token) {
-    await server
-      .post(
-        "/auth/profile",
-        { mode: details },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
-      .then((response) => {
-        user = response?.data;
-      })
-      .catch((error) => {
-        user = error?.response?.data;
-      });
+    try {
+      const isvalid = jwt.verify(token, process.env.JWT);
+      return isvalid ? true : false;
+    } catch (err) {
+      cookies.remove("_SYNC_");
+      cookies.remove("surole");
+      return false;
+    }
+  } else {
+    return false;
   }
-
-  return user;
 };
 
 export const logoutUser = async () => {
@@ -64,10 +57,10 @@ export const registerUser = async (data) => {
   return user;
 };
 
-export const loginUser = async (email, password) => {
+export const loginUser = async (data) => {
   let user = false;
   await server
-    .post("/auth/login", { email, password })
+    .post("/auth/login", data)
     .then((response) => {
       user = response?.data;
     })
@@ -111,6 +104,7 @@ export const refreshToken = async (token) => {
 
 export const removeAuthToken = () => {
   cookies.remove("_SYNC_");
+  cookies.remove("surole");
 };
 
 export const getToken = () => {
@@ -118,4 +112,4 @@ export const getToken = () => {
   return __d(token);
 };
 
-export default getUser;
+export default isAuthenticated;
