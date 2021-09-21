@@ -20,6 +20,30 @@ const isAuthenticated = () => {
   }
 };
 
+export const getProfile = async () => {
+  const token = __d(cookies.get("_SYNC_"));
+  let user = false;
+
+  if (token) {
+    await server
+      .post(
+        "/auth/profile",
+        { mode: true },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then((response) => {
+        user = response?.data;
+      })
+      .catch((error) => {
+        user = error?.response?.data;
+      });
+  }
+
+  return user;
+};
+
 export const logoutUser = async () => {
   const token = __d(cookies.get("_SYNC_"));
   let user = false;
@@ -103,8 +127,8 @@ export const refreshToken = async (token) => {
 };
 
 export const removeAuthToken = () => {
-  cookies.remove("_SYNC_");
   cookies.remove("surole");
+  cookies.remove("_SYNC_");
 };
 
 export const getToken = () => {

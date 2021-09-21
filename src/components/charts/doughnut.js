@@ -1,82 +1,67 @@
-import {useSelector, shallowEqual} from 'react-redux'
-import {Doughnut} from 'react-chartjs-2'
-import {getColor, isDarkPalette} from '../../functions/colors'
-import {random} from '../../functions/numbers'
+import { Doughnut } from "react-chartjs-2";
 
-const Chart = ({height}) => {
-  const {palettes, collapsed, layout} = useSelector(
-    state => ({
-      palettes: state.palettes,
-      collapsed: state.collapsed,
-      layout: state.layout
-    }),
-    shallowEqual
-  )
-  const {background} = {...palettes}
-  const isDark = isDarkPalette(background)
-  const key = `${layout}-${collapsed}-${background}`
+const Chart = ({ height, chartdata }) => {
+  const colors = [...chartdata?.colors];
 
-  const colors = [
-    getColor('bg-red-500'),
-    getColor('bg-blue-500'),
-    getColor('bg-yellow-500')
-  ]
-
-  const hoverColors = [
-    getColor('bg-red-600'),
-    getColor('bg-blue-600'),
-    getColor('bg-yellow-600')
-  ]
+  const hoverColors = [...chartdata?.hoverColors];
 
   const data = {
-    labels: ['Orders', 'Income', 'Users'],
+    labels: [...chartdata?.labels],
     datasets: [
       {
-        data: [random(50, 100), random(50, 100), random(50, 100)],
+        data: [...chartdata?.values],
         backgroundColor: colors,
         borderColor: colors,
         hoverBorderColor: hoverColors,
-        hoverBackgroundColor: hoverColors
-      }
-    ]
-  }
+        hoverBackgroundColor: hoverColors,
+      },
+    ],
+  };
 
   const legend = {
-    display: true,
+    display: false,
     labels: {
-      fontColor: isDark ? getColor('text-gray-100') : getColor('text-gray-900'),
+      fontColor: chartdata?.fontcolor,
       boxWidth: 10,
-      fontSize: 11
-    }
-  }
+      fontSize: 11,
+    },
+  };
 
   const options = {
+    legend: {
+      display: chartdata?.legend,
+    },
+    tooltips: {
+      enabled: chartdata?.tooltip,
+    },
     cutoutPercentage: 50,
     animation: {
-      duration: 0
+      duration: 0,
     },
     maintainAspectRatio: false,
     layout: {
       padding: {
-        left: 10,
-        right: 10,
-        top: 10,
-        bottom: 10
-      }
-    }
-  }
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 10,
+      },
+    },
+  };
 
   return (
-    <div style={{height: height}}>
-      <Doughnut
-        key={key}
-        data={data}
-        height={height}
-        options={options}
-        legend={legend}
-      />
+    <div style={{ height: height }}>
+      {chartdata && (
+        <Doughnut
+          key={chartdata?.key}
+          data={data}
+          height={height}
+          options={options}
+          legend={legend}
+        />
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Chart
+export default Chart;

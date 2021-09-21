@@ -1,107 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-function Sidebar({ name }) {
+function Sidebar({ name, page, sideBarToggled }) {
   const router = useRouter();
+  const [links, setLinks] = useState([]);
+  const isHidden = sideBarToggled ? "hidden" : "";
+  const role = name.toLowerCase() === "user" ? "tenant" : name.toLowerCase();
 
-  const links = [
-    {
-      label: "Dashboard",
-      href: "/tenant/dashboard",
-      icon: (
-        <img
-          src="/icons/user-dashboard/dashboardicon.png"
-          alt="dashboard"
-          className="object-contain w-5 h-5"
-        />
-      ),
-    },
-    {
-      label: "Profile",
-      href: "/",
-      icon: (
-        <img
-          src="/icons/user-dashboard/profile_icon.png"
-          alt="profile"
-          className="object-contain w-5 h-5"
-        />
-      ),
-    },
-    {
-      label: "Properties",
-      href: "/",
-      icon: (
-        <img
-          src="/icons/user-dashboard/icon3.png"
-          alt="properties"
-          className="object-contain w-5 h-5"
-        />
-      ),
-    },
-    {
-      label: "Wallet",
-      href: "/",
-      icon: (
-        <img
-          src="/icons/user-dashboard/wallet_icon.png"
-          alt="wallet"
-          className="object-contain w-5 h-5"
-        />
-      ),
-    },
-    {
-      label: "Payment",
-      href: "/",
-      icon: (
-        <img
-          src="/icons/user-dashboard/money_icon.png"
-          alt="payment"
-          className="object-contain w-5 h-5"
-        />
-      ),
-    },
-    {
-      label: "Complain Management",
-      href: "/",
-      icon: (
-        <img
-          src="/icons/user-dashboard/icon4_grey.png"
-          alt="complain"
-          className="object-contain w-5 h-5"
-        />
-      ),
-    },
-    {
-      label: "Notification",
-      href: "/",
-      icon: (
-        <img
-          src="/icons/user-dashboard/notification_icon5.png"
-          alt="notification"
-          className="object-contain w-5 h-5"
-        />
-      ),
-    },
-  ];
+  useEffect(() => {
+    (async () => {
+      const links = await import(`../../../json/${role}.js`);
+      setLinks(links.default);
+    })();
+  }, []);
 
   return (
-    <div className="flex flex-col w-56 h-screen z-40">
+    <div
+      className={`flex flex-col transition-width duration-500 ease ${
+        sideBarToggled ? "w-16" : "w-64"
+      } h-screen z-40`}
+    >
       {/**logo */}
       <div>
-        <Link
-          href={`/${
-            name?.toLowerCase() === "user" ? "tenant" : name?.toLowerCase()
-          }/dashboard`}
-        >
-          <a className="flex items-center py-2 px-4 bg-white">
+        <Link href={`/${role}/dashboard`}>
+          <a
+            className="flex items-center py-2 px-4 bg-white"
+            style={{ height: "52px" }}
+          >
             <img
               src="/logos/logo-icon.png"
               alt="logo"
               className="h-8 object-contain"
             />
+
             <p
-              className="uppercase text-xl mt-2"
+              className={`uppercase text-xl mt-2 ${isHidden}`}
               style={{ fontFamily: "Opensans-bold" }}
             >
               <span style={{ color: "var(--blue)" }}>Rent a</span>
@@ -112,11 +46,18 @@ function Sidebar({ name }) {
       </div>
       {/**dashboard name */}
       <div
-        className="p-2 text-gray-100 text-center uppercase text-xs"
-        style={{ backgroundColor: "var(--blue)", fontFamily: "Opensans-bold" }}
-      >{`${name} dashboard`}</div>
+        className={`h-8 flex items-center justify-center text-center text-gray-100 uppercase ${
+          sideBarToggled ? "" : "text-xs"
+        }`}
+        style={{
+          backgroundColor: "var(--blue)",
+          fontFamily: "Opensans-bold",
+          fontSize: sideBarToggled && "8px",
+          lineHeight: sideBarToggled && "8px",
+        }}
+      >{`${name} ${page}`}</div>
       {/**render navigation */}
-      <nav className="">
+      <nav>
         <ul style={{ fontFamily: "Opensans-semi-bold" }}>
           {links?.length > 0 &&
             links.map((link, i) => (
@@ -128,7 +69,8 @@ function Sidebar({ name }) {
                       borderBottomWidth: "1px",
                     }}
                   >
-                    {link?.icon} <span className="ml-2">{link?.label}</span>
+                    {link?.icon}{" "}
+                    <span className={`ml-2 ${isHidden}`}>{link?.label}</span>
                   </a>
                 </Link>
                 {router.route === link?.href && (
