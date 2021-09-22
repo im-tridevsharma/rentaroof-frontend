@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { MdClose } from "react-icons/md";
 
-function Sidebar({ name, page, sideBarToggled }) {
+function Sidebar({ name, page, sideBarToggled, isHide, setIsHide }) {
   const router = useRouter();
   const [links, setLinks] = useState([]);
   const isHidden = sideBarToggled ? "hidden" : "";
@@ -17,11 +18,12 @@ function Sidebar({ name, page, sideBarToggled }) {
 
   return (
     <div
-      className="flex flex-col transition-width duration-500 ease h-screen z-40"
-      style={{
-        minWidth: sideBarToggled ? "64px" : "256px",
-        width: sideBarToggled ? "64px" : "256px",
-      }}
+      className={`sm:relative absolute ${
+        isHide && "hidden"
+      } bg-white flex flex-col transition-all duration-500 ease h-screen z-40 ${
+        sideBarToggled ? "w-16" : "w-64"
+      }`}
+      style={{ minWidth: sideBarToggled ? "64px" : "256px" }}
     >
       {/**logo */}
       <div>
@@ -86,6 +88,12 @@ function Sidebar({ name, page, sideBarToggled }) {
               </li>
             ))}
         </ul>
+        <span
+          onClick={() => setIsHide(true)}
+          className="sm:hidden inline-block cursor-pointer m-4 p-2 text-white bg-red-400 rounded-full"
+        >
+          <MdClose />
+        </span>
       </nav>
     </div>
   );

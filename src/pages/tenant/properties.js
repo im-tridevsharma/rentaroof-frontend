@@ -50,7 +50,7 @@ function Properties() {
     return (
       <div className="flex flex-col">
         {/**cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
+        <div className="grid grid-cols-1 space-y-3 md:grid-cols-3 md:space-x-3 md:space-y-0">
           <Card
             label="Visited Properties"
             icon={

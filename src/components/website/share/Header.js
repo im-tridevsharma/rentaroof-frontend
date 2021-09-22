@@ -3,7 +3,14 @@ import { useRouter } from "next/router";
 import { logoutUser, removeAuthToken } from "../../../lib/frontend/auth";
 import Loader from "../../loader";
 
-function Header({ page, sideBarToggled, setSideBarToggled, user, setUser }) {
+function Header({
+  page,
+  sideBarToggled,
+  setSideBarToggled,
+  user,
+  setUser,
+  setIsHide,
+}) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -36,7 +43,10 @@ function Header({ page, sideBarToggled, setSideBarToggled, user, setUser }) {
           {/**toggler */}
           <div
             className="mr-10 cursor-pointer"
-            onClick={() => setSideBarToggled(!sideBarToggled)}
+            onClick={() => {
+              setSideBarToggled(!sideBarToggled);
+              setIsHide(false);
+            }}
           >
             <img
               src="/icons/user-dashboard/arrow-slider-icon.png"

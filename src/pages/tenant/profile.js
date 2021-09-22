@@ -21,7 +21,7 @@ function Profile() {
       if (response?.status) {
         setIsLoading(false);
         setProfile(response?.user);
-        setProfilePic(response?.user.profile_pic);
+        setProfilePic(response?.user?.profile_pic);
       } else {
         console.error(response?.error || response?.message);
         setIsLoading(false);

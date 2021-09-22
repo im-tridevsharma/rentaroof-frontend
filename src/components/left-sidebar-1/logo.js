@@ -18,8 +18,23 @@ const Logo = () => {
     return (
       <div className="logo truncate">
         <Link href="/admin/dashboard">
-          <a className="flex items-center justify-center w-full mt-8 -m-3">
-            <Image src="/icons/ms-icon-150x150.png" width={70} height={70} />
+          <a
+            className="flex items-center py-2 bg-white"
+            style={{ height: "52px" }}
+          >
+            <img
+              src="/logos/logo-icon.png"
+              alt="logo"
+              className="h-8 object-contain"
+            />
+
+            <p
+              className="uppercase text-xl mt-2"
+              style={{ fontFamily: "Opensans-bold" }}
+            >
+              <span style={{ color: "var(--blue)" }}>Rent a</span>
+              <span style={{ color: "var(--orange)" }}> Roof</span>
+            </p>
           </a>
         </Link>
         <button

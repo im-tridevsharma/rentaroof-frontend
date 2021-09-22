@@ -5,6 +5,7 @@ import Sidebar from "./share/Sidebar";
 
 function UIRenderer({ UI, role, page }) {
   const [sideBarToggled, setSideBarToggled] = useState(false);
+  const [isHide, setIsHide] = useState(false);
   const [user, setUser] = useState({});
 
   useEffect(() => {
@@ -18,7 +19,13 @@ function UIRenderer({ UI, role, page }) {
   return (
     <div className="flex">
       {/**sider bar */}
-      <Sidebar name={role} page={page} sideBarToggled={sideBarToggled} />
+      <Sidebar
+        name={role}
+        page={page}
+        sideBarToggled={sideBarToggled}
+        isHide={isHide}
+        setIsHide={setIsHide}
+      />
       {/**content */}
       <div className="flex flex-col flex-grow">
         {/**header */}
@@ -28,6 +35,7 @@ function UIRenderer({ UI, role, page }) {
           setSideBarToggled={setSideBarToggled}
           user={user}
           setUser={setUser}
+          setIsHide={setIsHide}
         />
         {/**main content */}
         <div

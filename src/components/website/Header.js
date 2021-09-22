@@ -60,12 +60,26 @@ function Header() {
       <div className="px-5 py-2 bg-white flex flex-col sm:flex-row items-center sm:justify-between">
         {/**logo */}
         <div>
-          <Image
-            src="/logos/logorentaroof.png"
-            alt="logo"
-            width={200}
-            height={55}
-          />
+          <Link href="/">
+            <a
+              className="flex items-center bg-white"
+              style={{ height: "52px" }}
+            >
+              <img
+                src="/logos/logo-icon.png"
+                alt="logo"
+                className="h-8 object-contain"
+              />
+
+              <p
+                className="uppercase text-xl mt-2"
+                style={{ fontFamily: "Opensans-bold" }}
+              >
+                <span style={{ color: "var(--blue)" }}>Rent a</span>
+                <span style={{ color: "var(--orange)" }}> Roof</span>
+              </p>
+            </a>
+          </Link>
         </div>
         {/**navigation */}
         <div
