@@ -135,7 +135,7 @@ function Header({ page, sideBarToggled, setSideBarToggled, user, setUser }) {
             </b>
           </div>
           <div className="flex items-center">
-            <span className="text-gray-400">{page} /</span>
+            <span className="text-gray-400">Dashboard/</span>
             <b className="text-gray-600 ml-1">{page}</b>
           </div>
         </div>

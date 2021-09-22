@@ -13,7 +13,7 @@ const links = [
   },
   {
     label: "Profile",
-    href: "/",
+    href: "/tenant/profile",
     icon: (
       <img
         src="/icons/user-dashboard/profile_icon.png"
@@ -25,7 +25,7 @@ const links = [
   },
   {
     label: "Properties",
-    href: "/",
+    href: "/tenant/properties",
     icon: (
       <img
         src="/icons/user-dashboard/icon3.png"

@@ -45,7 +45,7 @@ function Index() {
           setIsLoading(false);
           setState({ email: "", password: "", remember: false });
           setAuthToken(response.access_token);
-          cookies.set("surole", __e(response?.user?.role));
+          cookies.set("surole", __e(response?.user?.role), { path: "/" });
           //save user
           localStorage.setItem("LU", __e(JSON.stringify(response?.user)));
           setTimeout(() => {

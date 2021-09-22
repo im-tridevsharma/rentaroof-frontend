@@ -17,9 +17,11 @@ function Sidebar({ name, page, sideBarToggled }) {
 
   return (
     <div
-      className={`flex flex-col transition-width duration-500 ease ${
-        sideBarToggled ? "w-16" : "w-64"
-      } h-screen z-40`}
+      className="flex flex-col transition-width duration-500 ease h-screen z-40"
+      style={{
+        minWidth: sideBarToggled ? "64px" : "256px",
+        width: sideBarToggled ? "64px" : "256px",
+      }}
     >
       {/**logo */}
       <div>
@@ -46,7 +48,7 @@ function Sidebar({ name, page, sideBarToggled }) {
       </div>
       {/**dashboard name */}
       <div
-        className={`h-8 flex items-center justify-center text-center text-gray-100 uppercase ${
+        className={`flex items-center justify-center text-center text-gray-100 uppercase ${
           sideBarToggled ? "" : "text-xs"
         }`}
         style={{
@@ -54,6 +56,8 @@ function Sidebar({ name, page, sideBarToggled }) {
           fontFamily: "Opensans-bold",
           fontSize: sideBarToggled && "8px",
           lineHeight: sideBarToggled && "8px",
+          minHeight: "32px",
+          height: "32px",
         }}
       >{`${name} ${page}`}</div>
       {/**render navigation */}

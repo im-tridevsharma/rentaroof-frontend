@@ -14,11 +14,14 @@ function UseAuthentication() {
       cookies.remove("_SYNC_");
       cookies.remove("surole");
     }
-    !isAuthenticated()
-      ? router.push("/login")
-      : role
-      ? router.push(`/${__d(cookies.get("surole"))}/dashboard`)
-      : router.push("/login");
+
+    if (!isAuthenticated()) {
+      router.push("/login");
+    } else if (role && router.route === "/login") {
+      router.push(`/${role}/dashboard`);
+    } else if (!router.route.includes(role)) {
+      router.push(`/${role}/dashboard`);
+    }
   }, []);
 
   return { isAuthenticated: isAuthenticated() };

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getProfile } from "../lib/frontend/auth";
+import { getProfile, removeAuthToken } from "../lib/frontend/auth";
 
 function useProfile() {
   const [profile, setProfile] = useState(false);
@@ -10,6 +10,10 @@ function useProfile() {
         const response = await getProfile();
         if (response?.status) {
           setProfile(response.data);
+        } else {
+          removeAuthToken.then(() => {
+            console.log("Something went wrong!");
+          });
         }
       })();
     }

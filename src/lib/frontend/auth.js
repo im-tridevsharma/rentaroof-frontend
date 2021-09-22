@@ -11,8 +11,8 @@ const isAuthenticated = () => {
       const isvalid = jwt.verify(token, process.env.JWT);
       return isvalid ? true : false;
     } catch (err) {
-      cookies.remove("_SYNC_");
-      cookies.remove("surole");
+      cookies.remove("surole", { path: "/" });
+      cookies.remove("_SYNC_", { path: "/" });
       return false;
     }
   } else {
@@ -127,8 +127,8 @@ export const refreshToken = async (token) => {
 };
 
 export const removeAuthToken = () => {
-  cookies.remove("surole");
-  cookies.remove("_SYNC_");
+  cookies.remove("surole", { path: "/" });
+  cookies.remove("_SYNC_", { path: "/" });
 };
 
 export const getToken = () => {
