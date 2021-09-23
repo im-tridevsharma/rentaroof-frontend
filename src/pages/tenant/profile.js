@@ -323,7 +323,9 @@ function Profile() {
       <Head>
         <title>Profile</title>
       </Head>
-      <UIRenderer UI={ProfileUI} role="User" page="Profile" />
+      <div>
+        <UIRenderer UI={ProfileUI} role="User" page="Profile" />
+      </div>
     </>
   ) : (
     <RenderError error="Unauthenticated" auth={isAuthenticated} />

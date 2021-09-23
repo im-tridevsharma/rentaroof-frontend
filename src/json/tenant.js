@@ -37,7 +37,7 @@ const links = [
   },
   {
     label: "Wallet",
-    href: "/",
+    href: "/tenant/wallet",
     icon: (
       <img
         src="/icons/user-dashboard/wallet_icon.png"

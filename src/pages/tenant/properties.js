@@ -157,7 +157,9 @@ function Properties() {
       <Head>
         <title>Properties</title>
       </Head>
-      <UIRenderer UI={PropertiesUI} role="User" page="Properties" />
+      <div>
+        <UIRenderer UI={PropertiesUI} role="User" page="Properties" />
+      </div>
     </>
   ) : (
     <RenderError error="Unauthenticated" auth={isAuthenticated} />

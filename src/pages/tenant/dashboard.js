@@ -261,7 +261,9 @@ function Dashboard() {
       <Head>
         <title>Dashboard</title>
       </Head>
-      <UIRenderer UI={DashboardUI} role="User" page="Dashboard" />
+      <div>
+        <UIRenderer UI={DashboardUI} role="User" page="Dashboard" />
+      </div>
     </>
   ) : (
     <RenderError error="Unauthenticated" />
