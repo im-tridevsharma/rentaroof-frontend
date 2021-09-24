@@ -3,19 +3,19 @@ import Head from "next/head";
 import RenderError from "../../components/website/RenderError";
 import UseAuthentication from "../../hooks/UseAuthentication";
 import UIRenderer from "../../components/website/UIRenderer";
-import WalletUI from "../../components/website/ui/user/WalletUI";
+import ComplainManagementUI from "../../components/website/ui/user/ComplainManagementUI";
 
-function Wallet() {
+function ComplainManagement() {
   //authentication hook
   const { isAuthenticated } = UseAuthentication();
 
   return isAuthenticated ? (
     <>
       <Head>
-        <title>Wallet</title>
+        <title>Complain Management</title>
       </Head>
       <div>
-        <UIRenderer UI={WalletUI} role="User" page="Wallet" />
+        <UIRenderer UI={ComplainManagementUI} role="User" page="Complain" />
       </div>
     </>
   ) : (
@@ -23,4 +23,4 @@ function Wallet() {
   );
 }
 
-export default Wallet;
+export default ComplainManagement;

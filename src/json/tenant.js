@@ -49,7 +49,7 @@ const links = [
   },
   {
     label: "Payment",
-    href: "/",
+    href: "/tenant/payment",
     icon: (
       <img
         src="/icons/user-dashboard/money_icon.png"
@@ -61,7 +61,7 @@ const links = [
   },
   {
     label: "Complain Management",
-    href: "/",
+    href: "/tenant/complain_management",
     icon: (
       <img
         src="/icons/user-dashboard/icon4_grey.png"
@@ -73,7 +73,7 @@ const links = [
   },
   {
     label: "Notification",
-    href: "/",
+    href: "/tenant/notification",
     icon: (
       <img
         src="/icons/user-dashboard/notification_icon5.png"

@@ -3,19 +3,19 @@ import Head from "next/head";
 import RenderError from "../../components/website/RenderError";
 import UseAuthentication from "../../hooks/UseAuthentication";
 import UIRenderer from "../../components/website/UIRenderer";
-import WalletUI from "../../components/website/ui/user/WalletUI";
+import ChatUI from "../../components/website/ui/user/ChatUI";
 
-function Wallet() {
+function Chat() {
   //authentication hook
   const { isAuthenticated } = UseAuthentication();
 
   return isAuthenticated ? (
     <>
       <Head>
-        <title>Wallet</title>
+        <title>Chat</title>
       </Head>
       <div>
-        <UIRenderer UI={WalletUI} role="User" page="Wallet" />
+        <UIRenderer UI={ChatUI} role="User" page="Chat" />
       </div>
     </>
   ) : (
@@ -23,4 +23,4 @@ function Wallet() {
   );
 }
 
-export default Wallet;
+export default Chat;

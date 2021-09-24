@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { logoutUser, removeAuthToken } from "../../../lib/frontend/auth";
 import Loader from "../../loader";
@@ -74,37 +75,45 @@ function Header({
           <div className="flex items-center">
             {/**notification */}
             <div className="relative mx-3">
-              <img
-                src="/icons/user-dashboard/bell_icon.png"
-                alt="notification"
-                className="object-contain cursor-pointer"
-                style={{ maxWidth: "16px", width: "16px", height: "16px" }}
-              />
-              <span
-                className="absolute -top-1 -right-2 text-3xs text-white rounded-full"
-                style={{ backgroundColor: "var(--orange)" }}
-              >
-                10
-              </span>
+              <Link href={`/${user?.role}/notification`}>
+                <a>
+                  <img
+                    src="/icons/user-dashboard/bell_icon.png"
+                    alt="notification"
+                    className="object-contain cursor-pointer"
+                    style={{ maxWidth: "16px", width: "16px", height: "16px" }}
+                  />
+                  <span
+                    className="absolute -top-1 -right-2 text-3xs text-white rounded-full"
+                    style={{ backgroundColor: "var(--orange)" }}
+                  >
+                    10
+                  </span>
+                </a>
+              </Link>
             </div>
             {/**chat */}
             <div className="relative mx-3">
-              <img
-                src="/icons/user-dashboard/chat_icon.png"
-                alt="chat"
-                className="object-contain cursor-pointer"
-                style={{
-                  maxWidth: "16px",
-                  width: "16px",
-                  height: "16px",
-                }}
-              />
-              <span
-                className="absolute -top-1 -right-2 text-3xs text-white rounded-full"
-                style={{ backgroundColor: "var(--orange)" }}
-              >
-                18
-              </span>
+              <Link href={`/${user?.role}/chat`}>
+                <a>
+                  <img
+                    src="/icons/user-dashboard/chat_icon.png"
+                    alt="chat"
+                    className="object-contain cursor-pointer"
+                    style={{
+                      maxWidth: "16px",
+                      width: "16px",
+                      height: "16px",
+                    }}
+                  />
+                  <span
+                    className="absolute -top-1 -right-2 text-3xs text-white rounded-full"
+                    style={{ backgroundColor: "var(--orange)" }}
+                  >
+                    18
+                  </span>
+                </a>
+              </Link>
             </div>
             {/**user profile */}
             <div className="flex" style={{ fontFamily: "Opensans-semi-bold" }}>

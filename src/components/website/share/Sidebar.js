@@ -22,7 +22,7 @@ function Sidebar({ name, page, sideBarToggled, isHide, setIsHide }) {
 
   return (
     <>
-      {isLoading && <Loader />}
+      {isLoading && <Loader overlay={true} />}
       <div
         className={`sm:relative absolute ${
           isHide && "hidden"
@@ -99,7 +99,7 @@ function Sidebar({ name, page, sideBarToggled, isHide, setIsHide }) {
                   </Link>
                   {router.route === link?.href && (
                     <span
-                      className="absolute w-1 h-10 bottom-0"
+                      className="absolute w-1 h-full bottom-0"
                       style={{ backgroundColor: "var(--orange)" }}
                     ></span>
                   )}
