@@ -129,7 +129,7 @@ function Header({
               >
                 <img
                   src={user?.profile_pic || "/icons/user-dashboard/man.png"}
-                  className="object-contain cursor-pointer"
+                  className="object-cover cursor-pointer"
                   style={{ maxWidth: "24px", width: "24px", height: "24px" }}
                   alt="user"
                   onClick={handleLogout}

@@ -1,12 +1,28 @@
 import React, { useEffect, useState } from "react";
 import Loader from "../../../loader";
-import { getProfile } from "../../../../lib/frontend/auth";
+import {
+  getProfile,
+  updatePassword,
+  updateProfile,
+} from "../../../../lib/frontend/auth";
+import { FiAlertTriangle, FiCheckCircle } from "react-icons/fi";
 
 function ProfileUI() {
   const [isLoading, setIsLoading] = useState(false);
   const [profilePic, setProfilePic] = useState("");
   const [fileError, setFileError] = useState("");
   const [profile, setProfile] = useState({});
+  const [submitMode, setSubmitMode] = useState("save");
+  const [errors, setErrors] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+  const [isUpdated, setIsUpdated] = useState(false);
+  const [password, setPassword] = useState({
+    current_password: "",
+    new_password: "",
+    confirm_password: "",
+    _method: "PUT",
+  });
+  const [perrors, setPErrors] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -50,6 +66,73 @@ function ProfileUI() {
       ...prev,
       [name]: value,
     }));
+    setErrors(false);
+  };
+
+  const handlePasswordChange = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    setPassword((prev) => ({ ...prev, [name]: value }));
+    setPErrors(false);
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    if (submitMode === "save") {
+      const formdata = new FormData(document.forms.profile);
+      const iserror = errors
+        ? Object.keys(errors).filter((index) => errors[index] !== false)
+        : false;
+      if (!iserror?.length) {
+        submitProfileData(formdata);
+      }
+    } else if (submitMode === "update") {
+      const iserror = perrors
+        ? Object.keys(perrors).filter((index) => perrors[index] !== false)
+        : false;
+      if (!iserror?.length) {
+        submitPasswordData(password);
+      } else {
+        setIsLoading(false);
+      }
+    }
+  };
+
+  const submitProfileData = async (formdata) => {
+    const response = await updateProfile(profile.id, formdata);
+    if (response?.status) {
+      setIsSaved(true);
+      setIsLoading(false);
+      setTimeout(() => {
+        setIsSaved(false);
+      }, 1000);
+      setErrors(false);
+    } else if (response?.error) {
+      setIsLoading(false);
+      setErrors(response.error);
+    }
+  };
+
+  const submitPasswordData = async (password) => {
+    const response = await updatePassword(profile.id, password);
+    if (response?.status) {
+      setIsUpdated(true);
+      setIsLoading(false);
+      setTimeout(() => {
+        setIsUpdated(false);
+      }, 1000);
+      setPassword({
+        current_password: "",
+        new_password: "",
+        confirm_password: "",
+        _method: "PUT",
+      });
+      setPErrors(false);
+    } else if (response?.error) {
+      setIsLoading(false);
+      setPErrors(response.error);
+    }
   };
 
   return (
@@ -66,6 +149,7 @@ function ProfileUI() {
           method="POST"
           className="flex flex-col"
           encType="multipart/form-data"
+          onSubmit={submitHandler}
         >
           <input type="hidden" name="_method" value="PUT" />
           {/**add your photo */}
@@ -78,7 +162,7 @@ function ProfileUI() {
                 Add Your Photo
               </p>
               <div
-                className="w-28 h-28 border-gray-200"
+                className="w-28 h-28 border-gray-200 rounded-md overflow-hidden"
                 style={{ borderWidth: "1px" }}
               >
                 {profilePic && (
@@ -119,7 +203,25 @@ function ProfileUI() {
               </div>
             </div>
           </div>
-
+          <div className="mt-10 leading-3 -mb-4">
+            {errors && (
+              <div className="errors">
+                {Object.keys(errors).map((index, i) => (
+                  <div className="w-full mb-2" key={i}>
+                    <p className="text-red-500 flex items-center">
+                      <FiAlertTriangle className="mr-1" /> {errors[index]}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+            {isSaved && (
+              <p className="flex items-center text-green-600">
+                <FiCheckCircle className="mr-1" /> Profile information saved
+                successfully.
+              </p>
+            )}
+          </div>
           {/**account information */}
           <div
             className="relative flex flex-col border-gray-200 py-5 px-10 mt-10"
@@ -220,7 +322,7 @@ function ProfileUI() {
                 </div>
                 <input
                   type="text"
-                  name="mobile"
+                  name="full_address"
                   className="form-input border-gray-300"
                   value={profile?.address?.full_address || ""}
                   onChange={(e) => {
@@ -236,7 +338,25 @@ function ProfileUI() {
               </div>
             </div>
           </div>
-
+          <div className="leading-3 mb-3">
+            {perrors && (
+              <div className="errors">
+                {Object.keys(perrors).map((index, i) => (
+                  <div className="w-full mb-2" key={i}>
+                    <p className="text-red-500 flex items-center">
+                      <FiAlertTriangle className="mr-1" /> {perrors[index]}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+            {isUpdated && (
+              <p className="flex items-center text-green-600">
+                <FiCheckCircle className="mr-1" /> Password updated
+                successfully.
+              </p>
+            )}
+          </div>
           {/**change password */}
           <div
             className="relative flex flex-col border-gray-200 py-5 px-10 mt-1"
@@ -263,6 +383,8 @@ function ProfileUI() {
                   type="password"
                   name="current_password"
                   className="form-input border-gray-300"
+                  value={password.current_password}
+                  onChange={handlePasswordChange}
                 />
               </div>
               <div className="form-element">
@@ -273,6 +395,8 @@ function ProfileUI() {
                   type="password"
                   name="new_password"
                   className="form-input border-gray-300"
+                  value={password.new_password}
+                  onChange={handlePasswordChange}
                 />
               </div>
               <div className="form-element">
@@ -283,23 +407,25 @@ function ProfileUI() {
                   type="password"
                   name="confirm_password"
                   className="form-input border-gray-300"
+                  value={password.confirm_password}
+                  onChange={handlePasswordChange}
                 />
               </div>
             </div>
             <div className="">
               <button
-                name="update"
                 type="submit"
                 className="px-4 py-2 text-white rounded-sm"
                 style={{ backgroundColor: "var(--blue)" }}
+                onClick={() => setSubmitMode("update")}
               >
                 Update
               </button>
               <button
-                name="save"
                 type="submit"
                 className="px-4 py-2 text-white rounded-sm ml-2"
                 style={{ backgroundColor: "var(--orange)" }}
+                onClick={() => setSubmitMode("save")}
               >
                 Save All
               </button>

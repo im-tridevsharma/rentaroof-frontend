@@ -1,17 +1,18 @@
 import React from "react";
 import moment from "moment";
 
-function ChatUser({ user, p }) {
+function ChatUser({ user, p, onClick, selected }) {
   return (
     <div
+      onClick={onClick}
       className="flex p-2 border-gray-200 cursor-pointer hover:bg-gray-50 hover:border-transparent"
       style={{
         borderTopWidth: p === 0 && "1px",
         borderBottomWidth: "1px",
         borderLeftWidth: "1px",
         borderRightWidth: "1px",
-        backgroundColor: user?.active && "rgb(249, 250, 251)",
-        borderColor: user?.active && "transparent",
+        backgroundColor: selected && "rgb(249, 250, 251)",
+        borderColor: selected && "transparent",
       }}
     >
       <div className="-mt-1">
@@ -31,7 +32,7 @@ function ChatUser({ user, p }) {
             {user.name}{" "}
             <span
               className={`w-2 h-2 rounded-full ${
-                user.active ? "bg-green-400" : "bg-gray-400"
+                user.online ? "bg-green-400" : "bg-gray-400"
               } ml-2`}
             ></span>
           </span>

@@ -44,6 +44,46 @@ export const getProfile = async () => {
   return user;
 };
 
+export const updateProfile = async (id, formdata) => {
+  const token = __d(cookies.get("_SYNC_"));
+  let user = false;
+
+  if (token) {
+    await server
+      .post("/users/" + id, formdata, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        user = response?.data;
+      })
+      .catch((error) => {
+        user = error?.response?.data;
+      });
+  }
+
+  return user;
+};
+
+export const updatePassword = async (id, password) => {
+  const token = __d(cookies.get("_SYNC_"));
+  let user = false;
+
+  if (token) {
+    await server
+      .post("/users/password/" + id, password, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        user = response?.data;
+      })
+      .catch((error) => {
+        user = error?.response?.data;
+      });
+  }
+
+  return user;
+};
+
 export const logoutUser = async () => {
   const token = __d(cookies.get("_SYNC_"));
   let user = false;
