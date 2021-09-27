@@ -1,21 +1,16 @@
 import { useEffect, useState } from "react";
-import { getProfile, removeAuthToken } from "../lib/frontend/auth";
+import { __d } from "../server";
 
 function useProfile() {
   const [profile, setProfile] = useState(false);
 
   useEffect(() => {
     if (!profile) {
-      (async () => {
-        const response = await getProfile();
-        if (response?.status) {
-          setProfile(response.data);
-        } else {
-          removeAuthToken.then(() => {
-            console.log("Something went wrong!");
-          });
-        }
-      })();
+      let data = localStorage.getItem("LU");
+      data = JSON.parse(__d(data));
+      if (data) {
+        setProfile(data);
+      }
     }
   }, []);
 

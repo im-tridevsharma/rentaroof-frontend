@@ -13,7 +13,7 @@ const links = [
   },
   {
     label: "Profile",
-    href: "/",
+    href: "/ibo/profile",
     icon: (
       <img
         src="/icons/user-dashboard/profile_icon.png"
@@ -25,7 +25,7 @@ const links = [
   },
   {
     label: "Training Management",
-    href: "/",
+    href: "/ibo/training_management",
     icon: (
       <img
         src="/icons/ibo_icons/icon_7.png"
