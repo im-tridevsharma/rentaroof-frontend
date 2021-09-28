@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import VideoItem from "../../VideoItem";
 import Pdfs from "../../Pdfs";
-import getVideos from "../../../../lib/frontend/training_management";
+import getVideos, {
+  getPdfs,
+} from "../../../../lib/frontend/training_management";
 import { __d } from "../../../../server";
 
 function TrainingManagementUI() {
+  const [videos, setVideos] = useState([]);
   const [globalPdf, setGlobalPdf] = useState([]);
   const [personalPdf, setPersonalPdf] = useState([]);
 
@@ -17,7 +20,15 @@ function TrainingManagementUI() {
     }
     (async () => {
       const response = await getVideos(id);
-      console.log(response);
+      const pdfs = await getPdfs(id);
+
+      if (response?.status) {
+        setVideos(response.data);
+      }
+      if (pdfs?.status) {
+        setGlobalPdf(pdfs.data.global);
+        setPersonalPdf(pdfs.data.persoanl);
+      }
     })();
   }, []);
 
@@ -31,10 +42,11 @@ function TrainingManagementUI() {
         Training Videos
       </h6>
       <div className="mt-3 block">
-        <VideoItem />
-        <VideoItem />
-        <VideoItem />
-        <VideoItem />
+        {videos?.length > 0 ? (
+          videos.map((v, i) => <VideoItem key={i} video={v} />)
+        ) : (
+          <p className="text-red-500 py-2">No videos found!</p>
+        )}
       </div>
       {/**pdf files */}
       <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-2 mt-5">

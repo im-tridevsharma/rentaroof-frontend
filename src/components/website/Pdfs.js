@@ -34,12 +34,14 @@ export default function Pdfs({ bgcolor, pdfs, title }) {
                 className="w-8 h-8 object-contain"
                 alt="pdf"
               />
-              <p className="ml-2 flex-grow">{pdf.name}</p>
-              <img
-                src="/icons/ibo_icons/icon17.png"
-                className="w-5 h-5 object-contain cursor-pointer"
-                alt="pdf"
-              />
+              <p className="ml-2 flex-grow">{pdf.title}</p>
+              <a href={pdf.pdf} download target="_blank" rel="noreferrer">
+                <img
+                  src="/icons/ibo_icons/icon17.png"
+                  className="w-5 h-5 object-contain cursor-pointer"
+                  alt="pdf"
+                />
+              </a>
             </div>
           ))
         ) : (

@@ -21,4 +21,24 @@ const getVideos = async (user_id) => {
   return videos;
 };
 
+export const getPdfs = async (user_id) => {
+  const token = getToken();
+  let pdfs = false;
+
+  if (token) {
+    await server
+      .get("/trainings/pdfs/" + user_id, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        pdfs = response?.data;
+      })
+      .catch((error) => {
+        pdfs = error?.response?.data;
+      });
+  }
+
+  return pdfs;
+};
+
 export default getVideos;
