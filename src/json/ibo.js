@@ -9,7 +9,7 @@ const links = [
         className="object-contain"
         style={{ maxWidth: "20px", width: "20px", height: "20px" }}
       />
-    ),
+    )
   },
   {
     label: "Profile",
@@ -21,7 +21,7 @@ const links = [
         className="object-contain"
         style={{ maxWidth: "20px", width: "20px", height: "20px" }}
       />
-    ),
+    )
   },
   {
     label: "Training Management",
@@ -33,7 +33,7 @@ const links = [
         className="object-contain"
         style={{ maxWidth: "20px", width: "20px", height: "20px" }}
       />
-    ),
+    )
   },
   {
     label: "Properties",
@@ -45,7 +45,7 @@ const links = [
         className="object-contain"
         style={{ maxWidth: "20px", width: "20px", height: "20px" }}
       />
-    ),
+    )
   },
   {
     label: "Map",
@@ -57,11 +57,11 @@ const links = [
         className="object-contain"
         style={{ maxWidth: "20px", width: "20px", height: "20px" }}
       />
-    ),
+    )
   },
   {
     label: "KYC",
-    href: "/",
+    href: "/ibo/kyc",
     icon: (
       <img
         src="/icons/ibo_icons/icon_10.png"
@@ -69,11 +69,11 @@ const links = [
         className="object-contain"
         style={{ maxWidth: "20px", width: "20px", height: "20px" }}
       />
-    ),
+    )
   },
   {
     label: "Appointments",
-    href: "/",
+    href: "/ibo/appointment",
     icon: (
       <img
         src="/icons/ibo_icons/icon_110.png"
@@ -81,11 +81,11 @@ const links = [
         className="object-contain"
         style={{ maxWidth: "20px", width: "20px", height: "20px" }}
       />
-    ),
+    )
   },
   {
     label: "Earnings",
-    href: "/",
+    href: "/ibo/earning",
     icon: (
       <img
         src="/icons/ibo_icons/icon_12.png"
@@ -93,11 +93,11 @@ const links = [
         className="object-contain"
         style={{ maxWidth: "20px", width: "20px", height: "20px" }}
       />
-    ),
+    )
   },
   {
     label: "Settings",
-    href: "/",
+    href: "/ibo/settings",
     icon: (
       <img
         src="/icons/ibo_icons/icon_13.png"
@@ -105,8 +105,8 @@ const links = [
         className="object-contain"
         style={{ maxWidth: "20px", width: "20px", height: "20px" }}
       />
-    ),
-  },
+    )
+  }
 ];
 
 export default links;

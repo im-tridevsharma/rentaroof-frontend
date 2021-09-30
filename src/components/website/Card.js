@@ -7,12 +7,12 @@ function Card({ label, icon, count, color, textcolor }) {
       style={{
         backgroundColor: color,
         fontFamily: "Opensans-bold",
-        color: textcolor,
+        color: textcolor
       }}
     >
       <p className="text-sm leading-4 w-16">{label}</p>
       <div className="flex flex-col">
-        {icon}
+        <div className="flex items-center justify-end">{icon}</div>
         <span className="text-3xl mt-3">{count}</span>
       </div>
     </div>
