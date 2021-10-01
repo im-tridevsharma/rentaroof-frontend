@@ -13,7 +13,7 @@ const links = [
   },
   {
     label: "Profile",
-    href: "/",
+    href: "/landlord/profile",
     icon: (
       <img
         src="/icons/user-dashboard/profile_icon.png"
@@ -25,7 +25,7 @@ const links = [
   },
   {
     label: "Training Management",
-    href: "/",
+    href: "/landlord/training_management",
     icon: (
       <img
         src="/icons/ibo_icons/icon_7.png"
@@ -61,7 +61,7 @@ const links = [
   },
   {
     label: "KYC",
-    href: "/",
+    href: "/landlord/kyc",
     icon: (
       <img
         src="/icons/ibo_icons/icon_10.png"
@@ -73,7 +73,7 @@ const links = [
   },
   {
     label: "Appointments",
-    href: "/",
+    href: "/landlord/appointment",
     icon: (
       <img
         src="/icons/ibo_icons/icon_110.png"
@@ -97,7 +97,7 @@ const links = [
   },
   {
     label: "Settings",
-    href: "/",
+    href: "/landlord/settings",
     icon: (
       <img
         src="/icons/ibo_icons/icon_13.png"
