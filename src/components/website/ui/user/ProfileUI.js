@@ -27,7 +27,7 @@ function ProfileUI() {
   useEffect(() => {
     setIsLoading(true);
     (async () => {
-      const response = await getProfile();
+      const response = await getProfile(true);
       if (response?.status) {
         setIsLoading(false);
         setProfile(response?.user);

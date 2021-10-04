@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import Loader from "../../../loader";
 import { getProfile, updateProfile } from "../../../../lib/frontend/auth";
-import { FiAlertTriangle, FiCheckCircle } from "react-icons/fi";
+import { FiAlertTriangle, FiCheckCircle, FiEye, FiInfo } from "react-icons/fi";
+import { GoVerified, GoUnverified } from "react-icons/go";
 
 function KycUI() {
   const [profilePic, setProfilePic] = useState("");
@@ -9,15 +10,18 @@ function KycUI() {
   const [profile, setProfile] = useState({});
   const [errors, setErrors] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+  const [kyc, setKyc] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
     (async () => {
-      const response = await getProfile();
+      const response = await getProfile(true);
       if (response?.status) {
         setIsLoading(false);
         setProfile(response?.user);
         setProfilePic(response?.user?.profile_pic);
+        setKyc(response?.user?.kyc);
       } else {
         console.error(response?.error || response?.message);
         setIsLoading(false);
@@ -25,7 +29,7 @@ function KycUI() {
     })();
   }, []);
 
-  const handleFileChange = e => {
+  const handleFileChange = (e) => {
     e.preventDefault();
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -45,18 +49,45 @@ function KycUI() {
     }
   };
 
-  const inputChangeHandler = e => {
+  const inputChangeHandler = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
-    setProfile(prev => ({
+    setProfile((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
     setErrors(false);
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    const formdata = new FormData(document.forms.kyc);
+    const iserror = errors
+      ? Object.keys(errors).filter((index) => errors[index] !== false)
+      : false;
+    if (!iserror?.length) {
+      submitKycData(formdata);
+    } else {
+      setIsLoading(false);
+    }
+  };
+
+  const submitKycData = async (data) => {
+    const response = await updateProfile(profile.id, data);
+    if (response?.status) {
+      setIsSaved(true);
+      setIsLoading(false);
+      setTimeout(() => {
+        setIsSaved(false);
+      }, 3000);
+    } else {
+      setErrors(response?.error);
+      setIsLoading(false);
+      setTimeout(() => {
+        setErrors(false);
+      }, 3000);
+    }
   };
 
   return (
@@ -91,6 +122,7 @@ function KycUI() {
             onSubmit={handleSubmit}
           >
             <input type="hidden" name="_method" value="PUT" />
+            <input type="hidden" name="mode" value="kyc" />
             <div className="flex md:flex-row flex-col items-center justify-center mt-10">
               <div className="flex items-center md:flex-row flex-col">
                 <div
@@ -115,7 +147,7 @@ function KycUI() {
                   className="mb-2 px-5 py-3 rounded-md  text-white cursor-pointer"
                   style={{
                     backgroundColor: "var(--blue)",
-                    fontFamily: "Opensans-semi-bold"
+                    fontFamily: "Opensans-semi-bold",
                   }}
                   htmlFor="profile_pic"
                 >
@@ -138,6 +170,26 @@ function KycUI() {
                 </div>
               </div>
             </div>
+            <div className="mt-10 leading-3 -mb-4 max-w-sm mx-auto">
+              {errors && (
+                <div className="errors">
+                  {Object.keys(errors).map((index, i) => (
+                    <div className="w-full mb-2" key={i}>
+                      <p className="text-red-500 flex items-center">
+                        <FiAlertTriangle className="mr-1" /> {errors[index]}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {isSaved && (
+                <p className="flex items-center text-green-600">
+                  <FiCheckCircle className="mr-1" /> Kyc information saved
+                  successfully.
+                </p>
+              )}
+            </div>
+
             {/**personal details */}
             <div
               className="mt-10 flex justify-center w-full"
@@ -210,6 +262,20 @@ function KycUI() {
             </div>
             {/**personal documents */}
             <div className="flex flex-col mt-10 items-center justify-center">
+              {kyc?.is_verified === 1 ? (
+                <label className="text-2xl text-green-500 flex flex-col items-center justify-center">
+                  <GoVerified />
+                  <span className="text-2xs mb-1">Verified</span>
+                </label>
+              ) : (
+                <label className="text-2xl text-red-500 flex flex-col items-center justify-center">
+                  <GoUnverified />
+                  <span className="text-2xs mb-1 flex items-center">
+                    Not Verified{" "}
+                    <FiInfo className="ml-1" title={kyc?.verification_issues} />
+                  </span>
+                </label>
+              )}
               <h5
                 className="text-gray-800"
                 style={{ fontFamily: "Opensans-bold" }}
@@ -231,16 +297,32 @@ function KycUI() {
                     name="doc_type"
                     value="aadhar"
                     id="aadhar"
+                    checked={kyc?.document_type === "aadhar" ? true : false}
+                    onChange={(e) => {
+                      setKyc((prev) => ({
+                        ...prev,
+                        document_type: e.target.value,
+                      }));
+                    }}
                   />
                   <span className="ml-1">Aadhar Card</span>
                 </label>
 
-                <label htmlFor="dlicense">
+                <label htmlFor="driving_license">
                   <input
                     type="radio"
                     name="doc_type"
-                    value="dlicense"
-                    id="dlicense"
+                    value="driving_license"
+                    id="driving_license"
+                    checked={
+                      kyc?.document_type === "driving_license" ? true : false
+                    }
+                    onChange={(e) => {
+                      setKyc((prev) => ({
+                        ...prev,
+                        document_type: e.target.value,
+                      }));
+                    }}
                   />
                   <span className="ml-1">Driving License</span>
                 </label>
@@ -251,12 +333,31 @@ function KycUI() {
                     name="doc_type"
                     value="idcard"
                     id="idcard"
+                    checked={kyc?.document_type === "idcard" ? true : false}
+                    onChange={(e) => {
+                      setKyc((prev) => ({
+                        ...prev,
+                        document_type: e.target.value,
+                      }));
+                    }}
                   />
                   <span className="ml-1">Identity Card</span>
                 </label>
 
                 <label htmlFor="pan">
-                  <input type="radio" name="doc_type" value="pan" id="pan" />
+                  <input
+                    type="radio"
+                    name="doc_type"
+                    value="pan"
+                    id="pan"
+                    checked={kyc?.document_type === "pan" ? true : false}
+                    onChange={(e) => {
+                      setKyc((prev) => ({
+                        ...prev,
+                        document_type: e.target.value,
+                      }));
+                    }}
+                  />
                   <span className="ml-1">Pan Card</span>
                 </label>
 
@@ -268,6 +369,21 @@ function KycUI() {
                   <input type="file" id="file" name="document" hidden />
                   <span>Upload</span>
                 </label>
+
+                {kyc?.document_upload && (
+                  <label
+                    className="cursor-pointer text-blue-500"
+                    title="View Uploaded"
+                  >
+                    <a
+                      href={kyc?.document_upload}
+                      target="_blank"
+                      rel="norefferer"
+                    >
+                      <FiEye />
+                    </a>
+                  </label>
+                )}
               </div>
             </div>
             <div className="mt-8 text-center mb-5">

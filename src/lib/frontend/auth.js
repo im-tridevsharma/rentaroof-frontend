@@ -20,7 +20,7 @@ const isAuthenticated = () => {
   }
 };
 
-export const getProfile = async () => {
+export const getProfile = async (allinfo = false) => {
   const token = __d(cookies.get("_SYNC_"));
   let user = false;
 
@@ -28,7 +28,7 @@ export const getProfile = async () => {
     await server
       .post(
         "/auth/profile",
-        { mode: true },
+        { mode: allinfo },
         {
           headers: { Authorization: `Bearer ${token}` },
         }

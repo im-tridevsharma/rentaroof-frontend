@@ -97,19 +97,22 @@ function Index() {
           <div className="flex flex-col mt-20 sm:mt-0 sm:py-10">
             <b className="text-sm">ABOUT US</b>
             <h1
-              className="font-thin text-gray-700 text-3xl w-full sm:w-52 my-3"
+              className="font-thin text-gray-700 text-3xl w-full sm:w-72 my-3"
               style={{ fontFamily: "Opensans-light" }}
             >
-              Discover Our Apartments
+              The Ease of Renting with Rent a Roof
             </h1>
             <p
               className="text-gray-700 text-xs"
               style={{ fontFamily: "Opensans-regular" }}
             >
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book.
+              We are the ones who are bringing the system of renting, which is
+              never seen in the Indian market. Experience over 2 decades in the
+              real estate sector in India, we are here with new systematic and
+              organized services with the help of our experience and technology.
+              The premium services for you to feel the warmth. We have colossal
+              connectivity to ensure the best-in-class assistance to the
+              customers at Rent a Roof.
             </p>
             <div className="mt-7">
               <Link href="/">
@@ -135,18 +138,18 @@ function Index() {
           <div className="grid sm:grid-cols-3 sm:space-x-10 p-10">
             <Option
               Icon={<img src="/icons/home/home_icon4.png" alt="properties" />}
-              title="All properties in one place"
-              description="One caveat of the multiple background technique is that a background-color cannot be layered."
+              title="All Properties in one place"
+              description="To find a property you need to do 20 things, join here and leave Everything to us."
             />
             <Option
               Icon={<img src="/icons/home/home_icon5.png" alt="money" />}
-              title="Compare and save money"
-              description="One caveat of the multiple background technique is that a background-color cannot be layered."
+              title="Compare and Save Money"
+              description="Compare every aspect before renting a home. We offer the best deals for you."
             />
             <Option
               Icon={<img src="/icons/home/home_icon6.png" alt="contact" />}
-              title="Quick contact"
-              description="One caveat of the multiple background technique is that a background-color cannot be layered."
+              title="Quick Connect"
+              description="Connect easily and set meetings with us to fulfil your renting requirement."
             />
           </div>
         </div>
@@ -234,17 +237,17 @@ function Index() {
         {/**testimonial section */}
         <Testimonial
           bgImage="/images/website/night.jpg"
-          title="WHAT OUR CUSTOMERS SAY..."
+          title="Our Customer’s Verdict"
           testimonials={[
             {
               author: "Tridev Sharma",
-              subtitle: "Founder, CEO",
-              text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+              subtitle: "-",
+              text: "Rent A Roof has always been a tremendous help to me. Their services are one of the best in town. I love how they provide you with the opportunity to compare prices and other such things. I could find the perfect home for myself. They have prompt support. It allowed me to reach the crucial decision in just a few seconds. ",
             },
             {
               author: "Mithesh Sharma",
-              subtitle: "Founder, CEO",
-              text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+              subtitle: "-",
+              text: "I had to change from my last house because of the landlord. It was quite a hassle. But when I learned about Rent a Roof, it changed my view to get a roof over my head. It was one of the best experiences so far. Thank you, Rent A Roof, for providing such an excellent service for reaching the landlord. It was so comfortable that I forgot how to go to the house to look at it physically. Their assistance is indeed one of the best in Real Estate",
             },
           ]}
         />

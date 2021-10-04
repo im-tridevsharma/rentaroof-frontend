@@ -23,6 +23,32 @@ const getLandlords = async () => {
   return landlords;
 };
 
+export const updateKycLandlord = async (id, data) => {
+  const token = getToken();
+  let kyc = false;
+
+  if (token) {
+    await server
+      .post(`/admin/landlords/kyc/verification/${id}`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        if (response) {
+          kyc = response.data;
+        }
+      })
+      .catch((error) => {
+        if (error) {
+          kyc = error.response?.data;
+        }
+      });
+  }
+
+  return kyc;
+};
+
 export const getLandlordById = async (id) => {
   const token = getToken();
   let Landlord = false;

@@ -96,6 +96,32 @@ export const addIBO = async (data) => {
   return ibo;
 };
 
+export const updateKycIbo = async (id, data) => {
+  const token = getToken();
+  let kyc = false;
+
+  if (token) {
+    await server
+      .post(`/admin/ibos/kyc/verification/${id}`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        if (response) {
+          kyc = response.data;
+        }
+      })
+      .catch((error) => {
+        if (error) {
+          kyc = error.response?.data;
+        }
+      });
+  }
+
+  return kyc;
+};
+
 export const updateIBO = async (id, data) => {
   const token = getToken();
   let ibo = false;

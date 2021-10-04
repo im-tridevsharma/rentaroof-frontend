@@ -1,11 +1,54 @@
 import { FiDelete } from "react-icons/fi";
 import Image from "next/image";
 import moment from "moment";
+import { useEffect, useState } from "react";
+import { updateKycIbo } from "../../lib/ibos";
+import { updateKycLandlord } from "../../lib/landlords";
+import Loader from "../loader";
 
 function Index(props) {
+  const [action, setAction] = useState("");
+  const [issue, setIssue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (props?.kyc) {
+      setAction(props.kyc.is_verified);
+      setIssue(props.kyc?.verification_issues);
+    }
+    console.log(action);
+  }, []);
+
+  const updateStatus = async (s, reason) => {
+    setIsLoading(true);
+    const data = {
+      status: s,
+      user_id: props.user?.id,
+      reason: reason,
+    };
+
+    const response =
+      props.user?.role === "ibo"
+        ? updateKycIbo(props.kyc?.id, data)
+        : await updateKycLandlord(props.kyc?.id, data);
+    if (response?.status) {
+      setIsLoading(false);
+      alert("Kyc status updated successfully.");
+    } else {
+      setIsLoading(false);
+      console.error(response?.message);
+    }
+  };
+
+  const updateWithReason = () => {
+    const reason = document.querySelector("#issue").value;
+    if (document.querySelector("#kyc_action2").checked) updateStatus(0, reason);
+  };
+
   return (
     <>
-      <div className="absolute top-0 right-0 w-full h-auto p-5 rounded-sm shadow-md bg-white z-50">
+      {isLoading && <Loader />}
+      <div className="absolute top-0 right-0 w-full h-auto p-5 rounded-sm shadow-md bg-white z-40">
         <div className="flex items-center justify-between">
           <div className="flex flex-col items-start">
             <h1 className="text-2xl">{props.title}</h1>
@@ -119,11 +162,7 @@ function Index(props) {
                   </tr>
                   <tr>
                     <td>Is Verified</td>
-                    <td>
-                      {props.kyc.is_verified === 1
-                        ? "Verified"
-                        : "Not Verified"}
-                    </td>
+                    <td>{props.kyc.is_verified === 1 ? "Yes" : "Not"}</td>
                   </tr>
                   <tr>
                     <td>Document File</td>
@@ -138,6 +177,66 @@ function Index(props) {
                       </a>
                     </td>
                   </tr>
+                  <tr>
+                    <td>Action</td>
+                    <td className="pt-5 pb-2">
+                      <label htmlFor="kyc_action">
+                        <input
+                          type="radio"
+                          name="kyc_action"
+                          id="kyc_action"
+                          className="cursor-pointer"
+                          onChange={(e) => {
+                            setAction(1);
+                            if (e.target.checked) {
+                              updateStatus(1, "");
+                            }
+                          }}
+                          checked={action ? true : false}
+                        />
+                        <span className="ml-1 cursor-pointer">Verified</span>
+                      </label>
+                      <label htmlFor="kyc_action2" className="ml-4">
+                        <input
+                          type="radio"
+                          id="kyc_action2"
+                          name="kyc_action"
+                          className="cursor-pointer"
+                          onChange={() => {
+                            setAction(0);
+                          }}
+                          checked={action ? false : true}
+                        />
+                        <span className="ml-1 cursor-pointer">
+                          Not Verified
+                        </span>
+                      </label>
+                    </td>
+                  </tr>
+                  {action === 0 && (
+                    <tr>
+                      <td>Issue in verification</td>
+                      <td>
+                        <div className="flex items-center">
+                          <input
+                            type="text"
+                            id="issue"
+                            className="max-w-sm w-full h-8 mr-2 text-sm"
+                            placeholder="Provide the reason for not verified!"
+                            value={issue}
+                            onChange={(e) => setIssue(e.target.value)}
+                          />
+                          <button
+                            type="button"
+                            className="px-2 py-1 rounded-md text-white bg-blue-500"
+                            onClick={updateWithReason}
+                          >
+                            Submit
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             )}
