@@ -16,7 +16,6 @@ function Index(props) {
       setAction(props.kyc.is_verified);
       setIssue(props.kyc?.verification_issues);
     }
-    console.log(action);
   }, []);
 
   const updateStatus = async (s, reason) => {
@@ -26,10 +25,9 @@ function Index(props) {
       user_id: props.user?.id,
       reason: reason,
     };
-
     const response =
       props.user?.role === "ibo"
-        ? updateKycIbo(props.kyc?.id, data)
+        ? await updateKycIbo(props.kyc?.id, data)
         : await updateKycLandlord(props.kyc?.id, data);
     if (response?.status) {
       setIsLoading(false);
@@ -41,8 +39,7 @@ function Index(props) {
   };
 
   const updateWithReason = () => {
-    const reason = document.querySelector("#issue").value;
-    if (document.querySelector("#kyc_action2").checked) updateStatus(0, reason);
+    if (document.querySelector("#kyc_action2").checked) updateStatus(0, issue);
   };
 
   return (
