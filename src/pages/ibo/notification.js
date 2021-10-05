@@ -3,19 +3,19 @@ import Head from "next/head";
 import RenderError from "../../components/website/RenderError";
 import UseAuthentication from "../../hooks/UseAuthentication";
 import UIRenderer from "../../components/website/UIRenderer";
-import PropertiesUI from "../../components/website/ui/common/AddPropertyUI";
+import NotificationUI from "../../components/website/ui/ibo/NotificationUI";
 
-function Properties() {
+function Notification() {
   //authentication hook
   const { isAuthenticated } = UseAuthentication();
 
   return isAuthenticated ? (
     <>
       <Head>
-        <title>Add Property</title>
+        <title>Notification</title>
       </Head>
       <div>
-        <UIRenderer UI={PropertiesUI} role="Landlord" page="Add Property" />
+        <UIRenderer UI={NotificationUI} role="Ibo" page="Notification" />
       </div>
     </>
   ) : (
@@ -23,4 +23,4 @@ function Properties() {
   );
 }
 
-export default Properties;
+export default Notification;

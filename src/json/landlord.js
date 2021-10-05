@@ -49,7 +49,7 @@ const links = [
   },
   {
     label: "Map",
-    href: "/",
+    href: "/landlord/map",
     icon: (
       <img
         src="/icons/ibo_icons/icon_9.png"
@@ -90,6 +90,18 @@ const links = [
       <img
         src="/icons/owner_dashboard/tenanticon.png"
         alt="tenant"
+        className="object-contain"
+        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
+      />
+    ),
+  },
+  {
+    label: "Earnings",
+    href: "/landlord/earning",
+    icon: (
+      <img
+        src="/icons/ibo_icons/icon_12.png"
+        alt="earnings"
         className="object-contain"
         style={{ maxWidth: "20px", width: "20px", height: "20px" }}
       />

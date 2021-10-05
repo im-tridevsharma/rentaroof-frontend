@@ -3,19 +3,19 @@ import Head from "next/head";
 import RenderError from "../../components/website/RenderError";
 import UseAuthentication from "../../hooks/UseAuthentication";
 import UIRenderer from "../../components/website/UIRenderer";
-import PropertiesUI from "../../components/website/ui/common/AddPropertyUI";
+import EarningUI from "../../components/website/ui/landlord/EarningUI";
 
-function Properties() {
+function Earning() {
   //authentication hook
   const { isAuthenticated } = UseAuthentication();
 
   return isAuthenticated ? (
     <>
       <Head>
-        <title>Add Property</title>
+        <title>Earning</title>
       </Head>
       <div>
-        <UIRenderer UI={PropertiesUI} role="Landlord" page="Add Property" />
+        <UIRenderer UI={EarningUI} role="Landlord" page="Earning" />
       </div>
     </>
   ) : (
@@ -23,4 +23,4 @@ function Properties() {
   );
 }
 
-export default Properties;
+export default Earning;

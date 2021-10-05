@@ -9,7 +9,7 @@ const links = [
         className="object-contain"
         style={{ maxWidth: "20px", width: "20px", height: "20px" }}
       />
-    )
+    ),
   },
   {
     label: "Profile",
@@ -21,7 +21,7 @@ const links = [
         className="object-contain"
         style={{ maxWidth: "20px", width: "20px", height: "20px" }}
       />
-    )
+    ),
   },
   {
     label: "Training Management",
@@ -33,11 +33,11 @@ const links = [
         className="object-contain"
         style={{ maxWidth: "20px", width: "20px", height: "20px" }}
       />
-    )
+    ),
   },
   {
     label: "Properties",
-    href: "/",
+    href: "/ibo/properties",
     icon: (
       <img
         src="/icons/user-dashboard/icon3.png"
@@ -45,11 +45,11 @@ const links = [
         className="object-contain"
         style={{ maxWidth: "20px", width: "20px", height: "20px" }}
       />
-    )
+    ),
   },
   {
     label: "Map",
-    href: "/",
+    href: "/ibo/map",
     icon: (
       <img
         src="/icons/ibo_icons/icon_9.png"
@@ -57,7 +57,7 @@ const links = [
         className="object-contain"
         style={{ maxWidth: "20px", width: "20px", height: "20px" }}
       />
-    )
+    ),
   },
   {
     label: "KYC",
@@ -69,7 +69,7 @@ const links = [
         className="object-contain"
         style={{ maxWidth: "20px", width: "20px", height: "20px" }}
       />
-    )
+    ),
   },
   {
     label: "Appointments",
@@ -81,7 +81,7 @@ const links = [
         className="object-contain"
         style={{ maxWidth: "20px", width: "20px", height: "20px" }}
       />
-    )
+    ),
   },
   {
     label: "Earnings",
@@ -93,7 +93,7 @@ const links = [
         className="object-contain"
         style={{ maxWidth: "20px", width: "20px", height: "20px" }}
       />
-    )
+    ),
   },
   {
     label: "Settings",
@@ -105,8 +105,8 @@ const links = [
         className="object-contain"
         style={{ maxWidth: "20px", width: "20px", height: "20px" }}
       />
-    )
-  }
+    ),
+  },
 ];
 
 export default links;

@@ -3,19 +3,19 @@ import Head from "next/head";
 import RenderError from "../../components/website/RenderError";
 import UseAuthentication from "../../hooks/UseAuthentication";
 import UIRenderer from "../../components/website/UIRenderer";
-import PropertiesUI from "../../components/website/ui/common/AddPropertyUI";
+import MapUI from "../../components/website/ui/ibo/MapUI";
 
-function Properties() {
+function Map() {
   //authentication hook
   const { isAuthenticated } = UseAuthentication();
 
   return isAuthenticated ? (
     <>
       <Head>
-        <title>Add Property</title>
+        <title>Map</title>
       </Head>
       <div>
-        <UIRenderer UI={PropertiesUI} role="Landlord" page="Add Property" />
+        <UIRenderer UI={MapUI} role="Ibo" page="Map" />
       </div>
     </>
   ) : (
@@ -23,4 +23,4 @@ function Properties() {
   );
 }
 
-export default Properties;
+export default Map;

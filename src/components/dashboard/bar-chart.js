@@ -1,4 +1,3 @@
-import { getColor } from "../../functions/colors";
 import {
   ResponsiveContainer,
   BarChart,
@@ -29,10 +28,10 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
-export const Bar1 = () => {
+const Bar1 = () => {
   let colors = [
-    { dataKey: "sales", fill: getColor("bg-red-400") },
-    { dataKey: "conversions", fill: getColor("bg-green-400") },
+    { dataKey: "sales", fill: "var(--blue)" },
+    { dataKey: "conversions", fill: "var(--orange)" },
   ];
   const labels = [
     "Jan",
@@ -77,7 +76,7 @@ export const Bar1 = () => {
           {colors.map((color, i) => (
             <Bar
               key={i}
-              barSize={10}
+              barSize={20}
               //stackId="sales"
               dataKey={color.dataKey}
               fill={color.fill}
@@ -88,3 +87,5 @@ export const Bar1 = () => {
     </div>
   );
 };
+
+export default Bar1;

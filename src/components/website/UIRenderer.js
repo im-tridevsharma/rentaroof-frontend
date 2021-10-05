@@ -41,7 +41,7 @@ function UIRenderer({ UI, role, page }) {
         <div
           className="w-full bg-gray-50 overflow-hidden overflow-y-auto p-4"
           style={{
-            height: "580px",
+            height: "575px",
           }}
         >
           <UI />
