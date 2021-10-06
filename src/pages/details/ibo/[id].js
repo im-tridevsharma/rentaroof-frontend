@@ -6,6 +6,10 @@ import Header from "../../../components/website/Header";
 import Footer from "../../../components/website/Footer";
 import Breadcrumb from "../../../components/website/Breadcrumb";
 import { FaStar, FaStarHalf } from "react-icons/fa";
+import { FiStar } from "react-icons/fi";
+import { RiChatQuoteLine } from "react-icons/ri";
+import { ImQuotesLeft } from "react-icons/im";
+import PropertyIbo from "../../../components/website/PropertyIbo";
 
 function Index() {
   const router = useRouter();
@@ -176,6 +180,180 @@ function Index() {
               </div>
             </span>
           </p>
+        </div>
+        {/**other section */}
+        <div className="flex mt-20 md:flex-row flex-col">
+          {/**properties */}
+          <div className="flex flex-col flex-grow">
+            <p
+              style={{ fontFamily: "Opensans-bold", fontSize: "1rem" }}
+              className="border-b-2 border-gray-200 pb-3"
+            >
+              Properties for rent
+            </p>
+
+            {/**properties */}
+            <div className="md:mx-5 mt-3">
+              <PropertyIbo />
+              <PropertyIbo />
+              <PropertyIbo />
+            </div>
+            <div
+              className="flex items-center cursor-pointer justify-center md:mx-5 mt-2 border-gray-200 rounded-md text-center uppercase bg-white py-3 shadow-sm"
+              style={{
+                borderWidth: "1px",
+                fontFamily: "Opensans-bold",
+                color: "var(--primary-color)",
+              }}
+            >
+              View More{" "}
+              <img
+                src="/icons/ibo_icons/icon16.png"
+                alt="arrow"
+                className="ml-1"
+              />
+            </div>
+          </div>
+          {/**contact details */}
+          <div className="flex flex-col max-w-sm w-full">
+            <div
+              className=" border-gray-200  mx-3 mt-7 pb-5 rounded-md overflow-hidden shadow-md"
+              style={{ borderWidth: "1px" }}
+            >
+              <p
+                className="text-center p-5 text-white"
+                style={{
+                  backgroundColor: "var(--primary-color)",
+                  fontFamily: "Opensans-regular",
+                }}
+              >
+                Contact Details
+              </p>
+              <form
+                name="callback"
+                className="mx-5 mt-5"
+                style={{ fontFamily: "Opensans-semi-bold" }}
+              >
+                <div className="form-element">
+                  <div className="form-label">Name</div>
+                  <input
+                    type="text"
+                    className="form-input rounded-md border-gray-200 h-10"
+                  />
+                </div>
+                <div className="form-element">
+                  <div className="form-label">Email</div>
+                  <input
+                    type="email"
+                    className="form-input rounded-md border-gray-200 h-10"
+                  />
+                </div>
+                <div className="form-element">
+                  <div className="form-label">Phone</div>
+                  <input
+                    type="text"
+                    className="form-input rounded-md border-gray-200 h-10"
+                  />
+                </div>
+                <div className="text-center">
+                  <button
+                    className="uppercase px-5 py-3 text-white rounded-md text-xs"
+                    style={{ backgroundColor: "var(--secondary-color)" }}
+                  >
+                    Request a callback
+                  </button>
+                </div>
+              </form>
+            </div>
+            {/**rate us */}
+            <div
+              className=" border-gray-200 flex items-center flex-col  mx-3 mt-3 pb-5 rounded-md overflow-hidden shadow-md"
+              style={{ borderWidth: "1px" }}
+            >
+              <p
+                className="pt-2 uppercase"
+                style={{
+                  fontFamily: "Opensans-bold",
+                }}
+              >
+                Rate Us
+              </p>
+              <p
+                className="flex items-center mt-6"
+                style={{ color: "var(--orange)" }}
+              >
+                <FiStar className="mx-4 text-lg" />
+                <FiStar className="mx-4 text-lg" />
+                <FiStar className="mx-4 text-lg" />
+                <FiStar className="mx-4 text-lg" />
+                <FiStar className="mx-4 text-lg" />
+              </p>
+            </div>
+          </div>
+        </div>
+        {/**review section */}
+        <div className="border-t-2 border-gray-200 mt-8 px-2 py-4 flex md:flex-row flex-col">
+          {/**top review */}
+          <div className="flex flex-col max-w-lg w-full">
+            <p
+              style={{ fontFamily: "Opensans-bold" }}
+              className="flex items-center ml-5"
+            >
+              Top Customer Feedback{" "}
+              <RiChatQuoteLine className="text-3xl ml-2" />
+            </p>
+            <div
+              className="flex flex-col p-5 border-gray-200 mt-4 rounded-sm"
+              style={{ borderWidth: "1px" }}
+            >
+              <p>
+                <ImQuotesLeft
+                  className="text-3xl"
+                  style={{ color: "var(--primary-color)" }}
+                />
+              </p>
+              <p className="text-gray-500 mt-2">
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum has been the industry's standard dummy
+                text ever since the 1500s, when an unknown printer took a galley
+                of type and scrambled it to make a type specimen book.
+              </p>
+
+              <p className="mt-2 text-gray-500">
+                It has survived not only five centuries, but also the leap into
+                electronic typesetting, remaining essentially unchanged.
+              </p>
+              <p
+                className="mt-2"
+                style={{ fontFamily: "Opensans-bold", color: "var(--blue)" }}
+              >
+                - by Ommi Shankar
+              </p>
+            </div>
+          </div>
+          {/**write a review */}
+          <div
+            className="flex flex-col md:ml-10 flex-grow md:mt-0 mt-5"
+            style={{ fontFamily: "Opensans-regular" }}
+          >
+            <p className="flex flex-col">
+              <b style={{ fontFamily: "Opensans-bold" }}>Write a Review</b>
+              <span className="text-gray-600">
+                Share your thoughts with another customer.
+              </span>
+            </p>
+            <form name="review" className="w-full mt-5">
+              <div className="form-element">
+                <textarea className="h-40 border-gray-200 rounded-md text-sm"></textarea>
+              </div>
+              <button
+                className="px-2 py-3 text-white rounded-sm"
+                style={{ backgroundColor: "var(--blue)" }}
+              >
+                Post a review
+              </button>
+            </form>
+          </div>
         </div>
       </div>
       <Footer />

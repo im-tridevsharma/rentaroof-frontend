@@ -74,7 +74,7 @@ function Index() {
           {/**some options */}
           <div className="flex items-center mb-5"></div>
           {/**map view */}
-          <div className="w-full">
+          <div className="w-full bg-gray-50 rounded-sm">
             <iframe
               title="Property on map"
               width="100%"

@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 function PropertyItem() {
   return (
@@ -28,15 +29,17 @@ function PropertyItem() {
         >
           ₹ 8,500/month
         </h6>
-        <button
-          className="px-3 py-2 text-white uppercase text-2xs rounded-md"
-          style={{
-            backgroundColor: "var(--secondary-color)",
-            fontFamily: "Opensans-semi-bold",
-          }}
-        >
-          More Info
-        </button>
+        <Link href="/details/properties/IDP43R3RJ3">
+          <a
+            className="px-3 py-2 text-white uppercase text-2xs rounded-md"
+            style={{
+              backgroundColor: "var(--secondary-color)",
+              fontFamily: "Opensans-semi-bold",
+            }}
+          >
+            More Info
+          </a>
+        </Link>
       </div>
     </div>
   );
