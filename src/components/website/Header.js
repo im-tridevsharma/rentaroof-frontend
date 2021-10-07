@@ -1,8 +1,14 @@
-import React from "react";
-import Image from "next/image";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import isAuthenticated from "../../lib/frontend/auth";
+import { __d } from "../../server";
 
 function Header() {
+  const [user, setUser] = useState(false);
+  useEffect(() => {
+    const u = JSON.parse(__d(localStorage.getItem("LU")));
+    setUser(u);
+  }, []);
   return (
     <div className="flex flex-col">
       {/**header top part */}
@@ -115,22 +121,36 @@ function Header() {
             </li>
           </ul>
           <div className="flex ml-5">
-            <Link href="/signup">
-              <a
-                className="py-1 px-4 rounded-md text-white"
-                style={{ backgroundColor: "var(--primary-color)" }}
-              >
-                Signup
-              </a>
-            </Link>
-            <Link href="/login">
-              <a
-                className="py-1 px-4 rounded-md text-white ml-2"
-                style={{ backgroundColor: "var(--secondary-color)" }}
-              >
-                Login
-              </a>
-            </Link>
+            {!isAuthenticated() ? (
+              <>
+                <Link href="/signup">
+                  <a
+                    className="py-1 px-4 rounded-md text-white"
+                    style={{ backgroundColor: "var(--primary-color)" }}
+                  >
+                    Signup
+                  </a>
+                </Link>
+                <Link href="/login">
+                  <a
+                    className="py-1 px-4 rounded-md text-white ml-2"
+                    style={{ backgroundColor: "var(--secondary-color)" }}
+                  >
+                    Login
+                  </a>
+                </Link>
+              </>
+            ) : (
+              <Link href={`/${user?.role}/dashboard`}>
+                <a className="flex items-center w-6 h-6 overflow-hidden rounded-full">
+                  <img
+                    src={user?.profile_pic || "/icons/user-dashboard/man.png"}
+                    className="w-full h-full object-cover"
+                    alt="user"
+                  />
+                </a>
+              </Link>
+            )}
           </div>
         </div>
       </div>

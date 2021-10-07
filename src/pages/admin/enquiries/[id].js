@@ -87,15 +87,25 @@ function View() {
                 <p>{enquiry?.system_ip}</p>
               </div>
             </div>
-            <div className="flex flex-col my-1">
-              <small className="text-blue-500">Title</small>
-              <p>{enquiry?.title}</p>
+            <div className="grid sm:grid-cols-2">
+              <div className="flex flex-col my-1">
+                <small className="text-blue-500">Title</small>
+                <p>{enquiry?.title}</p>
+              </div>
+              <div className="flex flex-col my-1">
+                <small className="text-blue-500">Type</small>
+                <p>{enquiry?.type}</p>
+              </div>
             </div>
             <div className="flex flex-col my-1">
               <small className="text-blue-500">Description</small>
               <p>{enquiry?.description}</p>
             </div>
-            <div className="grid sm:grid-cols-2">
+            <div className="grid sm:grid-cols-3">
+              <div className="flex flex-col my-3">
+                <small className="text-blue-500">Property ID</small>
+                <p>{enquiry?.property_id}</p>
+              </div>
               <div className="flex flex-col my-3">
                 <small className="text-blue-500">Created At</small>
                 <p>

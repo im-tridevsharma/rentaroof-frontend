@@ -2,7 +2,7 @@ import React from "react";
 
 function PropertyIbo() {
   return (
-    <div className="border-2 border-gray-200 rounded-lg flex p-1 my-1 shadow-md mb-3">
+    <div className="border-2 border-gray-200 rounded-lg flex sm:flex-row flex-col items-center sm:items-start p-1 my-1 shadow-md mb-3">
       {/**small slider */}
       <div className="mr-5">
         <img
@@ -12,7 +12,7 @@ function PropertyIbo() {
         />
       </div>
       {/**property details */}
-      <div className="flex flex-col py-2 items-start w-full">
+      <div className="flex flex-col py-2 items-center sm:items-start w-full">
         <b style={{ fontFamily: "Opensans-bold" }}>
           Residental House Villa for Rent in Mumbai{" "}
         </b>
@@ -62,7 +62,7 @@ function PropertyIbo() {
         >
           View More
         </button>
-        <p className="mt-1 flex items-center justify-between w-full">
+        <p className="mt-1 flex items-center sm:px-0 px-5 justify-between w-full">
           <span className="flex items-center">
             ID:OP888737 |{" "}
             <img

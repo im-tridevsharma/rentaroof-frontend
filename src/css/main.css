@@ -51,6 +51,18 @@
   --blue: rgb(5 79 138);
 }
 
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+input[type="time"]::-webkit-inner-spin-button,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
 h1 {
   @apply text-5xl;
 }

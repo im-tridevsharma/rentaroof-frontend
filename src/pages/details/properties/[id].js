@@ -6,7 +6,7 @@ import Header from "../../../components/website/Header";
 import Footer from "../../../components/website/Footer";
 import Breadcrumb from "../../../components/website/Breadcrumb";
 import PropertyIbo from "../../../components/website/PropertyIbo";
-import { FiCheck } from "react-icons/fi";
+import { FiCheck, FiStar } from "react-icons/fi";
 import { FaTimes } from "react-icons/fa";
 
 function Index() {
@@ -439,7 +439,7 @@ function Index() {
           <div className="flex flex-col flex-grow md:ml-5 md:mt-0 mt-5">
             {/**markated by */}
             <div
-              className="p-6 border-gray-200 text-gray-700"
+              className="p-6 border-gray-200 text-gray-700 flex flex-col items-start"
               style={{
                 borderWidth: "1px",
                 fontFamily: "Opensans-bold",
@@ -452,17 +452,215 @@ function Index() {
               <p className="mt-1" style={{ color: "var(--primary-color)" }}>
                 Call : 9283928392
               </p>
-              <button
-                className="p-3 mt-3 shadow-sm text-white text-sm"
-                style={{ backgroundColor: "var(--primary-color)" }}
-              >
-                Request Details
-              </button>
+              <Link href="/enquiry?property=ID7832Y732">
+                <a
+                  className="p-3 mt-3 shadow-sm text-white text-sm"
+                  style={{ backgroundColor: "var(--primary-color)" }}
+                >
+                  Request Details
+                </a>
+              </Link>
               <Link href="/details/ibo/ID838HD9">
                 <a className="mt-3 underline block">
                   More properties from this IBO
                 </a>
               </Link>
+            </div>
+            {/**visit this house */}
+            <div
+              className="flex flex-col border-2 border-gray-200 shadow-md rounded-md px-5 py-2 mt-3"
+              style={{ fontFamily: "Opensans-semi-bold" }}
+            >
+              <h5
+                className="text-center text-gray-700"
+                style={{ fontFamily: "Opensans-bold" }}
+              >
+                Visit this house
+              </h5>
+              <p className="text-center text-gray-700">
+                <span
+                  style={{
+                    color: "var(--primary-color)",
+                  }}
+                >
+                  Free
+                </span>{" "}
+                Guided Tour with our Executive
+              </p>
+
+              <div
+                className="border-gray-200 pt-3 mt-2 text-gray-600"
+                style={{ borderTopWidth: "1px" }}
+              >
+                <form name="meeting">
+                  <div className="form-element relative">
+                    <label className="form-label" htmlFor="name">
+                      Name
+                      <img
+                        src="/icons/proprtydetls/icon_7.png"
+                        alt="user"
+                        className="absolute top-10 w-5 h-5 object-contain left-3"
+                      />
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      className="form-input border-gray-200 rounded-md pl-10 h-11"
+                      style={{ fontSize: ".95rem" }}
+                    />
+                  </div>
+
+                  <div className="form-element relative">
+                    <label className="form-label" htmlFor="email">
+                      Email
+                      <img
+                        src="/icons/proprtydetls/icon_9.png"
+                        alt="user"
+                        className="absolute top-10 w-5 h-5 object-contain left-3"
+                      />
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      className="form-input border-gray-200 rounded-md pl-10 h-11"
+                      style={{ fontSize: ".95rem" }}
+                    />
+                  </div>
+
+                  <div className="form-element relative">
+                    <label className="form-label" htmlFor="phone">
+                      Phone
+                      <img
+                        src="/icons/proprtydetls/icon_8.png"
+                        alt="user"
+                        className="absolute top-10 w-5 h-5 object-contain left-3"
+                      />
+                    </label>
+                    <input
+                      type="text"
+                      id="phone"
+                      className="form-input border-gray-200 rounded-md pl-10 h-11"
+                      style={{ fontSize: ".95rem" }}
+                    />
+                  </div>
+
+                  <div className="form-element relative">
+                    <label className="form-label" htmlFor="date">
+                      Select Date
+                      <img
+                        src="/icons/proprtydetls/icon_10.png"
+                        alt="user"
+                        className="absolute top-10 w-5 h-5 object-contain left-3"
+                      />
+                    </label>
+                    <input
+                      type="date"
+                      id="date"
+                      className="form-input border-gray-200 rounded-md pl-10 h-11"
+                      style={{ fontSize: ".95rem" }}
+                    />
+                  </div>
+
+                  <div className="form-element relative">
+                    <label className="form-label" htmlFor="time">
+                      Selec Time
+                      <img
+                        src="/icons/proprtydetls/icon_11.png"
+                        alt="user"
+                        className="absolute top-10 w-5 h-5 object-contain left-3"
+                      />
+                    </label>
+                    <input
+                      type="time"
+                      id="time"
+                      className="form-input border-gray-200 rounded-md pl-10 h-11"
+                      style={{ fontSize: ".95rem" }}
+                    />
+                  </div>
+
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id="terms"
+                      value="yes"
+                      className="h-5 w-5 border-gray-200 mr-2"
+                    />
+                    <label htmlFor="terms">Accept Terms and Conditions</label>
+                  </div>
+                  <div className="text-center">
+                    <button
+                      className="my-5 p-3 rounded-md text-white"
+                      style={{
+                        fontSize: "1rem",
+                        backgroundColor: "var(--primary-color)",
+                      }}
+                    >
+                      Schedule a Visit
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            {/**review */}
+            <div className=" border-gray-200 flex text-center flex-col mt-3 pb-5 overflow-hidden border-2 shadow-md">
+              <p
+                className="text-gray-600 pb-3 mt-2 border-gray-200 mx-3"
+                style={{
+                  borderBottomWidth: "1px",
+                  fontSize: "1rem",
+                  fontFamily: "Opensans-bold",
+                }}
+              >
+                Rate & Review this Property
+              </p>
+              <p
+                className="pt-3 uppercase text-gray-600"
+                style={{
+                  fontFamily: "Opensans-bold",
+                  fontSize: "1rem",
+                }}
+              >
+                Rate Us
+              </p>
+              <p
+                className="flex items-center justify-center my-2 border-gray-200 pb-4 mx-3"
+                style={{ color: "var(--orange)", borderBottomWidth: "1px" }}
+              >
+                <FiStar className="mx-2 text-xl" />
+                <FiStar className="mx-2 text-xl" />
+                <FiStar className="mx-2 text-xl" />
+                <FiStar className="mx-2 text-xl" />
+                <FiStar className="mx-2 text-xl" />
+              </p>
+              <div
+                className="flex flex-col mx-4 flex-grow md:mt-3 mt-5"
+                style={{ fontFamily: "Opensans-bold", fontSize: "1rem" }}
+              >
+                <p className="flex flex-col">
+                  <b style={{ fontFamily: "Opensans-bold" }}>Write a Review</b>
+                  <span
+                    className="text-gray-600 max-w-sm mx-auto mt-2"
+                    style={{
+                      fontFamily: "opensans-regular",
+                      fontSize: ".9rem",
+                    }}
+                  >
+                    Share your thoughts with another customer after visiting
+                    this property.
+                  </span>
+                </p>
+                <form name="review" className="w-full mt-5">
+                  <div className="form-element">
+                    <textarea className="h-40 border-gray-200 rounded-md text-sm"></textarea>
+                  </div>
+                  <button
+                    className="px-5 py-3 text-white rounded-md text-sm"
+                    style={{ backgroundColor: "var(--blue)" }}
+                  >
+                    Post a review
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
