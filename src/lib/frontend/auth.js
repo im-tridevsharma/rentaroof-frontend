@@ -37,6 +37,9 @@ export const getProfile = async (allinfo = false) => {
         user = response?.data;
       })
       .catch((error) => {
+        if (error.response.data.message === "Token expired.") {
+          removeAuthToken();
+        }
         user = error?.response?.data;
       });
   }
