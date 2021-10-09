@@ -15,7 +15,7 @@ function CircleInputRadio({ name, value, state }) {
         type="radio"
         name={name}
         value={value}
-        class="hidden"
+        className="hidden"
         checked={data == value ? true : false}
         onChange={(e) => setData(e.target.value)}
       />

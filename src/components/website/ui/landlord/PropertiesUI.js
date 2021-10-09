@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import Card from "../../Card";
 import PropertyGrid from "../../PropertyGrid";
+import { FaTimes } from "react-icons/fa";
 
 const Button = () => {
   return (
@@ -17,6 +18,15 @@ const Button = () => {
 };
 
 function PropertiesUI() {
+  const [isNewAdded, setIsNewAdded] = useState(false);
+  useEffect(() => {
+    const isAdded = localStorage.getItem("newadded");
+    if (isAdded) {
+      setIsNewAdded(true);
+      localStorage.removeItem("newadded");
+    }
+  }, []);
+
   return (
     <div className="flex flex-col">
       {/**cards */}
@@ -43,6 +53,20 @@ function PropertiesUI() {
           icon={<img src="/icons/owner_dashboard/icon3.png" alt="visited" />}
         />
       </div>
+      {isNewAdded && (
+        <div
+          className="my-2 p-2 rounded-md bg-white flex items-center justify-between shadow-md"
+          style={{
+            fontFamily: "Opensans-bold",
+          }}
+        >
+          <p className="text-green-500"> New property added successfully.</p>
+          <FaTimes
+            className="cursor-pointer text-red-500"
+            onClick={() => setIsNewAdded(false)}
+          />
+        </div>
+      )}
       {/**add new property */}
       <div className="mt-3 p-3 flex items-center justify-between bg-white border-2 border-gray-200 rounded-md">
         <p className="text-gray-600" style={{ fontFamily: "Opensans-bold" }}>
