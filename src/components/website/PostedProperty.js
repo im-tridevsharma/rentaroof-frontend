@@ -37,7 +37,7 @@ function PostedProperty({ property, setProperties, properties }) {
         </div>
         <div className="w-full max-h-48 mb-2 overflow-hidden rounded-md">
           <img
-            src={property?.front_image}
+            src={property?.front_image || "/images/website/no_photo.png"}
             alt={property?.name}
             className="w-full min-h-full object-cover"
           />
@@ -49,7 +49,7 @@ function PostedProperty({ property, setProperties, properties }) {
           </p>
           <p className="text-gray-600">{property?.property_code}</p>
           <div className="my-3">
-            <Link href="/">
+            <Link href={`/details/properties/${property?.property_code}`}>
               <a
                 className="px-2 py-1 rounded-md text-white"
                 style={{

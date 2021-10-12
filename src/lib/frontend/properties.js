@@ -19,6 +19,21 @@ export const getProperties = async () => {
   return res;
 };
 
+export const searchProperties = async (search) => {
+  let res = false;
+
+  await server
+    .get("/properties/search?" + search)
+    .then((response) => {
+      res = response?.data;
+    })
+    .catch((error) => {
+      res = error?.response?.data;
+    });
+
+  return res;
+};
+
 export const getPropertiesCount = async (search) => {
   const token = getToken();
   let res = false;
@@ -71,6 +86,23 @@ export const addPropertyGallery = async (data) => {
     });
 
   return res;
+};
+
+export const getPropertyByCode = async (code) => {
+  let property = false;
+
+  if (code) {
+    await server
+      .get(`/properties/code/${code}`)
+      .then((response) => {
+        property = response?.data;
+      })
+      .catch((error) => {
+        property = error?.response?.data;
+      });
+  }
+
+  return property;
 };
 
 export const addPropertyAddress = async (data) => {

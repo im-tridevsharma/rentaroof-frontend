@@ -9,10 +9,13 @@ import Loader from "../components/loader";
 import addEnquiry from "../lib/frontend/enquiry";
 import { FiAlertTriangle, FiCheckCircle } from "react-icons/fi";
 import { __d } from "../server";
+import { getPropertyByCode } from "../lib/frontend/properties";
 
 function Enquiry() {
   const [isLoading, setIsLoading] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
+  const [property, setProperty] = useState(null);
+  const [user, setUser] = useState(null);
   const [enquiry, setEnquiry] = useState({
     first_name: "",
     last_name: "",
@@ -42,6 +45,23 @@ function Enquiry() {
       }));
     }
   }, [isAdded]);
+
+  useEffect(() => {
+    setIsLoading(true);
+    (async () => {
+      const response = await getPropertyByCode(router.query.property);
+      if (response?.status) {
+        setProperty(response.data);
+        if (response?.data?.posted_by_data) {
+          setUser(response?.data.posted_by_data);
+        }
+        setIsLoading(false);
+      } else {
+        console.error(response?.error || response?.message);
+        setIsLoading(false);
+      }
+    })();
+  }, []);
 
   const inputChageHandler = (e) => {
     const { name, value } = e.target;
@@ -269,27 +289,29 @@ function Enquiry() {
         </div>
         {/**property details */}
         <div
-          className="flex flex-col items-start border-gray-200 bg-white max-w-sm w-full text-gray-600 md:ml-10 mt-11 rounded-md"
+          className="flex flex-col items-start overflow-hidden border-gray-200 p-1 bg-white max-w-sm w-full text-gray-600 md:ml-10 mt-11 rounded-md"
           style={{ borderWidth: "1px", fontFamily: "Opensans-semi-bold" }}
         >
           <img
-            src="/images/website/night.jpg"
-            className="h-52 w-full object-cover m-1 rounded-md"
+            src={property?.front_image || "/images/website/no_photo.png"}
+            className="h-52 object-cover w-full rounded-md"
             alt="property"
           />
           <p className="px-5 mt-3 ">
             <b style={{ fontFamily: "Opensans-bold" }}>Property ID: </b>
-            <span>ID832E728</span>
+            <span>{property?.property_code}</span>
           </p>
-          <p className="px-5 mt-3">2 Bathrooms Semi-detached House</p>
+          <p className="px-5 mt-3 capitalize">
+            {property?.bathrooms} Bathrooms {property?.type}
+          </p>
           <p
             className="text-lg mx-5 text-gray-900"
             style={{ fontFamily: "Opensans-bold" }}
           >
-            Rs. 30,000
+            Rs. {property?.monthly_rent}/month
           </p>
 
-          <Link href="/details/properties/IDY73R3I">
+          <Link href={`/details/properties/${property?.property_code}`}>
             <a
               className="text-white rounded-md px-8 py-4 text-xs mt-3 mx-5"
               style={{ backgroundColor: "var(--blue)" }}
@@ -312,10 +334,14 @@ function Enquiry() {
               fontFamily: "Opensans-bold",
             }}
           >
-            ST Goerge
+            {user?.first} {user?.last}
           </p>
-          <p className="mx-5 leading-3">Bangalore, Karnataka, India</p>
-          <Link href="/details/ibo/ID98R8327">
+          <p className="mx-5 leading-3">{user?.address?.full_address}</p>
+          <Link
+            href={`/details/${user?.role === "ibo" ? "ibo" : "landlord"}/${
+              user?.system_userid
+            }`}
+          >
             <a
               className="mt-5 uppercase mx-5 mb-3"
               style={{
@@ -323,7 +349,8 @@ function Enquiry() {
                 fontFamily: "Opensans-bold",
               }}
             >
-              More Properties from this IBO
+              More Properties from this{" "}
+              {user?.role === "ibo" ? "IBO" : "Landlord"}
             </a>
           </Link>
         </div>

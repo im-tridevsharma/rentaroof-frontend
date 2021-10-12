@@ -3,6 +3,63 @@ import { useRouter } from "next/router";
 import Search from "./forms/Search";
 import Loader from "../../components/loader";
 
+const ptype_options = [
+  { value: "detached", label: "Detached" },
+  { value: "apartment", label: "Apartment" },
+];
+
+const counts = [
+  { value: 1, label: 1 },
+  { value: 2, label: 2 },
+  { value: 3, label: 3 },
+  { value: 4, label: 4 },
+  { value: 5, label: 5 },
+  { value: 6, label: 6 },
+  { value: 7, label: 7 },
+  { value: 8, label: 8 },
+  { value: 9, label: 9 },
+  { value: 10, label: 10 },
+];
+
+const parking_options = [
+  {
+    value: "yes",
+    label: "Yes",
+  },
+  { value: "no", label: "No" },
+];
+
+const price_options = [
+  {
+    value: "1000.00",
+    label: "Rs. 1000",
+  },
+  {
+    value: "2000.00",
+    label: "Rs. 2000",
+  },
+  {
+    value: "5000.00",
+    label: "Rs. 5000",
+  },
+  {
+    value: "10000.00",
+    label: "Rs. 10,000",
+  },
+  {
+    value: "20000.00",
+    label: "Rs. 20,000",
+  },
+  {
+    value: "50000.00",
+    label: "Rs. 50,000",
+  },
+  {
+    value: "100000.00",
+    label: "Rs. 100,000",
+  },
+];
+
 function Banner() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -11,7 +68,15 @@ function Banner() {
     e.preventDefault();
     setIsLoading(true);
     const s_value = document.forms.findProperty.search.value;
-    router.push(`find-property?search=${s_value}`);
+    const ptype = document.forms.findProperty.property_type.value;
+    const bed = document.forms.findProperty.bed_type.value;
+    const bath = document.forms.findProperty.bath_type.value;
+    const parking = document.forms.findProperty.parking_type.value;
+    const min_price = document.forms.findProperty.min_price.value;
+    const max_price = document.forms.findProperty.max_price.value;
+    router.push(
+      `find-property?search=${s_value}&ptype=${ptype}&bed=${bed}&bath=${bath}&parking=${parking}&min_price=${min_price}&max_price=${max_price}`
+    );
   };
 
   return (
@@ -52,7 +117,7 @@ function Banner() {
                 <input
                   type="text"
                   name="search"
-                  placeholder="Search by region, suburb, postcode or property Id"
+                  placeholder="Search by region, postcode or property Id"
                   className="rounded-sm w-72 text-gray-500 sm:flex-grow border-none h-10 ml-1 text-sm mb-1 sm:mb-0"
                 />
                 <button
@@ -68,13 +133,29 @@ function Banner() {
                 </button>
               </div>
               <div className="flex mt-1 flex-col sm:flex-row">
-                <Search label="Any property type" name="property_type" />
-                <Search label="Any Bed" name="bed_type" />
-                <Search label="Any Bath" name="bath_type" />
-                <Search label="Any Parking" name="parking_type" />
-                <Search label="Min Price" name="min_price" />
-                <Search label="Max Price" name="max_price" />
-                <label className="mt-1 cursor-pointer" htmlFor="suburb">
+                <Search
+                  label="Any property type"
+                  name="property_type"
+                  options={ptype_options}
+                />
+                <Search label="Any Bed" name="bed_type" options={counts} />
+                <Search label="Any Bath" name="bath_type" options={counts} />
+                <Search
+                  label="Any Parking"
+                  name="parking_type"
+                  options={parking_options}
+                />
+                <Search
+                  label="Min Price"
+                  name="min_price"
+                  options={price_options}
+                />
+                <Search
+                  label="Max Price"
+                  name="max_price"
+                  options={price_options}
+                />
+                <label className="mt-1 cursor-pointer hidden" htmlFor="suburb">
                   <input
                     type="checkbox"
                     name="suburb"

@@ -7,15 +7,68 @@ import Footer from "../../../components/website/Footer";
 import Breadcrumb from "../../../components/website/Breadcrumb";
 import PropertyIbo from "../../../components/website/PropertyIbo";
 import { FiCheck, FiStar } from "react-icons/fi";
+import { getPropertyByCode } from "../../../lib/frontend/properties";
+import Loader from "../../../components/loader";
+import moment from "moment";
 import { FaTimes } from "react-icons/fa";
+import EssentialItem from "../../../components/website/EssentialItem";
 
 function Index() {
   const router = useRouter();
-  const [property, setProperty] = useState("");
+  const [propertyCode, setPropertyCode] = useState(null);
+  const [property, setProperty] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("key-features");
+  const [essential, setEssential] = useState(null);
+  const [gallery, setGallery] = useState([]);
+  const [amenities, setAmenities] = useState(null);
+  const [address, setAddress] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    setProperty(router.query.id);
+    setPropertyCode(router.query.id);
+    //fetch property details
+    setIsLoading(true);
+    (async () => {
+      const response = await getPropertyByCode(router.query.id);
+      if (response?.status) {
+        setIsLoading(false);
+        setProperty(response.data);
+        if (response?.data.gallery) {
+          Object.keys(response?.data.gallery).forEach((key) => {
+            if (
+              ![
+                "id",
+                "property_id",
+                "created_at",
+                "updated_at",
+                "others",
+              ].includes(key)
+            ) {
+              const images = JSON.parse(response?.data.gallery[key]);
+              if (images.length > 0) {
+                setGallery((prev) => [...prev, ...images]);
+              }
+            }
+          });
+        }
+        if (response?.data.essential) {
+          setEssential(response?.data.essential);
+        }
+        if (response?.data.posted_by_data) {
+          setUser(response?.data.posted_by_data);
+        }
+        if (response?.data.amenities_data) {
+          setAmenities(response?.data.amenities_data);
+        }
+        if (response?.data.address) {
+          setAddress(response?.data.address);
+        }
+      } else {
+        console.error(response?.error || response?.message);
+        setIsLoading(false);
+      }
+    })();
   }, []);
 
   const changeImage = (e) => {
@@ -25,11 +78,12 @@ function Index() {
   return (
     <>
       <Head>
-        <title>Property - {property}</title>
+        <title>Property - {propertyCode}</title>
       </Head>
+      {isLoading && <Loader />}
       <Header />
       <Breadcrumb
-        tagline={`Details of selected property ${property}`}
+        tagline={`Details of selected property ${propertyCode}`}
         path="Home / Property List / Property Details"
       />
       <div className="flex flex-col p-5 relative">
@@ -38,7 +92,7 @@ function Index() {
           {/**main image */}
           <div className="flex max-w-6xl w-full max-h-128 overflow-hidden md:mr-5">
             <img
-              src="/images/website/building.jpg"
+              src={property?.front_image || "/images/website/no_photo.png"}
               alt="p1"
               id="main-image"
               className="rounded-sm w-full h-full object-cover"
@@ -46,30 +100,16 @@ function Index() {
           </div>
           {/**images */}
           <div className="md:w-40 flex md:flex-col flex-row w-full mt-4 md:max-h-128 overflow-hidden md:overflow-y-auto overflow-x-auto md:overflow-x-hidden">
-            <img
-              src="/images/website/building.jpg"
-              alt="p1"
-              className="my-1 mx-1 md:mx-0 h-28 object-cover rounded-sm cursor-pointer"
-              onClick={changeImage}
-            />
-            <img
-              src="/images/website/big-city.jpg"
-              alt="p2"
-              className="my-1 mx-1 md:mx-0 h-28 object-cover rounded-sm cursor-pointer"
-              onClick={changeImage}
-            />
-            <img
-              src="/images/website/home-house.jpg"
-              alt="p3"
-              className="my-1 mx-1 md:mx-0 h-28 object-cover rounded-sm cursor-pointer"
-              onClick={changeImage}
-            />
-            <img
-              src="/images/website/night.jpg"
-              alt="p4"
-              className="my-1 mx-1 md:mx-0 h-28 object-cover rounded-sm cursor-pointer"
-              onClick={changeImage}
-            />
+            {gallery &&
+              gallery.map((g, i) => (
+                <img
+                  src={g}
+                  alt="p1"
+                  className="my-1 mx-1 md:mx-0 h-28 object-cover rounded-sm cursor-pointer"
+                  onClick={changeImage}
+                  key={i}
+                />
+              ))}
           </div>
         </div>
 
@@ -82,7 +122,7 @@ function Index() {
                 className="text-lg text-gray-700"
                 style={{ fontFamily: "Opensans-bold" }}
               >
-                Apartment in the two-family house not far from Berlin
+                {property?.name || "-"}
               </p>
               <p className="flex items-center">
                 <img
@@ -108,7 +148,7 @@ function Index() {
               }}
               className="text-lg"
             >
-              Rs. 1,80,000
+              Rs. {property?.monthly_rent || "-"}/month
             </p>
             <div
               className="border-gray-200 mt-3"
@@ -127,7 +167,7 @@ function Index() {
                     alt="bhk"
                     className="mr-2 w-5 h-5 object-contain"
                   />
-                  3 BHK
+                  {property?.bedrooms || "-"} BHK
                 </span>
                 <span className="flex items-center py-3 border-gray-200 px-4 border-r-2">
                   <img
@@ -135,7 +175,7 @@ function Index() {
                     alt="bhk"
                     className="mr-2 w-5 h-5 object-contain"
                   />
-                  3 Bathroom
+                  {property?.bathrooms || "-"} Bathroom
                 </span>
                 <span className="flex items-center py-3 border-gray-200 px-4 border-r-2">
                   <img
@@ -143,7 +183,7 @@ function Index() {
                     alt="bhk"
                     className="mr-2 w-5 h-5 object-contain"
                   />
-                  2 Floor
+                  {property?.floors || "-"} Floor
                 </span>
                 <span className="flex items-center py-3">
                   <img
@@ -151,7 +191,7 @@ function Index() {
                     alt="bhk"
                     className="mr-2 w-5 h-5 object-contain"
                   />
-                  2 Balcony
+                  {property?.balconies || "-"} Balcony
                 </span>
               </p>
               <p
@@ -161,10 +201,10 @@ function Index() {
                 <span className="flex flex-col py-1 border-gray-200 pr-10 border-r-2">
                   <b className="uppercase">Property Type</b>
                   <span
-                    className="leading-3 text-xs font-semibold"
+                    className="leading-3 text-xs font-semibold capitalize"
                     style={{ fontFamily: "Opensans-regular" }}
                   >
-                    Detached
+                    {property?.type}
                   </span>
                 </span>
                 <span className="flex flex-col py-1 border-gray-200 pr-10 border-r-2">
@@ -173,7 +213,8 @@ function Index() {
                     className="leading-3 text-xs font-semibold"
                     style={{ fontFamily: "Opensans-regular" }}
                   >
-                    765 sq.ft
+                    {property?.carpet_area || "-"}{" "}
+                    {property?.carpet_area_unit || "-"}
                   </span>
                 </span>
                 <span className="flex flex-col py-1">
@@ -182,7 +223,7 @@ function Index() {
                     className="leading-3 text-xs font-semibold"
                     style={{ fontFamily: "Opensans-regular" }}
                   >
-                    IB8939883
+                    {property?.property_code || "-"}
                   </span>
                 </span>
               </p>
@@ -238,39 +279,25 @@ function Index() {
               {/**tab details */}
               <div className="mt-2">
                 {activeTab === "key-features" && (
-                  <ul
-                    className="list-inside text-gray-600"
+                  <div
+                    className="list-inside text-gray-600 px-2 mt-3"
+                    style={{
+                      fontFamily: "Opensans-regular",
+                      listStyleType: "square",
+                    }}
+                    dangerouslySetInnerHTML={{ __html: property?.description }}
+                  />
+                )}
+
+                {activeTab === "about" && (
+                  <div
+                    className="px-2 text-gray-600 mt-3"
                     style={{
                       fontFamily: "Opensans-regular",
                       listStyleType: "square",
                     }}
                   >
-                    <li className="pl-1 my-3">
-                      In publishing and graphic design, Lorem ipsum is a
-                      placeholder text commonly used to demonstrate the visual
-                      form of a document or a typeface without relying on
-                      meaningful content.
-                    </li>
-                    <li className="pl-1 my-3">
-                      In publishing and graphic design, Lorem ipsum is a
-                      placeholder text commonly used to demonstrate the visual
-                      form of a document or a typeface without relying on
-                      meaningful content.
-                    </li>
-                  </ul>
-                )}
-
-                {activeTab === "about" && (
-                  <div className="px-2 text-gray-600 mt-3">
-                    <p>
-                      In publishing and graphic design, Lorem ipsum is a
-                      placeholder text commonly used to demonstrate the visual
-                      form of a document or a typeface without relying on
-                      meaningful content. In publishing and graphic design,
-                      Lorem ipsum is a placeholder text commonly used to
-                      demonstrate the visual form of a document or a typeface
-                      without relying on meaningful content.
-                    </p>
+                    <p>{property?.short_description || "-"}</p>
                   </div>
                 )}
 
@@ -279,41 +306,20 @@ function Index() {
                     className="grid grid-cols-2 md:grid-cols-3 mt-3"
                     style={{ fontFamily: "Opensans-bold" }}
                   >
-                    <div className="flex items-center m-1">
-                      <img
-                        src="https://styles.redditmedia.com/t5_2u559/styles/communityIcon_x0d8uxqbsf411.png"
-                        alt="a1"
-                        className="h-8 w-8 object-contain"
-                      />
-                      <p className="mx-3">Security</p>
-                      <span className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                        <FiCheck className="text-green-600" />
-                      </span>
-                    </div>
-
-                    <div className="flex items-center m-1">
-                      <img
-                        src="https://iconarchive.com/download/i107558/google/noto-emoji-travel-places/42487-house-with-garden.ico"
-                        alt="a1"
-                        className="h-8 w-8 object-contain"
-                      />
-                      <p className="mx-3">Park & Garden</p>
-                      <span className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                        <FiCheck className="text-green-600" />
-                      </span>
-                    </div>
-
-                    <div className="flex items-center m-1">
-                      <img
-                        src="https://www.freeiconspng.com/uploads/summer-swim-icon-33.png"
-                        alt="a1"
-                        className="h-8 w-8 object-contain"
-                      />
-                      <p className="mx-3">Swiming pool</p>
-                      <span className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
-                        <FaTimes className="text-red-600" />
-                      </span>
-                    </div>
+                    {amenities &&
+                      amenities.map((a, i) => (
+                        <div className="flex items-center m-1" key={i}>
+                          <img
+                            src={a?.icon || "/images/website/no_photo.png"}
+                            alt="a1"
+                            className="h-8 w-8 object-contain"
+                          />
+                          <p className="mx-3">{a?.title || "-"}</p>
+                          <span className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                            <FiCheck className="text-green-600" />
+                          </span>
+                        </div>
+                      ))}
                   </div>
                 )}
 
@@ -323,9 +329,25 @@ function Index() {
                       style={{ fontFamily: "Opensans-bold" }}
                       className="text-xl"
                     >
-                      Rs. 1,80,000
+                      Rs. {property?.monthly_rent}/month
                     </p>
-                    <p className="text-green-600">Available</p>
+                    <p className="text-green-600 mt-2">
+                      Available from{" "}
+                      {moment(property?.available_from).format("DD-MM-YYYY") ||
+                        "-"}
+                    </p>
+                    <p className="flex items-center mt-2">
+                      <span className="mr-2">Available immediate</span>
+                      {property?.available_immediatly ? (
+                        <span className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                          <FiCheck className="text-green-600" />
+                        </span>
+                      ) : (
+                        <span className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                          <FaTimes className="text-red-600" />
+                        </span>
+                      )}
+                    </p>
                   </div>
                 )}
               </div>
@@ -348,7 +370,7 @@ function Index() {
                 }}
                 className="text-gray-700 my-3"
               >
-                Darlington Road, Northallerton, DL6 2XB
+                {address?.full_address || "-"}, {address?.pincode || "-"}
               </p>
               <div className="w-full border-gray-200 border-2 rounded-md bg-gray-50">
                 <iframe
@@ -356,7 +378,9 @@ function Index() {
                   width="100%"
                   className="h-52 sm:h-80"
                   id="gmap_canvas"
-                  src="https://maps.google.com/maps?q=Darlington Road, Northallerton, DL6 2XB&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                  src={`https://maps.google.com/maps?q=${
+                    encodeURI(address?.full_address) || "India"
+                  }&t=&z=13&ie=UTF8&iwloc=&output=embed`}
                   frameBorder="0"
                   scrolling="no"
                   marginHeight="0"
@@ -379,29 +403,55 @@ function Index() {
                 className="grid grid-cols-1 md:grid-cols-2 text-gray-600"
                 style={{ fontFamily: "Opensans-bold" }}
               >
-                <div className="flex items-center justify-between my-1 md:mr-5">
-                  <p className="flex items-center py-2">
-                    <img
-                      src="/icons/proprtydetls/icon_12.png"
-                      alt="e1"
-                      className="h-5 w-5 object-contain mr-2"
-                    />
-                    <span>School</span>
-                  </p>
-                  <span>1 KM</span>
-                </div>
-
-                <div className="flex items-center justify-between my-1 md:mr-5">
-                  <p className="flex items-center py-2">
-                    <img
-                      src="/icons/proprtydetls/icon_13.png"
-                      alt="e1"
-                      className="h-5 w-5 object-contain mr-2"
-                    />
-                    <span>Hospital</span>
-                  </p>
-                  <span>1 KM</span>
-                </div>
+                {essential?.school && (
+                  <EssentialItem
+                    icon="/icons/proprtydetls/icon_12.png"
+                    name="School"
+                    distance={essential.school}
+                  />
+                )}
+                {essential?.hospital && (
+                  <EssentialItem
+                    icon="/icons/proprtydetls/icon_13.png"
+                    name="Hospital"
+                    distance={essential.hospital}
+                  />
+                )}
+                {essential?.bus_stop && (
+                  <EssentialItem
+                    icon="/icons/proprtydetls/icon_14.png"
+                    name="Bus Stop"
+                    distance={essential.bus_stop}
+                  />
+                )}
+                {essential?.airport && (
+                  <EssentialItem
+                    icon="/icons/proprtydetls/icon_15.png"
+                    name="Airport"
+                    distance={essential.airport}
+                  />
+                )}
+                {essential?.train && (
+                  <EssentialItem
+                    icon="/icons/proprtydetls/icon_14.png"
+                    name="Train"
+                    distance={essential.train}
+                  />
+                )}
+                {essential?.market && (
+                  <EssentialItem
+                    icon="/icons/proprtydetls/icon_11.png"
+                    name="Market"
+                    distance={essential.market}
+                  />
+                )}
+                {essential?.restaurent && (
+                  <EssentialItem
+                    icon="/icons/proprtydetls/icon_12.png"
+                    name="Restaurent"
+                    distance={essential.restaurent}
+                  />
+                )}
               </div>
             </div>
             {/**similar properties */}
@@ -447,12 +497,14 @@ function Index() {
               }}
             >
               <p>Markated by</p>
-              <p className="mt-3">ST George</p>
-              <p>Bangalore, Karnataka, India</p>
-              <p className="mt-1" style={{ color: "var(--primary-color)" }}>
-                Call : 9283928392
+              <p className="mt-3">
+                {user?.first || "-"} {user?.last || "-"}
               </p>
-              <Link href="/enquiry?property=ID7832Y732">
+              <p>{user?.address?.full_address || "-"}</p>
+              <p className="mt-1" style={{ color: "var(--primary-color)" }}>
+                Call : {user?.mobile || "-"}
+              </p>
+              <Link href={`/enquiry?property=${property?.property_code}`}>
                 <a
                   className="p-3 mt-3 shadow-sm text-white text-sm"
                   style={{ backgroundColor: "var(--primary-color)" }}
@@ -460,11 +512,19 @@ function Index() {
                   Request Details
                 </a>
               </Link>
-              <Link href="/details/ibo/ID838HD9">
-                <a className="mt-3 underline block">
-                  More properties from this IBO
-                </a>
-              </Link>
+              {user?.role === "ibo" ? (
+                <Link href={`/details/ibo/${user?.system_userid}`}>
+                  <a className="mt-3 underline block">
+                    More properties from this IBO
+                  </a>
+                </Link>
+              ) : (
+                <Link href={`/details/landlord/${user?.system_userid}`}>
+                  <a className="mt-3 underline block">
+                    More properties from this Landlord
+                  </a>
+                </Link>
+              )}
             </div>
             {/**visit this house */}
             <div

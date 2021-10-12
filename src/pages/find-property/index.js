@@ -6,22 +6,43 @@ import Footer from "../../components/website/Footer";
 import Breadcrumb from "../../components/website/Breadcrumb";
 import { FiSearch } from "react-icons/fi";
 import PropertyItem from "../../components/website/PropertyItem";
+import { searchProperties } from "../../lib/frontend/properties";
+import Loader from "../../components/loader";
 
 function Index() {
   const router = useRouter();
   const [search, setSearch] = useState("");
+  const [properties, setProperties] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [params, setParams] = useState({});
 
   useEffect(() => {
     setSearch(router.query.search);
-  }, []);
+    setIsLoading(true);
+    setParams(router.query);
+    (async () => {
+      const queryString = Object.keys(router.query)
+        .map((key) => key + "=" + router.query[key])
+        .join("&");
+      const response = await searchProperties(queryString);
+      if (response?.status) {
+        setProperties(response?.data);
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+        console.error(response?.error || response?.message);
+      }
+    })();
+  }, [router.query]);
 
   const tagline = `Listing property for your search "${search}"`;
 
   return (
     <>
       <Head>
-        <title>Find Property for {search}</title>
+        <title>Find Property {search ? "for " + search : ""}</title>
       </Head>
+      {isLoading && <Loader />}
       <Header />
       <Breadcrumb tagline={tagline} path="Home / property list / search" />
       <div className="flex flex-col-reverse sm:flex-row p-5">
@@ -44,6 +65,22 @@ function Index() {
                 fontFamily: "Opensans-regular",
               }}
               className="flex-1 flex px-3 ml-3"
+              onSubmit={(e) => {
+                e.preventDefault();
+                setSearch(document.forms.refineSearch.search.value);
+                const queryString = Object.keys(params)
+                  .map((key) => {
+                    if (key === "search") {
+                      return (
+                        key + "=" + document.forms.refineSearch.search.value
+                      );
+                    } else {
+                      return key + "=" + params[key];
+                    }
+                  })
+                  .join("&");
+                router.push("/find-property?" + queryString);
+              }}
             >
               <input
                 type="text"
@@ -58,15 +95,17 @@ function Index() {
           </div>
           {/**result count */}
           <p className="font-bold" style={{ fontFamily: "Opensans-bold" }}>
-            983 Apartments for "{search}"
+            {properties?.length} Properties {search ? "for " + search : ""}
           </p>
           {/**properties */}
           <div className="flex flex-col mt-3 sm:max-h-128 h-full sm:overflow-hidden sm:overflow-y-auto">
-            <PropertyItem />
-            <PropertyItem />
-            <PropertyItem />
-            <PropertyItem />
-            <PropertyItem />
+            {properties?.length > 0 ? (
+              properties?.map((p, i) => <PropertyItem key={i} property={p} />)
+            ) : (
+              <p className="text-red-500 p-3">
+                Properties not found for your search!
+              </p>
+            )}
           </div>
         </div>
         {/**map */}
