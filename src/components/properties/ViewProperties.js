@@ -67,7 +67,7 @@ function ViewProperties({ property }) {
         <div className="flex justify-between md:flex-row flex-col">
           <div className="flex-grow h-96">
             <img
-              src={property?.front_image}
+              src={property?.front_image || "/images/website/no_photo.png"}
               alt="front-image"
               className="w-full h-full object-cover"
               id="front-img"

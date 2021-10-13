@@ -3,10 +3,7 @@ import Link from "next/link";
 import Card from "../../Card";
 import PropertyGrid from "../../PropertyGrid";
 import { FaTimes } from "react-icons/fa";
-import {
-  getProperties,
-  getPropertiesCount,
-} from "../../../../lib/frontend/properties";
+import { getProperties } from "../../../../lib/frontend/properties";
 import Loader from "../../../loader";
 import PostedProperty from "../../PostedProperty";
 
@@ -25,7 +22,6 @@ const Button = () => {
 
 function PropertiesUI() {
   const [isNewAdded, setIsNewAdded] = useState(false);
-  const [totalPosted, setTotalPosted] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [cardMode, setCardMode] = useState("posted");
   const [properties, setProperties] = useState([]);
@@ -36,18 +32,9 @@ function PropertiesUI() {
       setIsNewAdded(true);
       localStorage.removeItem("newadded");
     }
-    setIsLoading(true);
     (async () => {
-      const response = await getPropertiesCount({});
-      if (response?.status) {
-        setTotalPosted(response.data);
-        setIsLoading(false);
-      } else {
-        console.error(response?.error || response?.message);
-        setIsLoading(false);
-      }
-
       if (cardMode === "posted") {
+        setIsLoading(true);
         const res = await getProperties();
         if (res?.status) {
           setProperties(res.data);
@@ -68,7 +55,7 @@ function PropertiesUI() {
         <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3 space-y-3 md:space-y-0">
           <Card
             label="Total properties posted"
-            count={totalPosted}
+            count={properties?.length}
             color="var(--orange)"
             textcolor="white"
             icon={

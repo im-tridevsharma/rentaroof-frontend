@@ -1,9 +1,13 @@
 import React from "react";
 import Link from "next/link";
 
-function PropertyItem({ property }) {
+function PropertyItem({ property, overEvent, outEvent }) {
   return (
-    <div className="border-2 border-gray-200 rounded-lg flex p-1 my-1 shadow-sm">
+    <div
+      className="border-2 border-gray-200 rounded-lg flex p-1 my-1 shadow-sm"
+      onMouseOver={overEvent}
+      onMouseOut={outEvent}
+    >
       {/**small slider */}
       <div className="mr-5">
         <img

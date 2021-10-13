@@ -3,8 +3,9 @@ import Link from "next/link";
 import Card from "../../Card";
 import PropertyGrid from "../../PropertyGrid";
 import { FaTimes } from "react-icons/fa";
-import { getPropertiesCount } from "../../../../lib/frontend/properties";
+import { getProperties } from "../../../../lib/frontend/properties";
 import Loader from "../../../loader";
+import PostedProperty from "../../PostedProperty";
 
 const Button = () => {
   return (
@@ -21,8 +22,9 @@ const Button = () => {
 
 function PropertiesUI() {
   const [isNewAdded, setIsNewAdded] = useState(false);
-  const [totalPosted, setTotalPosted] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [cardMode, setCardMode] = useState("posted");
+  const [properties, setProperties] = useState([]);
 
   useEffect(() => {
     const isAdded = localStorage.getItem("newadded");
@@ -30,18 +32,20 @@ function PropertiesUI() {
       setIsNewAdded(true);
       localStorage.removeItem("newadded");
     }
-    setIsLoading(true);
     (async () => {
-      const response = await getPropertiesCount({});
-      if (response?.status) {
-        setTotalPosted(response.data);
-        setIsLoading(false);
-      } else {
-        console.error(response?.error || response?.message);
-        setIsLoading(false);
+      if (cardMode === "posted") {
+        setIsLoading(true);
+        const res = await getProperties();
+        if (res?.status) {
+          setProperties(res.data);
+          setIsLoading(false);
+        } else {
+          console.error(response?.error || response?.message);
+          setIsLoading(false);
+        }
       }
     })();
-  }, []);
+  }, [cardMode]);
 
   return (
     <>
@@ -51,12 +55,13 @@ function PropertiesUI() {
         <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3 space-y-3 md:space-y-0">
           <Card
             label="Total properties posted"
-            count={totalPosted}
+            count={properties?.length}
             color="var(--orange)"
             textcolor="white"
             icon={
               <img src="/icons/owner_dashboard/icon1.png" alt="properties" />
             }
+            onClick={() => setCardMode("posted")}
           />
           <Card
             label="Total rented properties"
@@ -64,6 +69,7 @@ function PropertiesUI() {
             color="white"
             textcolor="gray"
             icon={<img src="/icons/owner_dashboard/icon2.png" alt="rented" />}
+            onClick={() => setCardMode("rented")}
           />
           <Card
             label="Total visited properties"
@@ -71,6 +77,7 @@ function PropertiesUI() {
             color="white"
             textcolor="gray"
             icon={<img src="/icons/owner_dashboard/icon3.png" alt="visited" />}
+            onClick={() => setCardMode("visited")}
           />
         </div>
         {isNewAdded && (
@@ -105,32 +112,66 @@ function PropertiesUI() {
           </Link>
         </div>
         {/**properties */}
-        <div className="py-2 text-lg" style={{ fontFamily: "Opensans-bold" }}>
-          <p>Rent Details</p>
-        </div>
-        <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          <PropertyGrid
-            image={<img src="/images/website/big-city.jpg" alt="property" />}
-            title="4BHK at Pune"
-            price="Rs. 2000/Month"
-            subtitle="Renter: John"
-            button={<Button />}
-          />
-          <PropertyGrid
-            image={<img src="/images/website/big-city.jpg" alt="property" />}
-            title="4BHK at Pune"
-            price="Rs. 2000/Month"
-            subtitle="Renter: John"
-            button={<Button />}
-          />
-          <PropertyGrid
-            image={<img src="/images/website/big-city.jpg" alt="property" />}
-            title="4BHK at Pune"
-            price="Rs. 2000/Month"
-            subtitle="Renter: John"
-            button={<Button />}
-          />
-        </div>
+        {cardMode === "posted" && (
+          <>
+            <div
+              className="py-2 text-lg"
+              style={{ fontFamily: "Opensans-bold" }}
+            >
+              <p>Posted Properties</p>
+            </div>
+            <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+              {properties &&
+                properties.map((p, i) => (
+                  <PostedProperty
+                    key={i}
+                    property={p}
+                    setProperties={setProperties}
+                    properties={properties}
+                  />
+                ))}
+            </div>
+          </>
+        )}
+        {cardMode === "rented" && (
+          <>
+            <div
+              className="py-2 text-lg"
+              style={{ fontFamily: "Opensans-bold" }}
+            >
+              <p>Rent Details</p>
+            </div>
+            <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+              <PropertyGrid
+                image={
+                  <img src="/images/website/big-city.jpg" alt="property" />
+                }
+                title="4BHK at Pune"
+                price="Rs. 2000/Month"
+                subtitle="Renter: John"
+                button={<Button />}
+              />
+              <PropertyGrid
+                image={
+                  <img src="/images/website/big-city.jpg" alt="property" />
+                }
+                title="4BHK at Pune"
+                price="Rs. 2000/Month"
+                subtitle="Renter: John"
+                button={<Button />}
+              />
+              <PropertyGrid
+                image={
+                  <img src="/images/website/big-city.jpg" alt="property" />
+                }
+                title="4BHK at Pune"
+                price="Rs. 2000/Month"
+                subtitle="Renter: John"
+                button={<Button />}
+              />
+            </div>
+          </>
+        )}
       </div>
     </>
   );
