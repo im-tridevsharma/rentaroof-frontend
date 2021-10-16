@@ -4,8 +4,11 @@ import Search from "./forms/Search";
 import Loader from "../../components/loader";
 
 const ptype_options = [
-  { value: "detached", label: "Detached" },
   { value: "apartment", label: "Apartment" },
+  { value: "building", label: "Building" },
+  { value: "home", label: "Home" },
+  { value: "land & industrial", label: "Land & Industrial" },
+  { value: "vacation rental", label: "Vacation Rental" },
 ];
 
 const counts = [

@@ -7,11 +7,15 @@ import Footer from "../../../components/website/Footer";
 import Breadcrumb from "../../../components/website/Breadcrumb";
 import PropertyIbo from "../../../components/website/PropertyIbo";
 import { FiCheck, FiStar } from "react-icons/fi";
-import { getPropertyByCode } from "../../../lib/frontend/properties";
+import {
+  getPropertyByCode,
+  saveUserProperty,
+} from "../../../lib/frontend/properties";
 import Loader from "../../../components/loader";
 import moment from "moment";
 import { FaTimes } from "react-icons/fa";
 import EssentialItem from "../../../components/website/EssentialItem";
+import { __d } from "../../../server";
 
 function Index() {
   const router = useRouter();
@@ -24,6 +28,7 @@ function Index() {
   const [amenities, setAmenities] = useState(null);
   const [address, setAddress] = useState(null);
   const [user, setUser] = useState(null);
+  const [profile, setProfile] = useState(false);
 
   useEffect(() => {
     setPropertyCode(router.query.id);
@@ -63,6 +68,29 @@ function Index() {
         }
         if (response?.data.address) {
           setAddress(response?.data.address);
+        }
+
+        const u = localStorage.getItem("LU")
+          ? JSON.parse(__d(localStorage.getItem("LU")))
+          : false;
+        if (u) {
+          const updata = {
+            user_id: u.id,
+            property_id: response?.data.id,
+            property_code: response?.data.property_code,
+            front_image: response?.data.front_image,
+            rating: "",
+            type: "visited",
+            property_name: response?.data.name,
+            property_short_description: response?.data.short_description,
+            property_posted_by: response?.data.posted_by_data.first,
+          };
+          const sres = await saveUserProperty(updata);
+          if (sres?.status) {
+            setIsLoading(false);
+          } else {
+            console.error(sres?.error || sres.message);
+          }
         }
       } else {
         console.error(response?.error || response?.message);
@@ -338,7 +366,7 @@ function Index() {
                     </p>
                     <p className="flex items-center mt-2">
                       <span className="mr-2">Available immediate</span>
-                      {property?.available_immediatly ? (
+                      {property?.available_immediately ? (
                         <span className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
                           <FiCheck className="text-green-600" />
                         </span>

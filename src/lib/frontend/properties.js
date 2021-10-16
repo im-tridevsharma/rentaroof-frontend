@@ -70,6 +70,24 @@ const addProperty = async (data) => {
   return res;
 };
 
+export const updateProperty = async (id, data) => {
+  const token = getToken();
+  let res = false;
+
+  await server
+    .post("/properties/" + id, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      res = response?.data;
+    })
+    .catch((error) => {
+      res = error?.response?.data;
+    });
+
+  return res;
+};
+
 export const addPropertyGallery = async (data) => {
   const token = getToken();
   let res = false;
@@ -101,8 +119,43 @@ export const getPropertyByCode = async (code) => {
         property = error?.response?.data;
       });
   }
-
   return property;
+};
+
+export const saveSearch = async (data) => {
+  const token = getToken();
+  let res = false;
+
+  await server
+    .post("/users/searches", data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      res = response?.data;
+    })
+    .catch((error) => {
+      res = error?.response?.data;
+    });
+
+  return res;
+};
+
+export const saveUserProperty = async (data) => {
+  const token = getToken();
+  let res = false;
+
+  await server
+    .post("/users/savedproperties", data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      res = response?.data;
+    })
+    .catch((error) => {
+      res = error?.response?.data;
+    });
+
+  return res;
 };
 
 export const addPropertyAddress = async (data) => {
@@ -111,6 +164,24 @@ export const addPropertyAddress = async (data) => {
 
   await server
     .post("/properties/addresses", data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      res = response?.data;
+    })
+    .catch((error) => {
+      res = error?.response?.data;
+    });
+
+  return res;
+};
+
+export const updatePropertyAddress = async (id, data) => {
+  const token = getToken();
+  let res = false;
+
+  await server
+    .post("/properties/addresses/" + id, data, {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((response) => {
@@ -147,6 +218,24 @@ export const addPropertyEssential = async (data) => {
 
   await server
     .post("/properties/essentials", data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      res = response?.data;
+    })
+    .catch((error) => {
+      res = error?.response?.data;
+    });
+
+  return res;
+};
+
+export const updatePropertyEssential = async (id, data) => {
+  const token = getToken();
+  let res = false;
+
+  await server
+    .post("/properties/essentials/" + id, data, {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((response) => {

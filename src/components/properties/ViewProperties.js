@@ -76,6 +76,7 @@ function ViewProperties({ property }) {
           <div className="flex items-center md:w-96 w-full flex-col md:mt-0 mt-3">
             <div className="flex items-center w-full overflow-x-auto px-2 md:ml-3">
               {gallery &&
+                typeof gallery === "object" &&
                 Object.keys(gallery).map((key, i) => {
                   return (
                     ![

@@ -51,7 +51,14 @@ function Index() {
           setTimeout(() => {
             setSuccess(false);
             if (response?.user?.role) {
-              router.push(`/${response.user.role}/dashboard`);
+              const redirect = localStorage.getItem("redirect");
+              console.log(redirect);
+              if (redirect) {
+                localStorage.removeItem("redirect");
+                router.push(redirect);
+              } else {
+                router.push(`/${response.user.role}/dashboard`);
+              }
             }
           }, 1500);
         } else if (response?.error || response?.message) {

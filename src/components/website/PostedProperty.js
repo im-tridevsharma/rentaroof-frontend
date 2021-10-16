@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { VscVerified, VscUnverified } from "react-icons/vsc";
 import { deleteProperty } from "../../lib/frontend/properties";
 import Loader from "../loader";
+import { __d } from "../../server";
+import { FiEdit2 } from "react-icons/fi";
 
 function PostedProperty({ property, setProperties, properties }) {
   const [isLoading, setIsLoading] = useState(false);
-
   const deleteProperties = async () => {
     const go = confirm("It will delete it permanantly!");
     if (go) {
@@ -43,6 +44,72 @@ function PostedProperty({ property, setProperties, properties }) {
           />
         </div>
         <div className="text-center" style={{ fontFamily: "Opensans-regular" }}>
+          <div className="absolute right-2 top-3 py-2 rounded-full bg-white shadow-md">
+            {property?.address_id &&
+              property?.gallery_id &&
+              property?.property_essential_id &&
+              property?.amenities !== null && (
+                <Link
+                  href={`update-property?step=next&next=UPDATE&id=${property?.property_code}-${property?.id}&skip=false&mode=update`}
+                >
+                  <a className="mb-1 block" title="Update Property">
+                    <FiEdit2 className="text-green-500 text-xl mx-1" />
+                  </a>
+                </Link>
+              )}
+            {!property?.address_id && (
+              <Link
+                href={`update-property?step=next&next=ADDRESS&id=${property?.property_code}-${property?.id}&skip=false&back=true`}
+              >
+                <a className="mb-1 block" title="Add address">
+                  <img
+                    src="/icons/home/paddr.png"
+                    alt="add_address"
+                    className="w-10 h-10 object-contain rounded-full"
+                  />
+                </a>
+              </Link>
+            )}
+            {!property?.gallery_id && (
+              <Link
+                href={`update-property?step=next&next=GALLERY&id=${property?.property_code}-${property?.id}&skip=false&back=true`}
+              >
+                <a className="mb-1 block" title="Add gallery">
+                  <img
+                    src="/icons/home/pgallery.png"
+                    alt="add_gallery"
+                    className="w-10 h-10 object-contain rounded-full"
+                  />
+                </a>
+              </Link>
+            )}
+            {property?.amenities === null && (
+              <Link
+                href={`update-property?step=next&next=AMENITIES&id=${property?.property_code}-${property?.id}&skip=false&back=true`}
+              >
+                <a title="Add amenities" className="mb-1 block">
+                  <img
+                    src="/icons/home/pamenity.png"
+                    alt="add_amenity"
+                    className="w-10 h-10 object-contain rounded-full"
+                  />
+                </a>
+              </Link>
+            )}
+            {!property?.property_essential_id && (
+              <Link
+                href={`update-property?step=next&next=ESSENTIALS&id=${property?.property_code}-${property?.id}&skip=false&back=true`}
+              >
+                <a title="Add essentials">
+                  <img
+                    src="/icons/home/pessential.png"
+                    alt="add_essential"
+                    className="w-10 h-10 object-contain rounded-full"
+                  />
+                </a>
+              </Link>
+            )}
+          </div>
           <p className="text-gray-600">{property?.name}</p>
           <p style={{ fontFamily: "Opensans-bold" }}>
             Price: {property?.monthly_rent}

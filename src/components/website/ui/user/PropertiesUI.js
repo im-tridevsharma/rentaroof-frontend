@@ -1,43 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Card from "../../Card";
 import { BsStarFill } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
+import Loader from "../../../loader";
+import { getUserSavedProperties } from "../../../../lib/frontend/auth";
+import { __d } from "../../../../server";
 
 function PropertiesUI() {
-  const properties = [
-    {
-      img: (
-        <Image
-          src="/images/website/building.jpg"
-          alt="property"
-          layout="responsive"
-          width="80"
-          height="80"
-        />
-      ),
-      title: "New Property-38BHK at Pune for 4500",
-      description: "Property short description goes here.",
-      posted_by: "James",
-      rating: 3.5,
-    },
-    {
-      img: (
-        <Image
-          src="/images/website/home-house.jpg"
-          alt="property2"
-          layout="responsive"
-          width="80"
-          height="80"
-        />
-      ),
-      title: "New Property-3BHK at Mumbai for 4500",
-      description: "Property short description goes here.",
-      posted_by: "John",
-      rating: 4.5,
-    },
-  ];
+  const [tabMode, setTabMode] = useState("visited");
+  const [savedProperties, setSavedProperties] = useState([]);
+  const [visitedProperties, setVisitedProperties] = useState([]);
+  const [favoriteProperties, setFavoriteProperties] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+    const u = localStorage.getItem("LU")
+      ? JSON.parse(__d(localStorage.getItem("LU")))
+      : false;
+    if (u) {
+      setUser(u);
+      (async () => {
+        const response = await getUserSavedProperties(u.id);
+        if (response?.status) {
+          setIsLoading(false);
+          const visited = response?.data.filter((p) => p.type === "visited");
+          const saved = response?.data.filter((p) => p.type === "saved");
+          const favorite = response?.data.filter((p) => p.type === "favorite");
+          setFavoriteProperties(favorite);
+          setSavedProperties(saved);
+          setVisitedProperties(visited);
+        } else {
+          setIsLoading(false);
+          console.error(response?.error || response?.message);
+        }
+      })();
+    }
+  }, []);
 
   return (
     <div className="flex flex-col">
@@ -53,12 +55,14 @@ function PropertiesUI() {
               alt="icon"
             />
           }
+          onClick={() => setTabMode("visited")}
           count="20"
           color="var(--orange)"
           textcolor="white"
         />
         <Card
           label="Saved Properties"
+          onClick={() => setTabMode("saved")}
           icon={
             <img
               src="/icons/user-dashboard/icon5.png"
@@ -73,6 +77,7 @@ function PropertiesUI() {
         />
         <Card
           label="Favorite Properties"
+          onClick={() => setTabMode("favorite")}
           icon={
             <img
               src="/icons/user-dashboard/favorite.png"
@@ -88,58 +93,203 @@ function PropertiesUI() {
       </div>
 
       {/**visited properties */}
-      <div className="flex flex-col mt-5 p-5 bg-white rounded-md border-2 border-gray-200">
-        <p
-          className="flex items-center justify-between"
-          style={{ fontFamily: "Opensans-semi-bold" }}
-        >
-          <span>Visited Properties</span>
-          <Link href="/">
-            <a>Show All</a>
-          </Link>
-        </p>
-        <div className="mt-5">
-          {properties?.length > 0 &&
-            properties.map((p, i) => (
-              <div
-                className="relative border-gray-200 flex items-center justify-between py-2 pl-8 pr-2"
-                key={i}
-                style={{ borderTopWidth: "1px" }}
-              >
-                <span className="p-1 rounded-md bg-gray-400 absolute top-2 left-0 cursor-pointer text-white">
-                  <MdClose />
-                </span>
-                <div className="w-20 h-20 overflow-hidden rounded-md">
-                  {p?.img}
-                </div>
+      {tabMode === "visited" && (
+        <div className="flex flex-col mt-5 p-5 bg-white rounded-md border-2 border-gray-200">
+          <p
+            className="flex items-center justify-between"
+            style={{ fontFamily: "Opensans-semi-bold" }}
+          >
+            <span>Visited Properties</span>
+            <Link href="/">
+              <a>Show All</a>
+            </Link>
+          </p>
+          <div className="mt-5">
+            {visitedProperties?.length > 0 ? (
+              visitedProperties.map((p, i) => (
                 <div
-                  className="flex flex-col flex-grow px-5 leading-4"
-                  style={{ fontFamily: "Opensans-regular" }}
+                  className="relative border-gray-200 flex items-center justify-between py-2 pl-8 pr-2"
+                  key={i}
+                  style={{ borderTopWidth: "1px" }}
                 >
-                  <h6
-                    className="text-gray-800"
-                    style={{ fontFamily: "Opensans-bold" }}
+                  <span className="p-1 rounded-md bg-gray-400 absolute top-2 left-0 cursor-pointer text-white">
+                    <MdClose />
+                  </span>
+                  <div className="w-20 h-20 overflow-hidden rounded-md">
+                    <Image
+                      src={p?.front_image || "/images/website/no_photo.png"}
+                      alt="property"
+                      layout="responsive"
+                      width="80"
+                      height="80"
+                    />
+                  </div>
+                  <div
+                    className="flex flex-col flex-grow px-5 leading-4"
+                    style={{ fontFamily: "Opensans-regular" }}
                   >
-                    {p?.title}
-                  </h6>
-                  <p className="text-gray-400">{p?.description}</p>
-                  <span
-                    className="font-bold"
-                    style={{ color: "var(--orange)" }}
-                  >
-                    By {p?.posted_by}
+                    <h6
+                      className="text-gray-800"
+                      style={{ fontFamily: "Opensans-bold" }}
+                    >
+                      {p?.property_name}
+                    </h6>
+                    <p className="text-gray-400">
+                      {p?.property_short_description}
+                    </p>
+                    <span
+                      className="font-bold"
+                      style={{ color: "var(--orange)" }}
+                    >
+                      By {p?.property_posted_by}
+                    </span>
+                  </div>
+                  <span className="flex items-center text-lg">
+                    <span className="m-1" style={{ color: "var(--blue)" }}>
+                      {p?.rating}
+                    </span>
+                    <BsStarFill color="orange" />
                   </span>
                 </div>
-                <span className="flex items-center text-lg">
-                  <span className="m-1" style={{ color: "var(--blue)" }}>
-                    {p?.rating}
-                  </span>
-                  <BsStarFill color="orange" />
-                </span>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p className="text-red-500">No properties found!</p>
+            )}
+          </div>
         </div>
-      </div>
+      )}
+      {/**saved properties */}
+      {tabMode === "saved" && (
+        <div className="flex flex-col mt-5 p-5 bg-white rounded-md border-2 border-gray-200">
+          <p
+            className="flex items-center justify-between"
+            style={{ fontFamily: "Opensans-semi-bold" }}
+          >
+            <span>Saved Properties</span>
+            <Link href="/">
+              <a>Show All</a>
+            </Link>
+          </p>
+          <div className="mt-5">
+            {savedProperties?.length > 0 ? (
+              savedProperties.map((p, i) => (
+                <div
+                  className="relative border-gray-200 flex items-center justify-between py-2 pl-8 pr-2"
+                  key={i}
+                  style={{ borderTopWidth: "1px" }}
+                >
+                  <span className="p-1 rounded-md bg-gray-400 absolute top-2 left-0 cursor-pointer text-white">
+                    <MdClose />
+                  </span>
+                  <div className="w-20 h-20 overflow-hidden rounded-md">
+                    <Image
+                      src={p?.front_image || "/images/website/no_photo.png"}
+                      alt="property"
+                      layout="responsive"
+                      width="80"
+                      height="80"
+                    />
+                  </div>
+                  <div
+                    className="flex flex-col flex-grow px-5 leading-4"
+                    style={{ fontFamily: "Opensans-regular" }}
+                  >
+                    <h6
+                      className="text-gray-800"
+                      style={{ fontFamily: "Opensans-bold" }}
+                    >
+                      {p?.property_name}
+                    </h6>
+                    <p className="text-gray-400">
+                      {p?.property_short_description}
+                    </p>
+                    <span
+                      className="font-bold"
+                      style={{ color: "var(--orange)" }}
+                    >
+                      By {p?.property_posted_by}
+                    </span>
+                  </div>
+                  <span className="flex items-center text-lg">
+                    <span className="m-1" style={{ color: "var(--blue)" }}>
+                      {p?.rating}
+                    </span>
+                    <BsStarFill color="orange" />
+                  </span>
+                </div>
+              ))
+            ) : (
+              <p className="text-red-500">No properties found!</p>
+            )}
+          </div>
+        </div>
+      )}
+      {/**favorite properties */}
+      {tabMode === "favorite" && (
+        <div className="flex flex-col mt-5 p-5 bg-white rounded-md border-2 border-gray-200">
+          <p
+            className="flex items-center justify-between"
+            style={{ fontFamily: "Opensans-semi-bold" }}
+          >
+            <span>Favorite Properties</span>
+            <Link href="/">
+              <a>Show All</a>
+            </Link>
+          </p>
+          <div className="mt-5">
+            {favoriteProperties?.length > 0 ? (
+              favoriteProperties.map((p, i) => (
+                <div
+                  className="relative border-gray-200 flex items-center justify-between py-2 pl-8 pr-2"
+                  key={i}
+                  style={{ borderTopWidth: "1px" }}
+                >
+                  <span className="p-1 rounded-md bg-gray-400 absolute top-2 left-0 cursor-pointer text-white">
+                    <MdClose />
+                  </span>
+                  <div className="w-20 h-20 overflow-hidden rounded-md">
+                    <Image
+                      src={p?.front_image || "/images/website/no_photo.png"}
+                      alt="property"
+                      layout="responsive"
+                      width="80"
+                      height="80"
+                    />
+                  </div>
+                  <div
+                    className="flex flex-col flex-grow px-5 leading-4"
+                    style={{ fontFamily: "Opensans-regular" }}
+                  >
+                    <h6
+                      className="text-gray-800"
+                      style={{ fontFamily: "Opensans-bold" }}
+                    >
+                      {p?.property_name}
+                    </h6>
+                    <p className="text-gray-400">
+                      {p?.property_short_description}
+                    </p>
+                    <span
+                      className="font-bold"
+                      style={{ color: "var(--orange)" }}
+                    >
+                      By {p?.property_posted_by}
+                    </span>
+                  </div>
+                  <span className="flex items-center text-lg">
+                    <span className="m-1" style={{ color: "var(--blue)" }}>
+                      {p?.rating}
+                    </span>
+                    <BsStarFill color="orange" />
+                  </span>
+                </div>
+              ))
+            ) : (
+              <p className="text-red-500">No properties found!</p>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -144,7 +144,7 @@ function Header() {
               <Link href={`/${user?.role}/dashboard`}>
                 <a className="flex items-center w-6 h-6 overflow-hidden rounded-full">
                   <img
-                    src={user?.profile_pic || "/icons/user-dashboard/man.png"}
+                    src={user?.profile_pic || "/image/website/no_photo.png"}
                     className="w-full h-full object-cover"
                     alt="user"
                   />

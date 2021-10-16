@@ -108,7 +108,7 @@ function MapUI() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-2">
               <div className="form-element">
-                <div className="form-label">Zoop level for map (1-20):</div>
+                <div className="form-label">Zoom level for map (1-20):</div>
                 <input
                   type="text"
                   className="form-input border-gray-300 rounded-md"

@@ -22,6 +22,7 @@ const Button = () => {
 
 function PropertiesUI() {
   const [isNewAdded, setIsNewAdded] = useState(false);
+  const [updated, setUpdated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [cardMode, setCardMode] = useState("posted");
   const [properties, setProperties] = useState([]);
@@ -32,6 +33,12 @@ function PropertiesUI() {
       setIsNewAdded(true);
       localStorage.removeItem("newadded");
     }
+    const isUpdated = localStorage.getItem("updated");
+    if (isUpdated) {
+      setUpdated(true);
+      localStorage.removeItem("updated");
+    }
+
     (async () => {
       if (cardMode === "posted") {
         setIsLoading(true);
@@ -40,7 +47,7 @@ function PropertiesUI() {
           setProperties(res.data);
           setIsLoading(false);
         } else {
-          console.error(response?.error || response?.message);
+          console.error(res?.error || res?.message);
           setIsLoading(false);
         }
       }
@@ -91,6 +98,20 @@ function PropertiesUI() {
             <FaTimes
               className="cursor-pointer text-red-500"
               onClick={() => setIsNewAdded(false)}
+            />
+          </div>
+        )}
+        {updated && (
+          <div
+            className="my-2 p-2 rounded-md bg-white flex items-center justify-between shadow-md"
+            style={{
+              fontFamily: "Opensans-bold",
+            }}
+          >
+            <p className="text-green-500"> {updated}</p>
+            <FaTimes
+              className="cursor-pointer text-red-500"
+              onClick={() => setUpdated(false)}
             />
           </div>
         )}

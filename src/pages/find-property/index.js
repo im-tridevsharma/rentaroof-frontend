@@ -6,8 +6,9 @@ import Header from "../../components/website/Header";
 import Footer from "../../components/website/Footer";
 import Breadcrumb from "../../components/website/Breadcrumb";
 import { FiFilter, FiSearch } from "react-icons/fi";
+import { BiSave } from "react-icons/bi";
 import PropertyItem from "../../components/website/PropertyItem";
-import { searchProperties } from "../../lib/frontend/properties";
+import { saveSearch, searchProperties } from "../../lib/frontend/properties";
 import Loader from "../../components/loader";
 import {
   useLoadScript,
@@ -15,6 +16,7 @@ import {
   InfoWindow,
   Marker,
 } from "@react-google-maps/api";
+import { __d } from "../../server";
 
 function Index() {
   const router = useRouter();
@@ -26,6 +28,7 @@ function Index() {
   const [filterMode, setFilterMode] = useState(false);
   const [activeMarker, setActiveMarker] = useState(null);
   const [hoveredProperty, setHoveredProperty] = useState(null);
+  const [user, setUser] = useState(null);
   const [filterData, setFilterData] = useState({
     search: "",
     available_from: "",
@@ -60,6 +63,56 @@ function Index() {
       }
     })();
   }, [router.query]);
+
+  useEffect(() => {
+    const u = localStorage.getItem("LU")
+      ? JSON.parse(__d(localStorage.getItem("LU")))
+      : false;
+    if (u) {
+      setUser(u);
+      const action = localStorage.getItem("perform")
+        ? JSON.parse(localStorage.getItem("perform"))
+        : false;
+      if (action) {
+        if (
+          action.pathname === router.pathname &&
+          action.module === "saveUserSearch"
+        ) {
+          setIsLoading(true);
+          saveUserSearch({ ...action.params, user_id: u.id });
+        }
+      }
+    }
+  }, []);
+
+  const saveSearchHandle = () => {
+    if (user) {
+      //perform save task
+      setIsLoading(true);
+      saveUserSearch({ search: router.asPath, user_id: user.id });
+    } else if (!user) {
+      localStorage.setItem("redirect", router.asPath);
+      const actionObj = {
+        pathname: router.pathname,
+        module: "saveUserSearch",
+        params: { search: router.asPath },
+      };
+      localStorage.setItem("perform", JSON.stringify(actionObj));
+      router.push("/login");
+    }
+  };
+
+  const saveUserSearch = async (data) => {
+    const res = await saveSearch(data);
+    if (res?.status) {
+      setIsLoading(false);
+      localStorage.removeItem("perform");
+      alert(res?.message);
+    } else {
+      setIsLoading(false);
+      console.error(res?.error);
+    }
+  };
 
   const renderQuery = () => {
     const queryString = Object.keys(filterData)
@@ -380,7 +433,19 @@ function Index() {
         {/**map */}
         <div className="w-full px-5 mb-10 sm:mb-0">
           {/**some options */}
-          <div className="flex items-center mb-5"></div>
+          <div className="flex items-center justify-end mb-1">
+            <label className="text-gray-500 mr-2">
+              <input type="checkbox" className="mr-1" />
+              Search as move map
+            </label>
+            <button
+              className="px-2 py-1 rounded-md text-white flex items-center"
+              style={{ backgroundColor: "var(--primary-color)" }}
+              onClick={saveSearchHandle}
+            >
+              <BiSave className="mr-1" /> Save Search
+            </button>
+          </div>
           {/**map view */}
           <div className="w-full bg-gray-50 rounded-sm h-128">
             {isLoaded && properties?.length > 0 && (

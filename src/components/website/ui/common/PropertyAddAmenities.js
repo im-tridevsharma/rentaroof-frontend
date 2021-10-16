@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import {
   addPropertyAmenities,
   getAmenities,
+  getPropertyByCode,
 } from "../../../../lib/frontend/properties";
 import Loader from "../../../loader";
 
@@ -10,6 +11,9 @@ function PropertyAddAmenities({ code }) {
   const [propertyId, setPropertyId] = useState("");
   const [amenities, setAmenities] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [skip, setSkip] = useState(true);
+  const [back, setBack] = useState(false);
+  const [amenity, setAmenity] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -23,11 +27,37 @@ function PropertyAddAmenities({ code }) {
         setIsLoading(false);
       }
     })();
+    setBack(router.query.back || false);
+    setSkip(router.query.skip || true);
+
+    if (router.query.mode === "update") {
+      (async () => {
+        const prpty = await getPropertyByCode(ids[0] + "-" + ids[1]);
+        if (prpty?.status) {
+          setAmenity(
+            prpty?.data?.amenities !== null
+              ? JSON.parse(prpty?.data?.amenities)
+              : []
+          );
+          setIsLoading(false);
+        } else {
+          console.error(prpty.error || prpty.message);
+        }
+      })();
+    }
   }, []);
 
   const nextToEssentials = () => {
     localStorage.setItem("next_ap", "ESSENTIALS");
-    router.push("?step=next&next=ESSENTIALS&id=" + code);
+    if (back) {
+      router.push("properties");
+    } else {
+      router.push(
+        "?step=next&next=ESSENTIALS&id=" +
+          code +
+          (router.query.mode === "update" && "&mode=" + router.query.mode)
+      );
+    }
   };
 
   const handleSubmit = (e) => {
@@ -53,6 +83,14 @@ function PropertyAddAmenities({ code }) {
     }
   };
 
+  const handleCheck = (e) => {
+    if (!e.target.checked) {
+      setAmenity(amenity.filter((a) => a !== e.target.value));
+    } else {
+      setAmenity((prev) => [...prev, e.target.value]);
+    }
+  };
+
   return (
     <>
       {isLoading && <Loader />}
@@ -63,15 +101,17 @@ function PropertyAddAmenities({ code }) {
           style={{ fontFamily: "Opensans-semi-bold" }}
         >
           <h5>Add Amenities</h5>
-          <button
-            className="rounded-md text-white px-3 py-2"
-            style={{
-              backgroundColor: "var(--orange)",
-            }}
-            onClick={nextToEssentials}
-          >
-            Skip
-          </button>
+          {skip === true && (
+            <button
+              className="rounded-md text-white px-3 py-2"
+              style={{
+                backgroundColor: "var(--orange)",
+              }}
+              onClick={nextToEssentials}
+            >
+              Skip
+            </button>
+          )}
         </div>
         <form name="add_amenity" method="POST" onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-4 mt-5">
@@ -87,6 +127,8 @@ function PropertyAddAmenities({ code }) {
                       type="checkbox"
                       name="amenities[]"
                       value={a.id}
+                      checked={amenity.includes(a.id.toString()) ? true : false}
+                      onChange={handleCheck}
                       className="mx-2 w-6 h-6 border-gray-200"
                     />
                     <img

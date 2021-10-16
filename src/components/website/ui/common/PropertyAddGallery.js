@@ -17,6 +17,8 @@ function PropertyAddGallery({ code }) {
   const [masterPlanImages, setMasterPlanImages] = useState([]);
   const [locationMapImages, setLocationMapImages] = useState([]);
   const [coverImage, setCoverImage] = useState("");
+  const [skip, setSkip] = useState(true);
+  const [back, setBack] = useState(false);
 
   const onChangeExteriorImages = (imageList, addUpdateIndex) => {
     setExteriorImages(imageList);
@@ -55,11 +57,21 @@ function PropertyAddGallery({ code }) {
   useEffect(() => {
     const ids = code.split("-");
     setPropertyId(ids[ids.length - 1]);
+    setSkip(router.query.skip || true);
+    setBack(router.query.back || false);
   }, []);
 
   const nextToAddress = () => {
     localStorage.setItem("next_ap", "ADDRESS");
-    router.push("?step=next&next=ADDRESS&id=" + code);
+    if (back) {
+      router.push("properties");
+    } else {
+      router.push(
+        "?step=next&next=ADDRESS&id=" +
+          code +
+          (router.query?.mode && "&mode=" + router.query.mode)
+      );
+    }
   };
 
   const handleImageUpload = (e) => {
@@ -124,15 +136,17 @@ function PropertyAddGallery({ code }) {
           style={{ fontFamily: "Opensans-semi-bold" }}
         >
           <h5>Add Images</h5>
-          <button
-            className="rounded-md text-white px-3 py-2"
-            style={{
-              backgroundColor: "var(--orange)",
-            }}
-            onClick={nextToAddress}
-          >
-            Skip
-          </button>
+          {skip === true && (
+            <button
+              className="rounded-md text-white px-3 py-2"
+              style={{
+                backgroundColor: "var(--orange)",
+              }}
+              onClick={nextToAddress}
+            >
+              Skip
+            </button>
+          )}
         </div>
 
         <div
