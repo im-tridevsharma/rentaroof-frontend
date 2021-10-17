@@ -70,6 +70,29 @@ export const getUserSavedProperties = async (id) => {
   return user;
 };
 
+export const deleteUserSavedProperties = async (id) => {
+  const token = __d(cookies.get("_SYNC_"));
+  let user = false;
+
+  if (token) {
+    await server
+      .delete("/users/savedproperties/" + id, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        user = response?.data;
+      })
+      .catch((error) => {
+        if (error.response.data.message === "Token expired.") {
+          removeAuthToken();
+        }
+        user = error?.response?.data;
+      });
+  }
+
+  return user;
+};
+
 export const updateProfile = async (id, formdata) => {
   const token = __d(cookies.get("_SYNC_"));
   let user = false;

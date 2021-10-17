@@ -9,16 +9,18 @@ import PropertyIbo from "../../../components/website/PropertyIbo";
 import { FiCheck, FiStar } from "react-icons/fi";
 import {
   getPropertyByCode,
+  getUserProperty,
   saveUserProperty,
 } from "../../../lib/frontend/properties";
 import Loader from "../../../components/loader";
 import moment from "moment";
-import { FaTimes } from "react-icons/fa";
+import { FaCheckCircle, FaTimes } from "react-icons/fa";
 import EssentialItem from "../../../components/website/EssentialItem";
 import { __d } from "../../../server";
 
 function Index() {
   const router = useRouter();
+  const [isSaved, setIsSaved] = useState(false);
   const [propertyCode, setPropertyCode] = useState(null);
   const [property, setProperty] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -74,6 +76,7 @@ function Index() {
           ? JSON.parse(__d(localStorage.getItem("LU")))
           : false;
         if (u) {
+          setProfile(u);
           const updata = {
             user_id: u.id,
             property_id: response?.data.id,
@@ -96,11 +99,49 @@ function Index() {
         console.error(response?.error || response?.message);
         setIsLoading(false);
       }
+
+      //check is this property in saved list
+      const upres = await getUserProperty({
+        type: "saved",
+        property_code: router.query.id,
+      });
+      if (upres?.status) {
+        setIsSaved(upres?.data?.length > 0 ? true : false);
+      }
     })();
   }, []);
 
   const changeImage = (e) => {
     document.querySelector("#main-image").src = e.target.src;
+  };
+
+  const saveProperty = async () => {
+    setIsLoading(true);
+    if (profile?.id) {
+      const updata = {
+        user_id: profile.id,
+        property_id: property?.id,
+        property_code: property?.property_code,
+        front_image: property?.front_image,
+        rating: "",
+        type: "saved",
+        property_name: property?.name,
+        property_short_description: property?.short_description,
+        property_posted_by: property?.posted_by_data.first,
+      };
+      const sres = await saveUserProperty(updata);
+      if (sres?.status) {
+        setIsLoading(false);
+        setIsSaved(true);
+        alert("Property saved successfully.");
+      } else {
+        console.error(sres?.error || sres.message);
+        setIsLoading(false);
+      }
+    } else {
+      localStorage.setItem("redirect", router.asPath);
+      router.push("/login");
+    }
   };
 
   return (
@@ -152,7 +193,7 @@ function Index() {
               >
                 {property?.name || "-"}
               </p>
-              <p className="flex items-center">
+              <p className="flex items-center relative">
                 <img
                   src="/icons/proprtydetls/icon_1.png"
                   alt="share"
@@ -165,8 +206,13 @@ function Index() {
                 <img
                   src="/icons/proprtydetls/icon_2.png"
                   alt="bookmark"
-                  className="w-7 h-7 object-contain"
+                  className="w-7 h-7 object-contain cursor-pointer"
+                  onClick={saveProperty}
+                  title={isSaved ? "Saved Already" : "Save this"}
                 />
+                {isSaved && (
+                  <FaCheckCircle className="absolute right-0 -bottom-2 text-green-600" />
+                )}
               </p>
             </div>
             <p

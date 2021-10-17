@@ -421,6 +421,7 @@ function Index() {
                   property={p}
                   overEvent={() => setHoveredProperty(p?.id)}
                   outEvent={() => setHoveredProperty(null)}
+                  user={user}
                 />
               ))
             ) : (

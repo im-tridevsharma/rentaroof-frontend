@@ -9,6 +9,14 @@ function Header() {
     const u = JSON.parse(__d(localStorage.getItem("LU")));
     setUser(u);
   }, []);
+
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      localStorage.removeItem("LU");
+      localStorage.removeItem("LU");
+    }
+  }, []);
+
   return (
     <div className="flex flex-col">
       {/**header top part */}
@@ -142,10 +150,10 @@ function Header() {
               </>
             ) : (
               <Link href={`/${user?.role}/dashboard`}>
-                <a className="flex items-center w-6 h-6 overflow-hidden rounded-full">
+                <a className="flex items-center overflow-hidden rounded-full">
                   <img
                     src={user?.profile_pic || "/image/website/no_photo.png"}
-                    className="w-full h-full object-cover"
+                    className="w-6 h-6 object-cover"
                     alt="user"
                   />
                 </a>

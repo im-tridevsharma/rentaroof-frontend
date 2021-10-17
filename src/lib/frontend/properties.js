@@ -158,6 +158,24 @@ export const saveUserProperty = async (data) => {
   return res;
 };
 
+export const getUserProperty = async (data) => {
+  const token = getToken();
+  let res = false;
+
+  await server
+    .post("/users/savedproperties/search", data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      res = response?.data;
+    })
+    .catch((error) => {
+      res = error?.response?.data;
+    });
+
+  return res;
+};
+
 export const addPropertyAddress = async (data) => {
   const token = getToken();
   let res = false;
