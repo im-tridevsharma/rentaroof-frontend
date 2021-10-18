@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { MdFavorite, MdOutlineFavoriteBorder } from "react-icons/md";
+import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import Loader from "../loader";
 import {
   getUserProperty,
@@ -80,7 +80,7 @@ function PropertyItem({ property, overEvent, outEvent, user }) {
             {isFavorite ? (
               <MdFavorite title="Added to favorite" />
             ) : (
-              <MdOutlineFavoriteBorder title="Add to favorite" />
+              <MdFavoriteBorder title="Add to favorite" />
             )}
           </div>
         </div>
