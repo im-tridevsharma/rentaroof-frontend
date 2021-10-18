@@ -6,7 +6,12 @@ import Header from "../../../components/website/Header";
 import Footer from "../../../components/website/Footer";
 import Breadcrumb from "../../../components/website/Breadcrumb";
 import PropertyIbo from "../../../components/website/PropertyIbo";
-import { FiCheck, FiStar } from "react-icons/fi";
+import {
+  FiAlertTriangle,
+  FiCheck,
+  FiCheckCircle,
+  FiStar,
+} from "react-icons/fi";
 import {
   getPropertyByCode,
   getUserProperty,
@@ -17,6 +22,7 @@ import moment from "moment";
 import { FaCheckCircle, FaTimes } from "react-icons/fa";
 import EssentialItem from "../../../components/website/EssentialItem";
 import { __d } from "../../../server";
+import { schedulePropertyVisit } from "../../../lib/frontend/properties";
 
 function Index() {
   const router = useRouter();
@@ -31,16 +37,23 @@ function Index() {
   const [address, setAddress] = useState(null);
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(false);
+  const [errors, setErrors] = useState(false);
+  const [isScheduled, setIsScheduled] = useState(false);
 
   useEffect(() => {
     setPropertyCode(router.query.id);
     //fetch property details
     setIsLoading(true);
+    const u = localStorage.getItem("LU")
+      ? JSON.parse(__d(localStorage.getItem("LU")))
+      : false;
+
     (async () => {
       const response = await getPropertyByCode(router.query.id);
       if (response?.status) {
         setIsLoading(false);
         setProperty(response.data);
+
         if (response?.data.gallery) {
           Object.keys(response?.data.gallery).forEach((key) => {
             if (
@@ -72,11 +85,9 @@ function Index() {
           setAddress(response?.data.address);
         }
 
-        const u = localStorage.getItem("LU")
-          ? JSON.parse(__d(localStorage.getItem("LU")))
-          : false;
-        if (u) {
+        if (u?.id) {
           setProfile(u);
+          //fill values of form
           const updata = {
             user_id: u.id,
             property_id: response?.data.id,
@@ -100,19 +111,42 @@ function Index() {
         setIsLoading(false);
       }
 
-      //check is this property in saved list
-      const upres = await getUserProperty({
-        type: "saved",
-        property_code: router.query.id,
-      });
-      if (upres?.status) {
-        setIsSaved(upres?.data?.length > 0 ? true : false);
+      if (u?.id) {
+        //check is this property in saved list
+        const upres = await getUserProperty({
+          type: "saved",
+          property_code: router.query.id,
+          user_id: u?.id,
+        });
+        if (upres?.status) {
+          setIsSaved(upres?.data?.length > 0 ? true : false);
+        }
       }
     })();
   }, []);
 
   const changeImage = (e) => {
     document.querySelector("#main-image").src = e.target.src;
+  };
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const formdata = new FormData(document.forms.meeting);
+    const response = await schedulePropertyVisit(property?.id, formdata);
+    if (response?.status) {
+      setIsLoading(false);
+      setIsScheduled(true);
+      setErrors(false);
+      setTimeout(() => {
+        setIsScheduled(false);
+      }, 2000);
+      document.forms.meeting.reset();
+    } else if (response?.error) {
+      setIsLoading(false);
+      setErrors(response?.error);
+      setIsScheduled(false);
+    }
   };
 
   const saveProperty = async () => {
@@ -626,7 +660,24 @@ function Index() {
                 className="border-gray-200 pt-3 mt-2 text-gray-600"
                 style={{ borderTopWidth: "1px" }}
               >
-                <form name="meeting">
+                {errors && (
+                  <div className="errors">
+                    {Object.keys(errors).map((index, i) => (
+                      <div className="w-full mb-2" key={i}>
+                        <p className="text-red-500 flex items-center">
+                          <FiAlertTriangle className="mr-1" /> {errors[index]}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {isScheduled && (
+                  <p className="flex items-center text-green-600">
+                    <FiCheckCircle className="mr-1" /> Scheduled a visit
+                    successfully.
+                  </p>
+                )}
+                <form name="meeting" onSubmit={submitHandler}>
                   <div className="form-element relative">
                     <label className="form-label" htmlFor="name">
                       Name
@@ -639,6 +690,7 @@ function Index() {
                     <input
                       type="text"
                       id="name"
+                      name="name"
                       className="form-input border-gray-200 rounded-md pl-10 h-11"
                       style={{ fontSize: ".95rem" }}
                     />
@@ -656,14 +708,15 @@ function Index() {
                     <input
                       type="email"
                       id="email"
+                      name="email"
                       className="form-input border-gray-200 rounded-md pl-10 h-11"
                       style={{ fontSize: ".95rem" }}
                     />
                   </div>
 
                   <div className="form-element relative">
-                    <label className="form-label" htmlFor="phone">
-                      Phone
+                    <label className="form-label" htmlFor="contact">
+                      Contact
                       <img
                         src="/icons/proprtydetls/icon_8.png"
                         alt="user"
@@ -672,7 +725,8 @@ function Index() {
                     </label>
                     <input
                       type="text"
-                      id="phone"
+                      id="contact"
+                      name="contact"
                       className="form-input border-gray-200 rounded-md pl-10 h-11"
                       style={{ fontSize: ".95rem" }}
                     />
@@ -690,6 +744,7 @@ function Index() {
                     <input
                       type="date"
                       id="date"
+                      name="date"
                       className="form-input border-gray-200 rounded-md pl-10 h-11"
                       style={{ fontSize: ".95rem" }}
                     />
@@ -707,12 +762,13 @@ function Index() {
                     <input
                       type="time"
                       id="time"
+                      name="time"
                       className="form-input border-gray-200 rounded-md pl-10 h-11"
                       style={{ fontSize: ".95rem" }}
                     />
                   </div>
 
-                  <div className="flex items-center">
+                  <div className="hidden">
                     <input
                       type="checkbox"
                       id="terms"

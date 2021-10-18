@@ -111,8 +111,8 @@ const Table = ({ pages, view, del }) => {
       accessor: "description",
     },
     {
-      Header: "User",
-      accessor: "user_name",
+      Header: "Ibo/Landlord",
+      accessor: "user_id",
     },
     {
       Header: "Property",

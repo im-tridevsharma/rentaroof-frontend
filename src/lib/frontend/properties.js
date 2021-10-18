@@ -19,6 +19,25 @@ export const getProperties = async () => {
   return res;
 };
 
+export const schedulePropertyVisit = async (id, data) => {
+  let appointment = false;
+  const token = getToken();
+  if (id && data) {
+    await server
+      .post(`/properties/appointment/${id}`, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        appointment = response?.data;
+      })
+      .catch((error) => {
+        appointment = error?.response?.data;
+      });
+  }
+
+  return appointment;
+};
+
 export const searchProperties = async (search) => {
   let res = false;
 

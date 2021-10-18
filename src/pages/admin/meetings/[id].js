@@ -79,12 +79,12 @@ function View() {
             </div>
             <div className="grid sm:grid-cols-2">
               <div className="flex flex-col my-1">
-                <small className="text-blue-500">User</small>
-                <p>{meeting?.user_name}</p>
+                <small className="text-blue-500">Ibo/Landlord</small>
+                <p>{meeting?.user_id}</p>
               </div>
               <div className="flex flex-col my-1">
                 <small className="text-blue-500">User Contact</small>
-                <p>{meeting?.user_contact}</p>
+                <p>{meeting?.contact}</p>
               </div>
             </div>
             <div className="grid sm:grid-cols-2">

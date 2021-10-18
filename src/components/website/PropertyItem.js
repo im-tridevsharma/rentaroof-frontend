@@ -45,12 +45,15 @@ function PropertyItem({ property, overEvent, outEvent, user }) {
   useEffect(() => {
     //check is this property in favorite list
     (async () => {
-      const res = await getUserProperty({
-        type: "favorite",
-        property_code: property?.property_code,
-      });
-      if (res?.status) {
-        setIsFavorite(res?.data?.length > 0 ? true : false);
+      if (user?.id) {
+        const res = await getUserProperty({
+          type: "favorite",
+          property_code: property?.property_code,
+          user_id: user?.id,
+        });
+        if (res?.status) {
+          setIsFavorite(res?.data?.length > 0 ? true : false);
+        }
       }
     })();
   }, []);

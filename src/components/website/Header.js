@@ -150,13 +150,11 @@ function Header() {
               </>
             ) : (
               <Link href={`/${user?.role}/dashboard`}>
-                <a className="flex items-center overflow-hidden rounded-full">
-                  <img
-                    src={user?.profile_pic || "/image/website/no_photo.png"}
-                    className="w-6 h-6 object-cover"
-                    alt="user"
-                  />
-                </a>
+                <img
+                  src={user?.profile_pic || "/images/website/no_photo.png"}
+                  className="w-6 h-6 object-cover rounded-full cursor-pointer"
+                  alt="user"
+                />
               </Link>
             )}
           </div>

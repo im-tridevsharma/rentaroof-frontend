@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import Card from "../../Card";
 import PropertyGrid from "../../PropertyGrid";
 import { FaTimes } from "react-icons/fa";
 import { getProperties } from "../../../../lib/frontend/properties";
 import Loader from "../../../loader";
 import PostedProperty from "../../PostedProperty";
+import {
+  deleteUserSavedProperties,
+  getUserSavedProperties,
+} from "../../../../lib/frontend/auth";
+import { __d } from "../../../../server";
+import { MdClose } from "react-icons/md";
+import { BsStarFill } from "react-icons/bs";
 
 const Button = () => {
   return (
@@ -26,8 +34,11 @@ function PropertiesUI() {
   const [isLoading, setIsLoading] = useState(false);
   const [cardMode, setCardMode] = useState("posted");
   const [properties, setProperties] = useState([]);
+  const [visitedProperties, setVisitedProperties] = useState([]);
 
   useEffect(() => {
+    localStorage.removeItem("next_ap");
+    localStorage.removeItem("recent_ap");
     const isAdded = localStorage.getItem("newadded");
     if (isAdded) {
       setIsNewAdded(true);
@@ -39,19 +50,54 @@ function PropertiesUI() {
       localStorage.removeItem("updated");
     }
     (async () => {
-      if (cardMode === "posted") {
-        setIsLoading(true);
-        const res = await getProperties();
-        if (res?.status) {
-          setProperties(res.data);
+      setIsLoading(true);
+      const res = await getProperties();
+      if (res?.status) {
+        setProperties(res.data);
+        setIsLoading(false);
+      } else {
+        console.error(res?.error || res?.message);
+        setIsLoading(false);
+      }
+
+      const u = localStorage.getItem("LU")
+        ? JSON.parse(__d(localStorage.getItem("LU")))
+        : false;
+      if (u) {
+        const response = await getUserSavedProperties(u.id);
+        if (response?.status) {
           setIsLoading(false);
+          const visited = response?.data.filter((p) => p.type === "visited");
+          setVisitedProperties(visited);
         } else {
-          console.error(res?.error || res?.message);
           setIsLoading(false);
+          console.error(response?.error || response?.message);
         }
       }
     })();
   }, [cardMode]);
+
+  const deleteMe = async (id, type) => {
+    setIsLoading(true);
+    if (id) {
+      const res = await deleteUserSavedProperties(id);
+      if (res?.status) {
+        setIsLoading(false);
+        if (type === "visited") {
+          const newvisited = visitedProperties.filter(
+            (v) => v.id !== res?.data.id
+          );
+          setVisitedProperties(newvisited);
+        }
+      } else {
+        setIsLoading(false);
+        console.error(res?.error || res?.message);
+      }
+    } else {
+      console.error("Something went wrong!");
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
@@ -79,7 +125,7 @@ function PropertiesUI() {
           />
           <Card
             label="Total visited properties"
-            count="5"
+            count={visitedProperties?.length}
             color="white"
             textcolor="gray"
             icon={<img src="/icons/owner_dashboard/icon3.png" alt="visited" />}
@@ -189,6 +235,68 @@ function PropertiesUI() {
                 subtitle="Renter: John"
                 button={<Button />}
               />
+            </div>
+          </>
+        )}
+        {cardMode === "visited" && (
+          <>
+            <div
+              className="py-2 text-lg"
+              style={{ fontFamily: "Opensans-bold" }}
+            >
+              <p>Visited Properties</p>
+            </div>
+            <div className="flex  flex-col">
+              {visitedProperties &&
+                visitedProperties.map((p, i) => (
+                  <div
+                    className="relative border-gray-200 flex items-center justify-between py-2 pl-8 pr-2"
+                    key={i}
+                    style={{ borderTopWidth: "1px" }}
+                  >
+                    <span
+                      onClick={() => deleteMe(p.id, "visited")}
+                      className="p-1 rounded-md bg-gray-400 absolute top-2 left-0 cursor-pointer text-white"
+                    >
+                      <MdClose />
+                    </span>
+                    <div className="w-20 h-20 overflow-hidden rounded-md">
+                      <Image
+                        src={p?.front_image || "/images/website/no_photo.png"}
+                        alt="property"
+                        layout="responsive"
+                        width="80"
+                        height="80"
+                      />
+                    </div>
+                    <div
+                      className="flex flex-col flex-grow px-5 leading-4"
+                      style={{ fontFamily: "Opensans-regular" }}
+                    >
+                      <h6
+                        className="text-gray-800"
+                        style={{ fontFamily: "Opensans-bold" }}
+                      >
+                        {p?.property_name}
+                      </h6>
+                      <p className="text-gray-400">
+                        {p?.property_short_description}
+                      </p>
+                      <span
+                        className="font-bold"
+                        style={{ color: "var(--orange)" }}
+                      >
+                        By {p?.property_posted_by}
+                      </span>
+                    </div>
+                    <span className="flex items-center text-lg">
+                      <span className="m-1" style={{ color: "var(--blue)" }}>
+                        {p?.rating}
+                      </span>
+                      <BsStarFill color="orange" />
+                    </span>
+                  </div>
+                ))}
             </div>
           </>
         )}
