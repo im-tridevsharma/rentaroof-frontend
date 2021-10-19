@@ -128,7 +128,7 @@ function Header({
                 style={{ width: "24px", height: "24px" }}
               >
                 <img
-                  src={user?.profile_pic || "/icons/user-dashboard/man.png"}
+                  src={user?.profile_pic || "/images/website/no_photo.png"}
                   className="object-cover cursor-pointer"
                   style={{ maxWidth: "24px", width: "24px", height: "24px" }}
                   alt="user"

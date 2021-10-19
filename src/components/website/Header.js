@@ -107,21 +107,39 @@ function Header() {
               </Link>
             </li>
             <li className="mx-2">
-              <Link href="/">
+              <Link
+                href={
+                  user && user.role === "ibo"
+                    ? `/ibo/dashboard`
+                    : "/login?role=ibo"
+                }
+              >
                 <a className="py-2 px-3 border-b-2 border-transparent">
                   For IBO
                 </a>
               </Link>
             </li>
             <li className="mx-2">
-              <Link href="/">
+              <Link
+                href={
+                  user && user.role === "landlord"
+                    ? `/landlord/dashboard`
+                    : "/login?role=landlord"
+                }
+              >
                 <a className="py-2 px-3 border-b-2 border-transparent">
                   For Owners
                 </a>
               </Link>
             </li>
             <li className="mx-2">
-              <Link href="/">
+              <Link
+                href={
+                  user && user.role !== "tenant"
+                    ? `/${user.role}/add-property`
+                    : "/login"
+                }
+              >
                 <a className="py-2 px-3 border-b-2 border-transparent">
                   List Property
                 </a>

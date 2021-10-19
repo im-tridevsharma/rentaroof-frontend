@@ -13,6 +13,7 @@ import {
   FiStar,
 } from "react-icons/fi";
 import {
+  addPropertyReview,
   getPropertyByCode,
   getUserProperty,
   saveUserProperty,
@@ -23,6 +24,7 @@ import { FaCheckCircle, FaTimes } from "react-icons/fa";
 import EssentialItem from "../../../components/website/EssentialItem";
 import { __d } from "../../../server";
 import { schedulePropertyVisit } from "../../../lib/frontend/properties";
+import StarPicker from "react-star-picker";
 
 function Index() {
   const router = useRouter();
@@ -39,6 +41,7 @@ function Index() {
   const [profile, setProfile] = useState(false);
   const [errors, setErrors] = useState(false);
   const [isScheduled, setIsScheduled] = useState(false);
+  const [rating, setRating] = useState(null);
 
   useEffect(() => {
     setPropertyCode(router.query.id);
@@ -175,6 +178,30 @@ function Index() {
     } else {
       localStorage.setItem("redirect", router.asPath);
       router.push("/login");
+    }
+  };
+
+  const addReview = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    if (rating) {
+      const data = {
+        rating,
+        review: document.forms.review.review.value,
+        property_id: property?.id,
+      };
+      const response = await addPropertyReview(data);
+      if (response?.status) {
+        setIsLoading(false);
+        document.forms.review.reset();
+        setRating(null);
+        alert("Review added successfully.");
+      } else {
+        setIsLoading(false);
+        console.error(response?.error || response?.message);
+      }
+    } else {
+      setIsLoading(false);
     }
   };
 
@@ -816,11 +843,10 @@ function Index() {
                 className="flex items-center justify-center my-2 border-gray-200 pb-4 mx-3"
                 style={{ color: "var(--orange)", borderBottomWidth: "1px" }}
               >
-                <FiStar className="mx-2 text-xl" />
-                <FiStar className="mx-2 text-xl" />
-                <FiStar className="mx-2 text-xl" />
-                <FiStar className="mx-2 text-xl" />
-                <FiStar className="mx-2 text-xl" />
+                <StarPicker
+                  onChange={(value) => setRating(value)}
+                  value={rating}
+                />
               </p>
               <div
                 className="flex flex-col mx-4 flex-grow md:mt-3 mt-5"
@@ -839,9 +865,17 @@ function Index() {
                     this property.
                   </span>
                 </p>
-                <form name="review" className="w-full mt-5">
+                <form
+                  name="review"
+                  className="w-full mt-5"
+                  onSubmit={addReview}
+                >
                   <div className="form-element">
-                    <textarea className="h-40 border-gray-200 rounded-md text-sm"></textarea>
+                    <textarea
+                      className="h-40 border-gray-200 rounded-md text-sm"
+                      name="review"
+                      required
+                    ></textarea>
                   </div>
                   <button
                     className="px-5 py-3 text-white rounded-md text-sm"

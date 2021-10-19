@@ -3,10 +3,14 @@ import DonoughtChart from "../../../charts/doughnut";
 import Review from "../../Review";
 import Loader from "../../../loader";
 import { getPropertiesCount } from "../../../../lib/frontend/properties";
+import { getLandlordMeetings } from "../../../../lib/frontend/meetings";
+import moment from "moment";
+import { __d } from "../../../../server";
 
 function DashboardUI() {
   const [isLoading, setIsLoading] = useState(false);
   const [postedProperties, setPostedProperties] = useState([]);
+  const [randomApp, setRandomApp] = useState(false);
 
   useEffect(() => {
     const getPropertiesFun = async () => {
@@ -20,6 +24,31 @@ function DashboardUI() {
         setIsLoading(false);
       }
     };
+    const getAppointments = async (id) => {
+      setIsLoading(true);
+      const response = await getLandlordMeetings(id);
+      if (response?.status) {
+        setIsLoading(false);
+        const p = response?.data.filter(
+          (a) =>
+            moment(Date.now()).format("DD-MM-YYYY") ===
+            moment(a.start_time).format("DD-MM-YYYY")
+        );
+        p.length > 0
+          ? setRandomApp(p[Math.floor(Math.random() * p.length)])
+          : setRandomApp(false);
+      } else {
+        setIsLoading(false);
+        console.error(response?.error || response?.message);
+      }
+    };
+
+    const u = localStorage.getItem("LU")
+      ? JSON.parse(__d(localStorage.getItem("LU")))
+      : false;
+    if (u?.id) {
+      getAppointments(u.id);
+    }
     getPropertiesFun();
   }, []);
 
@@ -165,25 +194,51 @@ function DashboardUI() {
               >
                 Today's Appointment
               </p>
-              <div
-                className="flex items-center px-4 mb-4 mt-2 text-gray-600"
-                style={{ fontFamily: "Opensans-regular" }}
-              >
-                <div className="w-24 h-20 rounded-lg overflow-hidden">
-                  <img
-                    src="/images/website/home-house.jpg"
-                    alt="home"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="flex flex-col px-5">
-                  <b
-                    className="text-gray-800 flex flex-col leading-3"
-                    style={{ fontFamily: "Opensans-bold" }}
-                  >
-                    <div className="flex items-center">
+              {randomApp ? (
+                <div
+                  className="flex items-center px-4 mb-4 mt-2 text-gray-600"
+                  style={{ fontFamily: "Opensans-regular" }}
+                >
+                  <div className="w-24 h-20 rounded-lg overflow-hidden">
+                    <img
+                      src={
+                        randomApp.front_image || "/images/website/no_photo.png"
+                      }
+                      alt="home"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="flex flex-col px-5">
+                    <b
+                      className="text-gray-800 flex flex-col leading-3"
+                      style={{ fontFamily: "Opensans-bold" }}
+                    >
+                      <div className="flex items-center">
+                        <img
+                          src="/icons/ibo_icons/icon_4.png"
+                          alt="time"
+                          className="object-contain mr-1"
+                          style={{
+                            maxWidth: "14px",
+                            width: "14px",
+                            height: "14px",
+                          }}
+                        />{" "}
+                        {randomApp?.property_data}
+                      </div>
+                      <small
+                        className="ml-5"
+                        style={{ color: "var(--orange)" }}
+                      >
+                        by {randomApp?.name}
+                      </small>
+                    </b>
+                    <b
+                      className="text-gray-800 flex items-center"
+                      style={{ fontFamily: "Opensans-bold" }}
+                    >
                       <img
-                        src="/icons/ibo_icons/icon_4.png"
+                        src="/icons/ibo_icons/icon_110.png"
                         alt="time"
                         className="object-contain mr-1"
                         style={{
@@ -192,45 +247,28 @@ function DashboardUI() {
                           height: "14px",
                         }}
                       />{" "}
-                      38HK AT PUNE FOR 45300
-                    </div>
-                    <small className="ml-5" style={{ color: "var(--orange)" }}>
-                      by james
-                    </small>
-                  </b>
-                  <b
-                    className="text-gray-800 flex items-center"
-                    style={{ fontFamily: "Opensans-bold" }}
-                  >
-                    <img
-                      src="/icons/ibo_icons/icon_110.png"
-                      alt="time"
-                      className="object-contain mr-1"
-                      style={{
-                        maxWidth: "14px",
-                        width: "14px",
-                        height: "14px",
-                      }}
-                    />{" "}
-                    Aug, 03,2021
-                  </b>
-                  <p className="text-gray-800 flex items-center">
-                    <img
-                      src="/icons/ibo_icons/icon21.png"
-                      alt="time"
-                      className="object-contain"
-                      style={{
-                        maxWidth: "14px",
-                        width: "14px",
-                        height: "14px",
-                      }}
-                    />{" "}
-                    <span className="ml-1" style={{ color: "var(--orange)" }}>
-                      11:00am
-                    </span>
-                  </p>
+                      {moment(randomApp?.start_time).format("MMM, DD,YYYY")}
+                    </b>
+                    <p className="text-gray-800 flex items-center">
+                      <img
+                        src="/icons/ibo_icons/icon21.png"
+                        alt="time"
+                        className="object-contain"
+                        style={{
+                          maxWidth: "14px",
+                          width: "14px",
+                          height: "14px",
+                        }}
+                      />{" "}
+                      <span className="ml-1" style={{ color: "var(--orange)" }}>
+                        {moment(randomApp?.start_time).format("hh:mm a")}
+                      </span>
+                    </p>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <p className="text-red-500 p-2">No appointment found!</p>
+              )}
             </div>
             {/**recent transaction */}
             <div className="w-full mt-5 shadow-sm h-56 bg-white rounded-md border-2 border-gray-200 relative">

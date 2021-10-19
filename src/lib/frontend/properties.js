@@ -38,6 +38,25 @@ export const schedulePropertyVisit = async (id, data) => {
   return appointment;
 };
 
+export const addPropertyReview = async (data) => {
+  let review = false;
+  const token = getToken();
+  if (data) {
+    await server
+      .post(`/properties/reviews`, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        review = response?.data;
+      })
+      .catch((error) => {
+        review = error?.response?.data;
+      });
+  }
+
+  return review;
+};
+
 export const searchProperties = async (search) => {
   let res = false;
 
