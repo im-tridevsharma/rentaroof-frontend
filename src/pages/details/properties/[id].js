@@ -24,7 +24,7 @@ import { FaCheckCircle, FaTimes } from "react-icons/fa";
 import EssentialItem from "../../../components/website/EssentialItem";
 import { __d } from "../../../server";
 import { schedulePropertyVisit } from "../../../lib/frontend/properties";
-import StarPicker from "react-star-picker";
+import StarRatings from "react-star-ratings";
 
 function Index() {
   const router = useRouter();
@@ -41,7 +41,7 @@ function Index() {
   const [profile, setProfile] = useState(false);
   const [errors, setErrors] = useState(false);
   const [isScheduled, setIsScheduled] = useState(false);
-  const [rating, setRating] = useState(null);
+  const [rating, setRating] = useState(0);
 
   useEffect(() => {
     setPropertyCode(router.query.id);
@@ -194,7 +194,7 @@ function Index() {
       if (response?.status) {
         setIsLoading(false);
         document.forms.review.reset();
-        setRating(null);
+        setRating(0);
         alert("Review added successfully.");
       } else {
         setIsLoading(false);
@@ -843,9 +843,14 @@ function Index() {
                 className="flex items-center justify-center my-2 border-gray-200 pb-4 mx-3"
                 style={{ color: "var(--orange)", borderBottomWidth: "1px" }}
               >
-                <StarPicker
-                  onChange={(value) => setRating(value)}
-                  value={rating}
+                <StarRatings
+                  changeRating={(newRating) => setRating(newRating)}
+                  rating={rating}
+                  numberOfStars={5}
+                  starRatedColor="var(--orange)"
+                  starDimension="35px"
+                  starSpacing="15px"
+                  starHoverColor="var(--orange)"
                 />
               </p>
               <div
