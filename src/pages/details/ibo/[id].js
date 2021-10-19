@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import Header from "../../../components/website/Header";
 import Footer from "../../../components/website/Footer";
 import Breadcrumb from "../../../components/website/Breadcrumb";
@@ -10,20 +9,33 @@ import { FiStar } from "react-icons/fi";
 import { RiChatQuoteLine } from "react-icons/ri";
 import { ImQuotesLeft } from "react-icons/im";
 import PropertyIbo from "../../../components/website/PropertyIbo";
+import { getUserByCode } from "../../../lib/frontend/auth";
+import Loader from "../../../components/loader";
 
-function Index() {
-  const router = useRouter();
-  const [ibo, setIbo] = useState("");
+function Index({ id }) {
+  const [ibo, setIbo] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setIbo(router.query.id);
+    setIsLoading(true);
+    (async () => {
+      const res = await getUserByCode(id);
+      if (res?.status) {
+        setIbo(res?.data);
+        setIsLoading(false);
+      } else {
+        console.error(res?.error || res?.message);
+        setIsLoading(false);
+      }
+    })();
   }, []);
 
   return (
     <>
       <Head>
-        <title>Details of {ibo}</title>
+        <title>Details of {id}</title>
       </Head>
+      {isLoading && <Loader />}
       <Header />
       <Breadcrumb
         center={true}
@@ -41,12 +53,16 @@ function Index() {
         >
           <div className="flex items-center justify-center flex-col">
             <img
-              src="/images/faces/m1.png"
+              src={ibo?.profile_pic || "/images/website/no_photo.png"}
               alt="user"
               className="w-28 h-28 object-cover rounded-full border-2 border-gray-500 mb-2"
             />
             <p className="flex items-center">
-              <span className="w-3 h-3 rounded-full bg-green-500 mr-1"></span>
+              <span
+                className={`w-3 h-3 rounded-full ${
+                  ibo?.is_logged_in ? "bg-green-500" : "bg-gray-300"
+                } mr-1`}
+              ></span>
               <span className="font-semibold">Status</span>
             </p>
           </div>
@@ -64,7 +80,9 @@ function Index() {
             </p>
             <p className="mt-2">
               <b className="mr-1">Name:</b>
-              <span className="uppercase">St Gorge</span>
+              <span className="uppercase">
+                {ibo?.first} {ibo?.last}
+              </span>
             </p>
             <p className="flex items-center">
               <img
@@ -72,21 +90,23 @@ function Index() {
                 className=" -ml-5 mr-1"
                 alt="location"
               />
-              <span>Banglore, Karnatka, India</span>
+              <span>{ibo?.address?.full_address}</span>
             </p>
             <p style={{ color: "var(--blue)" }} className="my-2">
               Operating since 2010
             </p>
-            <p className="flex items-center">
-              <img
-                src="/icons/proprtydetls/icon24.png"
-                className="-ml-5 mr-1"
-                alt="location"
-              />
-              <span className="text-lg" style={{ color: "purple" }}>
-                Certified Agent
-              </span>
-            </p>
+            {ibo?.kyc?.is_verified && (
+              <p className="flex items-center">
+                <img
+                  src="/icons/proprtydetls/icon24.png"
+                  className="-ml-5 mr-1"
+                  alt="location"
+                />
+                <span className="text-lg" style={{ color: "purple" }}>
+                  Certified Agent
+                </span>
+              </p>
+            )}
           </div>
 
           {/**details */}
@@ -107,7 +127,7 @@ function Index() {
                 className="mr-1"
                 alt="location"
               />
-              <span>9985748393</span>
+              <span>{ibo?.mobile}</span>
             </p>
             <p className="flex items-center mt-2">
               <img
@@ -115,7 +135,7 @@ function Index() {
                 className="mr-1 w-5 h-5 object-contain"
                 alt="location"
               />
-              <span>user@gmail.com</span>
+              <span>{ibo?.email}</span>
             </p>
             <p className="flex items-center mt-2">
               <img
@@ -167,7 +187,7 @@ function Index() {
               >
                 4.5
               </span>
-              <spam className="ml-1">20</spam>
+              <span className="ml-1">20</span>
               <div
                 className="flex items-center ml-3"
                 style={{ color: "var(--orange)" }}
@@ -360,5 +380,9 @@ function Index() {
     </>
   );
 }
+
+Index.getInitialProps = ({ query }) => {
+  return { id: query.id };
+};
 
 export default Index;

@@ -1,13 +1,8 @@
-import Link from 'next/link'
+import Link from "next/link";
 
 const ErrorPage = () => {
   return (
     <div className="flex flex-col w-full max-w-xl text-center">
-      <img
-        className="object-contain w-auto h-64 mb-8"
-        src="/images/illustration.svg"
-        alt="svg"
-      />
       <h1 className="text-6xl text-blue-500 mb-4">404</h1>
 
       <div className="mb-8 text-center text-gray-900">
@@ -22,7 +17,7 @@ const ErrorPage = () => {
         </Link>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ErrorPage
+export default ErrorPage;

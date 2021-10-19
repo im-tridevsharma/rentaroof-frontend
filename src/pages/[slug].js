@@ -18,7 +18,7 @@ function PageRender({ page }) {
         <meta name="description" content={page?.data.meta_description} />
       </Head>
       {/**page content goes here */}
-      <div className="w-full p-2 bg-gray-50">
+      <div className="w-full px-2 py-5">
         <div
           className="max-w-5xl mx-auto"
           dangerouslySetInnerHTML={{ __html: page?.data.content }}

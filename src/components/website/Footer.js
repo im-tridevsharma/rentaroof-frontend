@@ -1,42 +1,68 @@
-import React from "react";
-import { FaFacebookSquare, FaInstagram, FaTwitter } from "react-icons/fa";
-import { FiMail, FiPhoneCall, FiSearch } from "react-icons/fi";
+import React, { useEffect, useState } from "react";
+import { FiMail, FiPhoneCall } from "react-icons/fi";
+import server from "../../server";
 import Links from "./Links";
 
-const links = [
-  {
-    title: "Rent",
-    links: [
-      { href: "/", value: "Lorem Ipsum" },
-      { href: "/", value: "Lorem Ipsum" },
-      { href: "/", value: "Lorem Ipsum" },
-      { href: "/", value: "Lorem Ipsum" },
-      { href: "/", value: "Lorem Ipsum" },
-    ],
-  },
-  {
-    title: "Information",
-    links: [
-      { href: "/", value: "Home" },
-      { href: "/", value: "About Us" },
-      { href: "/", value: "Listing Properties" },
-      { href: "/", value: "For IBO" },
-      { href: "/", value: "For Landlords" },
-    ],
-  },
-  {
-    title: "Our Services",
-    links: [
-      { href: "/", value: "Home" },
-      { href: "/", value: "About Us" },
-      { href: "/", value: "Listing Properties" },
-      { href: "/", value: "For IBO" },
-      { href: "/", value: "For Landlords" },
-    ],
-  },
-];
+const getPages = async () => {
+  let pages = false;
+  await server
+    .get("/pages")
+    .then((response) => {
+      pages = response?.data;
+    })
+    .catch((error) => {
+      pages = error?.response?.data;
+    });
+
+  return pages;
+};
 
 function Footer() {
+  const [pages, setPages] = useState([]);
+  let links = [
+    {
+      title: "Rent",
+      links: [
+        { href: "/", value: "Lorem Ipsum" },
+        { href: "/", value: "Lorem Ipsum" },
+        { href: "/", value: "Lorem Ipsum" },
+        { href: "/", value: "Lorem Ipsum" },
+        { href: "/", value: "Lorem Ipsum" },
+      ],
+    },
+    {
+      title: "Information",
+      links: [
+        { href: "/", value: "Home" },
+        { href: "/about-us", value: "About Us" },
+        ...pages,
+      ],
+    },
+    {
+      title: "Our Services",
+      links: [
+        { href: "/", value: "Home" },
+        { href: "/", value: "About Us" },
+        { href: "/", value: "Listing Properties" },
+        { href: "/", value: "For IBO" },
+        { href: "/", value: "For Landlords" },
+      ],
+    },
+  ];
+
+  useEffect(() => {
+    (async () => {
+      const data = await getPages();
+      if (data?.status) {
+        let newpages = [];
+        data.data.forEach((p) => {
+          newpages.push({ href: p.slug, value: p.name });
+        });
+        setPages(newpages);
+      }
+    })();
+  }, []);
+
   return (
     <>
       {/**agent finder */}

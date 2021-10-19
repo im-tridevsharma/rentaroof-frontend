@@ -47,6 +47,22 @@ export const getProfile = async (allinfo = false) => {
   return user;
 };
 
+export const getUserByCode = async (code) => {
+  let user = false;
+  await server
+    .get("/profile/code/" + code)
+    .then((response) => {
+      user = response?.data;
+    })
+    .catch((error) => {
+      if (error.response.data.message === "Token expired.") {
+        removeAuthToken();
+      }
+      user = error?.response?.data;
+    });
+  return user;
+};
+
 export const getUserSavedProperties = async (id) => {
   const token = __d(cookies.get("_SYNC_"));
   let user = false;

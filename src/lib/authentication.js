@@ -23,8 +23,45 @@ const getUser = async (details = false) => {
         user = error?.response?.data;
       });
   }
-
   return user;
+};
+
+export const getSetting = async (key) => {
+  const token = __d(cookies.get("__NEXT"));
+  let setting = false;
+
+  if (token) {
+    await server
+      .get("/admin/settings/" + key, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        setting = response?.data;
+      })
+      .catch((error) => {
+        setting = error?.response?.data;
+      });
+  }
+  return setting;
+};
+
+export const saveOrUpdateSetting = async (data) => {
+  const token = __d(cookies.get("__NEXT"));
+  let setting = false;
+
+  if (token) {
+    await server
+      .post("/admin/settings/", data, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        setting = response?.data;
+      })
+      .catch((error) => {
+        setting = error?.response?.data;
+      });
+  }
+  return setting;
 };
 
 export const logoutUser = async () => {

@@ -170,6 +170,11 @@ const initialState = [
             title: "View All",
             items: [],
           },
+          {
+            url: "/admin/agreements/create-template",
+            title: "Create Template",
+            items: [],
+          },
         ],
       },
       {
@@ -280,15 +285,9 @@ const initialState = [
     title: "Settings",
     items: [
       {
-        url: "/admin/settings/comission",
-        icon: <FiPercent size={20} />,
-        title: "Comission",
-        items: [],
-      },
-      {
-        url: "/admin/settings/website",
+        url: "/admin/settings",
         icon: <CgWebsite size={20} />,
-        title: "Website",
+        title: "Settings",
         items: [],
       },
     ],
