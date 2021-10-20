@@ -1,23 +1,21 @@
-import React from "react";
+import moment from "moment";
 
-function PropertyIbo() {
+function PropertyIbo({ property }) {
   return (
     <div className="border-2 border-gray-200 rounded-lg flex sm:flex-row flex-col items-center sm:items-start p-1 my-1 shadow-md mb-3">
       {/**small slider */}
       <div className="mr-5">
         <img
-          src="https://i.pinimg.com/originals/ea/e1/a8/eae1a803b3f10b213686fb67a0aa2743.jpg"
+          src={property?.front_image || "/images/website/no_photo.png"}
           alt="property"
-          className="h-40"
+          className="h-40 w-60 object-cover"
         />
       </div>
       {/**property details */}
       <div className="flex flex-col py-2 items-center sm:items-start w-full">
-        <b style={{ fontFamily: "Opensans-bold" }}>
-          Residental House Villa for Rent in Mumbai{" "}
-        </b>
+        <b style={{ fontFamily: "Opensans-bold" }}>{property?.name}</b>
         <p className="font-thin" style={{ fontFamily: "Opensans-semi-bold" }}>
-          APN, Hill palace, Mumbai
+          {property?.city_name} {property?.state_name} {property?.country_name}
         </p>
         <p
           className="flex text-center mt-1"
@@ -27,21 +25,21 @@ function PropertyIbo() {
             className="pr-4 mr-4"
             style={{ borderRightWidth: "2px", borderColor: "var(--blue)" }}
           >
-            3 BHK
+            {property?.bedrooms} BHK
           </span>
           <span
             className="pr-4 mr-4"
             style={{ borderRightWidth: "2px", borderColor: "var(--blue)" }}
           >
-            1500 sqft
+            {property?.super_area} {property?.super_area_unit}
           </span>
           <span
             className="pr-4 mr-4"
             style={{ borderRightWidth: "2px", borderColor: "var(--blue)" }}
           >
-            3 Bathrooms
+            {property?.bathrooms} Bathrooms
           </span>
-          <span>3 Floor</span>
+          <span>{property?.floors} Floor</span>
         </p>
         <h6
           style={{
@@ -50,7 +48,7 @@ function PropertyIbo() {
             fontSize: "1rem",
           }}
         >
-          ₹ 8,500/month
+          ₹ {property?.monthly_rent}/month
         </h6>
 
         <button
@@ -64,7 +62,7 @@ function PropertyIbo() {
         </button>
         <p className="mt-1 flex items-center sm:px-0 px-5 justify-between w-full">
           <span className="flex items-center">
-            ID:OP888737 |{" "}
+            {property?.property_code} |{" "}
             <img
               src="/icons/proprtydetls/icon_1.png"
               alt="share"
@@ -72,7 +70,9 @@ function PropertyIbo() {
             />
             Share
           </span>
-          <span className="mr-3 text-xs">Posted on 23rd Aug, 2021</span>
+          <span className="mr-3 text-xs">
+            Posted on {moment(property?.created_at).format("DD MMM, YYYY")}
+          </span>
         </p>
       </div>
     </div>

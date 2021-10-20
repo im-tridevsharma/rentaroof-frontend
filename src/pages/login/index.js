@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -6,9 +6,22 @@ import { BiBadgeCheck, BiError } from "react-icons/bi";
 import Loader from "../../components/loader";
 import { loginUser, setAuthToken } from "../../lib/frontend/auth";
 import Cookies from "universal-cookie";
-import { __e } from "../../server";
+import server, { __e } from "../../server";
 import UseAuthentication from "../../hooks/UseAuthentication";
 import RenderError from "../../components/website/RenderError";
+
+const getWebsiteValues = async (key) => {
+  let setting = "";
+  await server
+    .get("/website/initials/" + key)
+    .then((response) => {
+      setting = response?.data;
+    })
+    .catch((error) => {
+      setting = error?.response?.data;
+    });
+  return setting;
+};
 
 function Index() {
   const [success, setSuccess] = useState(false);
@@ -19,10 +32,20 @@ function Index() {
     remember: false,
   });
   const [errors, setErrors] = useState(false);
+  const [logo, setLogo] = useState("");
   const router = useRouter();
   const cookies = new Cookies();
   //check is loggedin
   const { isAuthenticated } = UseAuthentication();
+
+  useEffect(() => {
+    (async () => {
+      const res = await getWebsiteValues("logo");
+      if (res?.status) {
+        setLogo(res.data.logo);
+      }
+    })();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -84,7 +107,7 @@ function Index() {
             {/**logo */}
             <Link href="/">
               <img
-                src="/logos/logo.png"
+                src={logo || "/images/website/no_photo.png"}
                 alt="logo"
                 className="h-full w-full object-cover cursor-pointer"
               />
@@ -240,12 +263,12 @@ function Index() {
                 <Link href="/">
                   <a>Home</a>
                 </Link>
-                <Link href="/">
+                <Link href="/about-us">
                   <a className="border-r-2 border-l-2 border-gray-400 px-2 mx-2">
                     About Us
                   </a>
                 </Link>
-                <Link href="/">
+                <Link href="/contact-us">
                   <a>Contact Us</a>
                 </Link>
               </div>

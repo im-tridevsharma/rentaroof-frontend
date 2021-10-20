@@ -1,16 +1,43 @@
-import React from 'react'
-import {useSelector, shallowEqual} from 'react-redux'
-import Title from './title'
-import Item from './item'
-import Logo from './logo'
+import React, { useEffect } from "react";
+import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import Title from "./title";
+import Item from "./item";
+import Logo from "./logo";
+import server from "../../server";
+
+const getWebsiteValues = async (key) => {
+  let setting = "";
+  await server
+    .get("/website/initials/" + key)
+    .then((response) => {
+      setting = response?.data;
+    })
+    .catch((error) => {
+      setting = error?.response?.data;
+    });
+  return setting;
+};
 
 const LeftSidebar = () => {
-  const {navigation} = useSelector(
-    state => ({
-      navigation: state.navigation
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async () => {
+      const res = await getWebsiteValues(
+        "logo,company_name,company_email,company_contact"
+      );
+      if (res?.status) {
+        dispatch({ type: "SET_WEBSITE", values: res.data });
+      }
+    })();
+  }, []);
+
+  const { navigation } = useSelector(
+    (state) => ({
+      navigation: state.navigation,
     }),
     shallowEqual
-  )
+  );
   return (
     <div className="left-sidebar left-sidebar-1">
       <Logo />
@@ -55,7 +82,7 @@ const LeftSidebar = () => {
         </React.Fragment>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default LeftSidebar
+export default LeftSidebar;

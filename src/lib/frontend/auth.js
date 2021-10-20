@@ -63,6 +63,19 @@ export const getUserByCode = async (code) => {
   return user;
 };
 
+export const getIboProperties = async (id) => {
+  let property = false;
+  await server
+    .get("/properties/ibo/" + id)
+    .then((response) => {
+      property = response?.data;
+    })
+    .catch((error) => {
+      property = error?.response?.data;
+    });
+  return property;
+};
+
 export const getUserSavedProperties = async (id) => {
   const token = __d(cookies.get("_SYNC_"));
   let user = false;

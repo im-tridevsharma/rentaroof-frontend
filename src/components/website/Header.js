@@ -1,13 +1,37 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import isAuthenticated from "../../lib/frontend/auth";
-import { __d } from "../../server";
+import server, { __d } from "../../server";
+import { useSelector, shallowEqual, useDispatch } from "react-redux";
+
+const getWebsiteValues = async (key) => {
+  let setting = "";
+  await server
+    .get("/website/initials/" + key)
+    .then((response) => {
+      setting = response?.data;
+    })
+    .catch((error) => {
+      setting = error?.response?.data;
+    });
+  return setting;
+};
 
 function Header() {
   const [user, setUser] = useState(false);
+  const dispatch = useDispatch();
   useEffect(() => {
     const u = JSON.parse(__d(localStorage.getItem("LU")));
     setUser(u);
+    (async () => {
+      const res = await getWebsiteValues(
+        "logo,company_name,company_email,company_contact,tollfree_number,homepage_search_title,facebook_url,twitter_url,linkedin_url,instagram_url"
+      );
+      if (res?.status) {
+        dispatch({ type: "SET_WEBSITE", values: res.data });
+      }
+    })();
   }, []);
 
   useEffect(() => {
@@ -16,6 +40,13 @@ function Header() {
       localStorage.removeItem("LU");
     }
   }, []);
+
+  const { website } = useSelector(
+    (state) => ({
+      website: state.website,
+    }),
+    shallowEqual
+  );
 
   return (
     <div className="flex flex-col">
@@ -31,42 +62,40 @@ function Header() {
         <div className="flex flex-col items-center sm:flex-row sm:justify-between max-w-3xl w-full">
           <div className="flex items-center mb-1 sm:mb-0">
             <img src="/icons/home/email_icon.png" alt="mail" className="mr-1" />
-            <span>contact@example.com</span>
+            <span>{website?.company_email}</span>
           </div>
           <div className="flex items-center mb-1 sm:mb-0">
             <img src="/icons/home/phone_icon.png" alt="mail" className="mr-1" />
-            <span>(123) 456 7890</span>
+            <span>{website?.company_contact}</span>
           </div>
           <div className="flex items-center mb-1 sm:mb-0 text-center">
             <span>
-              Toll Free:800-2345-6799 (7 Days a week from 9:00am to 7:00pm)
+              Toll Free:{website?.tollfree_number} (7 Days a week from 9:00am to
+              7:00pm)
             </span>
           </div>
         </div>
         {/**header top right */}
         <div className="flex items-center mt-2 sm:mt-0">
-          <a href="http://twitter.com" className="mx-2 hover:text-gray-300">
+          <a href={website?.twitter_url} className="mx-2 hover:text-gray-300">
             <img src="/icons/home/twitter.png" alt="twitter" />
           </a>
-          <a href="http://facebook.com" className="mx-2 hover:text-gray-300">
+          <a href={website?.facebook_url} className="mx-2 hover:text-gray-300">
             <img
               src="/icons/home/fb.png"
               alt="facebook"
               className="object-contain h-4"
             />
           </a>
-          <a href="http://instagram.com" className="mx-2 hover:text-gray-300">
+          <a href={website?.instagram_url} className="mx-2 hover:text-gray-300">
             <img
               src="/icons/home/insta.png"
               alt="instagram"
               className="object-contain h-4"
             />
           </a>
-          <a href="http://linkedin.com" className="mx-2 hover:text-gray-300">
+          <a href={website?.linkedin_url} className="mx-2 hover:text-gray-300">
             <img src="/icons/home/in.png" alt="linkedin" />
-          </a>
-          <a href="http://youtube.com" className="mx-2 hover:text-gray-300">
-            <img src="/icons/home/youtube.png" alt="youtube" />
           </a>
         </div>
       </div>
@@ -76,21 +105,21 @@ function Header() {
         <div>
           <Link href="/">
             <a
-              className="flex items-center bg-white"
+              className="flex items-center bg-white -ml-5"
               style={{ height: "52px" }}
             >
-              <img
-                src="/logos/logo-icon.png"
+              <Image
+                src={website?.logo || "/images/website/no_photo.png"}
                 alt="logo"
-                className="h-8 object-contain"
+                width="110"
+                height="85"
+                objectFit="contain"
               />
-
               <p
-                className="uppercase text-xl mt-2"
-                style={{ fontFamily: "Opensans-bold" }}
+                className="text-xl md:text-2xl uppercase"
+                style={{ fontFamily: "Opensans-bold", color: "var(--orange)" }}
               >
-                <span style={{ color: "var(--blue)" }}>Rent a</span>
-                <span style={{ color: "var(--orange)" }}> Roof</span>
+                {website?.company_name}
               </p>
             </a>
           </Link>

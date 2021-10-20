@@ -4,27 +4,17 @@ import Link from "next/link";
 import Header from "../../../components/website/Header";
 import Footer from "../../../components/website/Footer";
 import Breadcrumb from "../../../components/website/Breadcrumb";
+import { FaStar, FaStarHalf } from "react-icons/fa";
+import { FiStar } from "react-icons/fi";
 import { RiChatQuoteLine } from "react-icons/ri";
 import { ImQuotesLeft } from "react-icons/im";
 import PropertyIbo from "../../../components/website/PropertyIbo";
-import { getIboProperties, getUserByCode } from "../../../lib/frontend/auth";
-import { getIboRating, saveIboRating } from "../../../lib/frontend/share";
+import { getUserByCode } from "../../../lib/frontend/auth";
 import Loader from "../../../components/loader";
-import StarRatings from "react-star-ratings";
-import { FiCheckCircle } from "react-icons/fi";
 
 function Index({ id }) {
   const [ibo, setIbo] = useState(false);
-  const [properties, setProperties] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(0);
-  const [viewMore, setViewMore] = useState(false);
-  const [rating, setRating] = useState(0);
-  const [iboRatings, setIboRatings] = useState([]);
-  const [isAdded, setIsAdded] = useState(false);
-  const [avgRating, setAvgRating] = useState(0);
-  const [topReview, setTopReview] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -32,73 +22,13 @@ function Index({ id }) {
       const res = await getUserByCode(id);
       if (res?.status) {
         setIbo(res?.data);
-        const pres = await getIboProperties(res.data.id);
-        if (pres?.status) {
-          setProperties(pres.data);
-          setMinPrice(
-            pres.data.reduce((prev, curr) => {
-              return prev.monthly_rent < curr.monthly_rent ? prev : curr;
-            })
-          );
-          setMaxPrice(
-            pres.data.reduce((prev, curr) => {
-              return prev.monthly_rent > curr.monthly_rent ? prev : curr;
-            })
-          );
-          setIsLoading(false);
-        } else {
-          console.error(res?.error || res?.message);
-          setIsLoading(false);
-        }
-
-        const rres = await getIboRating(res.data.id);
-        if (rres?.status) {
-          setIboRatings(rres?.data);
-          setTopReview(
-            rres.data.reduce((p, c) => {
-              return p.rating > c.rating ? p : c;
-            })
-          );
-          if (rres.data.length > 0) {
-            let total = 0;
-            rres.data.forEach((r) => {
-              total += parseFloat(r.rating);
-            });
-            setAvgRating(parseFloat(total / rres.data.length));
-          }
-        } else {
-          console.error(rres?.error);
-        }
+        setIsLoading(false);
       } else {
         console.error(res?.error || res?.message);
         setIsLoading(false);
       }
     })();
   }, []);
-
-  const handleReview = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    const review = document.forms.rating.review.value;
-    const res = await saveIboRating({
-      rating,
-      review,
-      ibo_id: ibo?.id,
-    });
-
-    if (res?.status) {
-      setIsAdded(true);
-      setIsLoading(false);
-      setTimeout(() => {
-        setIsAdded(false);
-      }, 2000);
-      document.forms.rating.reset();
-      setRating(0);
-    } else {
-      console.error(res?.error || res?.message);
-      setIsLoading(false);
-    }
-  };
 
   return (
     <>
@@ -146,7 +76,7 @@ function Index({ id }) {
               className="uppercase"
               style={{ fontFamily: "Opensans-bold", fontSize: ".95rem" }}
             >
-              Agent Details
+              Owner Details
             </p>
             <p className="mt-2">
               <b className="mr-1">Name:</b>
@@ -162,11 +92,9 @@ function Index({ id }) {
               />
               <span>{ibo?.address?.full_address}</span>
             </p>
-            {ibo?.operating_since && (
-              <p style={{ color: "var(--blue)" }} className="my-2">
-                Operating since {new Date().getFullYear() - ibo.operating_since}
-              </p>
-            )}
+            <p style={{ color: "var(--blue)" }} className="my-2">
+              Operating since 2010
+            </p>
             {ibo?.kyc?.is_verified && (
               <p className="flex items-center">
                 <img
@@ -175,7 +103,7 @@ function Index({ id }) {
                   alt="location"
                 />
                 <span className="text-lg" style={{ color: "purple" }}>
-                  Certified Agent
+                  Certified Owner
                 </span>
               </p>
             )}
@@ -232,7 +160,7 @@ function Index({ id }) {
           >
             <b>Properties for Rent</b>
             <span className="mt-3" style={{ color: "purple" }}>
-              {properties?.length}
+              16
             </span>
           </p>
           <p
@@ -241,7 +169,7 @@ function Index({ id }) {
           >
             <b>Price Range</b>
             <span className="mt-3" style={{ color: "purple" }}>
-              Rs. {minPrice.monthly_rent} - {maxPrice.monthly_rent}
+              Rs. 25,000 - 12 Lacs
             </span>
           </p>
           <p
@@ -257,21 +185,18 @@ function Index({ id }) {
                 className="px-4 py-2 rounded-md flex items-center justify-center text-white"
                 style={{ backgroundColor: "var(--blue)" }}
               >
-                {avgRating}
+                4.5
               </span>
-              <span className="ml-1">{iboRatings?.length}</span>
+              <span className="ml-1">20</span>
               <div
                 className="flex items-center ml-3"
                 style={{ color: "var(--orange)" }}
               >
-                <StarRatings
-                  numberOfStars={5}
-                  rating={avgRating}
-                  starRatedColor="var(--orange)"
-                  starDimension="20px"
-                  starSpacing="3px"
-                  starHoverColor="var(--orange)"
-                />
+                <FaStar />
+                <FaStar />
+                <FaStar />
+                <FaStar />
+                <FaStarHalf />
               </div>
             </span>
           </p>
@@ -289,11 +214,9 @@ function Index({ id }) {
 
             {/**properties */}
             <div className="md:mx-5 mt-3">
-              {viewMore
-                ? properties.map((p, i) => <PropertyIbo key={i} property={p} />)
-                : [1, 2, 3].map((_, i) => (
-                    <PropertyIbo key={i} property={properties[i]} />
-                  ))}
+              <PropertyIbo />
+              <PropertyIbo />
+              <PropertyIbo />
             </div>
             <div
               className="flex items-center cursor-pointer justify-center md:mx-5 mt-2 border-gray-200 rounded-md text-center uppercase bg-white py-3 shadow-sm"
@@ -302,9 +225,8 @@ function Index({ id }) {
                 fontFamily: "Opensans-bold",
                 color: "var(--primary-color)",
               }}
-              onClick={() => setViewMore(!viewMore)}
             >
-              {viewMore ? "View Less" : "View More"}
+              View More{" "}
               <img
                 src="/icons/ibo_icons/icon16.png"
                 alt="arrow"
@@ -376,17 +298,16 @@ function Index({ id }) {
               >
                 Rate Us
               </p>
-              <div className="flex items-center mt-6">
-                <StarRatings
-                  changeRating={(newRating) => setRating(newRating)}
-                  numberOfStars={5}
-                  rating={rating}
-                  starRatedColor="var(--orange)"
-                  starDimension="30px"
-                  starSpacing="8px"
-                  starHoverColor="var(--orange)"
-                />
-              </div>
+              <p
+                className="flex items-center mt-6"
+                style={{ color: "var(--orange)" }}
+              >
+                <FiStar className="mx-4 text-lg" />
+                <FiStar className="mx-4 text-lg" />
+                <FiStar className="mx-4 text-lg" />
+                <FiStar className="mx-4 text-lg" />
+                <FiStar className="mx-4 text-lg" />
+              </p>
             </div>
           </div>
         </div>
@@ -401,50 +322,49 @@ function Index({ id }) {
               Top Customer Feedback{" "}
               <RiChatQuoteLine className="text-3xl ml-2" />
             </p>
-            {topReview && (
-              <div
-                className="flex flex-col p-5 border-gray-200 mt-4 rounded-sm"
-                style={{ borderWidth: "1px" }}
+            <div
+              className="flex flex-col p-5 border-gray-200 mt-4 rounded-sm"
+              style={{ borderWidth: "1px" }}
+            >
+              <p>
+                <ImQuotesLeft
+                  className="text-3xl"
+                  style={{ color: "var(--primary-color)" }}
+                />
+              </p>
+              <p className="text-gray-500 mt-2">
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum has been the industry's standard dummy
+                text ever since the 1500s, when an unknown printer took a galley
+                of type and scrambled it to make a type specimen book.
+              </p>
+
+              <p className="mt-2 text-gray-500">
+                It has survived not only five centuries, but also the leap into
+                electronic typesetting, remaining essentially unchanged.
+              </p>
+              <p
+                className="mt-2"
+                style={{ fontFamily: "Opensans-bold", color: "var(--blue)" }}
               >
-                <p>
-                  <ImQuotesLeft
-                    className="text-3xl"
-                    style={{ color: "var(--primary-color)" }}
-                  />
-                </p>
-                <p className="text-gray-500 mt-2">{topReview?.review}</p>
-                <p
-                  className="mt-2"
-                  style={{ fontFamily: "Opensans-bold", color: "var(--blue)" }}
-                >
-                  - by {topReview?.name || "Guest"}
-                </p>
-              </div>
-            )}
+                - by Ommi Shankar
+              </p>
+            </div>
           </div>
           {/**write a review */}
           <div
             className="flex flex-col md:ml-10 flex-grow md:mt-0 mt-5"
             style={{ fontFamily: "Opensans-regular" }}
           >
-            {isAdded && (
-              <p className="flex items-center text-green-600 py-2">
-                <FiCheckCircle className="mr-1" /> Review added successfully.
-              </p>
-            )}
             <p className="flex flex-col">
               <b style={{ fontFamily: "Opensans-bold" }}>Write a Review</b>
               <span className="text-gray-600">
                 Share your thoughts with another customer.
               </span>
             </p>
-            <form name="rating" onSubmit={handleReview} className="w-full mt-5">
+            <form name="review" className="w-full mt-5">
               <div className="form-element">
-                <textarea
-                  name="review"
-                  className="h-40 border-gray-200 rounded-md text-sm"
-                  required
-                ></textarea>
+                <textarea className="h-40 border-gray-200 rounded-md text-sm"></textarea>
               </div>
               <button
                 className="px-2 py-3 text-white rounded-sm"

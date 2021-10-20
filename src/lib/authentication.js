@@ -64,6 +64,25 @@ export const saveOrUpdateSetting = async (data) => {
   return setting;
 };
 
+export const saveBulkSetting = async (data) => {
+  const token = __d(cookies.get("__NEXT"));
+  let setting = false;
+
+  if (token) {
+    await server
+      .post("/admin/settings/bulk", data, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        setting = response?.data;
+      })
+      .catch((error) => {
+        setting = error?.response?.data;
+      });
+  }
+  return setting;
+};
+
 export const logoutUser = async () => {
   const token = __d(cookies.get("__NEXT"));
   let user = false;

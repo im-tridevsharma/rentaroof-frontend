@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { MdClose } from "react-icons/md";
 import Loader from "../../loader";
+import { useSelector, shallowEqual } from "react-redux";
 
 function Sidebar({ name, page, sideBarToggled, isHide, setIsHide }) {
   const router = useRouter();
@@ -10,6 +11,13 @@ function Sidebar({ name, page, sideBarToggled, isHide, setIsHide }) {
   const isHidden = sideBarToggled ? "hidden" : "";
   const role = name.toLowerCase() === "user" ? "tenant" : name.toLowerCase();
   const [isLoading, setIsLoading] = useState(false);
+
+  const { website } = useSelector(
+    (state) => ({
+      website: state.website,
+    }),
+    shallowEqual
+  );
 
   useEffect(() => {
     setIsLoading(true);
@@ -39,17 +47,18 @@ function Sidebar({ name, page, sideBarToggled, isHide, setIsHide }) {
               style={{ height: "52px" }}
             >
               <img
-                src="/logos/logo-icon.png"
+                src={website?.logo || "/images/website/no_photo.png"}
                 alt="logo"
-                className="h-8 object-contain"
+                className="h-20 w-20 object-contain"
               />
 
               <p
                 className={`uppercase text-xl mt-2 ${isHidden}`}
                 style={{ fontFamily: "Opensans-bold" }}
               >
-                <span style={{ color: "var(--blue)" }}>Rent a</span>
-                <span style={{ color: "var(--orange)" }}> Roof</span>
+                <span style={{ color: "var(--blue)" }}>
+                  {website?.company_name}
+                </span>
               </p>
             </a>
           </Link>

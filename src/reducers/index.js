@@ -5,6 +5,7 @@ import config from "./config";
 import leftSidebar from "./left-sidebar";
 import palettes from "./palettes";
 import navigation from "./navigation";
+import website from "./website";
 
 const rootReducer = combineReducers({
   dashboard,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   config,
   leftSidebar,
   palettes,
+  website,
 });
 
 export default rootReducer;

@@ -26,7 +26,7 @@ import { __d } from "../../../server";
 import { schedulePropertyVisit } from "../../../lib/frontend/properties";
 import StarRatings from "react-star-ratings";
 
-function Index() {
+function Index({ id }) {
   const router = useRouter();
   const [isSaved, setIsSaved] = useState(false);
   const [propertyCode, setPropertyCode] = useState(null);
@@ -44,7 +44,7 @@ function Index() {
   const [rating, setRating] = useState(0);
 
   useEffect(() => {
-    setPropertyCode(router.query.id);
+    setPropertyCode(id);
     //fetch property details
     setIsLoading(true);
     const u = localStorage.getItem("LU")
@@ -208,12 +208,12 @@ function Index() {
   return (
     <>
       <Head>
-        <title>Property - {propertyCode}</title>
+        <title>Property - {id}</title>
       </Head>
       {isLoading && <Loader />}
       <Header />
       <Breadcrumb
-        tagline={`Details of selected property ${propertyCode}`}
+        tagline={`Details of selected property ${id}`}
         path="Home / Property List / Property Details"
       />
       <div className="flex flex-col p-5 relative">
@@ -839,7 +839,7 @@ function Index() {
               >
                 Rate Us
               </p>
-              <p
+              <div
                 className="flex items-center justify-center my-2 border-gray-200 pb-4 mx-3"
                 style={{ color: "var(--orange)", borderBottomWidth: "1px" }}
               >
@@ -852,7 +852,7 @@ function Index() {
                   starSpacing="15px"
                   starHoverColor="var(--orange)"
                 />
-              </p>
+              </div>
               <div
                 className="flex flex-col mx-4 flex-grow md:mt-3 mt-5"
                 style={{ fontFamily: "Opensans-bold", fontSize: "1rem" }}
@@ -898,5 +898,11 @@ function Index() {
     </>
   );
 }
+
+Index.getInitialProps = ({ query }) => {
+  return {
+    id: query.id,
+  };
+};
 
 export default Index;

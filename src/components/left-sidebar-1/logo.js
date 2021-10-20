@@ -12,6 +12,13 @@ const Logo = () => {
     }),
     shallowEqual
   );
+  const { website } = useSelector(
+    (state) => ({
+      website: state.website,
+    }),
+    shallowEqual
+  );
+
   const { collapsed } = { ...config };
   const { showLogo } = { ...leftSidebar };
   if (showLogo) {
@@ -23,17 +30,18 @@ const Logo = () => {
             style={{ height: "52px" }}
           >
             <img
-              src="/logos/logo-icon.png"
+              src={website?.logo || "/images/website/no_photo.png"}
               alt="logo"
-              className="h-8 object-contain"
+              className="h-20 w-20 object-contain"
             />
 
             <p
               className="uppercase text-xl mt-2"
               style={{ fontFamily: "Opensans-bold" }}
             >
-              <span style={{ color: "var(--blue)" }}>Rent a</span>
-              <span style={{ color: "var(--orange)" }}> Roof</span>
+              <span style={{ color: "var(--blue)" }}>
+                {website?.company_name}
+              </span>
             </p>
           </a>
         </Link>

@@ -398,8 +398,13 @@ function Index() {
                         }
                       >
                         <option value="">Any</option>
-                        <option value="detached">Detached</option>
-                        <option value="apratment">Apartment</option>
+                        <option value="apartment">Apartment</option>
+                        <option value="building">Building</option>
+                        <option value="home">Home</option>
+                        <option value="land & industrial">
+                          Land & Industrial
+                        </option>
+                        <option value="vacation rental">Vacation Rental</option>
                       </select>
                     </label>
                   </div>

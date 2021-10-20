@@ -18,7 +18,9 @@ function CreateTemplate() {
       const response = await getSetting("agreement_template");
       if (response?.status) {
         setIsLoading(false);
-        setTemplate(response?.data.setting_value);
+        setTemplate(
+          response?.data.setting_value || response?.data.agreement_template
+        );
       } else {
         setIsLoading(false);
         console.error(response?.error || response?.message);

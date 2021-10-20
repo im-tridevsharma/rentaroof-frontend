@@ -1,13 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { BiBadgeCheck, BiError } from "react-icons/bi";
 import Loader from "../../components/loader";
 import { registerUser } from "../../lib/frontend/auth";
+import server from "../../server";
+
+const getWebsiteValues = async (key) => {
+  let setting = "";
+  await server
+    .get("/website/initials/" + key)
+    .then((response) => {
+      setting = response?.data;
+    })
+    .catch((error) => {
+      setting = error?.response?.data;
+    });
+  return setting;
+};
 
 function Index() {
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [logo, setLogo] = useState("");
   const [state, setState] = useState({
     role: "",
     name: "",
@@ -15,6 +30,15 @@ function Index() {
     password: "",
   });
   const [errors, setErrors] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const res = await getWebsiteValues("logo");
+      if (res?.status) {
+        setLogo(res.data.logo);
+      }
+    })();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -63,7 +87,7 @@ function Index() {
             {/**logo */}
             <Link href="/">
               <img
-                src="/logos/logo.png"
+                src={logo || "/images/website/no_photo.png"}
                 alt="logo"
                 className="h-full w-full object-cover cursor-pointer"
               />
@@ -253,12 +277,12 @@ function Index() {
                 <Link href="/">
                   <a>Home</a>
                 </Link>
-                <Link href="/">
+                <Link href="/about-us">
                   <a className="border-r-2 border-l-2 border-gray-400 px-2 mx-2">
                     About Us
                   </a>
                 </Link>
-                <Link href="/">
+                <Link href="/contact-us">
                   <a>Contact Us</a>
                 </Link>
               </div>

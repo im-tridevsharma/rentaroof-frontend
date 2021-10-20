@@ -22,7 +22,11 @@ function FileUpload(props) {
   };
 
   return (
-    <div className="flex items-center justify-center relative">
+    <div
+      className={`flex items-center ${
+        props?.align === "left" ? "justify-start" : "justify-center"
+      } relative`}
+    >
       <label
         htmlFor="fileupload"
         className={`${

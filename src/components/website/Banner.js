@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Search from "./forms/Search";
 import Loader from "../../components/loader";
+import { useSelector, shallowEqual } from "react-redux";
 
 const ptype_options = [
   { value: "apartment", label: "Apartment" },
@@ -67,6 +68,13 @@ function Banner() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
+  const { website } = useSelector(
+    (state) => ({
+      website: state.website,
+    }),
+    shallowEqual
+  );
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -99,7 +107,7 @@ function Banner() {
               textShadow: "0px 2px 1px rgba(0,0,0,.8)",
             }}
           >
-            Find Your Perfect Rental Home
+            {website?.homepage_search_title}
           </h2>
           <div
             className="p-2 rounded-lg"

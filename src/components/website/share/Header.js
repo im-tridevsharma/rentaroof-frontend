@@ -1,8 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { logoutUser, removeAuthToken } from "../../../lib/frontend/auth";
 import Loader from "../../loader";
+import server from "../../../server";
+import { useDispatch } from "react-redux";
+
+const getWebsiteValues = async (key) => {
+  let setting = "";
+  await server
+    .get("/website/initials/" + key)
+    .then((response) => {
+      setting = response?.data;
+    })
+    .catch((error) => {
+      setting = error?.response?.data;
+    });
+  return setting;
+};
 
 function Header({
   page,
@@ -14,6 +29,18 @@ function Header({
 }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async () => {
+      const res = await getWebsiteValues(
+        "logo,company_name,company_email,company_contact,ibo_commision,landlord_commision"
+      );
+      if (res?.status) {
+        dispatch({ type: "SET_WEBSITE", values: res.data });
+      }
+    })();
+  }, []);
 
   const handleLogout = async (e) => {
     e.preventDefault();
