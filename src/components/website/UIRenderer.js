@@ -1,4 +1,9 @@
 import React, { useEffect, useState } from "react";
+import {
+  getIboNotification,
+  getLandlordNotification,
+  getUserNotification,
+} from "../../lib/frontend/share";
 import { __d } from "../../server";
 import Header from "./share/Header";
 import Sidebar from "./share/Sidebar";
@@ -7,6 +12,7 @@ function UIRenderer({ UI, role, page }) {
   const [sideBarToggled, setSideBarToggled] = useState(false);
   const [isHide, setIsHide] = useState(false);
   const [user, setUser] = useState({});
+  const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
     let data = localStorage.getItem("LU");
@@ -14,6 +20,22 @@ function UIRenderer({ UI, role, page }) {
     if (data) {
       setUser(data);
     }
+
+    const fetchNotifications = async () => {
+      const res =
+        data?.role === "ibo"
+          ? await getIboNotification()
+          : data?.role === "landlord"
+          ? await getLandlordNotification()
+          : await getUserNotification();
+      if (res?.status) {
+        setNotifications(res?.data?.filter((n) => n?.is_seen !== 1));
+      } else {
+        console.error(res?.error || res.message);
+      }
+    };
+
+    fetchNotifications();
   }, []);
 
   return (
@@ -36,6 +58,7 @@ function UIRenderer({ UI, role, page }) {
           user={user}
           setUser={setUser}
           setIsHide={setIsHide}
+          notifications={notifications?.length}
         />
         {/**main content */}
         <div

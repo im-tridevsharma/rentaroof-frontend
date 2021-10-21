@@ -1,4 +1,5 @@
 import moment from "moment";
+import Link from "next/link";
 
 function PropertyIbo({ property }) {
   return (
@@ -51,15 +52,17 @@ function PropertyIbo({ property }) {
           ₹ {property?.monthly_rent}/month
         </h6>
 
-        <button
-          className="px-3 py-2 text-white uppercase text-3xs rounded-md"
-          style={{
-            backgroundColor: "var(--primary-color)",
-            fontFamily: "Opensans-semi-bold",
-          }}
-        >
-          View More
-        </button>
+        <Link href={`/details/properties/${property?.property_code}`}>
+          <a
+            className="px-3 py-2 text-white uppercase text-3xs rounded-md"
+            style={{
+              backgroundColor: "var(--primary-color)",
+              fontFamily: "Opensans-semi-bold",
+            }}
+          >
+            View More
+          </a>
+        </Link>
         <p className="mt-1 flex items-center sm:px-0 px-5 justify-between w-full">
           <span className="flex items-center">
             {property?.property_code} |{" "}

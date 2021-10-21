@@ -6,11 +6,16 @@ import { getPropertiesCount } from "../../../../lib/frontend/properties";
 import { getLandlordMeetings } from "../../../../lib/frontend/meetings";
 import moment from "moment";
 import { __d } from "../../../../server";
+import { getLandlordRating } from "../../../../lib/frontend/share";
+import { FaTimes } from "react-icons/fa";
 
 function DashboardUI() {
   const [isLoading, setIsLoading] = useState(false);
   const [postedProperties, setPostedProperties] = useState([]);
   const [randomApp, setRandomApp] = useState(false);
+  const [reviews, setReviews] = useState([]);
+  const [user, setUser] = useState(false);
+  const [viewMore, setViewMore] = useState(false);
 
   useEffect(() => {
     const getPropertiesFun = async () => {
@@ -24,6 +29,25 @@ function DashboardUI() {
         setIsLoading(false);
       }
     };
+
+    const getReviews = async () => {
+      setIsLoading(true);
+      const u = localStorage.getItem("LU")
+        ? JSON.parse(__d(localStorage.getItem("LU")))
+        : false;
+      if (u) {
+        setUser(u);
+        const response = await getLandlordRating(u?.id);
+        if (response?.status) {
+          setIsLoading(false);
+          setReviews(response?.data);
+        } else {
+          console.error(response?.error || response?.message);
+          setIsLoading(false);
+        }
+      }
+    };
+
     const getAppointments = async (id) => {
       setIsLoading(true);
       const response = await getLandlordMeetings(id);
@@ -50,6 +74,7 @@ function DashboardUI() {
       getAppointments(u.id);
     }
     getPropertiesFun();
+    getReviews();
   }, []);
 
   const properties_graph = [
@@ -320,24 +345,50 @@ function DashboardUI() {
             >
               Ratings & Review
             </p>
-            <div className="px-3 py-5">
-              <Review />
-              <Review />
-            </div>
-            <div className="text-center">
-              <button
-                style={{
-                  backgroundColor: "var(--orange)",
-                  fontFamily: "Opensans-bold",
-                }}
-                className="p-3 rounded-md text-white"
-              >
-                See more reviews
-              </button>
-            </div>
+            {reviews?.length > 0 ? (
+              <>
+                <div className="px-3 py-5">
+                  {[0, 1].map((_, i) => (
+                    <Review key={i} rating={reviews[i]} />
+                  ))}
+                </div>
+                <div className="text-center">
+                  <button
+                    style={{
+                      backgroundColor: "var(--orange)",
+                      fontFamily: "Opensans-bold",
+                    }}
+                    className="p-3 rounded-md text-white"
+                    onClick={() => setViewMore(true)}
+                  >
+                    See more reviews
+                  </button>
+                </div>
+              </>
+            ) : (
+              <p className="text-red-500 p-5">No reviews found!</p>
+            )}
           </div>
         </div>
       </div>
+      {viewMore && (
+        <div className="fixed max-w-3xl w-full h-screen top-0 left-1/2 transform -translate-x-1/2 py-2 px-5 overflow-y-scroll rounded-md bg-white shadow-sm z-40">
+          <h6
+            className="text-gray-700 flex items-center justify-between"
+            style={{ fontFamily: "Opensans-bold" }}
+          >
+            All Reviews
+            <FaTimes
+              className="text-red-500 cursor-pointer"
+              onClick={() => setViewMore(false)}
+            />
+          </h6>
+          <div className="mt-3">
+            {reviews?.length > 0 &&
+              reviews.map((r, i) => <Review full={true} key={i} rating={r} />)}
+          </div>
+        </div>
+      )}
     </>
   );
 }

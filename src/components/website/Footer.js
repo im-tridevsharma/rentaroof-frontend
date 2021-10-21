@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FiMail, FiPhoneCall } from "react-icons/fi";
 import server from "../../server";
 import Links from "./Links";
+import { useSelector, shallowEqual } from "react-redux";
 
 const getPages = async () => {
   let pages = false;
@@ -19,6 +20,12 @@ const getPages = async () => {
 
 function Footer() {
   const [pages, setPages] = useState([]);
+  const { website } = useSelector(
+    (state) => ({
+      website: state.website,
+    }),
+    shallowEqual
+  );
   let links = [
     {
       title: "Rent",
@@ -42,10 +49,10 @@ function Footer() {
       title: "Our Services",
       links: [
         { href: "/", value: "Home" },
-        { href: "/", value: "About Us" },
-        { href: "/", value: "Listing Properties" },
-        { href: "/", value: "For IBO" },
-        { href: "/", value: "For Landlords" },
+        { href: "/about-us", value: "About Us" },
+        { href: "/ibo/add-property", value: "Listing Properties" },
+        { href: "/ibo/dashboard", value: "For IBO" },
+        { href: "/landlord/dashboard", value: "For Landlords" },
       ],
     },
   ];
@@ -142,7 +149,9 @@ function Footer() {
                 <FiPhoneCall className="mt-1" />
                 <p className="flex flex-col ml-2 leading-3">
                   <span>Toll Free</span>
-                  <span className="text-xs text-gray-500">1800 2500 001</span>
+                  <span className="text-xs text-gray-500">
+                    {website?.tollfree_number}
+                  </span>
                 </p>
               </div>
               <div className="flex text-gray-700 mt-3">
@@ -150,7 +159,7 @@ function Footer() {
                 <p className="flex flex-col ml-2 leading-3">
                   <span>Email</span>
                   <span className="text-xs text-gray-500">
-                    info@rentaroof.com
+                    {website?.company_email}
                   </span>
                 </p>
               </div>
@@ -162,13 +171,13 @@ function Footer() {
                   Follow Us
                 </b>
                 <div className="flex text-xl text-gray-500 mt-1">
-                  <a href="http://facebook.com">
+                  <a href={website?.facebook_url}>
                     <img src="/icons/home/fb_grey.png" alt="fb" />
                   </a>
-                  <a href="http://twitter.com" className="ml-2">
+                  <a href={website?.twitter_url} className="ml-2">
                     <img src="/icons/home/twt_grey.png" alt="twitter" />
                   </a>
-                  <a href="http://instagram.com" className="ml-2">
+                  <a href={website?.instagram_url} className="ml-2">
                     <img src="/icons/home/instagrey.png" alt="insa" />
                   </a>
                 </div>

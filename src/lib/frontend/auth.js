@@ -76,6 +76,19 @@ export const getIboProperties = async (id) => {
   return property;
 };
 
+export const getLandlordProperties = async (id) => {
+  let property = false;
+  await server
+    .get("/properties/landlord/" + id)
+    .then((response) => {
+      property = response?.data;
+    })
+    .catch((error) => {
+      property = error?.response?.data;
+    });
+  return property;
+};
+
 export const getUserSavedProperties = async (id) => {
   const token = __d(cookies.get("_SYNC_"));
   let user = false;

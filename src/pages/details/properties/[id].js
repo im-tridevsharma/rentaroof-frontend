@@ -246,7 +246,7 @@ function Index({ id }) {
         {/**detials part */}
         <div className="flex md:flex-row flex-col mt-5">
           {/**left */}
-          <div className="flex max-w-3xl w-full flex-col">
+          <div className="flex max-w-5xl w-full flex-col">
             <div className="flex items-center justify-between">
               <p
                 className="text-lg text-gray-700"
@@ -848,8 +848,8 @@ function Index({ id }) {
                   rating={rating}
                   numberOfStars={5}
                   starRatedColor="var(--orange)"
-                  starDimension="35px"
-                  starSpacing="15px"
+                  starDimension="25px"
+                  starSpacing="12px"
                   starHoverColor="var(--orange)"
                 />
               </div>

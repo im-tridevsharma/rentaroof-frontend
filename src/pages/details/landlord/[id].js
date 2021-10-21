@@ -4,31 +4,145 @@ import Link from "next/link";
 import Header from "../../../components/website/Header";
 import Footer from "../../../components/website/Footer";
 import Breadcrumb from "../../../components/website/Breadcrumb";
-import { FaStar, FaStarHalf } from "react-icons/fa";
-import { FiStar } from "react-icons/fi";
 import { RiChatQuoteLine } from "react-icons/ri";
 import { ImQuotesLeft } from "react-icons/im";
 import PropertyIbo from "../../../components/website/PropertyIbo";
-import { getUserByCode } from "../../../lib/frontend/auth";
+import {
+  getLandlordProperties,
+  getUserByCode,
+} from "../../../lib/frontend/auth";
+import {
+  getLandlordRating,
+  saveLandlordNotication,
+  saveLandlordRating,
+} from "../../../lib/frontend/share";
 import Loader from "../../../components/loader";
+import StarRatings from "react-star-ratings";
+import { FiCheckCircle } from "react-icons/fi";
 
 function Index({ id }) {
-  const [ibo, setIbo] = useState(false);
+  const [landlord, setLandlord] = useState(false);
+  const [properties, setProperties] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(0);
+  const [viewMore, setViewMore] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [landlordRatings, setLandlordRatings] = useState([]);
+  const [isAdded, setIsAdded] = useState(false);
+  const [isSent, setIsSent] = useState(false);
+  const [avgRating, setAvgRating] = useState(0);
+  const [topReview, setTopReview] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
     (async () => {
       const res = await getUserByCode(id);
       if (res?.status) {
-        setIbo(res?.data);
-        setIsLoading(false);
+        setLandlord(res?.data);
+        const pres = await getLandlordProperties(res.data.id);
+        if (pres?.status) {
+          setProperties(pres.data);
+          setMinPrice(
+            pres.data.reduce(
+              (prev, curr) => {
+                return prev.monthly_rent < curr.monthly_rent ? prev : curr;
+              },
+              [0]
+            )
+          );
+          setMaxPrice(
+            pres.data.reduce(
+              (prev, curr) => {
+                return prev.monthly_rent > curr.monthly_rent ? prev : curr;
+              },
+              [0]
+            )
+          );
+          setIsLoading(false);
+        } else {
+          console.error(res?.error || res?.message);
+          setIsLoading(false);
+        }
+
+        const rres = await getLandlordRating(res.data.id);
+        if (rres?.status) {
+          setLandlordRatings(rres?.data);
+          setTopReview(
+            rres.data.reduce(
+              (p, c) => {
+                return p.rating > c.rating ? p : c;
+              },
+              [0]
+            )
+          );
+          if (rres.data.length > 0) {
+            let total = 0;
+            rres.data.forEach((r) => {
+              total += parseFloat(r.rating);
+            });
+            setAvgRating(parseFloat(total / rres.data.length));
+          }
+        } else {
+          console.error(rres?.error);
+        }
       } else {
         console.error(res?.error || res?.message);
         setIsLoading(false);
       }
     })();
   }, []);
+
+  const handleReview = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const review = document.forms.rating.review.value;
+    const res = await saveLandlordRating({
+      rating,
+      review,
+      landlord_id: landlord?.id,
+    });
+
+    if (res?.status) {
+      setIsAdded(true);
+      setIsLoading(false);
+      setTimeout(() => {
+        setIsAdded(false);
+      }, 2000);
+      document.forms.rating.reset();
+      setRating(0);
+    } else {
+      console.error(res?.error || res?.message);
+      setIsLoading(false);
+    }
+  };
+
+  const handleCallBack = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const formdata = new FormData(document.forms.callback);
+    formdata.append("title", "Request Callback Notification📞");
+    formdata.append("type", "Normal");
+    formdata.append("landlord_id", landlord?.id);
+    formdata.append(
+      "content",
+      `Callback request has been made by ${document.forms.callback.name.value}. 
+    Email: ${document.forms.callback.email.value} Phone: ${document.forms.callback.mobile.value}`
+    );
+
+    const res = await saveLandlordNotication(formdata);
+    if (res?.status) {
+      setIsSent(true);
+      setIsLoading(false);
+      setTimeout(() => {
+        setIsSent(false);
+      }, 2000);
+      document.forms.callback.reset();
+    } else {
+      setIsLoading(false);
+      console.error(res?.error || res?.message);
+    }
+  };
 
   return (
     <>
@@ -53,17 +167,17 @@ function Index({ id }) {
         >
           <div className="flex items-center justify-center flex-col">
             <img
-              src={ibo?.profile_pic || "/images/website/no_photo.png"}
+              src={landlord?.profile_pic || "/images/website/no_photo.png"}
               alt="user"
               className="w-28 h-28 object-cover rounded-full border-2 border-gray-500 mb-2"
             />
             <p className="flex items-center">
               <span
                 className={`w-3 h-3 rounded-full ${
-                  ibo?.is_logged_in ? "bg-green-500" : "bg-gray-300"
+                  landlord?.is_logged_in ? "bg-green-500" : "bg-gray-300"
                 } mr-1`}
               ></span>
-              <span className="font-semibold">Status</span>
+              <span className="font-semlandlordld">Status</span>
             </p>
           </div>
 
@@ -81,7 +195,7 @@ function Index({ id }) {
             <p className="mt-2">
               <b className="mr-1">Name:</b>
               <span className="uppercase">
-                {ibo?.first} {ibo?.last}
+                {landlord?.first} {landlord?.last}
               </span>
             </p>
             <p className="flex items-center">
@@ -90,12 +204,15 @@ function Index({ id }) {
                 className=" -ml-5 mr-1"
                 alt="location"
               />
-              <span>{ibo?.address?.full_address}</span>
+              <span>{landlord?.address?.full_address}</span>
             </p>
-            <p style={{ color: "var(--blue)" }} className="my-2">
-              Operating since 2010
-            </p>
-            {ibo?.kyc?.is_verified && (
+            {landlord?.operating_since && (
+              <p style={{ color: "var(--blue)" }} className="my-2">
+                Operating since{" "}
+                {new Date().getFullYear() - landlord.operating_since}
+              </p>
+            )}
+            {landlord?.kyc?.is_verified && (
               <p className="flex items-center">
                 <img
                   src="/icons/proprtydetls/icon24.png"
@@ -127,7 +244,7 @@ function Index({ id }) {
                 className="mr-1"
                 alt="location"
               />
-              <span>{ibo?.mobile}</span>
+              <span>{landlord?.mobile}</span>
             </p>
             <p className="flex items-center mt-2">
               <img
@@ -135,7 +252,7 @@ function Index({ id }) {
                 className="mr-1 w-5 h-5 object-contain"
                 alt="location"
               />
-              <span>{ibo?.email}</span>
+              <span>{landlord?.email}</span>
             </p>
             <p className="flex items-center mt-2">
               <img
@@ -160,7 +277,7 @@ function Index({ id }) {
           >
             <b>Properties for Rent</b>
             <span className="mt-3" style={{ color: "purple" }}>
-              16
+              {properties?.length}
             </span>
           </p>
           <p
@@ -169,7 +286,7 @@ function Index({ id }) {
           >
             <b>Price Range</b>
             <span className="mt-3" style={{ color: "purple" }}>
-              Rs. 25,000 - 12 Lacs
+              Rs. {minPrice.monthly_rent} - {maxPrice.monthly_rent}
             </span>
           </p>
           <p
@@ -185,18 +302,21 @@ function Index({ id }) {
                 className="px-4 py-2 rounded-md flex items-center justify-center text-white"
                 style={{ backgroundColor: "var(--blue)" }}
               >
-                4.5
+                {avgRating}
               </span>
-              <span className="ml-1">20</span>
+              <span className="ml-1">{landlordRatings?.length}</span>
               <div
                 className="flex items-center ml-3"
                 style={{ color: "var(--orange)" }}
               >
-                <FaStar />
-                <FaStar />
-                <FaStar />
-                <FaStar />
-                <FaStarHalf />
+                <StarRatings
+                  numberOfStars={5}
+                  rating={avgRating}
+                  starRatedColor="var(--orange)"
+                  starDimension="20px"
+                  starSpacing="3px"
+                  starHoverColor="var(--orange)"
+                />
               </div>
             </span>
           </p>
@@ -214,9 +334,11 @@ function Index({ id }) {
 
             {/**properties */}
             <div className="md:mx-5 mt-3">
-              <PropertyIbo />
-              <PropertyIbo />
-              <PropertyIbo />
+              {viewMore
+                ? properties.map((p, i) => <PropertyIbo key={i} property={p} />)
+                : [1, 2, 3].map((_, i) => (
+                    <PropertyIbo key={i} property={properties[i]} />
+                  ))}
             </div>
             <div
               className="flex items-center cursor-pointer justify-center md:mx-5 mt-2 border-gray-200 rounded-md text-center uppercase bg-white py-3 shadow-sm"
@@ -225,8 +347,9 @@ function Index({ id }) {
                 fontFamily: "Opensans-bold",
                 color: "var(--primary-color)",
               }}
+              onClick={() => setViewMore(!viewMore)}
             >
-              View More{" "}
+              {viewMore ? "View Less" : "View More"}
               <img
                 src="/icons/ibo_icons/icon16.png"
                 alt="arrow"
@@ -251,13 +374,22 @@ function Index({ id }) {
               </p>
               <form
                 name="callback"
+                onSubmit={handleCallBack}
                 className="mx-5 mt-5"
                 style={{ fontFamily: "Opensans-semi-bold" }}
               >
+                {isSent && (
+                  <p className="flex items-center text-green-600 py-2">
+                    <FiCheckCircle className="mr-1" /> Details sent
+                    successfully.
+                  </p>
+                )}
                 <div className="form-element">
                   <div className="form-label">Name</div>
                   <input
                     type="text"
+                    name="name"
+                    required
                     className="form-input rounded-md border-gray-200 h-10"
                   />
                 </div>
@@ -265,6 +397,8 @@ function Index({ id }) {
                   <div className="form-label">Email</div>
                   <input
                     type="email"
+                    name="email"
+                    required
                     className="form-input rounded-md border-gray-200 h-10"
                   />
                 </div>
@@ -272,6 +406,8 @@ function Index({ id }) {
                   <div className="form-label">Phone</div>
                   <input
                     type="text"
+                    name="mobile"
+                    required
                     className="form-input rounded-md border-gray-200 h-10"
                   />
                 </div>
@@ -298,16 +434,17 @@ function Index({ id }) {
               >
                 Rate Us
               </p>
-              <p
-                className="flex items-center mt-6"
-                style={{ color: "var(--orange)" }}
-              >
-                <FiStar className="mx-4 text-lg" />
-                <FiStar className="mx-4 text-lg" />
-                <FiStar className="mx-4 text-lg" />
-                <FiStar className="mx-4 text-lg" />
-                <FiStar className="mx-4 text-lg" />
-              </p>
+              <div className="flex items-center mt-6">
+                <StarRatings
+                  changeRating={(newRating) => setRating(newRating)}
+                  numberOfStars={5}
+                  rating={rating}
+                  starRatedColor="var(--orange)"
+                  starDimension="30px"
+                  starSpacing="8px"
+                  starHoverColor="var(--orange)"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -322,49 +459,50 @@ function Index({ id }) {
               Top Customer Feedback{" "}
               <RiChatQuoteLine className="text-3xl ml-2" />
             </p>
-            <div
-              className="flex flex-col p-5 border-gray-200 mt-4 rounded-sm"
-              style={{ borderWidth: "1px" }}
-            >
-              <p>
-                <ImQuotesLeft
-                  className="text-3xl"
-                  style={{ color: "var(--primary-color)" }}
-                />
-              </p>
-              <p className="text-gray-500 mt-2">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book.
-              </p>
-
-              <p className="mt-2 text-gray-500">
-                It has survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged.
-              </p>
-              <p
-                className="mt-2"
-                style={{ fontFamily: "Opensans-bold", color: "var(--blue)" }}
+            {topReview && (
+              <div
+                className="flex flex-col p-5 border-gray-200 mt-4 rounded-sm"
+                style={{ borderWidth: "1px" }}
               >
-                - by Ommi Shankar
-              </p>
-            </div>
+                <p>
+                  <ImQuotesLeft
+                    className="text-3xl"
+                    style={{ color: "var(--primary-color)" }}
+                  />
+                </p>
+                <p className="text-gray-500 mt-2">{topReview?.review}</p>
+                <p
+                  className="mt-2"
+                  style={{ fontFamily: "Opensans-bold", color: "var(--blue)" }}
+                >
+                  - by {topReview?.name || "Guest"}
+                </p>
+              </div>
+            )}
           </div>
           {/**write a review */}
           <div
             className="flex flex-col md:ml-10 flex-grow md:mt-0 mt-5"
             style={{ fontFamily: "Opensans-regular" }}
           >
+            {isAdded && (
+              <p className="flex items-center text-green-600 py-2">
+                <FiCheckCircle className="mr-1" /> Review added successfully.
+              </p>
+            )}
             <p className="flex flex-col">
               <b style={{ fontFamily: "Opensans-bold" }}>Write a Review</b>
               <span className="text-gray-600">
                 Share your thoughts with another customer.
               </span>
             </p>
-            <form name="review" className="w-full mt-5">
+            <form name="rating" onSubmit={handleReview} className="w-full mt-5">
               <div className="form-element">
-                <textarea className="h-40 border-gray-200 rounded-md text-sm"></textarea>
+                <textarea
+                  name="review"
+                  className="h-40 border-gray-200 rounded-md text-sm"
+                  required
+                ></textarea>
               </div>
               <button
                 className="px-2 py-3 text-white rounded-sm"

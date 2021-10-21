@@ -8,7 +8,11 @@ import { RiChatQuoteLine } from "react-icons/ri";
 import { ImQuotesLeft } from "react-icons/im";
 import PropertyIbo from "../../../components/website/PropertyIbo";
 import { getIboProperties, getUserByCode } from "../../../lib/frontend/auth";
-import { getIboRating, saveIboRating } from "../../../lib/frontend/share";
+import {
+  getIboRating,
+  saveIboNotication,
+  saveIboRating,
+} from "../../../lib/frontend/share";
 import Loader from "../../../components/loader";
 import StarRatings from "react-star-ratings";
 import { FiCheckCircle } from "react-icons/fi";
@@ -23,6 +27,7 @@ function Index({ id }) {
   const [rating, setRating] = useState(0);
   const [iboRatings, setIboRatings] = useState([]);
   const [isAdded, setIsAdded] = useState(false);
+  const [isSent, setIsSent] = useState(false);
   const [avgRating, setAvgRating] = useState(0);
   const [topReview, setTopReview] = useState(false);
 
@@ -36,14 +41,20 @@ function Index({ id }) {
         if (pres?.status) {
           setProperties(pres.data);
           setMinPrice(
-            pres.data.reduce((prev, curr) => {
-              return prev.monthly_rent < curr.monthly_rent ? prev : curr;
-            })
+            pres.data.reduce(
+              (prev, curr) => {
+                return prev.monthly_rent < curr.monthly_rent ? prev : curr;
+              },
+              [0]
+            )
           );
           setMaxPrice(
-            pres.data.reduce((prev, curr) => {
-              return prev.monthly_rent > curr.monthly_rent ? prev : curr;
-            })
+            pres.data.reduce(
+              (prev, curr) => {
+                return prev.monthly_rent > curr.monthly_rent ? prev : curr;
+              },
+              [0]
+            )
           );
           setIsLoading(false);
         } else {
@@ -55,9 +66,12 @@ function Index({ id }) {
         if (rres?.status) {
           setIboRatings(rres?.data);
           setTopReview(
-            rres.data.reduce((p, c) => {
-              return p.rating > c.rating ? p : c;
-            })
+            rres.data.reduce(
+              (p, c) => {
+                return p.rating > c.rating ? p : c;
+              },
+              [0]
+            )
           );
           if (rres.data.length > 0) {
             let total = 0;
@@ -75,6 +89,33 @@ function Index({ id }) {
       }
     })();
   }, []);
+
+  const handleCallBack = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const formdata = new FormData(document.forms.callback);
+    formdata.append("title", "Request Callback Notification📞");
+    formdata.append("type", "Normal");
+    formdata.append("ibo_id", ibo?.id);
+    formdata.append(
+      "content",
+      `Callback request has been made by ${document.forms.callback.name.value}. 
+    Email: ${document.forms.callback.email.value} Phone: ${document.forms.callback.mobile.value}`
+    );
+
+    const res = await saveIboNotication(formdata);
+    if (res?.status) {
+      setIsSent(true);
+      setIsLoading(false);
+      setTimeout(() => {
+        setIsSent(false);
+      }, 2000);
+      document.forms.callback.reset();
+    } else {
+      setIsLoading(false);
+      console.error(res?.error || res?.message);
+    }
+  };
 
   const handleReview = async (e) => {
     e.preventDefault();
@@ -329,13 +370,22 @@ function Index({ id }) {
               </p>
               <form
                 name="callback"
+                onSubmit={handleCallBack}
                 className="mx-5 mt-5"
                 style={{ fontFamily: "Opensans-semi-bold" }}
               >
+                {isSent && (
+                  <p className="flex items-center text-green-600 py-2">
+                    <FiCheckCircle className="mr-1" /> Details sent
+                    successfully.
+                  </p>
+                )}
                 <div className="form-element">
                   <div className="form-label">Name</div>
                   <input
                     type="text"
+                    name="name"
+                    required
                     className="form-input rounded-md border-gray-200 h-10"
                   />
                 </div>
@@ -343,6 +393,8 @@ function Index({ id }) {
                   <div className="form-label">Email</div>
                   <input
                     type="email"
+                    name="email"
+                    required
                     className="form-input rounded-md border-gray-200 h-10"
                   />
                 </div>
@@ -350,6 +402,8 @@ function Index({ id }) {
                   <div className="form-label">Phone</div>
                   <input
                     type="text"
+                    name="mobile"
+                    required
                     className="form-input rounded-md border-gray-200 h-10"
                   />
                 </div>

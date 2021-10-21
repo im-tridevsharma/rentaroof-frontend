@@ -26,6 +26,7 @@ function Header({
   user,
   setUser,
   setIsHide,
+  notifications,
 }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -114,7 +115,7 @@ function Header({
                     className="absolute -top-1 -right-2 text-3xs text-white rounded-full"
                     style={{ backgroundColor: "var(--orange)" }}
                   >
-                    10
+                    {notifications}
                   </span>
                 </a>
               </Link>
