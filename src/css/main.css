@@ -51,6 +51,14 @@
   --blue: rgb(5 79 138);
 }
 
+.css-jrzev6-Slider {
+  height: 5px !important;
+  width: 100% !important;
+}
+.css-uy858d-Slider {
+  border: 2px solid var(--primary-color);
+}
+
 input[type="date"]::-webkit-inner-spin-button,
 input[type="date"]::-webkit-calendar-picker-indicator {
   display: none;

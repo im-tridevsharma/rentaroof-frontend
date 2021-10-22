@@ -68,20 +68,16 @@ function Index({ id }) {
         const rres = await getLandlordRating(res.data.id);
         if (rres?.status) {
           setLandlordRatings(rres?.data);
-          setTopReview(
-            rres.data.reduce(
-              (p, c) => {
-                return p.rating > c.rating ? p : c;
-              },
-              [0]
-            )
-          );
+          const top = rres.data.filter((p) => p.rating > 4);
+          setTopReview(top[Math.floor(Math.random() * top?.length)]);
           if (rres.data.length > 0) {
             let total = 0;
             rres.data.forEach((r) => {
               total += parseFloat(r.rating);
             });
-            setAvgRating(parseFloat(total / rres.data.length));
+            setAvgRating(
+              parseFloat(parseFloat(total / rres.data.length).toFixed(1))
+            );
           }
         } else {
           console.error(rres?.error);
