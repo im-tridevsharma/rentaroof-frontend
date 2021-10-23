@@ -287,3 +287,16 @@ export const seenLandlordNotification = async (id) => {
     });
   return notification;
 };
+
+export const getAmenities = async (id) => {
+  let amenities = false;
+  await server
+    .get("/amenities")
+    .then((response) => {
+      amenities = response?.data;
+    })
+    .catch((error) => {
+      amenities = error?.response?.data;
+    });
+  return amenities;
+};

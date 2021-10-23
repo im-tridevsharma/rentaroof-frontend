@@ -86,7 +86,7 @@ function Banner() {
     const min_price = document.forms.findProperty.min_price.value;
     const max_price = document.forms.findProperty.max_price.value;
     router.push(
-      `find-property?search=${s_value}&ptype=${ptype}&bed=${bed}&bath=${bath}&parking=${parking}&min_price=${min_price}&max_price=${max_price}`
+      `find-property?pagination=yes&search=${s_value}&ptype=${ptype}&bed=${bed}&bath=${bath}&parking=${parking}&min_price=${min_price}&max_price=${max_price}`
     );
   };
 
