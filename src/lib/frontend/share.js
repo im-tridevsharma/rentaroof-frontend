@@ -300,3 +300,38 @@ export const getAmenities = async (id) => {
     });
   return amenities;
 };
+
+//agreements
+export const saveAgreement = async (data) => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let rating = false;
+  await server
+    .post("/agreements", data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      rating = response?.data;
+    })
+    .catch((error) => {
+      rating = error?.response?.data;
+    });
+  return rating;
+};
+
+export const getAgreements = async (data) => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let rating = false;
+  await server
+    .get("/agreements", data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      rating = response?.data;
+    })
+    .catch((error) => {
+      rating = error?.response?.data;
+    });
+  return rating;
+};

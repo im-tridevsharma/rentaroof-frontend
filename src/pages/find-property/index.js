@@ -4,7 +4,7 @@ import Breadcrumb from "../../components/website/Breadcrumb";
 import Header from "../../components/website/Header";
 import Footer from "../../components/website/Footer";
 import Loader from "../../components/loader";
-import { FiMapPin, FiSearch } from "react-icons/fi";
+import { FiFilter, FiMapPin, FiSearch } from "react-icons/fi";
 import Slider from "react-input-slider";
 import { getAmenities } from "../../lib/frontend/share";
 import { useRouter } from "next/router";
@@ -12,9 +12,11 @@ import FilterProperty from "../../components/website/FilterProperty";
 import { saveSearch, searchProperties } from "../../lib/frontend/properties";
 import { GrLinkPrevious, GrLinkNext } from "react-icons/gr";
 import { __d } from "../../server";
+import { FaTimes } from "react-icons/fa";
 
 function Index({ query }) {
   const [isLoading, setIsLoading] = React.useState(false);
+  const [user, setUser] = React.useState(false);
   const [filters, setFilters] = React.useState({
     search: "",
     ptype: "",
@@ -34,6 +36,7 @@ function Index({ query }) {
   const [amenities, setAmenities] = useState([]);
   const [properties, setProperties] = useState([]);
   const [pagination, setPagination] = useState([]);
+  const [filterMode, setFilterMode] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -41,6 +44,7 @@ function Index({ query }) {
       ? JSON.parse(__d(localStorage.getItem("LU")))
       : false;
     if (u) {
+      setUser(u);
       const action = localStorage.getItem("perform")
         ? JSON.parse(localStorage.getItem("perform"))
         : false;
@@ -211,7 +215,11 @@ function Index({ query }) {
       <Breadcrumb tagline={tagline} path="Home / property list / search" />
       <div className="flex mt-5 px-5 mb-5">
         {/**filters */}
-        <div className="flex-grow border-2 border-gray-200 max-w-sm w-full h-full">
+        <div
+          className={`border-2 border-gray-200 max-w-sm w-full ${
+            filterMode ? "block absolute bg-white z-40 h-max-content" : "hidden"
+          } lg:block lg:h-full`}
+        >
           {/**refine search */}
           <form
             className="flex flex-col relative p-5"
@@ -223,8 +231,15 @@ function Index({ query }) {
               );
             }}
           >
-            <h6 style={{ fontFamily: "Opensans-bold", fontSize: "15px" }}>
+            <h6
+              style={{ fontFamily: "Opensans-bold", fontSize: "15px" }}
+              className="flex items-center justify-between"
+            >
               Refine Search
+              <FaTimes
+                className="text-red-500 cursor-pointer text-lg inline-block lg:hidden"
+                onClick={() => setFilterMode(false)}
+              />
             </h6>
             <input
               type="text"
@@ -732,13 +747,17 @@ function Index({ query }) {
           </form>
         </div>
         {/**properties */}
-        <div className="flex flex-col flex-1 md:ml-5">
+        <div className="flex flex-col flex-1 lg:ml-5">
           <div className="flex items-center justify-between border-2 border-gray-200 px-2">
-            <p>
-              Showing{" "}
-              <b>
+            <p className="flex items-center">
+              <FiFilter
+                className="text-lg mr-3 cursor-pointer inline-block lg:hidden"
+                onClick={() => setFilterMode(true)}
+              />
+              Showing
+              <b className="mx-2">
                 {pagination?.from}-{pagination?.to} of {pagination?.total}
-              </b>{" "}
+              </b>
               Properties
             </p>
             <div className="flex items-center">
@@ -768,6 +787,7 @@ function Index({ query }) {
                     router.asPath
                       .replace("find-property", "find-property/map")
                       .replace("&pagination=yes", "")
+                      .replace("pagination=yes&", "")
                   )
                 }
                 type="button"
@@ -780,7 +800,9 @@ function Index({ query }) {
           {/**result */}
           <div className="flex flex-col mt-3">
             {properties?.length > 0 ? (
-              properties.map((p, i) => <FilterProperty key={i} property={p} />)
+              properties.map((p, i) => (
+                <FilterProperty key={i} property={p} user={user} />
+              ))
             ) : (
               <p className="text-red-500 p-3">Properties not found!</p>
             )}

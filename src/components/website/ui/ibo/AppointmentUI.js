@@ -10,6 +10,12 @@ import Loader from "../../../loader";
 import moment from "moment";
 import { FaTimes } from "react-icons/fa";
 import { FiMail, FiPhoneCall } from "react-icons/fi";
+import {
+  saveUserNotication,
+  saveUserRating,
+} from "../../../../lib/frontend/share";
+import AppointmentForm from "../../AppointmentForm";
+import StarRatings from "react-star-ratings";
 
 function AppointmentUI() {
   const [appointments, setAppointments] = useState([]);
@@ -22,6 +28,9 @@ function AppointmentUI() {
   const [reload, setReload] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
   const [reschedule, setReschedule] = useState(false);
+  const [agreementMode, setAgreementMode] = useState(false);
+  const [rateAndReview, setRateAndReview] = useState(false);
+  const [rating, setRating] = useState(0);
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -71,6 +80,52 @@ function AppointmentUI() {
     }
   }, [reload]);
 
+  const handleUserNotification = async (
+    user_id,
+    property,
+    status,
+    time = null
+  ) => {
+    setIsLoading(true);
+    const message = {
+      approved: `${user?.fullname} has accepted your appointment for property - ${property}`,
+      visited: `${user?.fullname} has visited property - ${property} with you.`,
+      closed: `${user?.fullname} has closed appointment for property - ${property}.`,
+      agreement: `${user?.fullname} has created an agreement for property - ${property}.`,
+      rescheduled: `${
+        user?.fullname
+      } has rescheduled appointment for property - ${property}. Date - ${
+        time?.date && time.date
+      }, Time: ${time?.time && time.time}`,
+    };
+    const formdata = new FormData();
+    formdata.append(
+      "title",
+      status === "agreement"
+        ? `Agreement Created Successfully🎉`
+        : `Appointment Notification🔔`
+    );
+    formdata.append("type", "Normal");
+    formdata.append("tenant_id", user_id);
+    formdata.append("user_id", user?.id);
+    formdata.append("name", user?.fullname);
+    formdata.append("email", user?.email);
+    formdata.append("mobile", user?.mobile);
+    formdata.append("content", message[status]);
+
+    const res = await saveUserNotication(formdata);
+    if (res?.status) {
+      setIsLoading(false);
+    } else {
+      setIsLoading(false);
+      console.error(res?.error || res?.message);
+    }
+  };
+
+  const openRateAndReview = (a) => {
+    setRateAndReview(a);
+  };
+
   const changeStatus = async (status, id) => {
     setIsLoading(true);
     const response = await updateMeetingStatus(id, { status });
@@ -83,6 +138,24 @@ function AppointmentUI() {
     }
   };
 
+  const handleRating = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const formdata = new FormData(document.forms.rating);
+    formdata.append("rating", rating);
+    const res = await saveUserRating(formdata);
+    if (res?.status) {
+      setIsLoading(false);
+      document.forms.rating.reset();
+      setRating(0);
+      alert("Review saved successfully.");
+      setRateAndReview(false);
+    } else {
+      console.error(res?.error || res?.message);
+      setIsLoading(false);
+    }
+  };
+
   const handleReschedule = async (e) => {
     e.preventDefault();
     const id = document.forms.reschedule.id.value;
@@ -90,19 +163,35 @@ function AppointmentUI() {
     setIsLoading(true);
     const response = await rescheduleMetting(id, formdata);
     if (response?.status) {
-      setReload(Date.now());
-      setIsLoading(false);
-      setReschedule(false);
+      const a = appointments.find((ap) => ap.id == id);
+      if (a) {
+        handleUserNotification(
+          a?.created_by_id,
+          a?.property_data,
+          "rescheduled",
+          {
+            date: document.forms.reschedule?.date?.value,
+            time: document.forms.reschedule?.time?.value,
+          }
+        );
+        setReload(Date.now());
+        setIsLoading(false);
+        setReschedule(false);
+      }
     } else {
       console.error(response?.error || response?.data);
       setIsLoading(false);
     }
   };
 
+  const openAgreementMode = (appointment) => {
+    setAgreementMode(appointment);
+  };
+
   return (
     <>
       {isLoading && <Loader />}
-      <div className="flex flex-col">
+      <div className="flex flex-col relative">
         {/**cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
           <Card
@@ -191,7 +280,10 @@ function AppointmentUI() {
                           {a?.meeting_status}
                         </p>
                         {a.meeting_status === "visited" && (
-                          <button style={{ color: "var(--orange)" }}>
+                          <button
+                            style={{ color: "var(--orange)" }}
+                            onClick={() => openRateAndReview(a)}
+                          >
                             Review & Rate
                           </button>
                         )}
@@ -210,7 +302,14 @@ function AppointmentUI() {
                           </button>
                           {a.meeting_status === "pending" ? (
                             <button
-                              onClick={() => changeStatus("approved", a.id)}
+                              onClick={() => {
+                                changeStatus("approved", a.id);
+                                handleUserNotification(
+                                  a?.created_by_id,
+                                  a?.property_data,
+                                  "approved"
+                                );
+                              }}
                               className="border-gray-300 border-r-2 px-2 mr-2 text-green-500"
                             >
                               Accept
@@ -235,19 +334,49 @@ function AppointmentUI() {
                                   </button>
                                   <button
                                     className="text-green-600 border-gray-300 border-r-2 px-2 mr-2"
-                                    onClick={() =>
-                                      changeStatus("visited", a.id)
-                                    }
+                                    onClick={() => {
+                                      changeStatus("visited", a.id);
+                                      handleUserNotification(
+                                        a?.created_by_id,
+                                        a?.property_data,
+                                        "visited"
+                                      );
+                                    }}
                                   >
                                     Visited
                                   </button>
                                 </>
                               )}
 
+                              {a.meeting_status === "visited" && !a?.agreement && (
+                                <button
+                                  className="text-green-600 border-gray-300 border-r-2 px-2 mr-2"
+                                  onClick={() => openAgreementMode(a)}
+                                >
+                                  Create Agreement
+                                </button>
+                              )}
+
+                              {a.agreement && (
+                                <button
+                                  className="border-gray-300 border-r-2 px-2 mr-2"
+                                  style={{ color: "var(--blue)" }}
+                                >
+                                  View Agreement
+                                </button>
+                              )}
+
                               {a.meeting_status !== "closed" && (
                                 <button
                                   className="text-red-600 border-gray-300 border-r-2 px-2 mr-2"
-                                  onClick={() => changeStatus("closed", a.id)}
+                                  onClick={() => {
+                                    changeStatus("closed", a.id);
+                                    handleUserNotification(
+                                      a?.created_by_id,
+                                      a?.property_data,
+                                      "closed"
+                                    );
+                                  }}
                                 >
                                   Closed
                                 </button>
@@ -378,23 +507,7 @@ function AppointmentUI() {
                                   >
                                     Reschedule
                                   </button>
-                                  <button
-                                    className="text-green-600 border-gray-300 border-r-2 px-2 mr-2"
-                                    onClick={() =>
-                                      changeStatus("visited", a.id)
-                                    }
-                                  >
-                                    Visited
-                                  </button>
                                 </>
-                              )}
-                              {a.meeting_status !== "closed" && (
-                                <button
-                                  className="text-red-600 border-gray-300 border-r-2 px-2 mr-2"
-                                  onClick={() => changeStatus("closed", a.id)}
-                                >
-                                  Closed
-                                </button>
                               )}
                             </>
                           )}
@@ -481,7 +594,7 @@ function AppointmentUI() {
                           </p>
                         </td>
                       </tr>
-                      <tr>
+                      <tr key={`id-${i}`}>
                         <td colSpan="6">
                           {a?.meeting_history &&
                             JSON.parse(a?.meeting_history).map((h, j) => (
@@ -523,6 +636,15 @@ function AppointmentUI() {
               </tbody>
             </table>
           </div>
+        )}
+
+        {agreementMode && (
+          <AppointmentForm
+            appointment={agreementMode}
+            setAgreementMode={setAgreementMode}
+            setReload={setReload}
+            handleUserNotification={handleUserNotification}
+          />
         )}
       </div>
 
@@ -607,6 +729,57 @@ function AppointmentUI() {
                   className="form-input border-gray-200 rounded-md"
                 />
               </div>
+            </div>
+            <div className="flex justify-end">
+              <button
+                className="px-2 py-1 text-white rounded-md right"
+                style={{ backgroundColor: "var(--blue)" }}
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {rateAndReview && (
+        <div
+          style={{ fontFamily: "Opensans-regular" }}
+          className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5 bg-white shadow-md rounded-md z-40 max-w-lg w-full"
+        >
+          <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
+            Rating and Review
+            <FaTimes
+              onClick={() => setRateAndReview(false)}
+              className="absolute right-1 top-1 text-red-500 cursor-pointer text-lg"
+            />
+          </h5>
+          <hr className="my-1" />
+          <form name="rating" onSubmit={handleRating} className="mt-2">
+            <input
+              type="hidden"
+              name="tenant_id"
+              value={rateAndReview?.created_by_id}
+            />
+            <div className="form-element">
+              <label className="form-label">Rating</label>
+              <StarRatings
+                changeRating={(newRating) => setRating(newRating)}
+                numberOfStars={5}
+                rating={rating}
+                starRatedColor="var(--orange)"
+                starDimension="20px"
+                starSpacing="3px"
+                starHoverColor="var(--orange)"
+              />
+            </div>
+            <div className="form-element">
+              <label className="form-label">Review</label>
+              <textarea
+                name="review"
+                required
+                className="form-input border-gray-200 rounded-md"
+              ></textarea>
             </div>
             <div className="flex justify-end">
               <button

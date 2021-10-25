@@ -52,7 +52,13 @@ function PropertyItem({ property, overEvent, outEvent, user }) {
           user_id: user?.id,
         });
         if (res?.status) {
-          setIsFavorite(res?.data?.length > 0 ? true : false);
+          res?.data?.length > 0 &&
+            setIsFavorite(
+              res?.data?.filter((p) => p.property_id === property?.id)?.length >
+                0
+                ? true
+                : false
+            );
         }
       }
     })();
