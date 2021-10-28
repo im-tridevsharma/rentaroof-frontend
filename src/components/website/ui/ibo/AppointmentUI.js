@@ -84,7 +84,8 @@ function AppointmentUI() {
     user_id,
     property,
     status,
-    time = null
+    time = null,
+    href = null
   ) => {
     setIsLoading(true);
     const message = {
@@ -112,6 +113,9 @@ function AppointmentUI() {
     formdata.append("email", user?.email);
     formdata.append("mobile", user?.mobile);
     formdata.append("content", message[status]);
+    if (href) {
+      formdata.append("redirect", href);
+    }
 
     const res = await saveUserNotication(formdata);
     if (res?.status) {
@@ -358,12 +362,14 @@ function AppointmentUI() {
                               )}
 
                               {a.agreement && (
-                                <button
+                                <a
+                                  href={a.agreement?.agreement_url}
+                                  target="_blank"
                                   className="border-gray-300 border-r-2 px-2 mr-2"
                                   style={{ color: "var(--blue)" }}
                                 >
                                   View Agreement
-                                </button>
+                                </a>
                               )}
 
                               {a.meeting_status !== "closed" && (

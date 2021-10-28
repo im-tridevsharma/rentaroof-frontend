@@ -14,17 +14,18 @@ import {
 import { __d } from "../../../../server";
 import { MdClose } from "react-icons/md";
 import { BsStarFill } from "react-icons/bs";
+import { getAgreements } from "../../../../lib/frontend/share";
 
-const Button = () => {
+const Button = ({ url }) => {
   return (
-    <Link href="/">
-      <a
-        className="p-2 rounded-md text-white"
-        style={{ backgroundColor: "var(--blue)" }}
-      >
-        View Agreement
-      </a>
-    </Link>
+    <a
+      href={url}
+      target="_blank"
+      className="p-2 rounded-md text-white"
+      style={{ backgroundColor: "var(--blue)" }}
+    >
+      View Agreement
+    </a>
   );
 };
 
@@ -35,6 +36,7 @@ function PropertiesUI() {
   const [cardMode, setCardMode] = useState("posted");
   const [properties, setProperties] = useState([]);
   const [visitedProperties, setVisitedProperties] = useState([]);
+  const [agreements, setAgreements] = useState([]);
 
   useEffect(() => {
     localStorage.removeItem("next_ap");
@@ -73,9 +75,18 @@ function PropertiesUI() {
           setIsLoading(false);
           console.error(response?.error || response?.message);
         }
+        setIsLoading(true);
+        const ares = await getAgreements();
+        if (ares?.status) {
+          setAgreements(ares?.data);
+          setIsLoading(false);
+        } else {
+          console.error(ares?.error || ares?.message);
+          setIsLoading(false);
+        }
       }
     })();
-  }, [cardMode]);
+  }, []);
 
   const deleteMe = async (id, type) => {
     setIsLoading(true);
@@ -101,10 +112,10 @@ function PropertiesUI() {
 
   return (
     <>
-      {isLoading && <Loader />}
       <div className="flex flex-col">
         {/**cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3 space-y-3 md:space-y-0">
+          {isLoading && <Loader />}
           <Card
             label="Total properties posted"
             count={properties?.length}
@@ -117,7 +128,7 @@ function PropertiesUI() {
           />
           <Card
             label="Total rented properties"
-            count="10"
+            count={agreements?.length}
             color="white"
             textcolor="gray"
             icon={<img src="/icons/owner_dashboard/icon2.png" alt="rented" />}
@@ -208,33 +219,29 @@ function PropertiesUI() {
               <p>Rent Details</p>
             </div>
             <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-              <PropertyGrid
-                image={
-                  <img src="/images/website/big-city.jpg" alt="property" />
-                }
-                title="4BHK at Pune"
-                price="Rs. 2000/Month"
-                subtitle="Renter: John"
-                button={<Button />}
-              />
-              <PropertyGrid
-                image={
-                  <img src="/images/website/big-city.jpg" alt="property" />
-                }
-                title="4BHK at Pune"
-                price="Rs. 2000/Month"
-                subtitle="Renter: John"
-                button={<Button />}
-              />
-              <PropertyGrid
-                image={
-                  <img src="/images/website/big-city.jpg" alt="property" />
-                }
-                title="4BHK at Pune"
-                price="Rs. 2000/Month"
-                subtitle="Renter: John"
-                button={<Button />}
-              />
+              {agreements?.length > 0 ? (
+                agreements?.map((a, i) => (
+                  <PropertyGrid
+                    key={i}
+                    image={
+                      <img
+                        src={
+                          a?.property_data?.front_image ||
+                          "/images/website/no_photo.png"
+                        }
+                        alt="property"
+                        className="w-full object-cover"
+                      />
+                    }
+                    title={a?.property_data?.name}
+                    price={`Rs. ${a?.property_data?.monthly_rent}/Month`}
+                    subtitle={`Renter: ${a?.tenant?.first} ${a?.tenant?.last}`}
+                    button={<Button url={a?.agreement_url} />}
+                  />
+                ))
+              ) : (
+                <p className="text-red-500 p-3">No renting properties found!</p>
+              )}
             </div>
           </>
         )}

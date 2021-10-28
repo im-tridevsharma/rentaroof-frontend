@@ -216,7 +216,7 @@ function Index({ query }) {
       <div className="flex mt-5 px-5 mb-5">
         {/**filters */}
         <div
-          className={`border-2 border-gray-200 max-w-sm w-full ${
+          className={`border-2 border-gray-200 max-w-xs w-full ${
             filterMode ? "block absolute bg-white z-40 h-max-content" : "hidden"
           } lg:block lg:h-full`}
         >
@@ -513,7 +513,7 @@ function Index({ query }) {
               </h6>
               <div className="flex items-center mt-1">
                 <button
-                  className={`p-2 mb-1 mr-2 rounded-md bg-white flex items-center justify-center mx-2 ${
+                  className={`p-2 mb-1 mr-2 rounded-md bg-white flex items-center justify-center mx-1 ${
                     filters?.furnishing === "" ? "bg-gray-100" : ""
                   }`}
                   type="button"
@@ -522,7 +522,7 @@ function Index({ query }) {
                   Any
                 </button>
                 <button
-                  className={`p-2 mb-1 rounded-md bg-white flex items-center justify-center mx-2 ${
+                  className={`p-2 mb-1 rounded-md bg-white flex items-center justify-center mx-1 ${
                     filters?.furnishing === "furnished" ? "bg-gray-100" : ""
                   }`}
                   type="button"
@@ -533,7 +533,7 @@ function Index({ query }) {
                   Full
                 </button>
                 <button
-                  className={`p-2 mb-1 rounded-md bg-white flex items-center justify-center mx-2 ${
+                  className={`p-2 mb-1 rounded-md bg-white flex items-center justify-center mx-1 ${
                     filters?.furnishing === "semi-furnished"
                       ? "bg-gray-100"
                       : ""
@@ -546,7 +546,7 @@ function Index({ query }) {
                   Semi
                 </button>
                 <button
-                  className={`p-2 mb-1 rounded-md bg-white flex items-center justify-center mx-2 ${
+                  className={`p-2 mb-1 rounded-md bg-white flex items-center justify-center mx-1 ${
                     filters?.furnishing === "unfurnished" ? "bg-gray-100" : ""
                   }`}
                   type="button"
@@ -557,7 +557,7 @@ function Index({ query }) {
                   No
                 </button>
                 <button
-                  className={`p-2 mb-1 rounded-md bg-white flex items-center justify-center mx-2 ${
+                  className={`p-2 mb-1 rounded-md bg-white flex items-center justify-center mx-1 ${
                     filters?.furnishing === "ongoing" ? "bg-gray-100" : ""
                   }`}
                   type="button"

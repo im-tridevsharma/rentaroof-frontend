@@ -6,7 +6,7 @@ import { getPropertiesCount } from "../../../../lib/frontend/properties";
 import { getMeetings } from "../../../../lib/frontend/meetings";
 import moment from "moment";
 import { __d } from "../../../../server";
-import { getIboRating } from "../../../../lib/frontend/share";
+import { getAgreements, getIboRating } from "../../../../lib/frontend/share";
 import { FaTimes } from "react-icons/fa";
 
 function DashboardUI() {
@@ -16,6 +16,7 @@ function DashboardUI() {
   const [reviews, setReviews] = useState([]);
   const [user, setUser] = useState(false);
   const [viewMore, setViewMore] = useState(false);
+  const [agreements, setAgreements] = useState([]);
 
   useEffect(() => {
     const getPropertiesFun = async () => {
@@ -44,6 +45,13 @@ function DashboardUI() {
         } else {
           console.error(response?.error || response?.message);
           setIsLoading(false);
+        }
+
+        const ares = await getAgreements();
+        if (ares?.status) {
+          setAgreements(ares?.data);
+        } else {
+          console.error(ares?.error || ares?.message);
         }
       }
     };
@@ -74,7 +82,7 @@ function DashboardUI() {
   const properties_graph = [
     {
       label: "Properties for rent",
-      count: 289,
+      count: agreements?.length,
       icon: (
         <img
           src="/icons/user-dashboard/usericon2.png"
@@ -87,7 +95,7 @@ function DashboardUI() {
         colors: ["rgb(5 79 138)", "#F3F3F3"],
         hoverColors: ["rgb(5 79 138)", "#F3F3F3"],
         labels: [],
-        values: [289, 100],
+        values: [agreements?.length, 100],
         fontcolor: "gray",
         legend: false,
         tooltip: false,

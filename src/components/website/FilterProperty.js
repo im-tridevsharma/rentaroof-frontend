@@ -69,12 +69,13 @@ function FilterProperty({ property, user }) {
       {isLoading && <Loader />}
       <div className="flex border-2 border-gray-200 mb-2">
         <div className="w-60 h-60 overflow-hidden border-r-2 border-gray-200 relative">
-          <img
-            src={property?.front_image || "/images/website/no_photo.png"}
-            className="w-full h-full object-cover"
-            alt="p"
-          />
-
+          <Link href={`/details/properties/${property?.property_code}`}>
+            <img
+              src={property?.front_image || "/images/website/no_photo.png"}
+              className="w-full h-full object-cover cursor-pointer"
+              alt="p"
+            />
+          </Link>
           <div
             onClick={addtoFavorite}
             className="absolute text-lg right-1 cursor-pointer top-1 w-8 h-8 bg-yellow-500 rounded-full text-white flex items-center justify-center"
@@ -85,12 +86,14 @@ function FilterProperty({ property, user }) {
         <div className="flex flex-col flex-1">
           <div className="flex items-start justify-between px-2 ml-5 py-1">
             <div>
-              <h5
-                style={{ fontFamily: "Opensans-bold" }}
-                className="truncate max-w-md"
-              >
-                {property?.name}
-              </h5>
+              <Link href={`/details/properties/${property?.property_code}`}>
+                <h5
+                  style={{ fontFamily: "Opensans-bold" }}
+                  className="truncate max-w-md cursor-pointer"
+                >
+                  {property?.name}
+                </h5>
+              </Link>
               <p style={{ fontFamily: "Opensans-regular" }}>
                 {property?.address?.full_address}
               </p>

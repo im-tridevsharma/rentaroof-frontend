@@ -319,12 +319,12 @@ export const saveAgreement = async (data) => {
   return rating;
 };
 
-export const getAgreements = async (data) => {
+export const getAgreements = async () => {
   const token = __d(cookies.get("_SYNC_"));
 
   let rating = false;
   await server
-    .get("/agreements", data, {
+    .get("/agreements", {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((response) => {

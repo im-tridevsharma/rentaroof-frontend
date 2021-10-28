@@ -36,6 +36,18 @@ const links = [
     ),
   },
   {
+    label: "Agreements",
+    href: "/tenant/agreements",
+    icon: (
+      <img
+        src="/icons/user-dashboard/agreement.png"
+        alt="properties"
+        className="object-contain"
+        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
+      />
+    ),
+  },
+  {
     label: "Wallet",
     href: "/tenant/wallet",
     icon: (

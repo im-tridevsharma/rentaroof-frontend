@@ -5,7 +5,7 @@ import DonoughtChart from "../../../charts/doughnut";
 import Review from "../../Review";
 import Loader from "../../../loader";
 import { __d } from "../../../../server";
-import { getUserRating } from "../../../../lib/frontend/share";
+import { getAgreements, getUserRating } from "../../../../lib/frontend/share";
 import { FaTimes } from "react-icons/fa";
 
 function DashboardUI() {
@@ -16,6 +16,8 @@ function DashboardUI() {
   const [reviews, setReviews] = useState([]);
   const [user, setUser] = useState(false);
   const [viewMore, setViewMore] = useState(false);
+  const [agreements, setAgreements] = useState([]);
+  const [randomP, setRandomP] = useState({});
 
   useEffect(() => {
     setIsLoading(true);
@@ -35,6 +37,17 @@ function DashboardUI() {
         } else {
           setIsLoading(false);
           console.error(response?.error || response?.message);
+        }
+        setIsLoading(true);
+        //get rental properties
+        const p = await getAgreements();
+        if (p?.status) {
+          setIsLoading(false);
+          setAgreements(p?.data);
+          setRandomP(p?.data[Math.floor(Math.random() * p?.data?.length)]);
+        } else {
+          setIsLoading(false);
+          console.error(p?.error || p?.message);
         }
       })();
     }
@@ -56,14 +69,13 @@ function DashboardUI() {
         }
       }
     };
-
     getReviews();
   }, []);
 
   const properties_graph = [
     {
       label: "Properties for rent",
-      count: 535,
+      count: agreements?.length,
       icon: (
         <img
           src="/icons/user-dashboard/usericon2.png"
@@ -76,7 +88,7 @@ function DashboardUI() {
         colors: ["rgb(5 79 138)", "#F3F3F3"],
         hoverColors: ["rgb(5 79 138)", "#F3F3F3"],
         labels: [],
-        values: [537, 100],
+        values: [agreements?.length, 100],
         fontcolor: "gray",
         legend: false,
         tooltip: false,
@@ -98,10 +110,10 @@ function DashboardUI() {
         hoverColors: ["orange", "#F3F3F3"],
         labels: [],
         values: [favoriteProperties?.length, 100],
-        fontcolor: "gray",
         legend: false,
         tooltip: false,
       },
+      fontcolor: "gray",
     },
   ];
 
@@ -208,35 +220,55 @@ function DashboardUI() {
               >
                 Current House Rented Details
               </p>
-              <div
-                className="flex items-center px-4 mb-4 mt-2 text-gray-600"
-                style={{ fontFamily: "Opensans-regular" }}
-              >
-                <div className="w-24 h-20 rounded-lg overflow-hidden">
-                  <img
-                    src="/images/website/home-house.jpg"
-                    alt="home"
-                    className="w-full h-full object-cover"
-                  />
+              {agreements?.length > 0 ? (
+                <div
+                  className="flex items-center px-4 mb-4 mt-2 text-gray-600"
+                  style={{ fontFamily: "Opensans-regular" }}
+                >
+                  <div className="w-24 h-20 rounded-lg overflow-hidden">
+                    <img
+                      src={
+                        randomP.property_data?.front_image ||
+                        "/images/website/no_photo.png"
+                      }
+                      alt="home"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="flex flex-col px-5">
+                    <b
+                      className="text-gray-800"
+                      style={{ fontFamily: "Opensans-bold" }}
+                    >
+                      {randomP?.landlord?.first} {randomP?.landlord?.last}
+                    </b>
+                    <p>
+                      {randomP?.property_data?.bedrooms} BHK{" "}
+                      <span className="mx-2">|</span>
+                      {randomP?.property_data?.bedrooms} Bathroom
+                    </p>
+                    <p className="text-gray-800">
+                      Monthly Rent:{" "}
+                      <b style={{ fontFamily: "Opensans-bold" }}>
+                        Rs. {randomP?.property_data?.monthly_rent}
+                      </b>
+                    </p>
+                    <p className="text-gray-800">
+                      Contract :{" "}
+                      <b style={{ fontFamily: "Opensans-bold" }}>
+                        {moment(randomP?.end_date).diff(
+                          moment(randomP?.start_date),
+                          "months",
+                          true
+                        )}{" "}
+                        Months
+                      </b>
+                    </p>
+                  </div>
                 </div>
-                <div className="flex flex-col px-5">
-                  <b
-                    className="text-gray-800"
-                    style={{ fontFamily: "Opensans-bold" }}
-                  >
-                    Owner Name
-                  </b>
-                  <p>4BHK 3 Bathroom</p>
-                  <p className="text-gray-800">
-                    Monthly Rent:{" "}
-                    <b style={{ fontFamily: "Opensans-bold" }}>Rs. 2000</b>
-                  </p>
-                  <p className="text-gray-800">
-                    Contract :{" "}
-                    <b style={{ fontFamily: "Opensans-bold" }}>11 months</b>
-                  </p>
-                </div>
-              </div>
+              ) : (
+                <p className="text-red-500 p-3">No properties found!</p>
+              )}
             </div>
             {/**recent transaction */}
             <div className="w-full mt-5 shadow-sm h-56 bg-white rounded-md border-2 border-gray-200 relative">

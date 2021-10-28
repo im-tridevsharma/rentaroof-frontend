@@ -41,6 +41,26 @@ export const getPropertyById = async (id) => {
   return property;
 };
 
+export const getAgreements = async () => {
+  const token = getToken();
+  let agreements = false;
+
+  if (token) {
+    await server
+      .get(`/admin/agreements`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        agreements = response?.data;
+      })
+      .catch((error) => {
+        agreements = error?.response?.data;
+      });
+  }
+
+  return agreements;
+};
+
 export const verifyProperty = async (id, option) => {
   const token = getToken();
   let property = false;

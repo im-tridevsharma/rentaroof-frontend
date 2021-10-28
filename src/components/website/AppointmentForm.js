@@ -87,7 +87,9 @@ function AppointmentForm({
       handleUserNotification(
         appointment?.created_by_id,
         appointment?.property_data,
-        "agreement"
+        "agreement",
+        null,
+        `/tenant/agreements?a=${res?.data.id}`
       );
     } else {
       setIsLoading(false);
