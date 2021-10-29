@@ -57,6 +57,25 @@ export const addPropertyReview = async (data) => {
   return review;
 };
 
+export const addPropertyAddressPin = async (id, data) => {
+  let pin = false;
+  const token = getToken();
+  if (id && data) {
+    await server
+      .post(`/properties/pin/` + id, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        pin = response?.data;
+      })
+      .catch((error) => {
+        pin = error?.response?.data;
+      });
+  }
+
+  return pin;
+};
+
 export const searchProperties = async (search) => {
   let res = false;
 

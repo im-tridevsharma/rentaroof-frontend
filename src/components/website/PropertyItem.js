@@ -31,7 +31,6 @@ function PropertyItem({ property, overEvent, outEvent, user }) {
       if (sres?.status) {
         setIsLoading(false);
         setIsFavorite(true);
-        alert("Added to favorite!");
       } else {
         console.error(sres?.error || sres.message);
         setIsLoading(false);
@@ -74,11 +73,13 @@ function PropertyItem({ property, overEvent, outEvent, user }) {
       >
         {/**small slider */}
         <div className="mr-5 relative">
-          <img
-            src={property?.front_image || "/images/website/no_photo.png"}
-            alt="property"
-            className="h-40 md:w-52 object-cover"
-          />
+          <Link href={`/details/properties/${property?.property_code}`}>
+            <img
+              src={property?.front_image || "/images/website/no_photo.png"}
+              alt="property"
+              className="h-40 md:w-52 object-cover cursor-pointer"
+            />
+          </Link>
           <div
             onClick={addtoFavorite}
             className="absolute right-1 top-1 text-2xl cursor-pointer text-red-500 w-8 h-8 rounded-full bg-white flex items-center justify-center"
@@ -92,7 +93,14 @@ function PropertyItem({ property, overEvent, outEvent, user }) {
         </div>
         {/**property details */}
         <div className="flex flex-col py-5 items-start">
-          <b style={{ fontFamily: "Opensans-bold" }}>{property?.name || "-"}</b>
+          <Link href={`/details/properties/${property?.property_code}`}>
+            <b
+              style={{ fontFamily: "Opensans-bold" }}
+              className="cursor-pointer"
+            >
+              {property?.name || "-"}
+            </b>
+          </Link>
           <p className="font-thin" style={{ fontFamily: "Opensans-semi-bold" }}>
             {property?.address?.full_address}
           </p>

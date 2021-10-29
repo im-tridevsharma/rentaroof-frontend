@@ -25,6 +25,12 @@ import EssentialItem from "../../../components/website/EssentialItem";
 import { __d } from "../../../server";
 import { schedulePropertyVisit } from "../../../lib/frontend/properties";
 import StarRatings from "react-star-ratings";
+import {
+  useLoadScript,
+  GoogleMap,
+  Marker,
+  StreetViewPanorama,
+} from "@react-google-maps/api";
 
 function Index({ id }) {
   const router = useRouter();
@@ -42,6 +48,10 @@ function Index({ id }) {
   const [errors, setErrors] = useState(false);
   const [isScheduled, setIsScheduled] = useState(false);
   const [rating, setRating] = useState(0);
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.MAP_API_KEY, // Add your API key
+  });
 
   useEffect(() => {
     setPropertyCode(id);
@@ -78,9 +88,9 @@ function Index({ id }) {
         if (response?.data.essential) {
           setEssential(response?.data.essential);
         }
-        if (response?.data.posted_by_data) {
-          setUser(response?.data.posted_by_data);
-        }
+        setUser(response?.data.posted_by_data);
+      }
+      if (response?.data.posted_by_data) {
         if (response?.data.amenities_data) {
           setAmenities(response?.data.amenities_data);
         }
@@ -506,21 +516,52 @@ function Index({ id }) {
                 className="text-gray-700 my-3"
               >
                 {address?.full_address || "-"}, {address?.pincode || "-"}
+                <label className="float-right text-xs cursor-pointer">
+                  <input
+                    type="checkbox"
+                    className="mr-2"
+                    checked={address?.street_view === "yes" ? true : false}
+                    onChange={(e) =>
+                      setAddress((a) => ({
+                        ...a,
+                        street_view: e.target.checked ? "yes" : "no",
+                      }))
+                    }
+                  />
+                  Street View
+                </label>
               </p>
-              <div className="w-full border-gray-200 border-2 rounded-md bg-gray-50">
-                <iframe
-                  title="Property on map"
-                  width="100%"
-                  className="h-52 sm:h-80"
-                  id="gmap_canvas"
-                  src={`https://maps.google.com/maps?q=${
-                    encodeURI(address?.full_address) || "India"
-                  }&t=&z=13&ie=UTF8&iwloc=&output=embed`}
-                  frameBorder="0"
-                  scrolling="no"
-                  marginHeight="0"
-                  marginWidth="0"
-                ></iframe>
+              <div className="w-full border-gray-200 border-2 h-96 rounded-md bg-gray-50">
+                {isLoaded && address && (
+                  <GoogleMap
+                    center={{
+                      lat: parseFloat(address?.lat),
+                      lng: parseFloat(address.long),
+                    }}
+                    zoom={address ? parseInt(address?.zoom_level) : 5}
+                    mapContainerStyle={{ width: "100%", height: "100%" }}
+                  >
+                    {address && (
+                      <Marker
+                        key={address.id}
+                        position={{
+                          lat: parseFloat(address?.lat),
+                          lng: parseFloat(address?.long),
+                        }}
+                        icon="/icons/home/icon-marker.png"
+                      ></Marker>
+                    )}
+                    {address?.street_view === "yes" && (
+                      <StreetViewPanorama
+                        position={{
+                          lat: parseFloat(address?.lat),
+                          lng: parseFloat(address.long),
+                        }}
+                        visible={true}
+                      />
+                    )}
+                  </GoogleMap>
+                )}
               </div>
             </div>
             {/**near by essentials */}

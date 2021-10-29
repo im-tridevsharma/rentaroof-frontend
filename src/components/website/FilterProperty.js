@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import moment from "moment";
-import { BsBookmarkStar, BsBookmarkStarFill } from "react-icons/bs";
+import { RiBookmark3Line, RiBookmark3Fill } from "react-icons/ri";
 import Loader from "../loader";
 import {
   getUserProperty,
@@ -80,7 +80,7 @@ function FilterProperty({ property, user }) {
             onClick={addtoFavorite}
             className="absolute text-lg right-1 cursor-pointer top-1 w-8 h-8 bg-yellow-500 rounded-full text-white flex items-center justify-center"
           >
-            {isMarked ? <BsBookmarkStarFill /> : <BsBookmarkStar />}
+            {isMarked ? <RiBookmark3Fill /> : <RiBookmark3Line />}
           </div>
         </div>
         <div className="flex flex-col flex-1">
