@@ -2,8 +2,16 @@ import React from "react";
 import Header from "../components/website/Header";
 import Footer from "../components/website/Footer";
 import Head from "next/head";
+import { shallowEqual, useSelector } from "react-redux";
 
 function AboutUs() {
+  const { website } = useSelector(
+    (state) => ({
+      website: state.website,
+    }),
+    shallowEqual
+  );
+
   return (
     <>
       <Header />
@@ -28,7 +36,7 @@ function AboutUs() {
           ></div>
           <div className="h-full flex items-center px-3">
             <h2 style={{ fontFamily: "Opensans-bold", color: "var(--blue)" }}>
-              Know More About Us
+              {website?.aboutus_banner_title}
             </h2>
           </div>
         </div>
@@ -43,28 +51,14 @@ function AboutUs() {
           </div>
           <div className="md:ml-5 md:mt-0 mt-5">
             <h5 className="mt-1" style={{ fontFamily: "Opensans-semi-bold" }}>
-              Welcome to our company website
+              {website?.aboutus_welcome_title}
             </h5>
             <div
               className="mt-3 leading-5 text-justify"
               style={{ fontFamily: "Opensans-regular", fontSize: "14px" }}
             >
               <p className="text-gray-500 block">
-                It is a long established fact that a reader will be distracted
-                by the readable content of a page when looking at its layout.
-                The point of using Lorem Ipsum is that it has a more-or-less
-                normal distribution of letters.
-              </p>
-              <p className="text-gray-500 block mt-3">
-                As opposed to using 'Content here, content here', making it look
-                like readable English. Many desktop publishing packages and web
-                page editors now use Lorem Ipsum as their default model text,
-                and a search for 'lorem ipsum' will uncover many web sites still
-                in their infancy.
-              </p>
-              <p className="text-gray-500 block mt-3">
-                Various versions have evolved over the years, sometimes by
-                accident, sometimes on purpose (injected humour and the like).
+                {website?.aboutus_welcome_description}
               </p>
             </div>
           </div>
@@ -208,30 +202,7 @@ function AboutUs() {
             className="mt-3 leading-5 text-gray-500 border-b border-gray-300 pb-5 mb-5"
             style={{ fontFamily: "Opensans-regular", fontSize: ".85rem" }}
           >
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
-            </p>
-            <p className="mt-3">
-              Why do we use it? It is a long established fact that a reader will
-              be distracted by the readable content of a page when looking at
-              its layout. The point of using Lorem Ipsum is that it has a
-              more-or-less normal distribution of letters, as opposed to using
-              'Content here, content here', making it look like readable
-              English. Many desktop publishing packages and web page editors now
-              use Lorem Ipsum as their default model text, and a search for
-              'lorem ipsum' will uncover many web sites still in their infancy.
-              Various versions have evolved over the years, sometimes by
-              accident, sometimes on purpose (injected humour and the like).
-            </p>
+            <p>{website?.aboutus_terms_condition}</p>
           </div>
         </div>
         {/**privacy and policy */}
@@ -243,18 +214,7 @@ function AboutUs() {
             className="mt-3 leading-5 text-gray-500 border-b border-gray-300 pb-5 mb-5"
             style={{ fontFamily: "Opensans-regular", fontSize: ".85rem" }}
           >
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
-            </p>
+            <p>{website?.aboutus_privacy_policy}</p>
           </div>
         </div>
         {/**refund and policy */}
@@ -266,18 +226,7 @@ function AboutUs() {
             className="mt-3 leading-5 mb-5"
             style={{ fontFamily: "Opensans-regular", fontSize: ".85rem" }}
           >
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
-            </p>
+            <p>{website?.aboutus_refund_policy}</p>
           </div>
         </div>
       </div>

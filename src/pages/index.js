@@ -10,9 +10,17 @@ import { useState } from "react";
 import Testimonial from "../components/website/Testimonial";
 import BlogItem from "../components/website/BlogItem";
 import Footer from "../components/website/Footer";
+import { shallowEqual, useSelector } from "react-redux";
 
 function Index() {
   const [play, setPlay] = useState(false);
+
+  const { website } = useSelector(
+    (state) => ({
+      website: state.website,
+    }),
+    shallowEqual
+  );
 
   return (
     <>
@@ -100,19 +108,13 @@ function Index() {
               className="font-thin text-gray-700 text-3xl w-full sm:w-72 my-3"
               style={{ fontFamily: "Opensans-light" }}
             >
-              The Ease of Renting with Rent a Roof
+              {website?.homepage_aboutus_title}
             </h1>
             <p
               className="text-gray-700 text-xs"
               style={{ fontFamily: "Opensans-regular" }}
             >
-              We are the ones who are bringing the system of renting, which is
-              never seen in the Indian market. Experience over 2 decades in the
-              real estate sector in India, we are here with new systematic and
-              organized services with the help of our experience and technology.
-              The premium services for you to feel the warmth. We have colossal
-              connectivity to ensure the best-in-class assistance to the
-              customers at Rent a Roof.
+              {website?.homepage_aboutus_description}
             </p>
             <div className="mt-7">
               <Link href="/">
@@ -158,12 +160,10 @@ function Index() {
         <div className="h-128 w-full bg-white flex flex-col items-center relative">
           <div className="h-1/2 w-full bg-gray-100 flex flex-col items-center p-7">
             <h5 className="font-semibold max-w-2xl w-full text-center text-gray-700">
-              They say trust is everything, and for 92 years you've trusted us
-              to look after your real estate needs.
+              {website?.homepage_video_title}
             </h5>
             <p className="my-2 text-gray-800 text-center">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry.
+              {website?.homepage_video_description}
             </p>
           </div>
           <div
@@ -217,7 +217,7 @@ function Index() {
                     width: "100%",
                     height: "350px",
                   }}
-                  src="https://www.youtube.com/embed/7Qivx2om0MM"
+                  src={website?.homepage_video_url}
                   title="YouTube video player"
                   frameborder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

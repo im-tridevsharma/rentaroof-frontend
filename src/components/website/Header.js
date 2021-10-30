@@ -26,7 +26,7 @@ function Header() {
     setUser(u);
     (async () => {
       const res = await getWebsiteValues(
-        "logo,company_name,company_email,company_contact,tollfree_number,homepage_search_title,facebook_url,twitter_url,linkedin_url,instagram_url"
+        "logo,company_name,company_email,company_contact,tollfree_number,homepage_search_title,facebook_url,twitter_url,linkedin_url,instagram_url,homepage_aboutus_title,homepage_aboutus_description,homepage_video_title,homepage_video_description,homepage_video_url,aboutus_banner_title,aboutus_welcome_title,aboutus_welcome_description,aboutus_terms_condition,aboutus_privacy_policy,aboutus_refund_policy"
       );
       if (res?.status) {
         dispatch({ type: "SET_WEBSITE", values: res.data });

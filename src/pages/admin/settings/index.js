@@ -43,7 +43,9 @@ function Index() {
 
     const fetchWebsiteSettings = async () => {
       setIsLoading(true);
-      const res = await getSetting("homepage_search_title");
+      const res = await getSetting(
+        `homepage_search_title,homepage_video_title,homepage_video_description,homepage_video_url,homepage_aboutus_title,homepage_aboutus_description,aboutus_banner_title,aboutus_welcome_title,aboutus_welcome_description,aboutus_terms_condition,aboutus_privacy_policy,aboutus_refund_policy`
+      );
       if (res?.status) {
         setIsLoading(false);
         setWebsiteSettings(res.data);
@@ -333,6 +335,113 @@ function Index() {
                   value={websiteSettings?.homepage_search_title}
                   onChange={changeWHandler}
                 />
+              </div>
+              <h5>Homepage Video Section</h5>
+              <div className="form-element mt-2">
+                <label className="form-label">Title</label>
+                <input
+                  type="text"
+                  name="homepage_video_title"
+                  className="form-input"
+                  value={websiteSettings?.homepage_video_title}
+                  onChange={changeWHandler}
+                />
+              </div>
+              <div className="form-element">
+                <label className="form-label">Description</label>
+                <textarea
+                  name="homepage_video_description"
+                  className="form-input"
+                  value={websiteSettings?.homepage_video_description}
+                  onChange={changeWHandler}
+                ></textarea>
+              </div>
+              <div className="form-element">
+                <label className="form-label">Youtub Video Url</label>
+                <input
+                  type="text"
+                  name="homepage_video_url"
+                  className="form-input"
+                  value={websiteSettings?.homepage_video_url}
+                  onChange={changeWHandler}
+                />
+              </div>
+              <h5>Homepage AboutUs</h5>
+              <div className="form-element mt-2">
+                <label className="form-label">Title</label>
+                <input
+                  type="text"
+                  name="homepage_aboutus_title"
+                  className="form-input"
+                  value={websiteSettings?.homepage_aboutus_title}
+                  onChange={changeWHandler}
+                />
+              </div>
+              <div className="form-element">
+                <label className="form-label">Description</label>
+                <textarea
+                  name="homepage_aboutus_description"
+                  className="form-input"
+                  value={websiteSettings?.homepage_aboutus_description}
+                  onChange={changeWHandler}
+                ></textarea>
+              </div>
+              <h5>AboutUs Page</h5>
+              <div className="form-element mt-2">
+                <label className="form-label">Banner Title</label>
+                <input
+                  type="text"
+                  name="aboutus_banner_title"
+                  className="form-input"
+                  value={websiteSettings?.aboutus_banner_title}
+                  onChange={changeWHandler}
+                />
+              </div>
+              <div className="form-element">
+                <label className="form-label">Welcome Title</label>
+                <input
+                  type="text"
+                  name="aboutus_welcome_title"
+                  className="form-input"
+                  value={websiteSettings?.aboutus_welcome_title}
+                  onChange={changeWHandler}
+                />
+              </div>
+              <div className="form-element">
+                <label className="form-label">Welcome Description</label>
+                <textarea
+                  name="aboutus_welcome_description"
+                  className="form-input"
+                  value={websiteSettings?.aboutus_welcome_description}
+                  onChange={changeWHandler}
+                ></textarea>
+              </div>
+              <div className="form-element">
+                <label className="form-label">Terms & Conditions</label>
+                <textarea
+                  name="aboutus_terms_condition"
+                  className="form-input"
+                  value={websiteSettings?.aboutus_terms_condition}
+                  onChange={changeWHandler}
+                ></textarea>
+              </div>
+              <div className="form-element">
+                <label className="form-label">Privacy Policy</label>
+                <textarea
+                  name="aboutus_privacy_policy"
+                  className="form-input"
+                  value={websiteSettings?.aboutus_privacy_policy}
+                  onChange={changeWHandler}
+                ></textarea>
+              </div>
+              <div className="form-element">
+                <label className="form-label">Refund Policy</label>
+                <textarea
+                  name="aboutus_refund_policy"
+                  className="form-input"
+                  value={websiteSettings?.aboutus_refund_policy}
+                  onChange={changeWHandler}
+                ></textarea>
               </div>
               <button className="btn btn-default bg-blue-400 float-right text-white rounded-sm hover:bg-blue-500">
                 Submit
