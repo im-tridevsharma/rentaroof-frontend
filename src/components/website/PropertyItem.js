@@ -102,7 +102,7 @@ function PropertyItem({ property, overEvent, outEvent, user }) {
             </b>
           </Link>
           <p className="font-thin" style={{ fontFamily: "Opensans-semi-bold" }}>
-            {property?.address?.full_address}
+            {property?.address?.full_address || property?.full_address}
           </p>
           <h6
             className="my-2 font-bold"

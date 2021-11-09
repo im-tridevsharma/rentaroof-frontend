@@ -8,7 +8,11 @@ import Breadcrumb from "../../components/website/Breadcrumb";
 import { FiFilter, FiSearch } from "react-icons/fi";
 import { BiSave } from "react-icons/bi";
 import PropertyItem from "../../components/website/PropertyItem";
-import { saveSearch, searchProperties } from "../../lib/frontend/properties";
+import {
+  saveSearch,
+  searchProperties,
+  searchPropertiesForCoords,
+} from "../../lib/frontend/properties";
 import Loader from "../../components/loader";
 import {
   useLoadScript,
@@ -29,6 +33,8 @@ function Map() {
   const [activeMarker, setActiveMarker] = useState(null);
   const [hoveredProperty, setHoveredProperty] = useState(null);
   const [user, setUser] = useState(null);
+  const [onMove, setOnMove] = useState(false);
+  const [center, setCenter] = useState(false);
   const [filterData, setFilterData] = useState({
     search: "",
     available_from: "",
@@ -85,6 +91,44 @@ function Map() {
     }
   }, []);
 
+  const handleResize = async () => {
+    if (onMove) {
+      setIsLoading(true);
+      setSearch("");
+      const bounds = mapObj.getBounds();
+      const center = mapObj.getCenter();
+
+      setCenter({ lat: center.lat(), lng: center.lng() });
+
+      const response = await searchPropertiesForCoords(
+        bounds.getNorthEast().lat(),
+        bounds.getNorthEast().lng(),
+        bounds.getSouthWest().lat(),
+        bounds.getSouthWest().lng()
+      );
+
+      if (response?.status) {
+        setProperties(response?.data);
+        setIsLoading(false);
+      } else {
+        console.error(response?.error || response?.message);
+        setIsLoading(false);
+      }
+    }
+  };
+
+  function debounce(func, timeout = 300) {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func.apply(this, args);
+      }, timeout);
+    };
+  }
+
+  const processChange = debounce(() => handleResize());
+
   const saveSearchHandle = () => {
     if (user) {
       //perform save task
@@ -118,7 +162,7 @@ function Map() {
     const queryString = Object.keys(filterData)
       .map((key) => key + "=" + filterData[key])
       .join("&");
-    router.push("/find-property?" + queryString);
+    router.push("/find-property/map?" + queryString);
   };
 
   const handleOnLoad = (map) => {
@@ -189,7 +233,7 @@ function Map() {
                     }
                   })
                   .join("&");
-                router.push("/find-property?" + queryString);
+                router.push("/find-property/map?" + queryString);
               }}
             >
               <input
@@ -441,7 +485,12 @@ function Map() {
           {/**some options */}
           <div className="flex items-center justify-end mb-1">
             <label className="text-gray-500 mr-2">
-              <input type="checkbox" className="mr-1" />
+              <input
+                type="checkbox"
+                className="mr-1"
+                checked={onMove}
+                onChange={(e) => setOnMove(e.target.checked ? true : false)}
+              />
               Search as move map
             </label>
             <button
@@ -454,18 +503,19 @@ function Map() {
           </div>
           {/**map view */}
           <div className="w-full bg-gray-50 rounded-sm h-128">
-            {isLoaded && properties?.length > 0 && (
+            {isLoaded && (properties?.length > 0 || center) && (
               <GoogleMap
                 onLoad={handleOnLoad}
                 onClick={() => setActiveMarker(null)}
+                onBoundsChanged={processChange}
                 mapContainerStyle={{ width: "100%", height: "100%" }}
               >
                 {properties.map((property) => (
                   <Marker
                     key={property.id}
                     position={{
-                      lat: parseFloat(property?.address?.lat),
-                      lng: parseFloat(property?.address?.long),
+                      lat: parseFloat(property?.address?.lat || property.lat),
+                      lng: parseFloat(property?.address?.long || property.long),
                     }}
                     onClick={() => handleActiveMarker(property.id)}
                     icon="/icons/home/icon-marker.png"

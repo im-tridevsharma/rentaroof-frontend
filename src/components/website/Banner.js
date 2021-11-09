@@ -128,6 +128,7 @@ function Banner() {
                 <input
                   type="text"
                   name="search"
+                  required
                   placeholder="Search by region, postcode or property Id"
                   className="rounded-sm w-72 text-gray-500 sm:flex-grow border-none h-10 ml-1 text-sm mb-1 sm:mb-0"
                 />

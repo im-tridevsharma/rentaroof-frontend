@@ -91,6 +91,38 @@ export const searchProperties = async (search) => {
   return res;
 };
 
+export const fetchSimilarProperties = async (code, limit) => {
+  let res = false;
+
+  await server
+    .get(`/properties/similar/${code}/${limit}`)
+    .then((response) => {
+      res = response?.data;
+    })
+    .catch((error) => {
+      res = error?.response?.data;
+    });
+
+  return res;
+};
+
+export const searchPropertiesForCoords = async (n, e, s, w) => {
+  let res = false;
+
+  await server
+    .get(
+      `/properties/search_by_coords?north=${n}&east=${e}&south=${s}&west=${w}`
+    )
+    .then((response) => {
+      res = response?.data;
+    })
+    .catch((error) => {
+      res = error?.response?.data;
+    });
+
+  return res;
+};
+
 export const getPropertiesCount = async (search) => {
   const token = getToken();
   let res = false;

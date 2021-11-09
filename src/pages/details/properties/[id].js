@@ -6,14 +6,10 @@ import Header from "../../../components/website/Header";
 import Footer from "../../../components/website/Footer";
 import Breadcrumb from "../../../components/website/Breadcrumb";
 import PropertyIbo from "../../../components/website/PropertyIbo";
-import {
-  FiAlertTriangle,
-  FiCheck,
-  FiCheckCircle,
-  FiStar,
-} from "react-icons/fi";
+import { FiAlertTriangle, FiCheck, FiCheckCircle } from "react-icons/fi";
 import {
   addPropertyReview,
+  fetchSimilarProperties,
   getPropertyByCode,
   getUserProperty,
   saveUserProperty,
@@ -48,6 +44,7 @@ function Index({ id }) {
   const [errors, setErrors] = useState(false);
   const [isScheduled, setIsScheduled] = useState(false);
   const [rating, setRating] = useState(0);
+  const [similarProperties, setSimilarProperties] = useState([]);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.MAP_API_KEY, // Add your API key
@@ -136,7 +133,30 @@ function Index({ id }) {
         }
       }
     })();
-  }, []);
+
+    return () => {
+      setGallery([]);
+    };
+  }, [router.query.id]);
+
+  useEffect(() => {
+    const getSimilarProperties = async () => {
+      setIsLoading(true);
+      const response = await fetchSimilarProperties(id, 2);
+      if (response?.status) {
+        setSimilarProperties(response?.data?.data);
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+        console.error(response?.error || response?.message);
+      }
+    };
+
+    getSimilarProperties();
+    return () => {
+      setSimilarProperties([]);
+    };
+  }, [router.query.id]);
 
   const changeImage = (e) => {
     document.querySelector("#main-image").src = e.target.src;
@@ -641,9 +661,16 @@ function Index({ id }) {
               >
                 Similar Properties
               </p>
+              {similarProperties?.length > 0 ? (
+                similarProperties.map((p, i) => (
+                  <PropertyIbo key={i} property={p} />
+                ))
+              ) : (
+                <p className="text-red-500 p-2">
+                  Similar Properties not found!
+                </p>
+              )}
 
-              <PropertyIbo />
-              <PropertyIbo />
               <div
                 className="flex items-center cursor-pointer justify-center mt-2 border-gray-200 rounded-md text-center uppercase bg-white py-3 shadow-sm"
                 style={{

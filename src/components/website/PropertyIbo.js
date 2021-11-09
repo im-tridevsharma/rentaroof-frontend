@@ -6,18 +6,30 @@ function PropertyIbo({ property }) {
     <div className="border-2 border-gray-200 rounded-lg flex sm:flex-row flex-col items-center sm:items-start p-1 my-1 shadow-md mb-3">
       {/**small slider */}
       <div className="mr-5">
-        <img
-          src={property?.front_image || "/images/website/no_photo.png"}
-          alt="property"
-          className="h-40 w-60 object-cover"
-        />
+        <Link href={`/details/properties/${property?.property_code}`}>
+          <a>
+            <img
+              src={property?.front_image || "/images/website/no_photo.png"}
+              alt="property"
+              className="h-40 w-60 object-cover"
+            />
+          </a>
+        </Link>
       </div>
       {/**property details */}
       <div className="flex flex-col py-2 items-center sm:items-start w-full">
-        <b style={{ fontFamily: "Opensans-bold" }}>{property?.name}</b>
-        <p className="font-thin" style={{ fontFamily: "Opensans-semi-bold" }}>
-          {property?.city_name} {property?.state_name} {property?.country_name}
-        </p>
+        <Link href={`/details/properties/${property?.property_code}`}>
+          <a>
+            <b style={{ fontFamily: "Opensans-bold" }}>{property?.name}</b>
+            <p
+              className="font-thin"
+              style={{ fontFamily: "Opensans-semi-bold" }}
+            >
+              {property?.city_name} {property?.state_name}{" "}
+              {property?.country_name}
+            </p>
+          </a>
+        </Link>
         <p
           className="flex text-center mt-1"
           style={{ color: "var(--blue)", fontFamily: "Opensans-semi-bold" }}
