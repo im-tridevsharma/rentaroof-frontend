@@ -13,6 +13,7 @@ import { saveSearch, searchProperties } from "../../lib/frontend/properties";
 import { GrLinkPrevious, GrLinkNext } from "react-icons/gr";
 import { __d } from "../../server";
 import { FaTimes } from "react-icons/fa";
+import ReactTooltip from "react-tooltip";
 
 function Index({ query }) {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -813,8 +814,10 @@ function Index({ query }) {
                 pagination?.current_page === 1 ? "bg-gray-100" : "bg-gray-200"
               } rounded-full`}
               onClick={previousPage}
+              data-tip="Previous Page"
             >
               <GrLinkPrevious />
+              <ReactTooltip />
             </button>
             <button
               className={`h-10 w-10 flex items-center justify-center hover:bg-gray-100 ${
@@ -823,8 +826,10 @@ function Index({ query }) {
                   : "bg-gray-200"
               } rounded-full`}
               onClick={nextPage}
+              data-tip="Next Page"
             >
               <GrLinkNext />
+              <ReactTooltip />
             </button>
           </div>
         </div>

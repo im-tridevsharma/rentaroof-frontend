@@ -5,6 +5,7 @@ import { logoutUser, removeAuthToken } from "../../../lib/frontend/auth";
 import Loader from "../../loader";
 import server from "../../../server";
 import { useDispatch } from "react-redux";
+import ReactTooltip from "react-tooltip";
 
 const getWebsiteValues = async (key) => {
   let setting = "";
@@ -62,8 +63,9 @@ function Header({
 
   return (
     <>
+      <ReactTooltip />
       {isLoading && <Loader />}
-      <div className="flex flex-col w-full z-40">
+      <div className="flex flex-col w-full z-30">
         {/**header top */}
         <div
           className="flex items-center justify-between py-2 px-4 w-full"
@@ -82,6 +84,7 @@ function Header({
               alt="toggler"
               className="object-contain"
               style={{ maxWidth: "20px", width: "20px", height: "20px" }}
+              data-tip="Toggle Sidebar"
             />
           </div>
           {/**search bar */}
@@ -96,6 +99,7 @@ function Header({
                 alt="search"
                 className="filter brightness-0 object-contain -ml-5 cursor-pointer"
                 style={{ maxWidth: "12px", width: "12px", height: "12px" }}
+                data-tip="Search"
               />
             </div>
           </div>
@@ -104,7 +108,7 @@ function Header({
             {/**notification */}
             <div className="relative mx-3">
               <Link href={`/${user?.role}/notification`}>
-                <a>
+                <a data-tip="Notifications">
                   <img
                     src="/icons/user-dashboard/bell_icon.png"
                     alt="notification"
@@ -123,7 +127,7 @@ function Header({
             {/**chat */}
             <div className="relative mx-3">
               <Link href={`/${user?.role}/chat`}>
-                <a>
+                <a data-tip="Messages">
                   <img
                     src="/icons/user-dashboard/chat_icon.png"
                     alt="chat"
@@ -161,6 +165,7 @@ function Header({
                   style={{ maxWidth: "24px", width: "24px", height: "24px" }}
                   alt="user"
                   onClick={handleLogout}
+                  data-tip="Logout"
                 />
               </div>
             </div>

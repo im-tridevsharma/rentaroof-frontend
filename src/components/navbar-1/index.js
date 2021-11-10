@@ -4,6 +4,7 @@ import Dropdown1 from "./dropdown-1";
 import Dropdown3 from "./dropdown-3";
 import Dropdown4 from "./dropdown-4";
 import Dropdown5 from "./dropdown-5";
+import ReactTooltip from "react-tooltip";
 
 const Navbar = () => {
   const { config } = useSelector(
@@ -28,7 +29,7 @@ const Navbar = () => {
           }
           className="mx-4"
         >
-          <FiMenu size={20} />
+          <FiMenu size={20} data-tip="Toggle Sidebar" />
         </button>
         <span className="ml-auto"></span>
         {false && <Dropdown1 />}
@@ -46,7 +47,8 @@ const Navbar = () => {
             })
           }
         >
-          <FiSettings size={18} />
+          <FiSettings size={18} data-tip="UI Customization" />
+          <ReactTooltip />
         </button>
       </div>
     </div>

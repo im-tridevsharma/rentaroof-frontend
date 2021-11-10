@@ -9,6 +9,7 @@ import SectionTitle from "../../../components/section-title";
 import getIbos, { deleteIBO, getIBOById } from "../../../lib/ibos";
 import UserDetails from "../../../components/user-details";
 import Loader from "../../../components/loader";
+import ReactTooltip from "react-tooltip";
 
 function Index() {
   const [ibos, setIbos] = useState([]);
@@ -69,9 +70,11 @@ function Index() {
         </Link>
         <button
           onClick={() => setIsRefresh(!isRefresh)}
+          data-tip="Refresh"
           className="p-2 ml-2 bg-green-500 text-white rounded-lg hover:bg-green-400"
         >
           <FiRefreshCw className="text-lg" />
+          <ReactTooltip />
         </button>
       </div>
     );
@@ -82,6 +85,7 @@ function Index() {
       <Head>
         <title>IBOs | Rent a Roof</title>
       </Head>
+      <ReactTooltip />
       {isLoading && <Loader />}
       {showDetail && (
         <UserDetails
@@ -186,6 +190,7 @@ const Table = ({ ibos, edit, del, view }) => {
           <>
             <button
               onClick={() => del(props.value)}
+              data-tip="Remove"
               className="btn px-2 py-1 bg-red-400 rounded-md hover:bg-red-500"
             >
               <FiTrash />
@@ -193,11 +198,13 @@ const Table = ({ ibos, edit, del, view }) => {
             <button
               onClick={() => edit(props.value)}
               className="ml-2 btn px-2 py-1 bg-blue-400 rounded-md hover:bg-blue-500"
+              data-tip="Edit"
             >
               <FiEdit />
             </button>
             <button
               onClick={() => view(props.value)}
+              data-tip="View"
               className="ml-2 btn px-2 py-1 bg-blue-400 rounded-md hover:bg-blue-500"
             >
               <FiEye />

@@ -8,6 +8,7 @@ import SectionTitle from "../../../../components/section-title";
 import getRoles, { deleteRole } from "../../../../lib/roles";
 import Loader from "../../../../components/loader";
 import { useDispatch } from "react-redux";
+import ReactTooltip from "react-tooltip";
 
 function Index() {
   const [roles, setRoles] = useState([]);
@@ -74,9 +75,11 @@ function Index() {
         </Link>
         <button
           onClick={() => setIsRefresh(!isRefresh)}
+          data-tip="Refresh"
           className="p-2 ml-2 bg-green-500 text-white rounded-lg hover:bg-green-400"
         >
           <FiRefreshCw className="text-lg" />
+          <ReactTooltip />
         </button>
       </div>
     );
@@ -87,6 +90,7 @@ function Index() {
       <Head>
         <title>Roles | Rent a Roof</title>
       </Head>
+      <ReactTooltip />
       {isLoading && <Loader />}
       <SectionTitle title="Roles" subtitle="All Roles" right={<AddRole />} />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
@@ -136,12 +140,14 @@ const Table = ({ roles, edit, del }) => {
           <>
             <button
               onClick={() => del(props.value)}
+              data-tip="Remove"
               className="btn px-2 py-1 bg-red-400 rounded-md hover:bg-red-500"
             >
               <FiTrash />
             </button>
             <button
               onClick={() => edit(props.value)}
+              data-tip="Edit"
               className="ml-2 btn px-2 py-1 bg-blue-400 rounded-md hover:bg-blue-500"
             >
               <FiEdit />

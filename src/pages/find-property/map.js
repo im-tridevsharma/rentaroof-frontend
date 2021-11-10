@@ -6,6 +6,7 @@ import Header from "../../components/website/Header";
 import Footer from "../../components/website/Footer";
 import Breadcrumb from "../../components/website/Breadcrumb";
 import { FiFilter, FiSearch } from "react-icons/fi";
+import { FaDirections } from "react-icons/fa";
 import { BiSave } from "react-icons/bi";
 import PropertyItem from "../../components/website/PropertyItem";
 import {
@@ -21,6 +22,7 @@ import {
   Marker,
 } from "@react-google-maps/api";
 import { __d } from "../../server";
+import ReactTooltip from "react-tooltip";
 
 function Map() {
   const router = useRouter();
@@ -185,6 +187,21 @@ function Map() {
     setActiveMarker(marker);
   };
 
+  const getDirection = (lat, lng) => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((location) => {
+        window
+          .open(
+            `https://www.google.com/maps/dir/${location.coords.latitude},${location.coords.longitude}/${lat},${lng}`,
+            "_blank"
+          )
+          .focus();
+      });
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
+  };
+
   const tagline = `Listing property for your search "${search}"`;
 
   return (
@@ -244,14 +261,17 @@ function Map() {
                 placeholder="Country, City, Address, Postal Code or ID"
                 className="border-none flex-1 h-7 focus:ring-0 px-0 text-gray-700 text-sm"
               />
-              <button type="submit">
+              <button type="submit" data-tip="Search">
                 <FiSearch />
+                <ReactTooltip />
               </button>
             </form>
             <FiFilter
               className="cursor-pointer"
+              data-tip="Filter Options"
               onClick={() => setFilterMode(!filterMode)}
             />
+            <ReactTooltip />
           </div>
           {filterMode && (
             <>
@@ -553,16 +573,34 @@ function Map() {
                                 {property?.country_name}
                                 {" - " + property?.pincode}
                               </p>
-                              <Link
-                                href={`/details/properties/${property?.property_code}`}
-                              >
-                                <a
-                                  className="px-2 mt-1 py-1 rounded-md text-white"
-                                  style={{ backgroundColor: "var(--blue)" }}
+                              <div className="flex items-center">
+                                <Link
+                                  href={`/details/properties/${property?.property_code}`}
                                 >
-                                  View
-                                </a>
-                              </Link>
+                                  <a
+                                    className="px-2 mt-1 py-1 rounded-md text-white"
+                                    style={{ backgroundColor: "var(--blue)" }}
+                                  >
+                                    View
+                                  </a>
+                                </Link>
+
+                                <div
+                                  data-tip="Get Direction"
+                                  title="Get Direction"
+                                >
+                                  <ReactTooltip />
+                                  <FaDirections
+                                    className="ml-2 text-lg cursor-pointer"
+                                    onClick={() =>
+                                      getDirection(
+                                        property?.address?.lat || property.lat,
+                                        property?.address?.long || property.long
+                                      )
+                                    }
+                                  />
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>

@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { MdClose } from "react-icons/md";
 import Loader from "../../loader";
 import { useSelector, shallowEqual } from "react-redux";
+import ReactTooltip from "react-tooltip";
 
 function Sidebar({ name, page, sideBarToggled, isHide, setIsHide }) {
   const router = useRouter();
@@ -45,6 +46,7 @@ function Sidebar({ name, page, sideBarToggled, isHide, setIsHide }) {
             <a
               className="flex items-center py-2 px-4 bg-white"
               style={{ height: "52px" }}
+              data-tip={sideBarToggled ? "Goto Dashboard" : ""}
             >
               <img
                 src={website?.logo || "/images/website/no_photo.png"}
@@ -89,7 +91,9 @@ function Sidebar({ name, page, sideBarToggled, isHide, setIsHide }) {
                       style={{
                         borderBottomWidth: "1px",
                       }}
+                      data-tip={sideBarToggled ? link.label : ""}
                     >
+                      <ReactTooltip />
                       <span
                         className={`${
                           router.route === link?.href && "filter brightness-0"

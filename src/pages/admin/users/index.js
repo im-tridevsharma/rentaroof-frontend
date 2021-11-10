@@ -10,6 +10,7 @@ import getUsers, { deleteUser, getUserById } from "../../../lib/users";
 import UserDetails from "../../../components/user-details";
 import Loader from "../../../components/loader";
 import { __d } from "../../../server";
+import ReactTooltip from "react-tooltip";
 
 function Index() {
   const [users, setUsers] = useState([]);
@@ -73,9 +74,11 @@ function Index() {
         </Link>
         <button
           onClick={() => setIsRefresh(!isRefresh)}
+          data-tip="Refresh"
           className="p-2 ml-2 bg-green-500 text-white rounded-lg hover:bg-green-400"
         >
           <FiRefreshCw className="text-lg" />
+          <ReactTooltip />
         </button>
       </div>
     );
@@ -83,6 +86,7 @@ function Index() {
 
   return (
     <div className="relative">
+      <ReactTooltip />
       <Head>
         <title>Users | Rent a Roof</title>
       </Head>
@@ -179,18 +183,21 @@ const Table = ({ users, edit, del, view }) => {
           <>
             <button
               onClick={() => del(props.value)}
+              data-tip="Remove"
               className="btn px-2 py-1 bg-red-400 rounded-md hover:bg-red-500"
             >
               <FiTrash />
             </button>
             <button
               onClick={() => edit(props.value)}
+              data-tip="Edit"
               className="ml-2 btn px-2 py-1 bg-blue-400 rounded-md hover:bg-blue-500"
             >
               <FiEdit />
             </button>
             <button
               onClick={() => view(props.value)}
+              data-tip="View"
               className="ml-2 btn px-2 py-1 bg-blue-400 rounded-md hover:bg-blue-500"
             >
               <FiEye />

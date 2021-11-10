@@ -16,6 +16,7 @@ import {
 } from "../../../../lib/frontend/share";
 import AppointmentForm from "../../AppointmentForm";
 import StarRatings from "react-star-ratings";
+import ReactTooltip from "react-tooltip";
 
 function AppointmentUI() {
   const [appointments, setAppointments] = useState([]);
@@ -663,8 +664,10 @@ function AppointmentUI() {
             Appointment Details
             <FaTimes
               onClick={() => setShowDetail(false)}
+              data-tip="Close"
               className="absolute right-1 top-1 text-red-500 cursor-pointer text-lg"
             />
+            <ReactTooltip />
           </h5>
           <hr className="my-1" />
           <p className="leading-6">
@@ -710,8 +713,10 @@ function AppointmentUI() {
             Reschedule Details
             <FaTimes
               onClick={() => setReschedule(false)}
+              data-tip="Close"
               className="absolute right-1 top-1 text-red-500 cursor-pointer text-lg"
             />
+            <ReactTooltip />
           </h5>
           <hr className="my-1" />
           <form name="reschedule" onSubmit={handleReschedule}>
@@ -757,8 +762,10 @@ function AppointmentUI() {
             Rating and Review
             <FaTimes
               onClick={() => setRateAndReview(false)}
+              data-tip="Close"
               className="absolute right-1 top-1 text-red-500 cursor-pointer text-lg"
             />
+            <ReactTooltip />
           </h5>
           <hr className="my-1" />
           <form name="rating" onSubmit={handleRating} className="mt-2">

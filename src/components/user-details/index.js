@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { updateKycIbo } from "../../lib/ibos";
 import { updateKycLandlord } from "../../lib/landlords";
 import Loader from "../loader";
+import ReactTooltip from "react-tooltip";
 
 function Index(props) {
   const [action, setAction] = useState("");
@@ -53,8 +54,10 @@ function Index(props) {
           </div>
           <FiDelete
             onClick={() => props.toggle(false)}
+            data-tip="Close"
             className="text-xl text-red-500 cursor-pointer transition duration-100 transform hover:scale-125"
           />
+          <ReactTooltip />
         </div>
         <div className="mt-3 mb-1">
           {props.user && (

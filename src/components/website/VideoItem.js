@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import ReactTooltip from "react-tooltip";
 
 function VideoItem({ video, onClick }) {
   return (
@@ -17,7 +18,9 @@ function VideoItem({ video, onClick }) {
         }}
         className="cursor-pointer object-cover"
         onClick={() => onClick(video?.video)}
+        data-tip="Play Video"
       />
+      <ReactTooltip />
       <div className="mt-2 text-center w-52 h-20">
         <p className="text-lg" style={{ fontFamily: "Opensans-semi-bold" }}>
           {video?.title.length < 20

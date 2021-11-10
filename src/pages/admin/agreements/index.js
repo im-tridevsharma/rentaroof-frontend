@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { FiRefreshCw } from "react-icons/fi";
+import { FiEye, FiRefreshCw } from "react-icons/fi";
 import Datatable from "../../../components/datatable";
 import SectionTitle from "../../../components/section-title";
 import Loader from "../../../components/loader";
 import { getAgreements } from "../../../lib/properties";
 import moment from "moment";
+import ReactTooltip from "react-tooltip";
 
 function Index() {
   const [agreements, setAgreements] = useState([]);
@@ -27,9 +28,11 @@ function Index() {
       <div className="flex items-center">
         <button
           onClick={() => setIsRefresh(!isRefresh)}
+          data-tip="Refresh"
           className="p-2 ml-2 bg-green-500 text-white rounded-lg hover:bg-green-400"
         >
           <FiRefreshCw className="text-lg" />
+          <ReactTooltip />
         </button>
       </div>
     );
@@ -37,6 +40,7 @@ function Index() {
 
   return (
     <>
+      <ReactTooltip />
       {isLoading && <Loader />}
       <SectionTitle
         title="Agreements"
@@ -61,10 +65,28 @@ const Table = ({ agreements }) => {
     {
       Header: "Title",
       accessor: "title",
+      Cell: (props) => {
+        return (
+          <p data-tip={props.value}>
+            {props.value.length > 30
+              ? props.value.substring(0, 30) + "..."
+              : props.value}
+          </p>
+        );
+      },
     },
     {
       Header: "Property Name",
       accessor: "property_data.name",
+      Cell: (props) => {
+        return (
+          <p data-tip={props.value}>
+            {props.value.length > 30
+              ? props.value.substring(0, 30) + "..."
+              : props.value}
+          </p>
+        );
+      },
     },
     {
       Header: "Property Code",
@@ -89,7 +111,6 @@ const Table = ({ agreements }) => {
         return <p>{moment(props.value).format("DD-MM-YYYY")}</p>;
       },
     },
-
     {
       Header: "Action",
       accessor: "agreement_url",
@@ -98,9 +119,10 @@ const Table = ({ agreements }) => {
           <a
             href={props?.value}
             target="_blank"
-            className="btn px-2 py-1 bg-blue-400 rounded-md hover:bg-blue-500 text-gray-700"
+            data-tip="View Agreement"
+            className="px-2 py-1 bg-blue-400 rounded-md hover:bg-blue-500 flex w-7"
           >
-            Agreement
+            <FiEye />
           </a>
         );
       },

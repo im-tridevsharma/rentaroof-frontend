@@ -3,6 +3,7 @@ import Loader from "../../../loader";
 import { getProfile, updateProfile } from "../../../../lib/frontend/auth";
 import { FiAlertTriangle, FiCheckCircle, FiEye, FiInfo } from "react-icons/fi";
 import { GoVerified, GoUnverified } from "react-icons/go";
+import ReactTooltip from "react-tooltip";
 
 function KycUI() {
   const [profilePic, setProfilePic] = useState("");
@@ -371,16 +372,15 @@ function KycUI() {
                 </label>
 
                 {kyc?.document_upload && (
-                  <label
-                    className="cursor-pointer text-blue-500"
-                    title="View Uploaded"
-                  >
+                  <label className="cursor-pointer text-blue-500">
                     <a
                       href={kyc?.document_upload}
                       target="_blank"
                       rel="norefferer"
+                      data-tip="View Uploaded document"
                     >
                       <FiEye />
+                      <ReactTooltip />
                     </a>
                   </label>
                 )}

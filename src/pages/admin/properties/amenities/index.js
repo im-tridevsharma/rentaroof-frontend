@@ -8,6 +8,7 @@ import Datatable from "../../../../components/datatable";
 import SectionTitle from "../../../../components/section-title";
 import getAmenities, { deleteAmenity } from "../../../../lib/amenities";
 import Loader from "../../../../components/loader";
+import ReactTooltip from "react-tooltip";
 
 function Index() {
   const [amenities, setAmenities] = useState([]);
@@ -58,9 +59,11 @@ function Index() {
         </Link>
         <button
           onClick={() => setIsRefresh(!isRefresh)}
+          data-tip="Refresh"
           className="p-2 ml-2 bg-green-500 text-white rounded-lg hover:bg-green-400"
         >
           <FiRefreshCw className="text-lg" />
+          <ReactTooltip />
         </button>
       </div>
     );
@@ -71,6 +74,7 @@ function Index() {
       <Head>
         <title>Amenities | Rent a Roof</title>
       </Head>
+      <ReactTooltip />
       {isLoading && <Loader />}
       <SectionTitle
         title="Amenities"
@@ -128,11 +132,13 @@ const Table = ({ amenities, edit, del }) => {
             <button
               onClick={() => del(props.value)}
               className="btn px-2 py-1 bg-red-400 rounded-md hover:bg-red-500"
+              data-tip="Remove"
             >
               <FiTrash />
             </button>
             <button
               onClick={() => edit(props.value)}
+              data-tip="Edit"
               className="ml-2 btn px-2 py-1 bg-blue-400 rounded-md hover:bg-blue-500"
             >
               <FiEdit />

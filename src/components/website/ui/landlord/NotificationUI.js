@@ -2,6 +2,7 @@ import moment from "moment";
 import React from "react";
 import { FiEye } from "react-icons/fi";
 import { MdClose } from "react-icons/md";
+import ReactTooltip from "react-tooltip";
 import {
   delLandlordNotification,
   getLandlordNotification,
@@ -83,8 +84,10 @@ function NotificationUI() {
               <span
                 onClick={() => delNotification(c?.id)}
                 className="p-1 rounded-md bg-gray-400 absolute top-3 left-1 cursor-pointer text-white"
+                data-tip="Remove"
               >
                 <MdClose />
+                <ReactTooltip />
               </span>
               <div className="flex flex-col items-start">
                 <div className="flex items-center">
@@ -106,13 +109,14 @@ function NotificationUI() {
                   >
                     {c?.redirect ? (
                       <Link href={c?.redirect}>
-                        <a>
+                        <a data-tip="View">
                           <FiEye />
                         </a>
                       </Link>
                     ) : (
-                      <FiEye />
+                      <FiEye data-tip="Mark Read" />
                     )}
+                    <ReactTooltip />
                   </span>
                 </div>
                 <p>{c?.title}</p>

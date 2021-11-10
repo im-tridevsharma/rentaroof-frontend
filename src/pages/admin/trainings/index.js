@@ -8,6 +8,7 @@ import { FiAlertCircle, FiEdit, FiRefreshCw, FiTrash } from "react-icons/fi";
 import getTrainings, { deleteTraining } from "../../../lib/trainings";
 import { useDispatch } from "react-redux";
 import Datatable from "../../../components/datatable";
+import ReactTooltip from "react-tooltip";
 
 function Index() {
   const [isLoading, setIsLoading] = useState(false);
@@ -55,9 +56,11 @@ function Index() {
         </Link>
         <button
           onClick={() => setIsRefresh(!isRefresh)}
+          data-tip="Refresh"
           className="p-2 ml-2 bg-green-500 text-white rounded-lg hover:bg-green-400"
         >
           <FiRefreshCw className="text-lg" />
+          <ReactTooltip />
         </button>
       </div>
     );
@@ -92,6 +95,7 @@ function Index() {
       <Head>
         <title>All Trainigns | Rent a Roof</title>
       </Head>
+      <ReactTooltip />
       {isLoading && <Loader />}
       <SectionTitle
         title="Trainings"
@@ -154,12 +158,14 @@ const Table = ({ pages, edit, del }) => {
           <>
             <button
               onClick={() => del(props.value)}
+              data-tip="Remove"
               className="btn px-2 py-1 bg-red-400 rounded-md hover:bg-red-500"
             >
               <FiTrash />
             </button>
             <button
               onClick={() => edit(props.value)}
+              data-tip="Edit"
               className="ml-2 btn px-2 py-1 bg-blue-400 rounded-md hover:bg-blue-500"
             >
               <FiEdit />

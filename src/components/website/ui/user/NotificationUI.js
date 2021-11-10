@@ -9,6 +9,7 @@ import {
   seenUserNotification,
 } from "../../../../lib/frontend/share";
 import Loader from "../../../loader";
+import ReactTooltip from "react-tooltip";
 
 function NotificationUI() {
   const [notifications, setNotifications] = React.useState([]);
@@ -72,6 +73,7 @@ function NotificationUI() {
         className="flex flex-col p-5 mt-5 bg-white border-gray-200 shadow-sm rounded-md"
         style={{ borderWidth: "1px", fontFamily: "Opensans-bold" }}
       >
+        <ReactTooltip />
         {notifications?.length > 0 ? (
           notifications.map((c, i) => (
             <div
@@ -84,6 +86,7 @@ function NotificationUI() {
               <span
                 onClick={() => delNotification(c?.id)}
                 className="p-1 rounded-md bg-gray-400 absolute top-3 left-1 cursor-pointer text-white"
+                data-tip="Remove"
               >
                 <MdClose />
               </span>
@@ -103,17 +106,17 @@ function NotificationUI() {
                   <span
                     onClick={() => markSeen(c?.id)}
                     className="bg-green-500 rounded-md text-white ml-2 cursor-pointer"
-                    title="View/Mark Read"
                   >
                     {c?.redirect ? (
                       <Link href={c?.redirect}>
-                        <a>
+                        <a data-tip="View">
                           <FiEye />
                         </a>
                       </Link>
                     ) : (
-                      <FiEye />
+                      <FiEye data-tip="Mark Read" />
                     )}
+                    <ReactTooltip />
                   </span>
                 </div>
                 <p>{c?.title}</p>

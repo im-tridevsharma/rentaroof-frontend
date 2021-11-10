@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { __d } from "../../../../server";
 import moment from "moment";
 import { MdClose } from "react-icons/md";
+import ReactTooltip from "react-tooltip";
 
 function ComplainManagementUI() {
   const [complain, setComplain] = useState({
@@ -172,8 +173,12 @@ function ComplainManagementUI() {
                 style={{ borderTopWidth: "1px" }}
                 key={i}
               >
-                <span className="p-1 rounded-md bg-gray-400 absolute top-3 left-0 cursor-pointer text-white">
+                <span
+                  data-tip="Remove"
+                  className="p-1 rounded-md bg-gray-400 absolute top-3 left-0 cursor-pointer text-white"
+                >
                   <MdClose />
+                  <ReactTooltip />
                 </span>
                 <div className="flex flex-col items-start">
                   <span

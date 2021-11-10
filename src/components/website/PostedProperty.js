@@ -5,6 +5,7 @@ import { deleteProperty } from "../../lib/frontend/properties";
 import Loader from "../loader";
 import { __d } from "../../server";
 import { FiEdit2 } from "react-icons/fi";
+import ReactTooltip from "react-tooltip";
 
 function PostedProperty({ property, setProperties, properties }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -27,13 +28,17 @@ function PostedProperty({ property, setProperties, properties }) {
 
   return (
     <>
+      <ReactTooltip />
       {isLoading && <Loader />}
       <div className="relative flex flex-col p-2 m-1 bg-white rounded-md border-2 border-gray-200">
         <div className="absolute right-1 bottom-1 text-3xl h-12 w-12 rounded-full bg-white shadow-md flex items-center justify-center">
           {property?.is_approved ? (
-            <VscVerified className="text-green-500" title="Verified" />
+            <VscVerified className="text-green-500" data-tip="Verified" />
           ) : (
-            <VscUnverified className="text-red-500" title="Not verified yet!" />
+            <VscUnverified
+              className="text-red-500"
+              data-tip="Not verified yet!"
+            />
           )}
         </div>
         <div className="w-full max-h-48 mb-2 overflow-hidden rounded-md">
@@ -52,7 +57,7 @@ function PostedProperty({ property, setProperties, properties }) {
                 <Link
                   href={`update-property?step=next&next=UPDATE&id=${property?.property_code}-${property?.id}&skip=false&mode=update`}
                 >
-                  <a className="mb-1 block" title="Update Property">
+                  <a className="mb-1 block" data-tip="Update Property">
                     <FiEdit2 className="text-green-500 text-xl mx-1" />
                   </a>
                 </Link>
@@ -61,7 +66,7 @@ function PostedProperty({ property, setProperties, properties }) {
               <Link
                 href={`update-property?step=next&next=ADDRESS&id=${property?.property_code}-${property?.id}&skip=false&back=true`}
               >
-                <a className="mb-1 block" title="Add address">
+                <a className="mb-1 block" data-tip="Add address">
                   <img
                     src="/icons/home/paddr.png"
                     alt="add_address"
@@ -74,7 +79,7 @@ function PostedProperty({ property, setProperties, properties }) {
               <Link
                 href={`update-property?step=next&next=GALLERY&id=${property?.property_code}-${property?.id}&skip=false&back=true`}
               >
-                <a className="mb-1 block" title="Add gallery">
+                <a className="mb-1 block" data-tip="Add gallery">
                   <img
                     src="/icons/home/pgallery.png"
                     alt="add_gallery"
@@ -87,7 +92,7 @@ function PostedProperty({ property, setProperties, properties }) {
               <Link
                 href={`update-property?step=next&next=AMENITIES&id=${property?.property_code}-${property?.id}&skip=false&back=true`}
               >
-                <a title="Add amenities" className="mb-1 block">
+                <a data-tip="Add amenities" className="mb-1 block">
                   <img
                     src="/icons/home/pamenity.png"
                     alt="add_amenity"
@@ -100,7 +105,7 @@ function PostedProperty({ property, setProperties, properties }) {
               <Link
                 href={`update-property?step=next&next=ESSENTIALS&id=${property?.property_code}-${property?.id}&skip=false&back=true`}
               >
-                <a title="Add essentials">
+                <a data-tip="Add essentials">
                   <img
                     src="/icons/home/pessential.png"
                     alt="add_essential"

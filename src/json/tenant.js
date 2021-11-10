@@ -24,6 +24,18 @@ const links = [
     ),
   },
   {
+    label: "Notification",
+    href: "/tenant/notification",
+    icon: (
+      <img
+        src="/icons/user-dashboard/notification_icon5.png"
+        alt="notification"
+        className="object-contain"
+        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
+      />
+    ),
+  },
+  {
     label: "Properties",
     href: "/tenant/properties",
     icon: (
@@ -78,18 +90,6 @@ const links = [
       <img
         src="/icons/user-dashboard/icon4_grey.png"
         alt="complain"
-        className="object-contain"
-        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
-      />
-    ),
-  },
-  {
-    label: "Notification",
-    href: "/tenant/notification",
-    icon: (
-      <img
-        src="/icons/user-dashboard/notification_icon5.png"
-        alt="notification"
         className="object-contain"
         style={{ maxWidth: "20px", width: "20px", height: "20px" }}
       />

@@ -7,6 +7,7 @@ import getVideos, {
 import { __d } from "../../../../server";
 import Loader from "../../../loader";
 import { MdClose } from "react-icons/md";
+import ReactTooltip from "react-tooltip";
 
 function TrainingManagementUI() {
   const [videos, setVideos] = useState([]);
@@ -47,8 +48,10 @@ function TrainingManagementUI() {
           <span
             onClick={() => setSelectedVideo("")}
             className="absolute -right-3 -top-3 w-10 z-30 shadow-sm h-10 cursor-pointer bg-white rounded-full flex items-center justify-center"
+            data-tip="Close"
           >
             <MdClose className="text-red-500 text-lg" />
+            <ReactTooltip />
           </span>
           <video
             src={selectedVideo}

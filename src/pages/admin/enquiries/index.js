@@ -7,6 +7,7 @@ import { FiAlertCircle, FiEye, FiRefreshCw, FiTrash } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import Datatable from "../../../components/datatable";
 import getEnquiries, { deleteEnquiry } from "../../../lib/enquiries";
+import ReactTooltip from "react-tooltip";
 
 function Index() {
   const [isLoading, setIsLoading] = useState(false);
@@ -69,8 +70,10 @@ function Index() {
       <button
         onClick={() => setIsRefresh(!isRefresh)}
         className="p-2 ml-2 bg-green-500 text-white rounded-lg hover:bg-green-400"
+        data-tip="Refresh"
       >
         <FiRefreshCw className="text-lg" />
+        <ReactTooltip />
       </button>
     );
   };
@@ -80,6 +83,7 @@ function Index() {
       <Head>
         <title>All Enquiries | Rent a Roof</title>
       </Head>
+      <ReactTooltip />
       {isLoading && <Loader />}
       <SectionTitle
         title="Enquiries"
@@ -104,16 +108,25 @@ const Table = ({ pages, view, del }) => {
     {
       Header: "Title",
       accessor: "title",
+      Cell: (props) => {
+        return (
+          <p data-tip={props.value}>
+            {props.value.length <= 25
+              ? props.value
+              : props.value.substring(0, 25) + "..."}
+          </p>
+        );
+      },
     },
     {
       Header: "Description",
       accessor: "description",
       Cell: (props) => {
         return (
-          <p>
-            {props.value.length <= 40
+          <p data-tip={props.value}>
+            {props.value.length <= 30
               ? props.value
-              : props.value.substring(0, 40) + "..."}
+              : props.value.substring(0, 30) + "..."}
           </p>
         );
       },
@@ -143,11 +156,13 @@ const Table = ({ pages, view, del }) => {
             <button
               onClick={() => del(props.value)}
               className="btn px-2 py-1 bg-red-400 rounded-md hover:bg-red-500"
+              data-tip="Remove"
             >
               <FiTrash />
             </button>
             <button
               onClick={() => view(props.value)}
+              data-tip="View"
               className="btn px-2 py-1 ml-2 bg-blue-400 rounded-md hover:bg-blue-500"
             >
               <FiEye />

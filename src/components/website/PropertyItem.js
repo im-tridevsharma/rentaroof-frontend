@@ -7,6 +7,7 @@ import {
   getUserProperty,
   saveUserProperty,
 } from "../../lib/frontend/properties";
+import ReactTooltip from "react-tooltip";
 
 function PropertyItem({ property, overEvent, outEvent, user }) {
   const router = useRouter();
@@ -85,10 +86,11 @@ function PropertyItem({ property, overEvent, outEvent, user }) {
             className="absolute right-1 top-1 text-2xl cursor-pointer text-red-500 w-8 h-8 rounded-full bg-white flex items-center justify-center"
           >
             {isFavorite ? (
-              <MdFavorite title="Added to favorite" />
+              <MdFavorite data-tip="Added to favorite" />
             ) : (
-              <MdFavoriteBorder title="Add to favorite" />
+              <MdFavoriteBorder data-tip="Add to favorite" />
             )}
+            <ReactTooltip />
           </div>
         </div>
         {/**property details */}

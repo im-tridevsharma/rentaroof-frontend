@@ -6,6 +6,7 @@ import Datatable from "../../../components/datatable";
 import SectionTitle from "../../../components/section-title";
 import getCities, { deleteCity } from "../../../lib/cities";
 import Loader from "../../../components/loader";
+import ReactTooltip from "react-tooltip";
 
 function Index() {
   const [cities, setCities] = useState([]);
@@ -54,9 +55,11 @@ function Index() {
         </Link>
         <button
           onClick={() => setIsRefresh(!isRefresh)}
+          data-tip="Refresh"
           className="p-2 ml-2 bg-green-500 text-white rounded-lg hover:bg-green-400"
         >
           <FiRefreshCw className="text-lg" />
+          <ReactTooltip />
         </button>
       </div>
     );
@@ -65,6 +68,7 @@ function Index() {
   return (
     <>
       {isLoading && <Loader />}
+      <ReactTooltip />
       <SectionTitle title="Cities" subtitle="All Cities" right={<AddCity />} />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
         {cities?.length ? (
@@ -97,11 +101,13 @@ const Table = ({ cities, edit, del }) => {
           <>
             <button
               onClick={() => del(props.value)}
+              data-tip="Remove"
               className="btn px-2 py-1 bg-red-400 rounded-md hover:bg-red-500"
             >
               <FiTrash />
             </button>
             <button
+              data-tip="Edit"
               onClick={() => edit(props.value)}
               className="ml-2 btn px-2 py-1 bg-blue-400 rounded-md hover:bg-blue-500"
             >

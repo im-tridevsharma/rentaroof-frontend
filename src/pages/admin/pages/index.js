@@ -8,6 +8,7 @@ import SectionTitle from "../../../components/section-title";
 import getPages, { deletePage } from "../../../lib/pages";
 import { useDispatch } from "react-redux";
 import Loader from "../../../components/loader";
+import ReactTooltip from "react-tooltip";
 
 function Index() {
   const [pages, setPages] = useState([]);
@@ -73,8 +74,10 @@ function Index() {
         <button
           onClick={() => setIsRefresh(!isRefresh)}
           className="p-2 ml-2 bg-green-500 text-white rounded-lg hover:bg-green-400"
+          data-tip="Refresh"
         >
           <FiRefreshCw className="text-lg" />
+          <ReactTooltip />
         </button>
       </div>
     );
@@ -85,6 +88,7 @@ function Index() {
       <Head>
         <title>Pages | Rent a Roof</title>
       </Head>
+      <ReactTooltip />
       {isLoading && <Loader />}
       <SectionTitle title="Pages" subtitle="All Pages" right={<AddPage />} />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
@@ -105,10 +109,28 @@ const Table = ({ pages, edit, del }) => {
     {
       Header: "Name",
       accessor: "name",
+      Cell: (props) => {
+        return (
+          <p data-tip={props.value}>
+            {props.value.length <= 50
+              ? props.value
+              : props.value.substring(0, 50) + "..."}
+          </p>
+        );
+      },
     },
     {
       Header: "Slug",
       accessor: "slug",
+      Cell: (props) => {
+        return (
+          <p data-tip={props.value}>
+            {props.value.length <= 30
+              ? props.value
+              : props.value.substring(0, 30) + "..."}
+          </p>
+        );
+      },
     },
     {
       Header: "Parent",
@@ -122,12 +144,14 @@ const Table = ({ pages, edit, del }) => {
           <>
             <button
               onClick={() => del(props.value)}
+              data-tip="Remove"
               className="btn px-2 py-1 bg-red-400 rounded-md hover:bg-red-500"
             >
               <FiTrash />
             </button>
             <button
               onClick={() => edit(props.value)}
+              data-tip="View"
               className="ml-2 btn px-2 py-1 bg-blue-400 rounded-md hover:bg-blue-500"
             >
               <FiEdit />

@@ -7,6 +7,7 @@ import { FiAlertCircle, FiEye, FiRefreshCw, FiTrash } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import Datatable from "../../../components/datatable";
 import getSos, { deleteSos } from "../../../lib/sos";
+import ReactTooltip from "react-tooltip";
 
 function Index() {
   const [isLoading, setIsLoading] = useState(false);
@@ -66,10 +67,11 @@ function Index() {
     return (
       <button
         onClick={() => setIsRefresh(!isRefresh)}
-        title="Refresh"
+        data-tip="Refresh"
         className="p-2 ml-2 bg-green-500 text-white rounded-lg hover:bg-green-400"
       >
         <FiRefreshCw className="text-lg" />
+        <ReactTooltip />
       </button>
     );
   };
@@ -79,6 +81,7 @@ function Index() {
       <Head>
         <title>All Sos | Rent a Roof</title>
       </Head>
+      <ReactTooltip />
       {isLoading && <Loader />}
       <SectionTitle title="Sos" subtitle="All Sos" right={<RefreshButton />} />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
@@ -132,12 +135,14 @@ const Table = ({ pages, view, del }) => {
           <>
             <button
               onClick={() => del(props.value)}
+              data-tip="Remove"
               className="btn px-2 py-1 bg-red-400 rounded-md hover:bg-red-500"
             >
               <FiTrash />
             </button>
             <button
               onClick={() => view(props.value)}
+              data-tip="View"
               className="btn px-2 py-1 ml-2 bg-blue-400 rounded-md hover:bg-blue-500"
             >
               <FiEye />

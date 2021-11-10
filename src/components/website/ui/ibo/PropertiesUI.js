@@ -15,6 +15,7 @@ import { __d } from "../../../../server";
 import { MdClose } from "react-icons/md";
 import { BsStarFill } from "react-icons/bs";
 import { getAgreements } from "../../../../lib/frontend/share";
+import ReactTooltip from "react-tooltip";
 
 const Button = ({ url }) => {
   return (
@@ -264,8 +265,10 @@ function PropertiesUI() {
                     <span
                       onClick={() => deleteMe(p.id, "visited")}
                       className="p-1 rounded-md bg-gray-400 absolute top-2 left-0 cursor-pointer text-white"
+                      data-tip="Remove"
                     >
                       <MdClose />
+                      <ReactTooltip />
                     </span>
                     <div className="w-20 h-20 overflow-hidden rounded-md">
                       <Image

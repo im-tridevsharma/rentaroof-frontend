@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import ReactTooltip from "react-tooltip";
 
 export default function Pdfs({ bgcolor, pdfs, title }) {
   return (
@@ -35,12 +36,19 @@ export default function Pdfs({ bgcolor, pdfs, title }) {
                 alt="pdf"
               />
               <p className="ml-2 flex-grow">{pdf.title}</p>
-              <a href={pdf.pdf} download target="_blank" rel="noreferrer">
+              <a
+                href={pdf.pdf}
+                download
+                target="_blank"
+                rel="noreferrer"
+                data-tip="Download"
+              >
                 <img
                   src="/icons/ibo_icons/icon17.png"
                   className="w-5 h-5 object-contain cursor-pointer"
                   alt="pdf"
                 />
+                <ReactTooltip />
               </a>
             </div>
           ))

@@ -16,7 +16,7 @@ import {
 } from "../../../lib/frontend/properties";
 import Loader from "../../../components/loader";
 import moment from "moment";
-import { FaCheckCircle, FaTimes } from "react-icons/fa";
+import { FaCheckCircle, FaDirections, FaTimes } from "react-icons/fa";
 import EssentialItem from "../../../components/website/EssentialItem";
 import { __d } from "../../../server";
 import { schedulePropertyVisit } from "../../../lib/frontend/properties";
@@ -27,6 +27,7 @@ import {
   Marker,
   StreetViewPanorama,
 } from "@react-google-maps/api";
+import ReactTooltip from "react-tooltip";
 
 function Index({ id }) {
   const router = useRouter();
@@ -162,6 +163,21 @@ function Index({ id }) {
     document.querySelector("#main-image").src = e.target.src;
   };
 
+  const getDirection = (lat, lng) => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((location) => {
+        window
+          .open(
+            `https://www.google.com/maps/dir/${location.coords.latitude},${location.coords.longitude}/${lat},${lng}`,
+            "_blank"
+          )
+          .focus();
+      });
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
+  };
+
   const submitHandler = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -288,8 +304,10 @@ function Index({ id }) {
                 <img
                   src="/icons/proprtydetls/icon_1.png"
                   alt="share"
-                  className="w-7 h-7 object-contain"
+                  data-tip="Share"
+                  className="w-7 h-7 object-contain cursor-pointer"
                 />
+                <ReactTooltip />
                 <span
                   style={{ borderRightWidth: "1px" }}
                   className="border-gray-200 h-7 mx-4"
@@ -299,8 +317,9 @@ function Index({ id }) {
                   alt="bookmark"
                   className="w-7 h-7 object-contain cursor-pointer"
                   onClick={saveProperty}
-                  title={isSaved ? "Saved Already" : "Save this"}
+                  data-tip={isSaved ? "Saved Already" : "Save Property"}
                 />
+                <ReactTooltip />
                 {isSaved && (
                   <FaCheckCircle className="absolute right-0 -bottom-2 text-green-600" />
                 )}
@@ -528,29 +547,38 @@ function Index({ id }) {
               >
                 Location Map
               </p>
-              <p
+              <div
                 style={{
                   fontSize: "1rem",
                   fontFamily: "Opensans-bold",
                 }}
-                className="text-gray-700 my-3"
+                className="text-gray-700 my-3 flex items-center justify-between"
               >
                 {address?.full_address || "-"}, {address?.pincode || "-"}
-                <label className="float-right text-xs cursor-pointer">
-                  <input
-                    type="checkbox"
-                    className="mr-2"
-                    checked={address?.street_view === "yes" ? true : false}
-                    onChange={(e) =>
-                      setAddress((a) => ({
-                        ...a,
-                        street_view: e.target.checked ? "yes" : "no",
-                      }))
-                    }
-                  />
-                  Street View
-                </label>
-              </p>
+                <div className="flex items-center">
+                  <label className="float-right text-xs cursor-pointer">
+                    <input
+                      type="checkbox"
+                      className="mr-2"
+                      checked={address?.street_view === "yes" ? true : false}
+                      onChange={(e) =>
+                        setAddress((a) => ({
+                          ...a,
+                          street_view: e.target.checked ? "yes" : "no",
+                        }))
+                      }
+                    />
+                    Street View
+                  </label>
+                  <div data-tip="Get Direction" title="Get Direction">
+                    <ReactTooltip />
+                    <FaDirections
+                      className="ml-4 text-lg cursor-pointer"
+                      onClick={() => getDirection(address?.lat, address?.long)}
+                    />
+                  </div>
+                </div>
+              </div>
               <div className="w-full border-gray-200 border-2 h-96 rounded-md bg-gray-50">
                 {isLoaded && address && (
                   <GoogleMap

@@ -12,6 +12,7 @@ import getLandlords, {
 } from "../../../lib/landlords";
 import UserDetails from "../../../components/user-details";
 import Loader from "../../../components/loader";
+import ReactTooltip from "react-tooltip";
 
 function Index() {
   const [landlords, setLandlords] = useState([]);
@@ -74,9 +75,11 @@ function Index() {
         </Link>
         <button
           onClick={() => setIsRefresh(!isRefresh)}
+          data-tip="Refresh"
           className="p-2 ml-2 bg-green-500 text-white rounded-lg hover:bg-green-400"
         >
           <FiRefreshCw className="text-lg" />
+          <ReactTooltip />
         </button>
       </div>
     );
@@ -87,6 +90,7 @@ function Index() {
       <Head>
         <title>Landlords | Rent a Roof</title>
       </Head>
+      <ReactTooltip />
       {isLoading && <Loader />}
       {showDetail && (
         <UserDetails
@@ -201,17 +205,20 @@ const Table = ({ landlords, edit, del, view }) => {
             <button
               onClick={() => del(props.value)}
               className="btn px-2 py-1 bg-red-400 rounded-md hover:bg-red-500"
+              data-tip="Remove"
             >
               <FiTrash />
             </button>
             <button
               onClick={() => edit(props.value)}
+              data-tip="Edit"
               className="ml-2 btn px-2 py-1 bg-blue-400 rounded-md hover:bg-blue-500"
             >
               <FiEdit />
             </button>
             <button
               onClick={() => view(props.value)}
+              data-tip="View"
               className="ml-2 btn px-2 py-1 bg-blue-400 rounded-md hover:bg-blue-500"
             >
               <FiEye />

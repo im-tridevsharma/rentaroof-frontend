@@ -10,6 +10,7 @@ import Loader from "../../../loader";
 import moment from "moment";
 import { FaTimes } from "react-icons/fa";
 import { FiMail, FiPhoneCall } from "react-icons/fi";
+import ReactTooltip from "react-tooltip";
 
 function AppointmentUI() {
   const [appointments, setAppointments] = useState([]);
@@ -421,8 +422,10 @@ function AppointmentUI() {
             Appointment Details
             <FaTimes
               onClick={() => setShowDetail(false)}
+              data-tip="Close"
               className="absolute right-1 top-1 text-red-500 cursor-pointer text-lg"
             />
+            <ReactTooltip />
           </h5>
           <hr className="my-1" />
           <p className="leading-6">
@@ -467,9 +470,11 @@ function AppointmentUI() {
           <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
             Reschedule Details
             <FaTimes
+              data-tip="Close"
               onClick={() => setReschedule(false)}
               className="absolute right-1 top-1 text-red-500 cursor-pointer text-lg"
             />
+            <ReactTooltip />
           </h5>
           <hr className="my-1" />
           <form name="reschedule" onSubmit={handleReschedule}>

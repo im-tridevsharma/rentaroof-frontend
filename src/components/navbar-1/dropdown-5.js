@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import ReactTooltip from "react-tooltip";
 import AccountLinks from "./account-links";
 
 const Dropdown = () => {
@@ -43,7 +44,7 @@ const Dropdown = () => {
         onClick={handleDropdownClick}
         className="flex h-16 w-8 rounded-full ml-2 relative"
       >
-        <span className="absolute top-0 left-0 pt-4">
+        <span className="absolute top-0 left-0 pt-4" data-tip="Profile">
           <img
             className="h-8 w-8 rounded-full shadow"
             src={user?.profile_pic ? user.profile_pic : `/images/faces/m1.png`}

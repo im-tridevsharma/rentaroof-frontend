@@ -10,6 +10,7 @@ import {
   getUserSavedProperties,
 } from "../../../../lib/frontend/auth";
 import { __d } from "../../../../server";
+import ReactTooltip from "react-tooltip";
 
 function PropertiesUI() {
   const [tabMode, setTabMode] = useState("visited");
@@ -150,8 +151,10 @@ function PropertiesUI() {
                     <span
                       onClick={() => deleteMe(p.id, "visited")}
                       className="p-1 rounded-md bg-gray-400 absolute top-2 left-0 cursor-pointer text-white"
+                      data-tip="Remove"
                     >
                       <MdClose />
+                      <ReactTooltip />
                     </span>
                     <div className="w-20 h-20 overflow-hidden rounded-md">
                       <Image
@@ -219,8 +222,10 @@ function PropertiesUI() {
                     <span
                       onClick={() => deleteMe(p.id, "saved")}
                       className="p-1 rounded-md bg-gray-400 absolute top-2 left-0 cursor-pointer text-white"
+                      data-tip="Remove"
                     >
                       <MdClose />
+                      <ReactTooltip />
                     </span>
                     <div className="w-20 h-20 overflow-hidden rounded-md">
                       <Image
@@ -288,8 +293,10 @@ function PropertiesUI() {
                     <span
                       onClick={() => deleteMe(p.id, "favorite")}
                       className="p-1 rounded-md bg-gray-400 absolute top-2 left-0 cursor-pointer text-white"
+                      data-tip="Remove"
                     >
                       <MdClose />
+                      <ReactTooltip />
                     </span>
                     <div className="w-20 h-20 overflow-hidden rounded-md">
                       <Image
