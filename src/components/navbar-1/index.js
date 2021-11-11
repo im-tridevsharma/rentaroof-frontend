@@ -5,6 +5,8 @@ import Dropdown3 from "./dropdown-3";
 import Dropdown4 from "./dropdown-4";
 import Dropdown5 from "./dropdown-5";
 import ReactTooltip from "react-tooltip";
+import { useEffect } from "react";
+import getUser from "../../lib/authentication";
 
 const Navbar = () => {
   const { config } = useSelector(
@@ -14,7 +16,33 @@ const Navbar = () => {
     shallowEqual
   );
   let { rightSidebar, collapsed } = { ...config };
+  const { user } = { ...config };
+
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!user?.user_id) {
+      (async () => {
+        const response = await getUser(true);
+        if (response?.user) {
+          dispatch({
+            type: "SET_CONFIG_KEY",
+            key: "user",
+            value: {
+              user_id: response?.user?.id,
+              name: response.user?.fullname,
+              email: response.user?.email,
+              role: response.user?.role,
+              permissions: response.user?.permissions || [],
+              profile_pic: response.user?.profile_pic,
+            },
+          });
+        } else {
+          removeAuthToken();
+        }
+      })();
+    }
+  }, []);
 
   return (
     <div className="navbar navbar-1 border-b">

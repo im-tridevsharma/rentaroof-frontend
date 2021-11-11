@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import Loader from "../loader";
-import { verifyProperty } from "../../lib/properties";
+import {
+  assignPropertyVerification,
+  verifyProperty,
+} from "../../lib/properties";
+import { saveIboNotication } from "../../lib/frontend/share";
+import getIbos from "../../lib/ibos";
+import { FaTimes } from "react-icons/fa";
+import ReactTooltip from "react-tooltip";
+import Router from "next/router";
+import { ToastContainer, toast } from "react-toastify";
+import { useSelector, shallowEqual } from "react-redux";
 
 function ViewProperties({ property }) {
   const [gallery, setGallery] = useState(null);
@@ -12,6 +22,16 @@ function ViewProperties({ property }) {
   const [amenities, setAmenities] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
+  const [viewModal, setViewModal] = useState(false);
+  const [ibos, setIbos] = useState([]);
+
+  const { config } = useSelector(
+    (state) => ({
+      config: state.config,
+    }),
+    shallowEqual
+  );
+  const { user } = { ...config };
 
   useEffect(() => {
     if (property?.gallery) {
@@ -39,6 +59,22 @@ function ViewProperties({ property }) {
     }
   }, [property]);
 
+  useEffect(() => {
+    const fetchIbos = async () => {
+      setIsLoading(true);
+      const response = await getIbos();
+      if (response?.status) {
+        setIbos(response?.data);
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+        console.error(response?.message || response?.error);
+      }
+    };
+
+    fetchIbos();
+  }, []);
+
   const setFrontViewImage = (img) => {
     document.querySelector("#front-img").src = img;
   };
@@ -59,9 +95,46 @@ function ViewProperties({ property }) {
     }
   };
 
+  const handlePvForm = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const formdata = new FormData(document.forms.property_verification);
+    const res = await assignPropertyVerification(formdata);
+    if (res?.status) {
+      setIsLoading(false);
+      document.forms.property_verification.reset();
+      toast.success("Property verification task assigned successfully.");
+      setViewModal(false);
+      sendNotification(res?.data?.ibo_id);
+    } else {
+      setIsLoading(false);
+      toast.error(res?.error || res?.message);
+    }
+  };
+
+  const sendNotification = async (ibo) => {
+    const formdata = new FormData();
+    formdata.append("title", "Property Verification Task🚶‍♂️");
+    formdata.append("type", "Urgent");
+    formdata.append("ibo_id", ibo);
+    formdata.append("user_id", user?.user_id);
+    formdata.append(
+      "content",
+      `You are assigned property verification task to verify property.`
+    );
+
+    const res = await saveIboNotication(formdata);
+    if (res?.status) {
+      toast.success("Notification sent to IBO.");
+    } else {
+      toast.error(res?.error || res?.message);
+    }
+  };
+
   return (
     <>
       {isLoading && <Loader />}
+      <ToastContainer />
       <div className="flex flex-col">
         {/**front images */}
         <div className="flex justify-between md:flex-row flex-col">
@@ -291,7 +364,7 @@ function ViewProperties({ property }) {
           </div>
           <hr className="mb-2" />
           <h6 className="mb-3">Action</h6>
-          <div className="felx items-center mb-5">
+          <div className="flex items-center mb-5">
             <button
               className="px-2 py-1 rounded-md text-white bg-green-400"
               onClick={() => propertyVerification("verify")}
@@ -308,6 +381,42 @@ function ViewProperties({ property }) {
             <p className="inline ml-3">
               <b>Verified:</b> {isVerified ? "Yes" : "No"}
             </p>
+
+            {property?.verification ? (
+              <div className="flex items-center ml-10">
+                <p>
+                  Assigned IBO - {property?.verification?.ibo?.first}{" "}
+                  {property?.verification?.ibo?.last}
+                </p>
+                <p className="ml-5">
+                  {property?.verification?.is_verifiable ? (
+                    <span className="p-2 bg-green-500 rounded-full">
+                      Verified
+                    </span>
+                  ) : !property?.verification?.issues_in_verification ? (
+                    <span className="p-2 bg-yellow-500 rounded-full">
+                      Pending
+                    </span>
+                  ) : (
+                    <span
+                      className="p-2 bg-red-500 rounded-full"
+                      data-tip={property?.verification?.issues_in_verification}
+                    >
+                      Rejected
+                      <ReactTooltip />
+                    </span>
+                  )}
+                </p>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setViewModal(true)}
+                className="px-2 py-3 bg-green-400 rounded-md font-semibold ml-5 hover:bg-green-500"
+              >
+                Property Verification
+              </button>
+            )}
           </div>
           <hr className="mb-2" />
           <h6 className="mb-3">Address</h6>
@@ -333,6 +442,58 @@ function ViewProperties({ property }) {
           </div>
         </div>
       </div>
+
+      {viewModal && (
+        <div className="fixed top-32 left-1/2 transform shadow-lg -translate-x-1/2 border max-w-xl w-full rounded-md bg-white p-4">
+          <h5>
+            Property Verification -
+            <FaTimes
+              className="float-right text-red-400 hover:text-red-500 cursor-pointer"
+              onClick={() => setViewModal(false)}
+              data-tip="Close"
+            />
+            <ReactTooltip />
+          </h5>
+          <hr className="my-2" />
+          <form
+            name="property_verification"
+            onSubmit={handlePvForm}
+            method="POST"
+            className="mt-8"
+          >
+            <input type="hidden" name="property_id" value={Router?.query?.id} />
+            <div className="form-element">
+              <label className="form-label">Select IBO</label>
+              <select className="form-select" name="ibo_id" required={true}>
+                <option value="">Select</option>
+                {ibos.map((ibo, i) => {
+                  if (ibo.account_status === "activated") {
+                    return (
+                      <option
+                        key={i}
+                        value={ibo.id}
+                      >{`${ibo.first} ${ibo.last}`}</option>
+                    );
+                  }
+                })}
+              </select>
+            </div>
+            <div className="form-element">
+              <label className="form-label">Message for IBO</label>
+              <textarea
+                className="form-textarea"
+                name="message"
+                required={true}
+              ></textarea>
+            </div>
+            <div className="text-right">
+              <button className="p-2 rounded-md bg-blue-400 hover:bg-blue-500 font-medium text-white">
+                Assign
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
     </>
   );
 }

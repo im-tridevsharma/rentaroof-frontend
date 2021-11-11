@@ -48,6 +48,18 @@ const links = [
     ),
   },
   {
+    label: "Properties Verification",
+    href: "/ibo/property-verification",
+    icon: (
+      <img
+        src="/icons/ibo_icons/pv.png"
+        alt="properties"
+        className="object-contain"
+        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
+      />
+    ),
+  },
+  {
     label: "Map",
     href: "/ibo/map",
     icon: (

@@ -21,6 +21,26 @@ const getProperties = async () => {
   return properties;
 };
 
+export const assignPropertyVerification = async (data) => {
+  const token = getToken();
+  let res = false;
+
+  if (data && token) {
+    await server
+      .post(`/admin/properties/assign_verification`, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        res = response?.data;
+      })
+      .catch((error) => {
+        res = error?.response?.data;
+      });
+  }
+
+  return res;
+};
+
 export const getPropertyById = async (id) => {
   const token = getToken();
   let property = false;

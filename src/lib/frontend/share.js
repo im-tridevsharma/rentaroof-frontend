@@ -335,3 +335,37 @@ export const getAgreements = async () => {
     });
   return rating;
 };
+
+export const getPropertiesForVerification = async () => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let properties = false;
+  await server
+    .get("/properties/for_verification", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      properties = response?.data;
+    })
+    .catch((error) => {
+      properties = error?.response?.data;
+    });
+  return properties;
+};
+
+export const changeVerificationStatus = async (id, data) => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let status = false;
+  await server
+    .post(`/properties/change_verification_status/${id}`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      status = response?.data;
+    })
+    .catch((error) => {
+      status = error?.response?.data;
+    });
+  return status;
+};

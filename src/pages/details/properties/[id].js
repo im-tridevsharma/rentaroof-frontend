@@ -570,7 +570,7 @@ function Index({ id }) {
                     />
                     Street View
                   </label>
-                  <div data-tip="Get Direction" title="Get Direction">
+                  <div data-tip="Get Direction">
                     <ReactTooltip />
                     <FaDirections
                       className="ml-4 text-lg cursor-pointer"

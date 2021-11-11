@@ -16,6 +16,7 @@ export default function config(
       visible: false,
     },
     user: {
+      user_id: "",
       name: "",
       email: "",
       role: "",

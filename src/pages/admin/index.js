@@ -4,7 +4,6 @@ import Alert from "../../components/alerts/";
 import { useRouter } from "next/router";
 import getUser, {
   loginUser,
-  refreshToken,
   removeAuthToken,
   setAuthToken,
 } from "../../lib/authentication";
@@ -48,6 +47,7 @@ function Index() {
         type: "SET_CONFIG_KEY",
         key: "user",
         value: {
+          user_id: response?.user?.id,
           name: response.user?.fullname,
           email: response.user?.email,
           role: response.user?.role,

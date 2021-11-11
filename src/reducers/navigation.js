@@ -87,11 +87,6 @@ const initialState = [
             items: [],
           },
           {
-            url: "/admin/properties/add",
-            title: "Add New",
-            items: [],
-          },
-          {
             url: "",
             title: "Amenities",
             items: [
