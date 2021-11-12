@@ -5,7 +5,10 @@ import {
   assignPropertyVerification,
   verifyProperty,
 } from "../../lib/properties";
-import { saveIboNotication } from "../../lib/frontend/share";
+import {
+  saveIboNotication,
+  saveLandlordNotication,
+} from "../../lib/frontend/share";
 import getIbos from "../../lib/ibos";
 import { FaTimes } from "react-icons/fa";
 import ReactTooltip from "react-tooltip";
@@ -87,6 +90,11 @@ function ViewProperties({ property }) {
         if (response?.status) {
           setIsLoading(false);
           setIsVerified(option === "verify" ? true : false);
+          sendPropertyVNotification(
+            property?.posted_by,
+            property?.owner_data?.role,
+            option
+          );
         } else {
           setIsLoading(false);
           console.error(response?.message || response?.error);
@@ -120,7 +128,7 @@ function ViewProperties({ property }) {
     formdata.append("user_id", user?.user_id);
     formdata.append(
       "content",
-      `You are assigned property verification task to verify property.`
+      `You are assigned property verification task to verify property "${property?.name}".`
     );
 
     const res = await saveIboNotication(formdata);
@@ -128,6 +136,45 @@ function ViewProperties({ property }) {
       toast.success("Notification sent to IBO.");
     } else {
       toast.error(res?.error || res?.message);
+    }
+  };
+
+  const sendPropertyVNotification = async (id, type, option) => {
+    if (id && type) {
+      const formdata = new FormData();
+      if (option === "verify") {
+        formdata.append("title", "Property Verified💹");
+        formdata.append(
+          "content",
+          `Your property ${property?.name || ""} has been verified by admin!`
+        );
+        formdata.append("type", "Urgent");
+      } else {
+        formdata.append("title", "Property Rejected❌");
+        formdata.append(
+          "content",
+          `Your property ${property?.name || ""} has been rejected by admin!`
+        );
+        formdata.append("type", "Notification");
+      }
+      if (type === "ibo") {
+        formdata.append("ibo_id", id);
+      } else {
+        formdata.append("landlord_id", id);
+      }
+      formdata.append("user_id", user?.user_id);
+
+      const res =
+        type === "ibo"
+          ? await saveIboNotication(formdata)
+          : await saveLandlordNotication(formdata);
+      if (res?.status) {
+        toast.success(`Notification sent to ${type.toUpperCase()}`);
+      } else {
+        toast.error(res?.error || res?.message);
+      }
+    } else {
+      toast.error("Something went wrong!");
     }
   };
 
@@ -207,10 +254,12 @@ function ViewProperties({ property }) {
           </div>
           <div className="form-element">
             <label className="text-blue-600">Description</label>
-            <p
-              className="pl-2"
-              dangerouslySetInnerHTML={{ __html: property?.description }}
-            />
+            {property?.description && (
+              <div
+                className="pl-2"
+                dangerouslySetInnerHTML={{ __html: property?.description }}
+              ></div>
+            )}
           </div>
           <hr className="mb-3" />
           <div className="grid grid-cols-2 md:grid-cols-3">

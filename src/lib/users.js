@@ -45,6 +45,50 @@ export const getUserById = async (id) => {
   return user;
 };
 
+export const banUserProfile = async (id) => {
+  const token = getToken();
+  let user = false;
+
+  if (id && token) {
+    await server
+      .get(`/admin/users/ban/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        if (response.data) {
+          user = response.data;
+        }
+      })
+      .catch((error) => {
+        user = error.response?.data;
+      });
+  }
+
+  return user;
+};
+
+export const activateUserProfile = async (id) => {
+  const token = getToken();
+  let user = false;
+
+  if (id && token) {
+    await server
+      .get(`/admin/users/activate/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        if (response.data) {
+          user = response.data;
+        }
+      })
+      .catch((error) => {
+        user = error.response?.data;
+      });
+  }
+
+  return user;
+};
+
 export const deleteUser = async (id) => {
   const token = getToken();
   let res = false;

@@ -9,6 +9,7 @@ import Cookies from "universal-cookie";
 import server, { __e } from "../../server";
 import UseAuthentication from "../../hooks/UseAuthentication";
 import RenderError from "../../components/website/RenderError";
+import { ToastContainer, toast } from "react-toastify";
 
 const getWebsiteValues = async (key) => {
   let setting = "";
@@ -75,7 +76,6 @@ function Index() {
             setSuccess(false);
             if (response?.user?.role) {
               const redirect = localStorage.getItem("redirect");
-              console.log(redirect);
               if (redirect) {
                 localStorage.removeItem("redirect");
                 router.push(redirect);
@@ -84,6 +84,11 @@ function Index() {
               }
             }
           }, 1500);
+        } else if (response?.error === "banned") {
+          toast.error(
+            "Your account has been blocked. Please contact to administrator!"
+          );
+          setIsLoading(false);
         } else if (response?.error || response?.message) {
           setErrors(response.error || { message: [response.message] });
           setIsLoading(false);
@@ -99,6 +104,7 @@ function Index() {
       <Head>
         <title>Login</title>
       </Head>
+      <ToastContainer />
       {isLoading && <Loader />}
       <div className="grid sm:grid-cols-2">
         {/**sign up form */}

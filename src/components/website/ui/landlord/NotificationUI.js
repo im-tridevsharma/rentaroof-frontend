@@ -105,7 +105,6 @@ function NotificationUI() {
                   <span
                     onClick={() => markSeen(c?.id)}
                     className="bg-green-500 rounded-md text-white ml-2 cursor-pointer"
-                    title="View/Mark Read"
                   >
                     {c?.redirect ? (
                       <Link href={c?.redirect}>

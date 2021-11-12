@@ -6,11 +6,19 @@ import { useRouter } from "next/router";
 import { FiEdit, FiEye, FiRefreshCw, FiTrash } from "react-icons/fi";
 import Datatable from "../../../components/datatable";
 import SectionTitle from "../../../components/section-title";
-import getUsers, { deleteUser, getUserById } from "../../../lib/users";
+import getUsers, {
+  activateUserProfile,
+  banUserProfile,
+  deleteUser,
+  getUserById,
+} from "../../../lib/users";
 import UserDetails from "../../../components/user-details";
 import Loader from "../../../components/loader";
 import { __d } from "../../../server";
 import ReactTooltip from "react-tooltip";
+import { toast, ToastContainer } from "react-toastify";
+import { FaBan } from "react-icons/fa";
+import { BsPatchCheckFill } from "react-icons/bs";
 
 function Index() {
   const [users, setUsers] = useState([]);
@@ -64,6 +72,32 @@ function Index() {
     }
   };
 
+  const banUser = async (id) => {
+    setIsLoading(true);
+    const res = await banUserProfile(id);
+    if (res?.status) {
+      setIsLoading(false);
+      setUsers(users.map((u) => (u?.id === res?.data?.id ? res?.data : u)));
+      toast.success(`User ${res?.data.first} has been banned successfully.`);
+    } else {
+      setIsLoading(false);
+      toast.error(res?.message || res?.error);
+    }
+  };
+
+  const activateUser = async (id) => {
+    setIsLoading(true);
+    const res = await activateUserProfile(id);
+    if (res?.status) {
+      setIsLoading(false);
+      setUsers(users.map((u) => (u?.id === res?.data?.id ? res?.data : u)));
+      toast.success(`User ${res?.data.first} has been activated successfully.`);
+    } else {
+      setIsLoading(false);
+      toast.error(res?.message || res?.error);
+    }
+  };
+
   const AddUser = () => {
     return (
       <div className="flex items-center">
@@ -87,6 +121,7 @@ function Index() {
   return (
     <div className="relative">
       <ReactTooltip />
+      <ToastContainer />
       <Head>
         <title>Users | Rent a Roof</title>
       </Head>
@@ -107,6 +142,8 @@ function Index() {
             edit={editUser}
             del={delUser}
             view={viewProfile}
+            ban={banUser}
+            activate={activateUser}
           />
         ) : (
           <p className="mt-5">No users found!</p>
@@ -119,7 +156,7 @@ function Index() {
 
 export default Index;
 
-const Table = ({ users, edit, del, view }) => {
+const Table = ({ users, edit, del, view, ban, activate }) => {
   const columns = [
     {
       Header: "Proile Pic",
@@ -150,10 +187,6 @@ const Table = ({ users, edit, del, view }) => {
       accessor: "mobile",
     },
     {
-      Header: "Role",
-      accessor: "role",
-    },
-    {
       Header: "Gender",
       accessor: "gender",
     },
@@ -162,6 +195,21 @@ const Table = ({ users, edit, del, view }) => {
       accessor: "created_at",
       Cell: (props) => {
         return <span>{new Date(props.value).toDateString()}</span>;
+      },
+    },
+    {
+      Header: "Account Status",
+      accessor: "account_status",
+      Cell: (props) => {
+        return props.value === "activated" ? (
+          <span className="px-1 text-xs bg-green-400 rounded-full uppercase">
+            Activated
+          </span>
+        ) : (
+          <span className="px-1 text-xs bg-red-400 rounded-full uppercase">
+            {props.value}
+          </span>
+        );
       },
     },
     {
@@ -202,6 +250,24 @@ const Table = ({ users, edit, del, view }) => {
             >
               <FiEye />
             </button>
+            {users?.filter((u) => u.id === parseInt(props.value))[0]
+              ?.account_status !== "banned" ? (
+              <button
+                onClick={() => ban(props.value)}
+                data-tip="Ban USER"
+                className="ml-2 btn px-2 py-1 bg-red-400 rounded-md hover:bg-red-500"
+              >
+                <FaBan />
+              </button>
+            ) : (
+              <button
+                onClick={() => activate(props.value)}
+                data-tip="Activate USER"
+                className="ml-2 btn px-2 py-1 bg-green-400 rounded-md hover:bg-green-500 text-white"
+              >
+                <BsPatchCheckFill />
+              </button>
+            )}
           </>
         );
       },

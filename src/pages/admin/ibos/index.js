@@ -4,12 +4,20 @@ import Image from "next/image";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { FiEdit, FiEye, FiRefreshCw, FiTrash } from "react-icons/fi";
+import { FaBan } from "react-icons/fa";
+import { BsPatchCheckFill } from "react-icons/bs";
 import Datatable from "../../../components/datatable";
 import SectionTitle from "../../../components/section-title";
-import getIbos, { deleteIBO, getIBOById } from "../../../lib/ibos";
+import getIbos, {
+  activateIboProfile,
+  banIboProfile,
+  deleteIBO,
+  getIBOById,
+} from "../../../lib/ibos";
 import UserDetails from "../../../components/user-details";
 import Loader from "../../../components/loader";
 import ReactTooltip from "react-tooltip";
+import { ToastContainer, toast } from "react-toastify";
 
 function Index() {
   const [ibos, setIbos] = useState([]);
@@ -60,6 +68,32 @@ function Index() {
     }
   };
 
+  const banIbo = async (id) => {
+    setIsLoading(true);
+    const res = await banIboProfile(id);
+    if (res?.status) {
+      setIsLoading(false);
+      setIbos(ibos.map((u) => (u?.id === res?.data?.id ? res?.data : u)));
+      toast.success(`IBO ${res?.data.first} has been banned successfully.`);
+    } else {
+      setIsLoading(false);
+      toast.error(res?.message || res?.error);
+    }
+  };
+
+  const activateIbo = async (id) => {
+    setIsLoading(true);
+    const res = await activateIboProfile(id);
+    if (res?.status) {
+      setIsLoading(false);
+      setIbos(ibos.map((u) => (u?.id === res?.data?.id ? res?.data : u)));
+      toast.success(`IBO ${res?.data.first} has been activated successfully.`);
+    } else {
+      setIsLoading(false);
+      toast.error(res?.message || res?.error);
+    }
+  };
+
   const AddIBO = () => {
     return (
       <div className="flex items-center">
@@ -85,6 +119,7 @@ function Index() {
       <Head>
         <title>IBOs | Rent a Roof</title>
       </Head>
+      <ToastContainer />
       <ReactTooltip />
       {isLoading && <Loader />}
       {showDetail && (
@@ -100,7 +135,14 @@ function Index() {
       <SectionTitle title="Ibos" subtitle="All Ibos" right={<AddIBO />} />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
         {ibos?.length ? (
-          <Table ibos={ibos} edit={editIBO} del={delIBO} view={viewProfile} />
+          <Table
+            ibos={ibos}
+            edit={editIBO}
+            del={delIBO}
+            view={viewProfile}
+            ban={banIbo}
+            activate={activateIbo}
+          />
         ) : (
           <p className="mt-5">No ibos found!</p>
         )}
@@ -111,7 +153,7 @@ function Index() {
 
 export default Index;
 
-const Table = ({ ibos, edit, del, view }) => {
+const Table = ({ ibos, edit, del, view, ban, activate }) => {
   const columns = [
     {
       Header: "Proile Pic",
@@ -142,10 +184,6 @@ const Table = ({ ibos, edit, del, view }) => {
       accessor: "mobile",
     },
     {
-      Header: "Role",
-      accessor: "role",
-    },
-    {
       Header: "Gender",
       accessor: "gender",
     },
@@ -154,6 +192,21 @@ const Table = ({ ibos, edit, del, view }) => {
       accessor: "created_at",
       Cell: (props) => {
         return <span>{new Date(props.value).toDateString()}</span>;
+      },
+    },
+    {
+      Header: "Account Status",
+      accessor: "account_status",
+      Cell: (props) => {
+        return props.value === "activated" ? (
+          <span className="px-1 text-xs bg-green-400 rounded-full uppercase">
+            Activated
+          </span>
+        ) : (
+          <span className="px-1 text-xs bg-red-400 rounded-full uppercase">
+            {props.value}
+          </span>
+        );
       },
     },
     {
@@ -209,6 +262,25 @@ const Table = ({ ibos, edit, del, view }) => {
             >
               <FiEye />
             </button>
+
+            {ibos?.filter((u) => u.id === parseInt(props.value))[0]
+              ?.account_status !== "banned" ? (
+              <button
+                onClick={() => ban(props.value)}
+                data-tip="Ban IBO"
+                className="ml-2 btn px-2 py-1 bg-red-400 rounded-md hover:bg-red-500"
+              >
+                <FaBan />
+              </button>
+            ) : (
+              <button
+                onClick={() => activate(props.value)}
+                data-tip="Activate IBO"
+                className="ml-2 btn px-2 py-1 bg-green-400 rounded-md hover:bg-green-500 text-white"
+              >
+                <BsPatchCheckFill />
+              </button>
+            )}
           </>
         );
       },

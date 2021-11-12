@@ -7,6 +7,7 @@ import ViewProperties from "../../../components/properties/ViewProperties";
 import UpdateProperty from "../../../components/properties/UpdateProperty";
 import { getPropertyById } from "../../../lib/properties";
 import Loader from "../../../components/loader";
+import { toast, ToastContainer } from "react-toastify";
 
 const AllAmenity = () => {
   return (
@@ -18,23 +19,22 @@ const AllAmenity = () => {
   );
 };
 
-function Id() {
+function Id({ id, view }) {
   const [mode, setMode] = useState("view");
   const [property, setProperty] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
-    const a = router.query.a || "view";
+    const a = view || "view";
     setMode(a);
     setIsLoading(true);
     (async () => {
-      const response = await getPropertyById(router.query.id);
+      const response = await getPropertyById(id);
       if (response?.status) {
         setProperty(response.data);
         setIsLoading(false);
       } else {
-        console.error(response?.error || response?.message);
+        toast.error(response?.error || response?.message);
         setIsLoading(false);
       }
     })();
@@ -60,8 +60,16 @@ function Id() {
           <UpdateProperty property={property} />
         )}
       </div>
+      <ToastContainer />
     </>
   );
 }
+
+Id.getInitialProps = ({ query }) => {
+  return {
+    id: query.id,
+    view: query.a,
+  };
+};
 
 export default Id;

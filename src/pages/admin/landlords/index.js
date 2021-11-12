@@ -7,12 +7,17 @@ import { FiEdit, FiEye, FiRefreshCw, FiTrash } from "react-icons/fi";
 import Datatable from "../../../components/datatable";
 import SectionTitle from "../../../components/section-title";
 import getLandlords, {
+  activateLandlordProfile,
+  banLandlordProfile,
   deleteLandlord,
   getLandlordById,
 } from "../../../lib/landlords";
 import UserDetails from "../../../components/user-details";
 import Loader from "../../../components/loader";
 import ReactTooltip from "react-tooltip";
+import { BsPatchCheckFill } from "react-icons/bs";
+import { FaBan } from "react-icons/fa";
+import { toast, ToastContainer } from "react-toastify";
 
 function Index() {
   const [landlords, setLandlords] = useState([]);
@@ -65,6 +70,40 @@ function Index() {
     }
   };
 
+  const banLandlord = async (id) => {
+    setIsLoading(true);
+    const res = await banLandlordProfile(id);
+    if (res?.status) {
+      setIsLoading(false);
+      setLandlords(
+        landlords.map((u) => (u?.id === res?.data?.id ? res?.data : u))
+      );
+      toast.success(
+        `Landlord ${res?.data.first} has been banned successfully.`
+      );
+    } else {
+      setIsLoading(false);
+      toast.error(res?.message || res?.error);
+    }
+  };
+
+  const activateLandlord = async (id) => {
+    setIsLoading(true);
+    const res = await activateLandlordProfile(id);
+    if (res?.status) {
+      setIsLoading(false);
+      setLandlords(
+        landlords.map((u) => (u?.id === res?.data?.id ? res?.data : u))
+      );
+      toast.success(
+        `Landlord ${res?.data.first} has been activated successfully.`
+      );
+    } else {
+      setIsLoading(false);
+      toast.error(res?.message || res?.error);
+    }
+  };
+
   const AddLandlord = () => {
     return (
       <div className="flex items-center">
@@ -90,6 +129,7 @@ function Index() {
       <Head>
         <title>Landlords | Rent a Roof</title>
       </Head>
+      <ToastContainer />
       <ReactTooltip />
       {isLoading && <Loader />}
       {showDetail && (
@@ -114,6 +154,8 @@ function Index() {
             edit={editLandlord}
             del={delLandlord}
             view={viewProfile}
+            ban={banLandlord}
+            activate={activateLandlord}
           />
         ) : (
           <p className="mt-5">No landlords found!</p>
@@ -125,7 +167,7 @@ function Index() {
 
 export default Index;
 
-const Table = ({ landlords, edit, del, view }) => {
+const Table = ({ landlords, edit, del, view, ban, activate }) => {
   const columns = [
     {
       Header: "Proile Pic",
@@ -155,10 +197,7 @@ const Table = ({ landlords, edit, del, view }) => {
       Header: "Mobile",
       accessor: "mobile",
     },
-    {
-      Header: "Role",
-      accessor: "role",
-    },
+
     {
       Header: "Gender",
       accessor: "gender",
@@ -168,6 +207,21 @@ const Table = ({ landlords, edit, del, view }) => {
       accessor: "created_at",
       Cell: (props) => {
         return <span>{new Date(props.value).toDateString()}</span>;
+      },
+    },
+    {
+      Header: "Account Status",
+      accessor: "account_status",
+      Cell: (props) => {
+        return props.value === "activated" ? (
+          <span className="px-1 text-xs bg-green-400 rounded-full uppercase">
+            Activated
+          </span>
+        ) : (
+          <span className="px-1 text-xs bg-red-400 rounded-full uppercase">
+            {props.value}
+          </span>
+        );
       },
     },
     {
@@ -223,6 +277,25 @@ const Table = ({ landlords, edit, del, view }) => {
             >
               <FiEye />
             </button>
+
+            {landlords?.filter((u) => u.id === parseInt(props.value))[0]
+              ?.account_status !== "banned" ? (
+              <button
+                onClick={() => ban(props.value)}
+                data-tip="Ban LANDLORD"
+                className="ml-2 btn px-2 py-1 bg-red-400 rounded-md hover:bg-red-500"
+              >
+                <FaBan />
+              </button>
+            ) : (
+              <button
+                onClick={() => activate(props.value)}
+                data-tip="Activate LANDLORD"
+                className="ml-2 btn px-2 py-1 bg-green-400 rounded-md hover:bg-green-500 text-white"
+              >
+                <BsPatchCheckFill />
+              </button>
+            )}
           </>
         );
       },

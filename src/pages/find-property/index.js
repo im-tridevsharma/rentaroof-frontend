@@ -14,6 +14,7 @@ import { GrLinkPrevious, GrLinkNext } from "react-icons/gr";
 import { __d } from "../../server";
 import { FaTimes } from "react-icons/fa";
 import ReactTooltip from "react-tooltip";
+import { toast, ToastContainer } from "react-toastify";
 
 function Index({ query }) {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -86,10 +87,10 @@ function Index({ query }) {
     if (res?.status) {
       setIsLoading(false);
       localStorage.removeItem("perform");
-      alert(res?.message);
+      toast.success(res?.message);
     } else {
       setIsLoading(false);
-      console.error(res?.error);
+      toast.error(res?.error);
     }
   };
 
@@ -141,7 +142,7 @@ function Index({ query }) {
         setIsLoading(false);
       } else {
         setIsLoading(false);
-        console.error(response?.error || response?.message);
+        toast.error(response?.error || response?.message);
       }
     })();
 
@@ -173,7 +174,7 @@ function Index({ query }) {
         setAmenities(res?.data);
       } else {
         setIsLoading(false);
-        console.error(res?.error || res?.message);
+        toast.error(res?.error || res?.message);
       }
     };
     fetchAmenities();
@@ -211,6 +212,7 @@ function Index({ query }) {
           Find Property {filters?.search ? "for " + filters?.search : ""}
         </title>
       </Head>
+      <ToastContainer />
       {isLoading && <Loader />}
       <Header />
       <Breadcrumb tagline={tagline} path="Home / property list / search" />

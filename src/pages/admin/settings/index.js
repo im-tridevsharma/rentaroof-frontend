@@ -5,6 +5,7 @@ import Alert from "../../../components/alerts";
 import { FiCheck, FiUploadCloud } from "react-icons/fi";
 import FileUpload from "../../../components/forms/file-upload";
 import { getSetting, saveBulkSetting } from "../../../lib/authentication";
+import { ToastContainer, toast } from "react-toastify";
 
 function Index() {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -13,6 +14,7 @@ function Index() {
   const [generalSettings, setGeneralSettings] = React.useState({});
   const [commisionSettings, setCommisionSettings] = React.useState({});
   const [websiteSettings, setWebsiteSettings] = React.useState({});
+  const [referralSettings, setReferralSettings] = React.useState({});
 
   React.useEffect(() => {
     const fetchGeneralSettings = async () => {
@@ -24,7 +26,7 @@ function Index() {
         setIsLoading(false);
         setGeneralSettings(res.data);
       } else {
-        console.error(res?.error || res.message);
+        toast.error(res?.error || res.message);
         setIsLoading(false);
       }
     };
@@ -36,7 +38,7 @@ function Index() {
         setIsLoading(false);
         setCommisionSettings(res.data);
       } else {
-        console.error(res?.error || res.message);
+        toast.error(res?.error || res.message);
         setIsLoading(false);
       }
     };
@@ -50,7 +52,21 @@ function Index() {
         setIsLoading(false);
         setWebsiteSettings(res.data);
       } else {
-        console.error(res?.error || res.message);
+        toast.error(res?.error || res.message);
+        setIsLoading(false);
+      }
+    };
+
+    const fetchReferralSettings = async () => {
+      setIsLoading(true);
+      const res = await getSetting(
+        `point_value,minimum_point_value,maximum_point_value,point_value_per_order,referral_bonus_sender_point,referral_bonus_receiver_point,review_point,each_payment_point`
+      );
+      if (res?.status) {
+        setIsLoading(false);
+        setReferralSettings(res.data);
+      } else {
+        toast.error(res?.error || res.message);
         setIsLoading(false);
       }
     };
@@ -58,6 +74,7 @@ function Index() {
     fetchGeneralSettings();
     fetchCommisionSettings();
     fetchWebsiteSettings();
+    fetchReferralSettings();
   }, []);
 
   const handleGeneralForm = async (e) => {
@@ -72,7 +89,7 @@ function Index() {
         setIsSaved(false);
       }, 2000);
     } else {
-      console.error(response?.error || response?.message);
+      toast.error(response?.error || response?.message);
       setIsLoading(false);
     }
   };
@@ -89,7 +106,7 @@ function Index() {
         setIsSaved(false);
       }, 2000);
     } else {
-      console.error(response?.error || response?.message);
+      toast.error(response?.error || response?.message);
       setIsLoading(false);
     }
   };
@@ -106,7 +123,7 @@ function Index() {
         setIsSaved(false);
       }, 2000);
     } else {
-      console.error(response?.error || response?.message);
+      toast.error(response?.error || response?.message);
       setIsLoading(false);
     }
   };
@@ -114,6 +131,23 @@ function Index() {
   const changeGHandler = (e) => {
     const { name, value } = e.target;
     setGeneralSettings((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleReferralForm = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const formdata = new FormData(document.forms.referral);
+    const response = await saveBulkSetting(formdata);
+    if (response?.status) {
+      setIsLoading(false);
+      setIsSaved(true);
+      setTimeout(() => {
+        setIsSaved(false);
+      }, 2000);
+    } else {
+      toast.error(response?.error || response?.message);
+      setIsLoading(false);
+    }
   };
 
   const changeCHandler = (e) => {
@@ -126,9 +160,15 @@ function Index() {
     setWebsiteSettings((prev) => ({ ...prev, [name]: value }));
   };
 
+  const changeRHandler = (e) => {
+    const { name, value } = e.target;
+    setReferralSettings((prev) => ({ ...prev, [name]: value }));
+  };
+
   return (
     <>
       {isLoading && <Loader />}
+      <ToastContainer />
       <SectionTitle title="Settings" subtitle="Manage Settings" />
       {isSaved && (
         <div className="w-full mb-4">
@@ -168,6 +208,14 @@ function Index() {
           onClick={() => setTabMode("website")}
         >
           Website
+        </button>
+        <button
+          className={`mr-5 border-b-2 transition-all duration-400 ease-linear ${
+            tabMode === "referral" ? "border-blue-600" : "border-transparent"
+          }`}
+          onClick={() => setTabMode("referral")}
+        >
+          Referral
         </button>
       </div>
       {/**tabs content */}
@@ -442,6 +490,118 @@ function Index() {
                   value={websiteSettings?.aboutus_refund_policy}
                   onChange={changeWHandler}
                 ></textarea>
+              </div>
+              <button className="btn btn-default bg-blue-400 float-right text-white rounded-sm hover:bg-blue-500">
+                Submit
+              </button>
+            </form>
+          </div>
+        )}
+        {tabMode === "referral" && (
+          <div>
+            <h5>Referral Settings</h5>
+            <form
+              name="referral"
+              onSubmit={handleReferralForm}
+              className="mt-2"
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-3">
+                <div className="form-element">
+                  <label className="form-label">Point Value (in ruppe)</label>
+                  <input
+                    type="text"
+                    name="point_value"
+                    className="form-input"
+                    value={referralSettings?.point_value}
+                    onChange={changeRHandler}
+                  />
+                </div>
+                <div className="form-element">
+                  <label className="form-label">
+                    Point Redeem (minimum amount value)
+                  </label>
+                  <input
+                    type="text"
+                    name="minimum_point_value"
+                    className="form-input"
+                    value={referralSettings?.minimum_point_value}
+                    onChange={changeRHandler}
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-3">
+                <div className="form-element">
+                  <label className="form-label">
+                    Point Redeem (maximum amount value)
+                  </label>
+                  <input
+                    type="text"
+                    name="maximum_point_value"
+                    className="form-input"
+                    value={referralSettings?.maximum_point_value}
+                    onChange={changeRHandler}
+                  />
+                </div>
+                <div className="form-element">
+                  <label className="form-label">
+                    Point Value (every order)
+                  </label>
+                  <input
+                    type="text"
+                    name="point_value_per_order"
+                    className="form-input"
+                    value={referralSettings?.point_value_per_order}
+                    onChange={changeRHandler}
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-3">
+                <div className="form-element">
+                  <label className="form-label">
+                    Referral Bonus Point (sender)
+                  </label>
+                  <input
+                    type="text"
+                    name="referral_bonus_sender_point"
+                    className="form-input"
+                    value={referralSettings?.referral_bonus_sender_point}
+                    onChange={changeRHandler}
+                  />
+                </div>
+                <div className="form-element">
+                  <label className="form-label">
+                    Referral Bonus Point (receiver)
+                  </label>
+                  <input
+                    type="text"
+                    name="referral_bonus_receiver_point"
+                    className="form-input"
+                    value={referralSettings?.referral_bonus_receiver_point}
+                    onChange={changeRHandler}
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-3">
+                <div className="form-element">
+                  <label className="form-label">Review Point</label>
+                  <input
+                    type="text"
+                    name="review_point"
+                    className="form-input"
+                    value={referralSettings?.review_point}
+                    onChange={changeRHandler}
+                  />
+                </div>
+                <div className="form-element">
+                  <label className="form-label">Each Payment Point</label>
+                  <input
+                    type="text"
+                    name="each_payment_point"
+                    className="form-input"
+                    value={referralSettings?.each_payment_point}
+                    onChange={changeRHandler}
+                  />
+                </div>
               </div>
               <button className="btn btn-default bg-blue-400 float-right text-white rounded-sm hover:bg-blue-500">
                 Submit

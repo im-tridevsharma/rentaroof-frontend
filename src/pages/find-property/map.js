@@ -23,6 +23,7 @@ import {
 } from "@react-google-maps/api";
 import { __d } from "../../server";
 import ReactTooltip from "react-tooltip";
+import { toast, ToastContainer } from "react-toastify";
 
 function Map() {
   const router = useRouter();
@@ -67,7 +68,7 @@ function Map() {
         if (isLoaded && mapObj) handleOnLoad(mapObj);
       } else {
         setIsLoading(false);
-        console.error(response?.error || response?.message);
+        toast.error(response?.error || response?.message);
       }
     })();
   }, [router.query]);
@@ -113,7 +114,7 @@ function Map() {
         setProperties(response?.data);
         setIsLoading(false);
       } else {
-        console.error(response?.error || response?.message);
+        toast.error(response?.error || response?.message);
         setIsLoading(false);
       }
     }
@@ -153,10 +154,10 @@ function Map() {
     if (res?.status) {
       setIsLoading(false);
       localStorage.removeItem("perform");
-      alert(res?.message);
+      toast.success(res?.message);
     } else {
       setIsLoading(false);
-      console.error(res?.error);
+      toast.error(res?.error);
     }
   };
 
@@ -198,7 +199,7 @@ function Map() {
           .focus();
       });
     } else {
-      alert("Geolocation is not supported by this browser.");
+      toast.error("Geolocation is not supported by this browser.");
     }
   };
 
@@ -209,6 +210,7 @@ function Map() {
       <Head>
         <title>Find Property on Map {search ? "for " + search : ""}</title>
       </Head>
+      <ToastContainer />
       {isLoading && <Loader />}
       <Header />
       <Breadcrumb tagline={tagline} path="Home / property list / search" />

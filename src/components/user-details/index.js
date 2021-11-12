@@ -6,6 +6,7 @@ import { updateKycIbo } from "../../lib/ibos";
 import { updateKycLandlord } from "../../lib/landlords";
 import Loader from "../loader";
 import ReactTooltip from "react-tooltip";
+import { ToastContainer, toast } from "react-toastify";
 
 function Index(props) {
   const [action, setAction] = useState("");
@@ -32,10 +33,10 @@ function Index(props) {
         : await updateKycLandlord(props.kyc?.id, data);
     if (response?.status) {
       setIsLoading(false);
-      alert("Kyc status updated successfully.");
+      toast.success("Kyc status updated successfully.");
     } else {
       setIsLoading(false);
-      console.error(response?.message);
+      toast.error(response?.message);
     }
   };
 
@@ -45,6 +46,7 @@ function Index(props) {
 
   return (
     <>
+      <ToastContainer />
       {isLoading && <Loader />}
       <div className="absolute top-0 right-0 w-full h-auto p-5 rounded-sm shadow-md bg-white z-40">
         <div className="flex items-center justify-between">

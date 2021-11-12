@@ -71,6 +71,50 @@ export const getLandlordById = async (id) => {
   return Landlord;
 };
 
+export const banLandlordProfile = async (id) => {
+  const token = getToken();
+  let landlord = false;
+
+  if (id && token) {
+    await server
+      .get(`/admin/landlords/ban/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        if (response.data) {
+          landlord = response.data;
+        }
+      })
+      .catch((error) => {
+        landlord = error.response?.data;
+      });
+  }
+
+  return landlord;
+};
+
+export const activateLandlordProfile = async (id) => {
+  const token = getToken();
+  let landlord = false;
+
+  if (id && token) {
+    await server
+      .get(`/admin/landlords/activate/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        if (response.data) {
+          landlord = response.data;
+        }
+      })
+      .catch((error) => {
+        landlord = error.response?.data;
+      });
+  }
+
+  return landlord;
+};
+
 export const deleteLandlord = async (id) => {
   const token = getToken();
   let res = false;
