@@ -17,8 +17,7 @@ import Loader from "../../../components/loader";
 import { __d } from "../../../server";
 import ReactTooltip from "react-tooltip";
 import { toast, ToastContainer } from "react-toastify";
-import { FaBan } from "react-icons/fa";
-import { BsPatchCheck } from "react-icons/bs";
+import { FaBan, FaCheck } from "react-icons/fa";
 
 function Index() {
   const [users, setUsers] = useState([]);
@@ -265,7 +264,7 @@ const Table = ({ users, edit, del, view, ban, activate }) => {
                 data-tip="Activate USER"
                 className="ml-2 btn px-2 py-1 bg-green-400 rounded-md hover:bg-green-500 text-white"
               >
-                <BsPatchCheck />
+                <FaCheck />
               </button>
             )}
           </>

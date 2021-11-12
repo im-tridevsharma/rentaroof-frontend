@@ -15,8 +15,7 @@ import getLandlords, {
 import UserDetails from "../../../components/user-details";
 import Loader from "../../../components/loader";
 import ReactTooltip from "react-tooltip";
-import { BsPatchCheck } from "react-icons/bs";
-import { FaBan } from "react-icons/fa";
+import { FaBan, FaCheck } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 
 function Index() {
@@ -293,7 +292,7 @@ const Table = ({ landlords, edit, del, view, ban, activate }) => {
                 data-tip="Activate LANDLORD"
                 className="ml-2 btn px-2 py-1 bg-green-400 rounded-md hover:bg-green-500 text-white"
               >
-                <BsPatchCheck />
+                <FaCheck />
               </button>
             )}
           </>

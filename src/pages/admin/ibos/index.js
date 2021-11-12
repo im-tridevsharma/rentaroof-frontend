@@ -4,8 +4,7 @@ import Image from "next/image";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { FiEdit, FiEye, FiRefreshCw, FiTrash } from "react-icons/fi";
-import { FaBan } from "react-icons/fa";
-import { BsPatchCheck } from "react-icons/bs";
+import { FaBan, FaCheck } from "react-icons/fa";
 import Datatable from "../../../components/datatable";
 import SectionTitle from "../../../components/section-title";
 import getIbos, {
@@ -278,7 +277,7 @@ const Table = ({ ibos, edit, del, view, ban, activate }) => {
                 data-tip="Activate IBO"
                 className="ml-2 btn px-2 py-1 bg-green-400 rounded-md hover:bg-green-500 text-white"
               >
-                <BsPatchCheck />
+                <FaCheck />
               </button>
             )}
           </>
