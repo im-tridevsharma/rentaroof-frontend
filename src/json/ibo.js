@@ -108,6 +108,42 @@ const links = [
     ),
   },
   {
+    label: "Wallet",
+    href: "/ibo/wallet",
+    icon: (
+      <img
+        src="/icons/user-dashboard/wallet_icon.png"
+        alt="wallet"
+        className="object-contain"
+        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
+      />
+    ),
+  },
+  {
+    label: "Payment",
+    href: "/ibo/payment",
+    icon: (
+      <img
+        src="/icons/user-dashboard/money_icon.png"
+        alt="payment"
+        className="object-contain"
+        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
+      />
+    ),
+  },
+  {
+    label: "Refer and Earn",
+    href: "/ibo/refer-and-earn",
+    icon: (
+      <img
+        src="/icons/user-dashboard/refer.png"
+        alt="refer and earn"
+        className="object-contain"
+        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
+      />
+    ),
+  },
+  {
     label: "Settings",
     href: "/ibo/settings",
     icon: (

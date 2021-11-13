@@ -28,6 +28,7 @@ import {
   StreetViewPanorama,
 } from "@react-google-maps/api";
 import ReactTooltip from "react-tooltip";
+import { ToastContainer, toast } from "react-toastify";
 
 function Index({ id }) {
   const router = useRouter();
@@ -43,7 +44,6 @@ function Index({ id }) {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(false);
   const [errors, setErrors] = useState(false);
-  const [isScheduled, setIsScheduled] = useState(false);
   const [rating, setRating] = useState(0);
   const [similarProperties, setSimilarProperties] = useState([]);
 
@@ -52,6 +52,8 @@ function Index({ id }) {
   });
 
   useEffect(() => {
+    //remove redirect
+    localStorage.removeItem("redirect");
     setPropertyCode(id);
     //fetch property details
     setIsLoading(true);
@@ -114,11 +116,11 @@ function Index({ id }) {
           if (sres?.status) {
             setIsLoading(false);
           } else {
-            console.error(sres?.error || sres.message);
+            toast.error(sres?.error || sres.message);
           }
         }
       } else {
-        console.error(response?.error || response?.message);
+        toast.error(response?.error || response?.message);
         setIsLoading(false);
       }
 
@@ -149,7 +151,7 @@ function Index({ id }) {
         setIsLoading(false);
       } else {
         setIsLoading(false);
-        console.error(response?.error || response?.message);
+        toast.error(response?.error || response?.message);
       }
     };
 
@@ -181,20 +183,21 @@ function Index({ id }) {
   const submitHandler = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    const formdata = new FormData(document.forms.meeting);
-    const response = await schedulePropertyVisit(property?.id, formdata);
-    if (response?.status) {
-      setIsLoading(false);
-      setIsScheduled(true);
-      setErrors(false);
-      setTimeout(() => {
-        setIsScheduled(false);
-      }, 2000);
-      document.forms.meeting.reset();
-    } else if (response?.error) {
-      setIsLoading(false);
-      setErrors(response?.error);
-      setIsScheduled(false);
+    if (profile?.id) {
+      const formdata = new FormData(document.forms.meeting);
+      const response = await schedulePropertyVisit(property?.id, formdata);
+      if (response?.status) {
+        setIsLoading(false);
+        setErrors(false);
+        toast.success("You successfully scheduled a visit for this proeprty!");
+        document.forms.meeting.reset();
+      } else if (response?.error) {
+        setIsLoading(false);
+        setErrors(response?.error);
+      }
+    } else {
+      localStorage.setItem("redirect", router.asPath);
+      router.push("/login");
     }
   };
 
@@ -218,7 +221,7 @@ function Index({ id }) {
         setIsSaved(true);
         alert("Property saved successfully.");
       } else {
-        console.error(sres?.error || sres.message);
+        toast.error(sres?.error || sres.message);
         setIsLoading(false);
       }
     } else {
@@ -230,24 +233,30 @@ function Index({ id }) {
   const addReview = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    if (rating) {
-      const data = {
-        rating,
-        review: document.forms.review.review.value,
-        property_id: property?.id,
-      };
-      const response = await addPropertyReview(data);
-      if (response?.status) {
-        setIsLoading(false);
-        document.forms.review.reset();
-        setRating(0);
-        alert("Review added successfully.");
+    if (profile?.id) {
+      if (rating) {
+        const data = {
+          rating,
+          review: document.forms.review.review.value,
+          property_id: property?.id,
+        };
+        const response = await addPropertyReview(data);
+        if (response?.status) {
+          setIsLoading(false);
+          document.forms.review.reset();
+          setRating(0);
+          toast.success("Review added successfully.");
+        } else {
+          setIsLoading(false);
+          toast.error(response?.error || response?.message);
+        }
       } else {
         setIsLoading(false);
-        console.error(response?.error || response?.message);
+        toast.error("Something went wrong!");
       }
     } else {
-      setIsLoading(false);
+      localStorage.setItem("redirect", router.asPath);
+      router.push("/login");
     }
   };
 
@@ -256,6 +265,7 @@ function Index({ id }) {
       <Head>
         <title>Property - {id}</title>
       </Head>
+      <ToastContainer />
       {isLoading && <Loader />}
       <Header />
       <Breadcrumb
@@ -794,12 +804,6 @@ function Index({ id }) {
                     ))}
                   </div>
                 )}
-                {isScheduled && (
-                  <p className="flex items-center text-green-600">
-                    <FiCheckCircle className="mr-1" /> Scheduled a visit
-                    successfully.
-                  </p>
-                )}
                 <form name="meeting" onSubmit={submitHandler}>
                   <div className="form-element relative">
                     <label className="form-label" htmlFor="name">
@@ -814,6 +818,8 @@ function Index({ id }) {
                       type="text"
                       id="name"
                       name="name"
+                      defaultValue={`${profile?.first} ${profile?.last}`}
+                      onChange={() => {}}
                       className="form-input border-gray-200 rounded-md pl-10 h-11"
                       style={{ fontSize: ".95rem" }}
                     />
@@ -832,6 +838,8 @@ function Index({ id }) {
                       type="email"
                       id="email"
                       name="email"
+                      defaultValue={profile?.email}
+                      onChange={() => {}}
                       className="form-input border-gray-200 rounded-md pl-10 h-11"
                       style={{ fontSize: ".95rem" }}
                     />
@@ -850,6 +858,8 @@ function Index({ id }) {
                       type="text"
                       id="contact"
                       name="contact"
+                      defaultValue={profile?.mobile}
+                      onChange={() => {}}
                       className="form-input border-gray-200 rounded-md pl-10 h-11"
                       style={{ fontSize: ".95rem" }}
                     />
@@ -868,6 +878,7 @@ function Index({ id }) {
                       type="date"
                       id="date"
                       name="date"
+                      required={true}
                       className="form-input border-gray-200 rounded-md pl-10 h-11"
                       style={{ fontSize: ".95rem" }}
                     />

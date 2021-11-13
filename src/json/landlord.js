@@ -83,6 +83,7 @@ const links = [
       />
     ),
   },
+
   {
     label: "Tenant",
     href: "/landlord/tenant",
@@ -102,6 +103,42 @@ const links = [
       <img
         src="/icons/ibo_icons/icon_12.png"
         alt="earnings"
+        className="object-contain"
+        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
+      />
+    ),
+  },
+  {
+    label: "Wallet",
+    href: "/landlord/wallet",
+    icon: (
+      <img
+        src="/icons/user-dashboard/wallet_icon.png"
+        alt="wallet"
+        className="object-contain"
+        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
+      />
+    ),
+  },
+  {
+    label: "Payment",
+    href: "/landlord/payment",
+    icon: (
+      <img
+        src="/icons/user-dashboard/money_icon.png"
+        alt="payment"
+        className="object-contain"
+        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
+      />
+    ),
+  },
+  {
+    label: "Refer and Earn",
+    href: "/landlord/refer-and-earn",
+    icon: (
+      <img
+        src="/icons/user-dashboard/refer.png"
+        alt="refer and earn"
         className="object-contain"
         style={{ maxWidth: "20px", width: "20px", height: "20px" }}
       />

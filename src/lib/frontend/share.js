@@ -369,3 +369,20 @@ export const changeVerificationStatus = async (id, data) => {
     });
   return status;
 };
+
+export const getUserReferrals = async (options = "") => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let status = false;
+  await server
+    .get(`/users/referrals?${options}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      status = response?.data;
+    })
+    .catch((error) => {
+      status = error?.response?.data;
+    });
+  return status;
+};

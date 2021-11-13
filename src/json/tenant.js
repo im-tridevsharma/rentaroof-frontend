@@ -84,6 +84,18 @@ const links = [
     ),
   },
   {
+    label: "Refer and Earn",
+    href: "/tenant/refer-and-earn",
+    icon: (
+      <img
+        src="/icons/user-dashboard/refer.png"
+        alt="refer and earn"
+        className="object-contain"
+        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
+      />
+    ),
+  },
+  {
     label: "Complain Management",
     href: "/tenant/complain_management",
     icon: (

@@ -19,7 +19,7 @@ const getWebsiteValues = async (key) => {
   return setting;
 };
 
-function Index() {
+function Index({ rcode }) {
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [logo, setLogo] = useState("");
@@ -28,6 +28,7 @@ function Index() {
     name: "",
     email: "",
     password: "",
+    referral_code: rcode || "",
   });
   const [errors, setErrors] = useState(false);
 
@@ -218,6 +219,19 @@ function Index() {
                   onChange={handleChange}
                 />
               </div>
+              <div
+                className="form-element mt-5 text-gray-700"
+                style={{ fontFamily: "Opensans-semi-bold" }}
+              >
+                <div className="form-label">Referral Code</div>
+                <input
+                  type="text"
+                  name="referral_code"
+                  className="form-input rounded-md border-2 border-gray-400"
+                  value={state?.referral_code ? state.referral_code : ""}
+                  onChange={handleChange}
+                />
+              </div>
               <button
                 type="submit"
                 className="uppercase w-full rounded-md p-2 text-white hover:opacity-90"
@@ -329,5 +343,11 @@ function Index() {
     </>
   );
 }
+
+Index.getInitialProps = ({ query }) => {
+  return {
+    rcode: query.referral,
+  };
+};
 
 export default Index;
