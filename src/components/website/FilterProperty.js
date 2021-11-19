@@ -8,6 +8,8 @@ import {
   getUserProperty,
   saveUserProperty,
 } from "../../lib/frontend/properties";
+import { FaDirections } from "react-icons/fa";
+import ReactTooltip from "react-tooltip";
 
 function FilterProperty({ property, user }) {
   const [isMarked, setIsMarked] = React.useState(false);
@@ -39,6 +41,21 @@ function FilterProperty({ property, user }) {
     } else {
       localStorage.setItem("redirect", router.asPath);
       router.push("/login");
+    }
+  };
+
+  const getDirection = (lat, lng) => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((location) => {
+        window
+          .open(
+            `https://www.google.com/maps/dir/${location.coords.latitude},${location.coords.longitude}/${lat},${lng}`,
+            "_blank"
+          )
+          .focus();
+      });
+    } else {
+      alert("Geolocation is not supported by this browser.");
     }
   };
 
@@ -80,7 +97,12 @@ function FilterProperty({ property, user }) {
             onClick={addtoFavorite}
             className="absolute text-lg right-1 cursor-pointer top-1 w-8 h-8 bg-yellow-500 rounded-full text-white flex items-center justify-center"
           >
-            {isMarked ? <RiBookmark3Fill /> : <RiBookmark3Line />}
+            {isMarked ? (
+              <RiBookmark3Fill data-tip="Saved Already" />
+            ) : (
+              <RiBookmark3Line data-tip="Save Property" />
+            )}
+            <ReactTooltip />
           </div>
         </div>
         <div className="flex flex-col flex-1">
@@ -134,7 +156,10 @@ function FilterProperty({ property, user }) {
           >
             {property?.short_description}
           </p>
-          <div className="px-7 mt-2" style={{ fontFamily: "Opensans-regular" }}>
+          <div
+            className="px-7 mt-2 flex items-center"
+            style={{ fontFamily: "Opensans-regular" }}
+          >
             <Link href={`/details/properties/${property?.property_code}`}>
               <a
                 className="px-2 py-1 rounded-md text-white"
@@ -143,6 +168,13 @@ function FilterProperty({ property, user }) {
                 View Details
               </a>
             </Link>
+            <FaDirections
+              className="ml-4 text-lg cursor-pointer"
+              onClick={() =>
+                getDirection(property?.address?.lat, property?.address?.long)
+              }
+              data-tip="Get Direction"
+            />
           </div>
           <div className="flex items-center justify-between mt-2 px-7">
             <div className="flex items-center">

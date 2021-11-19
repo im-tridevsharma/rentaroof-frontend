@@ -243,6 +243,62 @@ function ViewProperties({ property }) {
         </div>
         <hr />
         {/**information */}
+        <h6 className="mb-3 mt-5 px-2">Action</h6>
+        <div className="flex items-center mb-5 px-2">
+          <button
+            className="px-2 py-1 rounded-md text-white bg-green-400"
+            onClick={() => propertyVerification("verify")}
+          >
+            Verify
+          </button>
+          <button
+            className="px-2 py-1 rounded-md text-white bg-red-400 mx-3"
+            onClick={() => propertyVerification("reject")}
+          >
+            Reject
+          </button>
+
+          <p className="inline ml-3">
+            <b>Verified:</b> {isVerified ? "Yes" : "No"}
+          </p>
+
+          {property?.verification ? (
+            <div className="flex items-center ml-10">
+              <p>
+                Assigned IBO - {property?.verification?.ibo?.first}{" "}
+                {property?.verification?.ibo?.last}
+              </p>
+              <p className="ml-5">
+                {property?.verification?.is_verifiable ? (
+                  <span className="p-2 bg-green-500 rounded-full">
+                    Verified
+                  </span>
+                ) : !property?.verification?.issues_in_verification ? (
+                  <span className="p-2 bg-yellow-500 rounded-full">
+                    Pending
+                  </span>
+                ) : (
+                  <span
+                    className="p-2 bg-red-500 rounded-full"
+                    data-tip={property?.verification?.issues_in_verification}
+                  >
+                    Rejected
+                    <ReactTooltip />
+                  </span>
+                )}
+              </p>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setViewModal(true)}
+              className="px-2 py-3 bg-green-400 rounded-md font-semibold ml-5 hover:bg-green-500"
+            >
+              Property Verification
+            </button>
+          )}
+        </div>
+        <hr className="mb-2" />
         <div className="flex flex-col mt-5 px-2">
           <div className="form-element">
             <label className="text-blue-600">Property Name</label>
@@ -311,13 +367,12 @@ function ViewProperties({ property }) {
               <label className="text-blue-600">Floors</label>
               <p className="pl-2 capitalize">{property?.floors}</p>
             </div>
+            {property?.carpet_area + " " + property?.carpet_area_unit}
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4">
             <div className="form-element">
               <label className="text-blue-600">Carpet Area</label>
-              <p className="pl-2 capitalize">
-                {property?.carpet_area + " " + property?.carpet_area_unit}
-              </p>
+              <p className="pl-2 capitalize"></p>
             </div>
             <div className="form-element">
               <label className="text-blue-600">Super Area</label>
@@ -411,62 +466,7 @@ function ViewProperties({ property }) {
                 </div>
               ))}
           </div>
-          <hr className="mb-2" />
-          <h6 className="mb-3">Action</h6>
-          <div className="flex items-center mb-5">
-            <button
-              className="px-2 py-1 rounded-md text-white bg-green-400"
-              onClick={() => propertyVerification("verify")}
-            >
-              Verify
-            </button>
-            <button
-              className="px-2 py-1 rounded-md text-white bg-red-400 mx-3"
-              onClick={() => propertyVerification("reject")}
-            >
-              Reject
-            </button>
 
-            <p className="inline ml-3">
-              <b>Verified:</b> {isVerified ? "Yes" : "No"}
-            </p>
-
-            {property?.verification ? (
-              <div className="flex items-center ml-10">
-                <p>
-                  Assigned IBO - {property?.verification?.ibo?.first}{" "}
-                  {property?.verification?.ibo?.last}
-                </p>
-                <p className="ml-5">
-                  {property?.verification?.is_verifiable ? (
-                    <span className="p-2 bg-green-500 rounded-full">
-                      Verified
-                    </span>
-                  ) : !property?.verification?.issues_in_verification ? (
-                    <span className="p-2 bg-yellow-500 rounded-full">
-                      Pending
-                    </span>
-                  ) : (
-                    <span
-                      className="p-2 bg-red-500 rounded-full"
-                      data-tip={property?.verification?.issues_in_verification}
-                    >
-                      Rejected
-                      <ReactTooltip />
-                    </span>
-                  )}
-                </p>
-              </div>
-            ) : (
-              <button
-                type="button"
-                onClick={() => setViewModal(true)}
-                className="px-2 py-3 bg-green-400 rounded-md font-semibold ml-5 hover:bg-green-500"
-              >
-                Property Verification
-              </button>
-            )}
-          </div>
           <hr className="mb-2" />
           <h6 className="mb-3">Address</h6>
           <div className="grid grid-cols-2 md:grid-cols-4">

@@ -20,6 +20,25 @@ const isAuthenticated = () => {
   }
 };
 
+export const sendMessage = async (data) => {
+  const token = __d(cookies.get("_SYNC_"));
+  let message = false;
+
+  if (token) {
+    await server
+      .post("/chat/messages", data, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        message = response?.data;
+      })
+      .catch((error) => {
+        message = error?.response?.data;
+      });
+  }
+  return message;
+};
+
 export const getProfile = async (allinfo = false) => {
   const token = __d(cookies.get("_SYNC_"));
   let user = false;

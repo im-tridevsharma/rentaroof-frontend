@@ -149,21 +149,24 @@ function Index({ rcode }) {
                     Tenant
                   </span>
                 </label>
-                <label htmlFor="ibo" className="font-bold">
-                  <input
-                    type="radio"
-                    name="role"
-                    value="ibo"
-                    id="ibo"
-                    onChange={handleChange}
-                  />
-                  <span
-                    className="ml-3"
-                    style={{ fontFamily: "Opensans-bold" }}
-                  >
-                    IBO
-                  </span>
-                </label>
+                {false && (
+                  <label htmlFor="ibo" className="font-bold">
+                    <input
+                      type="radio"
+                      name="role"
+                      value="ibo"
+                      id="ibo"
+                      onChange={handleChange}
+                    />
+                    <span
+                      className="ml-3"
+                      style={{ fontFamily: "Opensans-bold" }}
+                    >
+                      IBO
+                    </span>
+                  </label>
+                )}
+
                 <label htmlFor="landlord" className="font-bold">
                   <input
                     type="radio"
@@ -179,6 +182,17 @@ function Index({ rcode }) {
                     Landlord
                   </span>
                 </label>
+
+                <Link href="/signup/ibo">
+                  <a
+                    style={{
+                      color: "var(--blue)",
+                      fontFamily: "Opensans-bold",
+                    }}
+                  >
+                    IBO
+                  </a>
+                </Link>
               </div>
               <div
                 className="form-element mt-5 text-gray-700"

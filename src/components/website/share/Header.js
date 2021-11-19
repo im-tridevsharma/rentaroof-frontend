@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { logoutUser, removeAuthToken } from "../../../lib/frontend/auth";
 import Loader from "../../loader";
-import server from "../../../server";
+import server, { __d } from "../../../server";
 import { useDispatch } from "react-redux";
 import ReactTooltip from "react-tooltip";
+import Cookies from "universal-cookie";
 
 const getWebsiteValues = async (key) => {
   let setting = "";
@@ -32,6 +34,7 @@ function Header({
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+  const cookies = new Cookies();
 
   useEffect(() => {
     (async () => {
@@ -42,6 +45,11 @@ function Header({
         dispatch({ type: "SET_WEBSITE", values: res.data });
       }
     })();
+
+    if (typeof Echo !== "undefined") {
+      Echo.connector.options.auth.headers["Authorization"] =
+        "Bearer " + __d(cookies.get("_SYNC_"));
+    }
   }, []);
 
   const handleLogout = async (e) => {
@@ -58,6 +66,7 @@ function Header({
     } else {
       console.error(response?.message);
       setIsLoading(false);
+      removeAuthToken();
     }
   };
 
@@ -196,4 +205,4 @@ function Header({
   );
 }
 
-export default Header;
+export default dynamic(() => Promise.resolve(Header), { ssr: false });

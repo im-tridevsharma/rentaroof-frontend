@@ -373,12 +373,12 @@ export const getAmenities = async (data) => {
   return res;
 };
 
-export const deleteProperty = async (id) => {
+export const deleteProperty = async (reason, id) => {
   const token = getToken();
   let res = false;
 
   await server
-    .delete("/properties/" + id, {
+    .delete("/properties/" + id + "?delete_reason=" + reason, {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((response) => {

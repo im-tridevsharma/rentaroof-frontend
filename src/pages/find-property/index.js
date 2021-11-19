@@ -785,14 +785,15 @@ function Index({ query }) {
                   color: "var(--primary-color)",
                 }}
                 className="flex items-center"
-                onClick={() =>
+                onClick={() => {
+                  localStorage.setItem("list-view", router.asPath);
                   router.push(
                     router.asPath
                       .replace("find-property", "find-property/map")
                       .replace("&pagination=yes", "")
                       .replace("pagination=yes&", "")
-                  )
-                }
+                  );
+                }}
                 type="button"
               >
                 <FiMapPin className="text-lg mr-1" />

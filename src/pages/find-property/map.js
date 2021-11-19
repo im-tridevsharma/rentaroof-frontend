@@ -6,7 +6,7 @@ import Header from "../../components/website/Header";
 import Footer from "../../components/website/Footer";
 import Breadcrumb from "../../components/website/Breadcrumb";
 import { FiFilter, FiSearch } from "react-icons/fi";
-import { FaDirections } from "react-icons/fa";
+import { FaDirections, FaListAlt } from "react-icons/fa";
 import { BiSave } from "react-icons/bi";
 import PropertyItem from "../../components/website/PropertyItem";
 import {
@@ -522,6 +522,14 @@ function Map() {
             >
               <BiSave className="mr-1" /> Save Search
             </button>
+            <FaListAlt
+              className="ml-3 text-xl text-gray-700 cursor-pointer"
+              data-tip="List View"
+              onClick={() => {
+                localStorage.getItem("list-view") &&
+                  router.push(localStorage.getItem("list-view"));
+              }}
+            />
           </div>
           {/**map view */}
           <div className="w-full bg-gray-50 rounded-sm h-128">

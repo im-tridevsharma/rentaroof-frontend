@@ -33,7 +33,9 @@ function Index() {
 
     const fetchCommisionSettings = async () => {
       setIsLoading(true);
-      const res = await getSetting("ibo_commision,landlord_commision");
+      const res = await getSetting(
+        "ibo_commision,landlord_commision,documentation_cost"
+      );
       if (res?.status) {
         setIsLoading(false);
         setCommisionSettings(res.data);
@@ -360,6 +362,18 @@ function Index() {
                     name="landlord_commision"
                     className="form-input"
                     value={commisionSettings?.landlord_commision}
+                    onChange={changeCHandler}
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-3">
+                <div className="form-element">
+                  <label className="form-label">Documentation Cost</label>
+                  <input
+                    type="text"
+                    name="documentation_cost"
+                    className="form-input"
+                    value={commisionSettings?.documentation_cost}
                     onChange={changeCHandler}
                   />
                 </div>

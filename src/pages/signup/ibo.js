@@ -1,15 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { BiBadgeCheck, BiError } from "react-icons/bi";
 import Loader from "../../components/loader";
-import { loginUser, setAuthToken } from "../../lib/frontend/auth";
-import Cookies from "universal-cookie";
-import server, { __e } from "../../server";
-import UseAuthentication from "../../hooks/UseAuthentication";
-import RenderError from "../../components/website/RenderError";
-import { ToastContainer, toast } from "react-toastify";
+import { registerUser } from "../../lib/frontend/auth";
+import server from "../../server";
 
 const getWebsiteValues = async (key) => {
   let setting = "";
@@ -24,20 +19,19 @@ const getWebsiteValues = async (key) => {
   return setting;
 };
 
-function Index() {
+function Index({ rcode }) {
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [logo, setLogo] = useState("");
   const [state, setState] = useState({
+    role: "ibo",
+    name: "",
     email: "",
     password: "",
-    remember: false,
+    category: "",
+    referral_code: rcode || "",
   });
   const [errors, setErrors] = useState(false);
-  const [logo, setLogo] = useState("");
-  const router = useRouter();
-  const cookies = new Cookies();
-  //check is loggedin
-  const { isAuthenticated } = UseAuthentication();
 
   useEffect(() => {
     (async () => {
@@ -62,38 +56,18 @@ function Index() {
 
     if (!iserror) {
       (async () => {
-        const response = await loginUser(state);
-        if (response?.access_token) {
+        const response = await registerUser(state);
+        if (response?.status) {
           setSuccess(true);
           setErrors(false);
           setIsLoading(false);
-          setState({ email: "", password: "", remember: false });
-          setAuthToken(response.access_token);
-          cookies.set("surole", __e(response?.user?.role), { path: "/" });
-          Echo.connector.options.auth.headers["Authorization"] =
-            "Bearer " + response.access_token;
-          //save user
-          localStorage.setItem("LU", __e(JSON.stringify(response?.user)));
+          setState({ role: "", name: "", email: "", password: "" });
+          document.forms.signup.reset();
           setTimeout(() => {
             setSuccess(false);
-            if (response?.user?.role) {
-              const redirect = localStorage.getItem("redirect");
-
-              if (redirect) {
-                localStorage.removeItem("redirect");
-                router.push(redirect);
-              } else {
-                router.push(`/${response.user.role}/dashboard`);
-              }
-            }
-          }, 1500);
-        } else if (response?.error === "banned") {
-          toast.error(
-            "Your account has been blocked. Please contact to administrator!"
-          );
-          setIsLoading(false);
-        } else if (response?.error || response?.message) {
-          setErrors(response.error || { message: [response.message] });
+          }, 2500);
+        } else if (response?.error) {
+          setErrors(response.error);
           setIsLoading(false);
         }
       })();
@@ -102,12 +76,11 @@ function Index() {
     }
   };
 
-  return !isAuthenticated ? (
+  return (
     <>
       <Head>
-        <title>Login</title>
+        <title>SignUp</title>
       </Head>
-      <ToastContainer />
       {isLoading && <Loader />}
       <div className="grid sm:grid-cols-2">
         {/**sign up form */}
@@ -125,8 +98,8 @@ function Index() {
           {success && (
             <div className="py-2 px-2 text-green-600">
               <p className="flex items-center">
-                <BiBadgeCheck className="text-2xl mr-1" />
-                Loggedin successfully! Redirecting to dashboard.
+                <BiBadgeCheck className="text-2xl mr-1" /> Congratulations! You
+                are registered successfully.
               </p>
             </div>
           )}
@@ -146,7 +119,7 @@ function Index() {
                 fontFamily: "Opensans-bold",
               }}
             >
-              Login
+              Sign Up
               <span
                 className="absolute bottom-0 left-0 w-7 h-1 rounded-full"
                 style={{
@@ -156,18 +129,43 @@ function Index() {
             </h6>
             {/**signup form */}
             <form
-              name="login"
+              name="signup"
               method="POST"
               onSubmit={handleSubmit}
               className="mt-10 px-2 w-full md:w-96"
             >
-              <p
-                className="text-gray-700"
+              <div
+                className="form-element mt-5 text-gray-700"
                 style={{ fontFamily: "Opensans-semi-bold" }}
               >
-                Please login to use the app
-              </p>
-
+                <div className="form-label">Category</div>
+                <select
+                  name="category"
+                  className="form-input rounded-md border-2 border-gray-400"
+                  value={state?.category ? state.category : ""}
+                  onChange={handleChange}
+                >
+                  <option value="">Select</option>
+                  <option value="Individual">Individual</option>
+                  <option value="Company">Company</option>
+                  <option value="Housewives">Housewives</option>
+                  <option value="Student">Student</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div
+                className="form-element mt-5 text-gray-700"
+                style={{ fontFamily: "Opensans-semi-bold" }}
+              >
+                <div className="form-label">Name</div>
+                <input
+                  type="text"
+                  name="name"
+                  className="form-input rounded-md border-2 border-gray-400"
+                  value={state?.name ? state.name : ""}
+                  onChange={handleChange}
+                />
+              </div>
               <div
                 className="form-element mt-5 text-gray-700"
                 style={{ fontFamily: "Opensans-semi-bold" }}
@@ -193,25 +191,19 @@ function Index() {
                   value={state?.password ? state.password : ""}
                   onChange={handleChange}
                 />
-                <p className="mt-1 flex items-center justify-between">
-                  <label htmlFor="remember">
-                    <input
-                      type="checkbox"
-                      name="remember"
-                      id="remember"
-                      onChange={(e) => {
-                        setState((prev) => ({
-                          ...prev,
-                          remember: e.target.checked ? "yes" : false,
-                        }));
-                      }}
-                    />
-                    <span className="ml-1">Remember me</span>
-                  </label>
-                  <Link href="/forgot-password">
-                    <a>Forgot password?</a>
-                  </Link>
-                </p>
+              </div>
+              <div
+                className="form-element mt-5 text-gray-700"
+                style={{ fontFamily: "Opensans-semi-bold" }}
+              >
+                <div className="form-label">Referral Code</div>
+                <input
+                  type="text"
+                  name="referral_code"
+                  className="form-input rounded-md border-2 border-gray-400"
+                  value={state?.referral_code ? state.referral_code : ""}
+                  onChange={handleChange}
+                />
               </div>
               <button
                 type="submit"
@@ -221,7 +213,7 @@ function Index() {
                   fontFamily: "Opensans-bold",
                 }}
               >
-                Login
+                Sign Up
               </button>
             </form>
 
@@ -258,9 +250,9 @@ function Index() {
                 className="text-center text-gray-500 mt-5"
                 style={{ fontFamily: "Opensans-semi-bold" }}
               >
-                Don't have an account ?{" "}
-                <Link href="/signup">
-                  <a style={{ color: "var(--blue)" }}>Sign Up</a>
+                Already have an account ?{" "}
+                <Link href="/login">
+                  <a style={{ color: "var(--blue)" }}>Login</a>
                 </Link>
               </div>
 
@@ -322,9 +314,13 @@ function Index() {
         </div>
       </div>
     </>
-  ) : (
-    <RenderError error="Redirecting to dashboard..." />
   );
 }
+
+Index.getInitialProps = ({ query }) => {
+  return {
+    rcode: query.referral,
+  };
+};
 
 export default Index;

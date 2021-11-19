@@ -526,15 +526,20 @@ function AddPropertyUI() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
               <div className="form-element">
-                <label className="form-label">Selling Price</label>
-                <input
-                  type="text"
-                  name="selling_price"
-                  value={property?.selling_price}
+                <label className="form-label">Lease Period</label>
+                <select
+                  name="lease_period"
+                  value={property?.lease_period}
                   onChange={inputHandler}
                   className="form-input rounded-md border-gray-200"
-                  placeholder="Rs."
-                />
+                >
+                  <option value="">Select</option>
+                  <option value="1 year">1 Year</option>
+                  <option value="3 years">3 Years</option>
+                  <option value="5 years">5 Years</option>
+                  <option value="7 years">7 Years</option>
+                  <option value="9 years">9 Years</option>
+                </select>
               </div>
 
               <div className="form-element">

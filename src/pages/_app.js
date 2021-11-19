@@ -26,6 +26,8 @@ import "../css/components/tabs.css";
 import "../css/components/user-widgets/widget-2.css";
 import "../css/components/user-widgets/widget-4.css";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
+import Echo from "laravel-echo";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -33,6 +35,24 @@ Router.events.on("routeChangeError", () => NProgress.done());
 
 export default function App({ Component, pageProps }) {
   const store = useStore(pageProps.initialReduxState);
+
+  useEffect(() => {
+    window.Pusher = require("pusher-js");
+    window.Echo = new Echo({
+      broadcaster: "pusher",
+      key: "myKey",
+      wsHost: window.location.hostname,
+      wsPort: 6001,
+      forceTLS: false,
+      disableStats: true,
+      enabledTransports: ["ws"],
+      authEndpoint: `${process.env.BASE_URL.replace(
+        3000,
+        8000
+      )}/api/broadcasting/auth`,
+    });
+  }, []);
+
   return (
     <>
       <Head>

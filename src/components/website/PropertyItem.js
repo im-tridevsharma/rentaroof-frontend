@@ -8,6 +8,7 @@ import {
   saveUserProperty,
 } from "../../lib/frontend/properties";
 import ReactTooltip from "react-tooltip";
+import { FaDirections } from "react-icons/fa";
 
 function PropertyItem({ property, overEvent, outEvent, user }) {
   const router = useRouter();
@@ -39,6 +40,21 @@ function PropertyItem({ property, overEvent, outEvent, user }) {
     } else {
       localStorage.setItem("redirect", router.asPath);
       router.push("/login");
+    }
+  };
+
+  const getDirection = (lat, lng) => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((location) => {
+        window
+          .open(
+            `https://www.google.com/maps/dir/${location.coords.latitude},${location.coords.longitude}/${lat},${lng}`,
+            "_blank"
+          )
+          .focus();
+      });
+    } else {
+      toast.error("Geolocation is not supported by this browser.");
     }
   };
 
@@ -115,17 +131,27 @@ function PropertyItem({ property, overEvent, outEvent, user }) {
           >
             ₹ {property?.monthly_rent}/month
           </h6>
-          <Link href={`/details/properties/${property?.property_code}`}>
-            <a
-              className="px-3 py-2 text-white uppercase text-2xs rounded-md"
-              style={{
-                backgroundColor: "var(--secondary-color)",
-                fontFamily: "Opensans-semi-bold",
-              }}
-            >
-              More Info
-            </a>
-          </Link>
+          <div className="flex items-center">
+            <Link href={`/details/properties/${property?.property_code}`}>
+              <a
+                className="px-3 py-2 text-white uppercase text-2xs rounded-md"
+                style={{
+                  backgroundColor: "var(--secondary-color)",
+                  fontFamily: "Opensans-semi-bold",
+                }}
+              >
+                More Info
+              </a>
+            </Link>
+            <FaDirections
+              className="ml-4 text-lg cursor-pointer"
+              onClick={() =>
+                getDirection(property?.address?.lat, property?.address?.long)
+              }
+              data-tip="Get Direction"
+            />
+            <ReactTooltip />
+          </div>
         </div>
       </div>
     </>

@@ -16,6 +16,7 @@ import { MdClose } from "react-icons/md";
 import { BsStarFill } from "react-icons/bs";
 import { getAgreements } from "../../../../lib/frontend/share";
 import ReactTooltip from "react-tooltip";
+import { FiAlertCircle } from "react-icons/fi";
 
 const Button = ({ url }) => {
   return (
@@ -190,6 +191,10 @@ function PropertiesUI() {
           </Link>
         </div>
         {/**properties */}
+        <p className="py-3 flex items-center text-red-500">
+          <FiAlertCircle className="mr-3" /> Without verification of your
+          property customer cannot view in website.
+        </p>
         {cardMode === "posted" && (
           <>
             <div
