@@ -1,38 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { VscVerified, VscUnverified } from "react-icons/vsc";
-import { deleteProperty } from "../../lib/frontend/properties";
-import Loader from "../loader";
 import { __d } from "../../server";
 import { FiEdit2 } from "react-icons/fi";
 import ReactTooltip from "react-tooltip";
 import { FaTrash } from "react-icons/fa";
 
-function PostedProperty({ property, setProperties, properties }) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [deleteReason, setDeleteReason] = useState("testing delete");
-
-  const deleteProperties = async () => {
-    const go = confirm("It will delete it permanantly!");
-    if (go) {
-      setIsLoading(true);
-      const response = await deleteProperty(deleteReason, property?.id);
-      if (response?.status) {
-        setIsLoading(false);
-        const newProperties = properties.map((item) =>
-          item.id === response.data.id ? response.data : item
-        );
-        setProperties(newProperties);
-      } else {
-        setIsLoading(false);
-      }
-    }
-  };
-
+function PostedProperty({ property, deleteProperties }) {
   return (
     <>
       <ReactTooltip />
-      {isLoading && <Loader />}
       <div className="relative flex flex-col p-2 m-1 bg-white rounded-md border-2 border-gray-200">
         {property?.is_deleted === 0 && (
           <div className="absolute right-1 bottom-1 text-3xl h-12 w-12 rounded-full bg-white shadow-md flex items-center justify-center">
@@ -49,7 +26,6 @@ function PostedProperty({ property, setProperties, properties }) {
         {property?.is_deleted === 1 && (
           <div className="absolute right-1 bottom-14 text-3xl h-12 w-12 rounded-full bg-white shadow-md flex items-center justify-center">
             <FaTrash className="text-red-500" data-tip="Delete Requested" />
-            <ReactTooltip />
           </div>
         )}
 
@@ -147,7 +123,7 @@ function PostedProperty({ property, setProperties, properties }) {
             </Link>
             <button
               className="px-2 py-1 rounded-md text-white bg-red-500 ml-1"
-              onClick={deleteProperties}
+              onClick={() => deleteProperties(property?.id)}
             >
               Delete
             </button>

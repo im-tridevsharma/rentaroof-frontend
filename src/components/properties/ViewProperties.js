@@ -3,6 +3,8 @@ import moment from "moment";
 import Loader from "../loader";
 import {
   assignPropertyVerification,
+  deleteProperty,
+  rejectPropertyDeleteReqeust,
   verifyProperty,
 } from "../../lib/properties";
 import {
@@ -15,6 +17,7 @@ import ReactTooltip from "react-tooltip";
 import Router from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import { useSelector, shallowEqual } from "react-redux";
+import router from "next/router";
 
 function ViewProperties({ property }) {
   const [gallery, setGallery] = useState(null);
@@ -82,6 +85,40 @@ function ViewProperties({ property }) {
     document.querySelector("#front-img").src = img;
   };
 
+  const delProperty = async (property) => {
+    // eslint-disable-next-line no-restricted-globals
+    const go = confirm("It will delete it permanantly!");
+    if (go && property) {
+      setIsLoading(true);
+      const response = await deleteProperty(property?.id);
+      if (response?.status) {
+        setIsLoading(false);
+        sendPropertyVNotification(
+          property?.posted_by,
+          property?.owner_data?.role,
+          "deleted"
+        );
+        router.push("/admin/properties");
+      }
+    }
+  };
+
+  const rejectPropertyDelete = async (property) => {
+    if (property) {
+      setIsLoading(true);
+      const response = await rejectPropertyDeleteReqeust(property?.id);
+      if (response?.status) {
+        setIsLoading(false);
+        sendPropertyVNotification(
+          property?.posted_by,
+          property?.owner_data?.role,
+          "delete-rejected"
+        );
+        router.push("/admin/properties");
+      }
+    }
+  };
+
   const propertyVerification = (option) => {
     if (option) {
       setIsLoading(true);
@@ -147,6 +184,26 @@ function ViewProperties({ property }) {
         formdata.append(
           "content",
           `Your property ${property?.name || ""} has been verified by admin!`
+        );
+        formdata.append("type", "Urgent");
+      } else if (option === "deleted") {
+        formdata.append("title", "Property Deleted🟢");
+        formdata.append(
+          "content",
+          `Your property ${property?.name || ""} has been deleted by admin!`
+        );
+        formdata.append("type", "Notification");
+      } else if (option === "delete-rejected") {
+        formdata.append("title", "Property Deleted Request Rejected🔴");
+        formdata.append(
+          "content",
+          `Your property ${
+            property?.name || ""
+          } deleted request has been rejected by admin!`
+        );
+        formdata.append(
+          "redirect",
+          `${process.env.BASE_URL}/${type}/properties`
         );
         formdata.append("type", "Urgent");
       } else {
@@ -298,6 +355,27 @@ function ViewProperties({ property }) {
             </button>
           )}
         </div>
+        {property?.is_deleted === 1 && (
+          <div className="flex items-center mb-5 px-2">
+            <b>Property Delete Request : </b>
+            <p className="mx-3">
+              <b>Reason - </b>
+              {property?.delete_reason}
+            </p>
+            <button
+              className="px-2 py-1 rounded-md text-white bg-red-400 mx-3"
+              onClick={() => delProperty(property)}
+            >
+              Delete
+            </button>
+            <button
+              className="px-2 py-1 rounded-md text-white bg-green-400"
+              onClick={() => rejectPropertyDelete(property)}
+            >
+              Reject
+            </button>
+          </div>
+        )}
         <hr className="mb-2" />
         <div className="flex flex-col mt-5 px-2">
           <div className="form-element">

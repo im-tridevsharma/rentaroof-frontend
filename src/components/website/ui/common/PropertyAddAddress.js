@@ -83,7 +83,7 @@ function PropertyAddAddress({ code }) {
     router.push(
       "?step=next&next=AMENITIES&id=" +
         code +
-        (router.query.mode && "&mode=" + router.query.mode)
+        (router.query.mode ? "&mode=" + router.query.mode : "")
     );
   };
 
@@ -125,7 +125,7 @@ function PropertyAddAddress({ code }) {
       place.geometry.location.lng("d");
     document.forms.add_address.full_address.value = place?.formatted_address;
     document.forms.add_address.pincode.value =
-      place?.address_components[4]?.long_name;
+      place?.address_components[4]?.long_name || "";
   };
 
   const inputHandler = (e) => {
@@ -237,8 +237,7 @@ function PropertyAddAddress({ code }) {
               <label className="form-label">Country</label>
               <select
                 name="country"
-                value={address?.country}
-                onChange={inputHandler}
+                defaultValue={address?.country}
                 className="form-input border-gray-200 rounded-md -mt-1"
                 onChange={filterState}
               >
@@ -255,8 +254,7 @@ function PropertyAddAddress({ code }) {
               <label className="form-label">State</label>
               <select
                 name="state"
-                value={address?.state}
-                onChange={inputHandler}
+                defaultValue={address?.state}
                 className="form-input border-gray-200 rounded-md -mt-1"
                 onChange={filterCity}
               >
@@ -273,7 +271,7 @@ function PropertyAddAddress({ code }) {
               <label className="form-label">City</label>
               <select
                 name="city"
-                value={address?.city}
+                defaultValue={address?.city}
                 onChange={inputHandler}
                 className="form-input border-gray-200 rounded-md -mt-1"
               >

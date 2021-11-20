@@ -4,7 +4,10 @@ import Image from "next/image";
 import Card from "../../Card";
 import PropertyGrid from "../../PropertyGrid";
 import { FaTimes } from "react-icons/fa";
-import { getProperties } from "../../../../lib/frontend/properties";
+import {
+  getProperties,
+  deleteProperty,
+} from "../../../../lib/frontend/properties";
 import Loader from "../../../loader";
 import PostedProperty from "../../PostedProperty";
 import {
@@ -16,7 +19,7 @@ import { MdClose } from "react-icons/md";
 import { BsStarFill } from "react-icons/bs";
 import { getAgreements } from "../../../../lib/frontend/share";
 import ReactTooltip from "react-tooltip";
-import { FiAlertCircle } from "react-icons/fi";
+import { FiAlertCircle, FiDelete } from "react-icons/fi";
 
 const Button = ({ url }) => {
   return (
@@ -39,6 +42,8 @@ function PropertiesUI() {
   const [properties, setProperties] = useState([]);
   const [visitedProperties, setVisitedProperties] = useState([]);
   const [agreements, setAgreements] = useState([]);
+  const [deleteReason, setDeleteReason] = useState("");
+  const [deleteMode, setDeleteMode] = useState(false);
 
   useEffect(() => {
     localStorage.removeItem("next_ap");
@@ -89,6 +94,30 @@ function PropertiesUI() {
       }
     })();
   }, []);
+
+  const deleteProperties = (id) => {
+    const go = confirm("It will delete it permanantly!");
+    if (go) {
+      setDeleteMode(id);
+    }
+  };
+
+  const deleteHandler = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const response = await deleteProperty(deleteReason, deleteMode);
+    if (response?.status) {
+      setIsLoading(false);
+      const newProperties = properties.map((item) =>
+        item.id === response.data.id ? response.data : item
+      );
+      setProperties(newProperties);
+      setDeleteReason("");
+      setDeleteMode(false);
+    } else {
+      setIsLoading(false);
+    }
+  };
 
   const deleteMe = async (id, type) => {
     setIsLoading(true);
@@ -209,8 +238,7 @@ function PropertiesUI() {
                   <PostedProperty
                     key={i}
                     property={p}
-                    setProperties={setProperties}
-                    properties={properties}
+                    deleteProperties={deleteProperties}
                   />
                 ))}
             </div>
@@ -316,6 +344,43 @@ function PropertiesUI() {
           </>
         )}
       </div>
+      {deleteMode && (
+        <div
+          className="fixed w-full h-screen top-0 left-0"
+          style={{ background: "rgba(0,0,0,.3)" }}
+        >
+          <div className="absolute p-3 rounded-md bg-white max-w-md w-full left-1/2 transform -translate-x-1/2 top-1/4">
+            <h5 style={{ fontFamily: "Opensans-bold" }}>Delete Request</h5>
+            <span
+              onClick={() => setDeleteMode(false)}
+              className="absolute right-5 top-5 cursor-pointer text-xl text-red-500 hover:text-red-400"
+            >
+              <FiDelete />
+            </span>
+            <form name="deleteform" className="mt-5" onSubmit={deleteHandler}>
+              <div className="form-element">
+                <label
+                  className="form-label"
+                  style={{ fontFamily: "Opensans-regular" }}
+                >
+                  Reason to delete
+                </label>
+                <textarea
+                  className="form-textarea rounded-sm border-gray-400"
+                  name="delete_reason"
+                  value={deleteReason}
+                  onChange={(e) => setDeleteReason(e.target.value)}
+                ></textarea>
+              </div>
+              <div className="text-right">
+                <button className="p-2 rounded-md bg-red-500">
+                  Request Delete
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </>
   );
 }

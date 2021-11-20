@@ -62,7 +62,7 @@ function UIRenderer({ UI, role, page }) {
         />
         {/**main content */}
         <div
-          className="w-full bg-gray-50 overflow-hidden overflow-y-auto p-4"
+          className="w-full relative bg-gray-50 overflow-hidden overflow-y-auto p-4"
           style={{
             height: "575px",
           }}

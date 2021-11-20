@@ -87,7 +87,7 @@ function AddPropertyUI() {
           response?.data?.property_code +
           "-" +
           response?.data?.id +
-          (property?.id && "&mode=update")
+          (property?.id ? "&mode=update" : "")
       );
       document.forms.add_property?.reset();
     } else if (response?.error) {

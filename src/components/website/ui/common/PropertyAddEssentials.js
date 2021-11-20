@@ -7,6 +7,8 @@ import {
   getPropertyByCode,
   updatePropertyEssential,
 } from "../../../../lib/frontend/properties";
+import { FiMinus, FiPlus } from "react-icons/fi";
+import ReactTooltip from "react-tooltip";
 
 function PropertyAddEssentials({ code }) {
   const [propertyId, setPropertyId] = useState("");
@@ -15,6 +17,7 @@ function PropertyAddEssentials({ code }) {
   const [skip, setSkip] = useState(true);
   const [back, setBack] = useState(false);
   const [essentials, setEssentials] = useState({});
+  const [customs, setCustoms] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -33,6 +36,40 @@ function PropertyAddEssentials({ code }) {
         const prpty = await getPropertyByCode(ids[0] + "-" + ids[1]);
         if (prpty?.status) {
           setEssentials(prpty?.data?.essential);
+          const lcustoms =
+            prpty.data?.essential &&
+            JSON.parse(prpty?.data?.essential?.customs);
+          lcustoms &&
+            setCustoms(
+              Object.keys(lcustoms).map((key, i) => (
+                <div className="form-element md:mr-2" key={i}>
+                  <label className="form-label flex items-center">
+                    <input
+                      type="text"
+                      name="name[]"
+                      placeholder="Untitled"
+                      defaultValue={key}
+                      onChange={() => {}}
+                      className="border-0 p-0 m-0 ring-0 focus:ring-0 font-thin text-xs"
+                    />
+                    <FiMinus
+                      className="ml-2 text-red-600 text-lg cursor-pointer"
+                      data-tip="Remove"
+                      onClick={() => deleteCustom(i)}
+                    />
+                    <ReactTooltip />
+                  </label>
+                  <input
+                    type="text"
+                    name="value[]"
+                    defaultValue={lcustoms[key]}
+                    onChange={() => {}}
+                    placeholder="eg: 1KM"
+                    className="form-input border-gray-200 rounded-md"
+                  />
+                </div>
+              ))
+            );
           setIsLoading(false);
         } else {
           console.error(prpty.error || prpty.message);
@@ -91,6 +128,44 @@ function PropertyAddEssentials({ code }) {
     setEssentials((prev) => ({ ...prev, [name]: value }));
   };
 
+  const deleteCustom = (index) => {
+    setCustoms(customs.filter((_, i) => i === index));
+  };
+
+  const addNewCustom = (e) => {
+    const template = (
+      <div
+        className="form-element md:mr-2"
+        key={customs.length > 0 ? customs.length : 0}
+      >
+        <label className="form-label flex items-center">
+          <input
+            type="text"
+            name="name[]"
+            placeholder="Untitled"
+            className="border-0 p-0 m-0 ring-0 focus:ring-0 font-thin text-xs"
+          />
+          <FiMinus
+            className="ml-2 text-red-600 text-lg cursor-pointer"
+            data-tip="Remove"
+            onClick={() =>
+              deleteCustom(customs.length > 0 ? customs.length : 0)
+            }
+          />
+          <ReactTooltip />
+        </label>
+        <input
+          type="text"
+          name="value[]"
+          placeholder="eg: 1KM"
+          className="form-input border-gray-200 rounded-md"
+        />
+      </div>
+    );
+
+    setCustoms((prev) => [...prev, template]);
+  };
+
   return (
     <>
       {isLoading && <Loader />}
@@ -116,8 +191,8 @@ function PropertyAddEssentials({ code }) {
 
         <form name="add_essentials" method="POST" onSubmit={handleSubmit}>
           <div className="mt-5">
-            <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
-              <div className="form-element">
+            <div className="grid grid-cols-1 md:grid-cols-3" id="essential-con">
+              <div className="form-element md:mr-2">
                 <label className="form-label">School</label>
                 <input
                   type="text"
@@ -128,7 +203,7 @@ function PropertyAddEssentials({ code }) {
                   className="form-input border-gray-200 rounded-md"
                 />
               </div>
-              <div className="form-element">
+              <div className="form-element md:mr-2">
                 <label className="form-label">Hospital</label>
                 <input
                   type="text"
@@ -139,7 +214,7 @@ function PropertyAddEssentials({ code }) {
                   className="form-input border-gray-200 rounded-md"
                 />
               </div>
-              <div className="form-element">
+              <div className="form-element md:mr-2">
                 <label className="form-label">Bus Stop</label>
                 <input
                   type="text"
@@ -150,10 +225,7 @@ function PropertyAddEssentials({ code }) {
                   className="form-input border-gray-200 rounded-md"
                 />
               </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
-              <div className="form-element">
+              <div className="form-element md:mr-2">
                 <label className="form-label">Airport</label>
                 <input
                   type="text"
@@ -164,7 +236,7 @@ function PropertyAddEssentials({ code }) {
                   className="form-input border-gray-200 rounded-md"
                 />
               </div>
-              <div className="form-element">
+              <div className="form-element md:mr-2">
                 <label className="form-label">Train</label>
                 <input
                   type="text"
@@ -175,7 +247,7 @@ function PropertyAddEssentials({ code }) {
                   className="form-input border-gray-200 rounded-md"
                 />
               </div>
-              <div className="form-element">
+              <div className="form-element md:mr-2">
                 <label className="form-label">Market</label>
                 <input
                   type="text"
@@ -186,9 +258,7 @@ function PropertyAddEssentials({ code }) {
                   className="form-input border-gray-200 rounded-md"
                 />
               </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
-              <div className="form-element">
+              <div className="form-element md:mr-2">
                 <label className="form-label">Restaurent</label>
                 <input
                   type="text"
@@ -199,6 +269,16 @@ function PropertyAddEssentials({ code }) {
                   className="form-input border-gray-200 rounded-md"
                 />
               </div>
+              {customs.length > 0 && customs.map((c) => c)}
+              <button
+                type="button"
+                data-tip="Add New"
+                onClick={addNewCustom}
+                className="bg-white py-10 rounded-sm border border-gray-200 flex items-center justify-center"
+              >
+                <FiPlus />
+                <ReactTooltip />
+              </button>
             </div>
           </div>
           <div className="text-right w-full">

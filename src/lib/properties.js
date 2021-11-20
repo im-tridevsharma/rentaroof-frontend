@@ -41,6 +41,26 @@ export const assignPropertyVerification = async (data) => {
   return res;
 };
 
+export const rejectPropertyDeleteReqeust = async (id) => {
+  const token = getToken();
+  let res = false;
+
+  if (id && token) {
+    await server
+      .get(`/admin/properties/reject_delete_request/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        res = response?.data;
+      })
+      .catch((error) => {
+        res = error?.response?.data;
+      });
+  }
+
+  return res;
+};
+
 export const getPropertyById = async (id) => {
   const token = getToken();
   let property = false;

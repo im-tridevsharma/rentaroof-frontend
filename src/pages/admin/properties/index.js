@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { FiAlertCircle, FiEye, FiRefreshCw, FiTrash } from "react-icons/fi";
+import {
+  FiAlertCircle,
+  FiEye,
+  FiInfo,
+  FiRefreshCw,
+  FiTrash,
+} from "react-icons/fi";
 import Datatable from "../../../components/datatable";
 import SectionTitle from "../../../components/section-title";
 import getProperties, { deleteProperty } from "../../../lib/properties";
@@ -49,7 +55,7 @@ function Index() {
     }
   };
 
-  const delPage = async (id) => {
+  const delProperty = async (id) => {
     // eslint-disable-next-line no-restricted-globals
     const go = confirm("It will delete it permanantly!");
     if (go && id) {
@@ -65,14 +71,14 @@ function Index() {
     }
   };
 
-  const AddPage = () => {
+  const AddProperty = () => {
     return (
       <div className="flex items-center">
-        <Link href="/admin/properties/add">
+        {/* <Link href="/admin/properties/add">
           <a className="btn btn-default bg-blue-500 text-white rounded-lg hover:bg-blue-400">
             Add New
           </a>
-        </Link>
+        </Link> */}
         <button
           onClick={() => setIsRefresh(!isRefresh)}
           data-tip="Refresh"
@@ -95,11 +101,11 @@ function Index() {
       <SectionTitle
         title="Properties"
         subtitle="All Properties"
-        right={<AddPage />}
+        right={<AddProperty />}
       />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
         {properties?.length ? (
-          <Table properties={properties} view={viewPage} del={delPage} />
+          <Table properties={properties} view={viewPage} del={delProperty} />
         ) : (
           <p className="mt-5">No properties found!</p>
         )}
@@ -154,6 +160,16 @@ const Table = ({ properties, view, del }) => {
       Cell: (props) => {
         return (
           <>
+            {properties.filter((p) => p.id === props.value)[0].is_deleted ===
+              1 && (
+              <button
+                onClick={() => view(props.value)}
+                data-tip="Property Delete Requested"
+                className="btn px-2 py-1 mr-2 bg-red-400 rounded-md hover:bg-red-500"
+              >
+                <FiInfo />
+              </button>
+            )}
             <button
               onClick={() => del(props.value)}
               data-tip="Remove"

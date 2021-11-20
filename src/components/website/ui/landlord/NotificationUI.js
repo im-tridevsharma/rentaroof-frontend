@@ -1,5 +1,6 @@
 import moment from "moment";
 import React from "react";
+import Link from "next/link";
 import { FiEye } from "react-icons/fi";
 import { MdClose } from "react-icons/md";
 import ReactTooltip from "react-tooltip";

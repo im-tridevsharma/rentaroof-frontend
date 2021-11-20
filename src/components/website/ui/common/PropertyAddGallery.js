@@ -69,7 +69,7 @@ function PropertyAddGallery({ code }) {
       router.push(
         "?step=next&next=ADDRESS&id=" +
           code +
-          (router.query?.mode && "&mode=" + router.query.mode)
+          (router.query?.mode ? "&mode=" + router.query.mode : "")
       );
     }
   };

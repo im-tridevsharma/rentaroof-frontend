@@ -55,7 +55,7 @@ function PropertyAddAmenities({ code }) {
       router.push(
         "?step=next&next=ESSENTIALS&id=" +
           code +
-          (router.query.mode === "update" && "&mode=" + router.query.mode)
+          (router.query.mode === "update" ? "&mode=" + router.query.mode : "")
       );
     }
   };
