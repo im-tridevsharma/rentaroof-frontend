@@ -9,7 +9,11 @@ import { getConversations, getMessages } from "../../../../lib/frontend/share";
 import Loader from "../../../loader";
 import { __d } from "../../../../server";
 import moment from "moment";
-import Picker from "emoji-picker-react";
+
+const Picker = dynamic(
+  () => import("../../../../../node_modules/emoji-picker-react/dist/index"),
+  { ssr: false }
+);
 
 function ChatUI() {
   const messageBoxRef = useRef(null);
