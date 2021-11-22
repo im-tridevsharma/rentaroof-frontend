@@ -3,7 +3,6 @@ import Card from "../../Card";
 import {
   getLandlordMeetings,
   rescheduleMetting,
-  updateMeetingStatus,
 } from "../../../../lib/frontend/meetings";
 import { __d } from "../../../../server";
 import Loader from "../../../loader";
@@ -11,6 +10,9 @@ import moment from "moment";
 import { FaTimes } from "react-icons/fa";
 import { FiMail, FiPhoneCall } from "react-icons/fi";
 import ReactTooltip from "react-tooltip";
+import { createConversation } from "../../../../lib/frontend/share";
+import { ToastContainer, toast } from "react-toastify";
+import Router from "next/router";
 
 function AppointmentUI() {
   const [appointments, setAppointments] = useState([]);
@@ -58,7 +60,7 @@ function AppointmentUI() {
           : setAppointmentHistory([]);
         setIsLoading(false);
       } else {
-        console.error(response?.error || response?.message);
+        toast.error(response?.error || response?.message);
         setIsLoading(false);
       }
     };
@@ -72,15 +74,23 @@ function AppointmentUI() {
     }
   }, [reload]);
 
-  const changeStatus = async (status, id) => {
-    setIsLoading(true);
-    const response = await updateMeetingStatus(id, { status });
-    if (response?.status) {
-      setReload(Date.now());
-      setIsLoading(false);
-    } else {
-      console.error(response?.error || response?.data);
-      setIsLoading(false);
+  const makeConversation = async (receiver) => {
+    if (user?.id && receiver) {
+      setIsLoading(true);
+      const res = await createConversation({
+        sender_id: user?.id,
+        receiver_id: receiver,
+      });
+      if (res?.status) {
+        setIsLoading(false);
+        toast.success(
+          "Conversation created successfully. Redirecting to chat!"
+        );
+        Router.push(`/${user?.role}/chat`);
+      } else {
+        toast.error(res?.error || res?.message);
+        setIsLoading(false);
+      }
     }
   };
 
@@ -95,7 +105,7 @@ function AppointmentUI() {
       setIsLoading(false);
       setReschedule(false);
     } else {
-      console.error(response?.error || response?.data);
+      toast.error(response?.error || response?.data);
       setIsLoading(false);
     }
   };
@@ -103,6 +113,7 @@ function AppointmentUI() {
   return (
     <>
       {isLoading && <Loader />}
+      <ToastContainer />
       <div className="flex flex-col">
         {/**cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
@@ -204,6 +215,17 @@ function AppointmentUI() {
                           >
                             Details
                           </button>
+                          {a?.created_by_role !== "guest" &&
+                            a.meeting_status === "visited" && (
+                              <button
+                                onClick={() =>
+                                  makeConversation(a.created_by_id)
+                                }
+                                className="px-2 text-green-500"
+                              >
+                                Create a Conversation
+                              </button>
+                            )}
                         </div>
                       </td>
                     </tr>

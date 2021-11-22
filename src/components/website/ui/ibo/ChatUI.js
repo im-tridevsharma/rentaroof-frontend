@@ -5,96 +5,201 @@ import ChatMessage from "../../ChatMessage";
 import ChatUser from "../../ChatUser";
 import { ToastContainer, toast } from "react-toastify";
 import { sendMessage } from "../../../../lib/frontend/auth";
+import { getConversations, getMessages } from "../../../../lib/frontend/share";
+import Loader from "../../../loader";
+import { __d } from "../../../../server";
+import moment from "moment";
+import Picker from "emoji-picker-react";
 
 function ChatUI() {
   const messageBoxRef = useRef(null);
+  const [showEmoji, setShowEmoji] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedUser, setSelectedUser] = useState(false);
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      name: "Kirshna Sharma",
-      type: "You have new message",
-      message:
-        "Hi, this is your message content. Please reply with your concern.",
-      icon: "/icons/user-dashboard/man.png",
-      time: Date.now(),
-      online: false,
-    },
-    {
-      id: 2,
-      name: "Mitesh Sharma",
-      type: "You have new message",
-      message:
-        "Hi, this is your message content. Please reply with your concern.",
-      icon: "/icons/user-dashboard/man.png",
-      time: Date.now(),
-      online: false,
-    },
-    {
-      id: 3,
-      name: "Muskan Pundhir",
-      type: "About Property",
-      message:
-        "Hi, this is your message content. Please reply with your concern.",
-      icon: "/icons/user-dashboard/man.png",
-      time: Date.now(),
-      online: true,
-    },
-    {
-      id: 5,
-      name: "Keshav Jha",
-      type: "3BHK with 2Bath attached",
-      message:
-        "Hi, this is your message content. Please reply with your concern.",
-      icon: "/icons/user-dashboard/man.png",
-      time: Date.now(),
-      online: false,
-    },
-  ]);
+  const [conversationId, setConversationId] = useState(0);
+  const [conversations, setConversations] = useState([]);
+  const [profile, setProfile] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [isMsgLoading, setIsMsgLoading] = useState(false);
+
+  const onEmojiClick = (e, emojiObject) => {
+    e.preventDefault();
+    document.forms.msgForm.message.value += emojiObject?.emoji;
+  };
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      if (conversationId) {
+        setIsMsgLoading(true);
+        const res = await getMessages(conversationId);
+        if (res?.status) {
+          setIsMsgLoading(false);
+          setMessages(res?.data);
+          messageBoxRef.current &&
+            messageBoxRef.current.scrollIntoView({ behavior: "smooth" });
+        } else {
+          toast.error(res?.error || res?.message);
+          setIsMsgLoading(false);
+        }
+      }
+    };
+    fetchMessages();
+
+    return () => setMessages([]);
+  }, [conversationId]);
+
+  useEffect(() => {
+    const u = localStorage.getItem("LU")
+      ? JSON.parse(__d(localStorage.getItem("LU")))
+      : false;
+    if (u) {
+      setProfile(u);
+    }
+
+    const fetchConversations = async () => {
+      setIsLoading(true);
+      const res = await getConversations();
+      if (res?.status) {
+        setIsLoading(false);
+        setConversations(res?.data);
+      } else {
+        toast.error(res?.message || res?.error);
+        setIsLoading(false);
+      }
+    };
+    fetchConversations();
+
+    return () => setConversations([]);
+  }, []);
 
   useEffect(() => {
     messageBoxRef.current &&
       messageBoxRef.current.scrollIntoView({ behavior: "smooth" });
+
     if (typeof Echo !== "undefined") {
-      Echo.join("chat")
-        .here((users) => {
-          console.log(users);
-        })
+      Echo.join("chat-screen")
         .joining((user) => {
-          toast.success(`${user.first} is available to chat.`);
+          //
         })
         .leaving((user) => {
-          toast.error(`${user.first} leaved chat.`);
+          //
         })
-        .listen("NewChatMessage", (e) => {
-          console.log(e);
+        .listen("MessageSentEvent", (e) => {
+          console.log("Global >> ", e);
         });
     }
 
     return () => {
       if (typeof Echo !== "undefined") {
-        Echo.leave("chat");
+        Echo.leave("chat-screen");
       }
     };
   }, []);
 
-  const startChat = (user) => {
-    if (user) {
+  const typing = () => {
+    if (typeof Echo !== "undefined") {
+      Echo.private(`conversation.${conversationId}`).whisper("typing", {
+        conversationId,
+      });
+    }
+  };
+
+  function debounce(func, timeout = 300) {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func.apply(this, args);
+      }, timeout);
+    };
+  }
+
+  const handleTyping = debounce(() => typing());
+
+  const startChat = (conversation, user) => {
+    setShowEmoji(false);
+    if (conversation && user) {
       setSelectedUser(user);
+      setConversationId(conversation?.id);
+      if (typeof Echo !== "undefined") {
+        if (
+          Echo.connector.channels.hasOwnProperty(
+            `private-conversation.${conversationId}`
+          )
+        ) {
+          Echo.leave(`conversation.${conversationId}`);
+        }
+        Echo.private(`conversation.${conversation.id}`)
+          .listen("MessageSentEvent", (e) => {
+            setMessages((prev) => {
+              if (
+                Symbol.iterator in Object(prev[moment().format("YYYY-MM-DD")])
+              ) {
+                return {
+                  ...prev,
+                  [moment().format("YYYY-MM-DD")]: [
+                    ...prev[moment().format("YYYY-MM-DD")],
+                    e?.message,
+                  ],
+                };
+              } else {
+                return {
+                  ...prev,
+                  [moment().format("YYYY-MM-DD")]: [e?.message],
+                };
+              }
+            });
+            setConversations(
+              conversations.map((c) =>
+                c.id === e.message?.conversation_id
+                  ? { ...c, last_message: e.message }
+                  : c
+              )
+            );
+            messageBoxRef.current &&
+              messageBoxRef.current.scrollIntoView({ behavior: "smooth" });
+          })
+          .listenForWhisper("typing", (user) => {
+            console.log("Typing - ", user);
+          });
+      }
     }
   };
 
   const closeChat = () => {
+    setShowEmoji(false);
     setSelectedUser(false);
+    if (typeof Echo !== "undefined") {
+      if (
+        Echo.connector.channels.hasOwnProperty(
+          `private-conversation.${conversationId}`
+        )
+      ) {
+        Echo.leave(`conversation.${conversationId}`);
+      }
+    }
+    setConversationId(0);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setShowEmoji(false);
     const value = document.forms.msgForm.message.value;
-    const res = await sendMessage({ message: value, user: selectedUser?.id });
-    console.log(res);
+    const message = {
+      conversation_id: conversationId,
+      message_type: "text",
+      sender_id: profile?.id,
+      receiver_id:
+        selectedUser?.sender_id === profile?.id
+          ? selectedUser?.receiver_id
+          : selectedUser?.sender_id,
+      message: value,
+    };
+    document.forms.msgForm.reset();
+    const res = await sendMessage(message);
     if (res?.status) {
-      document.forms.msgForm.message.value = "";
+      messageBoxRef.current &&
+        messageBoxRef.current.scrollIntoView({ behavior: "smooth" });
     } else {
       toast.error(res.message);
     }
@@ -102,6 +207,7 @@ function ChatUI() {
 
   return (
     <>
+      {isLoading && <Loader />}
       <ToastContainer />
       <div
         className="flex shadow-sm border-gray-300 bg-white"
@@ -134,16 +240,31 @@ function ChatUI() {
             className="flex flex-col py-4 px-2 overflow-hidden overflow-y-auto"
             style={{ height: "calc(100% - 30px)" }}
           >
-            {users?.length > 0 &&
-              users.map((user, i) => (
+            {conversations?.length > 0 ? (
+              conversations.map((user, i) => (
                 <ChatUser
-                  onClick={() => startChat(user)}
-                  user={user}
+                  onClick={() =>
+                    startChat(
+                      user,
+                      user?.sender_id === profile?.id
+                        ? user?.receiver
+                        : user?.sender
+                    )
+                  }
+                  user={
+                    user?.sender_id === profile?.id
+                      ? user?.receiver
+                      : user?.sender
+                  }
+                  message={user?.last_message}
                   key={i}
                   p={i}
-                  selected={selectedUser && selectedUser.id === user.id}
+                  selected={conversationId === user.id}
                 />
-              ))}
+              ))
+            ) : (
+              <p>No conversations found!</p>
+            )}
           </div>
         </div>
         {/**right side chats */}
@@ -159,16 +280,21 @@ function ChatUI() {
               >
                 <div className="flex items-center">
                   <img
-                    src="/icons/user-dashboard/man.png"
-                    alt="user"
-                    className="w-8 h-8 object-contain"
+                    src={
+                      selectedUser?.profile_pic ||
+                      "/images/website/no_photo.png"
+                    }
+                    alt={selectedUser?.first}
+                    className="w-8 h-8 object-contain rounded-full"
                     style={{ maxWidth: "32px" }}
                   />
                   <p className="ml-2 flex items-center">
-                    <span>{selectedUser.name}</span>
+                    <span>{`${selectedUser.first} ${selectedUser.last}`}</span>
                     <span
                       className={`w-2 h-2 rounded-full ${
-                        selectedUser.online ? "bg-green-400" : "bg-gray-400"
+                        selectedUser.is_logged_in
+                          ? "bg-green-400"
+                          : "bg-gray-400"
                       } ml-2`}
                     ></span>
                   </p>
@@ -185,36 +311,76 @@ function ChatUI() {
                 className="flex flex-col leading-4 relative"
                 style={{ fontFamily: "Opensans-regular" }}
               >
+                {isMsgLoading && <p>Loading messages...</p>}
                 {/**chats */}
                 <div
                   className="py-2 overflow-hidden overflow-y-auto"
-                  style={{ height: "calc(425px)" }}
+                  style={{ height: "calc(420px)" }}
                 >
-                  <span className="block text-center text-gray-400 mb-4 uppercase text-2xs mt-2">
-                    Monday, 2 August
-                  </span>
-                  <ChatMessage />
-                  <ChatMessage reverse={true} />
+                  {Object.keys(messages).length > 0 &&
+                    Object.keys(messages).map((key) => (
+                      <>
+                        <span
+                          key={Math.random()}
+                          className="block text-center text-gray-400 mb-4 uppercase text-2xs mt-2"
+                        >
+                          {moment(key).format("DD-MM-YYYY")}
+                        </span>
+                        {messages[key].length > 0 ? (
+                          messages[key].map((m) => (
+                            <>
+                              {m?.sender_id !== profile?.id ? (
+                                <ChatMessage
+                                  key={m?.id}
+                                  message={m}
+                                  user={selectedUser}
+                                />
+                              ) : (
+                                <ChatMessage
+                                  reverse={true}
+                                  key={m?.id}
+                                  message={m}
+                                  user={profile}
+                                />
+                              )}
+                            </>
+                          ))
+                        ) : (
+                          <p>No messages found!</p>
+                        )}
+                      </>
+                    ))}
 
                   <div ref={messageBoxRef}></div>
                 </div>
                 {/**send box */}
-                <form onSubmit={handleSubmit} name="msgForm">
+                <form
+                  onSubmit={handleSubmit}
+                  name="msgForm"
+                  className="relative block"
+                >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center flex-grow mr-5 p-1 bg-gray-200 rounded-sm pr-2">
-                      <input
-                        type="text"
+                      <textarea
                         placeholder="Type your message here..."
                         autoFocus={true}
+                        autoComplete="off"
                         name="message"
+                        onChange={handleTyping}
                         className="border-none w-full bg-transparent focus:ring-0 text-sm text-gray-500"
-                      />
+                      ></textarea>
                       <img
                         src="/icons/user-dashboard/smile.png"
                         alt="emoji"
+                        onClick={() => setShowEmoji(!showEmoji)}
                         className="ml-2 w-5 h-5 object-contain cursor-pointer"
                         style={{ maxWidth: "20px" }}
                       />
+                      {showEmoji && (
+                        <div className="absolute right-0 bottom-20">
+                          <Picker onEmojiClick={onEmojiClick} />
+                        </div>
+                      )}
                       <img
                         src="/icons/user-dashboard/attachment.png"
                         alt="attachment"
@@ -241,7 +407,7 @@ function ChatUI() {
                 fontFamily: "Opensans-semi-bold",
               }}
             >
-              Select User to start a Conversation.
+              Select a Conversation to start Chat.
             </p>
           )}
         </div>

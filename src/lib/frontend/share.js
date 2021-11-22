@@ -386,3 +386,54 @@ export const getUserReferrals = async (options = "") => {
     });
   return status;
 };
+
+export const getConversations = async () => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let conversation = false;
+  await server
+    .get(`/chat/conversations`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      conversation = response?.data;
+    })
+    .catch((error) => {
+      conversation = error?.response?.data;
+    });
+  return conversation;
+};
+
+export const createConversation = async (data) => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let conversation = false;
+  await server
+    .post(`/chat/conversations`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      conversation = response?.data;
+    })
+    .catch((error) => {
+      conversation = error?.response?.data;
+    });
+  return conversation;
+};
+
+export const getMessages = async (conversationId) => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let message = false;
+  await server
+    .get(`/chat/messages/${conversationId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      message = response?.data;
+    })
+    .catch((error) => {
+      message = error?.response?.data;
+    });
+  return message;
+};
