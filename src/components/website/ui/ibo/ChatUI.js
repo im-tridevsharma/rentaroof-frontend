@@ -187,6 +187,9 @@ function ChatUI() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const currentConversation = conversations.filter(
+      (c) => c.id === conversationId
+    )[0];
     setShowEmoji(false);
     const value = document.forms.msgForm.message.value;
     const message = {
@@ -194,9 +197,9 @@ function ChatUI() {
       message_type: "text",
       sender_id: profile?.id,
       receiver_id:
-        selectedUser?.sender_id === profile?.id
-          ? selectedUser?.receiver_id
-          : selectedUser?.sender_id,
+        currentConversation?.sender_id === profile?.id
+          ? currentConversation?.receiver_id
+          : currentConversation?.sender_id,
       message: value,
     };
     document.forms.msgForm.reset();

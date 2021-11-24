@@ -10,7 +10,9 @@ import { FiAlertTriangle, FiCheckCircle } from "react-icons/fi";
 function ProfileUI() {
   const [isLoading, setIsLoading] = useState(false);
   const [profilePic, setProfilePic] = useState("");
+  const [signature, setSignature] = useState("");
   const [fileError, setFileError] = useState("");
+  const [signError, setSignError] = useState("");
   const [profile, setProfile] = useState({});
   const [submitMode, setSubmitMode] = useState("save");
   const [errors, setErrors] = useState(false);
@@ -32,6 +34,7 @@ function ProfileUI() {
         setIsLoading(false);
         setProfile(response?.user);
         setProfilePic(response?.user?.profile_pic);
+        setSignature(response?.user?.signature);
       } else {
         console.error(response?.error || response?.message);
         setIsLoading(false);
@@ -54,6 +57,26 @@ function ProfileUI() {
         setFileError("Image size must be between 70kb to 500kb only.");
       } else {
         setFileError("");
+        reader.readAsDataURL(file);
+      }
+    }
+  };
+
+  const handleSignChange = (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.addEventListener("load", () => {
+      setSignature(reader.result);
+    });
+    if (file) {
+      setSignError("");
+      if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
+        setSignError("Image must be of these formats : png, jpg, jpeg");
+      } else if (file.size < 70000 || file.size > 500000) {
+        setSignError("Image size must be between 70kb to 500kb only.");
+      } else {
+        setSignError("");
         reader.readAsDataURL(file);
       }
     }
@@ -152,54 +175,107 @@ function ProfileUI() {
           onSubmit={submitHandler}
         >
           <input type="hidden" name="_method" value="PUT" />
-          {/**add your photo */}
-          <div className="flex md:flex-row flex-col">
-            <div className="flex items-center md:flex-row flex-col">
-              <p
-                className="md:w-20 w-full text-center md:text-left"
-                style={{ fontFamily: "Opensans-semi-bold" }}
-              >
-                Add Your Photo
-              </p>
-              <div
-                className="w-28 h-28 border-gray-200 rounded-md overflow-hidden"
-                style={{ borderWidth: "1px" }}
-              >
-                {profilePic && (
-                  <img
-                    src={profilePic}
-                    alt="profile_pic"
-                    className="w-full h-full object-cover"
+          <div className="flex md:flex-row flex-col items-center justify-between">
+            {/**add your photo */}
+            <div className="flex md:flex-row flex-col">
+              <div className="flex items-center md:flex-row flex-col">
+                <p
+                  className="md:w-20 w-full text-center md:text-left"
+                  style={{ fontFamily: "Opensans-semi-bold" }}
+                >
+                  Add Your Photo
+                </p>
+                <div
+                  className="w-28 h-28 border-gray-200 rounded-md overflow-hidden"
+                  style={{ borderWidth: "1px" }}
+                >
+                  {profilePic && (
+                    <img
+                      src={profilePic}
+                      alt="profile_pic"
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                </div>
+              </div>
+              {/**choose file button*/}
+              <div className="flex flex-col justify-end items-center md:items-start mt-5 md:ml-10 ml-0">
+                <label
+                  className="mb-2 px-5 py-3 rounded-md  text-white cursor-pointer"
+                  style={{
+                    backgroundColor: "var(--blue)",
+                    fontFamily: "Opensans-semi-bold",
+                  }}
+                  htmlFor="profile_pic"
+                >
+                  <input
+                    type="file"
+                    name="profile_pic"
+                    id="profile_pic"
+                    hidden
+                    onChange={handleFileChange}
                   />
-                )}
+                  Choose a file
+                </label>
+                <div
+                  className="leading-4 text-gray-400 text-xs"
+                  style={{ fontFamily: "Opensans-regular" }}
+                >
+                  <p>Accepatable formats jpg, png only</p>
+                  <p>Max file size is 500kb and Min size is 70kb</p>
+                  {fileError && <p className="text-red-400">{fileError}</p>}
+                </div>
               </div>
             </div>
-            {/**choose file button*/}
-            <div className="flex flex-col justify-end items-center md:items-start mt-5 md:ml-10 ml-0">
-              <label
-                className="mb-2 px-5 py-3 rounded-md  text-white cursor-pointer"
-                style={{
-                  backgroundColor: "var(--blue)",
-                  fontFamily: "Opensans-semi-bold",
-                }}
-                htmlFor="profile_pic"
-              >
-                <input
-                  type="file"
-                  name="profile_pic"
-                  id="profile_pic"
-                  hidden
-                  onChange={handleFileChange}
-                />
-                Choose a file
-              </label>
-              <div
-                className="leading-4 text-gray-400 text-xs"
-                style={{ fontFamily: "Opensans-regular" }}
-              >
-                <p>Accepatable formats jpg, png only</p>
-                <p>Max file size is 500kb and Min size is 70kb</p>
-                {fileError && <p className="text-red-400">{fileError}</p>}
+            {/**add your signature */}
+            <div className="flex md:flex-row mt-2 md:mt-0 flex-col">
+              <div className="flex items-center md:flex-row flex-col">
+                <p
+                  className="md:w-20 w-full text-center md:text-left"
+                  style={{ fontFamily: "Opensans-semi-bold" }}
+                >
+                  Add Your Signature
+                </p>
+                <div
+                  className="w-28 h-28 border-gray-200 rounded-md overflow-hidden"
+                  style={{ borderWidth: "1px" }}
+                >
+                  {signature && (
+                    <img
+                      src={signature}
+                      alt="signature"
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                </div>
+              </div>
+              {/**choose file button*/}
+              <div className="flex flex-col justify-end items-center md:items-start mt-5 md:ml-10 ml-0">
+                <label
+                  className="mb-2 px-5 py-3 rounded-md  text-white cursor-pointer"
+                  style={{
+                    backgroundColor: "var(--blue)",
+                    fontFamily: "Opensans-semi-bold",
+                  }}
+                  htmlFor="signature"
+                >
+                  <input
+                    type="file"
+                    name="signature"
+                    id="signature"
+                    hidden
+                    onChange={handleSignChange}
+                  />
+                  Choose a file
+                </label>
+                <div
+                  className="leading-4 text-gray-400 text-xs"
+                  style={{ fontFamily: "Opensans-regular" }}
+                >
+                  <p>Accepatable formats jpg, png only</p>
+                  <p>Max file size is 500kb and Min size is 70kb</p>
+                  {signError && <p className="text-red-400">{signError}</p>}
+                </div>
               </div>
             </div>
           </div>

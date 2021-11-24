@@ -56,7 +56,7 @@ function CreateTemplate() {
         <div className="w-full mb-4">
           <Alert
             icon={<FiCheck className="mr-2" />}
-            color="bg-white dark:bg-gray-800 border-green-500 text-green-500"
+            color="bg-white dark:bg-gray-800 border-green-500 "
             borderLeft
             raised
           >
@@ -67,32 +67,34 @@ function CreateTemplate() {
       <div className="px-2 py-1 bg-white rounded-md">
         <b className="mb-1 block">Variables to use</b>
         <div className="flex items-center flex-wrap">
-          <code className="text-blue-500 m-1">[[TENANT_FIRST_NAME]]</code>
-          <code className="text-blue-500 m-1">[[TENANT_LAST_NAME]]</code>
-          <code className="text-blue-500 m-1">[[TENANT_FULL_NAME]]</code>
-          <code className="text-blue-500 m-1">[[TENANT_MOBILE]]</code>
-          <code className="text-blue-500 m-1">[[TENANT_EMAIL]]</code>
-          <code className="text-blue-500 m-1">[[TENANT_FULL_ADDRESS]]</code>
-          <code className="text-red-500 m-1">[[LANDLORD_FIRST_NAME]]</code>
-          <code className="text-red-500 m-1">[[LANDLORD_LAST_NAME]]</code>
-          <code className="text-red-500 m-1">[[LANDLORD_FULL_NAME]]</code>
-          <code className="text-red-500 m-1">[[LANDLORD_EMAIL]]</code>
-          <code className="text-red-500 m-1">[[LANDLORD_MOBILE]]</code>
-          <code className="text-red-500 m-1">[[LANDLORD_FULL_ADDRESS]]</code>
-          <code className="text-green-500 m-1">[[IBO_FIRST_NAME]]</code>
-          <code className="text-green-500 m-1">[[IBO_LAST_NAME]]</code>
-          <code className="text-green-500 m-1">[[IBO_FULL_NAME]]</code>
-          <code className="text-green-500 m-1">[[IBO_EMAIL]]</code>
-          <code className="text-green-500 m-1">[[IBO_MOBILE]]</code>
-          <code className="text-green-500 m-1">[[IBO_FULL_ADDRESS]]</code>
-          <code className="text-yellow-500 m-1">[[MONTHLY_RENT]]</code>
-          <code className="text-yellow-500 m-1">[[MAINTENANCE_CHARGE]]</code>
-          <code className="text-yellow-500 m-1">[[MAINTENANCE_DURATION]]</code>
-          <code className="text-yellow-500 m-1">[[SECURITY_DEPOSIT]]</code>
-          <code className="text-yellow-500 m-1">[[CONTRACT_DURATION]]</code>
-          <code className="text-yellow-500 m-1">[[START_DATE]]</code>
-          <code className="text-yellow-500 m-1">[[END_DATE]]</code>
-          <code className="text-yellow-500 m-1">[[NEXT_DUE]]</code>
+          <code className=" m-1">[[TENANT_FIRST_NAME]]</code>
+          <code className=" m-1">[[TENANT_LAST_NAME]]</code>
+          <code className=" m-1">[[TENANT_FULL_NAME]]</code>
+          <code className=" m-1">[[TENANT_MOBILE]]</code>
+          <code className=" m-1">[[TENANT_EMAIL]]</code>
+          <code className=" m-1">[[TENANT_FULL_ADDRESS]]</code>
+          <code className=" m-1">[[TENANT_SIGNATURE]]</code>
+          <code className=" m-1">[[LANDLORD_FIRST_NAME]]</code>
+          <code className=" m-1">[[LANDLORD_LAST_NAME]]</code>
+          <code className=" m-1">[[LANDLORD_FULL_NAME]]</code>
+          <code className=" m-1">[[LANDLORD_EMAIL]]</code>
+          <code className=" m-1">[[LANDLORD_MOBILE]]</code>
+          <code className=" m-1">[[LANDLORD_FULL_ADDRESS]]</code>
+          <code className=" m-1">[[LANDLORD_SIGNATURE]]</code>
+          <code className=" m-1">[[IBO_FIRST_NAME]]</code>
+          <code className=" m-1">[[IBO_LAST_NAME]]</code>
+          <code className=" m-1">[[IBO_FULL_NAME]]</code>
+          <code className=" m-1">[[IBO_EMAIL]]</code>
+          <code className=" m-1">[[IBO_MOBILE]]</code>
+          <code className=" m-1">[[IBO_FULL_ADDRESS]]</code>
+          <code className=" m-1">[[MONTHLY_RENT]]</code>
+          <code className=" m-1">[[MAINTENANCE_CHARGE]]</code>
+          <code className=" m-1">[[MAINTENANCE_DURATION]]</code>
+          <code className=" m-1">[[SECURITY_DEPOSIT]]</code>
+          <code className=" m-1">[[CONTRACT_DURATION]]</code>
+          <code className=" m-1">[[START_DATE]]</code>
+          <code className=" m-1">[[END_DATE]]</code>
+          <code className=" m-1">[[NEXT_DUE]]</code>
         </div>
       </div>
 

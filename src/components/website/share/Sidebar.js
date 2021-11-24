@@ -35,7 +35,7 @@ function Sidebar({ name, page, sideBarToggled, isHide, setIsHide }) {
       <div
         className={`sm:relative absolute ${
           isHide && "hidden"
-        } bg-white flex flex-col transition-all duration-500 ease h-screen overflow-hidden z-40 ${
+        } bg-white flex flex-col transition-all duration-500 ease h-screen  z-40 ${
           sideBarToggled ? "w-16" : "w-64"
         }`}
         style={{ minWidth: sideBarToggled ? "64px" : "256px" }}

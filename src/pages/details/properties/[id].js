@@ -818,7 +818,7 @@ function Index({ id }) {
                       type="text"
                       id="name"
                       name="name"
-                      defaultValue={`${profile?.first} ${profile?.last}`}
+                      defaultValue={`${profile?.fullname} ${profile?.last}`}
                       onChange={() => {}}
                       className="form-input border-gray-200 rounded-md pl-10 h-11"
                       style={{ fontSize: ".95rem" }}
