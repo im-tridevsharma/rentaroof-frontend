@@ -50,6 +50,10 @@ function PropertyAddAddress({ code }) {
         const prpty = await getPropertyByCode(ids[0] + "-" + ids[1]);
         if (prpty?.status) {
           setAddress(prpty?.data?.address);
+          if (countries && states && cities) {
+            filterState(prpty?.data?.address?.country);
+            filterCity(prpty?.data?.address?.state);
+          }
           setIsLoading(false);
         } else {
           console.error(prpty.error || prpty.message);
@@ -61,8 +65,13 @@ function PropertyAddAddress({ code }) {
   }, []);
 
   const filterState = (e) => {
-    e.preventDefault();
-    const country_id = Number(e.target.value);
+    let country_id = null;
+    if (typeof e !== "number") {
+      e.preventDefault();
+      country_id = Number(e.target.value);
+    } else {
+      country_id = address?.country;
+    }
     country_id
       ? setFilteredState(
           states.filter((item) => item.country_id === country_id)
@@ -71,8 +80,13 @@ function PropertyAddAddress({ code }) {
   };
 
   const filterCity = (e) => {
-    e.preventDefault();
-    const state_id = Number(e.target.value);
+    let state_id = null;
+    if (typeof e !== "number") {
+      e.preventDefault();
+      state_id = Number(e.target.value);
+    } else {
+      state_id = address?.state;
+    }
     state_id
       ? setFilteredCity(cities.filter((item) => item.state_id === state_id))
       : setFilteredCity([]);
@@ -237,14 +251,17 @@ function PropertyAddAddress({ code }) {
               <label className="form-label">Country</label>
               <select
                 name="country"
-                defaultValue={address?.country}
                 className="form-input border-gray-200 rounded-md -mt-1"
                 onChange={filterState}
               >
                 <option value="">Select</option>
                 {countries?.length &&
                   countries.map((item, index) => (
-                    <option key={index} value={item.id}>
+                    <option
+                      key={index}
+                      value={item.id}
+                      selected={item.id === address?.country ? true : false}
+                    >
                       {item.name}
                     </option>
                   ))}
@@ -254,14 +271,17 @@ function PropertyAddAddress({ code }) {
               <label className="form-label">State</label>
               <select
                 name="state"
-                defaultValue={address?.state}
                 className="form-input border-gray-200 rounded-md -mt-1"
                 onChange={filterCity}
               >
                 <option value="">Select</option>
                 {filteredState?.length &&
                   filteredState.map((item, index) => (
-                    <option key={index} value={item.id}>
+                    <option
+                      key={index}
+                      value={item.id}
+                      selected={item.id === address?.state ? true : false}
+                    >
                       {item.name}
                     </option>
                   ))}
@@ -271,14 +291,17 @@ function PropertyAddAddress({ code }) {
               <label className="form-label">City</label>
               <select
                 name="city"
-                defaultValue={address?.city}
                 onChange={inputHandler}
                 className="form-input border-gray-200 rounded-md -mt-1"
               >
                 <option value="">Select</option>
                 {filteredCity?.length &&
                   filteredCity.map((item, index) => (
-                    <option key={index} value={item.id}>
+                    <option
+                      key={index}
+                      value={item.id}
+                      selected={item.id === address?.city ? true : false}
+                    >
                       {item.name}
                     </option>
                   ))}

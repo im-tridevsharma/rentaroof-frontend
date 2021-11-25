@@ -16,7 +16,12 @@ import {
 } from "../../../lib/frontend/properties";
 import Loader from "../../../components/loader";
 import moment from "moment";
-import { FaCheckCircle, FaDirections, FaTimes } from "react-icons/fa";
+import {
+  FaCheckCircle,
+  FaDirections,
+  FaInfoCircle,
+  FaTimes,
+} from "react-icons/fa";
 import EssentialItem from "../../../components/website/EssentialItem";
 import { __d } from "../../../server";
 import { schedulePropertyVisit } from "../../../lib/frontend/properties";
@@ -29,17 +34,27 @@ import {
 } from "@react-google-maps/api";
 import ReactTooltip from "react-tooltip";
 import { ToastContainer, toast } from "react-toastify";
+import { shallowEqual, useSelector } from "react-redux";
 
 function Index({ id }) {
+  const { website } = useSelector(
+    (state) => ({
+      website: state.website,
+    }),
+    shallowEqual
+  );
+
   const router = useRouter();
   const [isSaved, setIsSaved] = useState(false);
   const [propertyCode, setPropertyCode] = useState(null);
+  const [termsAndCondition, setTermsAndCondition] = useState(false);
   const [property, setProperty] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("key-features");
   const [essential, setEssential] = useState(null);
   const [gallery, setGallery] = useState([]);
   const [amenities, setAmenities] = useState(null);
+  const [preferences, setPreferences] = useState(null);
   const [address, setAddress] = useState(null);
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(false);
@@ -93,6 +108,9 @@ function Index({ id }) {
       if (response?.data.posted_by_data) {
         if (response?.data.amenities_data) {
           setAmenities(response?.data.amenities_data);
+        }
+        if (response?.data.preferences_data) {
+          setPreferences(response?.data.preferences_data);
         }
         if (response?.data.address) {
           setAddress(response?.data.address);
@@ -458,7 +476,7 @@ function Index({ id }) {
                   }}
                   onClick={() => setActiveTab("amenities")}
                 >
-                  Amenities
+                  Amenities & Preferences
                 </button>
                 <button
                   className="border-b-2 border-transparent"
@@ -496,25 +514,49 @@ function Index({ id }) {
                 )}
 
                 {activeTab === "amenities" && (
-                  <div
-                    className="grid grid-cols-2 md:grid-cols-3 mt-3"
-                    style={{ fontFamily: "Opensans-bold" }}
-                  >
-                    {amenities &&
-                      amenities.map((a, i) => (
-                        <div className="flex items-center m-1" key={i}>
-                          <img
-                            src={a?.icon || "/images/website/no_photo.png"}
-                            alt="a1"
-                            className="h-8 w-8 object-contain"
-                          />
-                          <p className="mx-3">{a?.title || "-"}</p>
-                          <span className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                            <FiCheck className="text-green-600" />
-                          </span>
-                        </div>
-                      ))}
-                  </div>
+                  <>
+                    <b style={{ fontFamily: "Opensans-semi-bold" }}>
+                      Amenities
+                    </b>
+                    <div
+                      className="grid grid-cols-2 md:grid-cols-3 mt-3"
+                      style={{ fontFamily: "Opensans-bold" }}
+                    >
+                      {amenities &&
+                        amenities.map((a, i) => (
+                          <div className="flex items-center m-1" key={i}>
+                            <img
+                              src={a?.icon || "/images/website/no_photo.png"}
+                              alt="a1"
+                              className="h-8 w-8 object-contain"
+                            />
+                            <p className="mx-3">{a?.title || "-"}</p>
+                            <span className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                              <FiCheck className="text-green-600" />
+                            </span>
+                          </div>
+                        ))}
+                    </div>
+                    <b
+                      style={{ fontFamily: "Opensans-semi-bold" }}
+                      className="mt-3 block"
+                    >
+                      Preferences
+                    </b>
+                    <div
+                      className="grid grid-cols-2 md:grid-cols-3 mt-3"
+                      style={{ fontFamily: "Opensans-bold" }}
+                    >
+                      {preferences &&
+                        preferences.map((a, i) => (
+                          <div className="flex items-center m-1" key={i}>
+                            <FaInfoCircle data-tip={a?.description} />
+                            <ReactTooltip />
+                            <p className="mx-3">{a?.title || "-"}</p>
+                          </div>
+                        ))}
+                    </div>
+                  </>
                 )}
 
                 {activeTab === "price" && (
@@ -818,7 +860,7 @@ function Index({ id }) {
                       type="text"
                       id="name"
                       name="name"
-                      defaultValue={`${profile?.fullname} ${profile?.last}`}
+                      defaultValue={profile?.fullname || ""}
                       onChange={() => {}}
                       className="form-input border-gray-200 rounded-md pl-10 h-11"
                       style={{ fontSize: ".95rem" }}
@@ -902,14 +944,23 @@ function Index({ id }) {
                     />
                   </div>
 
-                  <div className="hidden">
+                  <div className="mt-1">
                     <input
                       type="checkbox"
+                      required={true}
                       id="terms"
                       value="yes"
                       className="h-5 w-5 border-gray-200 mr-2"
                     />
-                    <label htmlFor="terms">Accept Terms and Conditions</label>
+                    <label htmlFor="terms">
+                      Accept{" "}
+                      <a
+                        href="javascript:;"
+                        onClick={() => setTermsAndCondition(true)}
+                      >
+                        Terms and Conditions
+                      </a>
+                    </label>
                   </div>
                   <div className="text-center">
                     <button
@@ -1001,6 +1052,27 @@ function Index({ id }) {
           </div>
         </div>
       </div>
+
+      {termsAndCondition && (
+        <div className="fixed z-40 max-w-lg w-full p-4 bg-white rounded-md top-0 border border-gray-200 h-screen left-1/2 transform -translate-x-1/2">
+          <h4
+            style={{ fontFamily: "Opensans-bold" }}
+            className="flex items-center justify-between"
+          >
+            Terms and Conditions
+            <FaTimes
+              className="text-red-500 cursor-pointer"
+              onClick={() => setTermsAndCondition(false)}
+            />
+          </h4>
+          <hr className="my-2" />
+          <div
+            className="mt-2 h-full overflow-y-auto pb-10"
+            dangerouslySetInnerHTML={{ __html: website?.termsandconditions }}
+          ></div>
+        </div>
+      )}
+
       <Footer />
     </>
   );

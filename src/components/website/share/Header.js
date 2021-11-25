@@ -39,7 +39,7 @@ function Header({
   useEffect(() => {
     (async () => {
       const res = await getWebsiteValues(
-        "logo,company_name,company_email,company_contact,ibo_commision,landlord_commision,referral_bonus_sender_point,referral_bonus_receiver_point"
+        "logo,company_name,company_email,company_contact,ibo_commision,documentation_cost,landlord_commision,referral_bonus_sender_point,referral_bonus_receiver_point"
       );
       if (res?.status) {
         dispatch({ type: "SET_WEBSITE", values: res.data });

@@ -6,6 +6,7 @@ import { FiCheck, FiUploadCloud } from "react-icons/fi";
 import FileUpload from "../../../components/forms/file-upload";
 import { getSetting, saveBulkSetting } from "../../../lib/authentication";
 import { ToastContainer, toast } from "react-toastify";
+import { Editor } from "@tinymce/tinymce-react";
 
 function Index() {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -15,6 +16,9 @@ function Index() {
   const [commisionSettings, setCommisionSettings] = React.useState({});
   const [websiteSettings, setWebsiteSettings] = React.useState({});
   const [referralSettings, setReferralSettings] = React.useState({});
+  const [termsSettings, setTermsSettings] = React.useState({});
+
+  const editorRef = React.useRef(null);
 
   React.useEffect(() => {
     const fetchGeneralSettings = async () => {
@@ -39,6 +43,18 @@ function Index() {
       if (res?.status) {
         setIsLoading(false);
         setCommisionSettings(res.data);
+      } else {
+        toast.error(res?.error || res.message);
+        setIsLoading(false);
+      }
+    };
+
+    const fetchTermsSettings = async () => {
+      setIsLoading(true);
+      const res = await getSetting("termsandconditions");
+      if (res?.status) {
+        setIsLoading(false);
+        setTermsSettings(res.data);
       } else {
         toast.error(res?.error || res.message);
         setIsLoading(false);
@@ -77,12 +93,31 @@ function Index() {
     fetchCommisionSettings();
     fetchWebsiteSettings();
     fetchReferralSettings();
+    fetchTermsSettings();
   }, []);
 
   const handleGeneralForm = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     const formdata = new FormData(document.forms.general);
+    const response = await saveBulkSetting(formdata);
+    if (response?.status) {
+      setIsLoading(false);
+      setIsSaved(true);
+      setTimeout(() => {
+        setIsSaved(false);
+      }, 2000);
+    } else {
+      toast.error(response?.error || response?.message);
+      setIsLoading(false);
+    }
+  };
+
+  const handleTermsForm = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const formdata = new FormData(document.forms.terms);
+    formdata.append("termsandconditions", editorRef.current.getContent());
     const response = await saveBulkSetting(formdata);
     if (response?.status) {
       setIsLoading(false);
@@ -133,6 +168,11 @@ function Index() {
   const changeGHandler = (e) => {
     const { name, value } = e.target;
     setGeneralSettings((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const changeTHandler = (e) => {
+    const { name, value } = e.target;
+    setTermsSettings((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleReferralForm = async (e) => {
@@ -218,6 +258,14 @@ function Index() {
           onClick={() => setTabMode("referral")}
         >
           Referral
+        </button>
+        <button
+          className={`mr-5 border-b-2 transition-all duration-400 ease-linear ${
+            tabMode === "terms" ? "border-blue-600" : "border-transparent"
+          }`}
+          onClick={() => setTabMode("terms")}
+        >
+          New Settings
         </button>
       </div>
       {/**tabs content */}
@@ -616,6 +664,28 @@ function Index() {
                     onChange={changeRHandler}
                   />
                 </div>
+              </div>
+              <button className="btn btn-default bg-blue-400 float-right text-white rounded-sm hover:bg-blue-500">
+                Submit
+              </button>
+            </form>
+          </div>
+        )}
+        {tabMode === "terms" && (
+          <div>
+            <h5>New Settings</h5>
+            <form name="terms" onSubmit={handleTermsForm} className="mt-2">
+              <div className="form-element">
+                <label className="form-label">Terms and Conditions</label>
+                <Editor
+                  onInit={(e, editor) => (editorRef.current = editor)}
+                  init={{
+                    height: 300,
+                    menubar: false,
+                  }}
+                  initialValue={termsSettings?.termsandconditions}
+                  apiKey={process.env.TINY_API_KEY}
+                />
               </div>
               <button className="btn btn-default bg-blue-400 float-right text-white rounded-sm hover:bg-blue-500">
                 Submit

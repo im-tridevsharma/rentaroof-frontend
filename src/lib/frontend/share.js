@@ -404,6 +404,25 @@ export const getConversations = async () => {
   return conversation;
 };
 
+export const saveOrUpdateSetting = async (data) => {
+  const token = __d(cookies.get("_SYNC_"));
+  let setting = false;
+
+  if (token) {
+    await server
+      .post("/settings/template", data, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        setting = response?.data;
+      })
+      .catch((error) => {
+        setting = error?.response?.data;
+      });
+  }
+  return setting;
+};
+
 export const createConversation = async (data) => {
   const token = __d(cookies.get("_SYNC_"));
 

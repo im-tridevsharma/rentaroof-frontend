@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Loader from "../../../loader";
+import Link from "next/link";
 import { FiCheckCircle, FiAlertTriangle } from "react-icons/fi";
 import { updatePassword } from "../../../../lib/frontend/auth";
 import { __d, __e } from "../../../../server";
@@ -15,6 +16,7 @@ function SettingUI() {
   const [isLoading, setIsLoading] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
   const [settings, setSettings] = useState([]);
+  const [profile, setProfile] = useState(false);
   const [password, setPassword] = useState({
     current_password: "",
     new_password: "",
@@ -27,6 +29,7 @@ function SettingUI() {
     let data = localStorage.getItem("LU");
     data = JSON.parse(__d(data));
     if (data) {
+      setProfile(data);
       setUserId(data.id);
       setAccountStatus(data?.account_status);
       setIsLoading(true);
@@ -134,10 +137,13 @@ function SettingUI() {
           className="absolute left-0 w-1 top-1 rounded-lg"
           style={{ backgroundColor: "var(--blue)", height: "98%" }}
         ></span>
+        <Link href={`/${profile?.role}/edit-template`}>
+          <a className="px-4 py-2 bg-green-400 rounded-md">Edit Template</a>
+        </Link>
         <form
           name="password"
           method="POST"
-          className="flex flex-col"
+          className="flex flex-col mt-5"
           encType="multipart/form-data"
           onSubmit={submitHandler}
         >

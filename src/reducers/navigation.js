@@ -2,7 +2,6 @@ import {
   FiUsers,
   FiUserCheck,
   FiCompass,
-  FiPercent,
   FiUser,
   FiActivity,
   FiPenTool,
@@ -97,6 +96,22 @@ const initialState = [
               },
               {
                 url: "/admin/properties/amenities/add",
+                title: "New",
+                items: [],
+              },
+            ],
+          },
+          {
+            url: "",
+            title: "Preferences",
+            items: [
+              {
+                url: "/admin/properties/preferences",
+                title: "All",
+                items: [],
+              },
+              {
+                url: "/admin/properties/preferences/add",
                 title: "New",
                 items: [],
               },

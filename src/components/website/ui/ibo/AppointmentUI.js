@@ -374,29 +374,32 @@ function AppointmentUI() {
                               )}
 
                               {a.meeting_status !== "closed" && (
-                                <button
-                                  className="text-red-600 border-gray-300 border-r-2 px-2 mr-2"
-                                  onClick={() => {
-                                    changeStatus("closed", a.id);
-                                    handleUserNotification(
-                                      a?.created_by_id,
-                                      a?.property_data,
-                                      "closed"
-                                    );
-                                  }}
-                                >
-                                  Closed
-                                </button>
+                                <>
+                                  <button
+                                    className="text-red-600 border-gray-300 border-r-2 px-2 mr-2"
+                                    onClick={() => {
+                                      changeStatus("closed", a.id);
+                                      handleUserNotification(
+                                        a?.created_by_id,
+                                        a?.property_data,
+                                        "closed"
+                                      );
+                                    }}
+                                  >
+                                    Closed
+                                  </button>
+                                  <button
+                                    className="text-red-600 ml-2"
+                                    onClick={() =>
+                                      changeStatus("cancelled", a.id)
+                                    }
+                                  >
+                                    Cancel
+                                  </button>
+                                </>
                               )}
                             </>
                           )}
-
-                          <button
-                            className="text-red-600 ml-2"
-                            onClick={() => changeStatus("cancelled", a.id)}
-                          >
-                            Cancel
-                          </button>
                         </div>
                       </td>
                     </tr>

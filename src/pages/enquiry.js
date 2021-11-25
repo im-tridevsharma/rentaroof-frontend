@@ -10,12 +10,22 @@ import addEnquiry from "../lib/frontend/enquiry";
 import { FiAlertTriangle, FiCheckCircle } from "react-icons/fi";
 import { __d } from "../server";
 import { getPropertyByCode } from "../lib/frontend/properties";
+import { shallowEqual, useSelector } from "react-redux";
+import { FaTimes } from "react-icons/fa";
 
 function Enquiry() {
+  const { website } = useSelector(
+    (state) => ({
+      website: state.website,
+    }),
+    shallowEqual
+  );
+
   const [isLoading, setIsLoading] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
   const [property, setProperty] = useState(null);
   const [user, setUser] = useState(null);
+  const [termsAndCondition, setTermsAndCondition] = useState(false);
   const [enquiry, setEnquiry] = useState({
     first_name: "",
     last_name: "",
@@ -275,6 +285,24 @@ function Enquiry() {
                   onChange={inputChageHandler}
                 ></textarea>
               </div>
+              <div className="mt-1">
+                <input
+                  type="checkbox"
+                  required={true}
+                  id="terms"
+                  value="yes"
+                  className="h-5 w-5 border-gray-200 mr-2"
+                />
+                <label htmlFor="terms">
+                  Accept{" "}
+                  <a
+                    href="javascript:;"
+                    onClick={() => setTermsAndCondition(true)}
+                  >
+                    Terms and Conditions
+                  </a>
+                </label>
+              </div>
               <div className="text-center my-3">
                 <button
                   type="submit"
@@ -355,6 +383,25 @@ function Enquiry() {
           </Link>
         </div>
       </div>
+      {termsAndCondition && (
+        <div className="fixed z-40 max-w-lg w-full p-4 bg-white rounded-md top-0 border border-gray-200 h-screen left-1/2 transform -translate-x-1/2">
+          <h4
+            style={{ fontFamily: "Opensans-bold" }}
+            className="flex items-center justify-between"
+          >
+            Terms and Conditions
+            <FaTimes
+              className="text-red-500 cursor-pointer"
+              onClick={() => setTermsAndCondition(false)}
+            />
+          </h4>
+          <hr className="my-2" />
+          <div
+            className="mt-2 h-full overflow-y-auto pb-10"
+            dangerouslySetInnerHTML={{ __html: website?.termsandconditions }}
+          ></div>
+        </div>
+      )}
       <Footer />
     </>
   );

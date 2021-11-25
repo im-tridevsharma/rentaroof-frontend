@@ -373,6 +373,24 @@ export const getAmenities = async (data) => {
   return res;
 };
 
+export const getPreferences = async (data) => {
+  const token = getToken();
+  let res = false;
+
+  await server
+    .get("/preferences", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      res = response?.data;
+    })
+    .catch((error) => {
+      res = error?.response?.data;
+    });
+
+  return res;
+};
+
 export const deleteProperty = async (reason, id) => {
   const token = getToken();
   let res = false;

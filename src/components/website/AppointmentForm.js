@@ -154,7 +154,7 @@ function AppointmentForm({
               />
             </div>
             <div className="form-element mt-3">
-              <label className="form-label">Fee Percentage (%)</label>
+              <label className="form-label">IBO Fee Percentage (%)</label>
               <input
                 type="text"
                 name="fee_percentage"
@@ -164,15 +164,24 @@ function AppointmentForm({
               />
             </div>
             <div className="form-element mt-3">
-              <label className="form-label">Calculated Fee (Rs)</label>
+              <label className="form-label">IBO Calculated Fee (Rs)</label>
               <input
                 type="text"
                 name="fee_amount"
                 readOnly
                 defaultValue={parseFloat(
-                  (appointment?.property_monthly_rent *
-                    website?.ibo_commision) /
-                    100
+                  parseFloat(
+                    (appointment?.property_monthly_rent *
+                      website?.landlord_commision) /
+                      100
+                  ) -
+                    parseFloat(
+                      (((appointment?.property_monthly_rent *
+                        website?.landlord_commision) /
+                        100) *
+                        website?.ibo_commision) /
+                        100
+                    )
                 ).toFixed(2)}
                 className="form-input rounded-md border-gray-200"
               />
@@ -216,7 +225,10 @@ function AppointmentForm({
               <input
                 type="text"
                 name="payment_amount"
-                value={payamount}
+                value={parseFloat(
+                  parseFloat((payamount * website?.landlord_commision) / 100) +
+                    parseFloat(website?.documentation_cost)
+                ).toFixed(2)}
                 onChange={() => {}}
                 readOnly
                 className="form-input rounded-md border-gray-200"
