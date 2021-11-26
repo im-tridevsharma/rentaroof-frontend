@@ -81,7 +81,7 @@ const Table = ({ agreements }) => {
       Cell: (props) => {
         return (
           <p data-tip={props.value}>
-            {props.value.length > 30
+            {props.value?.length > 30
               ? props.value.substring(0, 30) + "..."
               : props.value}
           </p>

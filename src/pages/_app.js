@@ -51,7 +51,7 @@ export default function App({ Component, pageProps }) {
     window.Pusher = require("pusher-js");
     window.Echo = new Echo({
       broadcaster: "pusher",
-      key: "myKey",
+      key: "XJ5OCn2MoQtNqBOhuE",
       wsHost: window.location.hostname,
       wsPort: 6001,
       forceTLS: false,

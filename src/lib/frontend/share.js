@@ -404,6 +404,23 @@ export const getConversations = async () => {
   return conversation;
 };
 
+export const getUsersForChat = async () => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let users = false;
+  await server
+    .get(`/chat/users_for_conversation`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      users = response?.data;
+    })
+    .catch((error) => {
+      users = error?.response?.data;
+    });
+  return users;
+};
+
 export const saveOrUpdateSetting = async (data) => {
   const token = __d(cookies.get("_SYNC_"));
   let setting = false;

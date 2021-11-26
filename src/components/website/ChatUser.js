@@ -17,7 +17,7 @@ function ChatUser({ user, p, onClick, selected, message }) {
     >
       <div className="-mt-1">
         <img
-          src={user.profile_pic || "/images/website/no_photo.png"}
+          src={user?.profile_pic || "/images/website/no_photo.png"}
           alt={user?.first}
           className="w-8 h-8 object-contain rounded-full"
           style={{ maxWidth: "32px" }}
@@ -29,7 +29,7 @@ function ChatUser({ user, p, onClick, selected, message }) {
           className="flex items-center justify-between"
         >
           <span className="text-gray-600 flex items-center">
-            {`${user.first} ${user?.last}`}
+            {`${user?.first} ${user?.last}`}
             <span
               className={`w-2 h-2 rounded-full ${
                 user?.is_logged_in ? "bg-green-400" : "bg-gray-400"
@@ -43,7 +43,7 @@ function ChatUser({ user, p, onClick, selected, message }) {
         <p className="text-gray-400 text-xs mt-1 truncate w-52">
           {message?.message}
         </p>
-        <p style={{ fontFamily: "Opensans-bold" }}>{user.type}</p>
+        <p style={{ fontFamily: "Opensans-bold" }}>{user?.type}</p>
       </div>
     </div>
   );

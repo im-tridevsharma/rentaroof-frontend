@@ -90,6 +90,9 @@ function ChatUI() {
         })
         .listen("MessageSentEvent", (e) => {
           console.log("Global >> ", e);
+        })
+        .listen("ConversationCreated", (e) => {
+          // setConversations((prev) => [e.conversation, ...prev]);
         });
     }
 
