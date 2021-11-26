@@ -16,6 +16,8 @@ import {
 import Loader from "../../../components/loader";
 import StarRatings from "react-star-ratings";
 import { FiCheckCircle } from "react-icons/fi";
+import { shallowEqual, useSelector } from "react-redux";
+import { FaTimes } from "react-icons/fa";
 
 function Index({ id }) {
   const [ibo, setIbo] = useState(false);
@@ -30,6 +32,14 @@ function Index({ id }) {
   const [isSent, setIsSent] = useState(false);
   const [avgRating, setAvgRating] = useState(0);
   const [topReview, setTopReview] = useState(false);
+  const [termsAndCondition, setTermsAndCondition] = useState(false);
+
+  const { website } = useSelector(
+    (state) => ({
+      website: state.website,
+    }),
+    shallowEqual
+  );
 
   useEffect(() => {
     setIsLoading(true);
@@ -403,7 +413,25 @@ function Index({ id }) {
                     className="form-input rounded-md border-gray-200 h-10"
                   />
                 </div>
-                <div className="text-center">
+                <div className="my-1">
+                  <input
+                    type="checkbox"
+                    required={true}
+                    id="terms"
+                    value="yes"
+                    className="h-5 w-5 border-gray-200 mr-2"
+                  />
+                  <label htmlFor="terms">
+                    Accept{" "}
+                    <a
+                      href="javascript:;"
+                      onClick={() => setTermsAndCondition(true)}
+                    >
+                      Terms and Conditions
+                    </a>
+                  </label>
+                </div>
+                <div className="text-center mt-3">
                   <button
                     className="uppercase px-5 py-3 text-white rounded-md text-xs"
                     style={{ backgroundColor: "var(--secondary-color)" }}
@@ -506,6 +534,27 @@ function Index({ id }) {
           </div>
         </div>
       </div>
+      {termsAndCondition && (
+        <div className="fixed z-40 max-w-lg w-full p-4 bg-white rounded-md top-0 border border-gray-200 h-screen left-1/2 transform -translate-x-1/2">
+          <h4
+            style={{ fontFamily: "Opensans-bold" }}
+            className="flex items-center justify-between"
+          >
+            Terms and Conditions
+            <FaTimes
+              className="text-red-500 cursor-pointer"
+              onClick={() => setTermsAndCondition(false)}
+            />
+          </h4>
+          <hr className="my-2" />
+          <div
+            className="mt-2 h-full overflow-y-auto pb-10"
+            dangerouslySetInnerHTML={{
+              __html: website?.termsandconditions,
+            }}
+          ></div>
+        </div>
+      )}
       <Footer />
     </>
   );

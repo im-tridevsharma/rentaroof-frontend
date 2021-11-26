@@ -1,8 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { FiMail, FiPhoneCall } from "react-icons/fi";
-import server from "../../server";
+import {
+  FiAlertTriangle,
+  FiCheckCircle,
+  FiMail,
+  FiMessageCircle,
+  FiPhoneCall,
+} from "react-icons/fi";
+import server, { __d } from "../../server";
 import Links from "./Links";
 import { useSelector, shallowEqual } from "react-redux";
+import { FaTimes } from "react-icons/fa";
+import Loader from "../loader";
+import addEnquiry from "../../lib/frontend/enquiry";
+import ReactTooltip from "react-tooltip";
 
 const getPages = async () => {
   let pages = false;
@@ -19,13 +29,92 @@ const getPages = async () => {
 };
 
 function Footer() {
+  const [isLoading, setIsLoading] = useState(false);
   const [pages, setPages] = useState([]);
+  const [isAdded, setIsAdded] = useState(false);
+  const [termsAndCondition, setTermsAndCondition] = useState(false);
+  const [enquiry, setEnquiry] = useState({
+    first_name: "",
+    last_name: "",
+    name: "",
+    email: "",
+    mobile: "",
+    title: "",
+    description: "",
+  });
+  const [errors, setErrors] = useState(false);
+  const [isClosed, setIsClosed] = useState(true);
+
+  useEffect(() => {
+    //if user is logged in fill their details
+    const user = JSON.parse(__d(localStorage.getItem("LU")));
+    if (user) {
+      setEnquiry((prev) => ({
+        ...prev,
+        first_name: user?.first,
+        last_name: user?.last,
+        name: user?.fullname,
+        email: user?.email,
+        mobile: user?.mobile,
+      }));
+    }
+  }, [isAdded]);
+
   const { website } = useSelector(
     (state) => ({
       website: state.website,
     }),
     shallowEqual
   );
+
+  const handleEnquirySubmit = (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const iserror = errors
+      ? Object.keys(errors).filter((index) => errors[index] !== false)
+      : false;
+    if (!iserror?.length) {
+      submitProfileData(enquiry);
+    } else {
+      setIsLoading(false);
+    }
+  };
+
+  const inputChageHandler = (e) => {
+    const { name, value } = e.target;
+    setEnquiry((prev) => ({ ...prev, [name]: value }));
+    if (enquiry.first_name || enquiry.last_name) {
+      setEnquiry((prev) => ({
+        ...prev,
+        name: `${prev.first_name} ${prev.last_name}`,
+      }));
+    }
+    setErrors(false);
+  };
+
+  const submitProfileData = async (data) => {
+    const response = await addEnquiry(data);
+    if (response?.status) {
+      setIsAdded(true);
+      setIsLoading(false);
+      setTimeout(() => {
+        setIsAdded(false);
+      }, 2000);
+      setEnquiry({
+        first_name: "",
+        last_name: "",
+        name: "",
+        email: "",
+        mobile: "",
+        title: "",
+        description: "",
+      });
+    } else if (response?.error) {
+      setIsLoading(false);
+      setErrors(response.error);
+    }
+  };
+
   let links = [
     {
       title: "Rent",
@@ -72,6 +161,187 @@ function Footer() {
 
   return (
     <>
+      {isLoading && <Loader />}
+      {/**global enquiry form */}
+      <div
+        data-tip="Enquiry"
+        onClick={() => setIsClosed(false)}
+        className="fixed right-5 cursor-pointer bottom-10 z-40 bg-white shadow-lg drop-shadow-md rounded-full w-10 h-10 flex items-center justify-center"
+      >
+        <FiMessageCircle className="text-2xl" />
+        <ReactTooltip />
+      </div>
+      {!isClosed && (
+        <div className="fixed right-0 top-0 bg-white h-screen z-40">
+          <div className="flex flex-col md:flex-row p-5 relative">
+            {/**enquiry */}
+            <div className="flex flex-col max-w-4xl w-full">
+              <h5
+                className="uppercase flex items-center justify-between text-gray-600 relative"
+                style={{ fontFamily: "Opensans-bold" }}
+              >
+                Enquiry
+                <FaTimes
+                  className="text-red-500 cursor-pointer"
+                  onClick={() => setIsClosed(true)}
+                />
+                <span
+                  className="absolute -bottom-1 left-0 w-12 h-1 rounded-md"
+                  style={{ backgroundColor: "var(--blue)" }}
+                ></span>
+              </h5>
+
+              <div className="mt-5 leading-3">
+                {errors && (
+                  <div className="errors">
+                    {Object.keys(errors).map((index, i) => (
+                      <div className="w-full mb-2" key={i}>
+                        <p className="text-red-500 flex items-center">
+                          <FiAlertTriangle className="mr-1" /> {errors[index]}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {isAdded && (
+                  <p className="flex items-center text-green-600">
+                    <FiCheckCircle className="mr-1" /> Enquiry information saved
+                    successfully.
+                  </p>
+                )}
+              </div>
+
+              <div
+                className="p-4 border-gray-200 mt-5 rounded-sm"
+                style={{ borderWidth: "1px" }}
+              >
+                <form
+                  name="enquiry"
+                  style={{
+                    fontFamily: "Opensans-semi-bold",
+                  }}
+                  onSubmit={handleEnquirySubmit}
+                >
+                  <div className="grid grid-cols-1 sm:grid-cols-2 sm:space-x-3">
+                    <div className="form-element text-gray-600">
+                      <label className="form-label ">First Name</label>
+                      <input
+                        type="text"
+                        value={enquiry.first_name}
+                        name="first_name"
+                        onChange={inputChageHandler}
+                        className="form-input rounded-md border-gray-200 -mt-1"
+                      />
+                    </div>
+                    <div className="form-element text-gray-600">
+                      <label className="form-label ">Last Name</label>
+                      <input
+                        type="text"
+                        value={enquiry.last_name}
+                        name="last_name"
+                        onChange={inputChageHandler}
+                        className="form-input rounded-md border-gray-200 -mt-1"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 sm:space-x-3">
+                    <div className="form-element text-gray-600">
+                      <label className="form-label ">Email</label>
+                      <input
+                        type="email"
+                        value={enquiry.email}
+                        name="email"
+                        onChange={inputChageHandler}
+                        className="form-input rounded-md border-gray-200 -mt-1"
+                      />
+                    </div>
+                    <div className="form-element text-gray-600">
+                      <label className="form-label ">Phone</label>
+                      <input
+                        type="text"
+                        value={enquiry.mobile}
+                        name="mobile"
+                        onChange={inputChageHandler}
+                        className="form-input rounded-md border-gray-200 -mt-1"
+                      />
+                    </div>
+                  </div>
+                  <div className="form-element text-gray-600">
+                    <label className="form-label ">Enquiry Title</label>
+                    <input
+                      type="text"
+                      value={enquiry.title}
+                      name="title"
+                      onChange={inputChageHandler}
+                      className="form-input rounded-md border-gray-200 -mt-1"
+                    />
+                  </div>
+                  <div className="form-element text-gray-600">
+                    <label className="form-label ">
+                      Your Message (Description)
+                    </label>
+                    <textarea
+                      className="form-input rounded-md border-gray-200 -mt-1 h-28"
+                      value={enquiry.description}
+                      name="description"
+                      onChange={inputChageHandler}
+                    ></textarea>
+                  </div>
+                  <div className="mt-1">
+                    <input
+                      type="checkbox"
+                      required={true}
+                      id="terms"
+                      value="yes"
+                      className="h-5 w-5 border-gray-200 mr-2"
+                    />
+                    <label htmlFor="terms">
+                      Accept{" "}
+                      <a
+                        href="javascript:;"
+                        onClick={() => setTermsAndCondition(true)}
+                      >
+                        Terms and Conditions
+                      </a>
+                    </label>
+                  </div>
+                  <div className="text-center my-3">
+                    <button
+                      type="submit"
+                      className="text-xs p-4 rounded-md text-white"
+                      style={{ backgroundColor: "var(--blue)" }}
+                    >
+                      Submit a Query
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          {termsAndCondition && (
+            <div className="fixed z-40 max-w-lg w-full p-4 bg-white rounded-md top-0 border border-gray-200 h-screen left-1/2 transform -translate-x-1/2">
+              <h4
+                style={{ fontFamily: "Opensans-bold" }}
+                className="flex items-center justify-between"
+              >
+                Terms and Conditions
+                <FaTimes
+                  className="text-red-500 cursor-pointer"
+                  onClick={() => setTermsAndCondition(false)}
+                />
+              </h4>
+              <hr className="my-2" />
+              <div
+                className="mt-2 h-full overflow-y-auto pb-10"
+                dangerouslySetInnerHTML={{
+                  __html: website?.termsandconditions,
+                }}
+              ></div>
+            </div>
+          )}
+        </div>
+      )}
       {/**agent finder */}
       <form
         className="flex items-center justify-center p-3"

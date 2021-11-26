@@ -28,6 +28,7 @@ import "../css/components/user-widgets/widget-4.css";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 import Echo from "laravel-echo";
+import * as gtag from "../lib/gtag";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -35,6 +36,16 @@ Router.events.on("routeChangeError", () => NProgress.done());
 
 export default function App({ Component, pageProps }) {
   const store = useStore(pageProps.initialReduxState);
+
+  useEffect(() => {
+    const handleRouteChange = (url) => {
+      gtag.pageview(url);
+    };
+    Router.events.on("routeChangeComplete", handleRouteChange);
+    return () => {
+      Router.events.off("routeChangeComplete", handleRouteChange);
+    };
+  }, [Router.events]);
 
   useEffect(() => {
     window.Pusher = require("pusher-js");
@@ -61,6 +72,7 @@ export default function App({ Component, pageProps }) {
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
       </Head>
+
       <Provider store={store}>
         <Layout>
           <Component {...pageProps} />

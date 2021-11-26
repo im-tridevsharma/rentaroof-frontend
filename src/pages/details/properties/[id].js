@@ -81,7 +81,6 @@ function Index({ id }) {
       if (response?.status) {
         setIsLoading(false);
         setProperty(response.data);
-
         if (response?.data.gallery) {
           Object.keys(response?.data.gallery).forEach((key) => {
             if (
@@ -103,9 +102,9 @@ function Index({ id }) {
         if (response?.data.essential) {
           setEssential(response?.data.essential);
         }
-        setUser(response?.data.posted_by_data);
+        setUser(response?.data?.posted_by_data);
       }
-      if (response?.data.posted_by_data) {
+      if (response?.data?.posted_by_data) {
         if (response?.data.amenities_data) {
           setAmenities(response?.data.amenities_data);
         }
@@ -128,7 +127,7 @@ function Index({ id }) {
             type: "visited",
             property_name: response?.data.name,
             property_short_description: response?.data.short_description,
-            property_posted_by: response?.data.posted_by_data.first,
+            property_posted_by: response?.data?.posted_by_data.first,
           };
           const sres = await saveUserProperty(updata);
           if (sres?.status) {

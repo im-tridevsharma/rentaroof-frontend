@@ -1,4 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
+import * as gtag from "../lib/gtag";
 
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -89,6 +90,36 @@ class MyDocument extends Document {
             content="/icons/favicon/ms-icon-144x144.png"
           />
           <meta name="theme-color" content="#2196f3" />
+          {/* Global Site Tag (gtag.js) - Google Analytics */}
+          {gtag.GA_ADS_ID && (
+            <script
+              async
+              data-ad-client={gtag.GA_ADS_ID}
+              src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+            ></script>
+          )}
+          {gtag.GA_TRACKING_ID && (
+            <>
+              <script
+                strategy="afterInteractive"
+                src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
+              ></script>
+              <script
+                id="gtag-init"
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{
+                  __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${gtag.GA_TRACKING_ID}', {
+              page_path: window.location.pathname,
+            });
+          `,
+                }}
+              ></script>
+            </>
+          )}
         </Head>
         <body>
           <div id="portal" />
