@@ -3,9 +3,9 @@ import {
   FiAlertTriangle,
   FiCheckCircle,
   FiMail,
-  FiMessageCircle,
   FiPhoneCall,
 } from "react-icons/fi";
+import { MdContactSupport } from "react-icons/md";
 import server, { __d } from "../../server";
 import Links from "./Links";
 import { useSelector, shallowEqual } from "react-redux";
@@ -168,180 +168,182 @@ function Footer() {
         onClick={() => setIsClosed(false)}
         className="fixed right-5 cursor-pointer bottom-10 z-40 bg-white shadow-lg drop-shadow-md rounded-full w-10 h-10 flex items-center justify-center"
       >
-        <FiMessageCircle className="text-2xl" />
+        <MdContactSupport className="text-2xl" />
         <ReactTooltip />
       </div>
-      {!isClosed && (
-        <div className="fixed right-0 top-0 bg-white h-screen z-40">
-          <div className="flex flex-col md:flex-row p-5 relative">
-            {/**enquiry */}
-            <div className="flex flex-col max-w-4xl w-full">
-              <h5
-                className="uppercase flex items-center justify-between text-gray-600 relative"
-                style={{ fontFamily: "Opensans-bold" }}
+      <div
+        className={`fixed right-0 bottom-0 bg-white ${
+          isClosed ? "h-0 opacity-0" : "h-screen opacity-100"
+        } overflow-hidden z-40 transition-all duration-300 ease-linear`}
+      >
+        <div className="flex flex-col md:flex-row p-5 relative">
+          {/**enquiry */}
+          <div className="flex flex-col max-w-4xl w-full">
+            <h5
+              className="uppercase flex items-center justify-between text-gray-600 relative"
+              style={{ fontFamily: "Opensans-bold" }}
+            >
+              Enquiry
+              <FaTimes
+                className="text-red-500 cursor-pointer"
+                onClick={() => setIsClosed(true)}
+              />
+              <span
+                className="absolute -bottom-1 left-0 w-12 h-1 rounded-md"
+                style={{ backgroundColor: "var(--blue)" }}
+              ></span>
+            </h5>
+
+            <div className="mt-5 leading-3">
+              {errors && (
+                <div className="errors">
+                  {Object.keys(errors).map((index, i) => (
+                    <div className="w-full mb-2" key={i}>
+                      <p className="text-red-500 flex items-center">
+                        <FiAlertTriangle className="mr-1" /> {errors[index]}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {isAdded && (
+                <p className="flex items-center text-green-600">
+                  <FiCheckCircle className="mr-1" /> Enquiry information saved
+                  successfully.
+                </p>
+              )}
+            </div>
+
+            <div
+              className="p-4 border-gray-200 mt-5 rounded-sm"
+              style={{ borderWidth: "1px" }}
+            >
+              <form
+                name="enquiry"
+                style={{
+                  fontFamily: "Opensans-semi-bold",
+                }}
+                onSubmit={handleEnquirySubmit}
               >
-                Enquiry
-                <FaTimes
-                  className="text-red-500 cursor-pointer"
-                  onClick={() => setIsClosed(true)}
-                />
-                <span
-                  className="absolute -bottom-1 left-0 w-12 h-1 rounded-md"
-                  style={{ backgroundColor: "var(--blue)" }}
-                ></span>
-              </h5>
-
-              <div className="mt-5 leading-3">
-                {errors && (
-                  <div className="errors">
-                    {Object.keys(errors).map((index, i) => (
-                      <div className="w-full mb-2" key={i}>
-                        <p className="text-red-500 flex items-center">
-                          <FiAlertTriangle className="mr-1" /> {errors[index]}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                {isAdded && (
-                  <p className="flex items-center text-green-600">
-                    <FiCheckCircle className="mr-1" /> Enquiry information saved
-                    successfully.
-                  </p>
-                )}
-              </div>
-
-              <div
-                className="p-4 border-gray-200 mt-5 rounded-sm"
-                style={{ borderWidth: "1px" }}
-              >
-                <form
-                  name="enquiry"
-                  style={{
-                    fontFamily: "Opensans-semi-bold",
-                  }}
-                  onSubmit={handleEnquirySubmit}
-                >
-                  <div className="grid grid-cols-1 sm:grid-cols-2 sm:space-x-3">
-                    <div className="form-element text-gray-600">
-                      <label className="form-label ">First Name</label>
-                      <input
-                        type="text"
-                        value={enquiry.first_name}
-                        name="first_name"
-                        onChange={inputChageHandler}
-                        className="form-input rounded-md border-gray-200 -mt-1"
-                      />
-                    </div>
-                    <div className="form-element text-gray-600">
-                      <label className="form-label ">Last Name</label>
-                      <input
-                        type="text"
-                        value={enquiry.last_name}
-                        name="last_name"
-                        onChange={inputChageHandler}
-                        className="form-input rounded-md border-gray-200 -mt-1"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 sm:space-x-3">
-                    <div className="form-element text-gray-600">
-                      <label className="form-label ">Email</label>
-                      <input
-                        type="email"
-                        value={enquiry.email}
-                        name="email"
-                        onChange={inputChageHandler}
-                        className="form-input rounded-md border-gray-200 -mt-1"
-                      />
-                    </div>
-                    <div className="form-element text-gray-600">
-                      <label className="form-label ">Phone</label>
-                      <input
-                        type="text"
-                        value={enquiry.mobile}
-                        name="mobile"
-                        onChange={inputChageHandler}
-                        className="form-input rounded-md border-gray-200 -mt-1"
-                      />
-                    </div>
-                  </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 sm:space-x-3">
                   <div className="form-element text-gray-600">
-                    <label className="form-label ">Enquiry Title</label>
+                    <label className="form-label ">First Name</label>
                     <input
                       type="text"
-                      value={enquiry.title}
-                      name="title"
+                      value={enquiry.first_name}
+                      name="first_name"
                       onChange={inputChageHandler}
                       className="form-input rounded-md border-gray-200 -mt-1"
                     />
                   </div>
                   <div className="form-element text-gray-600">
-                    <label className="form-label ">
-                      Your Message (Description)
-                    </label>
-                    <textarea
-                      className="form-input rounded-md border-gray-200 -mt-1 h-28"
-                      value={enquiry.description}
-                      name="description"
-                      onChange={inputChageHandler}
-                    ></textarea>
-                  </div>
-                  <div className="mt-1">
+                    <label className="form-label ">Last Name</label>
                     <input
-                      type="checkbox"
-                      required={true}
-                      id="terms"
-                      value="yes"
-                      className="h-5 w-5 border-gray-200 mr-2"
+                      type="text"
+                      value={enquiry.last_name}
+                      name="last_name"
+                      onChange={inputChageHandler}
+                      className="form-input rounded-md border-gray-200 -mt-1"
                     />
-                    <label htmlFor="terms">
-                      Accept{" "}
-                      <a
-                        href="javascript:;"
-                        onClick={() => setTermsAndCondition(true)}
-                      >
-                        Terms and Conditions
-                      </a>
-                    </label>
                   </div>
-                  <div className="text-center my-3">
-                    <button
-                      type="submit"
-                      className="text-xs p-4 rounded-md text-white"
-                      style={{ backgroundColor: "var(--blue)" }}
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 sm:space-x-3">
+                  <div className="form-element text-gray-600">
+                    <label className="form-label ">Email</label>
+                    <input
+                      type="email"
+                      value={enquiry.email}
+                      name="email"
+                      onChange={inputChageHandler}
+                      className="form-input rounded-md border-gray-200 -mt-1"
+                    />
+                  </div>
+                  <div className="form-element text-gray-600">
+                    <label className="form-label ">Phone</label>
+                    <input
+                      type="text"
+                      value={enquiry.mobile}
+                      name="mobile"
+                      onChange={inputChageHandler}
+                      className="form-input rounded-md border-gray-200 -mt-1"
+                    />
+                  </div>
+                </div>
+                <div className="form-element text-gray-600">
+                  <label className="form-label ">Enquiry Title</label>
+                  <input
+                    type="text"
+                    value={enquiry.title}
+                    name="title"
+                    onChange={inputChageHandler}
+                    className="form-input rounded-md border-gray-200 -mt-1"
+                  />
+                </div>
+                <div className="form-element text-gray-600">
+                  <label className="form-label ">
+                    Your Message (Description)
+                  </label>
+                  <textarea
+                    className="form-input rounded-md border-gray-200 -mt-1 h-28"
+                    value={enquiry.description}
+                    name="description"
+                    onChange={inputChageHandler}
+                  ></textarea>
+                </div>
+                <div className="mt-1">
+                  <input
+                    type="checkbox"
+                    required={true}
+                    id="terms"
+                    value="yes"
+                    className="h-5 w-5 border-gray-200 mr-2"
+                  />
+                  <label htmlFor="terms">
+                    Accept{" "}
+                    <a
+                      href="javascript:;"
+                      onClick={() => setTermsAndCondition(true)}
                     >
-                      Submit a Query
-                    </button>
-                  </div>
-                </form>
-              </div>
+                      Terms and Conditions
+                    </a>
+                  </label>
+                </div>
+                <div className="text-center my-3">
+                  <button
+                    type="submit"
+                    className="text-xs p-4 rounded-md text-white"
+                    style={{ backgroundColor: "var(--blue)" }}
+                  >
+                    Submit a Query
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
-          {termsAndCondition && (
-            <div className="fixed z-40 max-w-lg w-full p-4 bg-white rounded-md top-0 border border-gray-200 h-screen left-1/2 transform -translate-x-1/2">
-              <h4
-                style={{ fontFamily: "Opensans-bold" }}
-                className="flex items-center justify-between"
-              >
-                Terms and Conditions
-                <FaTimes
-                  className="text-red-500 cursor-pointer"
-                  onClick={() => setTermsAndCondition(false)}
-                />
-              </h4>
-              <hr className="my-2" />
-              <div
-                className="mt-2 h-full overflow-y-auto pb-10"
-                dangerouslySetInnerHTML={{
-                  __html: website?.termsandconditions,
-                }}
-              ></div>
-            </div>
-          )}
         </div>
-      )}
+        {termsAndCondition && (
+          <div className="fixed z-40 max-w-lg w-full p-4 bg-white rounded-md top-0 border border-gray-200 h-screen left-1/2 transform -translate-x-1/2">
+            <h4
+              style={{ fontFamily: "Opensans-bold" }}
+              className="flex items-center justify-between"
+            >
+              Terms and Conditions
+              <FaTimes
+                className="text-red-500 cursor-pointer"
+                onClick={() => setTermsAndCondition(false)}
+              />
+            </h4>
+            <hr className="my-2" />
+            <div
+              className="mt-2 h-full overflow-y-auto pb-10"
+              dangerouslySetInnerHTML={{
+                __html: website?.termsandconditions,
+              }}
+            ></div>
+          </div>
+        )}
+      </div>
       {/**agent finder */}
       <form
         className="flex items-center justify-center p-3"

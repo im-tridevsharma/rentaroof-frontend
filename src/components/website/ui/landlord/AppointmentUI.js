@@ -74,7 +74,11 @@ function AppointmentUI() {
     }
   }, [reload]);
 
-  const makeConversation = async (receiver) => {
+  const makeConversation = async (receiver, property, id) => {
+    localStorage.setItem(
+      "deal-for",
+      JSON.stringify({ property, receiver, id, sender: user?.id })
+    );
     if (user?.id && receiver) {
       setIsLoading(true);
       const res = await createConversation({
@@ -219,11 +223,15 @@ function AppointmentUI() {
                             a.meeting_status === "visited" && (
                               <button
                                 onClick={() =>
-                                  makeConversation(a.created_by_id)
+                                  makeConversation(
+                                    a.created_by_id,
+                                    a.property_data,
+                                    a.property_id
+                                  )
                                 }
                                 className="px-2 text-green-500"
                               >
-                                Create a Conversation
+                                Start Negotiation
                               </button>
                             )}
                         </div>

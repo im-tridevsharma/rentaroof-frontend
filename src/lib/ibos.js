@@ -189,6 +189,30 @@ export const updateIBO = async (id, data) => {
   return ibo;
 };
 
+export const assignMeetingToIBO = async (data) => {
+  const token = getToken();
+  let meeting = false;
+
+  if (data) {
+    if (token) {
+      await server
+        .post(`/admin/meetings/assign_to_ibo`, data, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          if (response.data) {
+            meeting = response.data;
+          }
+        })
+        .catch((error) => {
+          meeting = error.response?.data;
+        });
+    }
+  }
+
+  return meeting;
+};
+
 export const totalIbo = async () => {
   const token = getToken();
   let count = false;

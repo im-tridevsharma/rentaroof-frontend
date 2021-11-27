@@ -61,9 +61,7 @@ function UIRenderer({ UI, role, page }) {
       setMake(false);
       const res = await createConversation(formdata);
       if (res?.status) {
-        toast.success(
-          "Conversation created successfully. Redirecting to chat!"
-        );
+        toast.success("Conversation created successfully.");
         Router.push(`/${user?.role}/chat`);
       } else {
         toast.error(res?.error || res?.message);
@@ -108,8 +106,8 @@ function UIRenderer({ UI, role, page }) {
           className={`${
             !make
               ? "w-10 h-10 rounded-full cursor-pointer hover:bg-green-50 flex items-center justify-center"
-              : "max-w-md w-full h-96 border"
-          } bg-white fixed right-5 bottom-5 z-40 shadow-lg drop-shadow-md transition-all duration-100 ease-out`}
+              : "md:w-96 w-full h-72 border"
+          } bg-white fixed md:right-5 bottom-24 right-0 z-40 shadow-lg drop-shadow-md transition-all duration-50 ease-linear`}
         >
           {!make && (
             <FiMessageSquare

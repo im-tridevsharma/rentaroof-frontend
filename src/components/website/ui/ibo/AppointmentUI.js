@@ -306,19 +306,27 @@ function AppointmentUI() {
                             Details
                           </button>
                           {a.meeting_status === "pending" ? (
-                            <button
-                              onClick={() => {
-                                changeStatus("approved", a.id);
-                                handleUserNotification(
-                                  a?.created_by_id,
-                                  a?.property_data,
-                                  "approved"
-                                );
-                              }}
-                              className="border-gray-300 border-r-2 px-2 mr-2 text-green-500"
-                            >
-                              Accept
-                            </button>
+                            <>
+                              <button
+                                onClick={() => {
+                                  changeStatus("approved", a.id);
+                                  handleUserNotification(
+                                    a?.created_by_id,
+                                    a?.property_data,
+                                    "approved"
+                                  );
+                                }}
+                                className="border-gray-300 border-r-2 px-2 mr-2 text-green-500"
+                              >
+                                Accept
+                              </button>
+                              <button
+                                className="text-red-600 ml-2"
+                                onClick={() => changeStatus("cancelled", a.id)}
+                              >
+                                Cancel
+                              </button>
+                            </>
                           ) : (
                             <>
                               {!["visited", "closed"].includes(
@@ -387,14 +395,6 @@ function AppointmentUI() {
                                     }}
                                   >
                                     Closed
-                                  </button>
-                                  <button
-                                    className="text-red-600 ml-2"
-                                    onClick={() =>
-                                      changeStatus("cancelled", a.id)
-                                    }
-                                  >
-                                    Cancel
                                   </button>
                                 </>
                               )}

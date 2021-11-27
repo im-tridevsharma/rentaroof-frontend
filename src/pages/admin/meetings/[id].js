@@ -8,10 +8,13 @@ import { FiAlertCircle } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import { getMeetingById } from "../../../lib/meeting";
 import moment from "moment";
+import getIbos, { assignMeetingToIBO } from "../../../lib/ibos";
+import { toast, ToastContainer } from "react-toastify";
 
 function View() {
   const [isLoading, setIsLoading] = useState(false);
   const [meeting, setMeeting] = useState({});
+  const [ibos, setIbos] = useState([]);
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -41,7 +44,43 @@ function View() {
         setIsLoading(false);
       }
     })();
+
+    const fetchIbos = async () => {
+      setIsLoading(true);
+      const res = await getIbos();
+      if (res?.status) {
+        setIbos(res?.data);
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+        toast.error(res?.message || res?.error);
+      }
+    };
+
+    fetchIbos();
   }, []);
+
+  const assignToIBO = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const ibo = document.querySelector("#ibos").value;
+    if (ibo) {
+      const res = await assignMeetingToIBO({
+        meeting_id: meeting?.id,
+        ibo_id: ibo,
+      });
+      if (res?.status) {
+        toast.success("Assinged Successfully.");
+        setIsLoading(false);
+      } else {
+        toast.error(res?.message || res?.error);
+        setIsLoading(false);
+      }
+    } else {
+      toast.error("Please select an IBO.");
+      setIsLoading(false);
+    }
+  };
 
   const AllMeeting = () => {
     return (
@@ -58,6 +97,7 @@ function View() {
       <Head>
         <title>View Meeting | Rent a Roof</title>
       </Head>
+      <ToastContainer />
       {isLoading && <Loader />}
       <SectionTitle
         title="Meetings"
@@ -134,6 +174,32 @@ function View() {
                 </p>
               </div>
             </div>
+
+            {(meeting?.meeting_status === "pending" ||
+              meeting?.meeting_status === "cancelled") && (
+              <div className="mb-3">
+                <h5 className="text-red-400 my-2">Assign to IBO</h5>
+                <div className="form-element">
+                  <select name="ibos" className="form-select" id="ibos">
+                    <option value="">Select</option>
+                    {ibos?.length > 0 &&
+                      ibos.map((ibo, i) => (
+                        <option
+                          value={ibo.id}
+                          key={i}
+                        >{`${ibo?.first} ${ibo?.last}`}</option>
+                      ))}
+                  </select>
+                </div>
+                <button
+                  className="px-3 py-2 rounded-md bg-green-400 hover:bg-green-500"
+                  onClick={assignToIBO}
+                >
+                  Assign
+                </button>
+              </div>
+            )}
+
             <h5 className="text-red-400 my-2">Meeting history</h5>
             <table className="table">
               <thead>
