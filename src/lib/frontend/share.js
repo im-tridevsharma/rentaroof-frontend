@@ -473,3 +473,88 @@ export const getMessages = async (conversationId) => {
     });
   return message;
 };
+
+export const createPaymentOrder = async (data) => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let status = false;
+  await server
+    .post(`/payment/order/`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      status = response?.data;
+    })
+    .catch((error) => {
+      status = error?.response?.data;
+    });
+  return status;
+};
+
+export const successPayment = async (data) => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let status = false;
+  await server
+    .post(`/payment/success/`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      status = response?.data;
+    })
+    .catch((error) => {
+      status = error?.response?.data;
+    });
+  return status;
+};
+
+export const getTransactions = async () => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let status = false;
+  await server
+    .get(`/payment/transactions/`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      status = response?.data;
+    })
+    .catch((error) => {
+      status = error?.response?.data;
+    });
+  return status;
+};
+
+export const getWallet = async () => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let status = false;
+  await server
+    .get(`/users/wallet/`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      status = response?.data;
+    })
+    .catch((error) => {
+      status = error?.response?.data;
+    });
+  return status;
+};
+
+export const getWalletTransactions = async () => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let status = false;
+  await server
+    .get(`/users/wallet/transactions`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      status = response?.data;
+    })
+    .catch((error) => {
+      status = error?.response?.data;
+    });
+  return status;
+};

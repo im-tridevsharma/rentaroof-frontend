@@ -1,17 +1,109 @@
 import React from "react";
 import Image from "next/image";
 import Loader from "../../../loader";
-import { getAgreements } from "../../../../lib/frontend/share";
+import {
+  createPaymentOrder,
+  getAgreements,
+  successPayment,
+} from "../../../../lib/frontend/share";
 import moment from "moment";
 import { FcOvertime } from "react-icons/fc";
 import Router from "next/router";
+import ReactTooltip from "react-tooltip";
+import { __d } from "../../../../server";
+import { useSelector, shallowEqual } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
 
 function AgreementUI() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [agreements, setAgreements] = React.useState([]);
   const [focus, setFocus] = React.useState(false);
+  const [profile, setProfile] = React.useState(false);
+
+  const { website } = useSelector(
+    (state) => ({
+      website: state.website,
+    }),
+    shallowEqual
+  );
+
+  const loadScript = (src) => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = src;
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+      document.body.appendChild(script);
+    });
+  };
+
+  const displayRazorpay = async (data) => {
+    setIsLoading(true);
+    const postdata = {
+      amount: data.payment_amount,
+      type: "rent",
+      type_id: data.id,
+      message:
+        "Payment of rent for moneth " +
+        data.next_due +
+        " by user " +
+        profile?.fullname,
+    };
+    const res = await createPaymentOrder(postdata);
+    if (res?.status) {
+      setIsLoading(false);
+      const paymentObject = new window.Razorpay({
+        key: process.env.NEXT_PUBLIC_RAZOR_KEY,
+        currency: res?.data?.currency,
+        amount: res?.data?.amount * 100,
+        name: "Rent A Roof",
+        description: "Pay your first renting amount.",
+        order_id: res?.data?.order_number,
+        image: website?.logo,
+        handler: async function (response) {
+          setIsLoading(true);
+          const res = await successPayment(response);
+          if (res?.status) {
+            setAgreements(
+              agreements.map((a) =>
+                a.id === res?.type.id
+                  ? { ...a, next_due: res?.type?.next_due }
+                  : a
+              )
+            );
+            toast.success("Payment done successfully.");
+            setIsLoading(false);
+          } else {
+            toast.error(res?.message || res?.error);
+            setIsLoading(false);
+          }
+        },
+        prefill: {
+          name: profile?.fullname,
+          email: profile?.email,
+          contact: profile?.mobile,
+        },
+      });
+      paymentObject.open();
+    } else {
+      toast.error(res?.error || res?.message);
+      setIsLoading(false);
+    }
+  };
 
   React.useEffect(() => {
+    const u = localStorage.getItem("LU")
+      ? JSON.parse(__d(localStorage.getItem("LU")))
+      : false;
+    if (u) {
+      setProfile(u);
+    }
+
+    loadScript("https://checkout.razorpay.com/v1/checkout.js");
     setFocus(Router.query.a);
     const fetchAgreements = async () => {
       setIsLoading(true);
@@ -30,6 +122,7 @@ function AgreementUI() {
 
   return (
     <>
+      <ToastContainer />
       {isLoading && <Loader />}
       <div>
         {agreements?.length > 0 ? (
@@ -75,15 +168,37 @@ function AgreementUI() {
                 </span>
               </div>
               <div className="flex flex-col items-end">
-                <a
-                  href={p?.agreement_url}
-                  target="_blank"
-                  className="p-2 text-white rounded-md"
-                  style={{ backgroundColor: "var(--blue)" }}
-                >
-                  View Agreement
-                </a>
-                <p className="text-gray-500 text-xs mt-1">
+                <div className="my-1">
+                  {moment(p?.start_date).add(1, "M") ===
+                    moment(p?.next_due) && (
+                    <button
+                      onClick={() => displayRazorpay(p)}
+                      className="p-2 text-white rounded-md bg-green-400 mr-4"
+                    >
+                      Make First Payment {`(Rs. ${p?.payment_amount})`}
+                    </button>
+                  )}
+
+                  {moment(p?.start_date).add(1, "M") !==
+                    moment(p?.next_due) && (
+                    <button
+                      onClick={() => displayRazorpay(p)}
+                      className="p-2 text-white rounded-md bg-green-400 mr-4"
+                    >
+                      Pay for {moment(p?.next_due).format("DD-MM-YYYY")}{" "}
+                      {`(Rs. ${p?.payment_amount})`}
+                    </button>
+                  )}
+                  <a
+                    href={p?.agreement_url}
+                    target="_blank"
+                    className="p-2 text-white rounded-md"
+                    style={{ backgroundColor: "var(--blue)" }}
+                  >
+                    View Agreement
+                  </a>
+                </div>
+                <p className="text-gray-500 text-xs mt-2">
                   {p?.description?.length > 80
                     ? p?.description.substring(0, 80) + "..."
                     : p?.description}
@@ -93,6 +208,17 @@ function AgreementUI() {
                   {moment(p?.start_date).format("DD-MM-YYYY")}{" "}
                   <span className="mx-2">to</span>
                   {moment(p?.end_date).format("DD-MM-YYYY")}
+                  <span
+                    className="ml-2 capitalize"
+                    data-tip="Payment Frequency"
+                  >
+                    {" "}
+                    | {p?.payment_frequency}
+                  </span>
+                  <span className="ml-1 capitalize" data-tip="Next Due">
+                    | {moment(p?.next_due).format("DD-MM-YYYY")}
+                  </span>
+                  <ReactTooltip />
                 </p>
               </div>
             </div>

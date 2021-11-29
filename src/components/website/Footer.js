@@ -5,7 +5,7 @@ import {
   FiMail,
   FiPhoneCall,
 } from "react-icons/fi";
-import { MdContactSupport } from "react-icons/md";
+import { FaQuestionCircle } from "react-icons/fa";
 import server, { __d } from "../../server";
 import Links from "./Links";
 import { useSelector, shallowEqual } from "react-redux";
@@ -168,7 +168,7 @@ function Footer() {
         onClick={() => setIsClosed(false)}
         className="fixed right-5 cursor-pointer bottom-10 z-40 bg-white shadow-lg drop-shadow-md rounded-full w-10 h-10 flex items-center justify-center"
       >
-        <MdContactSupport className="text-2xl" />
+        <FaQuestionCircle className="text-2xl" />
         <ReactTooltip />
       </div>
       <div

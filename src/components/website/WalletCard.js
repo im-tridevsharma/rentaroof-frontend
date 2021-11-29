@@ -33,7 +33,7 @@ function WalletCard({
         {label}
       </p>
       <p className="mt-2 text-xl" style={{ fontFamily: "Opensans-bold" }}>
-        Rs. {amount}
+        {amount}
       </p>
       <p className="leading-3 text-3xs mb-5">{tagline}</p>
     </div>
