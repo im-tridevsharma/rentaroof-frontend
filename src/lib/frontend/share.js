@@ -508,12 +508,12 @@ export const successPayment = async (data) => {
   return status;
 };
 
-export const getTransactions = async () => {
+export const getTransactions = async (user = "") => {
   const token = __d(cookies.get("_SYNC_"));
 
   let status = false;
   await server
-    .get(`/payment/transactions/`, {
+    .get(`/payment/transactions/?user=${user}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((response) => {
@@ -557,4 +557,57 @@ export const getWalletTransactions = async () => {
       status = error?.response?.data;
     });
   return status;
+};
+
+//complains
+
+export const getComplains = async () => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let complains = false;
+  await server
+    .get(`/users/complains`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      complains = response?.data;
+    })
+    .catch((error) => {
+      complains = error?.response?.data;
+    });
+  return complains;
+};
+
+export const saveComplains = async (data) => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let complains = false;
+  await server
+    .post(`/users/complains`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      complains = response?.data;
+    })
+    .catch((error) => {
+      complains = error?.response?.data;
+    });
+  return complains;
+};
+
+export const deleteComplains = async (id) => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let complains = false;
+  await server
+    .delete(`/users/complains/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      complains = response?.data;
+    })
+    .catch((error) => {
+      complains = error?.response?.data;
+    });
+  return complains;
 };

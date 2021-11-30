@@ -12,7 +12,7 @@ import Router from "next/router";
 import ReactTooltip from "react-tooltip";
 import { __d } from "../../../../server";
 import { useSelector, shallowEqual } from "react-redux";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 function AgreementUI() {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -122,7 +122,6 @@ function AgreementUI() {
 
   return (
     <>
-      <ToastContainer />
       {isLoading && <Loader />}
       <div>
         {agreements?.length > 0 ? (

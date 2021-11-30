@@ -3,7 +3,7 @@ import { MdClose, MdLocalOffer } from "react-icons/md";
 import dynamic from "next/dynamic";
 import ChatMessage from "../../ChatMessage";
 import ChatUser from "../../ChatUser";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { sendMessage } from "../../../../lib/frontend/auth";
 import { getConversations, getMessages } from "../../../../lib/frontend/share";
 import Loader from "../../../loader";
@@ -268,7 +268,6 @@ function ChatUI() {
   return (
     <>
       {isLoading && <Loader />}
-      <ToastContainer />
       <div
         className="flex shadow-sm border-gray-300 bg-white"
         style={{
@@ -278,7 +277,11 @@ function ChatUI() {
         }}
       >
         {/**left side user list */}
-        <div className="flex flex-col max-w-xs w-full">
+        <div
+          className={`flex flex-col md:max-w-xs md:w-full w-screen ${
+            selectedUser && "hidden md:block"
+          }`}
+        >
           {/**search bar */}
           <div
             className="flex items-center border-gray-300"
@@ -329,7 +332,9 @@ function ChatUI() {
         </div>
         {/**right side chats */}
         <div
-          className="border-gray-300 p-2 w-full bg-gray-50"
+          className={`border-gray-300 p-2 w-full bg-gray-50 ${
+            !selectedUser && "hidden md:block"
+          }`}
           style={{ borderLeftWidth: "1px" }}
         >
           {selectedUser ? (
@@ -423,7 +428,7 @@ function ChatUI() {
                   <div
                     className={`absolute transition-all duration-300 ease-linear w-full overflow-hidden ${
                       isOffer
-                        ? "h-52 bottom-16 z-30 p-3"
+                        ? "md:h-52 h-96 bottom-16 z-30 p-3"
                         : "h-0 z-0 bottom-0 p-0"
                     } bg-white border`}
                     style={{ fontFamily: "Opensans-semi-bold" }}

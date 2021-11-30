@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import WalletCard from "../../WalletCard";
 import { FiPlus, FiSearch } from "react-icons/fi";
 import Loader from "../../../loader";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { __d } from "../../../../server";
 import {
   createPaymentOrder,
@@ -75,13 +75,15 @@ function WalletUI() {
         setFilteredTransactions(res?.data);
         const thismonth = res?.data.map((d) => {
           if (
-            moment(d.created_at).format("DD-MM-YYYY") ===
-            moment().format("DD-MM-YYYY")
+            moment(d.created_at).format("MM-YYYY") ===
+            moment().format("MM-YYYY")
           ) {
             return d.amount;
           }
         });
-        setMonthTxn(thismonth.reduce((a, b) => parseFloat(a) + parseFloat(b)));
+        setMonthTxn(
+          thismonth.reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
+        );
       } else {
         setIsLoading(false);
         toast.error(res?.message || res?.error);
@@ -162,7 +164,6 @@ function WalletUI() {
 
   return (
     <>
-      <ToastContainer />
       {isLoading && <Loader />}
       <div className="flex flex-col">
         {/**cards */}
@@ -230,7 +231,7 @@ function WalletUI() {
                   {new Intl.NumberFormat("en-IN", {
                     style: "currency",
                     currency: "INR",
-                  }).format(wallet?.amount)}
+                  }).format(wallet?.amount || 0)}
                 </p>
                 <div className="form-element max-w-xs mt-1">
                   <div

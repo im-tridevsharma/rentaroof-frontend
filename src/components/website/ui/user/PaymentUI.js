@@ -1,6 +1,5 @@
 import React from "react";
-import { toast, ToastContainer } from "react-toastify";
-import ReactTooltip from "react-tooltip";
+import { toast } from "react-toastify";
 import { __d } from "../../../../server";
 import Loader from "../../../loader";
 import {
@@ -50,9 +49,9 @@ function PaymentUI() {
         const pending = res?.data.map((p) =>
           p?.status === "pending" ? p.pending : 0
         );
-        setTotalPaid(paid.reduce((a, b) => parseFloat(a) + parseFloat(b)));
+        setTotalPaid(paid.reduce((a, b) => parseFloat(a) + parseFloat(b), 0));
         setTotalPending(
-          pending.reduce((a, b) => parseFloat(a) + parseFloat(b))
+          pending.reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
         );
       } else {
         toast.error(res?.message || res?.error);
@@ -67,8 +66,7 @@ function PaymentUI() {
   return (
     <>
       {isLoading && <Loader />}
-      <ToastContainer />
-      <div className="relative p-5 shadow-sm border-2 border-gray-200 bg-white rounded-md">
+      <div className="relative md:w-full w-screen p-5 shadow-sm border-2 border-gray-200 bg-white rounded-md">
         {/**left line */}
         <span
           className="absolute left-0 w-1 top-1 rounded-lg"
@@ -127,7 +125,7 @@ function PaymentUI() {
         </div>
 
         <div
-          className="flex items-center mt-5"
+          className="flex items-center mt-5 md:w-full w-screen overflow-x-auto"
           style={{ fontFamily: "Opensans-bold" }}
         >
           <button
@@ -162,92 +160,94 @@ function PaymentUI() {
           </button>
         </div>
 
-        {tab === "point-history" && (
-          <div className="flex flex-col mt-5">
-            {referrals?.length > 0 &&
-              referrals.map((r, i) => (
-                <div
-                  key={i}
-                  className={`flex items-center justify-between p-3  mb-1 ${
-                    r?.type === "credit" ? "bg-green-50" : "bg-red-50"
-                  }`}
-                  style={{ fontFamily: "Opensans-regular" }}
-                >
-                  <div>
-                    <h6
-                      style={{ fontFamily: "Opensans-bold" }}
-                      className="text-sm"
-                    >
-                      {r?.type === "credit"
-                        ? "Points Credited"
-                        : "Points Debited"}
-                    </h6>
-                    <p className="text-gray-700">{r?.title}</p>
-                  </div>
-                  <h2
-                    className={`${
-                      r.type === "credit" ? "text-green-500" : "text-red-500"
+        <div className="md:w-full w-screen overflow-x-auto">
+          {tab === "point-history" && (
+            <div className="flex flex-col mt-5">
+              {referrals?.length > 0 &&
+                referrals.map((r, i) => (
+                  <div
+                    key={i}
+                    className={`flex items-center justify-between p-3  mb-1 ${
+                      r?.type === "credit" ? "bg-green-50" : "bg-red-50"
                     }`}
+                    style={{ fontFamily: "Opensans-regular" }}
                   >
-                    {r?.points}
-                  </h2>
-                </div>
-              ))}
-          </div>
-        )}
-        {tab === "transactions" && (
-          <div className="flex flex-col mt-5">
-            <table className="table table-auto">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Amount</th>
-                  <th>Paid</th>
-                  <th>Pending</th>
-                  <th>Type</th>
-                  <th>Order ID</th>
-                  <th>Payment ID</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {transactions?.length > 0 &&
-                  transactions.map((r, i) => (
-                    <tr
+                    <div>
+                      <h6
+                        style={{ fontFamily: "Opensans-bold" }}
+                        className="text-sm"
+                      >
+                        {r?.type === "credit"
+                          ? "Points Credited"
+                          : "Points Debited"}
+                      </h6>
+                      <p className="text-gray-700">{r?.title}</p>
+                    </div>
+                    <h2
                       className={`${
-                        r?.status === "paid" ? "bg-green-50" : "bg-red-50"
+                        r.type === "credit" ? "text-green-500" : "text-red-500"
                       }`}
-                      style={{ fontFamily: "Opensans-regular" }}
                     >
-                      <td>{i + 1}</td>
-                      <td>
-                        {new Intl.NumberFormat("en-IN", {
-                          style: "currency",
-                          currency: "INR",
-                        }).format(r?.amount)}
-                      </td>
-                      <td>
-                        {new Intl.NumberFormat("en-IN", {
-                          style: "currency",
-                          currency: "INR",
-                        }).format(r?.paid)}
-                      </td>
-                      <td>
-                        {new Intl.NumberFormat("en-IN", {
-                          style: "currency",
-                          currency: "INR",
-                        }).format(r?.pending)}
-                      </td>
-                      <td className="capitalize">{r?.type}</td>
-                      <td>{r?.order_number}</td>
-                      <td>{r?.txn_number}</td>
-                      <td className="capitalize">{r?.status}</td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+                      {r?.points}
+                    </h2>
+                  </div>
+                ))}
+            </div>
+          )}
+          {tab === "transactions" && (
+            <div className="flex flex-col mt-5">
+              <table className="table table-auto">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Amount</th>
+                    <th>Paid</th>
+                    <th>Pending</th>
+                    <th>Type</th>
+                    <th>Order ID</th>
+                    <th>Payment ID</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {transactions?.length > 0 &&
+                    transactions.map((r, i) => (
+                      <tr
+                        className={`${
+                          r?.status === "paid" ? "bg-green-50" : "bg-red-50"
+                        }`}
+                        style={{ fontFamily: "Opensans-regular" }}
+                      >
+                        <td>{i + 1}</td>
+                        <td>
+                          {new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: "INR",
+                          }).format(r?.amount)}
+                        </td>
+                        <td>
+                          {new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: "INR",
+                          }).format(r?.paid)}
+                        </td>
+                        <td>
+                          {new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: "INR",
+                          }).format(r?.pending)}
+                        </td>
+                        <td className="capitalize">{r?.type}</td>
+                        <td>{r?.order_number}</td>
+                        <td>{r?.txn_number}</td>
+                        <td className="capitalize">{r?.status}</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
       </div>
     </>
   );
