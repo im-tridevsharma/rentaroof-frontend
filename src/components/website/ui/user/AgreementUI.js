@@ -48,8 +48,8 @@ function AgreementUI() {
       type: "rent",
       type_id: data.id,
       message:
-        "Payment of rent for moneth " +
-        data.next_due +
+        "Payment of rent for month " +
+        moment(data.next_due).format("DD-MM-YYYY") +
         " by user " +
         profile?.fullname,
     };
@@ -168,8 +168,8 @@ function AgreementUI() {
               </div>
               <div className="flex flex-col items-end">
                 <div className="my-1">
-                  {moment(p?.start_date).add(1, "M") ===
-                    moment(p?.next_due) && (
+                  {moment(p?.start_date).add(1, "M").format("MM-YYYY") ===
+                    moment(p?.next_due).format("MM-YYYY") && (
                     <button
                       onClick={() => displayRazorpay(p)}
                       className="p-2 text-white rounded-md bg-green-400 mr-4"
@@ -178,8 +178,8 @@ function AgreementUI() {
                     </button>
                   )}
 
-                  {moment(p?.start_date).add(1, "M") !==
-                    moment(p?.next_due) && (
+                  {moment(p?.start_date).add(1, "M").format("MM-YYYY") !==
+                    moment(p?.next_due).format("MM-YYYY") && (
                     <button
                       onClick={() => displayRazorpay(p)}
                       className="p-2 text-white rounded-md bg-green-400 mr-4"

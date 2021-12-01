@@ -525,6 +525,23 @@ export const getTransactions = async (user = "") => {
   return status;
 };
 
+export const getRecentTransactions = async (user = "") => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let status = false;
+  await server
+    .get(`/payment/recent/?user=${user}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      status = response?.data;
+    })
+    .catch((error) => {
+      status = error?.response?.data;
+    });
+  return status;
+};
+
 export const getWallet = async () => {
   const token = __d(cookies.get("_SYNC_"));
 
@@ -610,4 +627,112 @@ export const deleteComplains = async (id) => {
       complains = error?.response?.data;
     });
   return complains;
+};
+
+//deal
+
+export const getDeal = async (id) => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let status = false;
+  await server
+    .get(`/properties/deals/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      status = response?.data;
+    })
+    .catch((error) => {
+      status = error?.response?.data;
+    });
+  return status;
+};
+
+export const closeDeal = async (id) => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let status = false;
+  await server
+    .get(`/properties/deals/close/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      status = response?.data;
+    })
+    .catch((error) => {
+      status = error?.response?.data;
+    });
+  return status;
+};
+
+//change deal status
+export const changeDealStatus = async (id, data) => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let status = false;
+  await server
+    .post(`/properties/deals/status/${id}`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      status = response?.data;
+    })
+    .catch((error) => {
+      status = error?.response?.data;
+    });
+  return status;
+};
+
+//property rent transactions
+export const getPropertyRentTransactions = async (code) => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let status = false;
+  await server
+    .get(`/properties/rent/transactions/${code}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      status = response?.data;
+    })
+    .catch((error) => {
+      status = error?.response?.data;
+    });
+  return status;
+};
+
+//property closed
+export const closeProperty = async (code) => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let status = false;
+  await server
+    .get(`/properties/closed/${code}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      status = response?.data;
+    })
+    .catch((error) => {
+      status = error?.response?.data;
+    });
+  return status;
+};
+
+//property open
+export const openProperty = async (code) => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let status = false;
+  await server
+    .get(`/properties/open/${code}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      status = response?.data;
+    })
+    .catch((error) => {
+      status = error?.response?.data;
+    });
+  return status;
 };

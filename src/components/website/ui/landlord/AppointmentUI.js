@@ -10,9 +10,14 @@ import moment from "moment";
 import { FaTimes } from "react-icons/fa";
 import { FiMail, FiPhoneCall } from "react-icons/fi";
 import ReactTooltip from "react-tooltip";
-import { createConversation } from "../../../../lib/frontend/share";
+import {
+  createConversation,
+  getDeal,
+  saveUserNotication,
+} from "../../../../lib/frontend/share";
 import { ToastContainer, toast } from "react-toastify";
 import Router from "next/router";
+import AppointmentForm from "../../AppointmentForm";
 
 function AppointmentUI() {
   const [appointments, setAppointments] = useState([]);
@@ -24,7 +29,9 @@ function AppointmentUI() {
   const [cardMode, setCardMode] = useState("today");
   const [reload, setReload] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
+  const [agreementMode, setAgreementMode] = useState(false);
   const [reschedule, setReschedule] = useState(false);
+  const [finalRent, setFinalRent] = useState(false);
 
   useEffect(() => {
     const fetchAppointments = async (id) => {
@@ -72,7 +79,76 @@ function AppointmentUI() {
       setUser(u);
       fetchAppointments(u?.id);
     }
+    const checkForDeal = async () => {
+      setIsLoading(true);
+      if (Router.query.deal) {
+        const res = await getDeal(Router.query.deal);
+        if (res?.status) {
+          setIsLoading(false);
+          const ap = appointments.filter(
+            (a) =>
+              a?.property_id === res?.data?.property_id &&
+              a?.created_by_id === res?.data?.offer_for
+          );
+          setFinalRent(res?.data?.offer_price);
+          if (ap[0] && !ap[0].agreement) {
+            setAgreementMode(ap[0]);
+          }
+        } else {
+          toast.error(res?.error || res?.message);
+          setIsLoading(false);
+        }
+      }
+    };
+
+    checkForDeal();
   }, [reload]);
+
+  const handleUserNotification = async (
+    user_id,
+    property,
+    status,
+    time = null,
+    href = null
+  ) => {
+    setIsLoading(true);
+    const message = {
+      approved: `${user?.fullname} has accepted your appointment for property - ${property}`,
+      visited: `${user?.fullname} has visited property - ${property} with you.`,
+      closed: `${user?.fullname} has closed appointment for property - ${property}.`,
+      agreement: `${user?.fullname} has created an agreement for property - ${property}.`,
+      rescheduled: `${
+        user?.fullname
+      } has rescheduled appointment for property - ${property}. Date - ${
+        time?.date && time.date
+      }, Time: ${time?.time && time.time}`,
+    };
+    const formdata = new FormData();
+    formdata.append(
+      "title",
+      status === "agreement"
+        ? `Agreement Created Successfully🎉`
+        : `Appointment Notification🔔`
+    );
+    formdata.append("type", "Normal");
+    formdata.append("tenant_id", user_id);
+    formdata.append("user_id", user?.id);
+    formdata.append("name", user?.fullname);
+    formdata.append("email", user?.email);
+    formdata.append("mobile", user?.mobile);
+    formdata.append("content", message[status]);
+    if (href) {
+      formdata.append("redirect", href);
+    }
+
+    const res = await saveUserNotication(formdata);
+    if (res?.status) {
+      setIsLoading(false);
+    } else {
+      setIsLoading(false);
+      console.error(res?.error || res?.message);
+    }
+  };
 
   const makeConversation = async (receiver, property, id) => {
     localStorage.setItem(
@@ -96,6 +172,10 @@ function AppointmentUI() {
         setIsLoading(false);
       }
     }
+  };
+
+  const openAgreementMode = (appointment) => {
+    setAgreementMode(appointment);
   };
 
   const handleReschedule = async (e) => {
@@ -215,12 +295,31 @@ function AppointmentUI() {
                                 todayAppointment.find((p) => p.id === a.id)
                               )
                             }
-                            className="px-2 text-green-500"
+                            className="px-2 text-green-500 border-gray-300 border-r-2"
                           >
                             Details
                           </button>
+                          {a.agreement && (
+                            <a
+                              href={a.agreement?.agreement_url}
+                              target="_blank"
+                              className="border-gray-300 border-r-2 px-2 mr-2"
+                              style={{ color: "var(--blue)" }}
+                            >
+                              View Agreement
+                            </a>
+                          )}
+                          {a.meeting_status === "visited" && !a?.agreement && (
+                            <button
+                              className="text-green-600 border-gray-300 border-r-2 px-2 mr-2"
+                              onClick={() => openAgreementMode(a)}
+                            >
+                              Create Agreement
+                            </button>
+                          )}
                           {a?.created_by_role !== "guest" &&
-                            a.meeting_status === "visited" && (
+                            a.meeting_status === "visited" &&
+                            !a.agreement && (
                               <button
                                 onClick={() =>
                                   makeConversation(
@@ -440,6 +539,15 @@ function AppointmentUI() {
               </tbody>
             </table>
           </div>
+        )}
+        {agreementMode && (
+          <AppointmentForm
+            appointment={agreementMode}
+            setAgreementMode={setAgreementMode}
+            setReload={setReload}
+            handleUserNotification={handleUserNotification}
+            final={finalRent}
+          />
         )}
       </div>
 

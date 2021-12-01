@@ -71,6 +71,21 @@ function ProfileUI() {
   const submitProfileData = async (formdata) => {
     const response = await updateProfile(profile.id, formdata);
     if (response?.status) {
+      const pdata = {
+        id: response?.data?.id,
+        system_userid: response?.data?.system_userid,
+        first: response?.data?.first,
+        last: response?.data?.last,
+        fullname: response?.data?.first + " " + response?.data?.last,
+        email: response?.data?.email,
+        mobile: response?.data?.mobile,
+        role: response?.data?.role,
+        profile_pic: response?.data?.profile_pic,
+        permissions: [],
+        account_status: response?.data?.account_status,
+      };
+
+      localStorage.setItem("LU", __e(JSON.stringify(pdata)));
       setIsSaved(true);
       setIsLoading(false);
       setTimeout(() => {

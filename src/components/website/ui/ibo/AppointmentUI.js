@@ -361,15 +361,6 @@ function AppointmentUI() {
                                 </>
                               )}
 
-                              {a.meeting_status === "visited" && !a?.agreement && (
-                                <button
-                                  className="text-green-600 border-gray-300 border-r-2 px-2 mr-2"
-                                  onClick={() => openAgreementMode(a)}
-                                >
-                                  Create Agreement
-                                </button>
-                              )}
-
                               {a.agreement && (
                                 <a
                                   href={a.agreement?.agreement_url}

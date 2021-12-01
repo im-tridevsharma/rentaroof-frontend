@@ -79,6 +79,8 @@ function WalletUI() {
             moment().format("MM-YYYY")
           ) {
             return d.amount;
+          } else {
+            return 0;
           }
         });
         setMonthTxn(
@@ -114,7 +116,14 @@ function WalletUI() {
       amount: amount,
       type: "wallet",
       type_id: wallet.id,
-      message: "Topup of wallet amount by user " + profile?.fullname,
+      message:
+        "Topup of wallet amount " +
+        new Intl.NumberFormat("en-IN", {
+          style: "currency",
+          currency: "INR",
+        }).format(amount || 0) +
+        " - " +
+        profile?.fullname,
     };
     const res = await createPaymentOrder(postdata);
     if (res?.status) {

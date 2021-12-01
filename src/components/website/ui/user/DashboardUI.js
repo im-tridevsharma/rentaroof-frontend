@@ -5,8 +5,13 @@ import DonoughtChart from "../../../charts/doughnut";
 import Review from "../../Review";
 import Loader from "../../../loader";
 import { __d } from "../../../../server";
-import { getAgreements, getUserRating } from "../../../../lib/frontend/share";
+import {
+  getAgreements,
+  getRecentTransactions,
+  getUserRating,
+} from "../../../../lib/frontend/share";
 import { FaTimes } from "react-icons/fa";
+import ReactTooltip from "react-tooltip";
 
 function DashboardUI() {
   const [visitedProperties, setVisitedProperties] = useState([]);
@@ -18,6 +23,7 @@ function DashboardUI() {
   const [viewMore, setViewMore] = useState(false);
   const [agreements, setAgreements] = useState([]);
   const [randomP, setRandomP] = useState({});
+  const [recentTransaction, setRecentTransaction] = useState([]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -51,6 +57,20 @@ function DashboardUI() {
         }
       })();
     }
+
+    const recentTxn = async () => {
+      setIsLoading(true);
+      const res = await getRecentTransactions();
+      if (res?.status) {
+        setIsLoading(false);
+        setRecentTransaction(res?.data);
+      } else {
+        setIsLoading(false);
+        console.log(res?.error || res?.message);
+      }
+    };
+
+    recentTxn();
 
     const getReviews = async () => {
       setIsLoading(true);
@@ -114,29 +134,6 @@ function DashboardUI() {
         tooltip: false,
       },
       fontcolor: "gray",
-    },
-  ];
-
-  const transactions = [
-    {
-      message: "Paid rent to Ashok Dalwar",
-      time: Date.now(),
-    },
-    {
-      message: "Add to wallet via back A/c XXX265",
-      time: Date.now(),
-    },
-    {
-      message: "Paid rent to Mohan Dalwar",
-      time: Date.now(),
-    },
-    {
-      message: "Paid rent to Neeraj Dalwar",
-      time: Date.now(),
-    },
-    {
-      message: "Paid rent to Priya Dalwar",
-      time: Date.now(),
     },
   ];
 
@@ -285,8 +282,8 @@ function DashboardUI() {
                 style={{ fontFamily: "Opensans-regular" }}
               >
                 {/**map transactions */}
-                {transactions?.length > 0 &&
-                  transactions.map((txn, i) => (
+                {recentTransaction?.length > 0 &&
+                  recentTransaction.map((txn, i) => (
                     <div
                       className="flex items-center justify-between py-2 px-3"
                       key={i}
@@ -296,10 +293,18 @@ function DashboardUI() {
                           src="/icons/user-dashboard/money_icon_blck.png"
                           alt="money"
                         />
-                        <p className="ml-2 text-gray-600">{txn?.message}</p>
+                        <p
+                          className="ml-2 text-gray-600"
+                          data-tip={txn.message}
+                        >
+                          {txn?.message?.length > 50
+                            ? txn.message.substring(0, 50) + "..."
+                            : txn.message}
+                        </p>
+                        <ReactTooltip />
                       </div>
                       <p className="text-3xs w-16 text-gray-600">
-                        {moment(txn?.time).format("h:Ma dddd")}
+                        {moment(txn?.created_at).format("h:Ma dddd")}
                       </p>
                     </div>
                   ))}

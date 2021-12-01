@@ -213,6 +213,7 @@ function PaymentUI() {
                   {transactions?.length > 0 &&
                     transactions.map((r, i) => (
                       <tr
+                        key={i}
                         className={`${
                           r?.status === "paid" ? "bg-green-50" : "bg-red-50"
                         }`}

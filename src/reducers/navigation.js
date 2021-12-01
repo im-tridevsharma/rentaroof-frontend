@@ -12,6 +12,7 @@ import { BiBuildingHouse } from "react-icons/bi";
 import { RiAlarmWarningFill, RiContactsLine } from "react-icons/ri";
 import { CgTrack, CgWebsite } from "react-icons/cg";
 import { GiWalk } from "react-icons/gi";
+import { GrCompliance } from "react-icons/gr";
 import { MdEditLocation } from "react-icons/md";
 
 const initialState = [
@@ -203,6 +204,12 @@ const initialState = [
         url: "/admin/meetings",
         icon: <GiWalk size={20} />,
         title: "Mettings",
+        items: [],
+      },
+      {
+        url: "/admin/complains",
+        icon: <GrCompliance size={20} />,
+        title: "Complains",
         items: [],
       },
       {

@@ -41,7 +41,7 @@ function PaymentUI() {
 
     const fetchTransactions = async () => {
       setIsLoading(true);
-      const res = await getTransactions("landlord");
+      const res = await getTransactions("ibo");
       if (res?.status) {
         setIsLoading(false);
         setTransactions(res?.data);

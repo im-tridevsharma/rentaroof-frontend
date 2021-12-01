@@ -211,6 +211,9 @@ function Index({ id }) {
       } else if (response?.error) {
         setIsLoading(false);
         setErrors(response?.error);
+      } else {
+        toast.error(response?.message);
+        setIsLoading(false);
       }
     } else {
       localStorage.setItem("redirect", router.asPath);

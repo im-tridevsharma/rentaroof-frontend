@@ -1,6 +1,7 @@
 import moment from "moment";
 import React from "react";
 import { FaTimes } from "react-icons/fa";
+import { FiAlertTriangle } from "react-icons/fi";
 import { shallowEqual, useSelector } from "react-redux";
 import { saveAgreement } from "../../lib/frontend/share";
 import Loader from "../loader";
@@ -10,6 +11,7 @@ function AppointmentForm({
   setAgreementMode,
   setReload,
   handleUserNotification,
+  final,
 }) {
   const { website } = useSelector(
     (state) => ({
@@ -19,10 +21,13 @@ function AppointmentForm({
   );
 
   const [payamount, setPayAmount] = React.useState(
-    appointment?.property_monthly_rent
+    final
+      ? final * parseInt(100 / website?.landlord_commision)
+      : appointment?.property_monthly_rent
   );
   const [nextDue, setNextDue] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
+  const [errors, setErrors] = React.useState(false);
 
   const getNextDue = (e) => {
     const d = e.target.value;
@@ -49,29 +54,49 @@ function AppointmentForm({
     switch (e.target.value) {
       case "monthly":
         setNextDue(moment(d).add(1, "M").format("YYYY-MM-DD"));
-        setPayAmount(appointment?.property_monthly_rent);
+        setPayAmount(
+          final
+            ? final * parseInt(100 / website?.landlord_commision)
+            : appointment?.property_monthly_rent
+        );
         break;
       case "quarterly":
         setNextDue(moment(d).add(3, "months").format("YYYY-MM-DD"));
         setPayAmount(
-          parseFloat(appointment?.property_monthly_rent * 3).toFixed(2)
+          parseFloat(
+            final
+              ? final * parseInt(100 / website?.landlord_commision) * 3
+              : appointment?.property_monthly_rent * 3
+          ).toFixed(2)
         );
         break;
       case "half-yearly":
         setNextDue(moment(d).add(6, "months").format("YYYY-MM-DD"));
         setPayAmount(
-          parseFloat(appointment?.property_monthly_rent * 6).toFixed(2)
+          parseFloat(
+            final
+              ? final * parseInt(100 / website?.landlord_commision) * 6
+              : appointment?.property_monthly_rent * 6
+          ).toFixed(2)
         );
         break;
       case "yearly":
         setNextDue(moment(d).add(1, "year").format("YYYY-MM-DD"));
         setPayAmount(
-          parseFloat(appointment?.property_monthly_rent * 12).toFixed(2)
+          parseFloat(
+            final
+              ? final * parseInt(100 / website?.landlord_commision) * 12
+              : appointment?.property_monthly_rent * 12
+          ).toFixed(2)
         );
         break;
       default:
         setNextDue("");
-        setPayAmount(appointment?.property_monthly_rent);
+        setPayAmount(
+          final
+            ? final * parseInt(100 / website?.landlord_commision)
+            : appointment?.property_monthly_rent
+        );
     }
   };
 
@@ -84,6 +109,7 @@ function AppointmentForm({
       setIsLoading(false);
       setAgreementMode(false);
       setReload(Date.now());
+      localStorage.getItem("deal-for") && localStorage.removeItem("deal-for");
       handleUserNotification(
         appointment?.created_by_id,
         appointment?.property_data,
@@ -91,6 +117,12 @@ function AppointmentForm({
         null,
         `/tenant/agreements?a=${res?.data.id}`
       );
+    } else if (res?.error) {
+      setErrors(res?.error);
+      setTimeout(() => {
+        setErrors(false);
+      }, 3000);
+      setIsLoading(false);
     } else {
       setIsLoading(false);
       console.error(res?.error || res?.message);
@@ -108,6 +140,17 @@ function AppointmentForm({
             className="absolute right-1 top-1 text-red-500 cursor-pointer text-lg"
           />
         </h5>
+        {errors && (
+          <div className="mt-3">
+            {Object.keys(errors).map((index, i) => (
+              <div className="w-full mb-2" key={i}>
+                <p className="text-red-500 flex items-center">
+                  <FiAlertTriangle className="mr-1" /> {errors[index]}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
         <form
           name="agreement"
           style={{ fontFamily: "Opensans-regular" }}
@@ -171,13 +214,16 @@ function AppointmentForm({
                 readOnly
                 defaultValue={parseFloat(
                   parseFloat(
-                    (appointment?.property_monthly_rent *
-                      website?.landlord_commision) /
-                      100
+                    (final
+                      ? final * parseInt(100 / website?.landlord_commision)
+                      : appointment?.property_monthly_rent *
+                        website?.landlord_commision) / 100
                   ) -
                     parseFloat(
-                      (((appointment?.property_monthly_rent *
-                        website?.landlord_commision) /
+                      (((final
+                        ? final * parseInt(100 / website?.landlord_commision)
+                        : appointment?.property_monthly_rent *
+                          website?.landlord_commision) /
                         100) *
                         website?.ibo_commision) /
                         100
