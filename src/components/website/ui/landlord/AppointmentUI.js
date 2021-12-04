@@ -202,8 +202,8 @@ function AppointmentUI() {
         {/**cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
           <Card
-            label="Total Appointment"
-            count={appointments?.length}
+            label="Today's Appointment"
+            count={todayAppointment?.length}
             color="var(--orange)"
             textcolor="white"
             icon={<img src="/icons/ibo_icons/icon20.png" alt="appointment" />}

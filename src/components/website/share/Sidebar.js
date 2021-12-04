@@ -42,7 +42,7 @@ function Sidebar({ name, page, sideBarToggled, isHide, setIsHide }) {
       >
         {/**logo */}
         <div>
-          <Link href={`/${role}/dashboard`}>
+          <Link href={`/`}>
             <a
               className="flex items-center py-2 px-4 bg-white"
               style={{ height: "52px" }}

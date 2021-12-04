@@ -1,6 +1,7 @@
 import moment from "moment";
 import React from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { FiEye } from "react-icons/fi";
 import { MdClose } from "react-icons/md";
 import ReactTooltip from "react-tooltip";
@@ -10,12 +11,21 @@ import {
   seenLandlordNotification,
 } from "../../../../lib/frontend/share";
 import Loader from "../../../loader";
+import { __d } from "../../../../server";
 
 function NotificationUI() {
   const [notifications, setNotifications] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [user, setUser] = React.useState(false);
 
   React.useEffect(() => {
+    const u = localStorage.getItem("LU")
+      ? JSON.parse(__d(localStorage.getItem("LU")))
+      : false;
+    if (u) {
+      setUser(u);
+    }
+
     const fetchNotifications = async () => {
       setIsLoading(true);
       const res = await getLandlordNotification();
@@ -29,6 +39,28 @@ function NotificationUI() {
     };
 
     fetchNotifications();
+
+    if (
+      typeof Echo !== "undefined" &&
+      Echo.connector.options.auth.headers["Authorization"]
+    ) {
+      Echo.channel("notification").listen("NotificationSent", (e) => {
+        if (e?.notification?.landlord_id === u?.id && u?.role === "landlord") {
+          if (
+            notifications.filter((n) => n.id === e?.notification?.id).length ===
+            0
+          ) {
+          }
+          setNotifications((prev) => [e.notification, ...prev]);
+        }
+      });
+    }
+
+    return () => {
+      if (typeof Echo !== "undefined") {
+        Echo.channel("notification").stopListening("NotificationSent");
+      }
+    };
   }, []);
 
   const delNotification = async (id) => {
@@ -155,5 +187,4 @@ function NotificationUI() {
     </>
   );
 }
-
-export default NotificationUI;
+export default dynamic(() => Promise.resolve(NotificationUI), { ssr: false });

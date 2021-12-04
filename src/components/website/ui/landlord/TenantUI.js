@@ -8,6 +8,7 @@ import {
 import TenantCard from "../../TenantCard";
 import Loader from "../../../loader";
 import { FaTimes } from "react-icons/fa";
+import moment from "moment";
 
 function TenantUI() {
   const [property, setProperty] = useState(false);
@@ -253,6 +254,7 @@ function TenantUI() {
                   <th>Order ID</th>
                   <th>Payment ID</th>
                   <th>Status</th>
+                  <th>Date</th>
                 </tr>
               </thead>
               <tbody>
@@ -288,6 +290,7 @@ function TenantUI() {
                       <td>{r?.order_number}</td>
                       <td>{r?.txn_number}</td>
                       <td className="capitalize">{r?.status}</td>
+                      <td>{moment(r?.created_at).format("DD-MM-YYYY")}</td>
                     </tr>
                   ))}
               </tbody>

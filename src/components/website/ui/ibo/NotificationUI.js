@@ -10,12 +10,18 @@ import {
   seenIboNotification,
 } from "../../../../lib/frontend/share";
 import Loader from "../../../loader";
+import { __d } from "../../../../server";
+import dynamic from "next/dynamic";
 
 function NotificationUI() {
   const [notifications, setNotifications] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
+    const u = localStorage.getItem("LU")
+      ? JSON.parse(__d(localStorage.getItem("LU")))
+      : false;
+
     const fetchNotifications = async () => {
       setIsLoading(true);
       const res = await getIboNotification();
@@ -29,6 +35,28 @@ function NotificationUI() {
     };
 
     fetchNotifications();
+
+    if (
+      typeof Echo !== "undefined" &&
+      Echo.connector.options.auth.headers["Authorization"]
+    ) {
+      Echo.channel("notification").listen("NotificationSent", (e) => {
+        if (e?.notification?.ibo_id === u?.id && u?.role === "ibo") {
+          if (
+            notifications.filter((n) => n.id === e?.notification?.id).length ===
+            0
+          ) {
+          }
+          setNotifications((prev) => [e.notification, ...prev]);
+        }
+      });
+    }
+
+    return () => {
+      if (typeof Echo !== "undefined") {
+        Echo.channel("notification").stopListening("NotificationSent");
+      }
+    };
   }, []);
 
   const delNotification = async (id) => {
@@ -156,4 +184,4 @@ function NotificationUI() {
   );
 }
 
-export default NotificationUI;
+export default dynamic(() => Promise.resolve(NotificationUI), { ssr: false });

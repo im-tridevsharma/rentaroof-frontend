@@ -799,15 +799,11 @@ function Index({ id }) {
               </Link>
               {user?.role === "ibo" ? (
                 <Link href={`/details/ibo/${user?.system_userid}`}>
-                  <a className="mt-3 underline block">
-                    More properties from this IBO
-                  </a>
+                  <a className="mt-3 underline block">View More</a>
                 </Link>
               ) : (
                 <Link href={`/details/landlord/${user?.system_userid}`}>
-                  <a className="mt-3 underline block">
-                    More properties from this Landlord
-                  </a>
+                  <a className="mt-3 underline block">View More</a>
                 </Link>
               )}
             </div>

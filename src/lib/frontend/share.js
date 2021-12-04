@@ -84,6 +84,22 @@ export const getIboRating = async (id) => {
   return rating;
 };
 
+export const getUnseenNotification = async (user) => {
+  const token = __d(cookies.get("_SYNC_"));
+  let notification = false;
+  await server
+    .get(`/${user}/notifications/unseen`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      notification = response?.data;
+    })
+    .catch((error) => {
+      notification = error?.response?.data;
+    });
+  return notification;
+};
+
 export const getIboNotification = async () => {
   const token = __d(cookies.get("_SYNC_"));
   let notification = false;
@@ -726,6 +742,24 @@ export const openProperty = async (code) => {
   let status = false;
   await server
     .get(`/properties/open/${code}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      status = response?.data;
+    })
+    .catch((error) => {
+      status = error?.response?.data;
+    });
+  return status;
+};
+
+//accept or reject conversation
+export const conversationStatus = async (data) => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let status = false;
+  await server
+    .post(`/chat/conversations/status`, data, {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((response) => {

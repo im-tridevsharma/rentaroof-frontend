@@ -5,7 +5,11 @@ import ChatMessage from "../../ChatMessage";
 import ChatUser from "../../ChatUser";
 import { toast } from "react-toastify";
 import { sendMessage } from "../../../../lib/frontend/auth";
-import { getConversations, getMessages } from "../../../../lib/frontend/share";
+import {
+  conversationStatus,
+  getConversations,
+  getMessages,
+} from "../../../../lib/frontend/share";
 import Loader from "../../../loader";
 import { __d } from "../../../../server";
 import moment from "moment";
@@ -28,6 +32,7 @@ function ChatUI() {
   const [messages, setMessages] = useState([]);
   const [isMsgLoading, setIsMsgLoading] = useState(false);
   const [isOffer, setIsOffer] = useState(false);
+  const [isNotAccepted, setIsNotAccepted] = useState(false);
 
   const onEmojiClick = (e, emojiObject) => {
     e.preventDefault();
@@ -145,6 +150,9 @@ function ChatUI() {
     setShowEmoji(false);
     if (conversation && user) {
       setSelectedUser(user);
+      if (conversation?.is_accepted === "pending") {
+        setIsNotAccepted(true);
+      }
       setConversationId(conversation?.id);
       if (typeof Echo !== "undefined") {
         if (
@@ -229,6 +237,21 @@ function ChatUI() {
       }
     }
     setConversationId(0);
+  };
+
+  const acceptOrReject = async (conversation, status) => {
+    setIsLoading(true);
+    const res = await conversationStatus({
+      conversation_id: conversation,
+      status,
+    });
+    if (res?.status) {
+      setIsNotAccepted(false);
+      setIsLoading(false);
+    } else {
+      toast.error(res?.error || res?.message);
+      setIsLoading(false);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -377,6 +400,25 @@ function ChatUI() {
                 className="flex flex-col leading-4 relative"
                 style={{ fontFamily: "Opensans-regular" }}
               >
+                {isNotAccepted && (
+                  <div className="absolute top-2 flex-col bg-gray-200 rounded-lg left-1/2 transform -translate-x-1/2 py-3 px-5 flex items-center justify-evenly">
+                    <p className="mb-3">Accept or Reject the chat</p>
+                    <div className="flex items-center">
+                      <button
+                        onClick={() => acceptOrReject(conversationId, "yes")}
+                        className="px-3 py-2 rounded-md bg-green-500 text-white mr-3"
+                      >
+                        Accept
+                      </button>
+                      <button
+                        onClick={() => acceptOrReject(conversationId, "no")}
+                        className="px-3 py-2 rounded-md bg-red-500 text-white"
+                      >
+                        Reject
+                      </button>
+                    </div>
+                  </div>
+                )}
                 {isMsgLoading && <p>Loading messages...</p>}
                 {/**chats */}
                 <div

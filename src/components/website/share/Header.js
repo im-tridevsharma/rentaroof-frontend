@@ -30,11 +30,17 @@ function Header({
   setUser,
   setIsHide,
   notifications,
+  setNotifications,
 }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const cookies = new Cookies();
+
+  const playBell = () => {
+    const bell = new Audio("/music/notification.wav");
+    bell.play();
+  };
 
   useEffect(() => {
     (async () => {
@@ -49,7 +55,53 @@ function Header({
     if (typeof Echo !== "undefined") {
       Echo.connector.options.auth.headers["Authorization"] =
         "Bearer " + __d(cookies.get("_SYNC_"));
+      if (Echo.connector.options.auth.headers["Authorization"]) {
+        Echo.channel("notification")
+          .listen("NotificationSent", (e) => {
+            if (user?.role === "ibo" && e?.notification?.ibo_id === user?.id) {
+              setNotifications((prev) => prev + 1);
+              playBell();
+            }
+            if (
+              user?.role === "tenant" &&
+              e?.notification?.tenant_id === user?.id
+            ) {
+              setNotifications((prev) => prev + 1);
+              playBell();
+            }
+            if (
+              user?.role === "landlord" &&
+              e?.notification?.landlord_id === user?.id
+            ) {
+              setNotifications((prev) => prev + 1);
+              playBell();
+            }
+          })
+          .listen("NotificationSeen", (e) => {
+            if (user?.role === "ibo" && e?.notification?.ibo_id === user?.id) {
+              setNotifications((prev) => (prev > 0 ? prev - 1 : 0));
+            }
+            if (
+              user?.role === "tenant" &&
+              e?.notification?.tenant_id === user?.id
+            ) {
+              setNotifications((prev) => (prev > 0 ? prev - 1 : 0));
+            }
+            if (
+              user?.role === "landlord" &&
+              e?.notification?.landlord_id === user?.id
+            ) {
+              setNotifications((prev) => (prev > 0 ? prev - 1 : 0));
+            }
+          });
+      }
     }
+
+    return () => {
+      Echo.channel("notification")
+        .stopListening("NotificationSent")
+        .stopListening("NotificationSeen");
+    };
   }, []);
 
   const handleLogout = async (e) => {

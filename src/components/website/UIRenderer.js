@@ -5,6 +5,7 @@ import {
   createConversation,
   getIboNotification,
   getLandlordNotification,
+  getUnseenNotification,
   getUserNotification,
   getUsersForChat,
 } from "../../lib/frontend/share";
@@ -37,14 +38,9 @@ function UIRenderer({ UI, role, page }) {
     };
 
     const fetchNotifications = async () => {
-      const res =
-        data?.role === "ibo"
-          ? await getIboNotification()
-          : data?.role === "landlord"
-          ? await getLandlordNotification()
-          : await getUserNotification();
+      const res = await getUnseenNotification(data?.role);
       if (res?.status) {
-        setNotifications(res?.data?.filter((n) => n?.is_seen !== 1));
+        setNotifications(res?.data);
       } else {
         console.error(res?.error || res.message);
       }
@@ -90,7 +86,8 @@ function UIRenderer({ UI, role, page }) {
           user={user}
           setUser={setUser}
           setIsHide={setIsHide}
-          notifications={notifications?.length}
+          notifications={notifications}
+          setNotifications={setNotifications}
         />
         {/**main content */}
         <div
@@ -102,64 +99,68 @@ function UIRenderer({ UI, role, page }) {
           <UI />
         </div>
         {/**conversation */}
-        <div
-          className={`${
-            !make
-              ? "w-10 h-10 rounded-full cursor-pointer hover:bg-green-50 flex items-center justify-center"
-              : "md:w-96 w-full h-72 border"
-          } bg-white fixed md:right-5 bottom-24 right-0 z-40 shadow-lg drop-shadow-md transition-all duration-50 ease-linear`}
-        >
-          {!make && (
-            <FiMessageSquare
-              className="text-2xl"
-              onClick={() => setMake(true)}
-            />
-          )}
-          {make && (
-            <div className="flex flex-col p-4">
-              <h5
-                className="flex items-center justify-between"
-                style={{ fontFamily: "Opensans-bold" }}
-              >
-                Make a Conversation{" "}
-                <FaTimes
-                  className="text-red-500 cursor-pointer"
-                  onClick={() => setMake(false)}
-                />
-              </h5>
-              <form
-                name="conversation"
-                className="mt-10"
-                onSubmit={handleConversationSubmit}
-                style={{ fontFamily: "Opensans-semi-bold" }}
-              >
-                <div className="form-element">
-                  <input type="hidden" name="sender_id" value={user?.id} />
-                  <label className="form-label">Select User/IBO/Landlord</label>
-                  <select
-                    className="form-select border-gray-100 rounded-md"
-                    name="receiver_id"
-                    required={true}
-                  >
-                    <option value="">Select</option>
-                    {users?.length > 0 &&
-                      users.map((u, i) => (
-                        <option
-                          key={i}
-                          value={u?.id}
-                        >{`${u.first} ${u.last} - ${u.role}`}</option>
-                      ))}
-                  </select>
-                </div>
-                <div className="mt-5 block">
-                  <button className=" float-right px-3 py-2 bg-green-400 hover:bg-green-500 rounded-md">
-                    Start Conversation
-                  </button>
-                </div>
-              </form>
-            </div>
-          )}
-        </div>
+        {false && (
+          <div
+            className={`${
+              !make
+                ? "w-10 h-10 rounded-full cursor-pointer hover:bg-green-50 flex items-center justify-center"
+                : "md:w-96 w-full h-72 border"
+            } bg-white fixed md:right-5 bottom-24 right-0 z-40 shadow-lg drop-shadow-md transition-all duration-50 ease-linear`}
+          >
+            {!make && (
+              <FiMessageSquare
+                className="text-2xl"
+                onClick={() => setMake(true)}
+              />
+            )}
+            {make && (
+              <div className="flex flex-col p-4">
+                <h5
+                  className="flex items-center justify-between"
+                  style={{ fontFamily: "Opensans-bold" }}
+                >
+                  Make a Conversation{" "}
+                  <FaTimes
+                    className="text-red-500 cursor-pointer"
+                    onClick={() => setMake(false)}
+                  />
+                </h5>
+                <form
+                  name="conversation"
+                  className="mt-10"
+                  onSubmit={handleConversationSubmit}
+                  style={{ fontFamily: "Opensans-semi-bold" }}
+                >
+                  <div className="form-element">
+                    <input type="hidden" name="sender_id" value={user?.id} />
+                    <label className="form-label">
+                      Select User/IBO/Landlord
+                    </label>
+                    <select
+                      className="form-select border-gray-100 rounded-md"
+                      name="receiver_id"
+                      required={true}
+                    >
+                      <option value="">Select</option>
+                      {users?.length > 0 &&
+                        users.map((u, i) => (
+                          <option
+                            key={i}
+                            value={u?.id}
+                          >{`${u.first} ${u.last} - ${u.role}`}</option>
+                        ))}
+                    </select>
+                  </div>
+                  <div className="mt-5 block">
+                    <button className=" float-right px-3 py-2 bg-green-400 hover:bg-green-500 rounded-md">
+                      Start Conversation
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

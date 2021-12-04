@@ -18,6 +18,7 @@ import StarRatings from "react-star-ratings";
 import { FiCheckCircle } from "react-icons/fi";
 import { shallowEqual, useSelector } from "react-redux";
 import { FaTimes } from "react-icons/fa";
+import { __d } from "../../../server";
 
 function Index({ id }) {
   const [ibo, setIbo] = useState(false);
@@ -33,6 +34,7 @@ function Index({ id }) {
   const [avgRating, setAvgRating] = useState(0);
   const [topReview, setTopReview] = useState(false);
   const [termsAndCondition, setTermsAndCondition] = useState(false);
+  const [profile, setProfile] = useState(false);
 
   const { website } = useSelector(
     (state) => ({
@@ -42,6 +44,12 @@ function Index({ id }) {
   );
 
   useEffect(() => {
+    const u = localStorage.getItem("LU")
+      ? JSON.parse(__d(localStorage.getItem("LU")))
+      : false;
+    if (u) {
+      setProfile(u);
+    }
     setIsLoading(true);
     (async () => {
       const res = await getUserByCode(id);
@@ -391,6 +399,8 @@ function Index({ id }) {
                   <input
                     type="text"
                     name="name"
+                    defaultValue={profile?.fullname}
+                    onChange={() => {}}
                     required
                     className="form-input rounded-md border-gray-200 h-10"
                   />
@@ -400,6 +410,8 @@ function Index({ id }) {
                   <input
                     type="email"
                     name="email"
+                    defaultValue={profile?.email}
+                    onChange={() => {}}
                     required
                     className="form-input rounded-md border-gray-200 h-10"
                   />
@@ -409,6 +421,8 @@ function Index({ id }) {
                   <input
                     type="text"
                     name="mobile"
+                    defaultValue={profile?.mobile}
+                    onChange={() => {}}
                     required
                     className="form-input rounded-md border-gray-200 h-10"
                   />

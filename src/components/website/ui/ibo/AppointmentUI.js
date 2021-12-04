@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Router from "next/router";
 import Card from "../../Card";
 import {
   getMeetings,
@@ -9,14 +10,16 @@ import { __d } from "../../../../server";
 import Loader from "../../../loader";
 import moment from "moment";
 import { FaTimes } from "react-icons/fa";
-import { FiMail, FiPhoneCall } from "react-icons/fi";
+import { FiMail, FiMessageCircle, FiPhoneCall } from "react-icons/fi";
 import {
+  createConversation,
   saveUserNotication,
   saveUserRating,
 } from "../../../../lib/frontend/share";
 import AppointmentForm from "../../AppointmentForm";
 import StarRatings from "react-star-ratings";
 import ReactTooltip from "react-tooltip";
+import { toast } from "react-toastify";
 
 function AppointmentUI() {
   const [appointments, setAppointments] = useState([]);
@@ -67,7 +70,7 @@ function AppointmentUI() {
           : setAppointmentHistory([]);
         setIsLoading(false);
       } else {
-        console.error(response?.error || response?.message);
+        toast.error(response?.error || response?.message);
         setIsLoading(false);
       }
     };
@@ -123,7 +126,7 @@ function AppointmentUI() {
       setIsLoading(false);
     } else {
       setIsLoading(false);
-      console.error(res?.error || res?.message);
+      toast.error(res?.error || res?.message);
     }
   };
 
@@ -138,7 +141,7 @@ function AppointmentUI() {
       setReload(Date.now());
       setIsLoading(false);
     } else {
-      console.error(response?.error || response?.data);
+      toast.error(response?.error || response?.data);
       setIsLoading(false);
     }
   };
@@ -153,10 +156,10 @@ function AppointmentUI() {
       setIsLoading(false);
       document.forms.rating.reset();
       setRating(0);
-      alert("Review saved successfully.");
+      toast.success("Review saved successfully.");
       setRateAndReview(false);
     } else {
-      console.error(res?.error || res?.message);
+      toast.error(res?.error || res?.message);
       setIsLoading(false);
     }
   };
@@ -184,8 +187,29 @@ function AppointmentUI() {
         setReschedule(false);
       }
     } else {
-      console.error(response?.error || response?.data);
+      toast.error(response?.error || response?.data);
       setIsLoading(false);
+    }
+  };
+
+  const startConversation = async (receiver) => {
+    setIsLoading(true);
+    if (receiver) {
+      const formdata = {
+        sender_id: user?.id,
+        receiver_id: receiver,
+      };
+      if (formdata) {
+        const res = await createConversation(formdata);
+        if (res?.status) {
+          setIsLoading(false);
+          toast.success("Redirecting to chat.");
+          Router.push(`/${user?.role}/chat`);
+        } else {
+          setIsLoading(false);
+          toast.error(res?.error || res?.message);
+        }
+      }
     }
   };
 
@@ -200,8 +224,8 @@ function AppointmentUI() {
         {/**cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
           <Card
-            label="Total Appointment"
-            count={appointments?.length}
+            label="Today's Appointment"
+            count={todayAppointment?.length}
             color="var(--orange)"
             textcolor="white"
             icon={<img src="/icons/ibo_icons/icon20.png" alt="appointment" />}
@@ -267,15 +291,26 @@ function AppointmentUI() {
                           <a
                             href={`tel:${a?.contact}`}
                             style={{ color: "var(--blue)" }}
+                            data-tip="Call"
                           >
                             <FiPhoneCall className="mx-1" />
+                            <ReactTooltip />
                           </a>
                           <a
                             href={`mailto:${a?.email}`}
                             style={{ color: "var(--blue)" }}
+                            data-tip="Mail"
                           >
                             <FiMail className="mx-1" />
+                            <ReactTooltip />
                           </a>
+                          <FiMessageCircle
+                            style={{ color: "var(--blue)" }}
+                            className="text-lg cursor-pointer"
+                            data-tip="Chat"
+                            onClick={() => startConversation(a?.created_by_id)}
+                          />
+                          <ReactTooltip />
                         </p>
                       </td>
                       <td>{moment(a?.start_time).format("DD-MM-YYYY")}</td>
@@ -448,15 +483,26 @@ function AppointmentUI() {
                           <a
                             href={`tel:${a?.contact}`}
                             style={{ color: "var(--blue)" }}
+                            data-tip="Call"
                           >
                             <FiPhoneCall className="mx-1" />
+                            <ReactTooltip />
                           </a>
                           <a
                             href={`mailto:${a?.email}`}
                             style={{ color: "var(--blue)" }}
+                            data-tip="Mail"
                           >
                             <FiMail className="mx-1" />
+                            <ReactTooltip />
                           </a>
+                          <FiMessageCircle
+                            style={{ color: "var(--blue)" }}
+                            className="text-lg cursor-pointer"
+                            data-tip="Chat"
+                            onClick={() => startConversation(a?.created_by_id)}
+                          />
+                          <ReactTooltip />
                         </p>
                       </td>
                       <td>{moment(a?.start_time).format("DD-MM-YYYY")}</td>

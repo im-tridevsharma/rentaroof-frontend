@@ -2,7 +2,7 @@ import moment from "moment";
 import Link from "next/link";
 
 function PropertyIbo({ property }) {
-  return (
+  return property ? (
     <div className="border-2 border-gray-200 rounded-lg flex sm:flex-row flex-col items-center sm:items-start p-1 my-1 shadow-md mb-3">
       {/**small slider */}
       <div className="mr-5">
@@ -91,7 +91,7 @@ function PropertyIbo({ property }) {
         </p>
       </div>
     </div>
-  );
+  ) : null;
 }
 
 export default PropertyIbo;
