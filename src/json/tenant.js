@@ -60,12 +60,12 @@ const links = [
     ),
   },
   {
-    label: "Wallet",
-    href: "/tenant/wallet",
+    label: "Appointments",
+    href: "/tenant/appointment",
     icon: (
       <img
-        src="/icons/user-dashboard/wallet_icon.png"
-        alt="wallet"
+        src="/icons/ibo_icons/icon_110.png"
+        alt="appointments"
         className="object-contain"
         style={{ maxWidth: "20px", width: "20px", height: "20px" }}
       />
@@ -78,6 +78,18 @@ const links = [
       <img
         src="/icons/user-dashboard/money_icon.png"
         alt="payment"
+        className="object-contain"
+        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
+      />
+    ),
+  },
+  {
+    label: "Wallet",
+    href: "/tenant/wallet",
+    icon: (
+      <img
+        src="/icons/user-dashboard/wallet_icon.png"
+        alt="wallet"
         className="object-contain"
         style={{ maxWidth: "20px", width: "20px", height: "20px" }}
       />

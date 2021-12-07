@@ -10,14 +10,13 @@ import {
 } from "../../../../lib/frontend/properties";
 import Loader from "../../../loader";
 import PostedProperty from "../../PostedProperty";
-import {
-  deleteUserSavedProperties,
-  getUserSavedProperties,
-} from "../../../../lib/frontend/auth";
 import { __d } from "../../../../server";
 import { MdClose } from "react-icons/md";
 import { BsStarFill } from "react-icons/bs";
-import { getAgreements } from "../../../../lib/frontend/share";
+import {
+  getAgreements,
+  getVisitedProperties,
+} from "../../../../lib/frontend/share";
 import ReactTooltip from "react-tooltip";
 import { FiAlertCircle, FiDelete } from "react-icons/fi";
 
@@ -73,15 +72,15 @@ function PropertiesUI() {
         ? JSON.parse(__d(localStorage.getItem("LU")))
         : false;
       if (u) {
-        const response = await getUserSavedProperties(u.id);
+        const response = await getVisitedProperties();
         if (response?.status) {
           setIsLoading(false);
-          const visited = response?.data.filter((p) => p.type === "visited");
-          setVisitedProperties(visited);
+          setVisitedProperties(response?.data);
         } else {
           setIsLoading(false);
           console.error(response?.error || response?.message);
         }
+
         setIsLoading(true);
         const ares = await getAgreements();
         if (ares?.status) {
@@ -115,28 +114,6 @@ function PropertiesUI() {
       setDeleteReason("");
       setDeleteMode(false);
     } else {
-      setIsLoading(false);
-    }
-  };
-
-  const deleteMe = async (id, type) => {
-    setIsLoading(true);
-    if (id) {
-      const res = await deleteUserSavedProperties(id);
-      if (res?.status) {
-        setIsLoading(false);
-        if (type === "visited") {
-          const newvisited = visitedProperties.filter(
-            (v) => v.id !== res?.data.id
-          );
-          setVisitedProperties(newvisited);
-        }
-      } else {
-        setIsLoading(false);
-        console.error(res?.error || res?.message);
-      }
-    } else {
-      console.error("Something went wrong!");
       setIsLoading(false);
     }
   };
@@ -219,10 +196,12 @@ function PropertiesUI() {
             </a>
           </Link>
         </div>
-        <p className="py-3 flex items-center text-red-500">
-          <FiAlertCircle className="mr-3" /> Without verification of your
-          property customer cannot view in website.
-        </p>
+        {cardMode === "posted" && (
+          <p className="py-3 flex items-center text-red-500">
+            <FiAlertCircle className="mr-3" /> Without verification of your
+            property customer cannot view in website.
+          </p>
+        )}
         {/**properties */}
         {cardMode === "posted" && (
           <>
@@ -291,19 +270,11 @@ function PropertiesUI() {
               {visitedProperties &&
                 visitedProperties.map((p, i) => (
                   <div
-                    className="relative border-gray-200 flex items-center justify-between py-2 pl-8 pr-2"
+                    className="relative border-gray-200 flex items-center justify-between py-2 pl-2 pr-2"
                     key={i}
                     style={{ borderTopWidth: "1px" }}
                   >
-                    <span
-                      onClick={() => deleteMe(p.id, "visited")}
-                      className="p-1 rounded-md bg-gray-400 absolute top-2 left-0 cursor-pointer text-white"
-                      data-tip="Remove"
-                    >
-                      <MdClose />
-                      <ReactTooltip />
-                    </span>
-                    <div className="w-20 h-20 overflow-hidden rounded-md">
+                    <div className="w-24 h-24 overflow-hidden rounded-md">
                       <Image
                         src={p?.front_image || "/images/website/no_photo.png"}
                         alt="property"
@@ -320,17 +291,32 @@ function PropertiesUI() {
                         className="text-gray-800"
                         style={{ fontFamily: "Opensans-bold" }}
                       >
-                        {p?.property_name}
+                        {p?.name}
                       </h6>
                       <p className="text-gray-400">
-                        {p?.property_short_description}
+                        {p?.short_description.substring(0, 100) + "..."}
                       </p>
-                      <span
-                        className="font-bold"
-                        style={{ color: "var(--orange)" }}
+                      <div
+                        className="mt-2 flex items-center justify-between"
+                        style={{ fontFamily: "Opensans-bold" }}
                       >
-                        By {p?.property_posted_by}
-                      </span>
+                        <span
+                          className="font-bold"
+                          style={{ color: "var(--orange)" }}
+                        >
+                          By {p?.landlord}
+                        </span>
+                        <span>Bedrooms - {p?.bedrooms}</span>
+                        <span>Bathrooms - {p?.bathrooms}</span>
+                        <span>Floors - {p?.floors}</span>
+                        <span>
+                          Monthly Rent -{" "}
+                          {new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: "INR",
+                          }).format(p?.monthly_rent)}
+                        </span>
+                      </div>
                     </div>
                     <span className="flex items-center text-lg">
                       <span className="m-1" style={{ color: "var(--blue)" }}>

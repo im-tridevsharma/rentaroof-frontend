@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import Router from "next/router";
 import Image from "next/image";
 import Card from "../../Card";
 import { BsStarFill } from "react-icons/bs";
@@ -11,6 +12,11 @@ import {
 } from "../../../../lib/frontend/auth";
 import { __d } from "../../../../server";
 import ReactTooltip from "react-tooltip";
+import {
+  createConversation,
+  getVisitedProperties,
+} from "../../../../lib/frontend/share";
+import { toast } from "react-toastify";
 
 function PropertiesUI() {
   const [tabMode, setTabMode] = useState("visited");
@@ -18,6 +24,7 @@ function PropertiesUI() {
   const [visitedProperties, setVisitedProperties] = useState([]);
   const [favoriteProperties, setFavoriteProperties] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -25,23 +32,58 @@ function PropertiesUI() {
       ? JSON.parse(__d(localStorage.getItem("LU")))
       : false;
     if (u) {
+      setUser(u);
       (async () => {
         const response = await getUserSavedProperties(u.id);
+
         if (response?.status) {
           setIsLoading(false);
-          const visited = response?.data.filter((p) => p.type === "visited");
           const saved = response?.data.filter((p) => p.type === "saved");
           const favorite = response?.data.filter((p) => p.type === "favorite");
           setFavoriteProperties(favorite);
           setSavedProperties(saved);
-          setVisitedProperties(visited);
         } else {
           setIsLoading(false);
-          console.error(response?.error || response?.message);
+          toast.error(response?.error || response?.message);
+        }
+
+        setIsLoading(true);
+        const res = await getVisitedProperties();
+        if (res?.status) {
+          setVisitedProperties(res?.data);
+          setIsLoading(false);
+        } else {
+          setIsLoading(false);
+          toast.error(res?.error || res?.message);
         }
       })();
     }
   }, []);
+
+  const startConversation = async (property, id, receiver) => {
+    localStorage.setItem(
+      "deal-for",
+      JSON.stringify({ property, receiver, id, sender: user?.id })
+    );
+    setIsLoading(true);
+    if (receiver) {
+      const formdata = {
+        sender_id: user?.id,
+        receiver_id: receiver,
+      };
+      if (formdata) {
+        const res = await createConversation(formdata);
+        if (res?.status) {
+          setIsLoading(false);
+          toast.success("Redirecting to chat.");
+          Router.push(`/${user?.role}/chat`);
+        } else {
+          setIsLoading(false);
+          toast.error(res?.error || res?.message);
+        }
+      }
+    }
+  };
 
   const deleteMe = async (id, type) => {
     setIsLoading(true);
@@ -67,10 +109,10 @@ function PropertiesUI() {
         }
       } else {
         setIsLoading(false);
-        console.error(res?.error || res?.message);
+        toast.error(res?.error || res?.message);
       }
     } else {
-      console.error("Something went wrong!");
+      toast.error("Something went wrong!");
       setIsLoading(false);
     }
   };
@@ -144,25 +186,17 @@ function PropertiesUI() {
               {visitedProperties?.length > 0 ? (
                 visitedProperties.map((p, i) => (
                   <div
-                    className="relative border-gray-200 flex items-center justify-between py-2 pl-8 pr-2"
+                    className="relative border-gray-200 flex items-center justify-between py-2 pl-2 pr-2"
                     key={i}
                     style={{ borderTopWidth: "1px" }}
                   >
-                    <span
-                      onClick={() => deleteMe(p.id, "visited")}
-                      className="p-1 rounded-md bg-gray-400 absolute top-2 left-0 cursor-pointer text-white"
-                      data-tip="Remove"
-                    >
-                      <MdClose />
-                      <ReactTooltip />
-                    </span>
-                    <div className="w-20 h-20 overflow-hidden rounded-md">
+                    <div className=" w-24 h-24 overflow-hidden rounded-md">
                       <Image
                         src={p?.front_image || "/images/website/no_photo.png"}
                         alt="property"
                         layout="responsive"
-                        width="80"
-                        height="80"
+                        width="100"
+                        height="100"
                       />
                     </div>
                     <div
@@ -173,17 +207,42 @@ function PropertiesUI() {
                         className="text-gray-800"
                         style={{ fontFamily: "Opensans-bold" }}
                       >
-                        {p?.property_name}
+                        {p?.name}
                       </h6>
                       <p className="text-gray-400">
-                        {p?.property_short_description}
+                        {p?.short_description.substring(0, 100) + "..."}
                       </p>
-                      <span
-                        className="font-bold"
-                        style={{ color: "var(--orange)" }}
+                      <div
+                        className="mt-2 flex items-center justify-between"
+                        style={{ fontFamily: "Opensans-bold" }}
                       >
-                        By {p?.property_posted_by}
-                      </span>
+                        <span
+                          className="font-bold"
+                          style={{ color: "var(--orange)" }}
+                        >
+                          By {p?.landlord}
+                        </span>
+                        <span>Bedrooms - {p?.bedrooms}</span>
+                        <span>Bathrooms - {p?.bathrooms}</span>
+                        <span>Floors - {p?.floors}</span>
+                        <span>
+                          Monthly Rent -{" "}
+                          {new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: "INR",
+                          }).format(p?.monthly_rent)}
+                        </span>
+                        {!p?.is_closed && (
+                          <button
+                            onClick={() =>
+                              startConversation(p?.name, p?.id, p?.posted_by)
+                            }
+                            style={{ color: "var(--primary-color)" }}
+                          >
+                            Negotiate with Landlord
+                          </button>
+                        )}
+                      </div>
                     </div>
                     <span className="flex items-center text-lg">
                       <span className="m-1" style={{ color: "var(--blue)" }}>

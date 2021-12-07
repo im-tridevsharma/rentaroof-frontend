@@ -97,7 +97,7 @@ function ChatUI() {
           //
         })
         .listen("MessageSentEvent", (e) => {
-          console.log("Global >> ", e);
+          // console.log("Global >> ", e);
         })
         .listen("ConversationCreated", (e) => {
           if (
@@ -150,7 +150,10 @@ function ChatUI() {
     setShowEmoji(false);
     if (conversation && user) {
       setSelectedUser(user);
-      if (conversation?.is_accepted === "pending") {
+      if (
+        conversation?.is_accepted === "pending" &&
+        conversation.sender_id !== profile?.id
+      ) {
         setIsNotAccepted(true);
       }
       setConversationId(conversation?.id);
@@ -217,6 +220,7 @@ function ChatUI() {
             messageBoxRef.current &&
               messageBoxRef.current.scrollIntoView({ behavior: "smooth" });
           })
+          .listen("DealUpdated", (e) => console.log(e))
           .listenForWhisper("typing", (user) => {
             console.log("Typing - ", user);
           });
@@ -442,6 +446,7 @@ function ChatUI() {
                                   key={m?.id}
                                   message={m}
                                   user={selectedUser}
+                                  conversationId={conversationId}
                                 />
                               ) : (
                                 <ChatMessage
@@ -449,6 +454,7 @@ function ChatUI() {
                                   key={m?.id}
                                   message={m}
                                   user={profile}
+                                  conversationId={conversationId}
                                 />
                               )}
                             </>

@@ -41,7 +41,6 @@ function NotificationUI() {
       Echo.connector.options.auth.headers["Authorization"]
     ) {
       Echo.channel("notification").listen("NotificationSent", (e) => {
-        console.log(e);
         if (e?.notification?.tenant_id === u?.id && u?.role === "tenant") {
           if (
             notifications.filter((n) => n.id === e?.notification?.id).length ===

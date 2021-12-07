@@ -364,7 +364,7 @@ function AppointmentUI() {
                             </>
                           ) : (
                             <>
-                              {!["visited", "closed"].includes(
+                              {!["visited", "closed", "on the way"].includes(
                                 a?.meeting_status
                               ) && (
                                 <>
@@ -380,18 +380,14 @@ function AppointmentUI() {
                                   >
                                     Reschedule
                                   </button>
+
                                   <button
                                     className="text-green-600 border-gray-300 border-r-2 px-2 mr-2"
                                     onClick={() => {
-                                      changeStatus("visited", a.id);
-                                      handleUserNotification(
-                                        a?.created_by_id,
-                                        a?.property_data,
-                                        "visited"
-                                      );
+                                      changeStatus("on the way", a.id);
                                     }}
                                   >
-                                    Visited
+                                    On the Way
                                   </button>
                                 </>
                               )}
@@ -409,6 +405,19 @@ function AppointmentUI() {
 
                               {a.meeting_status !== "closed" && (
                                 <>
+                                  <button
+                                    className="text-green-600 border-gray-300 border-r-2 px-2 mr-2"
+                                    onClick={() => {
+                                      changeStatus("visited", a.id);
+                                      handleUserNotification(
+                                        a?.created_by_id,
+                                        a?.property_data,
+                                        "visited"
+                                      );
+                                    }}
+                                  >
+                                    Visited
+                                  </button>
                                   <button
                                     className="text-red-600 border-gray-300 border-r-2 px-2 mr-2"
                                     onClick={() => {
@@ -511,11 +520,6 @@ function AppointmentUI() {
                         <p className=" text-green-600 capitalize">
                           {a?.meeting_status}
                         </p>
-                        {a.meeting_status === "visited" && (
-                          <button style={{ color: "var(--orange)" }}>
-                            Review & Rate
-                          </button>
-                        )}
                       </td>
                       <td>
                         <div className="flex">
@@ -558,12 +562,16 @@ function AppointmentUI() {
                               )}
                             </>
                           )}
-                          <button
-                            className="text-red-600 ml-2"
-                            onClick={() => changeStatus("cancelled", a.id)}
-                          >
-                            Cancel
-                          </button>
+                          {!["on the way", "visited"].includes(
+                            a?.meeting_status
+                          ) && (
+                            <button
+                              className="text-red-600 ml-2"
+                              onClick={() => changeStatus("cancelled", a.id)}
+                            >
+                              Cancel
+                            </button>
+                          )}
                         </div>
                       </td>
                     </tr>

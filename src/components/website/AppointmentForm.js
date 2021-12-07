@@ -265,7 +265,7 @@ function AppointmentForm({
               />
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
+          <div className="grid grid-cols-1 md:grid-cols-4 md:space-x-3">
             <div className="form-element mt-3">
               <label className="form-label">Payment Amount (Rs)</label>
               <input
@@ -287,6 +287,16 @@ function AppointmentForm({
                 name="next_due"
                 value={nextDue}
                 onChange={() => {}}
+                readOnly
+                className="form-input rounded-md border-gray-200"
+              />
+            </div>
+            <div className="form-element mt-3">
+              <label className="form-label">Security Amount</label>
+              <input
+                type="text"
+                name="security_amount"
+                defaultValue={appointment?.property_security_amount}
                 readOnly
                 className="form-input rounded-md border-gray-200"
               />

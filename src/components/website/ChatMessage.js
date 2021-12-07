@@ -5,7 +5,7 @@ import { __d } from "../../server";
 import { changeDealStatus, closeDeal } from "../../lib/frontend/share";
 import Loader from "../loader";
 
-function ChatMessage({ reverse, message, user }) {
+function ChatMessage({ reverse, message, user, conversationId }) {
   const [liu, setLiu] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [chatMessage, setChatMessage] = React.useState(message);
@@ -22,7 +22,7 @@ function ChatMessage({ reverse, message, user }) {
   const updateDealStatus = async (id, status) => {
     if (id && status) {
       setIsLoading(true);
-      const res = await changeDealStatus(id, { status });
+      const res = await changeDealStatus(id, { status, conversationId });
       if (res?.status) {
         setIsLoading(false);
         setChatMessage((prev) => ({ ...prev, deal: res?.data }));
@@ -36,7 +36,7 @@ function ChatMessage({ reverse, message, user }) {
   const closeDealNow = async (id) => {
     if (id) {
       setIsLoading(true);
-      const res = await closeDeal(id);
+      const res = await closeDeal(id, conversationId);
       if (res?.status) {
         setIsLoading(false);
         setChatMessage((prev) => ({ ...prev, deal: res?.data }));
@@ -90,11 +90,12 @@ function ChatMessage({ reverse, message, user }) {
                   chatMessage?.deal?.status === "pending" && (
                     <span className="text-xs text-red-500">Expired</span>
                   )}
-                {moment(chatMessage?.deal?.offer_expires_time).isBefore(
+                {moment(chatMessage?.deal?.offer_expires_time).isAfter(
                   moment()
                 ) &&
                 chatMessage?.deal?.offer_for === liu?.id &&
-                chatMessage?.deal?.status === "pending" ? (
+                chatMessage?.deal?.status === "pending" &&
+                !chatMessage?.deal?.is_closed ? (
                   <div>
                     <button
                       onClick={() =>
@@ -113,7 +114,7 @@ function ChatMessage({ reverse, message, user }) {
                       Reject
                     </button>
                   </div>
-                ) : (
+                ) : !chatMessage?.deal?.is_closed ? (
                   <span
                     className={`capitalize text-xs ${
                       chatMessage?.deal?.status === "accepted"
@@ -123,23 +124,22 @@ function ChatMessage({ reverse, message, user }) {
                   >
                     {chatMessage?.deal?.status}
                   </span>
+                ) : (
+                  <span className="text-red-500 text-xs">Closed</span>
                 )}
                 {chatMessage?.deal?.created_by === liu?.id &&
-                !chatMessage?.deal?.is_closed
-                  ? chatMessage?.deal?.status === "pending" && (
-                      <div>
-                        <button
-                          onClick={() => closeDealNow(chatMessage?.deal?.id)}
-                          className="px-2 py-1 rounded-md bg-red-500 ml-2 text-xs text-white"
-                        >
-                          Close
-                        </button>
-                      </div>
-                    )
-                  : chatMessage?.deal?.created_by === liu?.id && (
-                      <span className="text-red-500 text-xs">Closed</span>
-                    )}
-                {chatMessage?.deal?.created_by === liu?.id &&
+                  !chatMessage?.deal?.is_closed &&
+                  chatMessage?.deal?.status === "pending" && (
+                    <div>
+                      <button
+                        onClick={() => closeDealNow(chatMessage?.deal?.id)}
+                        className="px-2 py-1 rounded-md bg-red-500 ml-2 text-xs text-white"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  )}
+                {chatMessage?.deal?.property?.posted_by === liu?.id &&
                   chatMessage?.deal?.status === "accepted" &&
                   !chatMessage?.deal?.is_closed && (
                     <Link

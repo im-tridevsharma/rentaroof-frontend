@@ -490,6 +490,23 @@ export const getMessages = async (conversationId) => {
   return message;
 };
 
+export const getVisitedProperties = async () => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let properties = false;
+  await server
+    .get(`/properties/visited`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      properties = response?.data;
+    })
+    .catch((error) => {
+      properties = error?.response?.data;
+    });
+  return properties;
+};
+
 export const createPaymentOrder = async (data) => {
   const token = __d(cookies.get("_SYNC_"));
 
@@ -664,12 +681,12 @@ export const getDeal = async (id) => {
   return status;
 };
 
-export const closeDeal = async (id) => {
+export const closeDeal = async (id, conversationId) => {
   const token = __d(cookies.get("_SYNC_"));
 
   let status = false;
   await server
-    .get(`/properties/deals/close/${id}`, {
+    .get(`/properties/deals/close/${id}?conversationId=${conversationId}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((response) => {

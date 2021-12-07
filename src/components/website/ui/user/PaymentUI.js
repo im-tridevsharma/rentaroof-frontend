@@ -7,6 +7,7 @@ import {
   getUserReferrals,
 } from "../../../../lib/frontend/share";
 import Card from "../../Card";
+import moment from "moment";
 
 function PaymentUI() {
   const [user, setUser] = React.useState(false);
@@ -206,6 +207,7 @@ function PaymentUI() {
                     <th>Type</th>
                     <th>Order ID</th>
                     <th>Payment ID</th>
+                    <th>Date</th>
                     <th>Status</th>
                   </tr>
                 </thead>
@@ -241,6 +243,7 @@ function PaymentUI() {
                         <td className="capitalize">{r?.type}</td>
                         <td>{r?.order_number}</td>
                         <td>{r?.txn_number}</td>
+                        <td>{moment(r?.created_at).format("DD-MM-YYYY")}</td>
                         <td className="capitalize">{r?.status}</td>
                       </tr>
                     ))}
