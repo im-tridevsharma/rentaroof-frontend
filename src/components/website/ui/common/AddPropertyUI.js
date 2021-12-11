@@ -12,7 +12,21 @@ import PropertyAddGallery from "./PropertyAddGallery";
 import PropertyAddAddress from "./PropertyAddAddress";
 import PropertyAddAmenities from "./PropertyAddAmenities";
 import PropertyAddEssentials from "./PropertyAddEssentials";
+import DatePicker from "react-datepicker";
+import Select from "react-select";
 import moment from "moment";
+import { toast } from "react-toastify";
+
+const inspectionDays = [
+  { value: "all days", label: "All Days" },
+  { value: "monday", label: "Monday" },
+  { value: "tuesday", label: "Tuesday" },
+  { value: "wednesday", label: "Wednesday" },
+  { value: "thrusday", label: "Thrusday" },
+  { value: "friday", label: "Friday" },
+  { value: "saturday", label: "Saturday" },
+  { value: "sunday", label: "Sunday" },
+];
 
 function AddPropertyUI() {
   const editorRef = useRef(null);
@@ -53,7 +67,7 @@ function AddPropertyUI() {
           setIsLoading(false);
         } else {
           setIsLoading(false);
-          console.error(response?.error || response?.message);
+          toast.error(response?.error || response?.message);
         }
       })();
     }
@@ -98,6 +112,7 @@ function AddPropertyUI() {
         setErrors(false);
       }, 5000);
     } else {
+      toast.error(response?.message || response?.error);
       setIsLoading(false);
     }
   };
@@ -445,16 +460,20 @@ function AddPropertyUI() {
             <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
               <div className="form-element">
                 <label className="form-label">Available From</label>
-                <input
-                  type="date"
-                  name="available_from"
-                  value={
-                    property?.available_from
-                      ? moment(property?.available_from).format("YYYY-MM-DD")
-                      : ""
+                <DatePicker
+                  dateFormat="dd-MM-yyyy"
+                  selected={moment(property?.available_from).toDate()}
+                  onChange={(date) =>
+                    setProperty((prev) => ({
+                      ...prev,
+                      available_from: moment(date).format("YYYY-MM-DD"),
+                    }))
                   }
-                  onChange={inputHandler}
-                  className="form-input rounded-md border-gray-200"
+                />
+                <input
+                  type="hidden"
+                  name="available_from"
+                  value={property?.available_from}
                 />
               </div>
               <div className="form-element">
@@ -485,6 +504,90 @@ function AddPropertyUI() {
               </div>
             </div>
 
+            <hr className=" border-gray-400 my-3" />
+            <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
+              <div className="form-element">
+                <label className="form-label">Inspection Days</label>
+                <Select
+                  options={inspectionDays}
+                  isMulti={true}
+                  closeMenuOnSelect={false}
+                  onChange={(e) =>
+                    setProperty((prev) => ({
+                      ...prev,
+                      inspection_days: e
+                        .map((ele) => {
+                          return ele.value;
+                        })
+                        .join(","),
+                    }))
+                  }
+                  value={inspectionDays?.filter((o) =>
+                    property?.inspection_days?.split(",")?.includes(o.value)
+                  )}
+                />
+                <input
+                  type="hidden"
+                  name="inspection_days"
+                  value={property?.inspection_days}
+                />
+              </div>
+
+              <div className="form-element">
+                <label className="form-label">Inspection Time From</label>
+                <DatePicker
+                  selected={moment(
+                    `${moment().format("DD-MM-YYYY")}
+                      ${
+                        property?.inspection_time_from ||
+                        moment().format("h:mm A")
+                      }`
+                  ).toDate()}
+                  onChange={(date) =>
+                    setProperty((prev) => ({
+                      ...prev,
+                      inspection_time_from: moment(date).format("h:mm A"),
+                    }))
+                  }
+                  showTimeSelect
+                  showTimeSelectOnly
+                  timeIntervals={15}
+                  timeCaption="Time"
+                  dateFormat="h:mm aa"
+                />
+                <input
+                  type="hidden"
+                  name="inspection_time_from"
+                  value={property?.inspection_time_from}
+                />
+              </div>
+              <div className="form-element">
+                <label className="form-label">Inspection Time To</label>
+                <DatePicker
+                  selected={moment(`${moment().format("DD-MM-YYYY")}
+                      ${
+                        property?.inspection_time_to ||
+                        moment().format("h:mm A")
+                      }`).toDate()}
+                  onChange={(date) =>
+                    setProperty((prev) => ({
+                      ...prev,
+                      inspection_time_to: moment(date).format("h:mm A"),
+                    }))
+                  }
+                  showTimeSelect
+                  showTimeSelectOnly
+                  timeIntervals={15}
+                  timeCaption="Time"
+                  dateFormat="h:mm aa"
+                />
+                <input
+                  type="hidden"
+                  name="inspection_time_to"
+                  value={property?.inspection_time_to}
+                />
+              </div>
+            </div>
             <hr className=" border-gray-400 my-3" />
             <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
               <div className="form-element">

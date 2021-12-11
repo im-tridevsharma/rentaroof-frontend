@@ -68,7 +68,7 @@ function TrainingManagementUI() {
           className=" text-gray-800"
           style={{ fontFamily: "Opensans-semi-bold" }}
         >
-          Training Videos
+          How to Use Videos
         </h6>
         <div className="mt-3 block">
           {videos?.length > 0 ? (
@@ -84,12 +84,12 @@ function TrainingManagementUI() {
           <Pdfs
             bgcolor="var(--blue)"
             pdfs={globalPdf}
-            title="Training Pdf (global)"
+            title="How to Use Pdf (global)"
           />
           <Pdfs
             bgcolor="var(--orange)"
             pdfs={personalPdf}
-            title="Training Pdf (personal)"
+            title="How to Use Pdf (personal)"
           />
         </div>
       </div>

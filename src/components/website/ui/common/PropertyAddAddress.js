@@ -67,8 +67,8 @@ function PropertyAddAddress({ code }) {
   const filterState = (e) => {
     let country_id = null;
     if (typeof e !== "number") {
-      e.preventDefault();
-      country_id = Number(e.target.value);
+      e?.preventDefault();
+      country_id = Number(e?.target.value);
     } else {
       country_id = address?.country;
     }
@@ -82,8 +82,8 @@ function PropertyAddAddress({ code }) {
   const filterCity = (e) => {
     let state_id = null;
     if (typeof e !== "number") {
-      e.preventDefault();
-      state_id = Number(e.target.value);
+      e?.preventDefault();
+      state_id = Number(e?.target.value);
     } else {
       state_id = address?.state;
     }

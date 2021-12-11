@@ -26,6 +26,7 @@ import "../css/components/tabs.css";
 import "../css/components/user-widgets/widget-2.css";
 import "../css/components/user-widgets/widget-4.css";
 import "react-toastify/dist/ReactToastify.css";
+import "react-datepicker/dist/react-datepicker.css";
 import { useEffect } from "react";
 import Echo from "laravel-echo";
 import * as gtag from "../lib/gtag";

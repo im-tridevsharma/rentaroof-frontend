@@ -36,6 +36,8 @@ import ReactTooltip from "react-tooltip";
 import { ToastContainer, toast } from "react-toastify";
 import { shallowEqual, useSelector } from "react-redux";
 
+import DatePicker from "react-datepicker";
+
 function Index({ id }) {
   const { website } = useSelector(
     (state) => ({
@@ -61,6 +63,8 @@ function Index({ id }) {
   const [errors, setErrors] = useState(false);
   const [rating, setRating] = useState(0);
   const [similarProperties, setSimilarProperties] = useState([]);
+  const [appointmentDate, setAppointmentDate] = useState(new Date());
+  const [appointmentTime, setAppointmentTime] = useState(new Date());
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.MAP_API_KEY, // Add your API key
@@ -806,6 +810,14 @@ function Index({ id }) {
                   <a className="mt-3 underline block">View More</a>
                 </Link>
               )}
+              <h5 style={{ fontFamily: "Opensans-bold" }} className="my-2">
+                Inspection Time
+              </h5>
+              <p className="capitalize text-xs">{property?.inspection_days}</p>
+              <p className="capitalize text-xs">
+                {property?.inspection_time_from} -{" "}
+                {property?.inspection_time_to}
+              </p>
             </div>
             {/**visit this house */}
             <div
@@ -914,31 +926,51 @@ function Index({ id }) {
                         className="absolute top-10 w-5 h-5 object-contain left-3"
                       />
                     </label>
+                    <DatePicker
+                      dateFormat="dd-MM-yyyy"
+                      selected={moment(appointmentDate).toDate()}
+                      onChange={(date) => setAppointmentDate(date)}
+                      minDate={new Date()}
+                    />
                     <input
-                      type="date"
-                      id="date"
+                      type="hidden"
                       name="date"
-                      required={true}
-                      className="form-input border-gray-200 rounded-md pl-10 h-11"
-                      style={{ fontSize: ".95rem" }}
+                      value={moment(appointmentDate).format("YYYY-MM-DD")}
                     />
                   </div>
 
                   <div className="form-element relative">
                     <label className="form-label" htmlFor="time">
-                      Selec Time
+                      Select Time
                       <img
                         src="/icons/proprtydetls/icon_11.png"
                         alt="user"
                         className="absolute top-10 w-5 h-5 object-contain left-3"
                       />
                     </label>
+                    <DatePicker
+                      selected={appointmentTime}
+                      onChange={(date) => setAppointmentTime(date)}
+                      showTimeSelect
+                      showTimeSelectOnly
+                      timeIntervals={15}
+                      timeCaption="Time"
+                      dateFormat="h:mm aa"
+                      minTime={moment(
+                        `${moment().format("DD-MM-YYYY")} ${
+                          property?.inspection_time_from || "9:00 AM"
+                        }`
+                      ).toDate()}
+                      maxTime={moment(
+                        `${moment().format("DD-MM-YYYY")} ${
+                          property?.inspection_time_to || "7:00 PM"
+                        }`
+                      ).toDate()}
+                    />
                     <input
-                      type="time"
-                      id="time"
+                      type="hidden"
                       name="time"
-                      className="form-input border-gray-200 rounded-md pl-10 h-11"
-                      style={{ fontSize: ".95rem" }}
+                      value={moment(appointmentTime).format("h:mm A")}
                     />
                   </div>
 

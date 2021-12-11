@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import ReactTooltip from "react-tooltip";
 import AccountLinks from "./account-links";
 
 const Dropdown = () => {

@@ -15,7 +15,7 @@ import getIbos from "../../lib/ibos";
 import { FaTimes } from "react-icons/fa";
 import ReactTooltip from "react-tooltip";
 import Router from "next/router";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { useSelector, shallowEqual } from "react-redux";
 import router from "next/router";
 
@@ -163,6 +163,7 @@ function ViewProperties({ property }) {
     formdata.append("type", "Urgent");
     formdata.append("ibo_id", ibo);
     formdata.append("user_id", user?.user_id);
+    formdata.append("redirect", "/ibo/property-verification");
     formdata.append(
       "content",
       `You are assigned property verification task to verify property "${property?.name}".`
@@ -238,7 +239,6 @@ function ViewProperties({ property }) {
   return (
     <>
       {isLoading && <Loader />}
-      <ToastContainer />
       <div className="flex flex-col">
         {/**front images */}
         <div className="flex justify-between md:flex-row flex-col">
@@ -319,33 +319,51 @@ function ViewProperties({ property }) {
             <b>Verified:</b> {isVerified ? "Yes" : "No"}
           </p>
 
-          {property?.verification ? (
+          {property?.verification && (
             <div className="flex items-center ml-10">
               <p>
                 Assigned IBO - {property?.verification?.ibo?.first}{" "}
                 {property?.verification?.ibo?.last}
               </p>
-              <p className="ml-5">
-                {property?.verification?.is_verifiable ? (
-                  <span className="p-2 bg-green-500 rounded-full">
-                    Verified
-                  </span>
-                ) : !property?.verification?.issues_in_verification ? (
-                  <span className="p-2 bg-yellow-500 rounded-full">
-                    Pending
-                  </span>
-                ) : (
-                  <span
-                    className="p-2 bg-red-500 rounded-full"
-                    data-tip={property?.verification?.issues_in_verification}
-                  >
-                    Rejected
-                    <ReactTooltip />
-                  </span>
-                )}
+              {property?.verification?.status === "accepted" && (
+                <p className="ml-5">
+                  {property?.verification?.is_verifiable ? (
+                    <span className="p-2 bg-green-500 rounded-full">
+                      Verified💹
+                    </span>
+                  ) : !property?.verification?.issues_in_verification ? (
+                    <span className="p-2 bg-yellow-500 rounded-full">
+                      Pending
+                    </span>
+                  ) : (
+                    <span
+                      className="p-2 bg-red-500 rounded-full"
+                      data-tip={property?.verification?.issues_in_verification}
+                    >
+                      Not Verified
+                      <ReactTooltip />
+                    </span>
+                  )}
+                </p>
+              )}
+
+              <p
+                className={`px-3 ml-5 py-2 rounded-md capitalize ${
+                  property?.verification?.status === "pending"
+                    ? "bg-yellow-500"
+                    : property?.verification?.status === "accepted"
+                    ? "bg-green-600"
+                    : "bg-red-500"
+                }`}
+                data-tip={property?.verification?.reason_for_rejection}
+              >
+                {property?.verification?.status}
+                <ReactTooltip />
               </p>
             </div>
-          ) : (
+          )}
+          {(!property?.verification ||
+            property?.verification?.status === "rejected") && (
             <button
               type="button"
               onClick={() => setViewModal(true)}

@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import ImageUploader from "./ImageUploader";
 import Loader from "../../../loader";
 import { addPropertyGallery } from "../../../../lib/frontend/properties";
+import { toast } from "react-toastify";
+import { getPropertyGalleryById } from "../../../../lib/frontend/share";
 
 function PropertyAddGallery({ code }) {
   const [propertyId, setPropertyId] = useState("");
@@ -17,8 +19,61 @@ function PropertyAddGallery({ code }) {
   const [masterPlanImages, setMasterPlanImages] = useState([]);
   const [locationMapImages, setLocationMapImages] = useState([]);
   const [coverImage, setCoverImage] = useState("");
+  const [tobeRemoved, setTobeRemoved] = useState({
+    exterior_view: [],
+    living_room: [],
+    bedrooms: [],
+    bathrooms: [],
+    kitchen: [],
+    floor_plan: [],
+    master_plan: [],
+    location_map: [],
+  });
+  const [images, setImages] = useState({
+    exterior_view: [],
+    living_room: [],
+    bedrooms: [],
+    bathrooms: [],
+    kitchen: [],
+    floor_plan: [],
+    master_plan: [],
+    location_map: [],
+  });
+
   const [skip, setSkip] = useState(true);
   const [back, setBack] = useState(false);
+
+  useEffect(() => {
+    const ids = code.split("-");
+    setPropertyId(ids[ids.length - 1]);
+    setIsLoading(true);
+
+    (async () => {
+      if (router.query.mode === "update") {
+        const gallery = await getPropertyGalleryById(ids[ids.length - 1]);
+        if (gallery?.status) {
+          setImages({
+            exterior_view: JSON.parse(gallery?.data?.exterior_view),
+            living_room: JSON.parse(gallery?.data?.living_room),
+            bedrooms: JSON.parse(gallery?.data?.bedrooms),
+            bathrooms: JSON.parse(gallery?.data?.bathrooms),
+            kitchen: JSON.parse(gallery?.data?.kitchen),
+            floor_plan: JSON.parse(gallery?.data?.floor_plan),
+            master_plan: JSON.parse(gallery?.data?.master_plan),
+            location_map: JSON.parse(gallery?.data?.location_map),
+          });
+          setIsLoading(false);
+        } else {
+          setIsLoading(false);
+          toast.error(gallery.error || gallery.message);
+        }
+      } else {
+        setIsLoading(false);
+      }
+    })();
+    setSkip(router.query.skip || true);
+    setBack(router.query.back || false);
+  }, []);
 
   const onChangeExteriorImages = (imageList, addUpdateIndex) => {
     setExteriorImages(imageList);
@@ -78,6 +133,7 @@ function PropertyAddGallery({ code }) {
     e.preventDefault();
     setIsLoading(true);
     const formdata = new FormData();
+
     exteriorImages.forEach((image) => {
       formdata.append("exterior[]", image.file);
     });
@@ -102,6 +158,16 @@ function PropertyAddGallery({ code }) {
     locationMapImages.forEach((image) => {
       formdata.append("location_map[]", image.file);
     });
+
+    // images to be removed
+    formdata.append("remove_exterior", tobeRemoved.exterior_view.join(","));
+    formdata.append("remove_living_room", tobeRemoved.living_room.join(","));
+    formdata.append("remove_bedrooms", tobeRemoved.bedrooms.join(","));
+    formdata.append("remove_bathrooms", tobeRemoved.bathrooms.join(","));
+    formdata.append("remove_kitchen", tobeRemoved.kitchen.join(","));
+    formdata.append("remove_floor_plan", tobeRemoved.floor_plan.join(","));
+    formdata.append("remove_master_plan", tobeRemoved.master_plan.join(","));
+    formdata.append("remove_location_map", tobeRemoved.location_map.join(","));
 
     formdata.append("cover", coverImage);
     formdata.append("propertyId", propertyId);
@@ -249,6 +315,10 @@ function PropertyAddGallery({ code }) {
               setCover={setCoverImage}
               images={exteriorImages}
               onChange={onChangeExteriorImages}
+              uploaded={images?.exterior_view}
+              onChangeUpload={setImages}
+              index="exterior_view"
+              remover={setTobeRemoved}
             />
           )}
           {activeTab === "living_room" && (
@@ -256,6 +326,10 @@ function PropertyAddGallery({ code }) {
               setCover={setCoverImage}
               images={livingRoomImages}
               onChange={onChangeLivingRoomImages}
+              uploaded={images?.living_room}
+              onChangeUpload={setImages}
+              index="living_room"
+              remover={setTobeRemoved}
             />
           )}
           {activeTab === "bedrooms" && (
@@ -263,6 +337,10 @@ function PropertyAddGallery({ code }) {
               setCover={setCoverImage}
               images={bedroomImages}
               onChange={onChangeBedroomImages}
+              uploaded={images?.bedrooms}
+              onChangeUpload={setImages}
+              index="bedrooms"
+              remover={setTobeRemoved}
             />
           )}
           {activeTab === "bathrooms" && (
@@ -270,6 +348,10 @@ function PropertyAddGallery({ code }) {
               setCover={setCoverImage}
               images={bathroomImages}
               onChange={onChangeBathroomImages}
+              uploaded={images?.bathrooms}
+              onChangeUpload={setImages}
+              index="bathrooms"
+              remover={setTobeRemoved}
             />
           )}
           {activeTab === "kitchen" && (
@@ -277,6 +359,10 @@ function PropertyAddGallery({ code }) {
               setCover={setCoverImage}
               images={kitchenImages}
               onChange={onChangeKitchenImages}
+              uploaded={images?.kitchen}
+              onChangeUpload={setImages}
+              index="kitchen"
+              remover={setTobeRemoved}
             />
           )}
           {activeTab === "floor_plan" && (
@@ -284,6 +370,10 @@ function PropertyAddGallery({ code }) {
               setCover={setCoverImage}
               images={floorPlanImages}
               onChange={onChangeFloorPlanImages}
+              uploaded={images?.floor_plan}
+              onChangeUpload={setImages}
+              index="floor_plan"
+              remover={setTobeRemoved}
             />
           )}
           {activeTab === "master_plan" && (
@@ -291,6 +381,10 @@ function PropertyAddGallery({ code }) {
               setCover={setCoverImage}
               images={masterPlanImages}
               onChange={onChangeMasterPlanImages}
+              uploaded={images?.master_plan}
+              onChangeUpload={setImages}
+              index="master_plan"
+              remover={setTobeRemoved}
             />
           )}
           {activeTab === "location_map" && (
@@ -298,6 +392,10 @@ function PropertyAddGallery({ code }) {
               setCover={setCoverImage}
               images={locationMapImages}
               onChange={onChangeLocationMapImages}
+              uploaded={images?.location_map}
+              onChangeUpload={setImages}
+              index="location_map"
+              remover={setTobeRemoved}
             />
           )}
 

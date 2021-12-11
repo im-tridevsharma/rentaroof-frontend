@@ -24,7 +24,7 @@ const links = [
     ),
   },
   {
-    label: "Training Management",
+    label: "How to Use",
     href: "/landlord/training_management",
     icon: (
       <img

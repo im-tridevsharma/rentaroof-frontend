@@ -134,6 +134,15 @@ button {
   -ms-overflow-style: none; /* IE 10+ */
 }
 
+.react-datepicker__input-container input {
+  @apply border-gray-200 rounded-md;
+
+  display: block;
+  width: 100%;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
 #__next {
   width: 100%;
   min-width: 100%;

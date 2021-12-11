@@ -30,7 +30,7 @@ function Index() {
   const [state, setState] = useState({
     email: "",
     password: "",
-    remember: false,
+    remember_me: "false",
   });
   const [errors, setErrors] = useState(false);
   const [logo, setLogo] = useState("");
@@ -67,7 +67,7 @@ function Index() {
           setSuccess(true);
           setErrors(false);
           setIsLoading(false);
-          setState({ email: "", password: "", remember: false });
+          setState({ email: "", password: "", remember_me: "no" });
           setAuthToken(response.access_token);
           cookies.set("surole", __e(response?.user?.role), { path: "/" });
           Echo.connector.options.auth.headers["Authorization"] =
@@ -194,17 +194,18 @@ function Index() {
                   onChange={handleChange}
                 />
                 <p className="mt-1 flex items-center justify-between">
-                  <label htmlFor="remember">
+                  <label htmlFor="remember_me">
                     <input
                       type="checkbox"
-                      name="remember"
-                      id="remember"
+                      name="remember_me"
+                      id="remember_me"
                       onChange={(e) => {
                         setState((prev) => ({
                           ...prev,
-                          remember: e.target.checked ? "yes" : false,
+                          remember_me: e.target.checked ? "yes" : "no",
                         }));
                       }}
+                      checked={state?.remember_me === "yes"}
                     />
                     <span className="ml-1">Remember me</span>
                   </label>

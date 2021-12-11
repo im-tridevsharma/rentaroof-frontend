@@ -1,7 +1,27 @@
 import React from "react";
+import { FaTimes } from "react-icons/fa";
 import ImageUploading from "react-images-uploading";
 
-function ImageUploader({ images, onChange, setCover }) {
+function ImageUploader({
+  images,
+  onChange,
+  setCover,
+  uploaded,
+  onChangeUpload,
+  index,
+  remover,
+}) {
+  const removeImage = (i) => {
+    remover((prev) => ({
+      ...prev,
+      [index]: [...prev[index], uploaded[i]],
+    }));
+    onChangeUpload((prev) => ({
+      ...prev,
+      [index]: prev[index].filter((img) => img !== uploaded[i]),
+    }));
+  };
+
   return (
     <div
       className="flex flex-col w-full mt-5"
@@ -109,6 +129,31 @@ function ImageUploader({ images, onChange, setCover }) {
           </div>
         )}
       </ImageUploading>
+      {/**uploaded images */}
+      {uploaded?.length > 0 && (
+        <>
+          <h6 style={{ fontFamily: "Opensans-bold" }} className="mt-3">
+            Uploaded Images
+          </h6>
+          <div className="grid grid-cols-2 md:grid-cols-5 md:space-x-3 mt-3">
+            {uploaded.map((g, i) => (
+              <div className="bg-white border p-1 rounded-md relative" key={i}>
+                <img
+                  src={g}
+                  alt={`image-${i}`}
+                  className="h-full w-full object-contain"
+                />
+                <div
+                  onClick={() => removeImage(i)}
+                  className="bg-white cursor-pointer w-10 h-10 flex items-center justify-center rounded-full absolute -right-3 -top-3 border"
+                >
+                  <FaTimes className="text-lg text-red-500" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }

@@ -386,6 +386,23 @@ export const changeVerificationStatus = async (id, data) => {
   return status;
 };
 
+export const acceptOrRejectVerification = async (id, data) => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let status = false;
+  await server
+    .post(`/properties/accept_or_reject_verification/${id}`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      status = response?.data;
+    })
+    .catch((error) => {
+      status = error?.response?.data;
+    });
+  return status;
+};
+
 export const getUserReferrals = async (options = "") => {
   const token = __d(cookies.get("_SYNC_"));
 
@@ -786,4 +803,44 @@ export const conversationStatus = async (data) => {
       status = error?.response?.data;
     });
   return status;
+};
+
+//getPropertyGalleryById
+export const getPropertyGalleryById = async (id) => {
+  if (id) {
+    const token = __d(cookies.get("_SYNC_"));
+
+    let gallery = false;
+    await server
+      .get(`/properties/gallery/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        gallery = response?.data;
+      })
+      .catch((error) => {
+        gallery = error?.response?.data;
+      });
+    return gallery;
+  } else {
+    return false;
+  }
+};
+
+//get deals
+export const getDealOffered = async () => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let deals = false;
+  await server
+    .get(`/deals`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      deals = response?.data;
+    })
+    .catch((error) => {
+      deals = error?.response?.data;
+    });
+  return deals;
 };

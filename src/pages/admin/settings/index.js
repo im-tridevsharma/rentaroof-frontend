@@ -78,7 +78,7 @@ function Index() {
     const fetchReferralSettings = async () => {
       setIsLoading(true);
       const res = await getSetting(
-        `point_value,minimum_point_value,maximum_point_value,point_value_per_order,referral_bonus_sender_point,referral_bonus_receiver_point,review_point,each_payment_point`
+        `point_value,minimum_point_value,maximum_point_value,referral_deal_closed_point,ibo_property_verification_point,point_value_per_order,referral_bonus_sender_point,referral_bonus_receiver_point,review_point,each_payment_point`
       );
       if (res?.status) {
         setIsLoading(false);
@@ -661,6 +661,32 @@ function Index() {
                     name="each_payment_point"
                     className="form-input"
                     value={referralSettings?.each_payment_point}
+                    onChange={changeRHandler}
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-3">
+                <div className="form-element">
+                  <label className="form-label">
+                    Deal Close Point to Referrer
+                  </label>
+                  <input
+                    type="text"
+                    name="referral_deal_closed_point"
+                    className="form-input"
+                    value={referralSettings?.referral_deal_closed_point}
+                    onChange={changeRHandler}
+                  />
+                </div>
+                <div className="form-element">
+                  <label className="form-label">
+                    IBO Property Verification Point
+                  </label>
+                  <input
+                    type="text"
+                    name="ibo_property_verification_point"
+                    className="form-input"
+                    value={referralSettings?.ibo_property_verification_point}
                     onChange={changeRHandler}
                   />
                 </div>

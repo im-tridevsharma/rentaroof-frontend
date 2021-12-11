@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { VscVerified, VscUnverified } from "react-icons/vsc";
 import { __d } from "../../server";

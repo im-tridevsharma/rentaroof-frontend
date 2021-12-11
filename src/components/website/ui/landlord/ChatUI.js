@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { MdClose, MdLocalOffer } from "react-icons/md";
 import dynamic from "next/dynamic";
+import Router from "next/router";
 import ChatMessage from "../../ChatMessage";
 import ChatUser from "../../ChatUser";
 import { toast } from "react-toastify";
@@ -67,6 +68,33 @@ function ChatUI() {
       if (res?.status) {
         setIsLoading(false);
         setConversations(res?.data);
+        //=-----------
+        let id = Router.asPath
+          .match(/#([a-z0-9]+)/gi)
+          ?.toString()
+          ?.replace("#", "");
+        if (id) {
+          const u = localStorage.getItem("LU")
+            ? JSON.parse(__d(localStorage.getItem("LU")))
+            : false;
+          if (u) {
+            const cconversation = res.data.filter((c) => c.id == id)[0];
+            if (cconversation) {
+              if (
+                cconversation?.is_accepted === "pending" &&
+                cconversation.sender_id !== u?.id
+              ) {
+                setIsNotAccepted(true);
+              }
+              setConversationId(cconversation?.id);
+              setSelectedUser(
+                cconversation?.sender_id === u?.id
+                  ? cconversation?.receiver
+                  : cconversation?.sender
+              );
+            }
+          }
+        }
       } else {
         toast.error(res?.message || res?.error);
         setIsLoading(false);
@@ -97,7 +125,7 @@ function ChatUI() {
           //
         })
         .listen("MessageSentEvent", (e) => {
-          console.log("Global >> ", e);
+          // console.log("Global >> ", e);
         })
         .listen("ConversationCreated", (e) => {
           if (

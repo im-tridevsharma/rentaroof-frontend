@@ -26,6 +26,57 @@ const getUser = async (details = false) => {
   return user;
 };
 
+export const getAdminNotification = async (count = true) => {
+  const token = __d(cookies.get("__NEXT"));
+  let notification = false;
+
+  if (token) {
+    await server
+      .get(`/admin/notifications${count ? "?count=yes" : ""}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        notification = response?.data;
+      })
+      .catch((error) => {
+        notification = error?.response?.data;
+      });
+  }
+  return notification;
+};
+
+export const delAdminNotification = async (id) => {
+  const token = __d(cookies.get("__NEXT"));
+  let notification = false;
+  await server
+    .delete("/admin/notifications/" + id, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      notification = response?.data;
+    })
+    .catch((error) => {
+      notification = error?.response?.data;
+    });
+  return notification;
+};
+
+export const seenAdminNotification = async (id) => {
+  const token = __d(cookies.get("__NEXT"));
+  let notification = false;
+  await server
+    .get("/admin/notifications/seen/" + id, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      notification = response?.data;
+    })
+    .catch((error) => {
+      notification = error?.response?.data;
+    });
+  return notification;
+};
+
 export const getSetting = async (key) => {
   const token = __d(cookies.get("__NEXT"));
   let setting = false;

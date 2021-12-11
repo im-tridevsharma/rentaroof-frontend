@@ -204,7 +204,7 @@ function AppointmentUI() {
         if (res?.status) {
           setIsLoading(false);
           toast.success("Redirecting to chat.");
-          Router.push(`/${user?.role}/chat`);
+          Router.push(`/${user?.role}/chat#${res?.data?.id}`);
         } else {
           setIsLoading(false);
           toast.error(res?.error || res?.message);
