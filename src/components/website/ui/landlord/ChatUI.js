@@ -378,6 +378,8 @@ function ChatUI() {
                   key={i}
                   p={i}
                   selected={conversationId === user.id}
+                  conversationId={user.id}
+                  setConversations={setConversations}
                 />
               ))
             ) : (

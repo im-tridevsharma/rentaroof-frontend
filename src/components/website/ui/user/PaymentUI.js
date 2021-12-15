@@ -3,11 +3,15 @@ import { toast } from "react-toastify";
 import { __d } from "../../../../server";
 import Loader from "../../../loader";
 import {
+  createPaymentOrder,
   getTransactions,
+  getUpcomingPayments,
   getUserReferrals,
+  successPayment,
 } from "../../../../lib/frontend/share";
 import Card from "../../Card";
 import moment from "moment";
+import { shallowEqual, useSelector } from "react-redux";
 
 function PaymentUI() {
   const [user, setUser] = React.useState(false);
@@ -18,6 +22,60 @@ function PaymentUI() {
   const [totalPaid, setTotalPaid] = React.useState(0);
   const [totalPending, setTotalPending] = React.useState(0);
   const [transactions, setTransactions] = React.useState([]);
+  const [upcomings, setUpcomings] = React.useState([]);
+
+  const { website } = useSelector(
+    (state) => ({
+      website: state.website,
+    }),
+    shallowEqual
+  );
+
+  const loadScript = (src) => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = src;
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+      document.body.appendChild(script);
+    });
+  };
+
+  const fetchUpcomings = async () => {
+    setIsLoading(true);
+    const res = await getUpcomingPayments();
+    if (res?.status) {
+      setUpcomings(res?.data);
+      setIsLoading(false);
+    } else {
+      toast.error(res?.message);
+      setIsLoading(false);
+    }
+  };
+
+  const fetchTransactions = async () => {
+    setIsLoading(true);
+    const res = await getTransactions();
+    if (res?.status) {
+      setIsLoading(false);
+      setTransactions(res?.data);
+      const paid = res?.data.map((p) => (p?.status === "paid" ? p.paid : 0));
+      const pending = res?.data.map((p) =>
+        p?.status === "pending" ? p.pending : 0
+      );
+      setTotalPaid(paid.reduce((a, b) => parseFloat(a) + parseFloat(b), 0));
+      setTotalPending(
+        pending.reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
+      );
+    } else {
+      toast.error(res?.message || res?.error);
+      setIsLoading(false);
+    }
+  };
 
   React.useEffect(() => {
     const u = localStorage.getItem("LU")
@@ -40,29 +98,56 @@ function PaymentUI() {
       }
     };
 
-    const fetchTransactions = async () => {
-      setIsLoading(true);
-      const res = await getTransactions();
-      if (res?.status) {
-        setIsLoading(false);
-        setTransactions(res?.data);
-        const paid = res?.data.map((p) => (p?.status === "paid" ? p.paid : 0));
-        const pending = res?.data.map((p) =>
-          p?.status === "pending" ? p.pending : 0
-        );
-        setTotalPaid(paid.reduce((a, b) => parseFloat(a) + parseFloat(b), 0));
-        setTotalPending(
-          pending.reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
-        );
-      } else {
-        toast.error(res?.message || res?.error);
-        setIsLoading(false);
-      }
-    };
-
     fetchReferrals();
     fetchTransactions();
+    fetchUpcomings();
+    loadScript("https://checkout.razorpay.com/v1/checkout.js");
   }, []);
+
+  const displayRazorpay = async (payment) => {
+    setIsLoading(true);
+    const postdata = {
+      amount: payment?.amount,
+      type: payment?.type,
+      type_id: payment?.type_id,
+      message: payment?.message,
+    };
+    const res = await createPaymentOrder(postdata);
+    if (res?.status) {
+      setIsLoading(false);
+      const paymentObject = new window.Razorpay({
+        key: process.env.NEXT_PUBLIC_RAZOR_KEY,
+        currency: res?.data?.currency,
+        amount: res?.data?.amount * 100,
+        name: "Rent A Roof",
+        description: payment?.message,
+        order_id: res?.data?.order_number,
+        image: website?.logo,
+        handler: async function (response) {
+          setIsLoading(true);
+          const res = await successPayment(response);
+          if (res?.status) {
+            fetchUpcomings();
+            fetchTransactions();
+            toast.success("Payment done successfully.");
+            setIsLoading(false);
+          } else {
+            toast.error(res?.message || res?.error);
+            setIsLoading(false);
+          }
+        },
+        prefill: {
+          name: user?.fullname,
+          email: user?.email,
+          contact: user?.mobile,
+        },
+      });
+      paymentObject.open();
+    } else {
+      toast.error(res?.error || res?.message);
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
@@ -150,7 +235,7 @@ function PaymentUI() {
             Transactions
           </button>
           <button
-            className="py-2 border-b-2"
+            className="py-2 border-b-2 mr-4"
             onClick={() => setTab("upcoming")}
             style={{
               borderBottomColor:
@@ -164,7 +249,7 @@ function PaymentUI() {
         <div className="md:w-full w-screen overflow-x-auto">
           {tab === "point-history" && (
             <div className="flex flex-col mt-5">
-              {referrals?.length > 0 &&
+              {referrals?.length > 0 ? (
                 referrals.map((r, i) => (
                   <div
                     key={i}
@@ -192,7 +277,10 @@ function PaymentUI() {
                       {r?.points}
                     </h2>
                   </div>
-                ))}
+                ))
+              ) : (
+                <p className="text-red-500 p-3">No points history found!</p>
+              )}
             </div>
           )}
           {tab === "transactions" && (
@@ -212,7 +300,7 @@ function PaymentUI() {
                   </tr>
                 </thead>
                 <tbody>
-                  {transactions?.length > 0 &&
+                  {transactions?.length > 0 ? (
                     transactions.map((r, i) => (
                       <tr
                         key={i}
@@ -246,7 +334,60 @@ function PaymentUI() {
                         <td>{moment(r?.created_at).format("DD-MM-YYYY")}</td>
                         <td className="capitalize">{r?.status}</td>
                       </tr>
-                    ))}
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={10} className="text-red-500">
+                        No transaction found!
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          )}
+          {tab === "upcoming" && (
+            <div className="flex flex-col mt-5">
+              <table className="table table-auto">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Amount</th>
+                    <th>Type</th>
+                    <th>Due Date</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {upcomings?.length > 0 ? (
+                    upcomings.map((r, i) => (
+                      <tr key={i} style={{ fontFamily: "Opensans-regular" }}>
+                        <td>{i + 1}</td>
+                        <td>
+                          {new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: "INR",
+                          }).format(r?.amount)}
+                        </td>
+                        <td className="capitalize">{r?.type}</td>
+                        <td>{moment(r?.next_due).format("DD-MM-YYYY")}</td>
+                        <td className="capitalize">
+                          <button
+                            onClick={() => displayRazorpay(r)}
+                            className="px-3 py-2 bg-green-500 rounded-md"
+                          >
+                            Pay
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={6} className="text-red-500">
+                        No upcoming payments found!
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>

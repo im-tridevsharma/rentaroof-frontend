@@ -490,6 +490,23 @@ export const createConversation = async (data) => {
   return conversation;
 };
 
+export const deleteConversation = async (id) => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let conversation = false;
+  await server
+    .delete(`/chat/conversations/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      conversation = response?.data;
+    })
+    .catch((error) => {
+      conversation = error?.response?.data;
+    });
+  return conversation;
+};
+
 export const getMessages = async (conversationId) => {
   const token = __d(cookies.get("_SYNC_"));
 
@@ -522,6 +539,40 @@ export const getVisitedProperties = async () => {
       properties = error?.response?.data;
     });
   return properties;
+};
+
+export const getUpcomingPayments = async () => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let upcoming_payments = false;
+  await server
+    .get(`/tenant/upcoming_payments/`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      upcoming_payments = response?.data;
+    })
+    .catch((error) => {
+      upcoming_payments = error?.response?.data;
+    });
+  return upcoming_payments;
+};
+
+export const getIboEarnings = async () => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let earnings = false;
+  await server
+    .get(`/earnings/ibo`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      earnings = response?.data;
+    })
+    .catch((error) => {
+      earnings = error?.response?.data;
+    });
+  return earnings;
 };
 
 export const createPaymentOrder = async (data) => {
