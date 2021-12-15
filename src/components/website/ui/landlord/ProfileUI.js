@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Loader from "../../../loader";
 import { getProfile, updateProfile } from "../../../../lib/frontend/auth";
 import { FiAlertTriangle, FiCheckCircle } from "react-icons/fi";
+import { __e } from "../../../../server";
 
 function ProfileUI() {
   const [isLoading, setIsLoading] = useState(false);

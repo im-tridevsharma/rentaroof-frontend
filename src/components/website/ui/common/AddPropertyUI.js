@@ -537,11 +537,9 @@ function AddPropertyUI() {
                 <label className="form-label">Inspection Time From</label>
                 <DatePicker
                   selected={moment(
-                    `${moment().format("DD-MM-YYYY")}
-                      ${
-                        property?.inspection_time_from ||
-                        moment().format("h:mm A")
-                      }`
+                    `${moment().format("YYYY-MM-DD")} ${
+                      property?.inspection_time_from || "9:00 AM"
+                    }`
                   ).toDate()}
                   onChange={(date) =>
                     setProperty((prev) => ({
@@ -564,11 +562,11 @@ function AddPropertyUI() {
               <div className="form-element">
                 <label className="form-label">Inspection Time To</label>
                 <DatePicker
-                  selected={moment(`${moment().format("DD-MM-YYYY")}
-                      ${
-                        property?.inspection_time_to ||
-                        moment().format("h:mm A")
-                      }`).toDate()}
+                  selected={moment(
+                    `${moment().format("YYYY-MM-DD")} ${
+                      property?.inspection_time_to || "7:00 PM"
+                    }`
+                  ).toDate()}
                   onChange={(date) =>
                     setProperty((prev) => ({
                       ...prev,
