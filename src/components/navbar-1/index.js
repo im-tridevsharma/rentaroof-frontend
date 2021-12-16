@@ -1,13 +1,15 @@
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { FiSettings, FiMenu, FiBell } from "react-icons/fi";
+import { FiSettings, FiMenu, FiBell, FiMessageSquare } from "react-icons/fi";
 import Dropdown1 from "./dropdown-1";
-import Dropdown4 from "./dropdown-4";
 import Dropdown5 from "./dropdown-5";
 import ReactTooltip from "react-tooltip";
 import { useEffect, useState } from "react";
-import getUser, { getAdminNotification } from "../../lib/authentication";
+import getUser, {
+  getAdminNotification,
+  removeAuthToken,
+} from "../../lib/authentication";
 import { __d } from "../../server";
 import Cookies from "universal-cookie";
 import { Router } from "next/router";
@@ -25,6 +27,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const cookies = new Cookies();
   const [notification, setNotification] = useState(0);
+  const [chat, setChat] = useState(0);
 
   const playBell = () => {
     const bell = new Audio("/music/notification.wav");
@@ -116,7 +119,19 @@ const Navbar = () => {
         <span className="ml-auto"></span>
         {false && <Dropdown1 />}
 
-        <Dropdown4 />
+        <div className="hidden lg:flex relative">
+          <Link href="/admin/chat">
+            <a className="flex items-center justify-center h-16 w-12">
+              <FiMessageSquare size={18} data-tip="Chat" />
+              <span
+                className="absolute uppercase font-bold inline-flex text-center p-0 leading-none text-2xs h-4 w-4 inline-flex items-center justify-center rounded-full bg-blue-500 text-white"
+                style={{ top: 14, right: 8 }}
+              >
+                {chat}
+              </span>
+            </a>
+          </Link>
+        </div>
         <div className="hidden lg:flex relative">
           <Link href="/admin/notifications">
             <a className="flex items-center justify-center h-16 w-12">

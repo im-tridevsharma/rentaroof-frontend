@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import Alert from "../../components/alerts/";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import getUser, {
   loginUser,
@@ -11,7 +11,6 @@ import getUser, {
 import { FiAlertCircle } from "react-icons/fi";
 import Loader from "../../components/loader";
 import { useDispatch } from "react-redux";
-import { __e } from "../../server";
 
 function Index() {
   const [verror, setVError] = useState(false);
@@ -40,7 +39,7 @@ function Index() {
   };
 
   const submitForm = async (email, password) => {
-    const response = await loginUser(email, password);
+    const response = await loginUser(email, password, "employee");
     if (setAuthToken(response?.access_token)) {
       setLoggedIn(true);
       setVError(false);
@@ -57,7 +56,6 @@ function Index() {
           profile_pic: response.user?.profile_pic,
         },
       });
-      localStorage.setItem("LA", __e(JSON.stringify(response?.user)));
       router.push("/admin/dashboard");
     } else if (response?.error) {
       setVError(response.error);
@@ -71,10 +69,10 @@ function Index() {
   return (
     <>
       <Head>
-        <title>Admin | Login</title>
+        <title>Employee | Login</title>
       </Head>
       <div className="flex items-center max-w-md w-full flex-col p-10 bg-white shadow-md">
-        <h1 className="text-2xl mb-5">Admin Login</h1>
+        <h1 className="text-2xl mb-5">Employee Login</h1>
         {verror && (
           <div className="errors w-full">
             {Object.keys(verror).map((index, i) => (
@@ -121,8 +119,8 @@ function Index() {
               ref={password}
             />
           </div>
-          <Link href="/admin/employee">
-            <a className="text-blue-500">Employee Login</a>
+          <Link href="/admin">
+            <a className="text-blue-500">Admin Login</a>
           </Link>
           <button className="btn btn-default bg-blue-400 float-right text-white rounded-sm hover:bg-blue-500">
             Login

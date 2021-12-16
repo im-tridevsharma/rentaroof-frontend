@@ -58,7 +58,7 @@ function ChatUser({
             className="flex items-center justify-between"
           >
             <span className="text-gray-600 flex items-center">
-              {`${user?.first} ${user?.last}`}
+              {`${user?.first} ${user?.last}(${user?.role})`}
               <span
                 className={`w-2 h-2 rounded-full ${
                   user?.is_logged_in ? "bg-green-400" : "bg-gray-400"

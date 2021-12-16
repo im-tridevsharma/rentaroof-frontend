@@ -11,7 +11,7 @@ const Layouts = ({ children }) => {
     return <Centered>{children}</Centered>;
   }
 
-  if ("/admin" === pathname) {
+  if ("/admin" === pathname || "/admin/employee" === pathname) {
     return <Centered>{children}</Centered>;
   }
 
@@ -31,7 +31,10 @@ const Layouts = ({ children }) => {
     ].includes(pathname)
   ) {
     return <Centered>{children}</Centered>;
-  } else if (pathname.includes("/admin")) {
+  } else if (
+    pathname.includes("/admin") ||
+    pathname.includes("/admin/employee")
+  ) {
     return <Admin>{children}</Admin>;
   } else {
     return <Empty>{children}</Empty>;

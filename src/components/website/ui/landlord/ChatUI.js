@@ -411,7 +411,7 @@ function ChatUI() {
                     style={{ maxWidth: "32px" }}
                   />
                   <p className="ml-2 flex items-center">
-                    <span>{`${selectedUser.first} ${selectedUser.last}`}</span>
+                    <span>{`${selectedUser.first} ${selectedUser.last}(${selectedUser?.role})`}</span>
                     <span
                       className={`w-2 h-2 rounded-full ${
                         selectedUser.is_logged_in

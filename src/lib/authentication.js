@@ -156,10 +156,10 @@ export const logoutUser = async () => {
   return user;
 };
 
-export const loginUser = async (email, password) => {
+export const loginUser = async (email, password, mode = "admin") => {
   let user = false;
   await server
-    .post("/auth/login", { email, password })
+    .post("/auth/login", { email, password, mode })
     .then((response) => {
       user = response?.data;
     })
@@ -199,6 +199,77 @@ export const refreshToken = async (token) => {
     cookies.set("__NEXT", __e(newToken), { path: "/" });
     return true;
   }
+};
+
+//accept or reject conversation
+export const conversationStatus = async (data) => {
+  const token = __d(cookies.get("__NEXT"));
+
+  let status = false;
+  await server
+    .post(`/chat/conversations/status`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      status = response?.data;
+    })
+    .catch((error) => {
+      status = error?.response?.data;
+    });
+  return status;
+};
+
+export const getConversations = async () => {
+  const token = __d(cookies.get("__NEXT"));
+
+  let conversation = false;
+  await server
+    .get(`/chat/conversations`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      conversation = response?.data;
+    })
+    .catch((error) => {
+      conversation = error?.response?.data;
+    });
+  return conversation;
+};
+
+export const sendMessage = async (data) => {
+  const token = __d(cookies.get("__NEXT"));
+  let message = false;
+
+  if (token) {
+    await server
+      .post("/chat/messages", data, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        message = response?.data;
+      })
+      .catch((error) => {
+        message = error?.response?.data;
+      });
+  }
+  return message;
+};
+
+export const getMessages = async (conversationId) => {
+  const token = __d(cookies.get("__NEXT"));
+
+  let message = false;
+  await server
+    .get(`/chat/messages/${conversationId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      message = response?.data;
+    })
+    .catch((error) => {
+      message = error?.response?.data;
+    });
+  return message;
 };
 
 export const removeAuthToken = () => {

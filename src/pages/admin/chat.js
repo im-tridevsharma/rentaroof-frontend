@@ -2,23 +2,24 @@ import React, { useEffect, useRef, useState } from "react";
 import { MdClose, MdLocalOffer } from "react-icons/md";
 import dynamic from "next/dynamic";
 import Router from "next/router";
-import ChatMessage from "../../ChatMessage";
-import ChatUser from "../../ChatUser";
+import ChatMessage from "../../components/website/ChatMessage";
+import ChatUser from "../../components/website/ChatUser";
 import { toast } from "react-toastify";
-import { sendMessage } from "../../../../lib/frontend/auth";
+import { sendMessage } from "../../lib/authentication";
 import {
   conversationStatus,
   getConversations,
   getMessages,
-} from "../../../../lib/frontend/share";
-import Loader from "../../../loader";
-import { __d } from "../../../../server";
+} from "../../lib/authentication";
+import Loader from "../../components/loader";
+import { __d } from "../../server";
 import moment from "moment";
 import ReactTooltip from "react-tooltip";
 import { FaTimes } from "react-icons/fa";
+import { shallowEqual, useSelector } from "react-redux";
 
 const Picker = dynamic(
-  () => import("../../../../../node_modules/emoji-picker-react/dist/index"),
+  () => import("../../../node_modules/emoji-picker-react/dist/index"),
   { ssr: false }
 );
 
@@ -74,8 +75,8 @@ function ChatUI() {
           ?.toString()
           ?.replace("#", "");
         if (id) {
-          const u = localStorage.getItem("LU")
-            ? JSON.parse(__d(localStorage.getItem("LU")))
+          const u = localStorage.getItem("LA")
+            ? JSON.parse(__d(localStorage.getItem("LA")))
             : false;
           if (u) {
             const cconversation = res.data.filter((c) => c.id == id)[0];
@@ -109,8 +110,8 @@ function ChatUI() {
     messageBoxRef.current &&
       messageBoxRef.current.scrollIntoView({ behavior: "smooth" });
 
-    const u = localStorage.getItem("LU")
-      ? JSON.parse(__d(localStorage.getItem("LU")))
+    const u = localStorage.getItem("LA")
+      ? JSON.parse(__d(localStorage.getItem("LA")))
       : false;
     if (u) {
       setProfile(u);
@@ -606,6 +607,7 @@ function ChatUI() {
                         data-tip="Send Media"
                       />
                       {localStorage.getItem("deal-for") &&
+                        false &&
                         (JSON.parse(localStorage.getItem("deal-for"))
                           ?.receiver === selectedUser?.id ||
                           JSON.parse(localStorage.getItem("deal-for"))

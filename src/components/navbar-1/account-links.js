@@ -25,6 +25,7 @@ const AccountLinks = () => {
     const response = await logoutUser();
     if (response?.success) {
       removeAuthToken();
+      localStorage.removeItem("LA");
       router.push("/admin");
     } else {
       console.error("Something went wrong!");
