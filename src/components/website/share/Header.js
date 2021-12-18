@@ -34,6 +34,7 @@ function Header({
 }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [activeMenu, setActiveMenu] = useState(false);
   const dispatch = useDispatch();
   const cookies = new Cookies();
 
@@ -216,18 +217,66 @@ function Header({
                 }`}</p>
                 <p>{user?.email || "-"}</p>
               </div>
-              <div
-                className="rounded-full overflow-hidden"
-                style={{ width: "24px", height: "24px" }}
-              >
+              <div className="relative">
                 <img
                   src={user?.profile_pic || "/images/website/no_photo.png"}
-                  className="object-cover cursor-pointer"
+                  className="object-cover cursor-pointer rounded-full"
                   style={{ maxWidth: "24px", width: "24px", height: "24px" }}
                   alt="user"
-                  onClick={handleLogout}
-                  data-tip="Logout"
+                  onClick={() => setActiveMenu(!activeMenu)}
+                  data-tip="Profile"
                 />
+                <div
+                  style={{ fontFamily: "Opensans-regular" }}
+                  className={`bg-white flex flex-col py-3 items-center transform duration-300 justify-center sm:absolute ${
+                    activeMenu ? "sm:-right-5" : "sm:-right-96"
+                  } ${
+                    activeMenu ? "right-0" : " -right-full"
+                  } top-14 sm:top-11 sm:w-60 h-auto fixed w-screen z-40`}
+                >
+                  <img
+                    src={user?.profile_pic || "/images/website/no_photo.png"}
+                    className="w-12 h-12 object-cover rounded-full cursor-pointer"
+                    alt="user"
+                  />
+                  <h6 className="mt-1" style={{ fontFamily: "Opensans-bold" }}>
+                    {user?.first} {user?.last}
+                  </h6>
+                  <p>{user?.email}</p>
+                  <ul className="w-full text-center mt-3">
+                    <li>
+                      <Link href={`/${user?.role}/dashboard`}>
+                        <a className="py-3 bg-gray-50 border-b block hover:bg-gray-200">
+                          Dashboard
+                        </a>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href={`/${user?.role}/profile`}>
+                        <a className="py-3 bg-gray-50 border-b block hover:bg-gray-200">
+                          Profile
+                        </a>
+                      </Link>
+                    </li>
+                    {user?.role !== "tenant" && (
+                      <li>
+                        <Link href={`/${user?.role}/settings`}>
+                          <a className="py-3 bg-gray-50 border-b block hover:bg-gray-200">
+                            Settings
+                          </a>
+                        </Link>
+                      </li>
+                    )}
+                    <li>
+                      <a
+                        onClick={handleLogout}
+                        className="py-3 bg-gray-50 block hover:bg-gray-200"
+                      >
+                        Logout
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>

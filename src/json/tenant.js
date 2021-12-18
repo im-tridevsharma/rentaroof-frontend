@@ -24,6 +24,18 @@ const links = [
     ),
   },
   {
+    label: "How to Use",
+    href: "/tenant/how_to_use",
+    icon: (
+      <img
+        src="/icons/ibo_icons/icon_7.png"
+        alt="training"
+        className="object-contain"
+        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
+      />
+    ),
+  },
+  {
     label: "Notification",
     href: "/tenant/notification",
     icon: (

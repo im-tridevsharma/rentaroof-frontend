@@ -13,6 +13,7 @@ import getUser, {
 import { __d } from "../../server";
 import Cookies from "universal-cookie";
 import { Router } from "next/router";
+import { FaTimes } from "react-icons/fa";
 
 const Navbar = () => {
   const { config } = useSelector(
@@ -28,6 +29,7 @@ const Navbar = () => {
   const cookies = new Cookies();
   const [notification, setNotification] = useState(0);
   const [chat, setChat] = useState(0);
+  const [sos, setSOS] = useState(null);
 
   const playBell = () => {
     const bell = new Audio("/music/notification.wav");
@@ -62,8 +64,15 @@ const Navbar = () => {
           .listen("AdminNotificationSeen", (e) => {
             if (user?.role === "admin") {
               if (e?.notification?.id) {
-                console.log(e);
                 setNotification((prev) => prev - 1);
+              }
+            }
+          })
+          .listen("SOSFired", (e) => {
+            if (user?.role === "admin") {
+              if (e) {
+                playBell();
+                setSOS(e.sos);
               }
             }
           });
@@ -160,6 +169,33 @@ const Navbar = () => {
           <ReactTooltip />
         </button>
       </div>
+
+      {/**sos popup */}
+      {sos && (
+        <div
+          className="fixed top-0 right-0 bg-white p-5 max-w-sm w-full z-40 shadow-md border"
+          style={{ fontFamily: "Opensans-regular" }}
+        >
+          <FaTimes
+            className="text-red-400 text-xl cursor-pointer absolute right-1 top-1"
+            onClick={() => setSOS(null)}
+          />
+          <div className="flex flex-col items-start">
+            <h5
+              className="text-red-500"
+              style={{ fontFamily: "Opensans-bold" }}
+            >
+              SOS Alert
+            </h5>
+            <h6 className="mt-3">By: {sos?.name}</h6>
+            <p>Email: {sos?.email}</p>
+            <p>Content: {sos?.sos_content}</p>
+            <Link href={`/admin/sos/${sos?.id}`}>
+              <a className="p-2 rounded-md bg-blue-500 mt-3 text-white">View</a>
+            </Link>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

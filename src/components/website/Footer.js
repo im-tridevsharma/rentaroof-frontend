@@ -13,6 +13,8 @@ import { FaTimes } from "react-icons/fa";
 import Loader from "../loader";
 import addEnquiry from "../../lib/frontend/enquiry";
 import ReactTooltip from "react-tooltip";
+import { createSOS } from "../../lib/frontend/share";
+import { toast, ToastContainer } from "react-toastify";
 
 const getPages = async () => {
   let pages = false;
@@ -44,10 +46,12 @@ function Footer() {
   });
   const [errors, setErrors] = useState(false);
   const [isClosed, setIsClosed] = useState(true);
+  const [user, setUser] = useState(false);
 
   useEffect(() => {
     //if user is logged in fill their details
     const user = JSON.parse(__d(localStorage.getItem("LU")));
+    setUser(user);
     if (user) {
       setEnquiry((prev) => ({
         ...prev,
@@ -76,6 +80,20 @@ function Footer() {
     if (!iserror?.length) {
       submitProfileData(enquiry);
     } else {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSOS = async () => {
+    setIsLoading(true);
+    const res = await createSOS({
+      sos_content: `${user?.first} ${user?.last} pressed SOS button.`,
+    });
+    if (res?.status) {
+      setIsLoading(false);
+      toast.success("Admin has been notified successfully.");
+    } else {
+      toast.error(res?.error || res?.message);
       setIsLoading(false);
     }
   };
@@ -162,6 +180,7 @@ function Footer() {
   return (
     <>
       {isLoading && <Loader />}
+      <ToastContainer />
       {/**global enquiry form */}
       <div
         data-tip="Enquiry"
@@ -469,6 +488,19 @@ function Footer() {
           </p>
         </div>
       </div>
+      {user && user?.role === "tenant" && (
+        <div
+          className="fixed bottom-24 right-4 animate-pulse"
+          style={{ fontFamily: "Opensans-bold" }}
+        >
+          <button
+            onClick={handleSOS}
+            className="p-3 rounded-md bg-red-600 text-white"
+          >
+            SOS
+          </button>
+        </div>
+      )}
     </>
   );
 }

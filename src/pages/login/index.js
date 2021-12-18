@@ -83,7 +83,11 @@ function Index() {
                 localStorage.removeItem("redirect");
                 router.push(redirect);
               } else {
-                router.push(`/${response.user.role}/dashboard`);
+                if (response?.user?.role === "tenant") {
+                  router.push(`/`);
+                } else {
+                  router.push(`/${response.user.role}/dashboard`);
+                }
               }
             }
           }, 1500);
@@ -126,7 +130,7 @@ function Index() {
             <div className="py-2 px-2 text-green-600">
               <p className="flex items-center">
                 <BiBadgeCheck className="text-2xl mr-1" />
-                Loggedin successfully! Redirecting to dashboard.
+                Loggedin successfully! Redirecting ...
               </p>
             </div>
           )}

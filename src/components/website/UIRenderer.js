@@ -3,10 +3,8 @@ import { FiMessageSquare } from "react-icons/fi";
 import { FaTimes } from "react-icons/fa";
 import {
   createConversation,
-  getIboNotification,
-  getLandlordNotification,
+  createSOS,
   getUnseenNotification,
-  getUserNotification,
   getUsersForChat,
 } from "../../lib/frontend/share";
 import { __d } from "../../server";
@@ -14,6 +12,7 @@ import Header from "./share/Header";
 import Sidebar from "./share/Sidebar";
 import { toast, ToastContainer } from "react-toastify";
 import Router from "next/router";
+import Loader from "../loader";
 
 function UIRenderer({ UI, role, page }) {
   const [sideBarToggled, setSideBarToggled] = useState(false);
@@ -22,6 +21,7 @@ function UIRenderer({ UI, role, page }) {
   const [notifications, setNotifications] = useState([]);
   const [make, setMake] = useState(false);
   const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     let data = localStorage.getItem("LU");
@@ -65,9 +65,24 @@ function UIRenderer({ UI, role, page }) {
     }
   };
 
+  const handleSOS = async () => {
+    setIsLoading(true);
+    const res = await createSOS({
+      sos_content: `${user?.first} ${user?.last} pressed SOS button.`,
+    });
+    if (res?.status) {
+      setIsLoading(false);
+      toast.success("Admin has been notified successfully.");
+    } else {
+      toast.error(res?.error || res?.message);
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="flex">
       <ToastContainer />
+      {isLoading && <Loader />}
       {/**sider bar */}
       <Sidebar
         name={role}
@@ -98,6 +113,19 @@ function UIRenderer({ UI, role, page }) {
         >
           <UI />
         </div>
+        {user && user?.role === "tenant" && (
+          <div
+            className="absolute bottom-10 right-5 animate-pulse"
+            style={{ fontFamily: "Opensans-bold" }}
+          >
+            <button
+              onClick={handleSOS}
+              className="p-3 rounded-md bg-red-600 text-white"
+            >
+              SOS
+            </button>
+          </div>
+        )}
         {/**conversation */}
         {false && (
           <div

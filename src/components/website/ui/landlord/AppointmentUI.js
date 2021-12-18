@@ -588,6 +588,17 @@ function AppointmentUI() {
             <b>Contact:</b> {showDetail?.contact}
           </p>
           <hr className="my-1" />
+          <p className="leading-6">
+            <b>Landlord:</b> {showDetail?.landlord?.first}{" "}
+            {showDetail?.landlord?.last}
+          </p>
+          <p className="leading-6">
+            <b>Email:</b> {showDetail?.landlord?.email}
+          </p>
+          <p className="leading-6">
+            <b>Contact:</b> {showDetail?.landlord?.mobile}
+          </p>
+          <hr className="my-1" />
           <p className="leading-6 capitalize">
             <b>Status:</b> {showDetail?.meeting_status}
           </p>
