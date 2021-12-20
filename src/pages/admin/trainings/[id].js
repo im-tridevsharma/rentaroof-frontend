@@ -33,16 +33,10 @@ function Update() {
     user: false,
   });
   const [training, setTraining] = useState({});
-  const [users, setUsers] = useState([]);
-  const [filteredUsers, setFilteredUsers] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
     (async () => {
-      setIsLoading(true);
-      const response = await searchUsers(
-        "type=ibo,landlord&select=id,first,last,role"
-      );
       const training_res = await getTrainingById(router.query.id);
       if (training_res?.status) {
         setTraining(training_res.data);
@@ -55,12 +49,6 @@ function Update() {
             : [],
         });
         setIsLoading(false);
-      }
-      if (response?.status) {
-        setUsers(response.data);
-        setFilteredUsers(response.data);
-      } else {
-        console.error(response.message);
       }
     })();
   }, []);
@@ -198,7 +186,7 @@ function Update() {
               required
             />
             <Input
-              label="Type"
+              label="User Type"
               name="type"
               type="select"
               error={errors}
@@ -207,61 +195,12 @@ function Update() {
               vsetter={setTraining}
               required
               options={[
-                { label: "Global", value: "global" },
-                { label: "User", value: "user" },
+                { label: "Tenant", value: "tenant" },
+                { label: "IBO", value: "ibo" },
+                { label: "Landlord", value: "landlord" },
               ]}
             />
           </div>
-          {training?.type === "user" && (
-            <div className="form-element">
-              <input
-                type="text"
-                className="form-input"
-                id="search"
-                placeholder="Search Users..."
-                onChange={(e) => {
-                  setFilteredUsers(
-                    users.filter(
-                      (user) =>
-                        user.first
-                          .toLowerCase()
-                          .includes(e.target.value.toLowerCase()) ||
-                        user.last
-                          .toLowerCase()
-                          .includes(e.target.value.toLowerCase()) ||
-                        user.role
-                          .toLowerCase()
-                          .includes(e.target.value.toLowerCase())
-                    )
-                  );
-                }}
-              />
-              <div className="grid sm:grid-cols-2 overflow-y-auto p-2">
-                {filteredUsers?.length > 0 ? (
-                  filteredUsers.map((user, i) => (
-                    <label htmlFor={`user-${i}`} key={i}>
-                      <input
-                        type="checkbox"
-                        name="users[]"
-                        id={`user-${i}`}
-                        value={user.id}
-                        onChange={(e) => userHandler(e)}
-                        checked={
-                          training?.user_ids?.length &&
-                          training?.user_ids.includes(String(user.id))
-                            ? true
-                            : false
-                        }
-                      />
-                      <span className="ml-2">{`${user.first} ${user.last} - ${user.role}`}</span>
-                    </label>
-                  ))
-                ) : (
-                  <span>Empty user list!</span>
-                )}
-              </div>
-            </div>
-          )}
           <Input
             label="Description"
             name="description"

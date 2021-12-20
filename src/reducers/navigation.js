@@ -9,7 +9,11 @@ import {
   FiMapPin,
 } from "react-icons/fi";
 import { BiBuildingHouse } from "react-icons/bi";
-import { RiAlarmWarningFill, RiContactsLine } from "react-icons/ri";
+import {
+  RiAlarmWarningFill,
+  RiContactsLine,
+  RiQuestionAnswerLine,
+} from "react-icons/ri";
 import { CgTrack, CgWebsite } from "react-icons/cg";
 import { GiWalk } from "react-icons/gi";
 import { GrCompliance } from "react-icons/gr";
@@ -164,8 +168,23 @@ const initialState = [
             items: [],
           },
           {
+            url: "/admin/mcqs",
+            title: "All MCQs",
+            items: [],
+          },
+          {
             url: "/admin/trainings/add",
-            title: "Add New",
+            title: "Add Training",
+            items: [],
+          },
+          {
+            url: "/admin/mcqs/add",
+            title: "Add MCQ",
+            items: [],
+          },
+          {
+            url: "/admin/evaluations",
+            title: "IBO Evaluations",
             items: [],
           },
         ],
@@ -187,6 +206,13 @@ const initialState = [
             items: [],
           },
         ],
+      },
+
+      {
+        url: "/admin/faqs",
+        icon: <RiQuestionAnswerLine size={20} />,
+        title: "FAQs",
+        items: [],
       },
       {
         url: "/admin/sos",

@@ -63,7 +63,7 @@ function Index() {
       setVError(response.error);
       setIsLoading(false);
     } else {
-      setVError({ message: response.message });
+      setVError({ message: response?.message });
       setIsLoading(false);
     }
   };

@@ -23,6 +23,10 @@ export default function config(
       permissions: [],
       profile_pic: "",
     },
+    sidebar: {
+      hide: false,
+      toggle: false,
+    },
   },
   action
 ) {

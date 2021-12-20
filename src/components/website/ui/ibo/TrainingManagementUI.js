@@ -2,19 +2,22 @@ import React, { useEffect, useState } from "react";
 import VideoItem from "../../VideoItem";
 import Pdfs from "../../Pdfs";
 import getVideos, {
+  getFaqs,
   getPdfs,
 } from "../../../../lib/frontend/training_management";
 import { __d } from "../../../../server";
 import Loader from "../../../loader";
 import { MdClose } from "react-icons/md";
 import ReactTooltip from "react-tooltip";
+import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 
 function TrainingManagementUI() {
   const [videos, setVideos] = useState([]);
-  const [globalPdf, setGlobalPdf] = useState([]);
   const [personalPdf, setPersonalPdf] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [faqs, setFaqs] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState("");
+  const [openFaq, setOpenFaq] = useState(false);
 
   useEffect(() => {
     let id = "";
@@ -27,13 +30,18 @@ function TrainingManagementUI() {
     (async () => {
       const response = await getVideos(id);
       const pdfs = await getPdfs(id);
+      const res = await getFaqs();
 
       if (response?.status) {
         setVideos(response.data);
       }
+
+      if (res?.status) {
+        setFaqs(res?.data);
+      }
+
       if (pdfs?.status) {
-        setGlobalPdf(pdfs.data.global);
-        setPersonalPdf(pdfs.data.persoanl);
+        setPersonalPdf(pdfs.data);
         setIsLoading(false);
       }
     })();
@@ -81,15 +89,50 @@ function TrainingManagementUI() {
         </div>
         {/**pdf files */}
         <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-2 mt-5">
-          <Pdfs
-            bgcolor="var(--blue)"
-            pdfs={globalPdf}
-            title="Training Pdf (global)"
-          />
+          <div className="flex flex-col rounded overflow-hidden mt-5 w-full">
+            <div
+              className="px-3 py-2 text-white flex items-center justify-between"
+              style={{ backgroundColor: "var(--blue)" }}
+            >
+              <p
+                className="uppercase"
+                style={{ fontFamily: "Opensans-semi-bold" }}
+              >
+                FAQs
+              </p>
+            </div>
+            <div className="flex flex-col px-2 max-h-80 h-full overflow-x-hidden overscroll-auto">
+              {faqs?.length > 0 ? (
+                faqs.map((faq, i) => (
+                  <div key={i} className="py-3">
+                    <div
+                      className="flex items-center justify-between cursor-pointer"
+                      onClick={() =>
+                        openFaq === faq.id
+                          ? setOpenFaq(false)
+                          : setOpenFaq(faq.id)
+                      }
+                    >
+                      <p>{faq?.title}</p>
+                      {openFaq !== faq.id ? <FaCaretDown /> : <FaCaretUp />}
+                    </div>
+                    {openFaq === faq?.id && (
+                      <div
+                        className="mt-5"
+                        dangerouslySetInnerHTML={{ __html: faq?.faq }}
+                      />
+                    )}
+                  </div>
+                ))
+              ) : (
+                <p className="text-red-400 px-1 py-3">No FAQs found!</p>
+              )}
+            </div>
+          </div>
           <Pdfs
             bgcolor="var(--orange)"
             pdfs={personalPdf}
-            title="Training Pdf (personal)"
+            title="Training Pdf"
           />
         </div>
       </div>

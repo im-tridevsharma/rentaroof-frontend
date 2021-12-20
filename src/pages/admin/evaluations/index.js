@@ -1,29 +1,26 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
-import Link from "next/link";
-import { useRouter } from "next/router";
 import Loader from "../../../components/loader";
 import SectionTitle from "../../../components/section-title";
-import { FiAlertCircle, FiEdit, FiRefreshCw, FiTrash } from "react-icons/fi";
-import getTrainings, { deleteTraining } from "../../../lib/trainings";
+import { FiAlertCircle, FiRefreshCw, FiTrash } from "react-icons/fi";
+import { getEvaluations, deleteEvaluation } from "../../../lib/mcqs";
 import { useDispatch } from "react-redux";
 import Datatable from "../../../components/datatable";
 import ReactTooltip from "react-tooltip";
 
 function Index() {
   const [isLoading, setIsLoading] = useState(false);
-  const [trainings, setTrainings] = useState([]);
+  const [evaluations, setEvaluations] = useState([]);
   const [isRefresh, setIsRefresh] = useState(false);
 
-  const router = useRouter();
   const dispatch = useDispatch();
 
   useEffect(() => {
     setIsLoading(true);
     (async () => {
-      const response = await getTrainings();
+      const response = await getEvaluations();
       if (response?.status) {
-        setTrainings(response.data);
+        setEvaluations(response.data);
         setIsLoading(false);
       } else {
         dispatch({
@@ -45,15 +42,9 @@ function Index() {
   }, [isRefresh]);
 
   //all training button
-  const AllTraining = () => {
+  const AllEvaluation = () => {
     return (
       <div className="flex items-center">
-        {" "}
-        <Link href="/admin/trainings/add">
-          <a className="btn btn-default bg-blue-500 text-white rounded-lg hover:bg-blue-400">
-            Add New
-          </a>
-        </Link>
         <button
           onClick={() => setIsRefresh(!isRefresh)}
           data-tip="Refresh"
@@ -66,24 +57,18 @@ function Index() {
     );
   };
 
-  const editPage = (id) => {
-    if (id) {
-      router.push(`/admin/trainings/${id}`);
-    }
-  };
-
-  const delPage = async (id) => {
+  const delEvaluation = async (id) => {
     // eslint-disable-next-line no-restricted-globals
     const go = confirm("It will delete it permanantly!");
     if (go && id) {
       setIsLoading(true);
-      const response = await deleteTraining(id);
+      const response = await deleteEvaluation(id);
       if (response?.status) {
         setIsLoading(false);
-        const new_trainings = trainings.filter(
+        const new_evaluations = evaluations.filter(
           (item) => item.id !== response.data.id
         );
-        setTrainings(new_trainings);
+        setEvaluations(new_evaluations);
       } else {
         setIsLoading(false);
       }
@@ -93,20 +78,20 @@ function Index() {
   return (
     <>
       <Head>
-        <title>All Trainigns | Rent a Roof</title>
+        <title>All Evaluations | Rent a Roof</title>
       </Head>
       <ReactTooltip />
       {isLoading && <Loader />}
       <SectionTitle
-        title="Trainings"
-        subtitle="All Trainings"
-        right={<AllTraining />}
+        title="Evaluations"
+        subtitle="All Evaluations"
+        right={<AllEvaluation />}
       />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
-        {trainings?.length ? (
-          <Table pages={trainings} edit={editPage} del={delPage} />
+        {evaluations?.length ? (
+          <Table evaluations={evaluations} del={delEvaluation} />
         ) : (
-          <p className="mt-5">No tranings found!</p>
+          <p className="mt-5">No evaluations found!</p>
         )}
       </div>
     </>
@@ -115,33 +100,36 @@ function Index() {
 
 export default Index;
 
-const Table = ({ pages, edit, del }) => {
+const Table = ({ evaluations, del }) => {
   const columns = [
     {
-      Header: "Title",
-      accessor: "title",
+      Header: "MCQ Title",
+      accessor: "mcq_title",
     },
     {
-      Header: "Description",
-      accessor: "description",
+      Header: "IBO",
+      accessor: "ibo_name",
     },
     {
-      Header: "Type",
-      accessor: "type",
+      Header: "Total Questions",
+      accessor: "total_questions",
     },
     {
-      Header: "Pdfs",
-      accessor: "attachments",
-      Cell: (props) => {
-        return <span>{props.value && JSON.parse(props.value).length}</span>;
-      },
+      Header: "Total Answered",
+      accessor: "answered_questions",
     },
     {
-      Header: "Videos",
-      accessor: "video_urls",
-      Cell: (props) => {
-        return <span>{props.value && JSON.parse(props.value).length}</span>;
-      },
+      Header: "Marks Obtained",
+      accessor: "total_marks_obtained",
+    },
+    {
+      Header: "Time Taken",
+      accessor: "total_time_taken",
+      Cell: (props) => (
+        <p>
+          {props.value} {props.value === 1 ? "minute" : "minutes"}
+        </p>
+      ),
     },
     {
       Header: "Action",
@@ -156,17 +144,10 @@ const Table = ({ pages, edit, del }) => {
             >
               <FiTrash />
             </button>
-            <button
-              onClick={() => edit(props.value)}
-              data-tip="Edit"
-              className="ml-2 btn px-2 py-1 bg-blue-400 rounded-md hover:bg-blue-500"
-            >
-              <FiEdit />
-            </button>
           </>
         );
       },
     },
   ];
-  return <Datatable columns={columns} data={pages} />;
+  return <Datatable columns={columns} data={evaluations} />;
 };

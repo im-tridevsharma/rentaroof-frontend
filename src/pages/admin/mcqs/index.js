@@ -5,14 +5,14 @@ import { useRouter } from "next/router";
 import Loader from "../../../components/loader";
 import SectionTitle from "../../../components/section-title";
 import { FiAlertCircle, FiEdit, FiRefreshCw, FiTrash } from "react-icons/fi";
-import getTrainings, { deleteTraining } from "../../../lib/trainings";
+import getMcqs, { deleteMcq } from "../../../lib/mcqs";
 import { useDispatch } from "react-redux";
 import Datatable from "../../../components/datatable";
 import ReactTooltip from "react-tooltip";
 
 function Index() {
   const [isLoading, setIsLoading] = useState(false);
-  const [trainings, setTrainings] = useState([]);
+  const [mcqs, setMcqs] = useState([]);
   const [isRefresh, setIsRefresh] = useState(false);
 
   const router = useRouter();
@@ -21,9 +21,9 @@ function Index() {
   useEffect(() => {
     setIsLoading(true);
     (async () => {
-      const response = await getTrainings();
+      const response = await getMcqs();
       if (response?.status) {
-        setTrainings(response.data);
+        setMcqs(response.data);
         setIsLoading(false);
       } else {
         dispatch({
@@ -45,11 +45,11 @@ function Index() {
   }, [isRefresh]);
 
   //all training button
-  const AllTraining = () => {
+  const AllMcq = () => {
     return (
       <div className="flex items-center">
         {" "}
-        <Link href="/admin/trainings/add">
+        <Link href="/admin/mcqs/add">
           <a className="btn btn-default bg-blue-500 text-white rounded-lg hover:bg-blue-400">
             Add New
           </a>
@@ -66,24 +66,22 @@ function Index() {
     );
   };
 
-  const editPage = (id) => {
+  const editMcq = (id) => {
     if (id) {
-      router.push(`/admin/trainings/${id}`);
+      router.push(`/admin/mcqs/${id}`);
     }
   };
 
-  const delPage = async (id) => {
+  const delMcq = async (id) => {
     // eslint-disable-next-line no-restricted-globals
     const go = confirm("It will delete it permanantly!");
     if (go && id) {
       setIsLoading(true);
-      const response = await deleteTraining(id);
+      const response = await deleteMcq(id);
       if (response?.status) {
         setIsLoading(false);
-        const new_trainings = trainings.filter(
-          (item) => item.id !== response.data.id
-        );
-        setTrainings(new_trainings);
+        const new_mcqs = mcqs.filter((item) => item.id !== response.data.id);
+        setMcqs(new_mcqs);
       } else {
         setIsLoading(false);
       }
@@ -93,20 +91,16 @@ function Index() {
   return (
     <>
       <Head>
-        <title>All Trainigns | Rent a Roof</title>
+        <title>All Mcqs | Rent a Roof</title>
       </Head>
       <ReactTooltip />
       {isLoading && <Loader />}
-      <SectionTitle
-        title="Trainings"
-        subtitle="All Trainings"
-        right={<AllTraining />}
-      />
+      <SectionTitle title="Mcqs" subtitle="All Mcqs" right={<AllMcq />} />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
-        {trainings?.length ? (
-          <Table pages={trainings} edit={editPage} del={delPage} />
+        {mcqs?.length ? (
+          <Table mcqs={mcqs} edit={editMcq} del={delMcq} />
         ) : (
-          <p className="mt-5">No tranings found!</p>
+          <p className="mt-5">No mcqs found!</p>
         )}
       </div>
     </>
@@ -115,33 +109,28 @@ function Index() {
 
 export default Index;
 
-const Table = ({ pages, edit, del }) => {
+const Table = ({ mcqs, edit, del }) => {
   const columns = [
     {
       Header: "Title",
       accessor: "title",
     },
     {
-      Header: "Description",
-      accessor: "description",
+      Header: "Total Questions",
+      accessor: "total_questions",
     },
     {
-      Header: "Type",
-      accessor: "type",
+      Header: "Total Marks",
+      accessor: "total_marks",
     },
     {
-      Header: "Pdfs",
-      accessor: "attachments",
-      Cell: (props) => {
-        return <span>{props.value && JSON.parse(props.value).length}</span>;
-      },
-    },
-    {
-      Header: "Videos",
-      accessor: "video_urls",
-      Cell: (props) => {
-        return <span>{props.value && JSON.parse(props.value).length}</span>;
-      },
+      Header: "Total Time",
+      accessor: "total_time",
+      Cell: (props) => (
+        <p>
+          {props.value} {props.value === 1 ? "minute" : "minutes"}
+        </p>
+      ),
     },
     {
       Header: "Action",
@@ -168,5 +157,5 @@ const Table = ({ pages, edit, del }) => {
       },
     },
   ];
-  return <Datatable columns={columns} data={pages} />;
+  return <Datatable columns={columns} data={mcqs} />;
 };

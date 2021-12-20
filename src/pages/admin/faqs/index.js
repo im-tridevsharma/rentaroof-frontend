@@ -5,14 +5,14 @@ import { useRouter } from "next/router";
 import Loader from "../../../components/loader";
 import SectionTitle from "../../../components/section-title";
 import { FiAlertCircle, FiEdit, FiRefreshCw, FiTrash } from "react-icons/fi";
-import getTrainings, { deleteTraining } from "../../../lib/trainings";
+import getFaqs, { deleteFaq } from "../../../lib/faqs";
 import { useDispatch } from "react-redux";
 import Datatable from "../../../components/datatable";
 import ReactTooltip from "react-tooltip";
 
 function Index() {
   const [isLoading, setIsLoading] = useState(false);
-  const [trainings, setTrainings] = useState([]);
+  const [faqs, setFaqs] = useState([]);
   const [isRefresh, setIsRefresh] = useState(false);
 
   const router = useRouter();
@@ -21,9 +21,9 @@ function Index() {
   useEffect(() => {
     setIsLoading(true);
     (async () => {
-      const response = await getTrainings();
+      const response = await getFaqs();
       if (response?.status) {
-        setTrainings(response.data);
+        setFaqs(response.data);
         setIsLoading(false);
       } else {
         dispatch({
@@ -45,11 +45,11 @@ function Index() {
   }, [isRefresh]);
 
   //all training button
-  const AllTraining = () => {
+  const AllFaq = () => {
     return (
       <div className="flex items-center">
         {" "}
-        <Link href="/admin/trainings/add">
+        <Link href="/admin/faqs/add">
           <a className="btn btn-default bg-blue-500 text-white rounded-lg hover:bg-blue-400">
             Add New
           </a>
@@ -66,24 +66,22 @@ function Index() {
     );
   };
 
-  const editPage = (id) => {
+  const editFaq = (id) => {
     if (id) {
-      router.push(`/admin/trainings/${id}`);
+      router.push(`/admin/faqs/${id}`);
     }
   };
 
-  const delPage = async (id) => {
+  const delFaq = async (id) => {
     // eslint-disable-next-line no-restricted-globals
     const go = confirm("It will delete it permanantly!");
     if (go && id) {
       setIsLoading(true);
-      const response = await deleteTraining(id);
+      const response = await deleteFaq(id);
       if (response?.status) {
         setIsLoading(false);
-        const new_trainings = trainings.filter(
-          (item) => item.id !== response.data.id
-        );
-        setTrainings(new_trainings);
+        const new_faqs = faqs.filter((item) => item.id !== response.data.id);
+        setFaqs(new_faqs);
       } else {
         setIsLoading(false);
       }
@@ -93,20 +91,16 @@ function Index() {
   return (
     <>
       <Head>
-        <title>All Trainigns | Rent a Roof</title>
+        <title>All Faqs | Rent a Roof</title>
       </Head>
       <ReactTooltip />
       {isLoading && <Loader />}
-      <SectionTitle
-        title="Trainings"
-        subtitle="All Trainings"
-        right={<AllTraining />}
-      />
+      <SectionTitle title="Faqs" subtitle="All Faqs" right={<AllFaq />} />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
-        {trainings?.length ? (
-          <Table pages={trainings} edit={editPage} del={delPage} />
+        {faqs?.length ? (
+          <Table pages={faqs} edit={editFaq} del={delFaq} />
         ) : (
-          <p className="mt-5">No tranings found!</p>
+          <p className="mt-5">No faqs found!</p>
         )}
       </div>
     </>
@@ -122,26 +116,8 @@ const Table = ({ pages, edit, del }) => {
       accessor: "title",
     },
     {
-      Header: "Description",
-      accessor: "description",
-    },
-    {
       Header: "Type",
       accessor: "type",
-    },
-    {
-      Header: "Pdfs",
-      accessor: "attachments",
-      Cell: (props) => {
-        return <span>{props.value && JSON.parse(props.value).length}</span>;
-      },
-    },
-    {
-      Header: "Videos",
-      accessor: "video_urls",
-      Cell: (props) => {
-        return <span>{props.value && JSON.parse(props.value).length}</span>;
-      },
     },
     {
       Header: "Action",
