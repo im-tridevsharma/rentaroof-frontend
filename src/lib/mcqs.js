@@ -90,7 +90,7 @@ export const deleteEvaluation = async (id) => {
   if (id) {
     if (token) {
       await server
-        .delete(`/admin/evaluation/${id}`, {
+        .delete(`/admin/evaluations/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {

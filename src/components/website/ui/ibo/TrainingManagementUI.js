@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import VideoItem from "../../VideoItem";
 import Pdfs from "../../Pdfs";
 import getVideos, {
@@ -73,10 +74,21 @@ function TrainingManagementUI() {
       <div className="flex flex-col justify-center">
         {/**videos */}
         <h6
-          className=" text-gray-800"
+          className=" text-gray-800 flex items-center justify-between"
           style={{ fontFamily: "Opensans-semi-bold" }}
         >
           Training Videos
+          <Link href="/ibo/training_mcqs">
+            <a
+              className="px-3 py-2 rounded-md text-white text-xs"
+              style={{
+                backgroundColor: "var(--blue)",
+                fontFamily: "Opensans-bold",
+              }}
+            >
+              Training MCQs
+            </a>
+          </Link>
         </h6>
         <div className="mt-3 block">
           {videos?.length > 0 ? (
@@ -125,7 +137,7 @@ function TrainingManagementUI() {
                   </div>
                 ))
               ) : (
-                <p className="text-red-400 px-1 py-3">No FAQs found!</p>
+                <p className="text-red-400 px-0 py-3">No FAQs found!</p>
               )}
             </div>
           </div>

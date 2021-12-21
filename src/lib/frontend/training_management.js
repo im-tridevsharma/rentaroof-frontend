@@ -60,4 +60,45 @@ export const getFaqs = async () => {
 
   return faqs;
 };
+
+export const getMcqs = async () => {
+  const token = getToken();
+  let mcqs = false;
+
+  if (token) {
+    await server
+      .get("/trainings/mcqs/", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        mcqs = response?.data;
+      })
+      .catch((error) => {
+        mcqs = error?.response?.data;
+      });
+  }
+
+  return mcqs;
+};
+
+export const saveAnswers = async (data) => {
+  const token = getToken();
+  let res = false;
+
+  if (token) {
+    await server
+      .post("/trainings/submit_answer", data, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        res = response?.data;
+      })
+      .catch((error) => {
+        res = error?.response?.data;
+      });
+  }
+
+  return res;
+};
+
 export default getVideos;
