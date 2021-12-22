@@ -204,7 +204,7 @@ function Header({
                     className="absolute -top-1 -right-2 text-3xs text-white rounded-full"
                     style={{ backgroundColor: "var(--orange)" }}
                   >
-                    18
+                    0
                   </span>
                 </a>
               </Link>
