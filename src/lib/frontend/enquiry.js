@@ -19,4 +19,22 @@ const addEnquiry = async (data) => {
   return res;
 };
 
+export const findAgent = async (search) => {
+  if (search) {
+    const token = getToken();
+    let res = false;
+
+    await server
+      .get(`/find-agent?search=${search}`)
+      .then((response) => {
+        res = response?.data;
+      })
+      .catch((error) => {
+        res = error?.response?.data;
+      });
+
+    return res;
+  }
+};
+
 export default addEnquiry;

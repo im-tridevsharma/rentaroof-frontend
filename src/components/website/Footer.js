@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Router from 'next/router';
 import {
   FiAlertTriangle,
   FiCheckCircle,
@@ -177,6 +178,12 @@ function Footer() {
     })();
   }, []);
 
+  const handleFindAgent = (e) => {
+    e.preventDefault();
+    const search = document.forms.agentFinder.agent.value;
+    Router.push(`/find-an-agent?search=${search}`);
+  }
+
   return (
     <>
       {isLoading && <Loader />}
@@ -321,7 +328,7 @@ function Footer() {
                   <label htmlFor="terms">
                     Accept{" "}
                     <a
-                      href="javascript:;"
+                      href=""
                       onClick={() => setTermsAndCondition(true)}
                     >
                       Terms and Conditions
@@ -370,6 +377,8 @@ function Footer() {
           backgroundColor: "var(--primary-color)",
           fontFamily: "Opensans-regular",
         }}
+        name="agentFinder"
+        onSubmit={handleFindAgent}
       >
         <label
           className="uppercase font-bold text-white"
@@ -380,7 +389,7 @@ function Footer() {
         <input
           type="text"
           name="agent"
-          placeholder="Agent"
+          placeholder="Agent Name/Place..."
           className="border-2 max-w-xl w-full text-sm py-4 h-3 text-gray-600 border-gray-100 rounded-md bg-white ml-5"
         />
         <button

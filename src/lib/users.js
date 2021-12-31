@@ -23,6 +23,28 @@ const getUsers = async () => {
   return users;
 };
 
+export const getUsersForMap = async () => {
+  const token = getToken();
+  let users = false;
+
+  if (token) {
+    await server
+      .get("/admin/users/tracking", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        if (response.data) {
+          users = response.data;
+        }
+      })
+      .catch((error) => {
+        users = error.response?.data;
+      });
+  }
+
+  return users;
+};
+
 export const getUserById = async (id) => {
   const token = getToken();
   let user = false;
