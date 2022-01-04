@@ -2,7 +2,7 @@ import axios from "axios";
 import CryptoJS from "crypto-js";
 
 const server = axios.create({
-  baseURL: "http://localhost:8000/api",
+  baseURL: "http://localhost:8001/api",
 });
 
 export function __e(string) {

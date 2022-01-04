@@ -17,7 +17,7 @@ import {
 import { CgTrack, CgWebsite } from "react-icons/cg";
 import { GiWalk } from "react-icons/gi";
 import { GrCompliance } from "react-icons/gr";
-import { MdEditLocation } from "react-icons/md";
+import { MdEditLocation, MdLocalMall } from "react-icons/md";
 
 const initialState = [
   {
@@ -317,6 +317,23 @@ const initialState = [
           },
           {
             url: "/admin/cities/add",
+            title: "Add",
+            items: [],
+          },
+        ],
+      },
+      {
+        url: "",
+        icon: <MdLocalMall size={20} />,
+        title: "Location",
+        items: [
+          {
+            url: "/admin/locations",
+            title: "All",
+            items: [],
+          },
+          {
+            url: "/admin/locations/add",
             title: "Add",
             items: [],
           },

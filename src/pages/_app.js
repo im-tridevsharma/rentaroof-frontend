@@ -60,7 +60,7 @@ export default function App({ Component, pageProps }) {
       enabledTransports: ["ws"],
       authEndpoint: `${process.env.BASE_URL.replace(
         3000,
-        8000
+        8001
       )}/api/broadcasting/auth`,
     });
   }, []);

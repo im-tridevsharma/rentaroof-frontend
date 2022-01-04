@@ -60,3 +60,23 @@ export const getCities = async () => {
 
   return cities;
 };
+
+export const getLocations = async () => {
+  const token = getToken();
+  let locations = false;
+
+  if (token) {
+    await server
+      .get("/locations", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        locations = response?.data;
+      })
+      .catch((error) => {
+        locations = error.response.data;
+      });
+  }
+
+  return locations;
+};

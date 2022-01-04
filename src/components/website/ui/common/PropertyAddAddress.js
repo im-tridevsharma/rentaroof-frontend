@@ -5,6 +5,7 @@ import {
   getCountries,
   getStates,
   getCities,
+  getLocations,
 } from "../../../../lib/frontend/locations";
 import {
   addPropertyAddress,
@@ -18,12 +19,15 @@ function PropertyAddAddress({ code }) {
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
+  const [locations, setLocations] = useState([]);
   const [filteredState, setFilteredState] = useState([]);
   const [filteredCity, setFilteredCity] = useState([]);
+  const [filteredLocation, setFilteredLocation] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [back, setBack] = useState(false);
   const [skip, setSkip] = useState(true);
   const [address, setAddress] = useState({});
+  const [plocation,setPLocation] = useState('');
   const router = useRouter();
 
   useEffect(() => {
@@ -34,6 +38,7 @@ function PropertyAddAddress({ code }) {
       const country_data = await getCountries();
       const state_data = await getStates();
       const city_data = await getCities();
+      const location_data = await getLocations();
 
       if (country_data?.status) {
         setCountries(country_data.data);
@@ -43,6 +48,9 @@ function PropertyAddAddress({ code }) {
       }
       if (city_data?.status) {
         setCities(city_data.data);
+      }
+      if (location_data?.status) {
+        setLocations(location_data.data);
         setIsLoading(false);
       }
 
@@ -50,9 +58,12 @@ function PropertyAddAddress({ code }) {
         const prpty = await getPropertyByCode(ids[0] + "-" + ids[1]);
         if (prpty?.status) {
           setAddress(prpty?.data?.address);
+          setPLocation(prpty?.data?.locations);
           if (countries && states && cities) {
             filterState(prpty?.data?.address?.country);
             filterCity(prpty?.data?.address?.state);
+            filterLocation(prpty?.data?.address?.city);
+            
           }
           setIsLoading(false);
         } else {
@@ -90,6 +101,19 @@ function PropertyAddAddress({ code }) {
     state_id
       ? setFilteredCity(cities.filter((item) => item.state_id === state_id))
       : setFilteredCity([]);
+  };
+
+  const filterLocation = (e) => {
+    let city_id = null;
+    if (typeof e !== "number") {
+      e?.preventDefault();
+      city_id = Number(e?.target.value);
+    } else {
+      city_id = address?.city;
+    }
+    city_id
+      ? setFilteredLocation(locations.filter((item) => item.city_id === city_id))
+      : setFilteredLocation([]);
   };
 
   const nextToAmenities = () => {
@@ -291,7 +315,7 @@ function PropertyAddAddress({ code }) {
               <label className="form-label">City</label>
               <select
                 name="city"
-                onChange={inputHandler}
+                onChange={filterLocation}
                 className="form-input border-gray-200 rounded-md -mt-1"
               >
                 <option value="">Select</option>
@@ -306,6 +330,23 @@ function PropertyAddAddress({ code }) {
                     </option>
                   ))}
               </select>
+            </div>
+          </div>
+          <div className="form-element">
+            <label className="form-label">Locations</label>
+            <div className="p-2 border rounded-md grid grid-cols-2 md:grid-cols-4">
+              {filteredLocation?.length > 0 ? filteredLocation?.map((l,i) => <div className="my-1 mx-1" key={i}>
+                <label className="cursor-pointer">
+                  <input type="checkbox" name="locations[]" checked={plocation.includes(l?.name)} onChange={(e) => {
+                    if(plocation.includes(l?.name)){
+                      setPLocation(plocation.replace(e.target.value, l?.id))
+                    }else{
+                      setPLocation(plocation.replace(l?.id, e.target.value))
+                    }
+                  }} defaultValue={l?.name} className="mr-2"/>
+                  <span>{ l?.name }</span>
+                </label>
+              </div>): <p>Select city for locations!</p>}
             </div>
           </div>
           <div className="form-element">

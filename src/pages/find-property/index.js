@@ -775,7 +775,7 @@ function Index({ query }) {
                   value={filters?.sorting}
                   onChange={(e) => sortBy(e)}
                 >
-                  <option value="relevance">Relevance</option>
+                  <option value="relevance">Oldest</option>
                   <option value="newest">Newest</option>
                 </select>
               </label>
