@@ -913,3 +913,57 @@ export const getDealOffered = async () => {
     });
   return deals;
 };
+
+
+//get ibo earning cards
+export const getIboCards = async () => {
+  const token = __d(cookies.get("_SYNC_"));
+  let cards = false;
+  await server
+    .get(`/earnings/ibo/cards`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      cards = response?.data;
+    })
+    .catch((error) => {
+      cards = error?.response?.data;
+    });
+  return cards;
+};
+
+
+//get ibo earning deals
+export const getIboDeals = async () => {
+  const token = __d(cookies.get("_SYNC_"));
+  let deals = false;
+  await server
+    .get(`/earnings/ibo/deals`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      deals = response?.data;
+    })
+    .catch((error) => {
+      deals = error?.response?.data;
+    });
+  return deals;
+};
+
+
+//get ibo earning deals
+export const getIboForYear = async () => {
+  const token = __d(cookies.get("_SYNC_"));
+  let for_year = false;
+  await server
+    .get(`/earnings/ibo/for_year`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      for_year = response?.data;
+    })
+    .catch((error) => {
+      for_year = error?.response?.data;
+    });
+  return for_year;
+};

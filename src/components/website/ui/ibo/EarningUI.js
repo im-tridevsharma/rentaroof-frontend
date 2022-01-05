@@ -1,10 +1,58 @@
 import React from "react";
 import Card from "../../Card";
 import BarChart from "../../../dashboard/bar-chart";
+import Loader from "../../../loader";
+import { getIboCards, getIboDeals, getIboForYear } from "../../../../lib/frontend/share";
+import moment from 'moment'
 
 function EarningUI() {
+  const [cards, setCards] = React.useState(null);
+  const [deals, setDeals] = React.useState([]);
+  const [foryear, setForYear] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    const fetchCards = async () => {
+      setIsLoading(true);
+      const cdata = await getIboCards();
+      if (cdata?.status) {
+        setIsLoading(false);
+        setCards(cdata?.data);
+      } else {
+        console.log(cdata?.message);
+      }
+    };
+
+    const fetchDeals = async () => {
+      setIsLoading(true);
+      const ddata = await getIboDeals();
+      if (ddata?.status) {
+        setIsLoading(false);
+        setDeals(ddata?.data);
+      } else {
+        console.log(ddata?.message);
+      }
+    };
+
+    const fetchForYear = async () => {
+      setIsLoading(true);
+      const ydata = await getIboForYear();
+      if (ydata?.status) {
+        setIsLoading(false);
+        setForYear(ydata?.data);
+      } else {
+        console.log(ydata?.message);
+      }
+    };
+
+    fetchCards();
+    fetchDeals();
+    fetchForYear();
+  }, []);
+
   return (
     <div className="flex flex-col">
+      {isLoading && <Loader />}
       <h5
         className="text-gray-800 text-sm mb-3 px-1"
         style={{ fontFamily: "Opensans-bold" }}
@@ -15,23 +63,23 @@ function EarningUI() {
       <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
         <Card
           label="This month earnings"
-          count="Rs. 30,000.00"
+          count={`Rs. ${cards?.this_month || 0}`}
           color="var(--orange)"
           textcolor="white"
           icon={<img src="/icons/ibo_icons/icon20.png" alt="earning" />}
         />
         <Card
           label="Per month"
-          count="Rs. 40,000.00"
+          count={`Rs. ${cards?.per_month || 0}`}
           color="white"
           textcolor="gray"
           icon={<img src="/icons/ibo_icons/icon22.png" alt="earning2" />}
         />
         <Card
           label="Income breakdown"
-          count="Rs. 10,000.00"
-          color="white"
-          textcolor="gray"
+          count={`Rs. ${cards?.breakdown || 0}`}
+          color={cards?.breakdown_sign === "-" ? "#F44B62" : "#67F776"}
+          textcolor="white"
           icon={<img src="/icons/ibo_icons/icon24.png" alt="earning3" />}
         />
       </div>
@@ -41,7 +89,7 @@ function EarningUI() {
           Monthly earnings (Year : 2021)
         </p>
         <div className="max-w-4xl mx-auto">
-          <BarChart />
+          <BarChart yeardata={foryear}/>
         </div>
       </div>
       {/**other information */}
@@ -56,12 +104,20 @@ function EarningUI() {
             </tr>
           </thead>
           <tbody style={{ fontFamily: "Opensans-semi-bold" }}>
-            <tr>
-              <td>John</td>
-              <td>Closed</td>
-              <td>10-10-2021</td>
-              <td>Rs.3300</td>
-            </tr>
+            {deals?.length > 0 ? (
+              deals.map((d, i) => (
+                <tr key={i}>
+                  <td>{d?.user || '-'}</td>
+                  <td>{d?.is_closed ? 'Closed' : '-' }</td>
+                  <td>{moment(d?.created_at).format('dd-mm-YYYY')}</td>
+                  <td>Rs.{ d?.amount }</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={10}>No information found!</td>
+              </tr>
+            )}
           </tbody>
         </table>
         <div className="w-128 md:ml-3 bg-white border-2 border-gray-200 rounded-sm p-2">
@@ -79,11 +135,15 @@ function EarningUI() {
           <div className="mt-5" style={{ fontFamily: "Opensans-semi-bold" }}>
             <p className="flex flex-col">
               <span>Total earnings this year</span>
-              <span style={{ color: "var(--blue)" }}>Rs. 200,000,50</span>
+              <span style={{ color: "var(--blue)" }}>{`Rs. ${
+                cards?.this_year || 0
+              }`}</span>
             </p>
             <p className="flex flex-col mt-3">
               <span>Total earnings last year</span>
-              <span style={{ color: "var(--blue)" }}>Rs. 100,000,50</span>
+              <span style={{ color: "var(--blue)" }}>{`Rs. ${
+                cards?.last_year || 0
+              }`}</span>
             </p>
           </div>
         </div>

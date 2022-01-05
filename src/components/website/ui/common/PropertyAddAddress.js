@@ -337,13 +337,16 @@ function PropertyAddAddress({ code }) {
             <div className="p-2 border rounded-md grid grid-cols-2 md:grid-cols-4">
               {filteredLocation?.length > 0 ? filteredLocation?.map((l,i) => <div className="my-1 mx-1" key={i}>
                 <label className="cursor-pointer">
-                  <input type="checkbox" name="locations[]" checked={plocation.includes(l?.name)} onChange={(e) => {
+                  {plocation ? <input type="checkbox" name="locations[]" checked={plocation.includes(l?.name)} onChange={(e) => {
                     if(plocation.includes(l?.name)){
                       setPLocation(plocation.replace(e.target.value, l?.id))
-                    }else{
+                    }else if(plocation?.includes(l?.id)){
                       setPLocation(plocation.replace(l?.id, e.target.value))
+                    }else{
+                      setPLocation(plocation + ',' + e.target.value)
                     }
-                  }} defaultValue={l?.name} className="mr-2"/>
+                  }} defaultValue={l?.name} className="mr-2"/> : <input type="checkbox" name="locations[]" defaultValue={l?.name} className="mr-2"/>}
+                  
                   <span>{ l?.name }</span>
                 </label>
               </div>): <p>Select city for locations!</p>}

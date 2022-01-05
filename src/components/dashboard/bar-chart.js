@@ -6,11 +6,10 @@ import {
   YAxis,
   Tooltip,
 } from "recharts";
-import { random } from "../../functions/numbers";
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (active) {
-    let { name, sales, conversions } = { ...payload[0].payload };
+    let { name, sales } = { ...payload[0].payload };
     return (
       <div className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white shadow-lg rounded-lg p-2 text-xs">
         <div className="font-bold">{name}</div>
@@ -18,20 +17,15 @@ const CustomTooltip = ({ active, payload, label }) => {
           <span className="font-bold">Sales:</span>{" "}
           <span className="font-normal">{sales}</span>
         </div>
-        <div>
-          <span className="font-bold">Conversions:</span>{" "}
-          <span className="font-normal">{conversions}</span>
-        </div>
       </div>
     );
   }
   return null;
 };
 
-const Bar1 = () => {
+const Bar1 = ({yeardata}) => {
   let colors = [
     { dataKey: "sales", fill: "var(--blue)" },
-    { dataKey: "conversions", fill: "var(--orange)" },
   ];
   const labels = [
     "Jan",
@@ -50,8 +44,7 @@ const Bar1 = () => {
   const data = Array.from(Array(12).keys()).map((i) => {
     return {
       name: labels[i],
-      sales: random(100, 200),
-      conversions: random(150, 250),
+      sales: yeardata ? yeardata[labels[i]] : 0,
     };
   });
 
@@ -77,7 +70,6 @@ const Bar1 = () => {
             <Bar
               key={i}
               barSize={20}
-              //stackId="sales"
               dataKey={color.dataKey}
               fill={color.fill}
             />
