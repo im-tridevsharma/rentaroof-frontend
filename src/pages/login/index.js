@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { BiBadgeCheck, BiError } from "react-icons/bi";
 import Loader from "../../components/loader";
-import { loginUser, setAuthToken } from "../../lib/frontend/auth";
+import { loginUser, sendAuthOTP, setAuthToken } from "../../lib/frontend/auth";
 import Cookies from "universal-cookie";
 import server, { __e } from "../../server";
 import UseAuthentication from "../../hooks/UseAuthentication";
@@ -27,9 +27,15 @@ const getWebsiteValues = async (key) => {
 function Index() {
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [optSent, setOtpSent] = useState(false);
+  const [showResend, setShowResend] = useState(false);
+  const [timerResend, setTimeResend] = useState(60);
+  const [showMessage, setShowMessage] = useState(false);
+  const [timer, setTimer] = useState(null);
   const [state, setState] = useState({
     email: "",
     password: "",
+    otp: "",
     remember_me: "false",
   });
   const [errors, setErrors] = useState(false);
@@ -78,7 +84,8 @@ function Index() {
             setSuccess(false);
             if (response?.user?.role) {
               const redirect = localStorage.getItem("redirect");
-
+              clearInterval(timer);
+              setTimer(null);
               if (redirect) {
                 localStorage.removeItem("redirect");
                 router.push(redirect);
@@ -105,6 +112,45 @@ function Index() {
       setIsLoading(false);
     }
   };
+
+  const sendOTP = async () => {
+    if (isNaN(state.email)) {
+      setErrors([["Mobile number is not valid. Please check once!"]]);
+    } else if (!isNaN(state.email) && state.email.length !== 10) {
+      setErrors([["Mobile number is not valid. Please check once!"]]);
+    } else {
+      setIsLoading(true);
+      const res = await sendAuthOTP({ mobile: state.email });
+      if (res?.status) {
+        setIsLoading(false);
+        setOtpSent(true);
+        setShowMessage(true)
+        setTimeout(() => {
+          setShowMessage(false);
+        }, 2000);
+        setShowResend(false);
+        setTimer(setInterval(()=> {
+          setTimeResend(prev => prev - 1);
+        }, 1000));
+
+      } else if (res?.error) {
+        setErrors(res?.error);
+        setIsLoading(false);
+      } else {
+        setErrors([[res?.message]]);
+        setIsLoading(false);
+      }
+    }
+  };
+
+  useEffect(()=>{
+    if(timerResend === 0){
+      clearInterval(timer);
+      setShowResend(true);
+      setTimer(null);
+      setTimeResend(60)
+    }
+  }, [timerResend]);
 
   return !isAuthenticated ? (
     <>
@@ -134,6 +180,14 @@ function Index() {
               </p>
             </div>
           )}
+          {showMessage && (
+            <div className="py-2 px-2 text-green-600">
+              <p className="flex items-center">
+                <BiBadgeCheck className="text-2xl mr-1" />
+                OTP Sent Successfully.
+              </p>
+            </div>
+          )}
           {errors &&
             Object.keys(errors).map((key, i) => (
               <div className="py-2 px-2 text-red-600" key={i}>
@@ -143,7 +197,7 @@ function Index() {
               </div>
             ))}
 
-          <div className="flex flex-col items-start mt-10">
+          <div className="flex flex-col items-start mt-5">
             <h6
               className="font-bold ml-3 relative uppercase"
               style={{
@@ -176,7 +230,7 @@ function Index() {
                 className="form-element mt-5 text-gray-700"
                 style={{ fontFamily: "Opensans-semi-bold" }}
               >
-                <div className="form-label">Emial / Mobile</div>
+                <div className="form-label">Email / Mobile</div>
                 <input
                   type="text"
                   name="email"
@@ -185,39 +239,56 @@ function Index() {
                   onChange={handleChange}
                 />
               </div>
-              <div
-                className="form-element mt-5 text-gray-700"
-                style={{ fontFamily: "Opensans-semi-bold" }}
-              >
-                <div className="form-label">Password</div>
-                <input
-                  type="password"
-                  name="password"
-                  className="form-input rounded-md border-2 border-gray-400"
-                  value={state?.password ? state.password : ""}
-                  onChange={handleChange}
-                />
-                <p className="mt-1 flex items-center justify-between">
-                  <label htmlFor="remember_me">
-                    <input
-                      type="checkbox"
-                      name="remember_me"
-                      id="remember_me"
-                      onChange={(e) => {
-                        setState((prev) => ({
-                          ...prev,
-                          remember_me: e.target.checked ? "yes" : "no",
-                        }));
-                      }}
-                      checked={state?.remember_me === "yes"}
-                    />
-                    <span className="ml-1">Remember me</span>
-                  </label>
-                  <Link href="/forgot-password">
-                    <a>Forgot password?</a>
-                  </Link>
-                </p>
-              </div>
+              {!optSent && (
+                <div
+                  className="form-element mt-2 text-gray-700"
+                  style={{ fontFamily: "Opensans-semi-bold" }}
+                >
+                  <div className="form-label">Password</div>
+                  <input
+                    type="password"
+                    name="password"
+                    className="form-input rounded-md border-2 border-gray-400"
+                    value={state?.password ? state.password : ""}
+                    onChange={handleChange}
+                  />
+                </div>
+              )}
+              {optSent && (
+                <div
+                  className="form-element mt-2 text-gray-700"
+                  style={{ fontFamily: "Opensans-semi-bold" }}
+                >
+                  <div className="form-label">OTP</div>
+                  <input
+                    type="text"
+                    name="otp"
+                    className="form-input rounded-md border-2 border-gray-400"
+                    value={state?.otp ? state.otp : ""}
+                    onChange={handleChange}
+                  />
+                </div>
+              )}
+              <p className="mb-4 -mt-2 flex items-center justify-between">
+                <label htmlFor="remember_me">
+                  <input
+                    type="checkbox"
+                    name="remember_me"
+                    id="remember_me"
+                    onChange={(e) => {
+                      setState((prev) => ({
+                        ...prev,
+                        remember_me: e.target.checked ? "yes" : "no",
+                      }));
+                    }}
+                    checked={state?.remember_me === "yes"}
+                  />
+                  <span className="ml-1">Remember me</span>
+                </label>
+                <Link href="/forgot-password">
+                  <a>Forgot password?</a>
+                </Link>
+              </p>
               <button
                 type="submit"
                 className="uppercase w-full rounded-md p-2 text-white hover:opacity-90"
@@ -238,27 +309,31 @@ function Index() {
                   fontFamily: "Opensans-semi-bold",
                 }}
               >
-                Or connect with
+                Or
               </p>
 
               {/**socials */}
-              <div className="flex items-center justify-center mt-8 ">
-                <img
-                  src="/icons/login/fb_icon.png"
-                  alt="facebook"
-                  className="h-9 object-contain mx-2 cursor-pointer"
-                />
-                <img
-                  src="/icons/login/twt.png"
-                  alt="twitter"
-                  className="h-9 object-contain mx-2 cursor-pointer"
-                />
-                <img
-                  src="/icons/login/yt.png"
-                  alt="instagram"
-                  className="h-9 object-contain mx-2 cursor-pointer"
-                />
-              </div>
+              {optSent ? (showResend ? (
+                <div className="flex items-center justify-center mt-8 ">
+                  <button
+                    onClick={sendOTP}
+                    className="py-2 px-5 hover:opacity-90 rounded-full text-white"
+                    style={{ background: "var(--blue)" }}
+                  >
+                    Resend OTP
+                  </button>
+                </div>
+              ) : <p className="mt-3 text-center">Resend option will appear in {timerResend}s </p>) : (
+                <div className="flex items-center justify-center mt-8 ">
+                  <button
+                    onClick={sendOTP}
+                    className="py-2 px-5 hover:opacity-90 rounded-full text-white"
+                    style={{ background: "var(--blue)" }}
+                  >
+                    Request OTP
+                  </button>
+                </div>
+              )}
               <div
                 className="text-center text-gray-500 mt-5"
                 style={{ fontFamily: "Opensans-semi-bold" }}

@@ -86,7 +86,7 @@ function EarningUI() {
       {/**income chart */}
       <div className="border-2 border-gray-200 rounded-md px-3 py-1 bg-white mt-3">
         <p style={{ fontFamily: "Opensans-semi-bold" }} className="mb-3">
-          Monthly earnings (Year : 2021)
+          Monthly earnings (Year : {moment().format('YYYY')})
         </p>
         <div className="max-w-4xl mx-auto">
           <BarChart yeardata={foryear}/>
