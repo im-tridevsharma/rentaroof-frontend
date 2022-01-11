@@ -106,6 +106,9 @@ function Index() {
         } else if (response?.error || response?.message) {
           setErrors(response.error || { message: [response.message] });
           setIsLoading(false);
+        }else{
+          setErrors([[response?.message]]);
+          setIsLoading(false);
         }
       })();
     } else {

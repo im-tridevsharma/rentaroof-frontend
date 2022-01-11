@@ -56,6 +56,41 @@ export const sendAuthOTP = async (data) => {
 };
 
 
+
+export const emailVerity = async (data) => {
+  let otp = false;
+
+  if (data) {
+    await server
+      .post("/auth/email-verification", data)
+      .then((response) => {
+        otp = response?.data;
+      })
+      .catch((error) => {
+        otp = error?.response?.data;
+      });
+  }
+  return otp;
+};
+
+
+export const mobileVerity = async (data) => {
+  let otp = false;
+
+  if (data) {
+    await server
+      .post("/auth/mobile-verification", data)
+      .then((response) => {
+        otp = response?.data;
+      })
+      .catch((error) => {
+        otp = error?.response?.data;
+      });
+  }
+  return otp;
+};
+
+
 export const getProfile = async (allinfo = false) => {
   const token = __d(cookies.get("_SYNC_"));
   let user = false;
