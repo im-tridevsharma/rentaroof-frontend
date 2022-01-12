@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { BiBadgeCheck, BiError } from "react-icons/bi";
 import Loader from "../../components/loader";
 import server, { __e } from "../../server";
+import { createNewPassword, emailVerity, mobileVerity, sendAuthOTP, sendAuthOTPEmail } from "../../lib/frontend/auth";
 
 const getWebsiteValues = async (key) => {
   let setting = "";
@@ -22,9 +23,20 @@ const getWebsiteValues = async (key) => {
 function Index() {
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [optSent, setOtpSent] = useState(false);
+  const [asktForNewPass, setAskForNewPass] = useState(false);
+  const [user, setUser] = useState(false);
+  const [token, setToken] = useState(null);
   const [state, setState] = useState({
     email: "",
+    otp: ""
   });
+
+  const [password, setPassword] = useState({
+    new: "",
+    confirm: ""
+  });
+
   const [errors, setErrors] = useState(false);
   const [logo, setLogo] = useState("");
   const router = useRouter();
@@ -44,9 +56,156 @@ function Index() {
     setErrors(false);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handlePasswordChange = (e) => {
+    const { name, value } = e.target;
+    setPassword((prev) => ({ ...prev, [name]: value }));
+    setErrors(false);
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if(!state.otp){
+      if(!state.email){
+        setErrors([['Please enter Email or Mobile number!']]);
+        return false;
+      }
+  
+      if (isNaN(state.email)) {
+        if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(state.email)){
+          setIsLoading(true);
+          const res = await sendAuthOTPEmail({ email: state.email });
+          if (res?.status) {
+            setIsLoading(false);
+            setOtpSent(true);
+            setSuccess(res?.message)
+            setTimeout(() => {
+              setSuccess(false);
+            }, 2000);
+            setUser(res?.user);
+          } else if (res?.error) {
+            setErrors(res?.error);
+            setIsLoading(false);
+          } else {
+            setErrors([[res?.message]]);
+            setIsLoading(false);
+          }
+        }else{
+          setErrors([["Email is not valid. Please check once!"]]);
+        }
+      } else if (!isNaN(state.email) && state.email.length !== 10) {
+        setErrors([["Mobile number is not valid. Please check once!"]]);
+      } else {
+        setIsLoading(true);
+        const res = await sendAuthOTP({ mobile: state.email });
+        if (res?.status) {
+          setIsLoading(false);
+          setOtpSent(true);
+          setSuccess(res?.message)
+          setTimeout(() => {
+            setSuccess(false);
+          }, 2000);
+          setUser(res?.user);
+        } else if (res?.error) {
+          setErrors(res?.error);
+          setIsLoading(false);
+        } else {
+          setErrors([[res?.message]]);
+          setIsLoading(false);
+        }
+      }
+    }else{
+      //send otp for verification
+      if(!state.email){
+        setErrors([['Please enter Email or Mobile number!']]);
+        return false;
+      }
+  
+      if (isNaN(state.email)) {
+        if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(state.email)){
+          setIsLoading(true);
+          const res = await emailVerity({ otp: state.otp, user_id: user?.id, forgotpass: true });
+          if (res?.status) {
+            setIsLoading(false);
+            setSuccess(res?.message)
+            setTimeout(() => {
+              setSuccess(false);
+            }, 2000);
+            setAskForNewPass(true);
+            setToken(res?._token);
+            setErrors(false)
+          } else if (res?.error) {
+            setErrors(res?.error);
+            setIsLoading(false);
+          } else {
+            setErrors([[res?.message]]);
+            setIsLoading(false);
+          }
+        }else{
+          setErrors([["Email is not valid. Please check once!"]]);
+        }
+      } else if (!isNaN(state.email) && state.email.length !== 10) {
+        setErrors([["Mobile number is not valid. Please check once!"]]);
+      } else {
+        setIsLoading(true);
+        const res = await mobileVerity({ otp: state.otp, user_id: user?.id, forgotpass: true });
+        if (res?.status) {
+          setIsLoading(false);
+          setSuccess(res?.message)
+          setTimeout(() => {
+            setSuccess(false);
+          }, 2000);
+          setAskForNewPass(true);
+          setToken(res?._token);
+          setErrors(false)
+        } else if (res?.error) {
+          setErrors(res?.error);
+          setIsLoading(false);
+        } else {
+          setErrors([[res?.message]]);
+          setIsLoading(false);
+        }
+      }
+    }
+  };
+
+  const handlePasswordSubmit = async (e) => {
+    e.preventDefault();
+    if(!password?.new && !password.confirm) {
+      setErrors([['New Password can\'t be blank.'],['Confirm Password can\'t be blank.']]);
+      return;
+    }else if(!password.new) {
+      setErrors([['New Password can\'t be blank']]);
+      return;
+    }else if(!password.confirm){
+      setErrors([['Confirm Password can\'t be blank']]);
+      return;
+    }else if(password.new !== password.confirm) {
+      setErrors([['New Password and Confirm Password doesn\'t match']]);
+      return;
+    }else{
+      setIsLoading(true);
+      const res = await createNewPassword({
+        'new_password' : password.new,
+        'confirm_password' : password.confirm,
+        '_token'  : token
+      });
+
+      if(res?.status){
+        setIsLoading(false);
+        setSuccess(res?.message);
+        setTimeout(() => {
+          router.push('/login');
+        }, 2000);
+      }else if(res?.error){
+        setErrors(res?.error);
+        setIsLoading(false);
+      }else{
+        setErrors([[res?.message]]);
+        setIsLoading(false);
+      }
+    }
+  }
 
   return (
     <>
@@ -71,7 +230,7 @@ function Index() {
             <div className="py-2 px-2 text-green-600">
               <p className="flex items-center">
                 <BiBadgeCheck className="text-2xl mr-1" />
-                Password reset link sent successfully to your email.
+                {success}
               </p>
             </div>
           )}
@@ -100,6 +259,7 @@ function Index() {
               ></span>
             </h6>
             {/**signup form */}
+            {!asktForNewPass &&
             <form
               name="forgotpassword"
               method="POST"
@@ -110,14 +270,14 @@ function Index() {
                 className="text-gray-700"
                 style={{ fontFamily: "Opensans-semi-bold" }}
               >
-                Please provide your email
+                Please provide your Email/Mobile
               </p>
 
               <div
                 className="form-element mt-5 text-gray-700"
                 style={{ fontFamily: "Opensans-semi-bold" }}
               >
-                <div className="form-label">Emial ID</div>
+                <div className="form-label">Emial/Mobile</div>
                 <input
                   type="text"
                   name="email"
@@ -126,6 +286,23 @@ function Index() {
                   onChange={handleChange}
                 />
               </div>
+              {optSent && (
+                <div
+                  className="form-element mt-2 text-gray-700"
+                  style={{ fontFamily: "Opensans-semi-bold" }}
+                >
+                  <div className="form-label">OTP</div>
+                  <input
+                    type="text"
+                    name="otp"
+                    className="form-input rounded-md border-2 border-gray-400"
+                    value={state?.otp ? state.otp : ""}
+                    onChange={handleChange}
+                    minLength={6}
+                    maxLength={6}
+                  />
+                </div>
+              )}
               <button
                 type="submit"
                 className="uppercase w-full rounded-md p-2 text-white hover:opacity-90"
@@ -134,9 +311,62 @@ function Index() {
                   fontFamily: "Opensans-bold",
                 }}
               >
-                Request Reset Link
+                Request OTP
               </button>
             </form>
+            }
+
+            {asktForNewPass && <form
+              name="newpassword"
+              method="POST"
+              onSubmit={handlePasswordSubmit}
+              className="mt-10 px-2 w-full md:w-96"
+            >
+              <p
+                className="text-gray-700"
+                style={{ fontFamily: "Opensans-semi-bold" }}
+              >
+                Create Your New Password
+              </p>
+
+              <div
+                className="form-element mt-5 text-gray-700"
+                style={{ fontFamily: "Opensans-semi-bold" }}
+              >
+                <div className="form-label">New Password</div>
+                <input
+                  type="text"
+                  name="new"
+                  className="form-input rounded-md border-2 border-gray-400"
+                  value={password?.new ? password.new : ""}
+                  onChange={handlePasswordChange}
+                />
+              </div>
+                <div
+                  className="form-element mt-2 text-gray-700"
+                  style={{ fontFamily: "Opensans-semi-bold" }}
+                >
+                  <div className="form-label">Confirm Password</div>
+                  <input
+                    type="password"
+                    name="confirm"
+                    className="form-input rounded-md border-2 border-gray-400"
+                    value={password?.confirm ? password?.confirm : ""}
+                    onChange={handlePasswordChange}
+                  />
+                </div>
+              
+              <button
+                type="submit"
+                className="uppercase w-full rounded-md p-2 text-white hover:opacity-90"
+                style={{
+                  backgroundColor: "var(--blue)",
+                  fontFamily: "Opensans-bold",
+                }}
+              >
+                Submit
+              </button>
+            </form>}
 
             {/**other signup options */}
             <div className="w-full relative md:w-96 border-t-2 border-gray-200 mt-8">

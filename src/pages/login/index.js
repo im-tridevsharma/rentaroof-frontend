@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { BiBadgeCheck, BiError } from "react-icons/bi";
 import Loader from "../../components/loader";
-import { loginUser, sendAuthOTP, setAuthToken } from "../../lib/frontend/auth";
+import { loginUser, sendAuthOTP, sendAuthOTPEmail, setAuthToken } from "../../lib/frontend/auth";
 import Cookies from "universal-cookie";
 import server, { __e } from "../../server";
 import UseAuthentication from "../../hooks/UseAuthentication";
@@ -116,9 +116,40 @@ function Index() {
     }
   };
 
-  const sendOTP = async () => {
+  const sendOTP = async (e) => {
+    e.preventDefault();
+
+    if(!state.email){
+      setErrors([['Please enter Email or Mobile number!']]);
+      return false;
+    }
+
     if (isNaN(state.email)) {
-      setErrors([["Mobile number is not valid. Please check once!"]]);
+      if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(state.email)){
+        setIsLoading(true);
+        const res = await sendAuthOTPEmail({ email: state.email });
+        if (res?.status) {
+          setIsLoading(false);
+          setOtpSent(true);
+          setShowMessage(true)
+          setTimeout(() => {
+            setShowMessage(false);
+          }, 2000);
+          setShowResend(false);
+          setTimer(setInterval(()=> {
+            setTimeResend(prev => prev - 1);
+          }, 1000));
+  
+        } else if (res?.error) {
+          setErrors(res?.error);
+          setIsLoading(false);
+        } else {
+          setErrors([[res?.message]]);
+          setIsLoading(false);
+        }
+      }else{
+        setErrors([["Email is not valid. Please check once!"]]);
+      }
     } else if (!isNaN(state.email) && state.email.length !== 10) {
       setErrors([["Mobile number is not valid. Please check once!"]]);
     } else {
@@ -269,6 +300,8 @@ function Index() {
                     className="form-input rounded-md border-2 border-gray-400"
                     value={state?.otp ? state.otp : ""}
                     onChange={handleChange}
+                    minLength={6}
+                    maxLength={6}
                   />
                 </div>
               )}

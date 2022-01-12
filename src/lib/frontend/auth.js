@@ -56,6 +56,23 @@ export const sendAuthOTP = async (data) => {
 };
 
 
+export const sendAuthOTPEmail = async (data) => {
+  let otp = false;
+
+  if (data) {
+    await server
+      .post("/auth/email-otp", data)
+      .then((response) => {
+        otp = response?.data;
+      })
+      .catch((error) => {
+        otp = error?.response?.data;
+      });
+  }
+  return otp;
+};
+
+
 
 export const emailVerity = async (data) => {
   let otp = false;
@@ -88,6 +105,23 @@ export const mobileVerity = async (data) => {
       });
   }
   return otp;
+};
+
+
+export const createNewPassword = async (data) => {
+  let res = false;
+
+  if (data) {
+    await server
+      .post("/auth/create-new-password", data)
+      .then((response) => {
+        res = response?.data;
+      })
+      .catch((error) => {
+        res = error?.response?.data;
+      });
+  }
+  return res;
 };
 
 
