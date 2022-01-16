@@ -4,6 +4,7 @@ import { __d } from "../../server";
 import { FiEdit2 } from "react-icons/fi";
 import ReactTooltip from "react-tooltip";
 import { FaTrash } from "react-icons/fa";
+import moment from "moment";
 
 function PostedProperty({ property, deleteProperties }) {
   return (
@@ -104,6 +105,7 @@ function PostedProperty({ property, deleteProperties }) {
               )}
             </div>
           )}
+          <i className="text-gray-600 mb-2 pb-2">Posted On {moment(property?.created_at).format("DD-MM-YYYY hh:mm:ss A")}</i>
           <p className="text-gray-600">{property?.name}</p>
           <p style={{ fontFamily: "Opensans-bold" }}>
             Price: {property?.monthly_rent}

@@ -166,7 +166,6 @@ function AddPropertyUI() {
                   className="form-input border-gray-200 rounded-md"
                 >
                   <option value="rent">Rent</option>
-                  <option value="sale">Sale</option>
                 </select>
               </div>
               <div className="form-element">
@@ -177,10 +176,11 @@ function AddPropertyUI() {
                   onChange={inputHandler}
                   className="form-input border-gray-200 rounded-md"
                 >
+                  <option value="">Select</option>
                   <option value="apartment">Apartment</option>
-                  <option value="building">Building</option>
-                  <option value="home">Home</option>
-                  <option value="land & industrial">Land & Industrial</option>
+                  <option value="individual floor">Individual Floor</option>
+                  <option value="independent house">Independent House</option>
+                  <option value="villa or farm house">Villa/Farm House</option>
                   <option value="vacation rental">Vacation Rental</option>
                 </select>
               </div>
@@ -195,6 +195,7 @@ function AddPropertyUI() {
                   onChange={inputHandler}
                   className="form-input border-gray-200 rounded-md"
                 >
+                  <option value="">Select</option>
                   <option value="full_house">Full House</option>
                   <option value="sharing_basis">Sharing Basis</option>
                 </select>
@@ -207,8 +208,8 @@ function AddPropertyUI() {
                   onChange={inputHandler}
                   className="form-input border-gray-200 rounded-md"
                 >
-                  <option value="ownership">Ownership</option>
-                  <option value="sole">Sole</option>
+                  <option value="">Select</option>
+                  <option value="single">Single</option>
                   <option value="joint">Joint</option>
                 </select>
               </div>
@@ -223,10 +224,12 @@ function AddPropertyUI() {
                   onChange={inputHandler}
                   className="form-input border-gray-200 rounded-md"
                 >
+                  <option value="">Select</option>
                   <option value="furnished">Furnished</option>
                   <option value="unfurnished">Unfurnished</option>
                   <option value="semi-furnished">Semi Furnished</option>
-                  <option value="ongoing">Ongoing</option>
+                  <option value="under construction">Under Construction</option>
+                  <option value="under renovation">Under Renovation</option>
                 </select>
               </div>
               <div className="form-element">
@@ -237,41 +240,64 @@ function AddPropertyUI() {
                   onChange={inputHandler}
                   className="form-input border-gray-200 rounded-md"
                 >
+                  <option value="">Select</option>
                   <option value="monthly">Monthly</option>
                   <option value="quarterly">Quarterly</option>
                   <option value="yearly">Yearly</option>
-                  <option value="onetime">Onetime</option>
-                  <option value="per-sqft-monthly">Per sqft monthly</option>
                 </select>
               </div>
             </div>
-            <div className="form-element">
-              <label className="form-label">Short Description</label>
-              <textarea
-                name="short_description"
-                className="form-input border-gray-200 rounded-md"
-                value={property?.short_description}
-                onChange={inputHandler}
-              ></textarea>
-            </div>
-            <div className="form-element">
-              <label className="form-label">Description</label>
-              <Editor
-                onInit={(e, editor) => (editorRef.current = editor)}
-                init={{
-                  height: 300,
-                  menubar: false,
-                }}
-                initialValue={property?.description}
-                apiKey={process.env.TINY_API_KEY}
-              />
-            </div>
-
             <hr className=" border-gray-400 my-3" />
             <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
+              
+              <div className="form-element">
+                <label className="form-label">Super Area</label>
+                <div className="flex items-center">
+                  <input
+                    type="text"
+                    name="super_area"
+                    value={property?.super_area}
+                    onChange={inputHandler}
+                    className="form-input mr-3 border-gray-200 rounded-md"
+                  />
+                  <select
+                    className="form-input border-gray-200 rounded-md"
+                    name="super_area_unit"
+                    value={property?.super_area_unit}
+                    onChange={inputHandler}
+                  >
+                    <option value="sqft">SQFT</option>
+                    <option value="sqm">SQM</option>
+                    <option value="sqyrd">SQYRD</option>
+                  </select>
+                </div>
+              </div>
+              <div className="form-element">
+                <label className="form-label">Carpet Area</label>
+                <div className="flex items-center">
+                  <input
+                    type="text"
+                    name="carpet_area"
+                    value={property?.carpet_area}
+                    onChange={inputHandler}
+                    className="form-input mr-3 border-gray-200 rounded-md"
+                  />
+                  <select
+                    className="form-input border-gray-200 rounded-md"
+                    name="carpet_area_unit"
+                    value={property?.carpet_area_unit}
+                    onChange={inputHandler}
+                  >
+                    <option value="sqft">SQFT</option>
+                    <option value="sqm">SQM</option>
+                    <option value="sqyrd">SQYRD</option>
+                  </select>
+                </div>
+              </div>
+
               <div className="form-element">
                 <label className="form-label">Bedroom</label>
-                <div className="flex items-center">
+                <div className="flex items-center flex-wrap">
                   <CircleInputRadio
                     name="bedrooms"
                     value="1"
@@ -285,6 +311,11 @@ function AddPropertyUI() {
                   <CircleInputRadio
                     name="bedrooms"
                     value="3"
+                    state={{ data: bedrooms, setData: setBedrooms }}
+                  />
+                  <CircleInputRadio
+                    name="bedrooms"
+                    value="4"
                     state={{ data: bedrooms, setData: setBedrooms }}
                   />
                   <CircleInputRadio
@@ -303,10 +334,12 @@ function AddPropertyUI() {
                   />
                 </div>
               </div>
+            </div>
 
+            <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
               <div className="form-element">
                 <label className="form-label">Bathroom</label>
-                <div className="flex items-center">
+                <div className="flex items-center flex-wrap">
                   <CircleInputRadio
                     name="bathrooms"
                     value="1"
@@ -320,6 +353,11 @@ function AddPropertyUI() {
                   <CircleInputRadio
                     name="bathrooms"
                     value="3"
+                    state={{ data: bathrooms, setData: setBathrooms }}
+                  />
+                  <CircleInputRadio
+                    name="bathrooms"
+                    value="4"
                     state={{ data: bathrooms, setData: setBathrooms }}
                   />
                   <CircleInputRadio
@@ -341,7 +379,7 @@ function AddPropertyUI() {
 
               <div className="form-element">
                 <label className="form-label">Balcony</label>
-                <div className="flex items-center">
+                <div className="flex items-center flex-wrap">
                   <CircleInputRadio
                     name="balconies"
                     value="1"
@@ -355,6 +393,11 @@ function AddPropertyUI() {
                   <CircleInputRadio
                     name="balconies"
                     value="3"
+                    state={{ data: balconies, setData: setBalconies }}
+                  />
+                  <CircleInputRadio
+                    name="balconies"
+                    value="4"
                     state={{ data: balconies, setData: setBalconies }}
                   />
                   <CircleInputRadio
@@ -373,12 +416,19 @@ function AddPropertyUI() {
                   />
                 </div>
               </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
               <div className="form-element">
                 <label className="form-label">Floors</label>
-                <div className="flex items-center">
+                <div className="flex items-center flex-wrap">
+                 <CircleInputRadio
+                    name="floors"
+                    value="-1"
+                    state={{ data: floors, setData: setFloors }}
+                  />
+                  <CircleInputRadio
+                    name="floors"
+                    value="0"
+                    state={{ data: floors, setData: setFloors }}
+                  />
                   <CircleInputRadio
                     name="floors"
                     value="1"
@@ -396,6 +446,11 @@ function AddPropertyUI() {
                   />
                   <CircleInputRadio
                     name="floors"
+                    value="4"
+                    state={{ data: floors, setData: setFloors }}
+                  />
+                  <CircleInputRadio
+                    name="floors"
                     value="4+"
                     state={{ data: floors, setData: setFloors }}
                   />
@@ -408,51 +463,6 @@ function AddPropertyUI() {
                       display: floors === "4+" ? "inline" : "none",
                     }}
                   />
-                </div>
-              </div>
-              <div className="form-element">
-                <label className="form-label">Carpet Area</label>
-                <div className="flex items-center">
-                  <input
-                    type="text"
-                    name="carpet_area"
-                    value={property?.carpet_area}
-                    onChange={inputHandler}
-                    className="form-input mr-3 border-gray-200 rounded-md"
-                  />
-                  <select
-                    className="form-input border-gray-200 rounded-md"
-                    name="carpet_area_unit"
-                    value={property?.carpet_area_unit}
-                    onChange={inputHandler}
-                  >
-                    <option value="sqft">SQFT</option>
-                    <option value="cm">CM</option>
-                    <option value="m">M</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="form-element">
-                <label className="form-label">Super Area</label>
-                <div className="flex items-center">
-                  <input
-                    type="text"
-                    name="super_area"
-                    value={property?.super_area}
-                    onChange={inputHandler}
-                    className="form-input mr-3 border-gray-200 rounded-md"
-                  />
-                  <select
-                    className="form-input border-gray-200 rounded-md"
-                    name="super_area_unit"
-                    value={property?.super_area_unit}
-                    onChange={inputHandler}
-                  >
-                    <option value="sqft">SQFT</option>
-                    <option value="cm">CM</option>
-                    <option value="m">M</option>
-                  </select>
                 </div>
               </div>
             </div>
@@ -626,6 +636,19 @@ function AddPropertyUI() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
+              
+            <div className="form-element">
+                <label className="form-label">Asking Price</label>
+                <input
+                  type="text"
+                  name="offered_price"
+                  value={property?.offered_price}
+                  onChange={inputHandler}
+                  className="form-input rounded-md border-gray-200"
+                  placeholder="Rs."
+                />
+              </div>
+
               <div className="form-element">
                 <label className="form-label">Lease Period</label>
                 <select
@@ -644,26 +667,63 @@ function AddPropertyUI() {
               </div>
 
               <div className="form-element">
-                <label className="form-label">Offered Price</label>
-                <input
-                  type="text"
-                  name="offered_price"
-                  value={property?.offered_price}
+                <label className="form-label">Advance Amount Period</label>
+                <select
+                  name="advance_amount_period"
+                  value={property?.advance_amount_period}
                   onChange={inputHandler}
                   className="form-input rounded-md border-gray-200"
-                  placeholder="Rs."
-                />
-              </div>
-              <div>
-                <button
-                  className="text-white rounded-md px-3 py-2 mt-6 w-full"
-                  style={{ backgroundColor: "var(--blue)" }}
                 >
-                  {property?.id
-                    ? "Update and Procced Next"
-                    : "Submit and Procced Next"}
-                </button>
+                  <option value="">Select</option>
+                  <option value="1 year">1 Year</option>
+                  <option value="2 years">2 Years</option>
+                  <option value="3 years">3 Years</option>
+                  <option value="4 years">4 Years</option>
+                  <option value="5 years">5 Years</option>
+                  <option value="6 years">6 Years</option>
+                  <option value="7 years">7 Years</option>
+                  <option value="8 years">8 Years</option>
+                  <option value="9 years">9 Years</option>
+                  <option value="10 years">10 Years</option>
+                  <option value="11 years">11 Years</option>
+                  <option value="12 years">12 Years</option>
+                </select>
               </div>
+            </div>
+
+            <hr className=" border-gray-400 my-3" />
+
+            <div className="form-element">
+              <label className="form-label">Short Description</label>
+              <textarea
+                name="short_description"
+                className="form-input border-gray-200 rounded-md"
+                value={property?.short_description}
+                onChange={inputHandler}
+              ></textarea>
+            </div>
+            <div className="form-element">
+              <label className="form-label">Description</label>
+              <Editor
+                onInit={(e, editor) => (editorRef.current = editor)}
+                init={{
+                  height: 300,
+                  menubar: false,
+                }}
+                initialValue={property?.description}
+                apiKey={process.env.TINY_API_KEY}
+              />
+            </div>
+
+            <div>
+              <button
+                className="text-white rounded-md px-3 py-2 mt-6 w-full"
+                style={{ backgroundColor: "var(--blue)" }}
+              >
+                {property?.id
+                  ? "Update and Procced Next"
+                  : "Submit and Procced Next"}
+              </button>
             </div>
           </form>
         )}

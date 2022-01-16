@@ -290,11 +290,11 @@ function Index({ query }) {
                 }
                 className="w-full border text-sm border-gray-200 rounded-md mt-1"
               >
-                <option value="">Any</option>
+                <option value="">Property Type</option>
                 <option value="apartment">Apartment</option>
-                <option value="building">Building</option>
-                <option value="home">Home</option>
-                <option value="land & industrial">Land & Industrial</option>
+                <option value="individual floor">Individual Floor</option>
+                <option value="independent house">Independent House</option>
+                <option value="villa or farm house">Villa/Farm House</option>
                 <option value="vacation rental">Vacation Rental</option>
               </select>
             </div>
@@ -304,12 +304,12 @@ function Index({ query }) {
                 style={{ fontFamily: "Opensans-bold", fontSize: "15px" }}
                 className="flex items-center justify-between"
               >
-                Price Monthly
+                Budget
                 <button
                   type="button"
                   onClick={() => setFilters((p) => ({ ...p, max_price: "" }))}
                 >
-                  Any
+                  Select
                 </button>
               </h6>
               <div
@@ -361,7 +361,7 @@ function Index({ query }) {
                   type="button"
                   onClick={() => setFilters((p) => ({ ...p, bed: "" }))}
                 >
-                  Any
+                  Select
                 </button>
                 <button
                   className={`w-8 h-8 rounded-full bg-white flex items-center justify-center mx-2 ${
@@ -415,7 +415,7 @@ function Index({ query }) {
                   type="button"
                   onClick={() => setFilters((p) => ({ ...p, bath: "" }))}
                 >
-                  Any
+                  Select
                 </button>
                 <button
                   className={`w-8 h-8 rounded-full bg-white flex items-center justify-center mx-2 ${
@@ -464,12 +464,6 @@ function Index({ query }) {
                 <span>
                   Property Size <small>(sqft)</small>
                 </span>
-                <button
-                  type="button"
-                  onClick={() => setFilters((p) => ({ ...p, max_size: "" }))}
-                >
-                  Any
-                </button>
               </h6>
               <div
                 className="flex items-center justify-between text-xs my-3"
@@ -514,7 +508,7 @@ function Index({ query }) {
               >
                 <span>Furnishing</span>
               </h6>
-              <div className="flex items-center mt-1">
+              <div className="flex items-center mt-1 flex-wrap">
                 <button
                   className={`p-2 mb-1 mr-2 rounded-md bg-white flex items-center justify-center mx-1 ${
                     filters?.furnishing === "" ? "bg-gray-100" : ""
@@ -522,7 +516,7 @@ function Index({ query }) {
                   type="button"
                   onClick={() => setFilters((p) => ({ ...p, furnishing: "" }))}
                 >
-                  Any
+                  Select
                 </button>
                 <button
                   className={`p-2 mb-1 rounded-md bg-white flex items-center justify-center mx-1 ${
@@ -561,14 +555,25 @@ function Index({ query }) {
                 </button>
                 <button
                   className={`p-2 mb-1 rounded-md bg-white flex items-center justify-center mx-1 ${
-                    filters?.furnishing === "ongoing" ? "bg-gray-100" : ""
+                    filters?.furnishing === "under construction" ? "bg-gray-100" : ""
                   }`}
                   type="button"
                   onClick={() =>
-                    setFilters((p) => ({ ...p, furnishing: "ongoing" }))
+                    setFilters((p) => ({ ...p, furnishing: "under construction" }))
                   }
                 >
-                  Ongoing
+                  Under Construction
+                </button>
+                <button
+                  className={`p-2 mb-1 rounded-md bg-white flex items-center justify-center mx-1 ${
+                    filters?.furnishing === "under renovation" ? "bg-gray-100" : ""
+                  }`}
+                  type="button"
+                  onClick={() =>
+                    setFilters((p) => ({ ...p, furnishing: "under renovation" }))
+                  }
+                >
+                  Under Renovation
                 </button>
               </div>
             </div>
@@ -593,25 +598,25 @@ function Index({ query }) {
                     }
                     className="w-6 h-6 border-2 border-gray-200"
                   />
-                  <span className="text-gray-600 ml-2">Any</span>
+                  <span className="text-gray-600 ml-2">Select</span>
                 </label>
                 <label className="mb-2">
                   <input
                     type="checkbox"
                     checked={
-                      filters?.ownership?.includes("sole") ? true : false
+                      filters?.ownership?.includes("single") ? true : false
                     }
                     onChange={(e) =>
                       setFilters((p) => ({
                         ...p,
                         ownership: e.target.checked
-                          ? [...p?.ownership, "sole"]
-                          : [...p.ownership.filter((el) => el !== "sole")],
+                          ? [...p?.ownership, "single"]
+                          : [...p.ownership.filter((el) => el !== "single")],
                       }))
                     }
                     className="w-6 h-6 border-2 border-gray-200"
                   />
-                  <span className="text-gray-600 ml-2">Sole</span>
+                  <span className="text-gray-600 ml-2">Single</span>
                 </label>
                 <label className="mb-2">
                   <input
@@ -631,24 +636,7 @@ function Index({ query }) {
                   />
                   <span className="text-gray-600 ml-2">Joint</span>
                 </label>
-                <label className="mb-2">
-                  <input
-                    type="checkbox"
-                    checked={
-                      filters?.ownership?.includes("ownership") ? true : false
-                    }
-                    onChange={(e) =>
-                      setFilters((p) => ({
-                        ...p,
-                        ownership: e.target.checked
-                          ? [...p?.ownership, "ownership"]
-                          : [...p.ownership.filter((el) => el !== "ownership")],
-                      }))
-                    }
-                    className="w-6 h-6 border-2 border-gray-200"
-                  />
-                  <span className="text-gray-600 ml-2">Ownership</span>
-                </label>
+                
               </div>
             </div>
             <hr className="my-5 border-gray-300" />

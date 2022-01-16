@@ -269,7 +269,7 @@ function PropertyAddGallery({ code }) {
           >
             Kitchen
           </button>
-
+          {false && <>
           <button
             className="border-b-2 border-transparent pb-1"
             onClick={() => setActiveTab("floor_plan")}
@@ -299,7 +299,7 @@ function PropertyAddGallery({ code }) {
             }}
           >
             Location Map
-          </button>
+          </button></>}
         </div>
 
         {/**images containers */}
@@ -365,7 +365,7 @@ function PropertyAddGallery({ code }) {
               remover={setTobeRemoved}
             />
           )}
-          {activeTab === "floor_plan" && (
+          {activeTab === "floor_plan" && false && (
             <ImageUploader
               setCover={setCoverImage}
               images={floorPlanImages}
@@ -376,7 +376,7 @@ function PropertyAddGallery({ code }) {
               remover={setTobeRemoved}
             />
           )}
-          {activeTab === "master_plan" && (
+          {activeTab === "master_plan" && false && (
             <ImageUploader
               setCover={setCoverImage}
               images={masterPlanImages}
@@ -387,7 +387,7 @@ function PropertyAddGallery({ code }) {
               remover={setTobeRemoved}
             />
           )}
-          {activeTab === "location_map" && (
+          {activeTab === "location_map" && false && (
             <ImageUploader
               setCover={setCoverImage}
               images={locationMapImages}

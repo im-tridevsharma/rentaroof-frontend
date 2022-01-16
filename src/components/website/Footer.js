@@ -195,7 +195,7 @@ function Footer() {
         className="fixed right-5 cursor-pointer bottom-10 z-40 bg-white shadow-lg drop-shadow-md rounded-full w-10 h-10 flex items-center justify-center"
       >
         <FaQuestionCircle className="text-2xl" />
-        <ReactTooltip />
+        <ReactTooltip backgroundColor="black" textColor="white"/>
       </div>
       <div
         className={`fixed right-0 bottom-0 bg-white ${

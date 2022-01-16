@@ -248,6 +248,17 @@ function PropertyAddEssentials({ code }) {
                 />
               </div>
               <div className="form-element md:mr-2">
+                <label className="form-label">Metro</label>
+                <input
+                  type="text"
+                  name="metro"
+                  value={essentials?.metro}
+                  onChange={inputHandler}
+                  placeholder="eg: 1KM"
+                  className="form-input border-gray-200 rounded-md"
+                />
+              </div>
+              <div className="form-element md:mr-2">
                 <label className="form-label">Market</label>
                 <input
                   type="text"

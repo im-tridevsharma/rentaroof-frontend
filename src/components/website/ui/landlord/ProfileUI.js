@@ -3,6 +3,10 @@ import Loader from "../../../loader";
 import { getProfile, updateProfile } from "../../../../lib/frontend/auth";
 import { FiAlertTriangle, FiCheckCircle } from "react-icons/fi";
 import { __e } from "../../../../server";
+import AutoComplete from "react-google-autocomplete";
+import Geocode from 'react-geocode'
+import {toast} from 'react-toastify'
+import { MdMyLocation } from "react-icons/md";
 
 function ProfileUI() {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,6 +17,7 @@ function ProfileUI() {
   const [profile, setProfile] = useState({});
   const [errors, setErrors] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
+  const [defaultLocation, setDefaultLocation] = useState("");
 
   useEffect(() => {
     setIsLoading(true);
@@ -47,6 +52,68 @@ function ProfileUI() {
         setFileError("");
         reader.readAsDataURL(file);
       }
+    }
+  };
+
+  
+  const handlePlaceSearch = (place, fromLatLng = false) => {
+    setIsLoading(true);
+
+    const components = place?.address_components;
+
+    components.forEach(element => {
+      if(element.types.includes('route')){
+        setProfile(prev => ({...prev, address: {...prev?.address, route: element?.long_name}}))
+      }
+      if(element.types.includes('sublocality_level_2')){
+        setProfile(prev => ({...prev, address: {...prev?.address, sub_area: element?.long_name}}))
+      }
+      if(element.types.includes('sublocality_level_1')){
+        setProfile(prev => ({...prev, address: {...prev?.address, area: element?.long_name}}))
+      }
+      if(element.types.includes('locality')){
+        setProfile(prev => ({...prev, address: {...prev?.address, city: element?.long_name}}))
+      }
+      if(element.types.includes('administrative_area_level_2')){
+        setProfile(prev => ({...prev, address: {...prev?.address, zone: element?.long_name}}))
+      }
+      if(element.types.includes('administrative_area_level_1')){
+        setProfile(prev => ({...prev, address: {...prev?.address, state: element?.long_name}}))
+      }if(element.types.includes('country')){
+        setProfile(prev => ({...prev, address: {...prev?.address, country: element?.long_name}}))
+      }
+      if(element.types.includes('postal_code')){
+        setProfile(prev => ({...prev, address: {...prev?.address, pincode: element?.long_name}}))
+      }
+    });
+
+    setProfile(prev => ({...prev, address: {...prev?.address, full_address: place?.formatted_address}}))
+    setProfile(prev => ({...prev, address: {...prev?.address, place_id: place?.place_id}}))
+
+    if(fromLatLng){
+      setProfile(prev => ({...prev, address: {...prev?.address, lat: place.geometry.location.lat}}))
+      setProfile(prev => ({...prev, address: {...prev?.address, long: place.geometry.location.lng}}))
+    }else{
+      setProfile(prev => ({...prev, address: {...prev?.address, lat: place.geometry.location.lat('d')}}))
+      setProfile(prev => ({...prev, address: {...prev?.address, long: place.geometry.location.lng('d')}}))
+    }
+
+    setDefaultLocation(place.formatted_address);
+
+    setIsLoading(false);
+  };
+
+  const getCurrentLocation = () => {
+    setIsLoading(true);
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((location) => {
+          Geocode.setApiKey(process?.env?.MAP_API_KEY);
+          Geocode.fromLatLng(location?.coords?.latitude, location?.coords?.longitude).then(response => {
+            handlePlaceSearch(response?.results[0], true);
+          }); 
+      });
+    } else {
+      toast.error("Geolocation is not supported by this browser.");
     }
   };
 
@@ -344,20 +411,103 @@ function ProfileUI() {
                 <div className="form-label" style={{ marginBottom: "0px" }}>
                   Address
                 </div>
+                <div className="flex items-center">
+                <button type="button" data-tip="Current Location" className="p-3 border rounded-md mr-2" onClick={getCurrentLocation}>
+                  <MdMyLocation />
+                </button>
+                <AutoComplete
+                  apiKey={process.env.MAP_API_KEY}
+                  onPlaceSelected={(place) => handlePlaceSearch(place)}
+                  className=" border-gray-300 w-full text-sm px-2 h-9"
+                  placeholder="Search your address..."
+                  style={{ borderWidth: "1px" }}
+                  defaultValue={defaultLocation}
+                  options={{
+                    types: ['address'],
+                    componentRestrictions: {
+                      country: 'in'
+                    }
+                  }}
+                  
+                />
+                </div>
+                
                 <input
-                  type="text"
+                type="hidden"
+                name="lattitude"
+                value={profile?.address?.lat}
+                onChange={() => {}}
+              />
+              <input
+                type="hidden"
+                name="country"
+                value={profile?.address?.country}
+                onChange={() => {}}
+              />
+              <input
+                type="hidden"
+                name="state"
+                value={profile?.address?.state}
+                onChange={() => {}}
+              />
+              <input
+                type="hidden"
+                name="city"
+                value={profile?.address?.city}
+                onChange={() => {}}
+              />
+              <input
+                type="hidden"
+                name="pincode"
+                value={profile?.address?.pincode}
+                onChange={() => {}}
+              />
+              <input
+                type="hidden"
+                name="longitude"
+                value={profile?.address?.long}
+                onChange={() => {}}
+              />
+              <input
+                type="hidden"
+                name="zone"
+                value={profile?.address?.zone}
+                onChange={() => {}}
+              />
+              <input
+                type="hidden"
+                name="area"
+                value={profile?.address?.area}
+                onChange={() => {}}
+              />
+              <input
+                type="hidden"
+                name="sub_area"
+                value={profile?.address?.sub_area}
+                onChange={() => {}}
+              />
+              <input
+                type="hidden"
+                name="neighborhood"
+                value={profile?.address?.neighborhood}
+                onChange={() => {}}
+              /><input
+              type="hidden"
+              name="route"
+              value={profile?.address?.route}
+              onChange={() => {}}
+            /><input
+            type="hidden"
+            name="place_id"
+            value={profile?.address?.place_id}
+            onChange={() => {}}
+          />
+                <input
+                  type="hidden"
                   name="full_address"
                   className="form-input border-gray-300"
-                  value={profile?.address?.full_address || ""}
-                  onChange={(e) => {
-                    setProfile((prev) => ({
-                      ...prev,
-                      address: {
-                        ...prev.address,
-                        full_address: e.target.value,
-                      },
-                    }));
-                  }}
+                  value={profile?.address?.full_address}
+                  onChange={() => {}}
                 />
               </div>
               <div className="form-element">

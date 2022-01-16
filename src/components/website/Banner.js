@@ -3,12 +3,18 @@ import { useRouter } from "next/router";
 import Search from "./forms/Search";
 import Loader from "../../components/loader";
 import { useSelector, shallowEqual } from "react-redux";
+import { MdMyLocation } from "react-icons/md";
+import Cookies from "universal-cookie";
+import Geocode from "react-geocode";
+import {toast} from 'react-toastify'
+import AutoComplete from "react-google-autocomplete";
 
 const ptype_options = [
+  { value: "", label: "Property Type" },
   { value: "apartment", label: "Apartment" },
-  { value: "building", label: "Building" },
-  { value: "home", label: "Home" },
-  { value: "land & industrial", label: "Land & Industrial" },
+  { value: "individual floor", label: "Individual Floor" },
+  { value: "independent house", label: "Independent House" },
+  { value: "villa or farm house", label: "Villa/Farm House" },
   { value: "vacation rental", label: "Vacation Rental" },
 ];
 
@@ -25,42 +31,58 @@ const counts = [
   { value: 10, label: 10 },
 ];
 
-const parking_options = [
+const budget_options = [
   {
-    value: "yes",
-    label: "Yes",
-  },
-  { value: "no", label: "No" },
-];
-
-const price_options = [
-  {
-    value: "1000.00",
-    label: "Rs. 1000",
+    value: "",
+    label: "Budget",
   },
   {
-    value: "2000.00",
-    label: "Rs. 2000",
+    value: "1000.00 - 5000.00",
+    label: "Rs. 1000 - Rs. 5000",
   },
   {
-    value: "5000.00",
-    label: "Rs. 5000",
+    value: "5000.00 - 10000.00",
+    label: "Rs. 5000 - Rs. 10,000",
   },
   {
-    value: "10000.00",
-    label: "Rs. 10,000",
+    value: "10000.00 - 15000.00",
+    label: "Rs. 10,000 - Rs. 15,000",
   },
   {
-    value: "20000.00",
-    label: "Rs. 20,000",
+    value: "15000.00 - 20000.00",
+    label: "Rs. 15,000 - Rs. 20,000",
   },
   {
-    value: "50000.00",
-    label: "Rs. 50,000",
+    value: "20000.00 - 25000.00",
+    label: "Rs. 20,000 - Rs. 25,000",
   },
   {
-    value: "100000.00",
-    label: "Rs. 100,000",
+    value: "25000.00 - 30000.00",
+    label: "Rs. 25,000 - Rs. 30,000",
+  },
+  {
+    value: "30000.00 - 35000.00",
+    label: "Rs. 30,000 - Rs. 35,000",
+  },
+  {
+    value: "35000.00 - 40000.00",
+    label: "Rs. 35,000 - Rs. 40,000",
+  },
+  {
+    value: "40000.00 - 45000.00",
+    label: "Rs. 40,000 - Rs. 45,000",
+  },
+  {
+    value: "45000.00 - 50000.00",
+    label: "Rs. 45,000 - Rs. 50,000",
+  },
+  {
+    value: "50000.00 - 55000.00",
+    label: "Rs. 50,000 - Rs. 55,000",
+  },
+  {
+    value: "55000.00 - more",
+    label: "Above Rs. 55,000",
   },
 ];
 
@@ -74,6 +96,9 @@ function Banner() {
     }),
     shallowEqual
   );
+  const [defaultLocation, setDefaultLocation] = useState("");
+
+  const cookies = new Cookies();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -81,13 +106,110 @@ function Banner() {
     const s_value = document.forms.findProperty.search.value;
     const ptype = document.forms.findProperty.property_type.value;
     const bed = document.forms.findProperty.bed_type.value;
-    const bath = document.forms.findProperty.bath_type.value;
-    const parking = document.forms.findProperty.parking_type.value;
-    const min_price = document.forms.findProperty.min_price.value;
-    const max_price = document.forms.findProperty.max_price.value;
+    const budget = document.forms.findProperty.budget.value;
     router.push(
-      `find-property?pagination=yes&search=${s_value}&ptype=${ptype}&bed=${bed}&bath=${bath}&parking=${parking}&min_price=${min_price}&max_price=${max_price}`
+      `find-property?pagination=yes&search=${s_value}&ptype=${ptype}&bed=${bed}&budget=${budget}`
     );
+  };
+
+  const handlePlaceSearch = (place, fromLatLng = false) => {
+    setIsLoading(true);
+
+    const components = place?.address_components;
+
+    let pincode = "";
+    let country = "";
+    let state = "";
+    let city = "";
+    let zone = "";
+    let area = "";
+    let sub_area = "";
+    let neighborhood = "";
+    let route = "";
+    let lat = 0.0;
+    let lng = 0.0;
+    let place_id = "";
+
+    components.forEach((element) => {
+      if (element.types.includes("route")) {
+        route = element?.long_name;
+      }
+      if (element.types.includes("neighborhood")) {
+        neighborhood = element?.long_name;
+      }
+      if (element.types.includes("sublocality_level_2")) {
+        sub_area = element?.long_name;
+      }
+      if (element.types.includes("sublocality_level_1")) {
+        area = element?.long_name;
+      }
+      if (element.types.includes("locality")) {
+        city = element?.long_name;
+      }
+      if (element.types.includes("administrative_area_level_2")) {
+        zone = element?.long_name;
+      }
+      if (element.types.includes("administrative_area_level_1")) {
+        state = element?.long_name;
+      }
+      if (element.types.includes("country")) {
+        country = element?.long_name;
+      }
+      if (element.types.includes("postal_code")) {
+        pincode = element?.long_name;
+      }
+    });
+
+    if (fromLatLng) {
+      lat = place.geometry.location.lat;
+      lng = place.geometry.location.lng;
+    } else {
+      lat = place.geometry.location.lat("d");
+      lng = place.geometry.location.lng("d");
+    }
+
+    place_id = place?.place_id;
+    cookies.set(
+      "user-location",
+      JSON.stringify({
+        country,
+        state,
+        city,
+        zone,
+        area,
+        sub_area,
+        neighborhood,
+        pincode,
+        place_id,
+        route,
+        lat,
+        lng,
+      })
+    );
+    setDefaultLocation(area);
+    setIsLoading(false);
+  };
+
+  React.useEffect(() => {
+    getCurrentLocation()
+  }, [])
+
+  const getCurrentLocation = () => {
+    setIsLoading(true);
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((location) => {
+          Geocode.setApiKey(process?.env?.MAP_API_KEY);
+          Geocode.fromLatLng(
+            location?.coords?.latitude,
+            location?.coords?.longitude
+          ).then((response) => {
+            handlePlaceSearch(response?.results[0], true);
+          });
+      });
+    } else {
+      setIsLoading(false)
+      toast.error("Geolocation is not supported by this browser.");
+    }
   };
 
   return (
@@ -118,19 +240,34 @@ function Banner() {
           >
             <form name="findProperty" method="POST" onSubmit={handleSubmit}>
               <div className="flex flex-col sm:flex-row items-center">
-                <input
-                  type="text"
-                  name="type"
-                  readOnly
-                  value="Rent"
-                  className="rounded-sm w-20 text-gray-500 sm:w-38 border-none h-10 text-sm text-center sm:text-left mb-1 sm:mb-0"
+                <button
+                  className="p-3 border rounded-md mx-1 bg-white"
+                  onClick={getCurrentLocation}
+                  data-tip="Current Location"
+                >
+                  <MdMyLocation />
+                </button>
+                <AutoComplete
+                  apiKey={process?.env?.MAP_API_KEY}
+                  onPlaceSelected={(place) => handlePlaceSearch(place)}
+                  defaultValue={defaultLocation}
+                  className=" rounded-sm border-gray-200 w-1/2 text-sm p-2 h-10"
+                  placeholder="Find Location..."
+                  style={{ borderWidth: "1px" }}
+                  options={{
+                    types: ['address'],
+                    componentRestrictions: {
+                      country: 'in'
+                    }
+                  }}
+                  
                 />
                 <input
                   type="text"
                   name="search"
                   required
-                  placeholder="Search by region, postcode or property Id"
-                  className="rounded-sm w-72 text-gray-500 sm:flex-grow border-none h-10 ml-1 text-sm mb-1 sm:mb-0"
+                  placeholder="Search Property..."
+                  className="rounded-sm text-gray-500 sm:flex-grow border-none h-10 ml-1 text-sm mb-1 sm:mb-0"
                 />
                 <button
                   type="submit"
@@ -146,36 +283,15 @@ function Banner() {
               </div>
               <div className="flex mt-1 flex-col sm:flex-row">
                 <Search
-                  label="Any property type"
+                  label="Property Type"
                   name="property_type"
                   options={ptype_options}
                 />
-                <Search label="Any Bed" name="bed_type" options={counts} />
-                <Search label="Any Bath" name="bath_type" options={counts} />
                 <Search
-                  label="Any Parking"
-                  name="parking_type"
-                  options={parking_options}
+                  name="bed_type"
+                  options={[{ value: "", label: "Bed" }, ...counts]}
                 />
-                <Search
-                  label="Min Price"
-                  name="min_price"
-                  options={price_options}
-                />
-                <Search
-                  label="Max Price"
-                  name="max_price"
-                  options={price_options}
-                />
-                <label className="mt-1 cursor-pointer hidden" htmlFor="suburb">
-                  <input
-                    type="checkbox"
-                    name="suburb"
-                    id="suburb"
-                    className="w-7 h-7 border-none bg-gray-300 cursor-pointer"
-                  />
-                  <span className="text-gray-300 font-bold ml-3">SUBURB</span>
-                </label>
+                <Search name="budget" options={budget_options} />
               </div>
             </form>
           </div>

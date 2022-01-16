@@ -1,11 +1,15 @@
 import React from "react";
 
-function Search({ label, name, options }) {
+import Select from 'react-select';
+
+function Search({ name, options }) {
   return (
-    <div>
+    <div className="max-w-md w-full mx-1 text-left">
+      <Select options={options} name={name} defaultValue={options[0]}/>
+      {false &&
       <select
         name={name}
-        className="border-none bg-gray-200 text-gray-500 text-xs cursor-pointer w-72 sm:w-auto mb-1 sm:mb-0 rounded-sm mr-1 h-10"
+        className="border-none bg-gray-200 text-gray-500 text-xs cursor-pointer w-auto  mb-1 sm:mb-0 rounded-sm mr-1 h-10"
       >
         <option value="">{label}</option>
         {options &&
@@ -14,7 +18,7 @@ function Search({ label, name, options }) {
               {o.label}
             </option>
           ))}
-      </select>
+      </select>}
     </div>
   );
 }
