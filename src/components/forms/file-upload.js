@@ -1,4 +1,4 @@
-import Image from "next/image";
+
 import { useState } from "react";
 import { FiUpload } from "react-icons/fi";
 
@@ -31,12 +31,12 @@ function FileUpload(props) {
         htmlFor="fileupload"
         className={`${
           props.error ? "bg-red-300" : "bg-gray-300 dark:bg-gray-900"
-        } rounded-full overflow-hidden cursor-pointer ${
+        } ${props?.size !== 'auto' && 'rounded-full'} overflow-hidden cursor-pointer ${
           props.size === "small"
             ? "w-10 h-10"
             : props.size === "big"
             ? "w-36 h-36"
-            : "w-24 h-24"
+            : "w-full h-36"
         }`}
       >
         <input
@@ -48,14 +48,14 @@ function FileUpload(props) {
           id="fileupload"
         />
         {(image || props.value) && (
-          <Image
-            className="object-cover"
+          <img
+            className="object-contain"
             src={image || props.value}
             width={
-              props.size === "small" ? 50 : props.size === "big" ? 150 : 100
+              props.size === "small" ? 50 : props.size === "big" ? 150 : '100%'
             }
             height={
-              props.size === "small" ? 50 : props.size === "big" ? 150 : 100
+              props.size === "small" ? 50 : props.size === "big" ? 150 : 150
             }
           />
         )}

@@ -11,13 +11,11 @@ import {
 import Loader from "../../../loader";
 import PostedProperty from "../../PostedProperty";
 import { __d } from "../../../../server";
-import { MdClose } from "react-icons/md";
 import { BsStarFill } from "react-icons/bs";
 import {
   getAgreements,
   getVisitedProperties,
 } from "../../../../lib/frontend/share";
-import ReactTooltip from "react-tooltip";
 import { FiAlertCircle, FiDelete } from "react-icons/fi";
 
 const Button = ({ url }) => {

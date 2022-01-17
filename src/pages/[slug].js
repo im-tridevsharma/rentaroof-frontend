@@ -32,7 +32,7 @@ function PageRender({ page }) {
 export async function getServerSideProps(context) {
   const slug = process.env.BASE_URL + "/" + context.params.slug;
   const res = await fetch(
-    process.env.BASE_URL.replace("3000", "8000") + "/api/page?slug=" + slug
+    process.env.BASE_URL.replace("3000", "8001") + "/api/page?slug=" + slug
   );
   const data = await res.json();
 

@@ -86,6 +86,18 @@ const budget_options = [
   },
 ];
 
+const radius = [
+  {label: "Search Radius", value: ""},
+  {label: "1KM", value: '1'},
+  {label: "2KM", value: '2'},
+  {label: "3KM", value: '3'},
+  {label: "4KM", value: '4'},
+  {label: "5KM", value: '5'},
+  {label: "10KM", value: '10'},
+  {label: "15KM", value: '15'},
+  {label: "20KM", value: '20'},
+]
+
 function Banner() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -186,7 +198,7 @@ function Banner() {
         lng,
       })
     );
-    setDefaultLocation(area);
+    setDefaultLocation(city);
     setIsLoading(false);
   };
 
@@ -204,6 +216,7 @@ function Banner() {
             location?.coords?.longitude
           ).then((response) => {
             handlePlaceSearch(response?.results[0], true);
+            setIsLoading(false)
           });
       });
     } else {
@@ -251,7 +264,7 @@ function Banner() {
                   apiKey={process?.env?.MAP_API_KEY}
                   onPlaceSelected={(place) => handlePlaceSearch(place)}
                   defaultValue={defaultLocation}
-                  className=" rounded-sm border-gray-200 w-1/2 text-sm p-2 h-10"
+                  className=" rounded-sm border-gray-200 max-w-sm w-full text-sm p-2 h-10"
                   placeholder="Find Location..."
                   style={{ borderWidth: "1px" }}
                   options={{
@@ -282,6 +295,11 @@ function Banner() {
                 </button>
               </div>
               <div className="flex mt-1 flex-col sm:flex-row">
+                <Search
+                  label="Search Radius"
+                  name="search_radius"
+                  options={radius}
+                />
                 <Search
                   label="Property Type"
                   name="property_type"

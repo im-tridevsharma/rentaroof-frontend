@@ -28,6 +28,7 @@ function ProfileUI() {
         setProfile(response?.user);
         setProfilePic(response?.user?.profile_pic);
         setSignature(response?.user?.signature);
+        setDefaultLocation(response?.user?.address?.full_address);
       } else {
         console.error(response?.error || response?.message);
         setIsLoading(false);

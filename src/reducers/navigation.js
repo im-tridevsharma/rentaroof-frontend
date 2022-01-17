@@ -7,6 +7,7 @@ import {
   FiPenTool,
   FiSave,
   FiMapPin,
+  FiBookOpen,
 } from "react-icons/fi";
 import { BiBuildingHouse } from "react-icons/bi";
 import {
@@ -266,75 +267,19 @@ const initialState = [
           },
         ],
       },
-    ],
-  },
-  {
-    title: "Location",
-    items: [
       {
-        url: "",
-        icon: <FiMapPin size={20} />,
-        title: "Country",
+        url: "/",
+        icon: <FiBookOpen size={20} />,
+        title: "Blogs",
         items: [
           {
-            url: "/admin/countries",
-            title: "All",
+            url: "/admin/blogs",
+            title: "All Blogs",
             items: [],
           },
           {
-            url: "/admin/countries/add",
-            title: "Add",
-            items: [],
-          },
-        ],
-      },
-      {
-        url: "",
-        icon: <FiMapPin size={20} />,
-        title: "State",
-        items: [
-          {
-            url: "/admin/states",
-            title: "All",
-            items: [],
-          },
-          {
-            url: "/admin/states/add",
-            title: "Add",
-            items: [],
-          },
-        ],
-      },
-      {
-        url: "",
-        icon: <MdEditLocation size={20} />,
-        title: "City",
-        items: [
-          {
-            url: "/admin/cities",
-            title: "All",
-            items: [],
-          },
-          {
-            url: "/admin/cities/add",
-            title: "Add",
-            items: [],
-          },
-        ],
-      },
-      {
-        url: "",
-        icon: <MdLocalMall size={20} />,
-        title: "Location",
-        items: [
-          {
-            url: "/admin/locations",
-            title: "All",
-            items: [],
-          },
-          {
-            url: "/admin/locations/add",
-            title: "Add",
+            url: "/admin/blogs/add",
+            title: "Add New",
             items: [],
           },
         ],
@@ -360,3 +305,78 @@ export default function navigation(state = initialState, action) {
       return state;
   }
 }
+
+
+// {
+//   title: "Location",
+//   items: [
+//     {
+//       url: "",
+//       icon: <FiMapPin size={20} />,
+//       title: "Country",
+//       items: [
+//         {
+//           url: "/admin/countries",
+//           title: "All",
+//           items: [],
+//         },
+//         {
+//           url: "/admin/countries/add",
+//           title: "Add",
+//           items: [],
+//         },
+//       ],
+//     },
+//     {
+//       url: "",
+//       icon: <FiMapPin size={20} />,
+//       title: "State",
+//       items: [
+//         {
+//           url: "/admin/states",
+//           title: "All",
+//           items: [],
+//         },
+//         {
+//           url: "/admin/states/add",
+//           title: "Add",
+//           items: [],
+//         },
+//       ],
+//     },
+//     {
+//       url: "",
+//       icon: <MdEditLocation size={20} />,
+//       title: "City",
+//       items: [
+//         {
+//           url: "/admin/cities",
+//           title: "All",
+//           items: [],
+//         },
+//         {
+//           url: "/admin/cities/add",
+//           title: "Add",
+//           items: [],
+//         },
+//       ],
+//     },
+//     {
+//       url: "",
+//       icon: <MdLocalMall size={20} />,
+//       title: "Location",
+//       items: [
+//         {
+//           url: "/admin/locations",
+//           title: "All",
+//           items: [],
+//         },
+//         {
+//           url: "/admin/locations/add",
+//           title: "Add",
+//           items: [],
+//         },
+//       ],
+//     },
+//   ],
+// },

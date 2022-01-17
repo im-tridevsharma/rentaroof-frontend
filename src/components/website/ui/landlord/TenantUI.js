@@ -107,14 +107,14 @@ function TenantUI() {
                         onClick={() => markClosed(property?.property_code)}
                         className="px-2 py-1 rounded-md bg-red-500 text-white"
                       >
-                        Mark Closed
+                        Mark Property as Closed
                       </button>
                     ) : (
                       <button
                         onClick={() => markOpened(property?.property_code)}
                         className="px-2 py-1 rounded-md bg-green-500 text-white"
                       >
-                        Mark Open
+                        Mark Property as Live
                       </button>
                     )}
                     <button

@@ -46,7 +46,7 @@ function Sidebar({ name, page, sideBarToggled, isHide, setIsHide }) {
             <a
               className="flex items-center py-2 px-4 bg-white"
               style={{ height: "52px" }}
-              data-tip={sideBarToggled ? "Goto Dashboard" : ""}
+              data-tip={sideBarToggled ? "Home" : "Home"}
             >
               <img
                 src={website?.logo || "/images/website/no_photo.png"}

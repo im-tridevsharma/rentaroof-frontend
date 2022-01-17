@@ -25,6 +25,7 @@ function ProfileUI() {
         setIsLoading(false);
         setProfile(response?.user);
         setProfilePic(response?.user?.profile_pic);
+        setDefaultLocation(response?.user?.address?.full_address);
       } else {
         console.error(response?.error || response?.message);
         setIsLoading(false);

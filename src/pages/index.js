@@ -1,4 +1,5 @@
 import Head from "next/head";
+import React from 'react'
 import Link from "next/link";
 import Banner from "../components/website/Banner";
 import Header from "../components/website/Header";
@@ -11,9 +12,27 @@ import Testimonial from "../components/website/Testimonial";
 import BlogItem from "../components/website/BlogItem";
 import Footer from "../components/website/Footer";
 import { shallowEqual, useSelector } from "react-redux";
+import server from "../server";
+import Carousel from 'react-grid-carousel'
+
+
+const getBlogs = async () => {
+  let blogs = false;
+  await server
+    .get("/blogs")
+    .then((response) => {
+      blogs = response?.data;
+    })
+    .catch((error) => {
+      blogs = error?.response?.data;
+    });
+
+  return blogs;
+};
 
 function Index() {
   const [play, setPlay] = useState(false);
+  const [blogs, setBlogs] = useState([]);
 
   const { website } = useSelector(
     (state) => ({
@@ -21,6 +40,17 @@ function Index() {
     }),
     shallowEqual
   );
+
+  
+  React.useEffect(() => {
+    (async () => {
+      const bdata = await getBlogs();
+      if (bdata?.status) {
+        setBlogs(bdata?.data);
+      }
+    })();
+  }, []);
+
 
   return (
     <>
@@ -261,9 +291,11 @@ function Index() {
             Have you read our real estate blog?
           </h5>
           <div className="flex flex-col sm:flex-row">
-            <BlogItem />
-            <BlogItem />
-            <BlogItem />
+          <Carousel cols={3} rows={1} gap={10} loop>
+            {blogs?.length > 0 && blogs?.map((blog, i) => <Carousel.Item key={i}>
+            <BlogItem data={blog}/>
+            </Carousel.Item>)}
+          </Carousel>
           </div>
         </div>
         {/**footer */}

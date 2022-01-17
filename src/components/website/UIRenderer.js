@@ -115,7 +115,7 @@ function UIRenderer({ UI, role, page }) {
         </div>
         {user && user?.role === "tenant" && (
           <div
-            className="absolute bottom-10 right-5 animate-pulse"
+            className="fixed bottom-10 right-5 animate-pulse"
             style={{ fontFamily: "Opensans-bold" }}
           >
             <button
@@ -126,6 +126,22 @@ function UIRenderer({ UI, role, page }) {
             </button>
           </div>
         )}
+
+      {user && user?.role !== "tenant" && (
+          <div
+            className="fixed bottom-1 right-5"
+            style={{ fontFamily: "Opensans-bold" }}
+          >
+            <button
+              onClick={() => Router.push(`/${user?.role}/add-property`)}
+              className="p-3 rounded-md text-white"
+              style={{backgroundColor: "var(--blue)"}}
+            >
+              Add New Property
+            </button>
+          </div>
+        )}
+
         {/**conversation */}
         {false && (
           <div

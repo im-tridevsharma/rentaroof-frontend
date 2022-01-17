@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Router from 'next/router';
+import Router from "next/router";
 import {
   FiAlertTriangle,
   FiCheckCircle,
@@ -31,9 +31,24 @@ const getPages = async () => {
   return pages;
 };
 
+const getBlogs = async () => {
+  let blogs = false;
+  await server
+    .get("/blogs?limit=5")
+    .then((response) => {
+      blogs = response?.data;
+    })
+    .catch((error) => {
+      blogs = error?.response?.data;
+    });
+
+  return blogs;
+};
+
 function Footer() {
   const [isLoading, setIsLoading] = useState(false);
   const [pages, setPages] = useState([]);
+  const [blogs, setBlogs] = useState([]);
   const [isAdded, setIsAdded] = useState(false);
   const [termsAndCondition, setTermsAndCondition] = useState(false);
   const [enquiry, setEnquiry] = useState({
@@ -92,7 +107,9 @@ function Footer() {
     });
     if (res?.status) {
       setIsLoading(false);
-      toast.success("Admin has been notified successfully.");
+      toast.success(
+        "Your SOS message sent to Rent A Roof team. We will call you asap."
+      );
     } else {
       toast.error(res?.error || res?.message);
       setIsLoading(false);
@@ -136,14 +153,8 @@ function Footer() {
 
   let links = [
     {
-      title: "Rent",
-      links: [
-        { href: "/", value: "Lorem Ipsum" },
-        { href: "/", value: "Lorem Ipsum" },
-        { href: "/", value: "Lorem Ipsum" },
-        { href: "/", value: "Lorem Ipsum" },
-        { href: "/", value: "Lorem Ipsum" },
-      ],
+      title: "Blogs/Recent News",
+      links: blogs,
     },
     {
       title: "Information",
@@ -168,12 +179,20 @@ function Footer() {
   useEffect(() => {
     (async () => {
       const data = await getPages();
+      const bdata = await getBlogs();
       if (data?.status) {
         let newpages = [];
         data.data.forEach((p) => {
           newpages.push({ href: p.slug, value: p.name });
         });
         setPages(newpages);
+      }
+      if (bdata?.status) {
+        let newblogs = [];
+        bdata.data.forEach((b) => {
+          newblogs.push({ href: b.slug, value: b.title });
+        });
+        setBlogs(newblogs);
       }
     })();
   }, []);
@@ -182,7 +201,7 @@ function Footer() {
     e.preventDefault();
     const search = document.forms.agentFinder.agent.value;
     Router.push(`/find-an-agent?search=${search}`);
-  }
+  };
 
   return (
     <>
@@ -195,7 +214,7 @@ function Footer() {
         className="fixed right-5 cursor-pointer bottom-10 z-40 bg-white shadow-lg drop-shadow-md rounded-full w-10 h-10 flex items-center justify-center"
       >
         <FaQuestionCircle className="text-2xl" />
-        <ReactTooltip backgroundColor="black" textColor="white"/>
+        <ReactTooltip backgroundColor="black" textColor="white" />
       </div>
       <div
         className={`fixed right-0 bottom-0 bg-white ${
@@ -327,10 +346,7 @@ function Footer() {
                   />
                   <label htmlFor="terms">
                     Accept{" "}
-                    <a
-                      href=""
-                      onClick={() => setTermsAndCondition(true)}
-                    >
+                    <a href="" onClick={() => setTermsAndCondition(true)}>
                       Terms and Conditions
                     </a>
                   </label>
@@ -371,38 +387,47 @@ function Footer() {
         )}
       </div>
       {/**agent finder */}
-      <form
+      {false && (
+        <form
+          className="flex items-center justify-center p-3"
+          style={{
+            backgroundColor: "var(--primary-color)",
+            fontFamily: "Opensans-regular",
+          }}
+          name="agentFinder"
+          onSubmit={handleFindAgent}
+        >
+          <label
+            className="uppercase font-bold text-white"
+            style={{ fontFamily: "Opensans-semi-bold" }}
+          >
+            Find an Agent
+          </label>
+          <input
+            type="text"
+            name="agent"
+            placeholder="Agent Name/Place..."
+            className="border-2 max-w-xl w-full text-sm py-4 h-3 text-gray-600 border-gray-100 rounded-md bg-white ml-5"
+          />
+          <button
+            type="submit"
+            className="bg-gray-400 ml-2 py-2 px-8 rounded-md text-white"
+          >
+            <img
+              src="/icons/home/home_search_icon.png"
+              className="h-4 object-contain"
+              alt="search"
+            />
+          </button>
+        </form>
+      )}
+      <div
         className="flex items-center justify-center p-3"
         style={{
           backgroundColor: "var(--primary-color)",
           fontFamily: "Opensans-regular",
         }}
-        name="agentFinder"
-        onSubmit={handleFindAgent}
-      >
-        <label
-          className="uppercase font-bold text-white"
-          style={{ fontFamily: "Opensans-semi-bold" }}
-        >
-          Find an Agent
-        </label>
-        <input
-          type="text"
-          name="agent"
-          placeholder="Agent Name/Place..."
-          className="border-2 max-w-xl w-full text-sm py-4 h-3 text-gray-600 border-gray-100 rounded-md bg-white ml-5"
-        />
-        <button
-          type="submit"
-          className="bg-gray-400 ml-2 py-2 px-8 rounded-md text-white"
-        >
-          <img
-            src="/icons/home/home_search_icon.png"
-            className="h-4 object-contain"
-            alt="search"
-          />
-        </button>
-      </form>
+      ></div>
       <div className="flex flex-col p-10 pb-0">
         <div className="grid grid-cols-2 sm:grid-cols-5 sm:space-x-5 pb-6">
           {links?.length > 0 &&
@@ -420,16 +445,16 @@ function Footer() {
             </b>
             <div className="grid grid-cols-2">
               <div className="my-1 mr-1 flex items-center justify-center">
-                <img src="/icons/home/paylogo1.png" alt="payment1" />
+                <img src="/icons/home/razorpay.png" alt="razorpay" />
               </div>
               <div className="my-1 mr-1 flex items-center justify-center">
-                <img src="/icons/home/paylogo2.png" alt="payment1" />
+                <img src="/icons/home/paytm.png" alt="paytm" />
               </div>
               <div className="my-1 mr-1 flex items-center justify-center">
-                <img src="/icons/home/paylogo3.png" alt="payment1" />
+                <img src="/icons/home/upi.png" alt="upi" />
               </div>
               <div className="my-1 mr-1 flex items-center justify-center">
-                <img src="/icons/home/paylogo4.png" alt="payment1" />
+                <img src="/icons/home/mastercard.png" alt="mastercard" />
               </div>
             </div>
           </div>
