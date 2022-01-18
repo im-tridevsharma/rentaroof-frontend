@@ -15,15 +15,16 @@ import { __d } from "../../server";
 import { FaTimes } from "react-icons/fa";
 import ReactTooltip from "react-tooltip";
 import { toast, ToastContainer } from "react-toastify";
+import Cookies from "universal-cookie";
 
 function Index({ query }) {
   const [isLoading, setIsLoading] = React.useState(false);
   const [user, setUser] = React.useState(false);
   const [filters, setFilters] = React.useState({
+    search_radius: "",
     search: "",
     ptype: "",
-    min_price: 1000,
-    max_price: "",
+    budget: "1000-",
     min_size: 100,
     max_size: "",
     bed: "",
@@ -39,7 +40,10 @@ function Index({ query }) {
   const [properties, setProperties] = useState([]);
   const [pagination, setPagination] = useState([]);
   const [filterMode, setFilterMode] = useState(false);
+  const [min_price, setMinPrice] = useState(1000);
+  const [max_price, setMaxPrice] = useState(1000);
   const router = useRouter();
+  const cookies = new Cookies();
 
   useEffect(() => {
     const u = localStorage.getItem("LU")
@@ -146,12 +150,24 @@ function Index({ query }) {
       }
     })();
 
+    let price = query?.budget;
+    price = price?.split("-");
+    if (price?.length > 0) {
+      setMinPrice(price[0]);
+      setMaxPrice(price[1]);
+
+      if (price[0] > price[1]) {
+        setFilters((prev) => ({ ...prev, budget: `${1000}-${max_price}` }));
+      }
+    } else {
+      setFilters((prev) => ({ ...prev, budget: `${1000}-${0}` }));
+    }
+
     //set filters selected
     setFilters({
       search: query?.search || "",
       ptype: query?.ptype || "",
-      min_price: query?.min_price || 1000,
-      max_price: query?.max_price || "",
+      budget: query?.budget,
       min_size: query?.min_size || 100,
       max_size: query?.max_size || "",
       bed: query?.bed || "",
@@ -162,6 +178,7 @@ function Index({ query }) {
       amenities: query?.amenities ? [...query.amenities.split(",")] : [],
       sorting: query?.sorting || "relevance",
       pagination: "yes",
+      search_radius: query?.search_radius
     });
   }, [router.query]);
 
@@ -185,7 +202,12 @@ function Index({ query }) {
     const queryString = Object.keys(filters)
       .map((key) => key + "=" + filters[key])
       .join("&");
-    router.push("/find-property?" + queryString);
+
+    const location = cookies.get("user-location");
+    const locationString = Object.keys(location)
+      .map((key) => key + "=" + location[key])
+      .join("&");
+    router.push("/find-property?" + queryString + '&' + locationString);
   };
 
   const sortBy = (e) => {
@@ -298,6 +320,33 @@ function Index({ query }) {
                 <option value="vacation rental">Vacation Rental</option>
               </select>
             </div>
+            <div className="px-5 mt-2">
+              <h6 style={{ fontFamily: "Opensans-bold", fontSize: "15px" }}>
+                Search Radius
+              </h6>
+              <select
+                name="search_radius"
+                value={filters?.search_radius}
+                onChange={(e) =>
+                  setFilters((p) => ({ ...p, search_radius: e.target.value }))
+                }
+                className="w-full border text-sm border-gray-200 rounded-md mt-1"
+              >
+                <option value="">Select</option>
+                <option value="1">1KM</option>
+                <option value="2">2KM</option>
+                <option value="3">3KM</option>
+                <option value="4">4KM</option>
+                <option value="5">5KM</option>
+                <option value="6">6KM</option>
+                <option value="7">7KM</option>
+                <option value="8">8KM</option>
+                <option value="9">9KM</option>
+                <option value="10">10KM</option>
+                <option value="15">15KM</option>
+                <option value="20">20KM</option>
+              </select>
+            </div>
             <hr className="my-5 border-gray-300" />
             <div className="px-5 -mt-2">
               <h6
@@ -307,7 +356,7 @@ function Index({ query }) {
                 Budget
                 <button
                   type="button"
-                  onClick={() => setFilters((p) => ({ ...p, max_price: "" }))}
+                  onClick={() => setFilters((p) => ({ ...p, budget: "1000-" }))}
                 >
                   Select
                 </button>
@@ -318,21 +367,29 @@ function Index({ query }) {
               >
                 <label className="flex flex-col">
                   <b>MIN</b>
-                  <span>Rs.1000</span>
+                  <span>Rs.{min_price}</span>
                 </label>
                 <label className="flex flex-col">
                   <b>MAX</b>
-                  <span>Rs. {filters?.max_price}</span>
+                  <span>Rs. {max_price}</span>
                 </label>
               </div>
               <Slider
                 axis="x"
-                x={filters.max_price}
+                x={max_price}
                 xmax={100000}
                 xmin={1000}
-                onChange={({ x }) =>
-                  setFilters((prev) => ({ ...prev, max_price: x }))
-                }
+                onChange={({ x }) => {
+                  setFilters((prev) => ({
+                    ...prev,
+                    budget: `${min_price}-${x}`,
+                  }));
+                  setMinPrice(min_price);
+                  setMaxPrice(x);
+                  if(min_price > x){
+                    setMinPrice(1000);
+                  }
+                }}
                 styles={{
                   track: {
                     backgroundColor: "lightgray",
@@ -555,22 +612,32 @@ function Index({ query }) {
                 </button>
                 <button
                   className={`p-2 mb-1 rounded-md bg-white flex items-center justify-center mx-1 ${
-                    filters?.furnishing === "under construction" ? "bg-gray-100" : ""
+                    filters?.furnishing === "under construction"
+                      ? "bg-gray-100"
+                      : ""
                   }`}
                   type="button"
                   onClick={() =>
-                    setFilters((p) => ({ ...p, furnishing: "under construction" }))
+                    setFilters((p) => ({
+                      ...p,
+                      furnishing: "under construction",
+                    }))
                   }
                 >
                   Under Construction
                 </button>
                 <button
                   className={`p-2 mb-1 rounded-md bg-white flex items-center justify-center mx-1 ${
-                    filters?.furnishing === "under renovation" ? "bg-gray-100" : ""
+                    filters?.furnishing === "under renovation"
+                      ? "bg-gray-100"
+                      : ""
                   }`}
                   type="button"
                   onClick={() =>
-                    setFilters((p) => ({ ...p, furnishing: "under renovation" }))
+                    setFilters((p) => ({
+                      ...p,
+                      furnishing: "under renovation",
+                    }))
                   }
                 >
                   Under Renovation
@@ -636,7 +703,6 @@ function Index({ query }) {
                   />
                   <span className="text-gray-600 ml-2">Joint</span>
                 </label>
-                
               </div>
             </div>
             <hr className="my-5 border-gray-300" />

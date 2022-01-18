@@ -42,12 +42,14 @@ function Map() {
     search: "",
     available_from: "",
     available_to: "",
-    min_price: "",
-    max_price: "",
+    budget: "",
     bed: "",
     bath: "",
     ptype: "",
   });
+  const [min_price, setMinPrice] = useState(1000);
+  const [max_price, setMaxPrice] = useState(0);
+
   const [mapObj, setMapObj] = useState(null);
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.MAP_API_KEY, // Add your API key
@@ -330,8 +332,7 @@ function Map() {
                         ...prev,
                         available_from: "",
                         available_to: "",
-                        min_price: "",
-                        max_price: "",
+                        budget: "",
                         bed: "",
                         bath: "",
                         ptype: "",
@@ -378,16 +379,16 @@ function Map() {
                 {filterTab === "price" && (
                   <div className="grid grid-cols-2 w-full">
                     <label className="m-2">
-                      <span className="mr-2">Min Price</span>
+                      <span className="mr-2">Budget</span>
                       <input
                         type="text"
                         name="min"
                         placeholder="eg: 10000"
-                        value={filterData?.min_price}
+                        value={min_price}
                         onChange={(e) =>
                           setFilterData((prev) => ({
                             ...prev,
-                            min_price: e.target.value,
+                            budget: `${e.target.value}-${max_price}`,
                           }))
                         }
                         className="border-gray-200 text-xs rounded-md"
@@ -395,7 +396,7 @@ function Map() {
                       />
                     </label>
                     <label className="m-2">
-                      <span className="mr-2">Max Price</span>
+                      <span className="mr-2">-</span>
                       <input
                         type="text"
                         name="max"
@@ -403,7 +404,7 @@ function Map() {
                         onChange={(e) =>
                           setFilterData((prev) => ({
                             ...prev,
-                            max_price: e.target.value,
+                            budget: `${min_price}-${e.target.value}`,
                           }))
                         }
                         placeholder="eg: 50000"
@@ -463,13 +464,11 @@ function Map() {
                           }))
                         }
                       >
-                        <option value="">Any</option>
+                        <option value="">Select</option>
                         <option value="apartment">Apartment</option>
-                        <option value="building">Building</option>
-                        <option value="home">Home</option>
-                        <option value="land & industrial">
-                          Land & Industrial
-                        </option>
+                        <option value="individual floor">Individual Floor</option>
+                        <option value="independent house">Independent House</option>
+                        <option value="villa or farm house">Villa/Farm House</option>
                         <option value="vacation rental">Vacation Rental</option>
                       </select>
                     </label>

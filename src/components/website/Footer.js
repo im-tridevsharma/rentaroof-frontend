@@ -170,8 +170,8 @@ function Footer() {
         { href: "/", value: "Home" },
         { href: "/about-us", value: "About Us" },
         { href: "/ibo/add-property", value: "Listing Properties" },
-        { href: "/ibo/dashboard", value: "For IBO" },
-        { href: "/landlord/dashboard", value: "For Landlords" },
+        { href: "/ibo", value: "IBO" },
+        { href: "/owners", value: "Owners" },
       ],
     },
   ];

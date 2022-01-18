@@ -119,16 +119,19 @@ function Banner() {
     const ptype = document.forms.findProperty.property_type.value;
     const bed = document.forms.findProperty.bed_type.value;
     const budget = document.forms.findProperty.budget.value;
+    const search_radius = document.forms.findProperty.search_radius.value;
+    const location = cookies.get("user-location");
+    const queryString = Object.keys(location)
+      .map((key) => key + "=" + location[key])
+      .join("&");
     router.push(
-      `find-property?pagination=yes&search=${s_value}&ptype=${ptype}&bed=${bed}&budget=${budget}`
+      `find-property?pagination=yes&search=${s_value}&ptype=${ptype}&bed=${bed}&budget=${budget}&search_radius=${search_radius}&${queryString}`
     );
   };
 
   const handlePlaceSearch = (place, fromLatLng = false) => {
     setIsLoading(true);
-
     const components = place?.address_components;
-
     let pincode = "";
     let country = "";
     let state = "";
@@ -190,9 +193,7 @@ function Banner() {
         zone,
         area,
         sub_area,
-        neighborhood,
         pincode,
-        place_id,
         route,
         lat,
         lng,
@@ -203,11 +204,14 @@ function Banner() {
   };
 
   React.useEffect(() => {
-    getCurrentLocation()
+    const location = cookies.get("user-location");
+    if(!location){
+      getCurrentLocation()
+    }
   }, [])
 
   const getCurrentLocation = () => {
-    setIsLoading(true);
+    
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((location) => {
           Geocode.setApiKey(process?.env?.MAP_API_KEY);
@@ -216,11 +220,9 @@ function Banner() {
             location?.coords?.longitude
           ).then((response) => {
             handlePlaceSearch(response?.results[0], true);
-            setIsLoading(false)
           });
       });
     } else {
-      setIsLoading(false)
       toast.error("Geolocation is not supported by this browser.");
     }
   };

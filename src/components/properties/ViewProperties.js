@@ -18,6 +18,7 @@ import Router from "next/router";
 import { toast } from "react-toastify";
 import { useSelector, shallowEqual } from "react-redux";
 import router from "next/router";
+import { FiInfo } from "react-icons/fi";
 
 function ViewProperties({ property }) {
   const [gallery, setGallery] = useState(null);
@@ -26,6 +27,7 @@ function ViewProperties({ property }) {
   const [essential, setEssential] = useState(null);
   const [address, setAddress] = useState(null);
   const [amenities, setAmenities] = useState(null);
+  const [preferences, setPreferences] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
   const [viewModal, setViewModal] = useState(false);
@@ -59,6 +61,9 @@ function ViewProperties({ property }) {
     }
     if (property?.amenities_data) {
       setAmenities(property.amenities_data);
+    }
+    if (property?.preferences_data) {
+      setPreferences(property.preferences_data);
     }
     if (property?.address) {
       setAddress(property.address);
@@ -463,12 +468,11 @@ function ViewProperties({ property }) {
               <label className="text-blue-600">Floors</label>
               <p className="pl-2 capitalize">{property?.floors}</p>
             </div>
-            {property?.carpet_area + " " + property?.carpet_area_unit}
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4">
             <div className="form-element">
               <label className="text-blue-600">Carpet Area</label>
-              <p className="pl-2 capitalize"></p>
+              <p className="pl-2 capitalize">{property?.carpet_area + " " + property?.carpet_area_unit}</p>
             </div>
             <div className="form-element">
               <label className="text-blue-600">Super Area</label>
@@ -511,6 +515,10 @@ function ViewProperties({ property }) {
               </p>
             </div>
           </div>
+          <div className="form-element">
+              <label className="text-blue-600">Asking Price</label>
+              <p className="pl-2 capitalize">Rs. {property?.offered_price}</p>
+            </div>
 
           <hr className="mb-2" />
           {/**essentials */}
@@ -558,6 +566,16 @@ function ViewProperties({ property }) {
                     alt={i}
                     className="w-12 h-12 object-contain mr-3"
                   />
+                  <p>{a.title}</p>
+                </div>
+              ))}
+          </div>
+          <h6 className="mb-3">Property Prefrences</h6>
+          <div className="grid grid-cols-2 md:grid-cols-4 mb-2">
+            {preferences &&
+              preferences.map((a, i) => (
+                <div className="flex items-center" key={i}>
+                  <FiInfo className="mr-2"/>
                   <p>{a.title}</p>
                 </div>
               ))}

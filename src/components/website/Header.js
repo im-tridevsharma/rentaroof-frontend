@@ -167,27 +167,19 @@ function Header() {
             </li>
             <li className="mx-2">
               <Link
-                href={
-                  user && user.role === "ibo"
-                    ? `/ibo/dashboard`
-                    : "/login?role=ibo"
-                }
+                href="/ibo"
               >
                 <a className="py-2 px-3 border-b-2 border-transparent">
-                  For IBO
+                  IBO
                 </a>
               </Link>
             </li>
             <li className="mx-2">
               <Link
-                href={
-                  user && user.role === "landlord"
-                    ? `/landlord/dashboard`
-                    : "/login?role=landlord"
-                }
+                href="/owners"
               >
                 <a className="py-2 px-3 border-b-2 border-transparent">
-                  For Owners
+                  Owners
                 </a>
               </Link>
             </li>
