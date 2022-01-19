@@ -184,7 +184,7 @@ function AppointmentUI() {
         if (res?.status) {
           setIsLoading(false);
           toast.success("Redirecting to chat.");
-          Router.push(`/${user?.role}/chat`);
+          Router.push(`/${user?.role}/chat#${res?.data?.id}`);
         } else {
           setIsLoading(false);
           toast.error(res?.error || res?.message);
@@ -250,6 +250,7 @@ function AppointmentUI() {
                           {a?.property_data.length > 50
                             ? a?.property_data.substring(0, 50) + "..."
                             : a?.property_data}
+                          <b className="ml-3">VVC - {a?.vvc}</b>
                         </p>
                         <p
                           className="font-semibold text-xs flex items-center"
@@ -482,37 +483,10 @@ function AppointmentUI() {
           </h5>
           <hr className="my-1" />
           <p className="leading-6">
-            <b>Title:</b> {showDetail?.title}
-          </p>
-          <p className="leading-6">
-            <b>Description:</b> {showDetail?.description}
-          </p>
-          <p className="leading-6">
-            <b>Ibo/Executive:</b> {showDetail?.ibo}
+            <b>Ibo Assigned:</b> {showDetail?.ibo}
           </p>
           <p className="leading-6">
             <b>Property:</b> {showDetail?.property_data}
-          </p>
-          <hr className="my-1" />
-          <p className="leading-6">
-            <b>User:</b> {showDetail?.name}
-          </p>
-          <p className="leading-6">
-            <b>Email:</b> {showDetail?.email}
-          </p>
-          <p className="leading-6">
-            <b>Contact:</b> {showDetail?.contact}
-          </p>
-          <hr className="my-1" />
-          <p className="leading-6">
-            <b>Landlord:</b> {showDetail?.landlord?.first}{" "}
-            {showDetail?.landlord?.last}
-          </p>
-          <p className="leading-6">
-            <b>Email:</b> {showDetail?.landlord?.email}
-          </p>
-          <p className="leading-6">
-            <b>Contact:</b> {showDetail?.landlord?.mobile}
           </p>
           <hr className="my-1" />
           <p className="leading-6 capitalize">

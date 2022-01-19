@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import Router from "next/router";
-import Image from "next/image";
 import Card from "../../Card";
 import { BsStarFill } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
@@ -13,7 +11,6 @@ import {
 import { __d } from "../../../../server";
 import ReactTooltip from "react-tooltip";
 import {
-  createConversation,
   getVisitedProperties,
 } from "../../../../lib/frontend/share";
 import { toast } from "react-toastify";
@@ -60,30 +57,6 @@ function PropertiesUI() {
     }
   }, []);
 
-  const startConversation = async (property, id, receiver) => {
-    localStorage.setItem(
-      "deal-for",
-      JSON.stringify({ property, receiver, id, sender: user?.id })
-    );
-    setIsLoading(true);
-    if (receiver) {
-      const formdata = {
-        sender_id: user?.id,
-        receiver_id: receiver,
-      };
-      if (formdata) {
-        const res = await createConversation(formdata);
-        if (res?.status) {
-          setIsLoading(false);
-          toast.success("Redirecting to chat.");
-          Router.push(`/${user?.role}/chat`);
-        } else {
-          setIsLoading(false);
-          toast.error(res?.error || res?.message);
-        }
-      }
-    }
-  };
 
   const deleteMe = async (id, type) => {
     setIsLoading(true);
@@ -191,24 +164,27 @@ function PropertiesUI() {
                     style={{ borderTopWidth: "1px" }}
                   >
                     <div className=" w-24 h-24 overflow-hidden rounded-md">
-                      <Image
+                    <Link href={`/details/properties/${p?.property_code}`}>
+                        <a>
+                      <img
                         src={p?.front_image || "/images/website/no_photo.png"}
                         alt="property"
                         layout="responsive"
                         width="100"
                         height="100"
-                      />
+                      /></a></Link>
                     </div>
                     <div
                       className="flex flex-col flex-grow px-5 leading-4"
                       style={{ fontFamily: "Opensans-regular" }}
-                    >
+                    ><Link href={`/details/properties/${p?.property_code}`}>
+                    <a>
                       <h6
                         className="text-gray-800"
                         style={{ fontFamily: "Opensans-bold" }}
                       >
                         {p?.name}
-                      </h6>
+                      </h6></a></Link>
                       <p className="text-gray-400">
                         {p?.short_description.substring(0, 100) + "..."}
                       </p>
@@ -232,16 +208,6 @@ function PropertiesUI() {
                             currency: "INR",
                           }).format(p?.monthly_rent)}
                         </span>
-                        {!p?.is_closed && (
-                          <button
-                            onClick={() =>
-                              startConversation(p?.name, p?.id, p?.posted_by)
-                            }
-                            style={{ color: "var(--primary-color)" }}
-                          >
-                            Negotiate with Landlord
-                          </button>
-                        )}
                       </div>
                     </div>
                     <span className="flex items-center text-lg">
@@ -287,24 +253,28 @@ function PropertiesUI() {
                       <ReactTooltip />
                     </span>
                     <div className="w-20 h-20 overflow-hidden rounded-md">
-                      <Image
+                      <Link href={`/details/properties/${p?.property_code}`}>
+                        <a>
+                      <img
                         src={p?.front_image || "/images/website/no_photo.png"}
                         alt="property"
                         layout="responsive"
                         width="80"
                         height="80"
-                      />
+                      /></a>
+                    </Link>
                     </div>
                     <div
                       className="flex flex-col flex-grow px-5 leading-4"
                       style={{ fontFamily: "Opensans-regular" }}
-                    >
+                    ><Link href={`/details/properties/${p?.property_code}`}>
+                    <a>
                       <h6
                         className="text-gray-800"
                         style={{ fontFamily: "Opensans-bold" }}
                       >
                         {p?.property_name}
-                      </h6>
+                      </h6></a></Link>
                       <p className="text-gray-400">
                         {p?.property_short_description}
                       </p>
@@ -358,24 +328,27 @@ function PropertiesUI() {
                       <ReactTooltip />
                     </span>
                     <div className="w-20 h-20 overflow-hidden rounded-md">
-                      <Image
+                    <Link href={`/details/properties/${p?.property_code}`}>
+                        <a>
+                      <img
                         src={p?.front_image || "/images/website/no_photo.png"}
                         alt="property"
                         layout="responsive"
                         width="80"
                         height="80"
-                      />
+                      /></a></Link>
                     </div>
                     <div
                       className="flex flex-col flex-grow px-5 leading-4"
                       style={{ fontFamily: "Opensans-regular" }}
-                    >
+                    ><Link href={`/details/properties/${p?.property_code}`}>
+                    <a>
                       <h6
                         className="text-gray-800"
                         style={{ fontFamily: "Opensans-bold" }}
                       >
                         {p?.property_name}
-                      </h6>
+                      </h6></a></Link>
                       <p className="text-gray-400">
                         {p?.property_short_description}
                       </p>

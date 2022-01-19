@@ -72,7 +72,7 @@ function UIRenderer({ UI, role, page }) {
     });
     if (res?.status) {
       setIsLoading(false);
-      toast.success("Admin has been notified successfully.");
+      toast.success("Your SOS message sent to Rent A Roof team. We will call you asap.");
     } else {
       toast.error(res?.error || res?.message);
       setIsLoading(false);
@@ -113,9 +113,9 @@ function UIRenderer({ UI, role, page }) {
         >
           <UI />
         </div>
-        {user && user?.role === "tenant" && (
+        {user && (
           <div
-            className="fixed bottom-10 right-5 animate-pulse"
+            className="fixed bottom-24 right-5 animate-pulse"
             style={{ fontFamily: "Opensans-bold" }}
           >
             <button
@@ -129,12 +129,12 @@ function UIRenderer({ UI, role, page }) {
 
       {user && user?.role !== "tenant" && (
           <div
-            className="fixed bottom-1 right-5"
+            className="fixed bottom-0 right-5"
             style={{ fontFamily: "Opensans-bold" }}
           >
             <button
               onClick={() => Router.push(`/${user?.role}/add-property`)}
-              className="p-3 rounded-md text-white"
+              className="p-2 rounded-md text-white"
               style={{backgroundColor: "var(--blue)"}}
             >
               Add New Property

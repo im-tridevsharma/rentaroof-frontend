@@ -720,6 +720,13 @@ function Index({ id }) {
                     distance={essential.train}
                   />
                 )}
+                {essential?.metro && (
+                  <EssentialItem
+                    icon="/icons/proprtydetls/icon_14.png"
+                    name="Metro"
+                    distance={essential.metro}
+                  />
+                )}
                 {essential?.market && (
                   <EssentialItem
                     icon="/icons/proprtydetls/icon_11.png"

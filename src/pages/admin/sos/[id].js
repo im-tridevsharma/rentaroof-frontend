@@ -151,6 +151,10 @@ function View() {
             </div>
             <div className="grid sm:grid-cols-2">
               <div className="flex flex-col my-3">
+                <small className="text-blue-500">Number of Clicks</small>
+                <p>{sos?.press_count}</p>
+              </div>
+              <div className="flex flex-col my-3">
                 <small className="text-blue-500">Created At</small>
                 <p>{sos?.created_at && moment(sos.created_at).fromNow()}</p>
               </div>

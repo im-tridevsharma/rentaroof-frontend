@@ -108,6 +108,10 @@ const Table = ({ pages, view, del }) => {
       accessor: "email",
     },
     {
+      Header: "Number of Clicks",
+      accessor: "press_count",
+    },
+    {
       Header: "Description",
       accessor: "sos_content",
       Cell: (props) => {

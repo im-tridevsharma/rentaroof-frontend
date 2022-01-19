@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import isAuthenticated, {
   logoutUser,
   removeAuthToken,
@@ -138,7 +137,7 @@ function Header() {
               className="flex items-center bg-white -ml-5"
               style={{ height: "52px" }}
             >
-              <Image
+              <img
                 src={website?.logo || "/images/website/no_photo.png"}
                 alt="logo"
                 width="110"

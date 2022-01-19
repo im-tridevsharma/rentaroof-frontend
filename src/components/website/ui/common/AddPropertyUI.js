@@ -675,18 +675,18 @@ function AddPropertyUI() {
                   className="form-input rounded-md border-gray-200"
                 >
                   <option value="">Select</option>
-                  <option value="1 year">1 Year</option>
-                  <option value="2 years">2 Years</option>
-                  <option value="3 years">3 Years</option>
-                  <option value="4 years">4 Years</option>
-                  <option value="5 years">5 Years</option>
-                  <option value="6 years">6 Years</option>
-                  <option value="7 years">7 Years</option>
-                  <option value="8 years">8 Years</option>
-                  <option value="9 years">9 Years</option>
-                  <option value="10 years">10 Years</option>
-                  <option value="11 years">11 Years</option>
-                  <option value="12 years">12 Years</option>
+                  <option value="1 month">1 Month</option>
+                  <option value="2 months">2 Months</option>
+                  <option value="3 months">3 Months</option>
+                  <option value="4 months">4 Months</option>
+                  <option value="5 months">5 Months</option>
+                  <option value="6 months">6 Months</option>
+                  <option value="7 months">7 Months</option>
+                  <option value="8 months">8 Months</option>
+                  <option value="9 months">9 Months</option>
+                  <option value="10 months">10 Months</option>
+                  <option value="11 months">11 Months</option>
+                  <option value="12 months">12 Months</option>
                 </select>
               </div>
             </div>

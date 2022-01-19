@@ -8,7 +8,7 @@ import { __d } from "../../../../server";
 import Loader from "../../../loader";
 import moment from "moment";
 import { FaTimes } from "react-icons/fa";
-import { FiMail, FiPhoneCall } from "react-icons/fi";
+import { FiMail, FiMessageCircle, FiPhoneCall } from "react-icons/fi";
 import ReactTooltip from "react-tooltip";
 import {
   createConversation,
@@ -102,6 +102,27 @@ function AppointmentUI() {
       }
     };
   }, [reload]);
+
+  const startConversation = async (receiver) => {
+    setIsLoading(true);
+    if (receiver) {
+      const formdata = {
+        sender_id: user?.id,
+        receiver_id: receiver,
+      };
+      if (formdata) {
+        const res = await createConversation(formdata);
+        if (res?.status) {
+          setIsLoading(false);
+          toast.success("Redirecting to chat.");
+          Router.push(`/${user?.role}/chat#${res?.data?.id}`);
+        } else {
+          setIsLoading(false);
+          toast.error(res?.error || res?.message);
+        }
+      }
+    }
+  };
 
   const handleUserNotification = async (
     user_id,
@@ -259,6 +280,7 @@ function AppointmentUI() {
                           {a?.property_data.length > 50
                             ? a?.property_data.substring(0, 50) + "..."
                             : a?.property_data}
+                            <b className="ml-3">VVC - {a?.vvc}</b>
                         </p>
                         <p
                           className="font-semibold text-xs flex items-center"
@@ -565,14 +587,14 @@ function AppointmentUI() {
             <ReactTooltip />
           </h5>
           <hr className="my-1" />
-          <p className="leading-6">
-            <b>Title:</b> {showDetail?.title}
-          </p>
-          <p className="leading-6">
-            <b>Description:</b> {showDetail?.description}
-          </p>
-          <p className="leading-6">
-            <b>Ibo/Executive:</b> {showDetail?.ibo}
+          <p className="leading-6 flex items-center">
+            <b className="mr-1">Ibo:</b> {showDetail?.ibo}
+            <FiMessageCircle
+                style={{ color: "var(--blue)" }}
+                className="text-lg cursor-pointer ml-2"
+                data-tip="Chat with IBO"
+                onClick={() => startConversation(showDetail?.ibo_id)}
+              />
           </p>
           <p className="leading-6">
             <b>Property:</b> {showDetail?.property_data}
@@ -580,23 +602,6 @@ function AppointmentUI() {
           <hr className="my-1" />
           <p className="leading-6">
             <b>User:</b> {showDetail?.name}
-          </p>
-          <p className="leading-6">
-            <b>Email:</b> {showDetail?.email}
-          </p>
-          <p className="leading-6">
-            <b>Contact:</b> {showDetail?.contact}
-          </p>
-          <hr className="my-1" />
-          <p className="leading-6">
-            <b>Landlord:</b> {showDetail?.landlord?.first}{" "}
-            {showDetail?.landlord?.last}
-          </p>
-          <p className="leading-6">
-            <b>Email:</b> {showDetail?.landlord?.email}
-          </p>
-          <p className="leading-6">
-            <b>Contact:</b> {showDetail?.landlord?.mobile}
           </p>
           <hr className="my-1" />
           <p className="leading-6 capitalize">

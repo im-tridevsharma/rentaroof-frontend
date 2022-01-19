@@ -282,6 +282,7 @@ function AppointmentUI() {
                           {a?.property_data.length > 50
                             ? a?.property_data.substring(0, 50) + "..."
                             : a?.property_data}
+                          <b className="ml-3">VVC - {a?.vvc}</b>
                         </p>
                         <p
                           className="font-semibold text-xs flex items-center"
@@ -310,7 +311,6 @@ function AppointmentUI() {
                             data-tip="Chat"
                             onClick={() => startConversation(a?.created_by_id)}
                           />
-                          <ReactTooltip />
                         </p>
                       </td>
                       <td>{moment(a?.start_time).format("DD-MM-YYYY")}</td>
@@ -719,16 +719,16 @@ function AppointmentUI() {
           </h5>
           <hr className="my-1" />
           <p className="leading-6">
-            <b>Title:</b> {showDetail?.title}
-          </p>
-          <p className="leading-6">
-            <b>Description:</b> {showDetail?.description}
-          </p>
-          <p className="leading-6">
-            <b>Ibo/Executive:</b> {showDetail?.ibo}
-          </p>
-          <p className="leading-6">
             <b>Property:</b> {showDetail?.property_data}
+          </p>
+          <p className="leading-6">
+            <b>Monthly Rent:</b> Rs.{showDetail?.property_monthly_rent}
+          </p>
+          <p className="leading-6">
+            <b>Security Deposite:</b> Rs.{showDetail?.property_security_amount}
+          </p>
+          <p className="leading-6">
+            <b>Asking Price:</b> Rs.{showDetail?.property_asking_price}
           </p>
           <hr className="my-1" />
           <p className="leading-6">
@@ -741,9 +741,19 @@ function AppointmentUI() {
             <b>Contact:</b> {showDetail?.contact}
           </p>
           <hr className="my-1" />
-          <p className="leading-6">
-            <b>Landlord:</b> {showDetail?.landlord?.first}{" "}
+          <p className="leading-6 flex items-center">
+            <b className="mr-1">Landlord:</b> {showDetail?.landlord?.first} {" "}
             {showDetail?.landlord?.last}
+            {showDetail?.landlord?.id !== user?.id ? <>
+              <FiMessageCircle
+                style={{ color: "var(--blue)" }}
+                className="text-lg cursor-pointer ml-2"
+                data-tip="Chat with Landlord"
+                onClick={() => startConversation(showDetail?.landlord?.id)}
+              />
+              <ReactTooltip />
+            </>
+            : <span>(You)</span>}
           </p>
           <p className="leading-6">
             <b>Email:</b> {showDetail?.landlord?.email}
