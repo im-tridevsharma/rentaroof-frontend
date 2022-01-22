@@ -250,8 +250,10 @@ function AppointmentUI() {
                           {a?.property_data.length > 50
                             ? a?.property_data.substring(0, 50) + "..."
                             : a?.property_data}
-                          <b className="ml-3">VVC - {a?.vvc}</b>
                         </p>
+                        {a?.vvc &&
+                        <b>VVC - {a?.vvc} {a?.is_tenant_vvc_verified && <span className="text-green-500">Verified</span> }</b>
+                          }
                         <p
                           className="font-semibold text-xs flex items-center"
                           style={{ color: "var(--orange)" }}
@@ -311,18 +313,7 @@ function AppointmentUI() {
                               </button>
                             </>
                           )}
-                          {!["on the way", "visited"].includes(
-                            a?.meeting_status
-                          ) && (
-                            <button
-                              className="text-green-600 border-gray-300 border-r-2 px-2 mr-2"
-                              onClick={() => {
-                                changeStatus("on the way", a.id);
-                              }}
-                            >
-                              On the Way
-                            </button>
-                          )}
+                          
                           {a?.meeting_status === "pending" && (
                             <button
                               className="text-red-600 ml-2"

@@ -291,6 +291,7 @@ function DashboardUI() {
                       <span className="ml-1" style={{ color: "var(--orange)" }}>
                         {moment(randomApp?.start_time).format("hh:mm a")}
                       </span>
+                      <p className="ml-5"><b>Status-</b> {randomApp?.meeting_status}</p>
                     </p>
                   </div>
                 </div>

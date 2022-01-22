@@ -9,12 +9,13 @@ import {
 import { __d } from "../../../../server";
 import Loader from "../../../loader";
 import moment from "moment";
-import { FaTimes } from "react-icons/fa";
-import { FiMail, FiMessageCircle, FiPhoneCall } from "react-icons/fi";
+import { FaExclamation, FaExclamationCircle, FaTimes } from "react-icons/fa";
+import { FiCheckCircle, FiMail, FiMessageCircle, FiPhoneCall } from "react-icons/fi";
 import {
   createConversation,
   saveUserNotication,
   saveUserRating,
+  vvcStatus,
 } from "../../../../lib/frontend/share";
 import AppointmentForm from "../../AppointmentForm";
 import StarRatings from "react-star-ratings";
@@ -145,6 +146,24 @@ function AppointmentUI() {
       setIsLoading(false);
     }
   };
+
+  const handleVvc = async (vvc, s, type) => {
+    if(vvc && type)
+    {
+      setIsLoading(true);
+      const res = await vvcStatus({vvc, status:s, type});
+      if(res?.status){
+        setIsLoading(false);
+        setReload(Date.now());
+        toast.success("Status Changed Successfully.");
+      }else{
+        toast.error(res?.message);
+        setIsLoading(false);
+      }
+    }else{
+      toast.error("Something went wrong!");
+    }
+  }
 
   const handleRating = async (e) => {
     e.preventDefault();
@@ -282,7 +301,6 @@ function AppointmentUI() {
                           {a?.property_data.length > 50
                             ? a?.property_data.substring(0, 50) + "..."
                             : a?.property_data}
-                          <b className="ml-3">VVC - {a?.vvc}</b>
                         </p>
                         <p
                           className="font-semibold text-xs flex items-center"
@@ -312,6 +330,11 @@ function AppointmentUI() {
                             onClick={() => startConversation(a?.created_by_id)}
                           />
                         </p>
+                        {a?.vvc &&
+                        <div>
+                        <p className="flex items-center"><b className="mr-3">Tenant VVC: {a?.tenant_vvc}</b>  {!a?.is_tenant_vvc_verified ? <><FiCheckCircle onClick={() => handleVvc(a?.vvc, 1, 'tenant')} className="cursor-pointer mr-3 text-green-500" data-tip="Verified"/> <FaExclamationCircle onClick={() => handleVvc(a?.vvc, 0, 'tenant')} className="text-red-500 cursor-pointer" data-tip="Not Verified"/></> : <span className="text-green-500">Verified</span>}</p>
+                        <p className="flex items-center"><b className="mr-3">Landlord VVC: {a?.landlord_vvc}</b> {!a?.is_landlord_vvc_verified ? <><FiCheckCircle onClick={() => handleVvc(a?.vvc, 1, 'landlord')} className="cursor-pointer mr-3 text-green-500" data-tip="Verified"/> <FaExclamationCircle onClick={() => handleVvc(a?.vvc, 0, 'landlord')} className="text-red-500 cursor-pointer" data-tip="Not Verified"/></> : <span className="text-green-500">Verified</span>}</p>
+                        </div>}
                       </td>
                       <td>{moment(a?.start_time).format("DD-MM-YYYY")}</td>
                       <td>{moment(a?.start_time).format("hh:mm A")}</td>
@@ -402,24 +425,24 @@ function AppointmentUI() {
                                   View Agreement
                                 </a>
                               )}
-
-                              {a.meeting_status !== "closed" && (
+                              {a?.meeting_status !== 'visited' && a?.is_tenant_vvc_verified  === 1
+                              && a?.is_landlord_vvc_verified === 1 && <button
+                              className="text-green-600 border-gray-300 border-r-2 px-2 mr-2"
+                              onClick={() => {
+                                changeStatus("visited", a.id);
+                                handleUserNotification(
+                                  a?.created_by_id,
+                                  a?.property_data,
+                                  "visited"
+                                );
+                              }}
+                            >
+                              Visited
+                            </button>}
+                              {a.meeting_status !== "closed" && a?.is_tenant_vvc_verified === 1 && a?.is_landlord_vvc_verified === 1 && (
                                 <>
                                   <button
-                                    className="text-green-600 border-gray-300 border-r-2 px-2 mr-2"
-                                    onClick={() => {
-                                      changeStatus("visited", a.id);
-                                      handleUserNotification(
-                                        a?.created_by_id,
-                                        a?.property_data,
-                                        "visited"
-                                      );
-                                    }}
-                                  >
-                                    Visited
-                                  </button>
-                                  <button
-                                    className="text-red-600 border-gray-300 border-r-2 px-2 mr-2"
+                                    className="text-red-600 border-gray-300 border-r-2 px-2 mr-2 flex items-center"
                                     onClick={() => {
                                       changeStatus("closed", a.id);
                                       handleUserNotification(
@@ -429,7 +452,7 @@ function AppointmentUI() {
                                       );
                                     }}
                                   >
-                                    Closed
+                                    Closed <FaExclamation  data-tip="Close it when tenant is interested in this property."/>
                                   </button>
                                 </>
                               )}

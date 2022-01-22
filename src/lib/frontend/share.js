@@ -874,6 +874,25 @@ export const createSOS = async (data) => {
   return status;
 };
 
+
+//sos pressed
+export const vvcStatus = async (data) => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let status = false;
+  await server
+    .post(`/meetings/vvc/status`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      status = response?.data;
+    })
+    .catch((error) => {
+      status = error?.response?.data;
+    });
+  return status;
+};
+
 //getPropertyGalleryById
 export const getPropertyGalleryById = async (id) => {
   if (id) {

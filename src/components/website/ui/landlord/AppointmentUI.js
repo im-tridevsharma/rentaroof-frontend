@@ -280,8 +280,10 @@ function AppointmentUI() {
                           {a?.property_data.length > 50
                             ? a?.property_data.substring(0, 50) + "..."
                             : a?.property_data}
-                            <b className="ml-3">VVC - {a?.vvc}</b>
                         </p>
+                        {a?.vvc &&
+                        <b>VVC - {a?.vvc} {a?.is_landlord_vvc_verified && <span className="text-green-500">Verified</span> }</b>
+                          }
                         <p
                           className="font-semibold text-xs flex items-center"
                           style={{ color: "var(--orange)" }}
@@ -330,7 +332,7 @@ function AppointmentUI() {
                               View Agreement
                             </a>
                           )}
-                          {a.meeting_status === "visited" && !a?.agreement && (
+                          {a.meeting_status === "closed" && !a?.agreement && (
                             <button
                               className="text-green-600 border-gray-300 border-r-2 px-2 mr-2"
                               onClick={() => openAgreementMode(a)}
@@ -338,22 +340,7 @@ function AppointmentUI() {
                               Create Agreement
                             </button>
                           )}
-                          {a?.created_by_role !== "guest" &&
-                            a.meeting_status === "visited" &&
-                            !a.agreement && (
-                              <button
-                                onClick={() =>
-                                  makeConversation(
-                                    a.created_by_id,
-                                    a.property_data,
-                                    a.property_id
-                                  )
-                                }
-                                className="px-2 text-green-500"
-                              >
-                                Start Negotiation
-                              </button>
-                            )}
+                          
                         </div>
                       </td>
                     </tr>

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import Card from "../../Card";
 import PropertyGrid from "../../PropertyGrid";
 import { FaTimes } from "react-icons/fa";
@@ -273,7 +272,7 @@ function PropertiesUI() {
                     style={{ borderTopWidth: "1px" }}
                   >
                     <div className="w-24 h-24 overflow-hidden rounded-md">
-                      <Image
+                      <img
                         src={p?.front_image || "/images/website/no_photo.png"}
                         alt="property"
                         layout="responsive"

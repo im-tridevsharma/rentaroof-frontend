@@ -176,7 +176,7 @@ function View() {
             </div>
 
             {(meeting?.meeting_status === "pending" ||
-              meeting?.meeting_status === "cancelled") && (
+              meeting?.meeting_status === "cancelled" || moment(meeting?.created_at) < moment() ) && (
               <div className="mb-3">
                 <h5 className="text-red-400 my-2">Assign to IBO</h5>
                 <div className="form-element">
