@@ -65,10 +65,22 @@ function UIRenderer({ UI, role, page }) {
     }
   };
 
-  const handleSOS = async () => {
+  const handleSOS = () => {
     setIsLoading(true);
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition((location) => {
+        fireSos(location);
+    });
+    }else{
+      toast.error("Please allow your current location.")
+    }
+  };
+
+  const fireSos = async (location) => {
     const res = await createSOS({
       sos_content: `${user?.first} ${user?.last} pressed SOS button.`,
+      lat: location?.coords?.latitude,
+      lng: location?.coords?.longitude
     });
     if (res?.status) {
       setIsLoading(false);
@@ -77,7 +89,7 @@ function UIRenderer({ UI, role, page }) {
       toast.error(res?.error || res?.message);
       setIsLoading(false);
     }
-  };
+  }
 
   return (
     <div className="flex">

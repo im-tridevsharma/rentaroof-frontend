@@ -24,7 +24,7 @@ const links = [
     ),
   },
   {
-    label: "Training Management",
+    label: "Training Program",
     href: "/ibo/training_management",
     icon: (
       <img

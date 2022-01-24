@@ -9,6 +9,7 @@ import { sendMessage } from "../../../../lib/frontend/auth";
 import {
   conversationStatus,
   getConversations,
+  getDealableProperty,
   getMessages,
 } from "../../../../lib/frontend/share";
 import Loader from "../../../loader";
@@ -33,6 +34,7 @@ function ChatUI() {
   const [messages, setMessages] = useState([]);
   const [isMsgLoading, setIsMsgLoading] = useState(false);
   const [isOffer, setIsOffer] = useState(false);
+  const [isDeal, setIsDeal] = useState(false);
   const [isNotAccepted, setIsNotAccepted] = useState(false);
 
   const onEmojiClick = (e, emojiObject) => {
@@ -56,10 +58,25 @@ function ChatUI() {
         }
       }
     };
+
+    const fetchDealable = async () => {
+      const res = await getDealableProperty({
+        ibo_id : profile?.id,
+        tenant_id: selectedUser?.id
+      });
+
+      if(res?.status){
+        setIsDeal(res?.data);
+      }else{
+        setIsDeal(false);
+      }
+    }
+
     fetchMessages();
+    fetchDealable();
 
     return () => setMessages([]);
-  }, [conversationId]);
+  }, [conversationId, selectedUser]);
 
   useEffect(() => {
     const fetchConversations = async () => {
@@ -511,7 +528,7 @@ function ChatUI() {
                     } bg-white border`}
                     style={{ fontFamily: "Opensans-semi-bold" }}
                   >
-                    {isOffer && localStorage.getItem("deal-for") && (
+                    {isOffer && isDeal &&(
                       <>
                         <h5
                           className="flex items-center justify-between"
@@ -523,18 +540,23 @@ function ChatUI() {
                             onClick={() => setIsOffer(false)}
                           />
                         </h5>
-                        <b className="mt-5 block text-xl">
-                          Offer for Property -{" "}
+                        <div className="flex items-center my-2">
+                          <img src={isDeal?.front_image} className="w-10 h-10 rounded-md"/>
+                        <p className="flex flex-col ml-3">
+                        <b className=" block text-xl">
                           {
-                            JSON.parse(localStorage.getItem("deal-for"))
-                              .property
-                          }
+                            isDeal?.property_code 
+                          } ({isDeal?.name})
                         </b>
+                        <b>Monthly Rent : {isDeal?.monthly_rent}</b>
+                        <b>Asking Price : {isDeal?.offered_price}</b>
+                        </p>
+                        </div>
                         <input
                           type="hidden"
                           name="property_id"
                           value={
-                            JSON.parse(localStorage.getItem("deal-for")).id
+                            isDeal?.id
                           }
                         />
                         <input
@@ -575,6 +597,7 @@ function ChatUI() {
                     )}
                   </div>
 
+
                   <div className="flex items-center justify-between">
                     <div className="flex items-center flex-grow mr-5 p-1 bg-gray-200 rounded-sm pr-2">
                       <textarea
@@ -605,19 +628,12 @@ function ChatUI() {
                         style={{ maxWidth: "20px" }}
                         data-tip="Send Media"
                       />
-                      {localStorage.getItem("deal-for") &&
-                        (JSON.parse(localStorage.getItem("deal-for"))
-                          ?.receiver === selectedUser?.id ||
-                          JSON.parse(localStorage.getItem("deal-for"))
-                            ?.sender === selectedUser?.id) && (
+                      {isDeal?.id && (
                           <>
                             <MdLocalOffer
                               onClick={() => setIsOffer(true)}
                               className="text-2xl ml-3 cursor-pointer"
-                              data-tip={`Offer a deal for ${
-                                JSON.parse(localStorage.getItem("deal-for"))
-                                  .property
-                              }`}
+                              data-tip={`Deal for property : ${isDeal?.property_code}`}
                             />
                             <ReactTooltip />
                           </>

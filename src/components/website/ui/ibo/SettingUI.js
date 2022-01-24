@@ -17,6 +17,9 @@ function SettingUI() {
   const [isUpdated, setIsUpdated] = useState(false);
   const [settings, setSettings] = useState([]);
   const [profile, setProfile] = useState(false);
+  const [deactivationReason, setDeactivationReason] = useState("")
+  const [showreason, setShowReason] = useState(false)
+  
   const [password, setPassword] = useState({
     current_password: "",
     new_password: "",
@@ -32,6 +35,8 @@ function SettingUI() {
       setProfile(data);
       setUserId(data.id);
       setAccountStatus(data?.account_status);
+      setDeactivationReason(data?.deactivate_reason)
+      data?.account_status === 'deactivated' && setShowReason(true)
       setIsLoading(true);
       (async () => {
         const response = await getSettings(data.id);
@@ -110,9 +115,9 @@ function SettingUI() {
     }
   };
 
-  const dAccount = async (status) => {
+  const dAccount = async (status, reason = '') => {
     setIsLoading(true);
-    const response = await deactivateAccount(userid, status);
+    const response = await deactivateAccount(userid, status, reason);
     if (response?.status) {
       setIsLoading(false);
       setAccountStatus(status);
@@ -120,6 +125,7 @@ function SettingUI() {
       data = JSON.parse(__d(data));
       if (data) {
         data.account_status = status;
+        data.deactivate_reason = reason;
         localStorage.setItem("LU", __e(JSON.stringify(data)));
       }
     } else {
@@ -292,10 +298,8 @@ function SettingUI() {
                 name="deactivate"
                 id="deactivate"
                 className="cursor-pointer"
-                checked={accountStatus !== "activated" ? true : false}
-                onChange={(e) =>
-                  dAccount(e.target.checked ? "deactivated" : "activated")
-                }
+                checked={showreason ? true : false}
+                onChange={e => e.target.checked ? setShowReason(true) : setShowReason(false)}
               />
             </label>
           </div>
@@ -306,6 +310,21 @@ function SettingUI() {
             </p>
           )}
         </form>
+          {showreason &&
+        <div className="shadow-sm rounded-xl">
+          <form method="POST" onSubmit={(e) =>
+                    {
+                      e.preventDefault();
+                      dAccount(accountStatus == 'activated' ? "deactivated" : "activated", deactivationReason)
+                    }
+                  }>
+            <h5 style={{fontFamily:"Opensans-bold"}} className="mb-1">Deactivation Reason</h5>
+            <div className="form-element">
+              <textarea className="form-textarea" value={deactivationReason} required onChange={(e) => setDeactivationReason(e.target.value)}></textarea>
+            </div>
+            <button className="px-3 py-2 text-white" style={{backgroundColor: "var(--blue)"}} >Submit</button>
+          </form>
+        </div>}
       </div>
     </>
   );

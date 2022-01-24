@@ -104,6 +104,15 @@ function Index(props) {
                     <td>Gender</td>
                     <td>{props.user.gender}</td>
                   </tr>
+                  <tr>
+                    <td>Account Status</td>
+                    <td>{props.user.account_status.toUpperCase()}</td>
+                  </tr>
+                  {props.user.account_status == 'deactivated' &&
+                  <tr>
+                    <td>Deactivate Reason</td>
+                    <td>{props.user.deactivate_reason}</td>
+                  </tr>}
                 </tbody>
               </table>
             </>
@@ -154,6 +163,25 @@ function Index(props) {
             {props.address && (
               <table className="table-auto w-full mb-2 mt-2">
                 <tbody>
+                {props?.user?.role === 'ibo' &&
+                  <>
+                  <tr>
+                    <td>Present Address</td>
+                    <td>{props?.kyc?.present_address}</td>
+                  </tr>
+                  <tr>
+                    <td>Permanent Address</td>
+                    <td>{props?.kyc?.permanent_address}</td>
+                  </tr>
+                  <tr>
+                    <td>Reference User</td>
+                    <td><p>{props?.kyc?.ref_user_name}</p> 
+                    <p>{props?.kyc?.ref_user_email}</p>
+                    <p>{props?.kyc?.ref_user_address}</p>
+                    </td>
+                  </tr>
+                  </>
+                  }
                   <tr>
                     <td>Document Type</td>
                     <td>{props.kyc.document_type}</td>
@@ -179,6 +207,7 @@ function Index(props) {
                       </a>
                     </td>
                   </tr>
+                  
                   <tr>
                     <td>Action</td>
                     <td className="pt-5 pb-2">

@@ -119,9 +119,11 @@ function ProfileUI() {
           Geocode.setApiKey(process?.env?.MAP_API_KEY);
           Geocode.fromLatLng(location?.coords?.latitude, location?.coords?.longitude).then(response => {
             handlePlaceSearch(response?.results[0], true);
+            setIsLoading(false)
           }); 
       });
     } else {
+      setIsLoading(false);
       toast.error("Geolocation is not supported by this browser.");
     }
   };
@@ -544,9 +546,26 @@ function ProfileUI() {
               </div>
             </div>
             <div
-              className="grid grid-cols-1 md:grid-cols-3 md:space-x-3 text-gray-600"
+              className="grid grid-cols-1 md:grid-cols-4 md:space-x-3 text-gray-600"
               style={{ fontFamily: "Opensans-semi-bold" }}
             >
+              <div className="form-element">
+              <div className="form-label" style={{ marginBottom: "0px" }}>Category</div>
+                  <select
+                    name="category"
+                    className="form-input border-gray-300"
+                    value={profile?.category ? profile.category : ""}
+                    onChange={inputChangeHandler}
+                    required={true}
+                  >
+                    <option value="">Select</option>
+                    <option value="Individual">Individual</option>
+                    <option value="Company">Company</option>
+                    <option value="Housewives">Housewives</option>
+                    <option value="Student">Student</option>
+                    <option value="Other">Other</option>
+                  </select>
+              </div>
               <div className="form-element">
                 <div className="form-label" style={{ marginBottom: "0px" }}>
                   Operating since

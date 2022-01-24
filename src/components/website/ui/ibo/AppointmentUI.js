@@ -425,7 +425,7 @@ function AppointmentUI() {
                                   View Agreement
                                 </a>
                               )}
-                              {a?.meeting_status !== 'visited' && a?.is_tenant_vvc_verified  === 1
+                              {a?.meeting_status !== 'visited' && a?.meeting_status !== 'closed' && a?.is_tenant_vvc_verified  === 1
                               && a?.is_landlord_vvc_verified === 1 && <button
                               className="text-green-600 border-gray-300 border-r-2 px-2 mr-2"
                               onClick={() => {

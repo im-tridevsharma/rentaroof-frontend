@@ -45,7 +45,7 @@ export const setSetting = async (user_id, key, value) => {
   return set;
 };
 
-export const deactivateAccount = async (user_id, status) => {
+export const deactivateAccount = async (user_id, status, reason) => {
   const token = getToken();
   let set = false;
 
@@ -53,7 +53,7 @@ export const deactivateAccount = async (user_id, status) => {
     await server
       .post(
         "/settings/account_status/" + user_id,
-        { status },
+        { status, reason },
         {
           headers: { Authorization: `Bearer ${token}` },
         }

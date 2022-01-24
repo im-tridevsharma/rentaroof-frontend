@@ -32,7 +32,6 @@ function ChatUI() {
   const [profile, setProfile] = useState(false);
   const [messages, setMessages] = useState([]);
   const [isMsgLoading, setIsMsgLoading] = useState(false);
-  const [isOffer, setIsOffer] = useState(false);
   const [isNotAccepted, setIsNotAccepted] = useState(false);
 
   const onEmojiClick = (e, emojiObject) => {
@@ -195,17 +194,6 @@ function ChatUI() {
         }
         Echo.private(`conversation.${conversation.id}`)
           .listen("MessageSentEvent", (e) => {
-            if (e?.deal !== "" && e?.deal?.offer_for === profile?.id) {
-              localStorage.setItem(
-                "deal-for",
-                JSON.stringify({
-                  id: e?.deal?.property_id,
-                  property: `${e?.property?.name} - ${e?.property?.property_code}`,
-                  receiver: user?.id,
-                  sender: profile?.id,
-                })
-              );
-            }
             setMessages((prev) => {
               if (
                 Symbol.iterator in Object(prev[moment().format("YYYY-MM-DD")])
@@ -303,14 +291,8 @@ function ChatUI() {
           ? currentConversation?.receiver_id
           : currentConversation?.sender_id,
       message: value,
-      property_id: document.forms.msgForm?.property_id?.value,
-      created_by: document.forms.msgForm?.created_by?.value,
-      offer_price: document.forms.msgForm?.offer_price?.value,
-      offer_expires_date: document.forms.msgForm?.offer_expires_date?.value,
-      offer_expires_time: document.forms.msgForm?.offer_expires_time?.value,
     };
     document.forms.msgForm.reset();
-    setIsOffer(false);
     const res = await sendMessage(message);
     if (res?.status) {
       messageBoxRef.current &&
@@ -503,78 +485,7 @@ function ChatUI() {
                   name="msgForm"
                   className="relative block"
                 >
-                  <div
-                    className={`absolute transition-all duration-300 ease-linear w-full overflow-hidden ${
-                      isOffer
-                        ? "md:h-52 h-96 bottom-16 z-30 p-3"
-                        : "h-0 z-0 bottom-0 p-0"
-                    } bg-white border`}
-                    style={{ fontFamily: "Opensans-semi-bold" }}
-                  >
-                    {isOffer && localStorage.getItem("deal-for") && (
-                      <>
-                        <h5
-                          className="flex items-center justify-between"
-                          style={{ fontFamily: "Opensans-bold" }}
-                        >
-                          Create a Deal
-                          <FaTimes
-                            className="text-red-500 cursor-pointer"
-                            onClick={() => setIsOffer(false)}
-                          />
-                        </h5>
-                        <b className="mt-5 block text-xl">
-                          Offer for Property -{" "}
-                          {
-                            JSON.parse(localStorage.getItem("deal-for"))
-                              .property
-                          }
-                        </b>
-                        <input
-                          type="hidden"
-                          name="property_id"
-                          value={
-                            JSON.parse(localStorage.getItem("deal-for")).id
-                          }
-                        />
-                        <input
-                          type="hidden"
-                          name="created_by"
-                          value={profile?.id}
-                        />
-                        <div className="grid grid-cols-1 md:grid-cols-3 mt-5">
-                          <div className="form-element mx-2">
-                            <label className="form-label">Offer Price</label>
-                            <input
-                              type="text"
-                              name="offer_price"
-                              placeholder="Price per month"
-                              className="form-input border-gray-100 rounded-md"
-                            />
-                          </div>
-                          <div className="form-element mx-2">
-                            <label className="form-label">
-                              Offer Expires - Date
-                            </label>
-                            <input
-                              type="date"
-                              name="offer_expires_date"
-                              className="form-input border-gray-100 rounded-md"
-                            />
-                          </div>
-                          <div className="form-element mx-2">
-                            <label className="form-label">Time</label>
-                            <input
-                              type="time"
-                              name="offer_expires_time"
-                              className="form-input border-gray-100 rounded-md"
-                            />
-                          </div>
-                        </div>
-                      </>
-                    )}
-                  </div>
-
+                  
                   <div className="flex items-center justify-between">
                     <div className="flex items-center flex-grow mr-5 p-1 bg-gray-200 rounded-sm pr-2">
                       <textarea
@@ -605,23 +516,7 @@ function ChatUI() {
                         style={{ maxWidth: "20px" }}
                         data-tip="Send Media"
                       />
-                      {localStorage.getItem("deal-for") &&
-                        (JSON.parse(localStorage.getItem("deal-for"))
-                          ?.receiver === selectedUser?.id ||
-                          JSON.parse(localStorage.getItem("deal-for"))
-                            ?.sender === selectedUser?.id) && (
-                          <>
-                            <MdLocalOffer
-                              onClick={() => setIsOffer(true)}
-                              className="text-2xl ml-3 cursor-pointer"
-                              data-tip={`Offer a deal for ${
-                                JSON.parse(localStorage.getItem("deal-for"))
-                                  .property
-                              }`}
-                            />
-                            <ReactTooltip />
-                          </>
-                        )}
+                      
                     </div>
                     <button>
                       <img

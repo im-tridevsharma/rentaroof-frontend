@@ -100,10 +100,24 @@ function Footer() {
     }
   };
 
-  const handleSOS = async () => {
+  
+  const handleSOS = () => {
+    setIsLoading(true);
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition((location) => {
+        fireSos(location);
+    });
+    }else{
+      toast.error("Please allow your current location.")
+    }
+  };
+  
+  const fireSos = async (location) => {
     setIsLoading(true);
     const res = await createSOS({
       sos_content: `${user?.first} ${user?.last} pressed SOS button.`,
+      lat: location?.coords?.latitude,
+      lng: location?.coords?.longitude
     });
     if (res?.status) {
       setIsLoading(false);
@@ -522,7 +536,7 @@ function Footer() {
           </p>
         </div>
       </div>
-      {user && user?.role === "tenant" && (
+      {user && user?.role &&  (
         <div
           className="fixed bottom-24 right-4 animate-pulse"
           style={{ fontFamily: "Opensans-bold" }}

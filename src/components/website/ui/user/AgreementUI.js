@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import Loader from "../../../loader";
 import {
   createPaymentOrder,
@@ -134,7 +133,7 @@ function AgreementUI() {
               style={{ borderTopWidth: i !== 0 && "1px" }}
             >
               <div className="w-20 h-20 overflow-hidden rounded-md">
-                <Image
+                <img
                   src={
                     p?.property_data?.front_image ||
                     "/images/website/no_photo.png"

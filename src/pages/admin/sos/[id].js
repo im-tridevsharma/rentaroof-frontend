@@ -4,17 +4,20 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Loader from "../../../components/loader";
 import SectionTitle from "../../../components/section-title";
-import { FiAlertCircle, FiCheck } from "react-icons/fi";
+import { FiAlertCircle, FiCheck, FiRefreshCcw } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import { getSosById, updateSos } from "../../../lib/sos";
 import moment from "moment";
 import Alert from "../../../components/alerts";
+import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import ReactTooltip from 'react-tooltip'
 
 function View() {
   const [isLoading, setIsLoading] = useState(false);
   const [sos, setSos] = useState({});
   const [error, setError] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
+  const [reload, setReload] = useState(false);
   const [formdata, setFormdata] = useState({
     status: "",
     message: "",
@@ -50,7 +53,7 @@ function View() {
         setIsLoading(false);
       }
     })();
-  }, []);
+  }, [reload]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -103,6 +106,10 @@ function View() {
     );
   };
 
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.MAP_API_KEY, 
+  });
+
   return (
     <>
       <Head>
@@ -125,7 +132,7 @@ function View() {
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
         {sos && (
           <>
-            <div className="grid sm:grid-cols-2">
+            <div className="grid sm:grid-cols-3">
               <div className="flex flex-col my-1">
                 <small className="text-blue-500">Name</small>
                 <p>{sos?.name}</p>
@@ -133,6 +140,10 @@ function View() {
               <div className="flex flex-col my-1">
                 <small className="text-blue-500">Email</small>
                 <p>{sos?.email}</p>
+              </div>
+              <div className="flex flex-col my-1">
+                <small className="text-blue-500">Mobile</small>
+                <p>{sos?.mobile}</p>
               </div>
             </div>
             <div className="grid sm:grid-cols-2">
@@ -159,6 +170,31 @@ function View() {
                 <p>{sos?.created_at && moment(sos.created_at).fromNow()}</p>
               </div>
             </div>
+
+            <div className="my-3">
+              <b className="flex">Current Location 
+              <FiRefreshCcw data-tip="Refresh Location" className="ml-3 cursor-pointer"
+               onClick={() => setReload(Math.random())}/>
+               <ReactTooltip />
+               </b>
+              <div className="h-52 w-full rounded-md mt-2 overflow-hidden">
+              {isLoaded && sos && (
+                <GoogleMap
+                  center={{lat: parseFloat(sos?.lat), lng: parseFloat(sos?.lng)}}
+                  zoom={18}
+                  mapContainerStyle={{ width: "100%", height: "100%" }}
+                >
+                  {sos?.lat && sos?.lng && (
+                    <Marker
+                      key={sos?.id}
+                      position={{lat: parseFloat(sos?.lat), lng: parseFloat(sos?.lng)}}
+                    ></Marker>
+                  )}
+                </GoogleMap>
+              )}
+              </div>
+            </div>
+
             <h5 className="text-red-400">Status History</h5>
             <table className="table">
               <thead>

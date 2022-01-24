@@ -82,12 +82,14 @@ function KycUI() {
       setTimeout(() => {
         setIsSaved(false);
       }, 3000);
+      document.querySelector('#errors').scrollIntoView();
     } else {
       setErrors(response?.error);
       setIsLoading(false);
       setTimeout(() => {
         setErrors(false);
       }, 3000);
+      document.querySelector('#errors').scrollIntoView();
     }
   };
 
@@ -171,7 +173,7 @@ function KycUI() {
                 </div>
               </div>
             </div>
-            <div className="mt-10 leading-3 -mb-4 max-w-sm mx-auto">
+            <div className="mt-10 leading-3 -mb-4 max-w-sm mx-auto" id="errors">
               {errors && (
                 <div className="errors">
                   {Object.keys(errors).map((index, i) => (
@@ -290,8 +292,8 @@ function KycUI() {
                 Select personal document type that you would like to submit
               </p>
 
-              {/**document selector */}
-              <div className="flex items-center justify-between max-w-2xl w-full mt-3 border-gray-200 px-10 py-2 rounded-md border-2">
+                {/**document selector */}
+              <div className="flex items-center justify-between max-w-2xl w-full mt-5 border-gray-200 px-10 py-2 rounded-md border-2">
                 <label htmlFor="aadhar">
                   <input
                     type="radio"
@@ -385,6 +387,88 @@ function KycUI() {
                   </label>
                 )}
               </div>
+              <div className="max-w-2xl w-full mt-3">
+              <div className="form-element">
+                <label>Document Number</label>
+                <input type="text" name="document_number" 
+                value={kyc?.document_number}
+                onChange={(e) => {
+                  setKyc((prev) => ({
+                    ...prev,
+                    document_number: e.target.value,
+                  }));
+                }}
+                className="form-input border-gray-300" />
+              </div>
+              {/**present Address */}
+              <div className="form-element">
+                <div className="form-label">Present Address</div>
+                <textarea className="form-input border-gray-300"
+                value={kyc?.present_address}
+                onChange={(e) => {
+                  setKyc((prev) => ({
+                    ...prev,
+                    present_address: e.target.value,
+                  }));
+                }}
+                name="present_address"></textarea>
+              </div>
+
+              <div className="form-element">
+                <div className="form-label">Permanent Address</div>
+                <textarea className="form-input border-gray-300"
+                value={kyc?.permanent_address}
+                onChange={(e) => {
+                  setKyc((prev) => ({
+                    ...prev,
+                    permanent_address: e.target.value,
+                  }));
+                }}
+                name="permanent_address"></textarea>
+              </div>
+
+              {/**reference details */}
+               <fieldset>
+                 <legend className="text-center text-lg px-3"
+                  style={{ fontFamily: "Opensans-bold" }}>Reference Details</legend>
+                 <div className="grid grid-cols-1 md:grid-cols-2 space-x-2">
+                   <div className="form-element">
+                     <label>Name</label>
+                     <input type="text" name="ref_user_name" value={kyc?.ref_user_name}
+                onChange={(e) => {
+                  setKyc((prev) => ({
+                    ...prev,
+                    ref_user_name: e.target.value,
+                  }));
+                }} className="form-input border-gray-300"/>
+                     </div>
+                     <div className="form-element">
+                     <label>Email</label>
+                     <input type="text" name="ref_user_email" value={kyc?.ref_user_email}
+                onChange={(e) => {
+                  setKyc((prev) => ({
+                    ...prev,
+                    ref_user_email: e.target.value,
+                  }));
+                }} className="form-input border-gray-300"/>
+                     </div>
+                 </div>
+                 <div className="form-element">
+                <div className="form-label">Address</div>
+                <textarea className="form-input border-gray-300"
+                value={kyc?.ref_user_address}
+                onChange={(e) => {
+                  setKyc((prev) => ({
+                    ...prev,
+                    ref_user_address: e.target.value,
+                  }));
+                }}
+                name="ref_user_address"></textarea>
+              </div>
+               </fieldset>
+
+              </div>
+              
             </div>
             <div className="mt-8 text-center mb-5">
               <button
