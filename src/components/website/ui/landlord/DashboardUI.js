@@ -169,7 +169,7 @@ function DashboardUI() {
               className="h-full rounded-lg absolute right-0 top-0"
               style={{
                 backgroundColor: "var(--blue)",
-                width: (postedProperties / 100) * 100,
+                width: (postedProperties / 10) * 100,
               }}
             ></span>
           </div>
@@ -298,7 +298,9 @@ function DashboardUI() {
                       <span className="ml-1" style={{ color: "var(--orange)" }}>
                         {moment(randomApp?.start_time).format("hh:mm a")}
                       </span>
-                      <p className="ml-5"><b>Status-</b> {randomApp?.meeting_status}</p>
+                      <p className="ml-5">
+                        <b>Status-</b> {randomApp?.meeting_status}
+                      </p>
                     </p>
                   </div>
                 </div>
@@ -338,14 +340,24 @@ function DashboardUI() {
                             height: "20px",
                           }}
                         />
-                        <p className="ml-2 text-gray-600">
-                          Deal offered to {txn?.user?.first} {txn?.user?.last} -{" "}
-                          {new Intl.NumberFormat("en-IN", {
-                            style: "currency",
-                            currency: "INR",
-                          }).format(txn?.offer_price)}{" "}
-                          <span className="ml-5 capitalize">{txn?.status}</span>
-                        </p>
+                        <div className="">
+                          <p className="ml-2 text-gray-600">
+                            Deal offered to {txn?.to?.first} {txn?.to?.last} -{" "}
+                            {new Intl.NumberFormat("en-IN", {
+                              style: "currency",
+                              currency: "INR",
+                            }).format(txn?.offer_price)}{" "}
+                            <span className="ml-5 capitalize">
+                              {txn?.status}
+                            </span>
+                          </p>
+                          <p className="ml-2">
+                            By:{" "}
+                            <b style={{ color: "var(--orange)" }}>
+                              {txn?.by?.first} {txn?.by?.last} ({txn?.by?.role})
+                            </b>
+                          </p>
+                        </div>
                       </div>
                     </div>
                   ))

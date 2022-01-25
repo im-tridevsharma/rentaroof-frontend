@@ -874,7 +874,6 @@ export const createSOS = async (data) => {
   return status;
 };
 
-
 //sos pressed
 export const vvcStatus = async (data) => {
   const token = __d(cookies.get("_SYNC_"));
@@ -892,7 +891,6 @@ export const vvcStatus = async (data) => {
     });
   return status;
 };
-
 
 //sos pressed
 export const getDealableProperty = async (data) => {
@@ -952,7 +950,6 @@ export const getDealOffered = async () => {
   return deals;
 };
 
-
 //get ibo earning cards
 export const getIboCards = async () => {
   const token = __d(cookies.get("_SYNC_"));
@@ -969,7 +966,6 @@ export const getIboCards = async () => {
     });
   return cards;
 };
-
 
 //get ibo earning deals
 export const getIboDeals = async () => {
@@ -988,13 +984,65 @@ export const getIboDeals = async () => {
   return deals;
 };
 
-
 //get ibo earning deals
 export const getIboForYear = async () => {
   const token = __d(cookies.get("_SYNC_"));
   let for_year = false;
   await server
     .get(`/earnings/ibo/for_year`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      for_year = response?.data;
+    })
+    .catch((error) => {
+      for_year = error?.response?.data;
+    });
+  return for_year;
+};
+
+//---------------------------------landlord------------------------
+
+//get ibo earning cards
+export const getLandlordCards = async () => {
+  const token = __d(cookies.get("_SYNC_"));
+  let cards = false;
+  await server
+    .get(`/earnings/landlord/cards`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      cards = response?.data;
+    })
+    .catch((error) => {
+      cards = error?.response?.data;
+    });
+  return cards;
+};
+
+//get ibo earning deals
+export const getLandlordDeals = async () => {
+  const token = __d(cookies.get("_SYNC_"));
+  let deals = false;
+  await server
+    .get(`/earnings/landlord/deals`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      deals = response?.data;
+    })
+    .catch((error) => {
+      deals = error?.response?.data;
+    });
+  return deals;
+};
+
+//get ibo earning deals
+export const getLandlordForYear = async () => {
+  const token = __d(cookies.get("_SYNC_"));
+  let for_year = false;
+  await server
+    .get(`/earnings/landlord/for_year`, {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((response) => {

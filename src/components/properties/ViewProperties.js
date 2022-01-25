@@ -367,16 +367,18 @@ function ViewProperties({ property }) {
               </p>
             </div>
           )}
-          {(!property?.verification ||
-            property?.verification?.status === "rejected") && (
-            <button
-              type="button"
-              onClick={() => setViewModal(true)}
-              className="px-2 py-3 bg-green-400 rounded-md font-semibold ml-5 hover:bg-green-500"
-            >
-              Property Verification
-            </button>
-          )}
+          <p>
+            {(!property?.verification ||
+              property?.verification?.is_verifiable === 0) && (
+              <button
+                type="button"
+                onClick={() => setViewModal(true)}
+                className="px-2 py-3 bg-green-400 rounded-md font-semibold ml-5 hover:bg-green-500"
+              >
+                Assign Property Verification
+              </button>
+            )}
+          </p>
         </div>
         {property?.is_deleted === 1 && (
           <div className="flex items-center mb-5 px-2">
@@ -472,7 +474,9 @@ function ViewProperties({ property }) {
           <div className="grid grid-cols-2 md:grid-cols-4">
             <div className="form-element">
               <label className="text-blue-600">Carpet Area</label>
-              <p className="pl-2 capitalize">{property?.carpet_area + " " + property?.carpet_area_unit}</p>
+              <p className="pl-2 capitalize">
+                {property?.carpet_area + " " + property?.carpet_area_unit}
+              </p>
             </div>
             <div className="form-element">
               <label className="text-blue-600">Super Area</label>
@@ -516,9 +520,9 @@ function ViewProperties({ property }) {
             </div>
           </div>
           <div className="form-element">
-              <label className="text-blue-600">Asking Price</label>
-              <p className="pl-2 capitalize">Rs. {property?.offered_price}</p>
-            </div>
+            <label className="text-blue-600">Asking Price</label>
+            <p className="pl-2 capitalize">Rs. {property?.offered_price}</p>
+          </div>
 
           <hr className="mb-2" />
           {/**essentials */}
@@ -575,7 +579,7 @@ function ViewProperties({ property }) {
             {preferences &&
               preferences.map((a, i) => (
                 <div className="flex items-center" key={i}>
-                  <FiInfo className="mr-2"/>
+                  <FiInfo className="mr-2" />
                   <p>{a.title}</p>
                 </div>
               ))}

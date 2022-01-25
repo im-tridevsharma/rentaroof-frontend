@@ -6,8 +6,13 @@ import { getPropertiesCount } from "../../../../lib/frontend/properties";
 import { getMeetings } from "../../../../lib/frontend/meetings";
 import moment from "moment";
 import { __d } from "../../../../server";
-import { getAgreements, getIboRating } from "../../../../lib/frontend/share";
+import {
+  getAgreements,
+  getDealOffered,
+  getIboRating,
+} from "../../../../lib/frontend/share";
 import { FaTimes } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 function DashboardUI() {
   const [isLoading, setIsLoading] = useState(false);
@@ -17,6 +22,7 @@ function DashboardUI() {
   const [user, setUser] = useState(false);
   const [viewMore, setViewMore] = useState(false);
   const [agreements, setAgreements] = useState([]);
+  const [deals, setDeals] = useState([]);
 
   useEffect(() => {
     const getPropertiesFun = async () => {
@@ -74,6 +80,20 @@ function DashboardUI() {
         console.error(response?.error || response?.message);
       }
     };
+
+    const getDeals = async () => {
+      setIsLoading(true);
+      const res = await getDealOffered();
+      if (res?.status) {
+        setDeals(res?.data);
+        setIsLoading(false);
+      } else {
+        toast.error(res?.message || res?.error);
+        setIsLoading(false);
+      }
+    };
+
+    getDeals();
     getAppointments();
     getPropertiesFun();
     getReviews();
@@ -124,24 +144,6 @@ function DashboardUI() {
     },
   ];
 
-  const deals = [
-    {
-      message: "Deal one offered to Ram",
-    },
-    {
-      message: "Deal one offered to Keshav",
-    },
-    {
-      message: "Deal one offered to Kishan",
-    },
-    {
-      message: "Deal one offered to Ruhi",
-    },
-    {
-      message: "Deal one offered to Shyam",
-    },
-  ];
-
   return (
     <>
       {isLoading && <Loader />}
@@ -162,7 +164,7 @@ function DashboardUI() {
               className="h-full rounded-lg absolute right-0 top-0"
               style={{
                 backgroundColor: "var(--blue)",
-                width: (postedProperties / 100) * 100,
+                width: (postedProperties / 10) * 100,
               }}
             ></span>
           </div>
@@ -291,7 +293,9 @@ function DashboardUI() {
                       <span className="ml-1" style={{ color: "var(--orange)" }}>
                         {moment(randomApp?.start_time).format("hh:mm a")}
                       </span>
-                      <p className="ml-5"><b>Status-</b> {randomApp?.meeting_status}</p>
+                      <p className="ml-5">
+                        <b>Status-</b> {randomApp?.meeting_status}
+                      </p>
                     </p>
                   </div>
                 </div>
@@ -307,7 +311,7 @@ function DashboardUI() {
                 style={{ backgroundColor: "var(--blue)" }}
               ></span>
               <p style={{ fontFamily: "Opensans-bold" }} className="px-4 py-2">
-                Deals Offered To Renter
+                Deals Offered To Tenant
               </p>
               <div
                 className="flex flex-col"
@@ -331,7 +335,14 @@ function DashboardUI() {
                             height: "20px",
                           }}
                         />
-                        <p className="ml-2 text-gray-600">{txn?.message}</p>
+                        <p className="ml-2 text-gray-600">
+                          Deal offered to {txn?.user?.first} {txn?.user?.last} -{" "}
+                          {new Intl.NumberFormat("en-IN", {
+                            style: "currency",
+                            currency: "INR",
+                          }).format(txn?.offer_price)}{" "}
+                          <span className="ml-5 capitalize">{txn?.status}</span>
+                        </p>
                       </div>
                     </div>
                   ))}

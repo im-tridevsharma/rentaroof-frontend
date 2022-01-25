@@ -64,10 +64,13 @@ function View() {
     e.preventDefault();
     setIsLoading(true);
     const ibo = document.querySelector("#ibos").value;
+    const payment_split = document.querySelector("#payment_split").value;
+
     if (ibo) {
       const res = await assignMeetingToIBO({
         meeting_id: meeting?.id,
         ibo_id: ibo,
+        payment_split,
       });
       if (res?.status) {
         toast.success("Assinged Successfully.");
@@ -176,20 +179,34 @@ function View() {
             </div>
 
             {(meeting?.meeting_status === "pending" ||
-              meeting?.meeting_status === "cancelled" || moment(meeting?.created_at) < moment() ) && (
+              meeting?.meeting_status === "cancelled" ||
+              moment(meeting?.created_at) < moment()) && (
               <div className="mb-3">
                 <h5 className="text-red-400 my-2">Assign to IBO</h5>
-                <div className="form-element">
-                  <select name="ibos" className="form-select" id="ibos">
-                    <option value="">Select</option>
-                    {ibos?.length > 0 &&
-                      ibos.map((ibo, i) => (
-                        <option
-                          value={ibo.id}
-                          key={i}
-                        >{`${ibo?.first} ${ibo?.last}`}</option>
-                      ))}
-                  </select>
+                <div className="grid grid-cols-1 md:grid-cols-2 space-x-2">
+                  <div className="form-element">
+                    <select name="ibos" className="form-select" id="ibos">
+                      <option value="">Select</option>
+                      {ibos?.length > 0 &&
+                        ibos.map((ibo, i) => (
+                          <option
+                            value={ibo.id}
+                            key={i}
+                          >{`${ibo?.first} ${ibo?.last}`}</option>
+                        ))}
+                    </select>
+                  </div>
+                  <div className="form-element">
+                    <select
+                      className="form-select"
+                      id="payment_split"
+                      name="payment_split"
+                    >
+                      <option value="">Enable Payment Split</option>
+                      <option value="yes">Yes</option>
+                      <option value="no">No</option>
+                    </select>
+                  </div>
                 </div>
                 <button
                   className="px-3 py-2 rounded-md bg-green-400 hover:bg-green-500"

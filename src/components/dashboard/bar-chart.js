@@ -7,11 +7,8 @@ import {
   Tooltip,
 } from "recharts";
 
-
-const Bar1 = ({yeardata}) => {
-  let colors = [
-    { dataKey: "earnings", fill: "var(--blue)" },
-  ];
+const Bar1 = ({ yeardata }) => {
+  let colors = [{ dataKey: "earnings", fill: "var(--blue)" }];
   const labels = [
     "Jan",
     "Feb",
@@ -46,10 +43,8 @@ const Bar1 = ({yeardata}) => {
           }}
         >
           <XAxis dataKey="name" axisLine={false} tickLine={true} />
-          <YAxis axisLine={false} tickLine={true} width={30} />
-          <Tooltip
-            cursor={{ fill: "transparent" }}
-          />
+          <YAxis axisLine={true} tickLine={true} width={30} />
+          <Tooltip cursor={{ fill: "transparent" }} />
           {colors.map((color, i) => (
             <Bar
               key={i}
