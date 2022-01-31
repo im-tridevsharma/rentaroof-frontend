@@ -165,18 +165,12 @@ function Header() {
               </Link>
             </li>
             <li className="mx-2">
-              <Link
-                href="/ibo"
-              >
-                <a className="py-2 px-3 border-b-2 border-transparent">
-                  IBO
-                </a>
+              <Link href="/ibo">
+                <a className="py-2 px-3 border-b-2 border-transparent">IBO</a>
               </Link>
             </li>
             <li className="mx-2">
-              <Link
-                href="/owners"
-              >
+              <Link href="/owners">
                 <a className="py-2 px-3 border-b-2 border-transparent">
                   Owners
                 </a>
@@ -185,9 +179,9 @@ function Header() {
             <li className="mx-2">
               <Link
                 href={
-                  user && user.role !== "tenant"
-                    ? `/${user.role}/add-property`
-                    : "/login"
+                  user && user?.role !== "tenant"
+                    ? "/" + user?.role + "/add-property"
+                    : "/list-property"
                 }
               >
                 <a className="py-2 px-3 border-b-2 border-transparent">

@@ -29,7 +29,6 @@ function UIRenderer({ UI, role, page }) {
     if (data) {
       setUser(data);
     }
-
     const fetchUsers = async () => {
       const res = await getUsersForChat();
       if (res?.status) {
@@ -67,12 +66,12 @@ function UIRenderer({ UI, role, page }) {
 
   const handleSOS = () => {
     setIsLoading(true);
-    if(navigator.geolocation){
+    if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((location) => {
         fireSos(location);
-    });
-    }else{
-      toast.error("Please allow your current location.")
+      });
+    } else {
+      toast.error("Please allow your current location.");
     }
   };
 
@@ -80,16 +79,18 @@ function UIRenderer({ UI, role, page }) {
     const res = await createSOS({
       sos_content: `${user?.first} ${user?.last} pressed SOS button.`,
       lat: location?.coords?.latitude,
-      lng: location?.coords?.longitude
+      lng: location?.coords?.longitude,
     });
     if (res?.status) {
       setIsLoading(false);
-      toast.success("Your SOS message sent to Rent A Roof team. We will call you asap.");
+      toast.success(
+        "Your SOS message sent to Rent A Roof team. We will call you asap."
+      );
     } else {
       toast.error(res?.error || res?.message);
       setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="flex">
@@ -139,7 +140,7 @@ function UIRenderer({ UI, role, page }) {
           </div>
         )}
 
-      {user && user?.role !== "tenant" && (
+        {user && user?.role !== "tenant" && (
           <div
             className="fixed bottom-0 right-5"
             style={{ fontFamily: "Opensans-bold" }}
@@ -147,7 +148,7 @@ function UIRenderer({ UI, role, page }) {
             <button
               onClick={() => Router.push(`/${user?.role}/add-property`)}
               className="p-2 rounded-md text-white"
-              style={{backgroundColor: "var(--blue)"}}
+              style={{ backgroundColor: "var(--blue)" }}
             >
               Add New Property
             </button>

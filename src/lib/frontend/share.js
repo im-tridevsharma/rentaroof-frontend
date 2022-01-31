@@ -910,6 +910,20 @@ export const getDealableProperty = async (data) => {
   return status;
 };
 
+//store_and_login
+export const storeAndLogin = async (data) => {
+  let status = false;
+  await server
+    .post(`/store_and_login`, data)
+    .then((response) => {
+      status = response?.data;
+    })
+    .catch((error) => {
+      status = error?.response?.data;
+    });
+  return status;
+};
+
 //getPropertyGalleryById
 export const getPropertyGalleryById = async (id) => {
   if (id) {

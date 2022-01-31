@@ -65,7 +65,7 @@ function PropertyAddGallery({ code }) {
           setIsLoading(false);
         } else {
           setIsLoading(false);
-          toast.error(gallery.error || gallery.message);
+          console.error(gallery.error || gallery.message);
         }
       } else {
         setIsLoading(false);
@@ -269,37 +269,42 @@ function PropertyAddGallery({ code }) {
           >
             Kitchen
           </button>
-          {false && <>
-          <button
-            className="border-b-2 border-transparent pb-1"
-            onClick={() => setActiveTab("floor_plan")}
-            style={{
-              borderColor:
-                activeTab === "floor_plan" ? "var(--blue)" : "transparent",
-            }}
-          >
-            Floor Plan
-          </button>
-          <button
-            className="border-b-2 border-transparent pb-1"
-            onClick={() => setActiveTab("master_plan")}
-            style={{
-              borderColor:
-                activeTab === "master_plan" ? "var(--blue)" : "transparent",
-            }}
-          >
-            Master Plan
-          </button>
-          <button
-            className="border-b-2 border-transparent pb-1"
-            onClick={() => setActiveTab("location_map")}
-            style={{
-              borderColor:
-                activeTab === "location_map" ? "var(--blue)" : "transparent",
-            }}
-          >
-            Location Map
-          </button></>}
+          {false && (
+            <>
+              <button
+                className="border-b-2 border-transparent pb-1"
+                onClick={() => setActiveTab("floor_plan")}
+                style={{
+                  borderColor:
+                    activeTab === "floor_plan" ? "var(--blue)" : "transparent",
+                }}
+              >
+                Floor Plan
+              </button>
+              <button
+                className="border-b-2 border-transparent pb-1"
+                onClick={() => setActiveTab("master_plan")}
+                style={{
+                  borderColor:
+                    activeTab === "master_plan" ? "var(--blue)" : "transparent",
+                }}
+              >
+                Master Plan
+              </button>
+              <button
+                className="border-b-2 border-transparent pb-1"
+                onClick={() => setActiveTab("location_map")}
+                style={{
+                  borderColor:
+                    activeTab === "location_map"
+                      ? "var(--blue)"
+                      : "transparent",
+                }}
+              >
+                Location Map
+              </button>
+            </>
+          )}
         </div>
 
         {/**images containers */}

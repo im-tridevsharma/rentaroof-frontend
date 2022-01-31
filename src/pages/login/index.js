@@ -4,7 +4,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { BiBadgeCheck, BiError } from "react-icons/bi";
 import Loader from "../../components/loader";
-import { loginUser, sendAuthOTP, sendAuthOTPEmail, setAuthToken } from "../../lib/frontend/auth";
+import {
+  loginUser,
+  sendAuthOTP,
+  sendAuthOTPEmail,
+  setAuthToken,
+} from "../../lib/frontend/auth";
 import Cookies from "universal-cookie";
 import server, { __e } from "../../server";
 import UseAuthentication from "../../hooks/UseAuthentication";
@@ -32,11 +37,13 @@ function Index() {
   const [timerResend, setTimeResend] = useState(60);
   const [showMessage, setShowMessage] = useState(false);
   const [timer, setTimer] = useState(null);
+  const [a, setA] = useState(null);
   const [state, setState] = useState({
     email: "",
     password: "",
     otp: "",
     remember_me: "false",
+    before_login_added: "",
   });
   const [errors, setErrors] = useState(false);
   const [logo, setLogo] = useState("");
@@ -52,6 +59,17 @@ function Index() {
         setLogo(res.data.logo);
       }
     })();
+
+    const blogin = localStorage.getItem("beforeLoginAdded")
+      ? JSON.parse(localStorage.getItem("beforeLoginAdded"))
+      : false;
+    if (blogin) {
+      setState((prev) => ({
+        ...prev,
+        before_login_added: blogin?.code + "_" + blogin.id,
+      }));
+      setA("list-property");
+    }
   }, []);
 
   const handleChange = (e) => {
@@ -92,6 +110,16 @@ function Index() {
               } else {
                 if (response?.user?.role === "tenant") {
                   router.push(`/`);
+                } else if (response?.user?.is_property_updated) {
+                  const blogin = localStorage.getItem("beforeLoginAdded")
+                    ? JSON.parse(localStorage.getItem("beforeLoginAdded"))
+                    : false;
+                  if (blogin) {
+                    localStorage.removeItem("beforeLoginAdded");
+                    router.push(
+                      `/${response?.user?.role}/update-property?step=next&next=GALLERY&id=${blogin?.code}-${blogin?.id}&mode=update`
+                    );
+                  }
                 } else {
                   router.push(`/${response.user.role}/dashboard`);
                 }
@@ -106,7 +134,7 @@ function Index() {
         } else if (response?.error || response?.message) {
           setErrors(response.error || { message: [response.message] });
           setIsLoading(false);
-        }else{
+        } else {
           setErrors([[response?.message]]);
           setIsLoading(false);
         }
@@ -119,27 +147,28 @@ function Index() {
   const sendOTP = async (e) => {
     e.preventDefault();
 
-    if(!state.email){
-      setErrors([['Please enter Email or Mobile number!']]);
+    if (!state.email) {
+      setErrors([["Please enter Email or Mobile number!"]]);
       return false;
     }
 
     if (isNaN(state.email)) {
-      if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(state.email)){
+      if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(state.email)) {
         setIsLoading(true);
         const res = await sendAuthOTPEmail({ email: state.email });
         if (res?.status) {
           setIsLoading(false);
           setOtpSent(true);
-          setShowMessage(true)
+          setShowMessage(true);
           setTimeout(() => {
             setShowMessage(false);
           }, 2000);
           setShowResend(false);
-          setTimer(setInterval(()=> {
-            setTimeResend(prev => prev - 1);
-          }, 1000));
-  
+          setTimer(
+            setInterval(() => {
+              setTimeResend((prev) => prev - 1);
+            }, 1000)
+          );
         } else if (res?.error) {
           setErrors(res?.error);
           setIsLoading(false);
@@ -147,7 +176,7 @@ function Index() {
           setErrors([[res?.message]]);
           setIsLoading(false);
         }
-      }else{
+      } else {
         setErrors([["Email is not valid. Please check once!"]]);
       }
     } else if (!isNaN(state.email) && state.email.length !== 10) {
@@ -158,15 +187,16 @@ function Index() {
       if (res?.status) {
         setIsLoading(false);
         setOtpSent(true);
-        setShowMessage(true)
+        setShowMessage(true);
         setTimeout(() => {
           setShowMessage(false);
         }, 2000);
         setShowResend(false);
-        setTimer(setInterval(()=> {
-          setTimeResend(prev => prev - 1);
-        }, 1000));
-
+        setTimer(
+          setInterval(() => {
+            setTimeResend((prev) => prev - 1);
+          }, 1000)
+        );
       } else if (res?.error) {
         setErrors(res?.error);
         setIsLoading(false);
@@ -177,12 +207,12 @@ function Index() {
     }
   };
 
-  useEffect(()=>{
-    if(timerResend === 0){
+  useEffect(() => {
+    if (timerResend === 0) {
       clearInterval(timer);
       setShowResend(true);
       setTimer(null);
-      setTimeResend(60)
+      setTimeResend(60);
     }
   }, [timerResend]);
 
@@ -349,17 +379,23 @@ function Index() {
               </p>
 
               {/**socials */}
-              {optSent ? (showResend ? (
-                <div className="flex items-center justify-center mt-8 ">
-                  <button
-                    onClick={sendOTP}
-                    className="py-2 px-5 hover:opacity-90 rounded-full text-white"
-                    style={{ background: "var(--blue)" }}
-                  >
-                    Resend OTP
-                  </button>
-                </div>
-              ) : <p className="mt-3 text-center">Resend option will appear in {timerResend}s </p>) : (
+              {optSent ? (
+                showResend ? (
+                  <div className="flex items-center justify-center mt-8 ">
+                    <button
+                      onClick={sendOTP}
+                      className="py-2 px-5 hover:opacity-90 rounded-full text-white"
+                      style={{ background: "var(--blue)" }}
+                    >
+                      Resend OTP
+                    </button>
+                  </div>
+                ) : (
+                  <p className="mt-3 text-center">
+                    Resend option will appear in {timerResend}s{" "}
+                  </p>
+                )
+              ) : (
                 <div className="flex items-center justify-center mt-8 ">
                   <button
                     onClick={sendOTP}
@@ -375,7 +411,11 @@ function Index() {
                 style={{ fontFamily: "Opensans-semi-bold" }}
               >
                 Don't have an account ?{" "}
-                <Link href="/signup">
+                <Link
+                  href={`/signup${
+                    a === "list-property" ? "?a=list-property" : ""
+                  }`}
+                >
                   <a style={{ color: "var(--blue)" }}>Sign Up</a>
                 </Link>
               </div>
