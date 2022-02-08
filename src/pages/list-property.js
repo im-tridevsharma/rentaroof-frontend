@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-import Loader from "../components/Loader";
+import Loader from "../components/loader";
 import Header from "../components/website/Header";
 import Footer from "../components/website/Footer";
 import { FiAlertTriangle } from "react-icons/fi";
