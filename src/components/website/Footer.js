@@ -14,7 +14,7 @@ import { FaTimes } from "react-icons/fa";
 import Loader from "../loader";
 import addEnquiry from "../../lib/frontend/enquiry";
 import ReactTooltip from "react-tooltip";
-import { createSOS } from "../../lib/frontend/share";
+import { createSOS, getIsSOS } from "../../lib/frontend/share";
 import { toast, ToastContainer } from "react-toastify";
 
 const getPages = async () => {
@@ -63,6 +63,7 @@ function Footer() {
   const [errors, setErrors] = useState(false);
   const [isClosed, setIsClosed] = useState(true);
   const [user, setUser] = useState(false);
+  const [isSos, setIsSos] = useState(false);
 
   useEffect(() => {
     //if user is logged in fill their details
@@ -78,6 +79,15 @@ function Footer() {
         mobile: user?.mobile,
       }));
     }
+
+    const _isSos = async () => {
+      const res = await getIsSOS();
+      if (res?.status) {
+        setIsSos(res?.data);
+      }
+    };
+
+    _isSos();
   }, [isAdded]);
 
   const { website } = useSelector(
@@ -100,24 +110,23 @@ function Footer() {
     }
   };
 
-  
   const handleSOS = () => {
     setIsLoading(true);
-    if(navigator.geolocation){
+    if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((location) => {
         fireSos(location);
-    });
-    }else{
-      toast.error("Please allow your current location.")
+      });
+    } else {
+      toast.error("Please allow your current location.");
     }
   };
-  
+
   const fireSos = async (location) => {
     setIsLoading(true);
     const res = await createSOS({
       sos_content: `${user?.first} ${user?.last} pressed SOS button.`,
       lat: location?.coords?.latitude,
-      lng: location?.coords?.longitude
+      lng: location?.coords?.longitude,
     });
     if (res?.status) {
       setIsLoading(false);
@@ -536,7 +545,7 @@ function Footer() {
           </p>
         </div>
       </div>
-      {user && user?.role &&  (
+      {user && ["ibo", "tenant"].includes(user.role) && isSos === "yes" && (
         <div
           className="fixed bottom-24 right-4 animate-pulse"
           style={{ fontFamily: "Opensans-bold" }}

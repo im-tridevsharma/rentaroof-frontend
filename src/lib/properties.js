@@ -121,6 +121,26 @@ export const verifyProperty = async (id, option) => {
   return property;
 };
 
+export const bulkAction = async (data) => {
+  const token = getToken();
+  let property = false;
+
+  if (token) {
+    await server
+      .post(`/admin/properties/bulk_action`, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        property = response?.data;
+      })
+      .catch((error) => {
+        property = error?.response?.data;
+      });
+  }
+
+  return property;
+};
+
 export const deleteProperty = async (id) => {
   const token = getToken();
   let res = false;

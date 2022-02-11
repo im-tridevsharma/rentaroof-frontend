@@ -4,22 +4,27 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import {
   FiAlertCircle,
+  FiCheckCircle,
   FiEye,
   FiInfo,
   FiRefreshCw,
   FiTrash,
 } from "react-icons/fi";
-import Datatable from "../../../components/datatable";
 import SectionTitle from "../../../components/section-title";
-import getProperties, { deleteProperty } from "../../../lib/properties";
+import getProperties, {
+  bulkAction,
+  deleteProperty,
+} from "../../../lib/properties";
 import { useDispatch } from "react-redux";
 import Loader from "../../../components/loader";
 import ReactTooltip from "react-tooltip";
+import { toast, ToastContainer } from "react-toastify";
 
 function Index() {
   const [properties, setProperties] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isRefresh, setIsRefresh] = useState(false);
+  const [selected, setSelected] = useState([]);
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -71,14 +76,51 @@ function Index() {
     }
   };
 
+  const selectProperty = (e) => {
+    if (e.target.checked) {
+      setSelected((prev) => [...prev, e.target.value]);
+    } else {
+      setSelected((prev) => prev.filter((s) => s !== e.target.value));
+    }
+  };
+
+  const performAction = async (e) => {
+    if (e.target.value) {
+      if (selected.length > 0) {
+        setIsLoading(true);
+        const res = await bulkAction({ action: e.target.value, ids: selected });
+        if (res?.status) {
+          toast.success(res.message);
+          setIsLoading(false);
+          setIsRefresh(!isRefresh);
+        } else {
+          toast.error(res?.message);
+          setIsLoading(false);
+        }
+      } else {
+        toast.warn("Please select properties to perform bulk action.");
+      }
+    }
+  };
+
   const AddProperty = () => {
     return (
       <div className="flex items-center">
-        {/* <Link href="/admin/properties/add">
+        <div className="mr-5">
+          <select className="form-select" onChange={performAction}>
+            <option value="">Bulk Action</option>
+            <option value="mark-featured">Mark Featured</option>
+            <option value="mark-not-featured">Mark Not Featured</option>
+            <option value="mark-verified">Mark Verified</option>
+            <option value="mark-not-verified">Mark Not Verified</option>
+            <option value="remove">Remove</option>
+          </select>
+        </div>
+        <Link href="/admin/properties">
           <a className="btn btn-default bg-blue-500 text-white rounded-lg hover:bg-blue-400">
-            Add New
+            Bulk Import
           </a>
-        </Link> */}
+        </Link>
         <button
           onClick={() => setIsRefresh(!isRefresh)}
           data-tip="Refresh"
@@ -96,6 +138,7 @@ function Index() {
       <Head>
         <title>Properties | Rent a Roof</title>
       </Head>
+      <ToastContainer />
       <ReactTooltip />
       {isLoading && <Loader />}
       <SectionTitle
@@ -104,90 +147,92 @@ function Index() {
         right={<AddProperty />}
       />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
-        {properties?.length ? (
-          <Table properties={properties} view={viewPage} del={delProperty} />
-        ) : (
-          <p className="mt-5">No properties found!</p>
-        )}
+        <table className="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Code</th>
+              <th>Owner</th>
+              <th>Type</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {properties?.length > 0 ? (
+              properties?.map((p, i) => (
+                <tr
+                  key={i}
+                  className={`${p?.is_approved === 0 && "bg-yellow-50"} ${
+                    p?.is_deleted === 1 && "bg-red-50"
+                  } ${p?.is_approved === 1 && "bg-green-50"}`}
+                >
+                  <td>
+                    <input
+                      type="checkbox"
+                      value={p?.id}
+                      onChange={selectProperty}
+                    />
+                  </td>
+                  <td className="flex items-center">
+                    {p?.is_featured === 1 && (
+                      <FiCheckCircle
+                        data-tip="Featured"
+                        className="text-green-600 text-lg mr-2"
+                      />
+                    )}
+                    {p?.name}
+                  </td>
+                  <td>{p?.property_code}</td>
+                  <td>{p?.owner}</td>
+                  <td>{p?.type.toUpperCase()}</td>
+                  <td>
+                    {p?.is_closed
+                      ? "Closed"
+                      : p?.is_deleted
+                      ? "Deleted"
+                      : p?.is_approved
+                      ? "Verified"
+                      : "Not-Verified"}
+                  </td>
+                  <td>
+                    {p?.is_deleted === 1 && (
+                      <button
+                        onClick={() => viewPage(p?.id)}
+                        data-tip="Property Delete Requested"
+                        className="btn px-2 py-1 mr-2 bg-red-400 rounded-md hover:bg-red-500"
+                      >
+                        <FiInfo />
+                      </button>
+                    )}
+                    <button
+                      onClick={() => delProperty(p?.id)}
+                      data-tip="Remove"
+                      className="btn px-2 py-1 bg-red-400 rounded-md hover:bg-red-500"
+                    >
+                      <FiTrash />
+                    </button>
+                    <button
+                      onClick={() => viewPage(p?.id)}
+                      data-tip="View"
+                      className="ml-2 btn px-2 py-1 bg-blue-400 rounded-md hover:bg-blue-500"
+                    >
+                      <FiEye />
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={8}>No properties found!</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
     </>
   );
 }
 
 export default Index;
-
-const Table = ({ properties, view, del }) => {
-  const columns = [
-    {
-      Header: "Name",
-      accessor: "name",
-      Cell: (props) => {
-        return (
-          <p data-tip={props.value}>
-            {props.value.length > 50
-              ? props.value.substring(0, 50) + "..."
-              : props.value}
-          </p>
-        );
-      },
-    },
-    {
-      Header: "Code",
-      accessor: "property_code",
-    },
-    {
-      Header: "Ownership Type",
-      accessor: "ownership_type",
-    },
-    {
-      Header: "Type",
-      accessor: "type",
-    },
-    {
-      Header: "Status",
-      accessor: "is_approved",
-      Cell: (props) => {
-        return props.value === 1 ? (
-          <p className="text-green-600">Verified</p>
-        ) : (
-          <p className="text-red-600">Not Verified</p>
-        );
-      },
-    },
-    {
-      Header: "Action",
-      accessor: "id",
-      Cell: (props) => {
-        return (
-          <>
-            {properties.filter((p) => p.id === props.value)[0].is_deleted ===
-              1 && (
-              <button
-                onClick={() => view(props.value)}
-                data-tip="Property Delete Requested"
-                className="btn px-2 py-1 mr-2 bg-red-400 rounded-md hover:bg-red-500"
-              >
-                <FiInfo />
-              </button>
-            )}
-            <button
-              onClick={() => del(props.value)}
-              data-tip="Remove"
-              className="btn px-2 py-1 bg-red-400 rounded-md hover:bg-red-500"
-            >
-              <FiTrash />
-            </button>
-            <button
-              onClick={() => view(props.value)}
-              data-tip="View"
-              className="ml-2 btn px-2 py-1 bg-blue-400 rounded-md hover:bg-blue-500"
-            >
-              <FiEye />
-            </button>
-          </>
-        );
-      },
-    },
-  ];
-  return <Datatable columns={columns} data={properties} />;
-};

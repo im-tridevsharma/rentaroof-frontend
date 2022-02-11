@@ -178,7 +178,7 @@ function Index({ query }) {
       amenities: query?.amenities ? [...query.amenities.split(",")] : [],
       sorting: query?.sorting || "relevance",
       pagination: "yes",
-      search_radius: query?.search_radius
+      search_radius: query?.search_radius,
     });
   }, [router.query]);
 
@@ -203,11 +203,17 @@ function Index({ query }) {
       .map((key) => key + "=" + filters[key])
       .join("&");
 
-    const location = cookies.get("user-location");
-    const locationString = Object.keys(location)
-      .map((key) => key + "=" + location[key])
-      .join("&");
-    router.push("/find-property?" + queryString + '&' + locationString);
+    // const location = cookies.get("user-location");
+    const location = localStorage.getItem("current-location")
+      ? JSON.parse(localStorage.getItem("current-location"))
+      : false;
+
+    const locationString = location
+      ? Object.keys(location)
+          .map((key) => key + "=" + location[key])
+          .join("&")
+      : "";
+    router.push("/find-property?" + queryString + "&" + locationString);
   };
 
   const sortBy = (e) => {
@@ -277,7 +283,7 @@ function Index({ query }) {
               style={{
                 outline: "none",
               }}
-              placeholder="Country, City, Address, Postal code or ID"
+              placeholder="Search property... eg: 4BHK, 3BHK,..."
             />
             <button
               type="submit"
@@ -386,7 +392,7 @@ function Index({ query }) {
                   }));
                   setMinPrice(min_price);
                   setMaxPrice(x);
-                  if(min_price > x){
+                  if (min_price > x) {
                     setMinPrice(1000);
                   }
                 }}

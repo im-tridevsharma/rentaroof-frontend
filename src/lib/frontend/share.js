@@ -964,6 +964,37 @@ export const getDealOffered = async () => {
   return deals;
 };
 
+//get featured properties
+export const getFeaturedProperties = async () => {
+  let properties = false;
+  await server
+    .get(`/properties/featured`)
+    .then((response) => {
+      properties = response?.data;
+    })
+    .catch((error) => {
+      properties = error?.response?.data;
+    });
+  return properties;
+};
+
+//get is sos
+export const getIsSOS = async () => {
+  const token = __d(cookies.get("_SYNC_"));
+  let sos = false;
+  await server
+    .get(`/is-sos`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      sos = response?.data;
+    })
+    .catch((error) => {
+      sos = error?.response?.data;
+    });
+  return sos;
+};
+
 //get ibo earning cards
 export const getIboCards = async () => {
   const token = __d(cookies.get("_SYNC_"));

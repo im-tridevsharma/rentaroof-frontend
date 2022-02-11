@@ -6,7 +6,7 @@ import { useSelector, shallowEqual } from "react-redux";
 import { MdMyLocation } from "react-icons/md";
 import Cookies from "universal-cookie";
 import Geocode from "react-geocode";
-import {toast} from 'react-toastify'
+import { toast } from "react-toastify";
 import AutoComplete from "react-google-autocomplete";
 
 const ptype_options = [
@@ -87,16 +87,16 @@ const budget_options = [
 ];
 
 const radius = [
-  {label: "Search Radius", value: ""},
-  {label: "1KM", value: '1'},
-  {label: "2KM", value: '2'},
-  {label: "3KM", value: '3'},
-  {label: "4KM", value: '4'},
-  {label: "5KM", value: '5'},
-  {label: "10KM", value: '10'},
-  {label: "15KM", value: '15'},
-  {label: "20KM", value: '20'},
-]
+  { label: "Search Radius", value: "" },
+  { label: "1KM", value: "1" },
+  { label: "2KM", value: "2" },
+  { label: "3KM", value: "3" },
+  { label: "4KM", value: "4" },
+  { label: "5KM", value: "5" },
+  { label: "10KM", value: "10" },
+  { label: "15KM", value: "15" },
+  { label: "20KM", value: "20" },
+];
 
 function Banner() {
   const router = useRouter();
@@ -121,9 +121,11 @@ function Banner() {
     const budget = document.forms.findProperty.budget.value;
     const search_radius = document.forms.findProperty.search_radius.value;
     const location = cookies.get("user-location");
-    const queryString = Object.keys(location)
-      .map((key) => key + "=" + location[key])
-      .join("&");
+    const queryString = defaultLocation
+      ? Object.keys(location)
+          .map((key) => key + "=" + location[key])
+          .join("&")
+      : "";
     router.push(
       `find-property?pagination=yes&search=${s_value}&ptype=${ptype}&bed=${bed}&budget=${budget}&search_radius=${search_radius}&${queryString}`
     );
@@ -200,27 +202,41 @@ function Banner() {
       })
     );
     setDefaultLocation(city);
+    localStorage.setItem(
+      "current-location",
+      JSON.stringify({
+        country,
+        state,
+        city,
+        zone,
+        area,
+        sub_area,
+        pincode,
+        route,
+        lat,
+        lng,
+      })
+    );
     setIsLoading(false);
   };
 
   React.useEffect(() => {
     const location = cookies.get("user-location");
-    if(!location){
-      getCurrentLocation()
+    if (!location) {
+      getCurrentLocation();
     }
-  }, [])
+  }, []);
 
   const getCurrentLocation = () => {
-    
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((location) => {
-          Geocode.setApiKey(process?.env?.MAP_API_KEY);
-          Geocode.fromLatLng(
-            location?.coords?.latitude,
-            location?.coords?.longitude
-          ).then((response) => {
-            handlePlaceSearch(response?.results[0], true);
-          });
+        Geocode.setApiKey(process?.env?.MAP_API_KEY);
+        Geocode.fromLatLng(
+          location?.coords?.latitude,
+          location?.coords?.longitude
+        ).then((response) => {
+          handlePlaceSearch(response?.results[0], true);
+        });
       });
     } else {
       toast.error("Geolocation is not supported by this browser.");
@@ -270,12 +286,11 @@ function Banner() {
                   placeholder="Find Location..."
                   style={{ borderWidth: "1px" }}
                   options={{
-                    types: ['address'],
+                    types: ["address"],
                     componentRestrictions: {
-                      country: 'in'
-                    }
+                      country: "in",
+                    },
                   }}
-                  
                 />
                 <input
                   type="text"

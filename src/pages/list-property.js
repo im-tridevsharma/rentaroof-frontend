@@ -115,12 +115,48 @@ function ListProperty() {
         <title>List Your Property</title>
       </Head>
       <Header />
-      <div className="flex flex-col lg:px-20 md:px-10">
-        <h5 style={{ fontFamily: "Opensans-bold" }} className="mt-10">
-          List Your Property -
-        </h5>
-        <div className="mt-10">
-          <div className="mt-4" id="errors">
+      <div className="flex flex-col relative">
+        <div
+          className="w-full relative"
+          style={{
+            height: "600px",
+            backgroundPosition: "center",
+            backgroundImage: "url(images/website/post-property.png)",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          <div
+            className="absolute w-full h-full top-0 left-0"
+            style={{ backgroundColor: "rgba(0,0,0,.35)" }}
+          ></div>
+          <div
+            id="errors"
+            className="text-white absolute top-20 left-1/2 transform -translate-x-1/2 text-center"
+          >
+            <h2 style={{ fontFamily: "Opensans-bold" }}>
+              List your rental. Sign an agreement. Get paid.
+            </h2>
+            <p className="text-sm md:text-lg mt-5">
+              List your rental. Sign an agreement. Get paid.
+            </p>
+          </div>
+        </div>
+        <div className="-mt-52 z-20 max-w-4xl w-full mx-auto rounded-2xl bg-white p-10">
+          <h5
+            style={{ fontFamily: "Opensans-bold" }}
+            className="italic relative"
+          >
+            Fill Your Property Details
+            <span
+              className="absolute bottom-0 left-0 w-7 h-1 rounded-full"
+              style={{
+                backgroundColor: "var(--orange)",
+              }}
+            ></span>
+          </h5>
+
+          <div className="mt-10">
             {errors && (
               <div className="errors">
                 {Object.keys(errors).map((index, i) => (
@@ -138,7 +174,7 @@ function ListProperty() {
           <form
             name="add_property"
             style={{ fontFamily: "Opensans-semi-bold" }}
-            className="text-gray-600"
+            className="text-gray-600 mt-10"
             onSubmit={handleSubmitForm}
           >
             <div className="form-element">

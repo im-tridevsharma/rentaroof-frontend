@@ -7,6 +7,12 @@ import { FiCheck } from "react-icons/fi";
 import Carousel from "react-grid-carousel";
 
 function Ibo() {
+  const [content, setContent] = React.useState({
+    rental: false,
+    screen: false,
+    sing: false,
+    collect: false,
+  });
   return (
     <>
       <Header />
@@ -21,10 +27,16 @@ function Ibo() {
           className="w-full relative"
           style={{
             height: "600px",
-            backgroundImage:
-              "url(https://nodes3cdn.hotpads.com/rental-manager-web/1644263422/media/home-hero.210b4878.webp)",
+            backgroundPosition: "center",
+            backgroundImage: "url(images/website/ibo_header.jpg)",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
           }}
         >
+          <div
+            className="absolute w-full h-full top-0 left-0"
+            style={{ backgroundColor: "rgba(0,0,0,.35)" }}
+          ></div>
           <div className="absolute mx-auto text-center top-1/2 left-1/2 max-w-3xl w-full transform -translate-x-1/2 -translate-y-1/2">
             <h1
               className="text-white"
@@ -127,8 +139,17 @@ function Ibo() {
                 are integrated into our listing platform to help you find and
                 screen applicants faster.
               </p>
+              <p className={`text-lg ${!content.rental && "hidden"}`}>
+                Easy-to-use tools let you list your property where millions of
+                renters search each month. Plus, messaging and tenant screening
+                are integrated into our listing platform to help you find and
+                screen applicants faster. Easy-to-use tools let you list your
+                property where millions of renters search each month. Plus,
+                messaging and tenant screening are integrated into our listing
+                platform to help you find and screen applicants faster.
+              </p>
               <div className="mt-10 flex items-center">
-                <Link href="/">
+                <Link href="/signup/ibo">
                   <a
                     className="px-10 py-3 border-2 text-lg text-blue-600 border-blue-600 rounded-md"
                     style={{ fontFamily: "Opensans-regular" }}
@@ -136,22 +157,24 @@ function Ibo() {
                     Get Started
                   </a>
                 </Link>
-                <Link href="/">
-                  <a
-                    className="ml-5 border text-blue-800 text-lg border-none"
-                    style={{ fontFamily: "Opensans-semi-bold" }}
-                  >
-                    Learn More
-                  </a>
-                </Link>
+                <a
+                  onClick={() =>
+                    setContent((prev) => ({ ...prev, rental: !content.rental }))
+                  }
+                  className="ml-5 border text-blue-800 text-lg border-none"
+                  style={{ fontFamily: "Opensans-semi-bold" }}
+                >
+                  Learn More
+                </a>
               </div>
             </div>
             <div
               className="rounded-md h-96"
               style={{
                 backgroundRepeat: "no-repeat",
-                backgroundImage:
-                  "url(https://nodes3cdn.hotpads.com/rental-manager-web/1644263422/media/home-block-3-image.56bf07ba.webp)",
+                backgroundImage: "url(images/website/post-property.png)",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
               }}
             ></div>
           </div>
@@ -161,8 +184,9 @@ function Ibo() {
               className="rounded-md h-96"
               style={{
                 backgroundRepeat: "no-repeat",
-                backgroundImage:
-                  "url(https://nodes3cdn.hotpads.com/rental-manager-web/1644263422/media/home-block-4-image.18900eb2.webp)",
+                backgroundImage: "url(images/website/screening.jpg)",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
               }}
             ></div>
             <div className="md:pr-10">
@@ -175,8 +199,9 @@ function Ibo() {
                 are integrated into our listing platform to help you find and
                 screen applicants faster.
               </p>
+              <p className={`text-lg ${!content.screen && "hidden"}`}></p>
               <div className="mt-10 flex items-center">
-                <Link href="/">
+                <Link href="/signup/ibo">
                   <a
                     className="px-10 py-3 border-2 text-lg text-blue-600 border-blue-600 rounded-md"
                     style={{ fontFamily: "Opensans-regular" }}
@@ -184,14 +209,15 @@ function Ibo() {
                     Get Started
                   </a>
                 </Link>
-                <Link href="/">
-                  <a
-                    className="ml-5 border text-blue-800 text-lg border-none"
-                    style={{ fontFamily: "Opensans-semi-bold" }}
-                  >
-                    Learn More
-                  </a>
-                </Link>
+                <a
+                  onClick={() =>
+                    setContent((prev) => ({ ...prev, screen: !content.screen }))
+                  }
+                  className="ml-5 border text-blue-800 text-lg border-none"
+                  style={{ fontFamily: "Opensans-semi-bold" }}
+                >
+                  Learn More
+                </a>
               </div>
             </div>
           </div>
@@ -206,8 +232,9 @@ function Ibo() {
                 templates drafted with local law firms, or upload your own lease
                 and e-sign it with your renters.
               </p>
+              <p className={`text-lg ${!content.sing && "hidden"}`}></p>
               <div className="mt-10 flex items-center">
-                <Link href="/">
+                <Link href="/signup/ibo">
                   <a
                     className="px-10 py-3 border-2 text-lg text-blue-600 border-blue-600 rounded-md"
                     style={{ fontFamily: "Opensans-regular" }}
@@ -215,22 +242,24 @@ function Ibo() {
                     Create an agreement
                   </a>
                 </Link>
-                <Link href="/">
-                  <a
-                    className="ml-5 border text-blue-800 text-lg border-none"
-                    style={{ fontFamily: "Opensans-semi-bold" }}
-                  >
-                    Learn More
-                  </a>
-                </Link>
+                <a
+                  onClick={() =>
+                    setContent((prev) => ({ ...prev, sing: !content.sing }))
+                  }
+                  className="ml-5 border text-blue-800 text-lg border-none"
+                  style={{ fontFamily: "Opensans-semi-bold" }}
+                >
+                  Learn More
+                </a>
               </div>
             </div>
             <div
               className="rounded-md h-96"
               style={{
                 backgroundRepeat: "no-repeat",
-                backgroundImage:
-                  "url(https://nodes3cdn.hotpads.com/rental-manager-web/1644263422/media/home-block-5-image.48831994.webp)",
+                backgroundImage: "url(images/website/sign.jpg)",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
               }}
             ></div>
           </div>
@@ -240,8 +269,9 @@ function Ibo() {
               className="rounded-md h-96"
               style={{
                 backgroundRepeat: "no-repeat",
-                backgroundImage:
-                  "url(https://nodes3cdn.hotpads.com/rental-manager-web/1644263422/media/home-block-6-image.e88472ef.webp)",
+                backgroundImage: "url(images/website/payment.jpg)",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
               }}
             ></div>
             <div className="md:pr-10">
@@ -253,8 +283,9 @@ function Ibo() {
                 move-in fees and more are deposited straight into your bank
                 account — at no cost to you.
               </p>
+              <p className={`text-lg ${!content.collect && "hidden"}`}></p>
               <div className="mt-10 flex items-center">
-                <Link href="/">
+                <Link href="/signup/ibo">
                   <a
                     className="px-10 py-3 border-2 text-lg text-blue-600 border-blue-600 rounded-md"
                     style={{ fontFamily: "Opensans-regular" }}
@@ -262,14 +293,18 @@ function Ibo() {
                     Get Paid
                   </a>
                 </Link>
-                <Link href="/">
-                  <a
-                    className="ml-5 border text-blue-800 text-lg border-none"
-                    style={{ fontFamily: "Opensans-semi-bold" }}
-                  >
-                    Learn More
-                  </a>
-                </Link>
+                <a
+                  onClick={() =>
+                    setContent((prev) => ({
+                      ...prev,
+                      collect: !content.collect,
+                    }))
+                  }
+                  className="ml-5 border text-blue-800 text-lg border-none"
+                  style={{ fontFamily: "Opensans-semi-bold" }}
+                >
+                  Learn More
+                </a>
               </div>
             </div>
           </div>
@@ -300,7 +335,7 @@ function Ibo() {
                   </li>
                 </ul>
                 <div className="mt-10 flex items-center">
-                  <Link href="/">
+                  <Link href="/signup/ibo">
                     <a
                       className="px-10 py-3 text-lg bg-blue-600 text-white rounded-md"
                       style={{ fontFamily: "Opensans-regular" }}
@@ -314,8 +349,9 @@ function Ibo() {
                 className="rounded-md h-96"
                 style={{
                   backgroundRepeat: "no-repeat",
-                  backgroundImage:
-                    "url(https://nodes3cdn.hotpads.com/rental-manager-web/1644263422/media/home-block-7-image.8f58ba53.webp)",
+                  backgroundImage: "url(images/website/property-waiting.jpg)",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
                 }}
               ></div>
             </div>
@@ -374,12 +410,12 @@ function Ibo() {
               className="text-white mt-5 text-lg"
               style={{ fontFamily: "Opensans-bold" }}
             >
-              Take the hassle out of landlording with Zillow Rental Manager.
+              Take the hassle out of landlording with RentaRoof Rental Manager.
               Post a listing, screen tenants, sign a lease and collect payments
               all in one place.
             </p>
             <div className="mt-10 flex items-center justify-center">
-              <Link href="/">
+              <Link href="/signup/ibo">
                 <a
                   className="px-10 py-3 text-lg bg-blue-600 text-white rounded-md"
                   style={{ fontFamily: "Opensans-regular" }}

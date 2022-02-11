@@ -4,6 +4,7 @@ import { FaTimes } from "react-icons/fa";
 import {
   createConversation,
   createSOS,
+  getIsSOS,
   getUnseenNotification,
   getUsersForChat,
 } from "../../lib/frontend/share";
@@ -22,6 +23,7 @@ function UIRenderer({ UI, role, page }) {
   const [make, setMake] = useState(false);
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSos, setIsSos] = useState(false);
 
   useEffect(() => {
     let data = localStorage.getItem("LU");
@@ -45,7 +47,15 @@ function UIRenderer({ UI, role, page }) {
       }
     };
 
+    const _isSos = async () => {
+      const res = await getIsSOS();
+      if (res?.status) {
+        setIsSos(res?.data);
+      }
+    };
+
     fetchNotifications();
+    _isSos();
     make && fetchUsers();
   }, [make]);
 
@@ -126,14 +136,14 @@ function UIRenderer({ UI, role, page }) {
         >
           <UI />
         </div>
-        {user && (
+        {user && ["ibo", "tenant"].includes(user.role) && isSos === "yes" && (
           <div
-            className="fixed bottom-24 right-5 animate-pulse"
+            className="fixed bottom-24 right-5"
             style={{ fontFamily: "Opensans-bold" }}
           >
             <button
               onClick={handleSOS}
-              className="p-3 rounded-md bg-red-600 text-white"
+              className="p-3 rounded-full bg-red-600 text-white"
             >
               SOS
             </button>
