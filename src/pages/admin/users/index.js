@@ -129,6 +129,7 @@ function Index() {
           title="User Details"
           subtitle="All the information of user."
           user={user}
+          kyc={user?.kyc}
           address={user?.address}
           toggle={setShowDetail}
         />

@@ -8,6 +8,7 @@ import server, { __d } from "../../../server";
 import { useDispatch } from "react-redux";
 import ReactTooltip from "react-tooltip";
 import Cookies from "universal-cookie";
+import { FaTimes } from "react-icons/fa";
 
 const getWebsiteValues = async (key) => {
   let setting = "";
@@ -35,6 +36,7 @@ function Header({
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [activeMenu, setActiveMenu] = useState(false);
+  const [notificationPopup, setNotificationPopup] = useState(false);
   const dispatch = useDispatch();
   const cookies = new Cookies();
 
@@ -61,6 +63,7 @@ function Header({
           .listen("NotificationSent", (e) => {
             if (user?.role === "ibo" && e?.notification?.ibo_id === user?.id) {
               setNotifications((prev) => prev + 1);
+              setNotificationPopup(e.notification);
               playBell();
             }
             if (
@@ -68,6 +71,7 @@ function Header({
               e?.notification?.tenant_id === user?.id
             ) {
               setNotifications((prev) => prev + 1);
+              setNotificationPopup(e.notification);
               playBell();
             }
             if (
@@ -75,6 +79,7 @@ function Header({
               e?.notification?.landlord_id === user?.id
             ) {
               setNotifications((prev) => prev + 1);
+              setNotificationPopup(e.notification);
               playBell();
             }
           })
@@ -122,7 +127,6 @@ function Header({
       removeAuthToken();
     }
   };
-
   return (
     <>
       <ReactTooltip />
@@ -181,7 +185,7 @@ function Header({
                     className="absolute -top-1 -right-2 text-3xs text-white rounded-full"
                     style={{ backgroundColor: "var(--orange)" }}
                   >
-                    {notifications}
+                    {notifications || 0}
                   </span>
                 </a>
               </Link>
@@ -302,6 +306,30 @@ function Header({
           </div>
         </div>
       </div>
+      {notificationPopup && (
+        <div
+          className="fixed top-0 right-0 bg-white p-5 max-w-sm w-full z-40 shadow-md border"
+          style={{ fontFamily: "Opensans-regular" }}
+        >
+          <FaTimes
+            className="text-red-400 text-xl cursor-pointer absolute right-1 top-1"
+            onClick={() => setNotificationPopup(false)}
+          />
+          <div className="flex flex-col items-start">
+            <h5
+              className="text-red-500"
+              style={{ fontFamily: "Opensans-bold" }}
+            >
+              Notification
+            </h5>
+            <h6 className="mt-3">{notificationPopup?.title}</h6>
+            <p>{notificationPopup.content}</p>
+            <Link href={`${notificationPopup?.redirect}`}>
+              <a className="p-2 rounded-md bg-blue-500 mt-3 text-white">View</a>
+            </Link>
+          </div>
+        </div>
+      )}
     </>
   );
 }

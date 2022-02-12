@@ -52,7 +52,7 @@ function AppointmentUI() {
         response?.data?.length > 0
           ? setUpcomingAppointments(
               response?.data.filter(
-                (d) => moment(Date.now()) < moment(d.start_time)
+                (d) => moment(Date.now()).add(1, "day") <= moment(d.start_time)
               )
             )
           : setUpcomingAppointments([]);
@@ -251,9 +251,14 @@ function AppointmentUI() {
                             ? a?.property_data.substring(0, 50) + "..."
                             : a?.property_data}
                         </p>
-                        {a?.vvc &&
-                        <b>VVC - {a?.vvc} {a?.is_tenant_vvc_verified && <span className="text-green-500">Verified</span> }</b>
-                          }
+                        {a?.vvc && (
+                          <b>
+                            VVC - {a?.vvc}{" "}
+                            {a?.is_tenant_vvc_verified === 1 && (
+                              <span className="text-green-500">Verified</span>
+                            )}
+                          </b>
+                        )}
                         <p
                           className="font-semibold text-xs flex items-center"
                           style={{ color: "var(--orange)" }}
@@ -313,7 +318,7 @@ function AppointmentUI() {
                               </button>
                             </>
                           )}
-                          
+
                           {a?.meeting_status === "pending" && (
                             <button
                               className="text-red-600 ml-2"

@@ -3,6 +3,7 @@ import React from "react";
 import { FaTimes } from "react-icons/fa";
 import { FiAlertTriangle } from "react-icons/fi";
 import { shallowEqual, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { saveAgreement } from "../../lib/frontend/share";
 import Loader from "../loader";
 
@@ -125,7 +126,7 @@ function AppointmentForm({
       setIsLoading(false);
     } else {
       setIsLoading(false);
-      console.error(res?.error || res?.message);
+      toast.error(res?.error || res?.message);
     }
   };
 

@@ -108,6 +108,18 @@ const links = [
     ),
   },
   {
+    label: "KYC",
+    href: "/tenant/kyc",
+    icon: (
+      <img
+        src="/icons/ibo_icons/icon_10.png"
+        alt="kyc"
+        className="object-contain"
+        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
+      />
+    ),
+  },
+  {
     label: "Refer and Earn",
     href: "/tenant/refer-and-earn",
     icon: (

@@ -547,12 +547,12 @@ function Footer() {
       </div>
       {user && ["ibo", "tenant"].includes(user.role) && isSos === "yes" && (
         <div
-          className="fixed bottom-24 right-4 animate-pulse"
+          className="fixed bottom-24 right-4"
           style={{ fontFamily: "Opensans-bold" }}
         >
           <button
             onClick={handleSOS}
-            className="p-3 rounded-md bg-red-600 text-white"
+            className="p-3 rounded-full bg-red-600 text-white"
           >
             SOS
           </button>

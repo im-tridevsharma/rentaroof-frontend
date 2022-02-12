@@ -995,6 +995,23 @@ export const getIsSOS = async () => {
   return sos;
 };
 
+//get police verification
+export const getPoliceVerification = async (id) => {
+  const token = __d(cookies.get("_SYNC_"));
+  let res = false;
+  await server
+    .get(`/police-verification/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      res = response?.data;
+    })
+    .catch((error) => {
+      res = error?.response?.data;
+    });
+  return res;
+};
+
 //get ibo earning cards
 export const getIboCards = async () => {
   const token = __d(cookies.get("_SYNC_"));

@@ -15,7 +15,7 @@ import {
   getDeal,
   saveUserNotication,
 } from "../../../../lib/frontend/share";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import Router from "next/router";
 import AppointmentForm from "../../AppointmentForm";
 
@@ -54,7 +54,7 @@ function AppointmentUI() {
         response?.data?.length > 0
           ? setUpcomingAppointments(
               response?.data.filter(
-                (d) => moment(Date.now()) < moment(d.start_time)
+                (d) => moment(Date.now()).add(1, "day") <= moment(d.start_time)
               )
             )
           : setUpcomingAppointments([]);
@@ -120,7 +120,12 @@ function AppointmentUI() {
           setIsLoading(false);
           toast.error(res?.error || res?.message);
         }
+      } else {
+        toast.error("Something went wrong!");
+        setIsLoading(true);
       }
+    } else {
+      setIsLoading(false);
     }
   };
 
@@ -170,30 +175,6 @@ function AppointmentUI() {
     }
   };
 
-  const makeConversation = async (receiver, property, id) => {
-    localStorage.setItem(
-      "deal-for",
-      JSON.stringify({ property, receiver, id, sender: user?.id })
-    );
-    if (user?.id && receiver) {
-      setIsLoading(true);
-      const res = await createConversation({
-        sender_id: user?.id,
-        receiver_id: receiver,
-      });
-      if (res?.status) {
-        setIsLoading(false);
-        toast.success(
-          "Conversation created successfully. Redirecting to chat!"
-        );
-        Router.push(`/${user?.role}/chat`);
-      } else {
-        toast.error(res?.error || res?.message);
-        setIsLoading(false);
-      }
-    }
-  };
-
   const openAgreementMode = (appointment) => {
     setAgreementMode(appointment);
   };
@@ -217,7 +198,6 @@ function AppointmentUI() {
   return (
     <>
       {isLoading && <Loader />}
-      <ToastContainer />
       <div className="flex flex-col">
         {/**cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
@@ -281,9 +261,14 @@ function AppointmentUI() {
                             ? a?.property_data.substring(0, 50) + "..."
                             : a?.property_data}
                         </p>
-                        {a?.vvc &&
-                        <b>VVC - {a?.vvc} {a?.is_landlord_vvc_verified && <span className="text-green-500">Verified</span> }</b>
-                          }
+                        {a?.vvc && (
+                          <b>
+                            VVC - {a?.vvc}{" "}
+                            {a?.is_landlord_vvc_verified === 1 && (
+                              <span className="text-green-500">Verified</span>
+                            )}
+                          </b>
+                        )}
                         <p
                           className="font-semibold text-xs flex items-center"
                           style={{ color: "var(--orange)" }}
@@ -340,7 +325,6 @@ function AppointmentUI() {
                               Create Agreement
                             </button>
                           )}
-                          
                         </div>
                       </td>
                     </tr>
@@ -577,11 +561,11 @@ function AppointmentUI() {
           <p className="leading-6 flex items-center">
             <b className="mr-1">Ibo:</b> {showDetail?.ibo}
             <FiMessageCircle
-                style={{ color: "var(--blue)" }}
-                className="text-lg cursor-pointer ml-2"
-                data-tip="Chat with IBO"
-                onClick={() => startConversation(showDetail?.ibo_id)}
-              />
+              style={{ color: "var(--blue)" }}
+              className="text-lg cursor-pointer ml-2"
+              data-tip="Chat with IBO"
+              onClick={() => startConversation(showDetail?.ibo_id)}
+            />
           </p>
           <p className="leading-6">
             <b>Property:</b> {showDetail?.property_data}

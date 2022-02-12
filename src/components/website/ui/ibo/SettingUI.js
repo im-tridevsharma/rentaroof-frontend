@@ -9,6 +9,7 @@ import getSettings, {
   deactivateAccount,
   setSetting,
 } from "../../../../lib/frontend/settings";
+import { toast } from "react-toastify";
 
 function SettingUI() {
   const [accountStatus, setAccountStatus] = useState(false);
@@ -17,9 +18,9 @@ function SettingUI() {
   const [isUpdated, setIsUpdated] = useState(false);
   const [settings, setSettings] = useState([]);
   const [profile, setProfile] = useState(false);
-  const [deactivationReason, setDeactivationReason] = useState("")
-  const [showreason, setShowReason] = useState(false)
-  
+  const [deactivationReason, setDeactivationReason] = useState("");
+  const [showreason, setShowReason] = useState(false);
+
   const [password, setPassword] = useState({
     current_password: "",
     new_password: "",
@@ -35,8 +36,7 @@ function SettingUI() {
       setProfile(data);
       setUserId(data.id);
       setAccountStatus(data?.account_status);
-      setDeactivationReason(data?.deactivate_reason)
-      data?.account_status === 'deactivated' && setShowReason(true)
+      setDeactivationReason(data?.deactivate_reason);
       setIsLoading(true);
       (async () => {
         const response = await getSettings(data.id);
@@ -44,7 +44,7 @@ function SettingUI() {
           setSettings(response.data);
           setIsLoading(false);
         } else {
-          console.error(response.error);
+          toast.error(response.error);
           setIsLoading(false);
         }
       })();
@@ -115,7 +115,7 @@ function SettingUI() {
     }
   };
 
-  const dAccount = async (status, reason = '') => {
+  const dAccount = async (status, reason = "") => {
     setIsLoading(true);
     const response = await deactivateAccount(userid, status, reason);
     if (response?.status) {
@@ -127,10 +127,11 @@ function SettingUI() {
         data.account_status = status;
         data.deactivate_reason = reason;
         localStorage.setItem("LU", __e(JSON.stringify(data)));
+        setShowReason(false);
       }
     } else {
       setIsLoading(false);
-      console.error(response?.error);
+      toast.error(response?.error);
     }
   };
 
@@ -280,51 +281,74 @@ function SettingUI() {
             </div>
           </div>
           {/**deactivate */}
-          <div
-            className="relative flex items-center justify-end border-gray-200 py-5 px-10 mt-3"
-            style={{ borderTopWidth: "1px" }}
-          >
-            <p
-              className="absolute left-0 bg-white"
-              style={{
-                fontFamily: "Opensans-bold",
-              }}
-            >
-              Deactivate
-            </p>
-            <label>
-              <input
-                type="checkbox"
-                name="deactivate"
-                id="deactivate"
-                className="cursor-pointer"
-                checked={showreason ? true : false}
-                onChange={e => e.target.checked ? setShowReason(true) : setShowReason(false)}
-              />
-            </label>
+          <div className="text-right">
+            {accountStatus === "activated" && (
+              <button
+                onClick={() => setShowReason(true)}
+                type="button"
+                className="p-2 text-white rounded-md bg-red-500"
+              >
+                Deactivate Account
+              </button>
+            )}
           </div>
           {accountStatus !== "activated" && (
-            <p className="text-red-500">
-              Your account is not visible to anyone. Please uncheck Deactivate
-              to make it visible.
-            </p>
+            <>
+              <p className="text-red-500">
+                You have de-activated your account. Please contact to
+                administrator.
+              </p>
+              <b>
+                Reason: <i>{deactivationReason}</i>
+              </b>
+            </>
           )}
         </form>
-          {showreason &&
-        <div className="shadow-sm rounded-xl">
-          <form method="POST" onSubmit={(e) =>
-                    {
-                      e.preventDefault();
-                      dAccount(accountStatus == 'activated' ? "deactivated" : "activated", deactivationReason)
-                    }
-                  }>
-            <h5 style={{fontFamily:"Opensans-bold"}} className="mb-1">Deactivation Reason</h5>
-            <div className="form-element">
-              <textarea className="form-textarea" value={deactivationReason} required onChange={(e) => setDeactivationReason(e.target.value)}></textarea>
-            </div>
-            <button className="px-3 py-2 text-white" style={{backgroundColor: "var(--blue)"}} >Submit</button>
-          </form>
-        </div>}
+        {showreason && (
+          <div
+            className="shadow-sm border max-w-lg w-full rounded-xl absolute 
+        top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-3"
+          >
+            <form
+              method="POST"
+              onSubmit={(e) => {
+                e.preventDefault();
+                dAccount(
+                  accountStatus == "activated" ? "deactivated" : "activated",
+                  deactivationReason
+                );
+              }}
+            >
+              <h5 style={{ fontFamily: "Opensans-semi-bold" }} className="mb-1">
+                De-activation Reason
+              </h5>
+              <div className="form-element">
+                <textarea
+                  className="form-textarea border-gray-200 rounded-md"
+                  value={deactivationReason}
+                  placeholder="Tell us why do you want to deactivate your account?"
+                  required
+                  onChange={(e) => setDeactivationReason(e.target.value)}
+                ></textarea>
+              </div>
+              <div className="text-right">
+                <button
+                  onClick={() => setShowReason(false)}
+                  type="button"
+                  className="px-3 py-2 bg-red-500 rounded-md text-white"
+                >
+                  Cancel
+                </button>
+                <button
+                  className="px-3 py-2 ml-3 rounded-md text-white"
+                  style={{ backgroundColor: "var(--blue)" }}
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
       </div>
     </>
   );
