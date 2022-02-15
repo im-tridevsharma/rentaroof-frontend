@@ -141,18 +141,13 @@ function Banner() {
     let zone = "";
     let area = "";
     let sub_area = "";
-    let neighborhood = "";
     let route = "";
     let lat = 0.0;
     let lng = 0.0;
-    let place_id = "";
 
     components.forEach((element) => {
       if (element.types.includes("route")) {
         route = element?.long_name;
-      }
-      if (element.types.includes("neighborhood")) {
-        neighborhood = element?.long_name;
       }
       if (element.types.includes("sublocality_level_2")) {
         sub_area = element?.long_name;
@@ -185,7 +180,6 @@ function Banner() {
       lng = place.geometry.location.lng("d");
     }
 
-    place_id = place?.place_id;
     cookies.set(
       "user-location",
       JSON.stringify({
@@ -250,39 +244,39 @@ function Banner() {
         <img
           src="/images/website/home-house.jpg"
           alt="banner"
-          className="w-full h-128 object-cover filter brightness-50"
+          className="w-full h-128 object-cover"
         />
         <div className="absolute  max-w-4xl w-full text-center top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          <h2
-            className="font-bold text-2xl text-white drop-shadow-lg"
-            style={{
-              fontFamily: "Opensans-bold",
-              textShadow: "0px 2px 1px rgba(0,0,0,.8)",
-            }}
-          >
-            {website?.homepage_search_title}
-          </h2>
           <div
-            className="p-2 rounded-lg"
+            className="p-8 rounded-lg"
             style={{
-              backgroundColor: "rgba(0,0,0,.5)",
+              backgroundColor: "rgba(0,0,0,.3)",
               fontFamily: "Opensans-regular",
             }}
           >
+            <h2
+              className="font-bold text-2xl mb-5 text-white drop-shadow-lg"
+              style={{
+                fontFamily: "Opensans-bold",
+                textShadow: "0px 2px 1px rgba(0,0,0,.8)",
+              }}
+            >
+              {website?.homepage_search_title}
+            </h2>
             <form name="findProperty" method="POST" onSubmit={handleSubmit}>
               <div className="flex flex-col sm:flex-row items-center">
                 <button
-                  className="p-3 border rounded-md mx-1 bg-white"
+                  className="p-3 border rounded-sm mx-1 bg-white"
                   onClick={getCurrentLocation}
                   data-tip="Current Location"
                 >
-                  <MdMyLocation />
+                  <MdMyLocation size={22} />
                 </button>
                 <AutoComplete
                   apiKey={process?.env?.MAP_API_KEY}
                   onPlaceSelected={(place) => handlePlaceSearch(place)}
                   defaultValue={defaultLocation}
-                  className=" rounded-sm border-gray-200 max-w-sm w-full text-sm p-2 h-10"
+                  className=" rounded-sm border-gray-200 max-w-sm w-full text-md px-2 h-12"
                   placeholder="Find Location..."
                   style={{ borderWidth: "1px" }}
                   options={{
@@ -297,11 +291,11 @@ function Banner() {
                   name="search"
                   required
                   placeholder="Search Property..."
-                  className="rounded-sm text-gray-500 sm:flex-grow border-none h-10 ml-1 text-sm mb-1 sm:mb-0"
+                  className="rounded-sm text-gray-500 sm:flex-grow border-none px-2 h-12 ml-1 text-sm mb-1 sm:mb-0"
                 />
                 <button
                   type="submit"
-                  className="px-8 sm:px-10 py-2 text-white rounded-md ml-3 text-xl"
+                  className="px-8 sm:px-10 py-2 text-white rounded-md ml-2 mr-1 text-xl"
                   style={{ backgroundColor: "var(--primary-color)" }}
                 >
                   <img

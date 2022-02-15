@@ -159,20 +159,59 @@ function Header() {
           style={{ fontFamily: "Opensans-semi-bold" }}
         >
           <ul className="hidden sm:flex sm:items-center">
-            <li className="mx-2">
-              <Link href="/">
-                <a className="py-2 px-3 border-b-2 border-transparent">Home</a>
-              </Link>
+            <li className="mx-2 relative parent">
+              <a className="py-2 px-3 border-b-2 border-transparent">
+                Renting Resources
+              </a>
+              <ul className="absolute childs top-6 pt-5 left-0  bg-white px-2 py-1 rounded-md z-40 w-max">
+                <li className="my-2 hover:text-blue-500">
+                  <Link href="/services">
+                    <a className="py-2 px-3 border-b-2 border-transparent">
+                      Services
+                    </a>
+                  </Link>
+                </li>
+                <li className="my-2 hover:text-blue-500">
+                  <Link href="/documentation-process">
+                    <a className="py-2 px-3 border-b-2 border-transparent">
+                      Documentation Process
+                    </a>
+                  </Link>
+                </li>
+                <li className="my-2 hover:text-blue-500">
+                  <Link href="/faqs">
+                    <a className="py-2 px-3 border-b-2 border-transparent">
+                      Faqs
+                    </a>
+                  </Link>
+                </li>
+              </ul>
+            </li>
+            <li className="mx-2 parent relative">
+              <a className="py-2 px-3 border-b-2 border-transparent">
+                Join our Team
+              </a>
+              <ul className="absolute childs top-6 pt-5 left-0  bg-white px-2 py-1 rounded-md z-40 w-max">
+                <li className="my-2 hover:text-blue-500">
+                  <Link href="/realtor">
+                    <a className="py-2 px-3 border-b-2 border-transparent">
+                      Realtor
+                    </a>
+                  </Link>
+                </li>
+                <li className="my-2 hover:text-blue-500">
+                  <Link href="/homeowners">
+                    <a className="py-2 px-3 border-b-2 border-transparent">
+                      Homeowners
+                    </a>
+                  </Link>
+                </li>
+              </ul>
             </li>
             <li className="mx-2">
-              <Link href="/ibo">
-                <a className="py-2 px-3 border-b-2 border-transparent">IBO</a>
-              </Link>
-            </li>
-            <li className="mx-2">
-              <Link href="/owners">
+              <Link href="/our-advantages">
                 <a className="py-2 px-3 border-b-2 border-transparent">
-                  Owners
+                  Our Advantages
                 </a>
               </Link>
             </li>

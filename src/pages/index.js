@@ -62,29 +62,53 @@ function Index() {
         <Banner />
         {/**counts */}
         <div
-          className="grid sm:grid-cols-3 sm:space-x-10 px-10 py-7 text-gray-50"
+          className="grid sm:grid-cols-4 sm:space-x-10 px-10 py-7 text-gray-50"
           style={{ backgroundColor: "var(--primary-color)" }}
         >
           {/**1st */}
           <CountIcon
-            Icon={<img src="/icons/home/home_icon1.png" alt="property" />}
-            bold1="432,592"
-            bold2="New Properties"
-            text="added within the last 30 days"
+            Icon={
+              <img
+                src="/icons/home/property-verified.png"
+                className="filter invert w-16 h-16 object-cover"
+                alt="property"
+              />
+            }
+            title="Agent verified properties"
           />
           {/**2nd */}
           <CountIcon
-            Icon={<img src="/icons/home/home_icon2.png" alt="websites" />}
-            bold1="28,998"
-            bold2="Visited our website"
-            text="within the last 30 days"
+            Icon={
+              <img
+                src="/icons/home/pay.png"
+                alt="websites"
+                className="filter invert w-16 h-16 object-cover"
+              />
+            }
+            title="Pay rent securely with our platfform"
           />
-          {/**3rd */}
+          {/**3rd*/}
           <CountIcon
-            Icon={<img src="/icons/home/home_icon3.png" alt="support" />}
-            bold1="CUSTOMER SUPPORT"
-            bold2="Week Days"
-            text="from 10:00-16:00"
+            Icon={
+              <img
+                src="/icons/home/documentation.png"
+                alt="websites"
+                className="filter invert w-16 h-16 object-cover"
+              />
+            }
+            title="Well-defined documentation process like rent agreement & police verification"
+          />
+
+          {/**4th */}
+          <CountIcon
+            Icon={
+              <img
+                src="/icons/home/chat.png"
+                alt="support"
+                className="filter invert w-16 h-16 object-cover"
+              />
+            }
+            title="Integrated chat feature with agent"
           />
         </div>
 
@@ -139,7 +163,7 @@ function Index() {
               {website?.homepage_aboutus_title}
             </h1>
             <p
-              className="text-gray-700 text-xs"
+              className="text-gray-700 text-sm"
               style={{ fontFamily: "Opensans-regular" }}
             >
               {website?.homepage_aboutus_description}
@@ -184,136 +208,6 @@ function Index() {
               title="Quick Connect"
               description="Connect easily and set meetings with us to fulfil your renting requirement."
             />
-          </div>
-        </div>
-
-        <div className="py-10 max-w-6xl w-full m-auto bg-white">
-          <div className="text-center my-10">
-            <h2 style={{ fontFamily: "Opensans-bold" }}>
-              It's easier than ever to be an ibo
-            </h2>
-            <p className="text-lg mt-5">
-              Save time with our property management tools that help you get
-              what you need — signed leases and rent payments.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5">
-            <div className="md:pr-10">
-              <h3 style={{ fontFamily: "Opensans-bold" }}>
-                Post a rental property
-              </h3>
-              <p className="text-lg mt-5">
-                Easy-to-use tools let you list your property where millions of
-                renters search each month. Plus, messaging and tenant screening
-                are integrated into our listing platform to help you find and
-                screen applicants faster.
-              </p>
-              <div className="mt-10 flex items-center">
-                <a
-                  className="border text-blue-800 text-lg border-none"
-                  style={{ fontFamily: "Opensans-semi-bold" }}
-                >
-                  Learn More
-                </a>
-              </div>
-            </div>
-            <div
-              className="rounded-md h-96"
-              style={{
-                backgroundRepeat: "no-repeat",
-                backgroundImage:
-                  "url(https://nodes3cdn.hotpads.com/rental-manager-web/1644263422/media/home-block-3-image.56bf07ba.webp)",
-              }}
-            ></div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 mt-32">
-            <div
-              className="rounded-md h-96"
-              style={{
-                backgroundRepeat: "no-repeat",
-                backgroundImage:
-                  "url(https://nodes3cdn.hotpads.com/rental-manager-web/1644263422/media/home-block-4-image.18900eb2.webp)",
-              }}
-            ></div>
-            <div className="md:pr-10">
-              <h3 style={{ fontFamily: "Opensans-bold" }}>
-                Screen tenants with online rental applications
-              </h3>
-              <p className="text-lg mt-5">
-                Easy-to-use tools let you list your property where millions of
-                renters search each month. Plus, messaging and tenant screening
-                are integrated into our listing platform to help you find and
-                screen applicants faster.
-              </p>
-              <div className="mt-10 flex items-center">
-                <a
-                  className="border text-blue-800 text-lg border-none"
-                  style={{ fontFamily: "Opensans-semi-bold" }}
-                >
-                  Learn More
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 mt-32">
-            <div className="md:pr-10">
-              <h3 style={{ fontFamily: "Opensans-bold" }}>
-                Sign a rental agreement
-              </h3>
-              <p className="text-lg mt-5">
-                Create your rental lease using our online lease builder and
-                templates drafted with local law firms, or upload your own lease
-                and e-sign it with your renters.
-              </p>
-              <div className="mt-10 flex items-center">
-                <a
-                  className="border text-blue-800 text-lg border-none"
-                  style={{ fontFamily: "Opensans-semi-bold" }}
-                >
-                  Learn More
-                </a>
-              </div>
-            </div>
-            <div
-              className="rounded-md h-96"
-              style={{
-                backgroundRepeat: "no-repeat",
-                backgroundImage:
-                  "url(https://nodes3cdn.hotpads.com/rental-manager-web/1644263422/media/home-block-5-image.48831994.webp)",
-              }}
-            ></div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 mt-32">
-            <div
-              className="rounded-md h-96"
-              style={{
-                backgroundRepeat: "no-repeat",
-                backgroundImage:
-                  "url(https://nodes3cdn.hotpads.com/rental-manager-web/1644263422/media/home-block-6-image.e88472ef.webp)",
-              }}
-            ></div>
-            <div className="md:pr-10">
-              <h3 style={{ fontFamily: "Opensans-bold" }}>
-                Collect rent payments
-              </h3>
-              <p className="text-lg mt-5">
-                The convenient way for landlords to get paid. Rent, utilities,
-                move-in fees and more are deposited straight into your bank
-                account — at no cost to you.
-              </p>
-              <div className="mt-10 flex items-center">
-                <a
-                  className="border text-blue-800 text-lg border-none"
-                  style={{ fontFamily: "Opensans-semi-bold" }}
-                >
-                  Learn More
-                </a>
-              </div>
-            </div>
           </div>
         </div>
 

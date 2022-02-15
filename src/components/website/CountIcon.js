@@ -1,20 +1,17 @@
 import React from "react";
 
-function CountIcon({ Icon, bold1, bold2, text }) {
+function CountIcon({ Icon, title }) {
   return (
-    <div className="flex flex-col sm:flex-row items-center justify-center my-2 sm:my-0">
-      {Icon}
+    <div className="flex flex-col">
+      <div className="h-20 flex items-center justify-center">{Icon}</div>
       <p
-        className="mt-2 sm:mt-0 flex flex-col items-center justify-center text-center mx-5 sm:border-l-2 sm:pl-5 leading-5"
+        className="mt-3 text-white flex flex-col items-center justify-center text-center leading-5"
         style={{
-          borderColor: "rgba(255,255,255,.3)",
           fontSize: "1rem",
           fontFamily: "Opensans-regular",
         }}
       >
-        <b style={{ fontFamily: "Opensans-bold" }}>{bold1}</b>
-        <b style={{ fontFamily: "Opensans-bold" }}>{bold2}</b>
-        {text}
+        <b style={{ fontFamily: "Opensans-bold" }}>{title}</b>
       </p>
     </div>
   );

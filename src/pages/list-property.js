@@ -115,7 +115,13 @@ function ListProperty() {
         <title>List Your Property</title>
       </Head>
       <Header />
-      <div className="flex flex-col relative">
+      <div
+        className="flex flex-col relative"
+        style={{
+          backgroundPosition: "top center",
+          backgroundImage: "url(images/website/rent.jpg)",
+        }}
+      >
         <div
           className="w-full relative"
           style={{

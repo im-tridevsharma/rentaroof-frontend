@@ -47,7 +47,7 @@
 :root {
   --primary-color: #7b4a9c;
   --secondary-color: rgb(22 121 178);
-  --orange: #fbb031;
+  --orange: #0395e8;
   --blue: rgb(5 79 138);
 }
 
@@ -175,6 +175,14 @@ body {
 }
 .link {
   @apply text-blue-500;
+}
+
+.childs {
+  display: none;
+}
+
+.parent:hover .childs {
+  display: block;
 }
 
 .ring-red {
