@@ -168,16 +168,6 @@ function Index() {
             >
               {website?.homepage_aboutus_description}
             </p>
-            <div className="mt-7">
-              <Link href="/">
-                <a
-                  className="py-1 px-2 rounded-md text-white"
-                  style={{ backgroundColor: "var(--primary-color)" }}
-                >
-                  BOOK NOW
-                </a>
-              </Link>
-            </div>
           </div>
         </div>
 

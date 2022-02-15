@@ -910,6 +910,24 @@ export const getDealableProperty = async (data) => {
   return status;
 };
 
+//new landlord
+export const newLandlord = async (data) => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let status = false;
+  await server
+    .post(`/register-new-landlord`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      status = response?.data;
+    })
+    .catch((error) => {
+      status = error?.response?.data;
+    });
+  return status;
+};
+
 //store_and_login
 export const storeAndLogin = async (data) => {
   let status = false;
@@ -944,6 +962,24 @@ export const getPropertyGalleryById = async (id) => {
   } else {
     return false;
   }
+};
+
+//getMyLandlords
+export const getMyLandlords = async () => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let landlords = false;
+  await server
+    .get(`/get-my-landlords`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      landlords = response?.data;
+    })
+    .catch((error) => {
+      landlords = error?.response?.data;
+    });
+  return landlords;
 };
 
 //get deals

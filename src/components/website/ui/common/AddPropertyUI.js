@@ -16,6 +16,9 @@ import DatePicker from "react-datepicker";
 import Select from "react-select";
 import moment from "moment";
 import { toast } from "react-toastify";
+import { FaPlus, FaTimes } from "react-icons/fa";
+import ReactTooltip from "react-tooltip";
+import { getMyLandlords, newLandlord } from "../../../../lib/frontend/share";
 
 const inspectionDays = [
   { value: "all days", label: "All Days" },
@@ -39,8 +42,25 @@ function AddPropertyUI() {
   const [propertyCode, setPropertyCode] = useState("");
   const [nextStep, setNextStep] = useState("");
   const [property, setProperty] = useState({});
+  const [isAddMode, setIsAddMode] = useState(false);
+  const [landlords, setLandlords] = useState([]);
+  const [landlord, setLandlord] = useState({
+    name: "",
+    email: "",
+    mobile: "",
+    password: "",
+  });
 
   const router = useRouter();
+
+  const fetchLandlords = async () => {
+    const res = await getMyLandlords();
+    if (res?.status) {
+      setLandlords(res.data);
+    } else {
+      toast.error(res?.message);
+    }
+  };
 
   useEffect(() => {
     if (router.query?.id && router.query?.next) {
@@ -72,6 +92,10 @@ function AddPropertyUI() {
       })();
     }
   }, [router.query]);
+
+  useEffect(() => {
+    fetchLandlords();
+  }, []);
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
@@ -122,6 +146,41 @@ function AddPropertyUI() {
     setProperty((prev) => ({ ...prev, [name]: value }));
   };
 
+  const addNewLandlord = async (e) => {
+    e.preventDefault();
+    if (
+      landlord.name.trim() &&
+      landlord.email.trim() &&
+      landlord.mobile.trim() &&
+      landlord.password
+    ) {
+      setIsLoading(true);
+      const res = await newLandlord(landlord);
+      if (res?.status) {
+        toast.success(
+          "New Landlord added successfully. Verification link sent on email and mobile. Please verify."
+        );
+        setIsLoading(false);
+        fetchLandlords();
+        setLandlord({
+          name: "",
+          email: "",
+          mobile: "",
+          password: "",
+        });
+        setIsAddMode(false);
+      } else if (res?.error) {
+        setIsLoading(false);
+        toast.warn(res?.error);
+      } else {
+        toast.error(res?.message);
+        setIsLoading(false);
+      }
+    } else {
+      toast.warn("Please enter all the fields.");
+    }
+  };
+
   return (
     <>
       {isLoading && <Loader />}
@@ -146,15 +205,44 @@ function AddPropertyUI() {
             className="text-gray-600"
             onSubmit={handleSubmitForm}
           >
-            <div className="form-element">
-              <label className="form-label">Property Title (Name)</label>
-              <input
-                type="text"
-                name="name"
-                value={property?.name}
-                onChange={inputHandler}
-                className="form-input border-gray-200 rounded-md"
-              />
+            <div className="grid md:grid-cols-2 md:space-x-3">
+              <div className="form-element">
+                <label className="form-label">Property Title (Name)</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={property?.name}
+                  onChange={inputHandler}
+                  className="form-input border-gray-200 rounded-md"
+                />
+              </div>
+              <div className="form-element">
+                <label className="form-label">Landlord</label>
+                <div className="flex items-center">
+                  <select
+                    className="form-input border-gray-200 rounded-md"
+                    name="landlord"
+                  >
+                    <option value="">Select Property Owner</option>
+                    {landlords?.length > 0 &&
+                      landlords.map((l, i) => (
+                        <option key={i} value={l?.id}>
+                          {l?.first} {l?.last}
+                        </option>
+                      ))}
+                  </select>
+                  <button
+                    onClick={() => setIsAddMode(true)}
+                    type="button"
+                    className="p-2 text-white ml-1 rounded-md"
+                    data-tip="Add New Landlord"
+                    style={{ background: "var(--blue)" }}
+                  >
+                    <FaPlus />
+                    <ReactTooltip />
+                  </button>
+                </div>
+              </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-3">
               <div className="form-element">
@@ -249,7 +337,6 @@ function AddPropertyUI() {
             </div>
             <hr className=" border-gray-400 my-3" />
             <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
-              
               <div className="form-element">
                 <label className="form-label">Super Area</label>
                 <div className="flex items-center">
@@ -419,7 +506,7 @@ function AddPropertyUI() {
               <div className="form-element">
                 <label className="form-label">Floors</label>
                 <div className="flex items-center flex-wrap">
-                 <CircleInputRadio
+                  <CircleInputRadio
                     name="floors"
                     value="-1"
                     state={{ data: floors, setData: setFloors }}
@@ -636,8 +723,7 @@ function AddPropertyUI() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
-              
-            <div className="form-element">
+              <div className="form-element">
                 <label className="form-label">Asking Price</label>
                 <input
                   type="text"
@@ -741,6 +827,90 @@ function AddPropertyUI() {
           <PropertyAddEssentials code={propertyCode} />
         )}
       </div>
+      {isAddMode && (
+        <div
+          className="shadow-sm border max-w-lg w-full rounded-xl absolute 
+        left-1/2 transform -translate-x-1/2 top-10 bg-white p-6"
+        >
+          <form method="POST" onSubmit={addNewLandlord}>
+            <h5
+              style={{ fontFamily: "Opensans-bold" }}
+              className="flex items-center justify-between"
+            >
+              Add New Landlord
+              <FaTimes
+                className="text-red-500 text-lg cursor-pointer"
+                onClick={() => setIsAddMode(false)}
+              />
+            </h5>
+            <div className="mt-5">
+              <div className="form-element">
+                <label className="form-label">Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={landlord?.name}
+                  onChange={(e) =>
+                    setLandlord((prev) => ({ ...prev, name: e.target.value }))
+                  }
+                  required={true}
+                  className="form-input border-gray-200 rounded-md"
+                />
+              </div>
+              <div className="form-element">
+                <label className="form-label">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={landlord?.email}
+                  onChange={(e) =>
+                    setLandlord((prev) => ({ ...prev, email: e.target.value }))
+                  }
+                  required={true}
+                  className="form-input border-gray-200 rounded-md"
+                />
+              </div>
+              <div className="form-element">
+                <label className="form-label">Mobile</label>
+                <input
+                  type="text"
+                  name="mobile"
+                  value={landlord?.mobile}
+                  onChange={(e) =>
+                    setLandlord((prev) => ({ ...prev, mobile: e.target.value }))
+                  }
+                  required={true}
+                  className="form-input border-gray-200 rounded-md"
+                />
+              </div>
+              <div className="form-element">
+                <label className="form-label">Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  value={landlord?.password}
+                  onChange={(e) =>
+                    setLandlord((prev) => ({
+                      ...prev,
+                      password: e.target.value,
+                    }))
+                  }
+                  required={true}
+                  className="form-input border-gray-200 rounded-md"
+                />
+              </div>
+              <div className="form-element">
+                <button
+                  className="p-2 rounded-md text-white"
+                  style={{ background: "var(--blue)" }}
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      )}
     </>
   );
 }

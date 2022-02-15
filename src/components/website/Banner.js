@@ -266,6 +266,7 @@ function Banner() {
             <form name="findProperty" method="POST" onSubmit={handleSubmit}>
               <div className="flex flex-col sm:flex-row items-center">
                 <button
+                  type="button"
                   className="p-3 border rounded-sm mx-1 bg-white"
                   onClick={getCurrentLocation}
                   data-tip="Current Location"
