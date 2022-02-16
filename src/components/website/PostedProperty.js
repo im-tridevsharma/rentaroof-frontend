@@ -105,7 +105,16 @@ function PostedProperty({ property, deleteProperties }) {
               )}
             </div>
           )}
-          <i className="text-gray-600 mb-2 pb-2">Posted On {moment(property?.created_at).format("DD-MM-YYYY hh:mm:ss A")}</i>
+          <i className="text-gray-600 mb-2 pb-2">
+            Posted On{" "}
+            {moment(property?.created_at).format("DD-MM-YYYY hh:mm:ss A")}
+          </i>
+          <p>
+            <i className="text-gray-600 mb-2 pb-2">
+              <b className="mr-3">Landlord:</b>
+              <b>{property?.owner}</b>
+            </i>
+          </p>
           <p className="text-gray-600">{property?.name}</p>
           <p style={{ fontFamily: "Opensans-bold" }}>
             Price: {property?.monthly_rent}

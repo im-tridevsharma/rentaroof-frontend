@@ -13,9 +13,11 @@ import { __d } from "../../../../server";
 import { BsStarFill } from "react-icons/bs";
 import {
   getAgreements,
+  getPoliceVerification,
   getVisitedProperties,
 } from "../../../../lib/frontend/share";
 import { FiAlertCircle, FiDelete } from "react-icons/fi";
+import { toast } from "react-toastify";
 
 const Button = ({ url }) => {
   return (
@@ -40,6 +42,7 @@ function PropertiesUI() {
   const [agreements, setAgreements] = useState([]);
   const [deleteReason, setDeleteReason] = useState("");
   const [deleteMode, setDeleteMode] = useState(false);
+  const [purl, setPurl] = React.useState("");
 
   useEffect(() => {
     localStorage.removeItem("next_ap");
@@ -90,6 +93,27 @@ function PropertiesUI() {
       }
     })();
   }, []);
+
+  const policeVerification = async (a) => {
+    setIsLoading(true);
+    const res = await getPoliceVerification(a?.id);
+    if (res) {
+      setPurl(res);
+      setIsLoading(false);
+      toast.success("Police Verification document generated successfully.");
+      const ares = await getAgreements();
+      if (ares?.status) {
+        setAgreements(ares?.data);
+        setIsLoading(false);
+      } else {
+        console.error(ares?.error || ares?.message);
+        setIsLoading(false);
+      }
+    } else {
+      toast.error("Something went wrong!");
+      setIsLoading(false);
+    }
+  };
 
   const deleteProperties = (id) => {
     const go = confirm("It will delete it permanantly!");
@@ -246,7 +270,27 @@ function PropertiesUI() {
                     title={a?.property_data?.name}
                     price={`Rs. ${a?.property_data?.monthly_rent}/Month`}
                     subtitle={`Renter: ${a?.tenant?.first} ${a?.tenant?.last}`}
-                    button={<Button url={a?.agreement_url} />}
+                    button={
+                      <>
+                        <Button url={a?.agreement_url} />
+                        {purl || a?.police_verification ? (
+                          <a
+                            target="_blank"
+                            href={a?.police_verification || purl}
+                            className="p-2 ml-2 rounded-md text-white bg-red-500"
+                          >
+                            Police Verification
+                          </a>
+                        ) : (
+                          <button
+                            onClick={() => policeVerification(a)}
+                            className="p-2 ml-2 rounded-md text-white bg-red-500"
+                          >
+                            Police Verification
+                          </button>
+                        )}
+                      </>
+                    }
                   />
                 ))
               ) : (

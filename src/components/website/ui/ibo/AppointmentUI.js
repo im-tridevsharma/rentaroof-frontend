@@ -301,6 +301,11 @@ function AppointmentUI() {
                   todayAppointment.map((a, i) => (
                     <tr key={i}>
                       <td>
+                        <i>
+                          {a?.property_added_by == user?.id && (
+                            <i>Property added by you</i>
+                          )}
+                        </i>
                         <p style={{ fontFamily: "Opensans-bold" }}>
                           {a?.property_data.length > 50
                             ? a?.property_data.substring(0, 50) + "..."
@@ -310,7 +315,7 @@ function AppointmentUI() {
                           className="font-semibold text-xs flex items-center"
                           style={{ color: "var(--orange)" }}
                         >
-                          By {a?.name} [{a?.created_by_role}]
+                          Scheduled by- {a?.name}
                           <a
                             href={`tel:${a?.contact}`}
                             style={{ color: "var(--blue)" }}
@@ -518,6 +523,17 @@ function AppointmentUI() {
                                 )}
                             </>
                           )}
+
+                          {a.meeting_status === "closed" &&
+                            !a?.agreement &&
+                            a?.property_added_by === user?.id && (
+                              <button
+                                className="text-green-600 border-gray-300 border-r-2 px-2 mr-2"
+                                onClick={() => openAgreementMode(a)}
+                              >
+                                Create Agreement
+                              </button>
+                            )}
                         </div>
                       </td>
                     </tr>
@@ -562,6 +578,11 @@ function AppointmentUI() {
                   upcomingAppointments.map((a, i) => (
                     <tr key={i}>
                       <td>
+                        <i>
+                          {a?.property_added_by == user?.id && (
+                            <i>Property added by you</i>
+                          )}
+                        </i>
                         <p style={{ fontFamily: "Opensans-bold" }}>
                           {a?.property_data.length > 50
                             ? a?.property_data.substring(0, 50) + "..."
@@ -571,7 +592,7 @@ function AppointmentUI() {
                           className="font-semibold text-xs flex items-center"
                           style={{ color: "var(--orange)" }}
                         >
-                          By {a?.name} [{a?.created_by_role}]
+                          Scheduled by- {a?.name}
                           <a
                             href={`tel:${a?.contact}`}
                             style={{ color: "var(--blue)" }}
@@ -836,6 +857,9 @@ function AppointmentUI() {
                   onClick={() => startConversation(showDetail?.landlord?.id)}
                 />
                 <ReactTooltip />
+                {showDetail?.property_added_by == user?.id && (
+                  <i className="ml-3">Added by you</i>
+                )}
               </>
             ) : (
               <span>(You)</span>

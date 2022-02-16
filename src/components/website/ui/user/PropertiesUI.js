@@ -10,9 +10,7 @@ import {
 } from "../../../../lib/frontend/auth";
 import { __d } from "../../../../server";
 import ReactTooltip from "react-tooltip";
-import {
-  getVisitedProperties,
-} from "../../../../lib/frontend/share";
+import { getVisitedProperties } from "../../../../lib/frontend/share";
 import { toast } from "react-toastify";
 
 function PropertiesUI() {
@@ -56,7 +54,6 @@ function PropertiesUI() {
       })();
     }
   }, []);
-
 
   const deleteMe = async (id, type) => {
     setIsLoading(true);
@@ -164,27 +161,34 @@ function PropertiesUI() {
                     style={{ borderTopWidth: "1px" }}
                   >
                     <div className=" w-24 h-24 overflow-hidden rounded-md">
-                    <Link href={`/details/properties/${p?.property_code}`}>
+                      <Link href={`/details/properties/${p?.property_code}`}>
                         <a>
-                      <img
-                        src={p?.front_image || "/images/website/no_photo.png"}
-                        alt="property"
-                        layout="responsive"
-                        width="100"
-                        height="100"
-                      /></a></Link>
+                          <img
+                            src={
+                              p?.front_image || "/images/website/no_photo.png"
+                            }
+                            alt="property"
+                            layout="responsive"
+                            width="100"
+                            height="100"
+                          />
+                        </a>
+                      </Link>
                     </div>
                     <div
                       className="flex flex-col flex-grow px-5 leading-4"
                       style={{ fontFamily: "Opensans-regular" }}
-                    ><Link href={`/details/properties/${p?.property_code}`}>
-                    <a>
-                      <h6
-                        className="text-gray-800"
-                        style={{ fontFamily: "Opensans-bold" }}
-                      >
-                        {p?.name}
-                      </h6></a></Link>
+                    >
+                      <Link href={`/details/properties/${p?.property_code}`}>
+                        <a>
+                          <h6
+                            className="text-gray-800"
+                            style={{ fontFamily: "Opensans-bold" }}
+                          >
+                            {p?.name}
+                          </h6>
+                        </a>
+                      </Link>
                       <p className="text-gray-400">
                         {p?.short_description.substring(0, 100) + "..."}
                       </p>
@@ -192,12 +196,6 @@ function PropertiesUI() {
                         className="mt-2 flex items-center justify-between"
                         style={{ fontFamily: "Opensans-bold" }}
                       >
-                        <span
-                          className="font-bold"
-                          style={{ color: "var(--orange)" }}
-                        >
-                          By {p?.landlord}
-                        </span>
                         <span>Bedrooms - {p?.bedrooms}</span>
                         <span>Bathrooms - {p?.bathrooms}</span>
                         <span>Floors - {p?.floors}</span>
@@ -255,35 +253,35 @@ function PropertiesUI() {
                     <div className="w-20 h-20 overflow-hidden rounded-md">
                       <Link href={`/details/properties/${p?.property_code}`}>
                         <a>
-                      <img
-                        src={p?.front_image || "/images/website/no_photo.png"}
-                        alt="property"
-                        layout="responsive"
-                        width="80"
-                        height="80"
-                      /></a>
-                    </Link>
+                          <img
+                            src={
+                              p?.front_image || "/images/website/no_photo.png"
+                            }
+                            alt="property"
+                            layout="responsive"
+                            width="80"
+                            height="80"
+                          />
+                        </a>
+                      </Link>
                     </div>
                     <div
                       className="flex flex-col flex-grow px-5 leading-4"
                       style={{ fontFamily: "Opensans-regular" }}
-                    ><Link href={`/details/properties/${p?.property_code}`}>
-                    <a>
-                      <h6
-                        className="text-gray-800"
-                        style={{ fontFamily: "Opensans-bold" }}
-                      >
-                        {p?.property_name}
-                      </h6></a></Link>
+                    >
+                      <Link href={`/details/properties/${p?.property_code}`}>
+                        <a>
+                          <h6
+                            className="text-gray-800"
+                            style={{ fontFamily: "Opensans-bold" }}
+                          >
+                            {p?.property_name}
+                          </h6>
+                        </a>
+                      </Link>
                       <p className="text-gray-400">
                         {p?.property_short_description}
                       </p>
-                      <span
-                        className="font-bold"
-                        style={{ color: "var(--orange)" }}
-                      >
-                        By {p?.property_posted_by}
-                      </span>
                     </div>
                     <span className="flex items-center text-lg">
                       <span className="m-1" style={{ color: "var(--blue)" }}>
@@ -328,36 +326,37 @@ function PropertiesUI() {
                       <ReactTooltip />
                     </span>
                     <div className="w-20 h-20 overflow-hidden rounded-md">
-                    <Link href={`/details/properties/${p?.property_code}`}>
+                      <Link href={`/details/properties/${p?.property_code}`}>
                         <a>
-                      <img
-                        src={p?.front_image || "/images/website/no_photo.png"}
-                        alt="property"
-                        layout="responsive"
-                        width="80"
-                        height="80"
-                      /></a></Link>
+                          <img
+                            src={
+                              p?.front_image || "/images/website/no_photo.png"
+                            }
+                            alt="property"
+                            layout="responsive"
+                            width="80"
+                            height="80"
+                          />
+                        </a>
+                      </Link>
                     </div>
                     <div
                       className="flex flex-col flex-grow px-5 leading-4"
                       style={{ fontFamily: "Opensans-regular" }}
-                    ><Link href={`/details/properties/${p?.property_code}`}>
-                    <a>
-                      <h6
-                        className="text-gray-800"
-                        style={{ fontFamily: "Opensans-bold" }}
-                      >
-                        {p?.property_name}
-                      </h6></a></Link>
+                    >
+                      <Link href={`/details/properties/${p?.property_code}`}>
+                        <a>
+                          <h6
+                            className="text-gray-800"
+                            style={{ fontFamily: "Opensans-bold" }}
+                          >
+                            {p?.property_name}
+                          </h6>
+                        </a>
+                      </Link>
                       <p className="text-gray-400">
                         {p?.property_short_description}
                       </p>
-                      <span
-                        className="font-bold"
-                        style={{ color: "var(--orange)" }}
-                      >
-                        By {p?.property_posted_by}
-                      </span>
                     </div>
                     <span className="flex items-center text-lg">
                       <span className="m-1" style={{ color: "var(--blue)" }}>

@@ -19,8 +19,6 @@ function TenantCard({ a, info }) {
     }
   };
 
-  console.log(a);
-
   return (
     <>
       {isLoading && <Loader />}

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
+import Link from "next/link";
 import Loader from "../loader";
 import {
   assignPropertyVerification,
@@ -400,6 +401,43 @@ function ViewProperties({ property }) {
               Reject
             </button>
           </div>
+        )}
+        <hr className="mb-2" />
+        <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-3">
+          <div className="px-5">
+            <h5>Owner Details</h5>
+            <p className="mt-2">
+              {property?.owner_data?.first} {property?.owner_data?.last}
+            </p>
+            <p className="my-5">
+              <Link href={`/admin/landlords/${property?.owner_data?.id}`}>
+                <a className="p-2 rounded-md bg-blue-500 text-white">View</a>
+              </Link>
+            </p>
+          </div>
+          {property?.ibo && (
+            <div className="px-5">
+              <h5>IBO Details</h5>
+              <p className="mt-2">
+                {property?.ibo_data?.first} {property?.ibo_data?.last}
+              </p>
+              <p className="my-5">
+                <Link href={`/admin/ibos/${property?.ibo_data?.id}`}>
+                  <a className="p-2 rounded-md bg-blue-500 text-white">View</a>
+                </Link>
+              </p>
+            </div>
+          )}
+        </div>
+        {property?.ibo && (
+          <p className="m-2 font-bold">
+            Property is posted by {property?.ibo_data?.first}
+          </p>
+        )}
+        {!property?.ibo && (
+          <p className="m-2 font-bold">
+            Property is posted by {property?.owner_data?.first}
+          </p>
         )}
         <hr className="mb-2" />
         <div className="flex flex-col mt-5 px-2">
