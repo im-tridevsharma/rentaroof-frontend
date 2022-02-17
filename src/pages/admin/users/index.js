@@ -3,12 +3,12 @@ import Link from "next/link";
 import Image from "next/image";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { FiEdit, FiEye, FiRefreshCw, FiTrash } from "react-icons/fi";
-import Datatable from "../../../components/datatable";
+import { FiCheck, FiEdit, FiEye, FiRefreshCw, FiTrash } from "react-icons/fi";
 import SectionTitle from "../../../components/section-title";
 import getUsers, {
   activateUserProfile,
   banUserProfile,
+  bulkActionUsers,
   deleteUser,
   getUserById,
 } from "../../../lib/users";
@@ -25,6 +25,7 @@ function Index() {
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [isRefresh, setIsRefresh] = useState(false);
+  const [selected, setSelected] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -100,6 +101,16 @@ function Index() {
   const AddUser = () => {
     return (
       <div className="flex items-center">
+        <div className="mr-5">
+          <select className="form-select" onChange={performAction}>
+            <option value="">Bulk Action</option>
+            <option value="mark-activated">Mark Activated</option>
+            <option value="mark-banned">Mark Banned</option>
+            <option value="mark-deactivated">Deactivate</option>
+            <option value="mark-not-verified">Mark Not Verified</option>
+            <option value="remove">Remove</option>
+          </select>
+        </div>
         <Link href="/admin/users/add">
           <a className="btn btn-default bg-blue-500 text-white rounded-lg hover:bg-blue-400">
             Add New
@@ -115,6 +126,36 @@ function Index() {
         </button>
       </div>
     );
+  };
+
+  const selectUser = (e) => {
+    if (e.target.checked) {
+      setSelected((prev) => [...prev, e.target.value]);
+    } else {
+      setSelected((prev) => prev.filter((s) => s !== e.target.value));
+    }
+  };
+
+  const performAction = async (e) => {
+    if (e.target.value) {
+      if (selected.length > 0) {
+        setIsLoading(true);
+        const res = await bulkActionUsers({
+          action: e.target.value,
+          ids: selected,
+        });
+        if (res?.status) {
+          toast.success(res.message);
+          setIsLoading(false);
+          setIsRefresh(!isRefresh);
+        } else {
+          toast.error(res?.message);
+          setIsLoading(false);
+        }
+      } else {
+        toast.warn("Please select users to perform bulk action.");
+      }
+    }
   };
 
   return (
@@ -136,18 +177,108 @@ function Index() {
       )}
       <SectionTitle title="Users" subtitle="All Users" right={<AddUser />} />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
-        {users?.length ? (
-          <Table
-            users={users}
-            edit={editUser}
-            del={delUser}
-            view={viewProfile}
-            ban={banUser}
-            activate={activateUser}
-          />
-        ) : (
-          <p className="mt-5">No users found!</p>
-        )}
+        <table className="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Mobile</th>
+              <th>Gender</th>
+              <th>Account Status</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users?.length > 0 ? (
+              users?.map((p, i) => (
+                <tr
+                  key={i}
+                  className={`${
+                    p?.account_status === "not-verified" && "bg-yellow-50"
+                  } ${p?.account_status === "de-activated" && "bg-red-50"} ${
+                    p?.account_status === "activated" && "bg-green-50"
+                  }  ${p?.account_status === "banned" && "bg-red-100"}
+                  ${p?.account_status === "deactivated" && "bg-yellow-200"}`}
+                >
+                  <td>
+                    <input
+                      type="checkbox"
+                      value={p?.id}
+                      onChange={selectUser}
+                    />
+                  </td>
+                  <td className="">
+                    {p?.first} {p?.last}
+                  </td>
+                  <td>
+                    {p?.email_verified === 1 && (
+                      <FiCheck
+                        data-tip="Email Verified"
+                        className="text-green-600 text-lg mr-2"
+                      />
+                    )}
+                    {p?.email}
+                  </td>
+                  <td>
+                    {p?.mobile_verified === 1 && (
+                      <FiCheck
+                        data-tip="Mobile Verified"
+                        className="text-green-600 text-lg mr-2"
+                      />
+                    )}
+                    {p?.mobile}
+                  </td>
+                  <td>{p?.gender}</td>
+                  <td>{p?.account_status}</td>
+                  <td>{p?.is_logged_in === 1 ? "Online" : "Offline"}</td>
+                  <td>
+                    <button
+                      onClick={() => delUser(p?.id)}
+                      data-tip="Remove"
+                      className="btn px-2 py-1 bg-red-400 rounded-md hover:bg-red-500"
+                    >
+                      <FiTrash />
+                    </button>
+                    <button
+                      onClick={() => viewProfile(p?.id)}
+                      data-tip="View"
+                      className="ml-2 btn px-2 py-1 bg-blue-400 rounded-md hover:bg-blue-500"
+                    >
+                      <FiEye />
+                    </button>
+                    <button
+                      onClick={() => editUser(p?.id)}
+                      data-tip="Edit"
+                      className="ml-2 btn px-2 py-1 bg-green-400 rounded-md hover:bg-green-500"
+                    >
+                      <FiEdit />
+                    </button>
+                    <button
+                      onClick={() => banUser(p?.id)}
+                      data-tip="Ban"
+                      className="ml-2 btn px-2 py-1 bg-red-400 rounded-md hover:bg-red-500"
+                    >
+                      <FaBan />
+                    </button>
+                    <button
+                      onClick={() => activateUser(p?.id)}
+                      data-tip="Activate"
+                      className="ml-2 btn px-2 py-1 bg-green-400 rounded-md hover:bg-green-500"
+                    >
+                      <FaCheck />
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={8}>No users found!</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
       {isLoading && <Loader />}
     </div>
@@ -155,123 +286,3 @@ function Index() {
 }
 
 export default Index;
-
-const Table = ({ users, edit, del, view, ban, activate }) => {
-  const columns = [
-    {
-      Header: "Proile Pic",
-      accessor: "profile_pic",
-      Cell: (props) => {
-        return props.value ? (
-          <Image
-            width={40}
-            height={40}
-            className="rounded-full object-contain"
-            src={props.value}
-          />
-        ) : (
-          "-"
-        );
-      },
-    },
-    {
-      Header: "Name",
-      accessor: "first",
-    },
-    {
-      Header: "Email",
-      accessor: "email",
-    },
-    {
-      Header: "Mobile",
-      accessor: "mobile",
-    },
-    {
-      Header: "Gender",
-      accessor: "gender",
-    },
-    {
-      Header: "Registered On",
-      accessor: "created_at",
-      Cell: (props) => {
-        return <span>{new Date(props.value).toDateString()}</span>;
-      },
-    },
-    {
-      Header: "Account Status",
-      accessor: "account_status",
-      Cell: (props) => {
-        return props.value === "activated" ? (
-          <span className="px-1 text-xs bg-green-400 rounded-full uppercase">
-            Activated
-          </span>
-        ) : (
-          <span className="px-1 text-xs bg-red-400 rounded-full uppercase">
-            {props.value}
-          </span>
-        );
-      },
-    },
-    {
-      Header: "Status",
-      accessor: "is_logged_in",
-      Cell: (props) => {
-        return props.value === 1 ? (
-          <span className="px-1 text-xs bg-green-400 rounded-full">Online</span>
-        ) : (
-          <span className="px-1 text-xs bg-red-400 rounded-full">Offline</span>
-        );
-      },
-    },
-    {
-      Header: "Action",
-      accessor: "id",
-      Cell: (props) => {
-        return (
-          <>
-            <button
-              onClick={() => del(props.value)}
-              data-tip="Remove"
-              className="btn px-2 py-1 bg-red-400 rounded-md hover:bg-red-500"
-            >
-              <FiTrash />
-            </button>
-            <button
-              onClick={() => edit(props.value)}
-              data-tip="Edit"
-              className="ml-2 btn px-2 py-1 bg-blue-400 rounded-md hover:bg-blue-500"
-            >
-              <FiEdit />
-            </button>
-            <button
-              onClick={() => view(props.value)}
-              data-tip="View"
-              className="ml-2 btn px-2 py-1 bg-blue-400 rounded-md hover:bg-blue-500"
-            >
-              <FiEye />
-            </button>
-            {users?.filter((u) => u.id === parseInt(props.value))[0]
-              ?.account_status !== "banned" ? (
-              <button
-                onClick={() => ban(props.value)}
-                data-tip="Ban USER"
-                className="ml-2 btn px-2 py-1 bg-red-400 rounded-md hover:bg-red-500"
-              >
-                <FaBan />
-              </button>
-            ) : (
-              <button
-                onClick={() => activate(props.value)}
-                data-tip="Activate USER"
-                className="ml-2 btn px-2 py-1 bg-green-400 rounded-md hover:bg-green-500 text-white"
-              >
-                <FaCheck />
-              </button>
-            )}
-          </>
-        );
-      },
-    },
-  ];
-  return <Datatable columns={columns} data={users} />;
-};

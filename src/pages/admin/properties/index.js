@@ -175,7 +175,7 @@ function Index() {
                       onChange={selectProperty}
                     />
                   </td>
-                  <td className="flex items-center">
+                  <td className="">
                     {p?.is_featured === 1 && (
                       <FiCheckCircle
                         data-tip="Featured"

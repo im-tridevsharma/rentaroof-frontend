@@ -64,7 +64,7 @@ function Index() {
 
   const filterUsers = (e) => {
     setIsSearching(true);
-    if(e.target.value){
+    if (e.target.value) {
       const value = e.target.value.toLowerCase();
       setFilteredUsers(
         users.filter(
@@ -73,19 +73,48 @@ function Index() {
             u.last?.toLowerCase().includes(value) ||
             u.email?.toLowerCase().includes(value) ||
             u.mobile?.toLowerCase().includes(value) ||
-            u.system_userid?.toLowerCase().includes(value) || 
+            u.system_userid?.toLowerCase().includes(value) ||
             u.role?.toLowerCase().includes(value)
         )
       );
-    }else{
+    } else {
       setIsSearching(false);
-      setHoveredUser(null)
+      setHoveredUser(null);
     }
-  }
+  };
 
   return (
     <div className="flex items-center flex-col">
       {isLoading && <Loader />}
+      <div className="flex items-center justify-around mb-3">
+        <div className="flex items-center">
+          <img
+            width="30"
+            height="30"
+            src="/icons/ibo_icons/user_marker.png"
+            alt="tenant"
+          />
+          <p>Tenant</p>
+        </div>
+        <div className="flex items-center mx-4">
+          <img
+            width="30"
+            height="30"
+            src="/icons/ibo_icons/ibo_marker.png"
+            alt="tenant"
+          />
+          <p>Ibo</p>
+        </div>
+        <div className="flex items-center">
+          <img
+            width="30"
+            height="30"
+            src="/icons/ibo_icons/tenant_marker.png"
+            alt="tenant"
+          />
+          <p>Landlord</p>
+        </div>
+      </div>
       {/**search bar */}
       <div className="max-w-3xl w-full mb-3">
         <input
@@ -100,7 +129,10 @@ function Index() {
             {filteredUsers?.length > 0 ? (
               filteredUsers.map((u, i) => (
                 <div
-                  onClick={() => {setHoveredUser(u?.id); setIsSearching(false)}}
+                  onClick={() => {
+                    setHoveredUser(u?.id);
+                    setIsSearching(false);
+                  }}
                   className="py-1 hover:bg-white flex items-center px-3 border cursor-pointer mt-1 rounded-md"
                   key={i}
                 >
@@ -124,7 +156,7 @@ function Index() {
           </div>
         )}
       </div>
-      <div className="w-full bg-gray-50 rounded-sm h-128">
+      <div className="w-full bg-gray-50 rounded-lg overflow-hidden h-128">
         {isLoaded && (users?.length > 0 || center) && (
           <GoogleMap
             onLoad={handleOnLoad}
@@ -139,7 +171,13 @@ function Index() {
                   lng: parseFloat(user?.address?.long),
                 }}
                 onClick={() => handleActiveMarker(user.id)}
-                icon="/icons/ibo_icons/marker.png"
+                icon={
+                  user?.role === "ibo"
+                    ? "/icons/ibo_icons/ibo_marker.png"
+                    : user?.role === "landlord"
+                    ? "/icons/ibo_icons/tenant_marker.png"
+                    : "/icons/ibo_icons/user_marker.png"
+                }
                 animation={hoveredUser === user?.id ? 1 : null}
               >
                 {activeMarker === user.id ? (

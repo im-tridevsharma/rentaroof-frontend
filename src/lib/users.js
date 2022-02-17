@@ -23,6 +23,26 @@ const getUsers = async () => {
   return users;
 };
 
+export const bulkActionUsers = async (data) => {
+  const token = getToken();
+  let user = false;
+
+  if (token) {
+    await server
+      .post(`/admin/users/bulk_action`, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        user = response?.data;
+      })
+      .catch((error) => {
+        user = error?.response?.data;
+      });
+  }
+
+  return user;
+};
+
 export const getUsersForMap = async () => {
   const token = getToken();
   let users = false;

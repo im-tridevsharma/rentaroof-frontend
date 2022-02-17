@@ -121,7 +121,6 @@ button {
     outline: none !important;
   }
 }
-
 /**
  * hide scrollbars
  */
@@ -173,6 +172,7 @@ body {
     @apply bg-gray-800;
   }
 }
+
 .link {
   @apply text-blue-500;
 }

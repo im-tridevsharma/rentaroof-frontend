@@ -165,16 +165,16 @@ function Header() {
               </a>
               <ul className="absolute childs top-6 pt-5 left-0  bg-white px-2 py-1 rounded-md z-40 w-max">
                 <li className="my-2 hover:text-blue-500">
-                  <Link href="/services">
+                  <Link href="/for-tenant">
                     <a className="py-2 px-3 border-b-2 border-transparent">
-                      Services
+                      For Tenant
                     </a>
                   </Link>
                 </li>
                 <li className="my-2 hover:text-blue-500">
-                  <Link href="/documentation-process">
+                  <Link href="/for-homeowner">
                     <a className="py-2 px-3 border-b-2 border-transparent">
-                      Documentation Process
+                      For Homeowner
                     </a>
                   </Link>
                 </li>
@@ -188,25 +188,11 @@ function Header() {
               </ul>
             </li>
             <li className="mx-2 parent relative">
-              <a className="py-2 px-3 border-b-2 border-transparent">
-                Join our Team
-              </a>
-              <ul className="absolute childs top-6 pt-5 left-0  bg-white px-2 py-1 rounded-md z-40 w-max">
-                <li className="my-2 hover:text-blue-500">
-                  <Link href="/realtor">
-                    <a className="py-2 px-3 border-b-2 border-transparent">
-                      Realtor
-                    </a>
-                  </Link>
-                </li>
-                <li className="my-2 hover:text-blue-500">
-                  <Link href="/homeowners">
-                    <a className="py-2 px-3 border-b-2 border-transparent">
-                      Homeowners
-                    </a>
-                  </Link>
-                </li>
-              </ul>
+              <Link href="/join-our-team">
+                <a className="py-2 px-3 border-b-2 border-transparent">
+                  Join our Team
+                </a>
+              </Link>
             </li>
             <li className="mx-2">
               <Link href="/our-advantages">
