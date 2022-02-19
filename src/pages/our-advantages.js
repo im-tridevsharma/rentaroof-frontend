@@ -15,7 +15,7 @@ function Advantages() {
         <meta name="keywords" content="services, rental, rent a roof" />
         <meta name="description" content="We offers rental services." />
       </Head>
-      <div className="py-20 bg-gray-100">
+      <div className="py-20 bg-white">
         <div className="max-w-6xl w-full m-auto ">
           <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5">
             <div className="md:pr-10">

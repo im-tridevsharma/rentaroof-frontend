@@ -129,7 +129,7 @@ function Header() {
         </div>
       </div>
       {/**header nav part */}
-      <div className="px-5 py-2 bg-white flex flex-col sm:flex-row items-center sm:justify-between">
+      <div className="px-5 py-2 shadow-sm bg-white flex flex-col sm:flex-row items-center sm:justify-between">
         {/**logo */}
         <div>
           <Link href="/">

@@ -3,7 +3,6 @@ import Head from "next/head";
 import Link from "next/link";
 import Footer from "../components/website/Footer";
 import Header from "../components/website/Header";
-import { FiCheck } from "react-icons/fi";
 
 function Services() {
   return (
@@ -16,79 +15,118 @@ function Services() {
         <meta name="description" content="We offers rental services." />
       </Head>
 
-      <div className="pb-20 pt-5 bg-white">
-        <div className="max-w-6xl w-full m-auto ">
+      <div className="pb-20 bg-white">
+        <div
+          className="h-96 w-full"
+          style={{
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            backgroundImage:
+              "url(https://c.wallhere.com/photos/25/ed/world_trip_travel_bridge_blue_red_vacation_italy-622499.jpg!d)",
+          }}
+        ></div>
+        <div className="max-w-6xl mt-10  w-full m-auto ">
           <div className="mb-20 relative">
-            <h2 style={{ fontFamily: "Opensans-bold" }} className="my-7">
+            <h2
+              style={{ fontFamily: "Opensans-bold" }}
+              className="my-7 text-gray-700"
+            >
               Renting a house with pleasure.
             </h2>
-            <p className="text-lg">
+            <p className="text-lg text-gray-700">
               When homeowners decide they want to put up their home for
               rent/sale, the vast majority will call a real estate brokerage to
               work with an agent to get their homes listed on the local Multiple
-              Listing Service (MLS). This database is shared among all local
-              brokerage members, who then work to bring in a buyer for the home.
-              In listing a home, the real estate agent will be performing the
+              Listing Service. This database is shared among all local brokerage
+              members, who then work to bring in a tenant for the home. In
+              listing a home, the real estate agent will be performing the
               following duties and activities:
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 relative">
-            <div
-              className="rounded-md h-96 z-20"
-              style={{
-                backgroundRepeat: "no-repeat",
-                backgroundImage: "url(images/website/home-owner.jpg)",
-                backgroundSize: "cover",
-              }}
-            ></div>
-            <div className="w-full md:w-1/2 h-full z-10 absolute -bottom-5 -left-0 shadow-lg rounded-md bg-white"></div>
-            <div className="md:pl-10">
-              <ul className="text-lg" style={{ fontSize: "14px" }}>
-                <li className="flex">
-                  ✔ Determine the home's value in the current market for a
-                  listing price.
-                </li>
+          <div className="w-full relative">
+            <ul className="text-gray-700" style={{ fontSize: "16px" }}>
+              <li className="flex items-center">
+                <img src="icons/home/point-icon.png" width="35" height="35" />
+                <p className="ml-3">
+                  Determine the home's value in the current market for a listing
+                  price.
+                </p>
+              </li>
 
-                <li className="flex mt-2">
-                  ✔ Advise the homeowner in readying the home for listing and
+              <li className="flex mt-2 items-center">
+                <img src="icons/home/point-icon.png" width="35" height="35" />
+                <p className="ml-3">
+                  Advise the homeowner in readying the home for listing and
                   showings.
-                </li>
+                </p>
+              </li>
 
-                <li className="flex mt-2">
-                  ✔ Enter the home into Rent-A-Roof database.
-                </li>
+              <li className="flex mt-2 items-center">
+                <img src="icons/home/point-icon.png" width="35" height="35" />
+                <p className="ml-3">
+                  Enter the home into the Rent-A-Roof database.
+                </p>
+              </li>
 
-                <li className="flex mt-2">
-                  ✔ Market the home to other agents and brokerage members of
+              <li className="flex mt-2 items-center">
+                <img src="icons/home/point-icon.png" width="35" height="35" />
+                <p className="ml-3">
+                  Market the home to other agents and brokerage members of
                   R-A-R.
-                </li>
+                </p>
+              </li>
 
-                <li className="flex mt-2">
-                  ✔ Market the home on traditional media, as well as on the
+              <li className="flex mt-2 items-center">
+                <img src="icons/home/point-icon.png" width="35" height="35" />
+                <p className="ml-3">
+                  Market the home on traditional media, as well as on the
                   Internet.
-                </li>
+                </p>
+              </li>
 
-                <li className="flex mt-2">
-                  ✔ Supervise and/or schedule home showings.
-                </li>
+              <li className="flex mt-2 items-center">
+                <img src="icons/home/point-icon.png" width="35" height="35" />
+                <p className="ml-3">Supervise and/or schedule home showings.</p>
+              </li>
 
-                <li className="flex mt-2">
-                  ✔ Report to the Renter any interest and feedback from clients
-                  who have seen the home.
-                </li>
+              <li className="flex mt-2 items-center">
+                <img src="icons/home/point-icon.png" width="35" height="35" />
+                <p className="ml-3">
+                  Report to the Rentor any interest and feedback from s who have
+                  seen the home.
+                </p>
+              </li>
 
-                <li className="flex mt-2">
-                  ✔ When a client makes an offer, agents help the owner to try
-                  to get the price they want and to obtain a signed
-                  Rent-agreement.
-                </li>
-
-                <li className="flex mt-2">
-                  ✔ Coordinate the process from signing the contract to closing
-                  the deal, including scheduling inspections, preparing
-                  documents and other items necessary to close.
-                </li>
-              </ul>
+              <li className="flex mt-2 items-center">
+                <img src="icons/home/point-icon.png" width="35" height="35" />
+                <p className="ml-3">
+                  When a client makes an offer, agents help the owner to try to
+                  get the price they want and to obtain a signed Rent-agreement.
+                </p>
+              </li>
+            </ul>
+            <p className="text-lg text-gray-700 my-12">
+              Coordinate the process from signing the contract to closing the
+              deal, including scheduling inspections, preparing documents and
+              other items necessary to close.
+            </p>
+            <div className="text-center mt-20">
+              <h2
+                style={{ fontFamily: "Opensans-bold" }}
+                className="my-7 text-gray-700"
+              >
+                List Your First Property
+              </h2>
+              <p className="mt-10">
+                <Link href="/list-property">
+                  <a
+                    className="py-3 px-10 text-lg rounded-full text-white"
+                    style={{ background: "var(--blue)" }}
+                  >
+                    List
+                  </a>
+                </Link>
+              </p>
             </div>
           </div>
         </div>

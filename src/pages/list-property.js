@@ -119,7 +119,7 @@ function ListProperty() {
         className="flex flex-col relative"
         style={{
           backgroundPosition: "top center",
-          backgroundImage: "url(images/website/rent.jpg)",
+          backgroundImage: "url(images/website/bg.png)",
         }}
       >
         <div
