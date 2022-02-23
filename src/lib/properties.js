@@ -141,6 +141,26 @@ export const bulkAction = async (data) => {
   return property;
 };
 
+export const bulkImport = async (data) => {
+  const token = getToken();
+  let property = false;
+
+  if (token) {
+    await server
+      .post(`/admin/properties/bulk_import`, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        property = response?.data;
+      })
+      .catch((error) => {
+        property = error?.response?.data;
+      });
+  }
+
+  return property;
+};
+
 export const deleteProperty = async (id) => {
   const token = getToken();
   let res = false;

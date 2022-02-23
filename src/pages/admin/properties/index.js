@@ -116,7 +116,7 @@ function Index() {
             <option value="remove">Remove</option>
           </select>
         </div>
-        <Link href="/admin/properties">
+        <Link href="/admin/properties/import">
           <a className="btn btn-default bg-blue-500 text-white rounded-lg hover:bg-blue-400">
             Bulk Import
           </a>

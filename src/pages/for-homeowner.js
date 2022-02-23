@@ -31,20 +31,26 @@ function Services() {
               style={{ fontFamily: "Opensans-bold" }}
               className="my-7 text-gray-700"
             >
-              Renting a house with pleasure.
+              For Homeowner
             </h2>
-            <p className="text-lg text-gray-700">
+            <p
+              className="text-lg text-gray-700"
+              style={{ fontFamily: "Opensans-regular" }}
+            >
               When homeowners decide they want to put up their home for
-              rent/sale, the vast majority will call a real estate brokerage to
-              work with an agent to get their homes listed on the local Multiple
-              Listing Service. This database is shared among all local brokerage
-              members, who then work to bring in a tenant for the home. In
-              listing a home, the real estate agent will be performing the
-              following duties and activities:
+              rent/sale, the vast majority will call a real estate brokerage
+              firm to work with an agent to get their homes listed on the local
+              Multiple Listing Service. This database is shared among all local
+              brokerage members, who then work to bring in a tenant for the
+              home. In listing a home, the real estate agent will be performing
+              the following duties and activities:
             </p>
           </div>
           <div className="w-full relative">
-            <ul className="text-gray-700" style={{ fontSize: "16px" }}>
+            <ul
+              className="text-gray-700"
+              style={{ fontSize: "16px", fontFamily: "Opensans-regular" }}
+            >
               <li className="flex items-center">
                 <img src="icons/home/point-icon.png" width="35" height="35" />
                 <p className="ml-3">
@@ -79,8 +85,8 @@ function Services() {
               <li className="flex mt-2 items-center">
                 <img src="icons/home/point-icon.png" width="35" height="35" />
                 <p className="ml-3">
-                  Market the home on traditional media, as well as on the
-                  Internet.
+                  Market the home to other agents and brokerage members of
+                  R-A-R.
                 </p>
               </li>
 
@@ -92,11 +98,22 @@ function Services() {
               <li className="flex mt-2 items-center">
                 <img src="icons/home/point-icon.png" width="35" height="35" />
                 <p className="ml-3">
-                  Report to the Rentor any interest and feedback from s who have
-                  seen the home.
+                  Market the home on traditional media, as well as on the
+                  Internet.
                 </p>
               </li>
 
+              <li className="flex mt-2 items-center">
+                <img src="icons/home/point-icon.png" width="35" height="35" />
+                <p className="ml-3">Supervise and/or schedule home showings.</p>
+              </li>
+              <li className="flex mt-2 items-center">
+                <img src="icons/home/point-icon.png" width="35" height="35" />
+                <p className="ml-3">
+                  Report to the Rentor any interest and feedback from clients
+                  who have seen the home.
+                </p>
+              </li>
               <li className="flex mt-2 items-center">
                 <img src="icons/home/point-icon.png" width="35" height="35" />
                 <p className="ml-3">
@@ -105,11 +122,6 @@ function Services() {
                 </p>
               </li>
             </ul>
-            <p className="text-lg text-gray-700 my-12">
-              Coordinate the process from signing the contract to closing the
-              deal, including scheduling inspections, preparing documents and
-              other items necessary to close.
-            </p>
             <div className="text-center mt-20">
               <h2
                 style={{ fontFamily: "Opensans-bold" }}

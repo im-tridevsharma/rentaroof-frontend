@@ -31,19 +31,26 @@ function Services() {
               style={{ fontFamily: "Opensans-bold" }}
               className="my-7 text-gray-700"
             >
-              Simple Steps makes it bigger.
+              For Tenant
             </h2>
-            <p className="text-lg text-gray-700">
-              Typically people don't have in-depth knowledge about the real
+            <p
+              className="text-lg text-gray-700"
+              style={{ fontFamily: "Opensans-regular" }}
+            >
+              Typically, people don't have in-depth knowledge about the real
               estate markets where they wish to rent homes. They need agents to
               guide them through neighbourhoods and find homes that best suit
               their needs. Some agents specialize in working with tenants. They
-              help their s navigate all aspects of the home buying process, from
-              finding homes to completing the documentation process.
+              help their clients navigate all aspects of the home renting
+              process, from finding homes to completing the documentation
+              process.
             </p>
           </div>
           <div className="w-full relative">
-            <ul className="text-gray-700" style={{ fontSize: "16px" }}>
+            <ul
+              className="text-gray-700"
+              style={{ fontSize: "16px", fontFamily: "Opensans-regular" }}
+            >
               <li className="flex items-center">
                 <img src="icons/home/point-icon.png" width="35" height="35" />
                 <p className="ml-3">
@@ -75,13 +82,6 @@ function Services() {
               <li className="flex mt-2 items-center">
                 <img src="icons/home/point-icon.png" width="35" height="35" />
                 <p className="ml-3">
-                  Work with them to craft the initial offer in a rent agreement.
-                </p>
-              </li>
-
-              <li className="flex mt-2 items-center">
-                <img src="icons/home/point-icon.png" width="35" height="35" />
-                <p className="ml-3">
                   Work with them through negotiations and counter-offers with
                   the Rentor(s).
                 </p>
@@ -91,7 +91,7 @@ function Services() {
                 <img src="icons/home/point-icon.png" width="35" height="35" />
                 <p className="ml-3">
                   After the rent agreement is executed, coordinate the
-                  transaction process on the tenant side.
+                  transaction process.
                 </p>
               </li>
 
@@ -112,7 +112,7 @@ function Services() {
                 style={{ fontFamily: "Opensans-bold" }}
                 className="my-7 text-gray-700"
               >
-                Find Your First Dream Home
+                Let’s go find the right home for you
               </h2>
               <p className="mt-10">
                 <Link href="/">
@@ -120,7 +120,7 @@ function Services() {
                     className="py-3 px-10 text-lg rounded-full text-white"
                     style={{ background: "var(--blue)" }}
                   >
-                    Find
+                    Search
                   </a>
                 </Link>
               </p>
