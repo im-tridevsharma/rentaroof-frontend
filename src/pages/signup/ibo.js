@@ -3,10 +3,14 @@ import Head from "next/head";
 import Link from "next/link";
 import { BiBadgeCheck, BiError } from "react-icons/bi";
 import Loader from "../../components/loader";
-import { emailVerity, mobileVerity, registerUser } from "../../lib/frontend/auth";
+import {
+  emailVerity,
+  mobileVerity,
+  registerUser,
+} from "../../lib/frontend/auth";
 import server from "../../server";
-import {GrFormPreviousLink} from 'react-icons/gr'
-import {useRouter} from 'next/router'
+import { GrFormPreviousLink } from "react-icons/gr";
+import { useRouter } from "next/router";
 
 const getWebsiteValues = async (key) => {
   let setting = "";
@@ -71,7 +75,7 @@ function Index({ rcode }) {
           setIsLoading(false);
           setState({ role: "", name: "", email: "", password: "" });
           document.forms.signup.reset();
-          setIsSubmitted('email');
+          setIsSubmitted("email");
           setUser(response?.user);
           setSuccess(response?.message);
           setTimeout(() => {
@@ -81,7 +85,7 @@ function Index({ rcode }) {
           setErrors(response.error);
           setIsLoading(false);
           setTimeout(() => {
-            setErrors(false)  
+            setErrors(false);
           }, 3000);
         }
       })();
@@ -92,48 +96,47 @@ function Index({ rcode }) {
 
   const handleEmailVerification = async (e) => {
     e.preventDefault();
-    if(!emailotp){
-      setErrors([['Please enter OTP sent on your email.']]);
-    }else{
+    if (!emailotp) {
+      setErrors([["Please enter OTP sent on your email."]]);
+    } else {
       setIsLoading(true);
-      const res = await emailVerity({user_id: user?.id, otp: emailotp});
-      if(res?.status){
+      const res = await emailVerity({ user_id: user?.id, otp: emailotp });
+      if (res?.status) {
         setSuccess(res?.message);
-        setIsSubmitted('mobile');
+        setIsSubmitted("mobile");
         setIsLoading(false);
-      }else{
+      } else {
         setIsLoading(false);
         setErrors([[res?.message]]);
         setTimeout(() => {
-          setErrors(false)  
+          setErrors(false);
         }, 3000);
       }
     }
-  }
+  };
 
   const handleMobileVerification = async (e) => {
     e.preventDefault();
-    if(!mobileotp){
-      setErrors([['Please enter OTP sent on your mobile.']]);
-    }else{
+    if (!mobileotp) {
+      setErrors([["Please enter OTP sent on your mobile."]]);
+    } else {
       setIsLoading(true);
-      const res = await mobileVerity({user_id: user?.id, otp: mobileotp});
-      if(res?.status){
+      const res = await mobileVerity({ user_id: user?.id, otp: mobileotp });
+      if (res?.status) {
         setSuccess(res?.message);
         setIsLoading(false);
         setTimeout(() => {
-          router.push('/login');  
+          router.push("/login");
         }, 2000);
-      }else{
+      } else {
         setIsLoading(false);
         setErrors([[res?.message]]);
         setTimeout(() => {
-          setErrors(false)  
+          setErrors(false);
         }, 3000);
       }
     }
-  }
-
+  };
 
   return (
     <>
@@ -177,7 +180,11 @@ function Index({ rcode }) {
                 fontFamily: "Opensans-bold",
               }}
             >
-             <GrFormPreviousLink className="mr-5 cursor-pointer text-xl" onClick={() => router.back()}/> IBO Sign Up
+              <GrFormPreviousLink
+                className="mr-5 cursor-pointer text-xl"
+                onClick={() => router.back()}
+              />{" "}
+              Agent Sign Up
               <span
                 className="absolute bottom-0 left-0 w-7 h-1 rounded-full"
                 style={{
@@ -186,203 +193,207 @@ function Index({ rcode }) {
               ></span>
             </h6>
             {/**signup form */}
-            {!isSubmitted &&
-            <form
-              name="signup"
-              method="POST"
-              onSubmit={handleSubmit}
-              className="mt-5 px-2 w-full md:max-w-lg"
-            >
-              <div className="grid grid-cols-1 md:grid-cols-2">
-                <div
-                  className="form-element mt-5 text-gray-700"
-                  style={{ fontFamily: "Opensans-semi-bold" }}
-                >
-                  <div className="form-label">Category</div>
-                  <select
-                    name="category"
-                    className="form-input rounded-md border-2 border-gray-400"
-                    value={state?.category ? state.category : ""}
-                    onChange={handleChange}
-                    required={true}
+            {!isSubmitted && (
+              <form
+                name="signup"
+                method="POST"
+                onSubmit={handleSubmit}
+                className="mt-5 px-2 w-full md:max-w-lg"
+              >
+                <div className="grid grid-cols-1 md:grid-cols-2">
+                  <div
+                    className="form-element mt-5 text-gray-700"
+                    style={{ fontFamily: "Opensans-semi-bold" }}
                   >
-                    <option value="">Select</option>
-                    <option value="Individual">Individual</option>
-                    <option value="Company">Company</option>
-                    <option value="Housewives">Housewives</option>
-                    <option value="Student">Student</option>
-                    <option value="Other">Other</option>
-                  </select>
+                    <div className="form-label">Category</div>
+                    <select
+                      name="category"
+                      className="form-input rounded-md border-2 border-gray-400"
+                      value={state?.category ? state.category : ""}
+                      onChange={handleChange}
+                      required={true}
+                    >
+                      <option value="">Select</option>
+                      <option value="Individual">Individual</option>
+                      <option value="Company">Company</option>
+                      <option value="Housewives">Housewives</option>
+                      <option value="Student">Student</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                  <div
+                    className="form-element mt-5 text-gray-700 md:ml-2 ml-0"
+                    style={{ fontFamily: "Opensans-semi-bold" }}
+                  >
+                    <div className="form-label">Name</div>
+                    <input
+                      type="text"
+                      name="name"
+                      className="form-input rounded-md border-2 border-gray-400"
+                      value={state?.name ? state.name : ""}
+                      onChange={handleChange}
+                      required={true}
+                    />
+                  </div>
                 </div>
-                <div
-                  className="form-element mt-5 text-gray-700 md:ml-2 ml-0"
-                  style={{ fontFamily: "Opensans-semi-bold" }}
+                <div className="grid grid-cols-1 md:grid-cols-2">
+                  <div
+                    className="form-element mt-0 text-gray-700"
+                    style={{ fontFamily: "Opensans-semi-bold" }}
+                  >
+                    <div className="form-label">Email</div>
+                    <input
+                      type="text"
+                      name="email"
+                      className="form-input rounded-md border-2 border-gray-400"
+                      value={state?.email ? state.email : ""}
+                      onChange={handleChange}
+                      required={true}
+                    />
+                  </div>
+                  <div
+                    className="form-element mt-0 text-gray-700 md:ml-2 ml-0"
+                    style={{ fontFamily: "Opensans-semi-bold" }}
+                  >
+                    <div className="form-label">Mobile</div>
+                    <input
+                      type="text"
+                      name="mobile"
+                      className="form-input rounded-md border-2 border-gray-400"
+                      value={state?.mobile ? state.mobile : ""}
+                      onChange={handleChange}
+                      required={true}
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2">
+                  <div
+                    className="form-element mt-0 text-gray-700"
+                    style={{ fontFamily: "Opensans-semi-bold" }}
+                  >
+                    <div className="form-label">Password</div>
+                    <input
+                      type="password"
+                      name="password"
+                      className="form-input rounded-md border-2 border-gray-400"
+                      value={state?.password ? state.password : ""}
+                      onChange={handleChange}
+                      required={true}
+                    />
+                  </div>
+                  <div
+                    className="form-element mt-0 text-gray-700 md:ml-2 ml-0"
+                    style={{ fontFamily: "Opensans-semi-bold" }}
+                  >
+                    <div className="form-label">Referral Code</div>
+                    <input
+                      type="text"
+                      name="referral_code"
+                      placeholder="Optional"
+                      className="form-input rounded-md border-2 border-gray-400"
+                      value={state?.referral_code ? state.referral_code : ""}
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  className="uppercase w-full rounded-md p-2 text-white hover:opacity-90"
+                  style={{
+                    backgroundColor: "var(--blue)",
+                    fontFamily: "Opensans-bold",
+                  }}
                 >
-                  <div className="form-label">Name</div>
-                  <input
-                    type="text"
-                    name="name"
-                    className="form-input rounded-md border-2 border-gray-400"
-                    value={state?.name ? state.name : ""}
-                    onChange={handleChange}
-                    required={true}
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2">
-                <div
-                  className="form-element mt-0 text-gray-700"
-                  style={{ fontFamily: "Opensans-semi-bold" }}
-                >
-                  <div className="form-label">Email</div>
-                  <input
-                    type="text"
-                    name="email"
-                    className="form-input rounded-md border-2 border-gray-400"
-                    value={state?.email ? state.email : ""}
-                    onChange={handleChange}
-                    required={true}
-                  />
-                </div>
-                <div
-                  className="form-element mt-0 text-gray-700 md:ml-2 ml-0"
-                  style={{ fontFamily: "Opensans-semi-bold" }}
-                >
-                  <div className="form-label">Mobile</div>
-                  <input
-                    type="text"
-                    name="mobile"
-                    className="form-input rounded-md border-2 border-gray-400"
-                    value={state?.mobile ? state.mobile : ""}
-                    onChange={handleChange}
-                    required={true}
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2">
-                <div
-                  className="form-element mt-0 text-gray-700"
-                  style={{ fontFamily: "Opensans-semi-bold" }}
-                >
-                  <div className="form-label">Password</div>
-                  <input
-                    type="password"
-                    name="password"
-                    className="form-input rounded-md border-2 border-gray-400"
-                    value={state?.password ? state.password : ""}
-                    onChange={handleChange}
-                    required={true}
-                  />
-                </div>
-                <div
-                  className="form-element mt-0 text-gray-700 md:ml-2 ml-0"
-                  style={{ fontFamily: "Opensans-semi-bold" }}
-                >
-                  <div className="form-label">Referral Code</div>
-                  <input
-                    type="text"
-                    name="referral_code"
-                    placeholder="Optional"
-                    className="form-input rounded-md border-2 border-gray-400"
-                    value={state?.referral_code ? state.referral_code : ""}
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-              <button
-                type="submit"
-                className="uppercase w-full rounded-md p-2 text-white hover:opacity-90"
-                style={{
-                  backgroundColor: "var(--blue)",
-                  fontFamily: "Opensans-bold",
-                }}
-              >
-                Sign Up
-              </button>
-            </form>}
+                  Sign Up
+                </button>
+              </form>
+            )}
 
-            
             {/**email verification form */}
-            {isSubmitted === 'email' &&
-            <form
-              name="email_verification"
-              method="POST"
-              onSubmit={handleEmailVerification}
-              className="mt-10 px-2 w-full md:max-w-lg"
-            >
-              <h6 style={{fontFamily:'Opensans-bold'}}>Email Verification</h6>
-              <div className="grid grid-cols-1">
-                <div
-                  className="form-element mt-5 text-gray-700"
-                  style={{ fontFamily: "Opensans-semi-bold" }}
-                >
-                  <div className="form-label">OTP</div>
-                  <input
-                    type="text"
-                    name="email_otp"
-                    className="form-input rounded-md border-2 border-gray-400"
-                    value={emailotp ? emailotp : ""}
-                    onChange={e => setEmailOtp(e.target.value)}
-                    placeholder="Enter OTP sent on your email"
-                    required={true}
-                    maxLength={6}
-                    minLength={6}
-                  />
-                </div>
-              </div>
-              <button
-                type="submit"
-                className="uppercase w-full mb-4 rounded-md p-2 text-white hover:opacity-90"
-                style={{
-                  backgroundColor: "var(--blue)",
-                  fontFamily: "Opensans-bold",
-                }}
+            {isSubmitted === "email" && (
+              <form
+                name="email_verification"
+                method="POST"
+                onSubmit={handleEmailVerification}
+                className="mt-10 px-2 w-full md:max-w-lg"
               >
-                Verify
-              </button>
-            </form>}
-            
-            {/**otp verification form */}
-            {isSubmitted === 'mobile' && 
-            <form
-              name="mobile_verification"
-              method="POST"
-              onSubmit={handleMobileVerification}
-              className="mt-10 px-2 w-full md:max-w-lg"
-            >
-              <h6 style={{fontFamily:'Opensans-bold'}}>Mobile Verification</h6>
-              <div className="grid grid-cols-1">
-                <div
-                  className="form-element mt-5 text-gray-700"
-                  style={{ fontFamily: "Opensans-semi-bold" }}
-                >
-                  <div className="form-label">OTP</div>
-                  <input
-                    type="text"
-                    name="email_otp"
-                    className="form-input rounded-md border-2 border-gray-400"
-                    value={mobileotp ? mobileotp : ""}
-                    onChange={e => setMobileOtp(e.target.value)}
-                    placeholder="Enter OTP sent on your mobile number."
-                    maxLength={6}
-                    minLength={6}
-                    required={true}
-                  />
+                <h6 style={{ fontFamily: "Opensans-bold" }}>
+                  Email Verification
+                </h6>
+                <div className="grid grid-cols-1">
+                  <div
+                    className="form-element mt-5 text-gray-700"
+                    style={{ fontFamily: "Opensans-semi-bold" }}
+                  >
+                    <div className="form-label">OTP</div>
+                    <input
+                      type="text"
+                      name="email_otp"
+                      className="form-input rounded-md border-2 border-gray-400"
+                      value={emailotp ? emailotp : ""}
+                      onChange={(e) => setEmailOtp(e.target.value)}
+                      placeholder="Enter OTP sent on your email"
+                      required={true}
+                      maxLength={6}
+                      minLength={6}
+                    />
+                  </div>
                 </div>
-              </div>
-              <button
-                type="submit"
-                className="uppercase w-full mb-4 rounded-md p-2 text-white hover:opacity-90"
-                style={{
-                  backgroundColor: "var(--blue)",
-                  fontFamily: "Opensans-bold",
-                }}
-              >
-                Verify
-              </button>
-            </form>}
-            
+                <button
+                  type="submit"
+                  className="uppercase w-full mb-4 rounded-md p-2 text-white hover:opacity-90"
+                  style={{
+                    backgroundColor: "var(--blue)",
+                    fontFamily: "Opensans-bold",
+                  }}
+                >
+                  Verify
+                </button>
+              </form>
+            )}
 
+            {/**otp verification form */}
+            {isSubmitted === "mobile" && (
+              <form
+                name="mobile_verification"
+                method="POST"
+                onSubmit={handleMobileVerification}
+                className="mt-10 px-2 w-full md:max-w-lg"
+              >
+                <h6 style={{ fontFamily: "Opensans-bold" }}>
+                  Mobile Verification
+                </h6>
+                <div className="grid grid-cols-1">
+                  <div
+                    className="form-element mt-5 text-gray-700"
+                    style={{ fontFamily: "Opensans-semi-bold" }}
+                  >
+                    <div className="form-label">OTP</div>
+                    <input
+                      type="text"
+                      name="email_otp"
+                      className="form-input rounded-md border-2 border-gray-400"
+                      value={mobileotp ? mobileotp : ""}
+                      onChange={(e) => setMobileOtp(e.target.value)}
+                      placeholder="Enter OTP sent on your mobile number."
+                      maxLength={6}
+                      minLength={6}
+                      required={true}
+                    />
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  className="uppercase w-full mb-4 rounded-md p-2 text-white hover:opacity-90"
+                  style={{
+                    backgroundColor: "var(--blue)",
+                    fontFamily: "Opensans-bold",
+                  }}
+                >
+                  Verify
+                </button>
+              </form>
+            )}
 
             {/**other signup options */}
             <div className="w-full relative md:max-w-lg border-t-2 border-gray-200 mt-8">

@@ -161,7 +161,7 @@ function Header() {
           <ul className="hidden sm:flex sm:items-center">
             <li className="mx-2 relative parent">
               <a className="py-2 px-3 border-b-2 border-transparent">
-                Renting Resources
+                Home Renting Resources
               </a>
               <ul className="absolute childs top-6 pt-5 left-0  bg-white px-2 py-1 rounded-md z-40 w-max">
                 <li className="my-2 hover:text-blue-500">

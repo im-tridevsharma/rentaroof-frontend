@@ -4,15 +4,8 @@ import Footer from "../components/website/Footer";
 import Header from "../components/website/Header";
 import Link from "next/link";
 import { FiCheck } from "react-icons/fi";
-import Carousel from "react-grid-carousel";
 
 function Ibo() {
-  const [content, setContent] = React.useState({
-    rental: false,
-    screen: false,
-    sing: false,
-    collect: false,
-  });
   return (
     <>
       <Header />
@@ -23,131 +16,59 @@ function Ibo() {
         <meta name="description" content="Our IBOs" />
       </Head>
       <>
-        <div
-          className="w-full relative"
-          style={{
-            height: "600px",
-            backgroundPosition: "center",
-            backgroundImage: "url(images/website/ibo_header.jpg)",
-            backgroundSize: "cover",
-            backgroundRepeat: "no-repeat",
-          }}
-        >
-          <div
-            className="absolute w-full h-full top-0 left-0"
-            style={{ backgroundColor: "rgba(0,0,0,.35)" }}
-          ></div>
-          <div className="absolute mx-auto text-center top-1/2 left-1/2 max-w-3xl w-full transform -translate-x-1/2 -translate-y-1/2">
-            <h1
-              className="text-white"
-              style={{ fontFamily: "Opensans-bold", lineHeight: "55px" }}
-            >
-              List your rental. Screen tenants. Sign an agreement. Get paid.
-            </h1>
-            <h5
-              style={{ fontFamily: "Opensans-bold" }}
-              className="text-white mt-5 mb-5"
-            >
-              All at one place with Rent A Roof.
-            </h5>
+        <div className="pb-10 pt-5 max-w-6xl w-full m-auto bg-white">
+          <h2
+            style={{ fontFamily: "Opensans-bold" }}
+            className="my-7 text-gray-700 px-10 md:px-0"
+          >
+            Join Our Team
+          </h2>
 
-            <div className="mt-10">
-              <Link href="/list-property">
-                <a
-                  className="p-5 rounded-md text-white text-lg"
-                  style={{
-                    backgroundColor: "var(--blue)",
-                    fontFamily: "Opensans-bold",
-                  }}
-                >
-                  List Your First Property
-                </a>
-              </Link>
-              <p className="mt-8 text-white">
-                Already have an account ?{" "}
-                <Link
-                  href="/login"
-                  style={{ fontFamily: "Opensans-semi-bold" }}
-                >
-                  <a className="underline">Login</a>
-                </Link>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="py-10 max-w-6xl w-full m-auto bg-white">
-          <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-10">
-            <div className="flex items-center md:mx-10 flex-col text-center">
-              <img
-                className="h-32 w-32 object-cover"
-                src="https://news.maidstone.gov.uk/__data/assets/image/0012/341220/house-illustration-png-7.png"
-              />
-              <h5 style={{ fontFamily: "Opensans-bold" }}>
-                Fill vacancies and manage properties
-              </h5>
-              <p className="mt-5 text-lg">
-                Landlording made simple, whether you have one rental or an
-                entire portfolio.
-              </p>
-            </div>
-            <div className="flex items-center md:mx-20 flex-col text-center">
-              <img
-                className="h-32 w-32 object-cover"
-                src="https://st.depositphotos.com/1010751/3812/v/600/depositphotos_38123135-stock-illustration-vector-logo-team-friends-6.jpg"
-              />
-              <h5 style={{ fontFamily: "Opensans-bold" }}>
-                Over 30 million visitors each month*
-              </h5>
-              <p className="mt-5 text-lg">
-                Your property will be listed across World, Trulia and HotPads to
-                help you find your perfect renter.
-              </p>
-            </div>
-            <div className="flex items-center md:mx-20 flex-col text-center">
-              <img
-                className="h-32 w-32 object-cover"
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDybOnQFizSLKDvo9nGzsAiWLQrHi_12z_jmv3Mw1IEgLeexFAbYgPc7J34d9ZTsuEwuA&usqp=CAU"
-              />
-              <h5 style={{ fontFamily: "Opensans-bold" }} className="w-32">
-                A brand you can trust
-              </h5>
-              <p className="mt-5 text-lg">
-                Landlord tools built by industry experts and the brand that
-                knows real estate.
-              </p>
-            </div>
-          </div>
+          <p
+            className="text-lg text-gray-700"
+            style={{ fontFamily: "Opensans-regular" }}
+          >
+            Rent-A-Roof is a revolutionary business plan to give all
+            brokers/real estate agents the platform to join together and form an
+            association of Real Estate Agents throughout Delhi NCR and
+            ultimately all of India.
+          </p>
 
-          <div className="text-center my-32">
-            <h2 style={{ fontFamily: "Opensans-bold" }}>
-              It's easier than ever to be an ibo
-            </h2>
-            <p className="text-lg mt-5">
-              Save time with our property management tools that help you get
-              what you need — signed leases and rent payments.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5">
-            <div className="md:pr-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 mt-10">
+            <div className="md:pr-10 text-gray-700">
               <h3 style={{ fontFamily: "Opensans-bold" }}>
-                Post a rental property
+                What are the duties of a Real Estate Agent?
               </h3>
-              <p className="text-lg mt-5">
-                Easy-to-use tools let you list your property where millions of
-                renters search each month. Plus, messaging and tenant screening
-                are integrated into our listing platform to help you find and
-                screen applicants faster.
-              </p>
-              <p className={`text-lg ${!content.rental && "hidden"}`}>
-                Easy-to-use tools let you list your property where millions of
-                renters search each month. Plus, messaging and tenant screening
-                are integrated into our listing platform to help you find and
-                screen applicants faster. Easy-to-use tools let you list your
-                property where millions of renters search each month. Plus,
-                messaging and tenant screening are integrated into our listing
-                platform to help you find and screen applicants faster.
-              </p>
+              <ul
+                className="text-gray-700 mt-10"
+                style={{ fontSize: "16px", fontFamily: "Opensans-regular" }}
+              >
+                <li className="flex items-center">
+                  <img src="icons/home/point-icon.png" width="35" height="35" />
+                  <p className="ml-3">
+                    Respond to texts, emails, and phone calls
+                  </p>
+                </li>
+
+                <li className="flex mt-2 items-center">
+                  <img src="icons/home/point-icon.png" width="35" height="35" />
+                  <p className="ml-3">
+                    Process real estate documents, agreements, and lease records
+                  </p>
+                </li>
+
+                <li className="flex mt-2 items-center">
+                  <img src="icons/home/point-icon.png" width="35" height="35" />
+                  <p className="ml-3">
+                    Coordinate appointments, showings, open houses, and meetings
+                  </p>
+                </li>
+
+                <li className="flex mt-2 items-center">
+                  <img src="icons/home/point-icon.png" width="35" height="35" />
+                  <p className="ml-3">Update databases</p>
+                </li>
+              </ul>
               <div className="mt-10 flex items-center">
                 <Link href="/signup/ibo">
                   <a
@@ -157,15 +78,6 @@ function Ibo() {
                     Get Started
                   </a>
                 </Link>
-                <a
-                  onClick={() =>
-                    setContent((prev) => ({ ...prev, rental: !content.rental }))
-                  }
-                  className="ml-5 border text-blue-800 text-lg border-none"
-                  style={{ fontFamily: "Opensans-semi-bold" }}
-                >
-                  Learn More
-                </a>
               </div>
             </div>
             <div
@@ -178,252 +90,167 @@ function Ibo() {
               }}
             ></div>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 mt-32">
-            <div
-              className="rounded-md h-96"
-              style={{
-                backgroundRepeat: "no-repeat",
-                backgroundImage: "url(images/website/screening.jpg)",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            ></div>
-            <div className="md:pr-10">
-              <h3 style={{ fontFamily: "Opensans-bold" }}>
-                Screen tenants with online rental applications
-              </h3>
-              <p className="text-lg mt-5">
-                Easy-to-use tools let you list your property where millions of
-                renters search each month. Plus, messaging and tenant screening
-                are integrated into our listing platform to help you find and
-                screen applicants faster.
+          <h3
+            className="mt-16 text-gray-700"
+            style={{ fontFamily: "Opensans-bold" }}
+          >
+            What are the benefits of joining our team?
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 text-center mt-10 md:space-x-5">
+            <div className="border rounded-md border-gray-300  pb-5">
+              <div className="mx-auto my-10 w-20 h-20 flex items-center justify-center bg-green-50 rounded-full">
+                <p className="mx-auto w-16 h-16 flex items-center justify-center bg-green-100 rounded-full">
+                  <FiCheck className="text-3xl" />
+                </p>
+              </div>
+              <h4
+                className="text-gray-700 px-10"
+                style={{ fontFamily: "Opensans-bold" }}
+              >
+                Brand name
+              </h4>
+              <p
+                className="text-gray-700 mt-5 px-10"
+                style={{ fontFamily: "Opensans-regular", fontSize: "16px" }}
+              >
+                When you join our team you will be given R-A-R gear providing
+                greater trust to clients & customers.
               </p>
-              <p className={`text-lg ${!content.screen && "hidden"}`}></p>
-              <div className="mt-10 flex items-center">
-                <Link href="/signup/ibo">
-                  <a
-                    className="px-10 py-3 border-2 text-lg text-blue-600 border-blue-600 rounded-md"
-                    style={{ fontFamily: "Opensans-regular" }}
-                  >
-                    Get Started
-                  </a>
-                </Link>
-                <a
-                  onClick={() =>
-                    setContent((prev) => ({ ...prev, screen: !content.screen }))
-                  }
-                  className="ml-5 border text-blue-800 text-lg border-none"
-                  style={{ fontFamily: "Opensans-semi-bold" }}
-                >
-                  Learn More
-                </a>
-              </div>
             </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 mt-32">
-            <div className="md:pr-10">
-              <h3 style={{ fontFamily: "Opensans-bold" }}>
-                Sign a rental agreement
-              </h3>
-              <p className="text-lg mt-5">
-                Create your rental lease using our online lease builder and
-                templates drafted with local law firms, or upload your own lease
-                and e-sign it with your renters.
+            <div className="border rounded-md border-gray-300  pb-5">
+              <div className="mx-auto my-10 w-20 h-20 flex items-center justify-center bg-green-50 rounded-full">
+                <p className="mx-auto w-16 h-16 flex items-center justify-center bg-green-100 rounded-full">
+                  <FiCheck className="text-3xl" />
+                </p>
+              </div>
+              <h4
+                className="text-gray-700 px-5"
+                style={{ fontFamily: "Opensans-bold" }}
+              >
+                Pre-defined documentation process
+              </h4>
+              <p
+                className="text-gray-700 mt-5 px-10"
+                style={{ fontFamily: "Opensans-regular", fontSize: "16px" }}
+              >
+                One of the biggest benefits of joining R-A-R has to be our
+                integrated documentation process which can be accessed and
+                process right through our website and app.
               </p>
-              <p className={`text-lg ${!content.sing && "hidden"}`}></p>
-              <div className="mt-10 flex items-center">
-                <Link href="/signup/ibo">
-                  <a
-                    className="px-10 py-3 border-2 text-lg text-blue-600 border-blue-600 rounded-md"
-                    style={{ fontFamily: "Opensans-regular" }}
-                  >
-                    Create an agreement
-                  </a>
-                </Link>
-                <a
-                  onClick={() =>
-                    setContent((prev) => ({ ...prev, sing: !content.sing }))
-                  }
-                  className="ml-5 border text-blue-800 text-lg border-none"
-                  style={{ fontFamily: "Opensans-semi-bold" }}
-                >
-                  Learn More
-                </a>
-              </div>
             </div>
-            <div
-              className="rounded-md h-96"
-              style={{
-                backgroundRepeat: "no-repeat",
-                backgroundImage: "url(images/website/sign.jpg)",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            ></div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 mt-32">
-            <div
-              className="rounded-md h-96"
-              style={{
-                backgroundRepeat: "no-repeat",
-                backgroundImage: "url(images/website/payment.jpg)",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            ></div>
-            <div className="md:pr-10">
-              <h3 style={{ fontFamily: "Opensans-bold" }}>
-                Collect rent payments
-              </h3>
-              <p className="text-lg mt-5">
-                The convenient way for landlords to get paid. Rent, utilities,
-                move-in fees and more are deposited straight into your bank
-                account — at no cost to you.
+            <div className="border rounded-md border-gray-300  pb-5">
+              <div className="mx-auto my-10 w-20 h-20 flex items-center justify-center bg-green-50 rounded-full">
+                <p className="mx-auto w-16 h-16 flex items-center justify-center bg-green-100 rounded-full">
+                  <FiCheck className="text-3xl" />
+                </p>
+              </div>
+              <h4
+                className="text-gray-700 px-10"
+                style={{ fontFamily: "Opensans-bold" }}
+              >
+                Payment gateway
+              </h4>
+              <p
+                className="text-gray-700 mt-5 px-10"
+                style={{ fontFamily: "Opensans-regular", fontSize: "16px" }}
+              >
+                To provide greater trust to clients & customers we have the
+                option of the payment being processed through our payment
+                gateway guaranteeing a systematic and trustworthy payment
+                procedure.
               </p>
-              <p className={`text-lg ${!content.collect && "hidden"}`}></p>
-              <div className="mt-10 flex items-center">
-                <Link href="/signup/ibo">
-                  <a
-                    className="px-10 py-3 border-2 text-lg text-blue-600 border-blue-600 rounded-md"
-                    style={{ fontFamily: "Opensans-regular" }}
-                  >
-                    Get Paid
-                  </a>
-                </Link>
-                <a
-                  onClick={() =>
-                    setContent((prev) => ({
-                      ...prev,
-                      collect: !content.collect,
-                    }))
-                  }
-                  className="ml-5 border text-blue-800 text-lg border-none"
-                  style={{ fontFamily: "Opensans-semi-bold" }}
-                >
-                  Learn More
-                </a>
-              </div>
             </div>
           </div>
-        </div>
 
-        <div className="py-10 bg-gray-100">
-          <div className="max-w-6xl w-full m-auto ">
-            <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 mt-32">
-              <div className="md:pr-10">
-                <h3 style={{ fontFamily: "Opensans-bold" }}>
-                  Your first property is waiting
-                </h3>
-                <ul className="mt-5 text-lg leading-10">
-                  <li className="flex items-center">
-                    <FiCheck className="text-blue-500 mr-5" /> Posting to
-                    RentaRoof, Trulia and HotPads
-                  </li>
-                  <li className="flex items-center">
-                    <FiCheck className="text-blue-500 mr-5" /> Tenant screening
-                    with background and credit checks
-                  </li>
-                  <li className="flex items-center">
-                    <FiCheck className="text-blue-500 mr-5" /> Online agreements
-                  </li>
-                  <li className="flex items-center">
-                    <FiCheck className="text-blue-500 mr-5" /> Online rent
-                    payments
-                  </li>
-                </ul>
-                <div className="mt-10 flex items-center">
-                  <Link href="/signup/ibo">
-                    <a
-                      className="px-10 py-3 text-lg bg-blue-600 text-white rounded-md"
-                      style={{ fontFamily: "Opensans-regular" }}
-                    >
-                      Get Started
-                    </a>
-                  </Link>
-                </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 text-center mt-10 md:space-x-5">
+            <div className="border rounded-md border-gray-300  pb-5">
+              <div className="mx-auto my-10 w-20 h-20 flex items-center justify-center bg-green-50 rounded-full">
+                <p className="mx-auto w-16 h-16 flex items-center justify-center bg-green-100 rounded-full">
+                  <FiCheck className="text-3xl" />
+                </p>
               </div>
-              <div
-                className="rounded-md h-96"
-                style={{
-                  backgroundRepeat: "no-repeat",
-                  backgroundImage: "url(images/website/property-waiting.jpg)",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              ></div>
+              <h4
+                className="text-gray-700 px-10"
+                style={{ fontFamily: "Opensans-bold" }}
+              >
+                Incentives
+              </h4>
+              <p
+                className="text-gray-700 mt-5 px-10"
+                style={{ fontFamily: "Opensans-regular", fontSize: "16px" }}
+              >
+                Incentives will be deposited to all agents who work hard and
+                close deals. There is no cap to the incentives you can earn with
+                R-A-R! The more you close the more you can earn. <br />
+                All incentives/brokerage will always be factored into the signed
+                agreement.
+              </p>
+            </div>
+            <div className="border rounded-md border-gray-300  pb-5">
+              <div className="mx-auto my-10 w-20 h-20 flex items-center justify-center bg-green-50 rounded-full">
+                <p className="mx-auto w-16 h-16 flex items-center justify-center bg-green-100 rounded-full">
+                  <FiCheck className="text-3xl" />
+                </p>
+              </div>
+              <h4
+                className="text-gray-700 px-5"
+                style={{ fontFamily: "Opensans-bold" }}
+              >
+                New properties
+              </h4>
+              <p
+                className="text-gray-700 mt-5 px-10"
+                style={{ fontFamily: "Opensans-regular", fontSize: "16px" }}
+              >
+                One disadvantage of being a local Real estate agent is limited
+                number of properties in your personal database but with R-A-R
+                you don’t need to worry about that as agents will have the
+                opportunity to show and facilitate unassigned properties posted
+                by homeowners.
+              </p>
+            </div>
+            <div className="border rounded-md border-gray-300  pb-5">
+              <div className="mx-auto my-10 w-20 h-20 flex items-center justify-center bg-green-50 rounded-full">
+                <p className="mx-auto w-16 h-16 flex items-center justify-center bg-green-100 rounded-full">
+                  <FiCheck className="text-3xl" />
+                </p>
+              </div>
+              <h4
+                className="text-gray-700 px-10"
+                style={{ fontFamily: "Opensans-bold" }}
+              >
+                Support & Training
+              </h4>
+              <p
+                className="text-gray-700 mt-5 px-10"
+                style={{ fontFamily: "Opensans-regular", fontSize: "16px" }}
+              >
+                Special support will be provided to all agents who join our
+                team. And all new joining agents will be provided soft skills
+                training as well as basic guidelines that all R-A-R agents must
+                follow along with the training on how to use our platform for
+                maximising it’s potential.
+              </p>
             </div>
           </div>
-        </div>
 
-        <div className="py-10 max-w-6xl w-full m-auto bg-white">
-          <div className="mt-32 text-center">
-            <h4 style={{ fontFamily: "Opensans-bold" }} className="mb-10">
-              Here’s what others are saying
-            </h4>
-            <Carousel cols={1} rows={1} gap={10} loop>
-              <Carousel.Item>
-                <div className="">
-                  <p className="text-lg">
-                    RentaRoof Rental Manager is awesome! Rented two houses in
-                    two days!”
-                  </p>
-                  <p style={{ fontFamily: "Opensans-bold" }} className="mt-4">
-                    Jeff, Property Manager, Chicago, IL
-                  </p>
-                </div>
-              </Carousel.Item>
-              <Carousel.Item>
-                <div className="">
-                  <p className="text-lg">
-                    "The number and quality of inquiries was amazing. Very
-                    pleased by how user-friendly and fast it is."
-                  </p>
-                  <p style={{ fontFamily: "Opensans-bold" }} className="mt-4">
-                    Amanda, IBO, Portland, OR
-                  </p>
-                </div>
-              </Carousel.Item>
-            </Carousel>
-          </div>
-        </div>
-
-        <div
-          className="mt-20 h-96 relative"
-          style={{
-            backgroundColor: "gray",
-            backgroundPosition: "center center",
-            backgroundImage:
-              "url(https://nodes3cdn.hotpads.com/rental-manager-web/1644263422/media/post-listing-cta-background.130f08bd.webp)",
-          }}
-        >
-          <div className="absolute mx-auto text-center top-1/2 left-1/2 max-w-3xl w-full transform -translate-x-1/2 -translate-y-1/2">
+          <div className="text-center mt-20">
             <h2
-              className="text-white"
-              style={{ fontFamily: "Opensans-semi-bold" }}
-            >
-              Rent with confidence
-            </h2>
-            <p
-              className="text-white mt-5 text-lg"
               style={{ fontFamily: "Opensans-bold" }}
+              className="my-7 text-gray-700"
             >
-              Take the hassle out of landlording with RentaRoof Rental Manager.
-              Post a listing, screen tenants, sign a lease and collect payments
-              all in one place.
-            </p>
-            <div className="mt-10 flex items-center justify-center">
+              Start a journey with R-A-R
+            </h2>
+            <p className="mt-10">
               <Link href="/signup/ibo">
                 <a
-                  className="px-10 py-3 text-lg bg-blue-600 text-white rounded-md"
-                  style={{ fontFamily: "Opensans-regular" }}
+                  className="py-3 px-10 text-lg rounded-full text-white"
+                  style={{ background: "var(--blue)" }}
                 >
-                  Get Started
+                  Join Now
                 </a>
               </Link>
-            </div>
+            </p>
           </div>
         </div>
       </>
