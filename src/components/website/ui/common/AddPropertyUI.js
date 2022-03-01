@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 import { FaPlus, FaTimes } from "react-icons/fa";
 import ReactTooltip from "react-tooltip";
 import { getMyLandlords, newLandlord } from "../../../../lib/frontend/share";
+import { __d } from "../../../../server";
 
 const inspectionDays = [
   { value: "all days", label: "All Days" },
@@ -33,6 +34,7 @@ const inspectionDays = [
 
 function AddPropertyUI() {
   const editorRef = useRef(null);
+  const [profile, setProfile] = useState(false);
   const [bedrooms, setBedrooms] = useState(1);
   const [bathrooms, setBathrooms] = useState(1);
   const [balconies, setBalconies] = useState(1);
@@ -71,6 +73,13 @@ function AddPropertyUI() {
     const pcode = localStorage.getItem("recent_ap") || router.query.id;
     setNextStep(nextap);
     setPropertyCode(pcode);
+
+    const u = localStorage.getItem("LU")
+      ? JSON.parse(__d(localStorage.getItem("LU")))
+      : false;
+    if (u?.id) {
+      setProfile(u);
+    }
 
     if (nextap === "UPDATE") {
       setIsLoading(true);
@@ -205,7 +214,11 @@ function AddPropertyUI() {
             className="text-gray-600"
             onSubmit={handleSubmitForm}
           >
-            <div className="grid md:grid-cols-2 md:space-x-3">
+            <div
+              className={`grid ${
+                profile.role === "ibo" && "md:grid-cols-2 md:space-x-3"
+              }`}
+            >
               <div className="form-element">
                 <label className="form-label">Property Title (Name)</label>
                 <input
@@ -216,33 +229,35 @@ function AddPropertyUI() {
                   className="form-input border-gray-200 rounded-md"
                 />
               </div>
-              <div className="form-element">
-                <label className="form-label">Landlord</label>
-                <div className="flex items-center">
-                  <select
-                    className="form-input border-gray-200 rounded-md"
-                    name="landlord"
-                  >
-                    <option value="">Select Property Owner</option>
-                    {landlords?.length > 0 &&
-                      landlords.map((l, i) => (
-                        <option key={i} value={l?.id}>
-                          {l?.first} {l?.last}
-                        </option>
-                      ))}
-                  </select>
-                  <button
-                    onClick={() => setIsAddMode(true)}
-                    type="button"
-                    className="p-2 text-white ml-1 rounded-md"
-                    data-tip="Add New Landlord"
-                    style={{ background: "var(--blue)" }}
-                  >
-                    <FaPlus />
-                    <ReactTooltip />
-                  </button>
+              {profile?.role === "ibo" && (
+                <div className="form-element">
+                  <label className="form-label">Landlord</label>
+                  <div className="flex items-center">
+                    <select
+                      className="form-input border-gray-200 rounded-md"
+                      name="landlord"
+                    >
+                      <option value="">Select Property Owner</option>
+                      {landlords?.length > 0 &&
+                        landlords.map((l, i) => (
+                          <option key={i} value={l?.id}>
+                            {l?.first} {l?.last}
+                          </option>
+                        ))}
+                    </select>
+                    <button
+                      onClick={() => setIsAddMode(true)}
+                      type="button"
+                      className="p-2 text-white ml-1 rounded-md"
+                      data-tip="Add New Landlord"
+                      style={{ background: "var(--blue)" }}
+                    >
+                      <FaPlus />
+                      <ReactTooltip />
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-3">
               <div className="form-element">
