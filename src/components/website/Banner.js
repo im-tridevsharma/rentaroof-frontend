@@ -114,8 +114,12 @@ function Banner() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!defaultLocation) {
+      e.preventDefault();
+      return false;
+    }
     setIsLoading(true);
-    const s_value = document.forms.findProperty.search.value;
+    // const s_value = document.forms.findProperty.search.value;
     const ptype = document.forms.findProperty.property_type.value;
     const bed = document.forms.findProperty.bed_type.value;
     const budget = document.forms.findProperty.budget.value;
@@ -127,7 +131,7 @@ function Banner() {
           .join("&")
       : "";
     router.push(
-      `find-property?pagination=yes&search=${s_value}&ptype=${ptype}&bed=${bed}&budget=${budget}&search_radius=${search_radius}&${queryString}`
+      `find-property?pagination=yes&ptype=${ptype}&bed=${bed}&budget=${budget}&search_radius=${search_radius}&${queryString}`
     );
   };
 
@@ -145,7 +149,7 @@ function Banner() {
     let lat = 0.0;
     let lng = 0.0;
 
-    components.forEach((element) => {
+    components?.forEach((element) => {
       if (element.types.includes("route")) {
         route = element?.long_name;
       }
@@ -173,11 +177,11 @@ function Banner() {
     });
 
     if (fromLatLng) {
-      lat = place.geometry.location.lat;
-      lng = place.geometry.location.lng;
+      lat = place.geometry?.location?.lat;
+      lng = place.geometry?.location?.lng;
     } else {
-      lat = place.geometry.location.lat("d");
-      lng = place.geometry.location.lng("d");
+      lat = place.geometry?.location?.lat("d");
+      lng = place.geometry?.location?.lng("d");
     }
 
     cookies.set(
@@ -277,8 +281,8 @@ function Banner() {
                   apiKey={process?.env?.MAP_API_KEY}
                   onPlaceSelected={(place) => handlePlaceSearch(place)}
                   defaultValue={defaultLocation}
-                  className=" rounded-sm border-gray-200 max-w-sm w-full text-md px-2 h-12"
-                  placeholder="Find Location..."
+                  className=" rounded-sm border-gray-200 w-full text-md px-2 h-12"
+                  placeholder="Enter Your Location..."
                   style={{ borderWidth: "1px" }}
                   options={{
                     types: ["address"],
@@ -286,14 +290,17 @@ function Banner() {
                       country: "in",
                     },
                   }}
-                />
-                <input
-                  type="text"
-                  name="search"
                   required
-                  placeholder="Search Property..."
-                  className="rounded-sm text-gray-500 sm:flex-grow border-none px-2 h-12 ml-1 text-sm mb-1 sm:mb-0"
                 />
+                {false && (
+                  <input
+                    type="text"
+                    name="search"
+                    required
+                    placeholder="Search Property..."
+                    className="rounded-sm text-gray-500 sm:flex-grow border-none px-2 h-12 ml-1 text-sm mb-1 sm:mb-0"
+                  />
+                )}
                 <button
                   type="submit"
                   className="px-8 sm:px-10 py-2 text-white rounded-md ml-2 mr-1 text-xl"

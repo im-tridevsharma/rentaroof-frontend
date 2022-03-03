@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import isAuthenticated, {
   logoutUser,
   removeAuthToken,
@@ -23,6 +24,7 @@ const getWebsiteValues = async (key) => {
 };
 
 function Header() {
+  const router = useRouter();
   const [user, setUser] = useState(false);
   const [activeMenu, setActiveMenu] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -316,6 +318,18 @@ function Header() {
           </div>
         </div>
       </div>
+
+      {router.pathname !== "/" && (
+        <Link href="/">
+          <a
+            style={{ fontFamily: "Opensans-bold" }}
+            className="fixed bottom-20 px-10 py-5
+             rounded-full bg-blue-500 shadow-md text-white hover:bg-blue-400 right-5 z-50"
+          >
+            Find Home
+          </a>
+        </Link>
+      )}
     </div>
   );
 }

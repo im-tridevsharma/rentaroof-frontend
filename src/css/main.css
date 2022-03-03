@@ -133,6 +133,11 @@ button {
   -ms-overflow-style: none; /* IE 10+ */
 }
 
+.bghjHX,
+.bqyzQp > div {
+  margin: 0 !important;
+}
+
 .react-datepicker__input-container input {
   @apply border-gray-200 rounded-md;
 
