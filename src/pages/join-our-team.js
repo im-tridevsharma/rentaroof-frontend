@@ -129,12 +129,12 @@ function Ibo() {
               >
                 Pre-defined documentation process
               </h4>
+              integrated documentation process which can be accessed and
               <p
                 className="text-gray-700 mt-5 px-10"
                 style={{ fontFamily: "Opensans-regular", fontSize: "16px" }}
               >
                 One of the biggest benefits of joining R-A-R has to be our
-                integrated documentation process which can be accessed and
                 process right through our website and app.
               </p>
             </div>
@@ -173,15 +173,15 @@ function Ibo() {
                 className="text-gray-700 px-10"
                 style={{ fontFamily: "Opensans-bold" }}
               >
-                Incentives
+                Service Charges
               </h4>
               <p
                 className="text-gray-700 mt-5 px-10"
                 style={{ fontFamily: "Opensans-regular", fontSize: "16px" }}
               >
-                Incentives will be deposited to all agents who work hard and
-                close deals. There is no cap to the incentives you can earn with
-                R-A-R! The more you close the more you can earn. <br />
+                Service Charges will be deposited to all agents who work hard
+                and close deals. There is no cap to the incentives you can earn
+                with R-A-R! The more you close the more you can earn. <br />
                 All incentives/brokerage will always be factored into the signed
                 agreement.
               </p>

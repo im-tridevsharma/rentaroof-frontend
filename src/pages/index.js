@@ -62,7 +62,7 @@ function Index() {
         <Banner />
         {/**counts */}
         <div
-          className="grid sm:grid-cols-4 sm:space-x-10 px-10 py-7 text-gray-50"
+          className="grid grid-cols-1 pr-10 md:grid-cols-4 py-7 text-gray-50"
           style={{ backgroundColor: "var(--primary-color)" }}
         >
           {/**1st */}
