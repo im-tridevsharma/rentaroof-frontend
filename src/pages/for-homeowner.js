@@ -16,19 +16,12 @@ function Services() {
         <meta name="description" content="We offers rental services." />
       </Head>
 
-      <div className="pb-20 bg-white">
-        <div className="border-b">
-          <Carousel
-            cols={1}
-            rows={1}
-            gap={0}
-            autoplay={5000}
-            hideArrow={true}
-            loop
-          >
+      <div className=" bg-white">
+        <div className="">
+          <Carousel cols={1} rows={1} gap={0} autoplay={5000} loop>
             <Carousel.Item>
               <div
-                className="h-96 w-full"
+                className="w-full for-tenant-slider"
                 style={{
                   backgroundSize: "cover",
                   backgroundRepeat: "no-repeat",
@@ -37,7 +30,7 @@ function Services() {
                 }}
               >
                 <div
-                  className="absolute bottom-5 left-20 p-5 rounded-md text-white"
+                  className="absolute bottom-1/2 transform translate-y-1/2 left-20 p-5 rounded-md text-white"
                   style={{ background: "rgba(0,0,0,.3)" }}
                 >
                   <h2 style={{ fontFamily: "Opensans-bold" }}>
@@ -58,7 +51,7 @@ function Services() {
               </div>
             </Carousel.Item>
             <Carousel.Item>
-              <div className="grid grid-cols-1 md:grid-cols-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 h-full">
                 <div className="max-w-md w-full flex-col mx-auto text-center flex items-center justify-center">
                   <h2 style={{ fontFamily: "Opensans-bold" }}>
                     Advise the homeowner in readying the home for listing and
@@ -74,7 +67,7 @@ function Services() {
                   </p>
                 </div>
                 <div
-                  className="h-96 w-full"
+                  className=" w-full"
                   style={{
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",
@@ -85,7 +78,7 @@ function Services() {
               </div>
             </Carousel.Item>
             <Carousel.Item>
-              <div className="grid grid-cols-1 md:grid-cols-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 h-full">
                 <div className="max-w-md w-full flex-col mx-auto text-center flex items-center justify-center">
                   <h2 style={{ fontFamily: "Opensans-bold" }}>
                     Determine the home's value in the current market for a
@@ -101,7 +94,7 @@ function Services() {
                   </p>
                 </div>
                 <div
-                  className="h-96 w-full"
+                  className=" w-full"
                   style={{
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",
@@ -113,137 +106,118 @@ function Services() {
             </Carousel.Item>
           </Carousel>
         </div>
-        <div className="max-w-6xl mt-10  w-full m-auto ">
-          <div className="mb-20 relative">
-            <h2
-              style={{ fontFamily: "Opensans-bold" }}
-              className="my-7 text-gray-700"
-            >
-              For Homeowner
-            </h2>
-            <p
-              className="text-lg text-gray-700"
-              style={{ fontFamily: "Opensans-regular" }}
-            >
-              When homeowners decide they want to put up their home for
-              rent/sale, the vast majority will call a real estate brokerage
-              firm to work with an agent to get their homes listed on the local
-              Multiple Listing Service. This database is shared among all local
-              brokerage members, who then work to bring in a tenant for the
-              home. In listing a home, the real estate agent will be performing
-              the following duties and activities:
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2">
-            <div
-              style={{
-                backgroundSize: "contain",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center",
-                backgroundImage:
-                  "url(https://cdn.dribbble.com/users/1518181/screenshots/3550089/media/16afb3f417a4927b63e5baf94424a91e.jpg)",
-              }}
-            ></div>
-            <div className="w-full relative">
-              <ul
-                className="text-gray-700"
-                style={{ fontSize: "16px", fontFamily: "Opensans-regular" }}
-              >
-                <li className="flex items-center">
-                  <img src="icons/home/point-icon.png" width="35" height="35" />
-                  <p className="ml-3">
-                    Determine the home's value in the current market for a
-                    listing price.
-                  </p>
-                </li>
+        <div className="py-2" style={{ backgroundColor: "#faf8fa" }}>
+          <div className="md:px-20 px-5 grid grid-cols-1 md:grid-cols-2 md:space-x-5 md:space-y-0 space-y-5">
+            <img src="/images/website/rar.gif" />
 
-                <li className="flex mt-2 items-center">
-                  <img src="icons/home/point-icon.png" width="35" height="35" />
-                  <p className="ml-3">
-                    Advise the homeowner in readying the home for listing and
-                    showings.
-                  </p>
-                </li>
-
-                <li className="flex mt-2 items-center">
-                  <img src="icons/home/point-icon.png" width="35" height="35" />
-                  <p className="ml-3">
-                    Enter the home into the Rent-A-Roof database.
-                  </p>
-                </li>
-
-                <li className="flex mt-2 items-center">
-                  <img src="icons/home/point-icon.png" width="35" height="35" />
-                  <p className="ml-3">
-                    Market the home to other agents and brokerage members of
-                    R-A-R.
-                  </p>
-                </li>
-
-                <li className="flex mt-2 items-center">
-                  <img src="icons/home/point-icon.png" width="35" height="35" />
-                  <p className="ml-3">
-                    Market the home to other agents and brokerage members of
-                    R-A-R.
-                  </p>
-                </li>
-
-                <li className="flex mt-2 items-center">
-                  <img src="icons/home/point-icon.png" width="35" height="35" />
-                  <p className="ml-3">
-                    Supervise and/or schedule home showings.
-                  </p>
-                </li>
-
-                <li className="flex mt-2 items-center">
-                  <img src="icons/home/point-icon.png" width="35" height="35" />
-                  <p className="ml-3">
-                    Market the home on traditional media, as well as on the
-                    Internet.
-                  </p>
-                </li>
-
-                <li className="flex mt-2 items-center">
-                  <img src="icons/home/point-icon.png" width="35" height="35" />
-                  <p className="ml-3">
-                    Supervise and/or schedule home showings.
-                  </p>
-                </li>
-                <li className="flex mt-2 items-center">
-                  <img src="icons/home/point-icon.png" width="35" height="35" />
-                  <p className="ml-3">
-                    Report to the Rentor any interest and feedback from clients
-                    who have seen the home.
-                  </p>
-                </li>
-                <li className="flex mt-2 items-center">
-                  <img src="icons/home/point-icon.png" width="35" height="35" />
-                  <p className="ml-3">
-                    When a client makes an offer, agents help the owner to try
-                    to get the price they want and to obtain a signed
-                    Rent-agreement.
-                  </p>
-                </li>
-              </ul>
+            <div className="flex justify-center flex-col">
+              <h3 style={{ fontFamily: "Opensans-bold" }} className="mb-5">
+                Homeowner Title
+              </h3>
+              <p className="text-lg" style={{ fontFamily: "Opensans-regular" }}>
+                When homeowners decide they want to put up their home for
+                rent/sale, the vast majority will call a real estate brokerage
+                firm to work with an agent to get their homes listed on the
+                local Multiple Listing Service. This database is shared among
+                all local brokerage members, who then work to bring in a tenant
+                for the home. In listing a home, the real estate agent will be
+                performing the following duties and activities:
+              </p>
             </div>
           </div>
-          <div className="text-center mt-20">
-            <h2
-              style={{ fontFamily: "Opensans-bold" }}
-              className="my-7 text-gray-700"
-            >
-              List Your First Property
-            </h2>
-            <p className="mt-10">
-              <Link href="/list-property">
-                <a
-                  className="py-3 px-10 text-lg rounded-full text-white"
-                  style={{ background: "var(--blue)" }}
-                >
-                  List
-                </a>
-              </Link>
+        </div>
+
+        <div className="text-center mt-10">
+          <h2 style={{ fontFamily: "Opensans-bold" }}>How we process?</h2>
+          <p
+            className="text-lg mt-5"
+            style={{ fontFamily: "Opensans-regular" }}
+          >
+            When a client makes an offer, agents help the owner to try to get
+            the price they want and to obtain a signed Rent-agreement.
+          </p>
+        </div>
+        <div
+          className="max-w-6xl mt-10 md:mt-20 w-full m-auto  grid grid-cols-1 md:grid-cols-3 md:space-x-10 space-y-5 md:space-y-0"
+          style={{ fontFamily: "Opensans-regular" }}
+        >
+          <div className="flex flex-col items-center p-5 border shadow-sm rounded-sm pt-3">
+            <img
+              className="w-52 h-52 object-cover"
+              src="https://img.freepik.com/free-vector/online-document-form-digital-agreement-electronic-contract-internet-questionnaire-list-note-voting-ballot-poll-flat-design-element_335657-2667.jpg?w=740"
+            />
+            <h3 style={{ fontFamily: "Opensans-bold" }} className="my-5">
+              Renting title
+            </h3>
+            <p className="text-center text-lg">
+              Determine the home's value in the current market for a listing
+              price.
             </p>
+          </div>
+
+          <div className="flex flex-col items-center p-5 border shadow-sm rounded-sm pt-3">
+            <img
+              className="w-52 h-52 object-cover"
+              src="https://img.freepik.com/free-vector/real-estate-business-concept-choosing-finding-home-flat-vector-illustration_566886-1053.jpg?w=740"
+            />
+            <h3 style={{ fontFamily: "Opensans-bold" }} className="my-5">
+              Renting title
+            </h3>
+            <p className="text-center text-lg">
+              Advise the homeowner in readying the home for listing and
+              showings.
+            </p>
+          </div>
+
+          <div className="flex flex-col items-center p-5 border shadow-sm rounded-sm pt-3">
+            <img
+              className="w-52 h-52 object-cover"
+              src="https://img.freepik.com/free-vector/flat-design-concept-sales-social-media-digital-marketing_18660-487.jpg?w=740"
+            />
+            <h3 style={{ fontFamily: "Opensans-bold" }} className="my-5">
+              Renting title
+            </h3>
+            <p className="text-center text-lg">
+              Market the home to other agents and brokerage members of R-A-R.
+            </p>
+          </div>
+        </div>
+        <div className="py-10 mt-20" style={{ backgroundColor: "#faf8fa" }}>
+          <div className="max-w-6xl w-full m-auto  grid grid-cols-1 md:grid-cols-2 md:space-x-5">
+            <div className="flex flex-col justify-center">
+              <h2 style={{ fontFamily: "Opensans-bold" }}>
+                Reting your house is an ease.
+              </h2>
+              <p
+                className="text-lg mt-5"
+                style={{ fontFamily: "Opensans-regular" }}
+              >
+                In publishing and graphic design, Lorem ipsum is a placeholder
+                text commonly used to demonstrate the visual form of a document
+                or a typeface without relying on meaningful content. Lorem ipsum
+                may be used as a placeholder before the final copy is testing.
+              </p>
+
+              <div className="mt-10">
+                <Link href="/list-property">
+                  <a
+                    style={{ fontFamily: "Opensans-bold" }}
+                    className="px-5 py-4 rounded-full bg-blue-400 hover:bg-blue-500 text-white"
+                  >
+                    Get Started
+                  </a>
+                </Link>
+              </div>
+            </div>
+            <div className="rounded-md overflow-hidden">
+              <video
+                controls
+                playsinline
+                loop
+                data-src="https://d2of6bhnpl91ni.cloudfront.net/cms/1920x1080_Final_2020_Real Estate LP-b2c23b6555.mp4"
+                src="https://d2of6bhnpl91ni.cloudfront.net/cms/1920x1080_Final_2020_Real Estate LP-b2c23b6555.mp4"
+              ></video>
+            </div>
           </div>
         </div>
       </div>

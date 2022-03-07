@@ -17,34 +17,28 @@ function Services() {
       </Head>
 
       <div className="pb-20 bg-white">
-        <div className="border-b">
-          <Carousel
-            cols={1}
-            rows={1}
-            gap={0}
-            autoplay={5000}
-            hideArrow={true}
-            loop
-          >
+        <div>
+          <Carousel cols={1} rows={1} gap={0} autoplay={5000} loop>
             <Carousel.Item>
               <div
-                className="h-96 w-full"
+                className="w-full for-tenant-slider"
                 style={{
                   backgroundSize: "cover",
                   backgroundRepeat: "no-repeat",
-                  backgroundImage:
-                    "url(https://c.wallhere.com/photos/b4/3b/architecture-193766.jpg!d)",
+                  backgroundImage: "url(/images/website/fortenant-bg.jpg)",
                 }}
               >
                 <div
-                  className="absolute bottom-5 left-20 p-5 rounded-md text-white"
+                  className="absolute bottom-1/2 transform translate-y-1/2 left-20 p-5 rounded-md text-white"
                   style={{ background: "rgba(0,0,0,.3)" }}
                 >
                   <h2 style={{ fontFamily: "Opensans-bold" }}>
                     Find Your Dream Home
                   </h2>
-                  <h1 style={{ fontFamily: "Opensans-bold" }}>in Delhi</h1>
-                  <div className="mt-20">
+                  <h1 style={{ fontFamily: "Opensans-bold" }} className="mt-2">
+                    in Delhi
+                  </h1>
+                  <div className="mt-10">
                     <Link href="/">
                       <a
                         style={{ fontFamily: "Opensans-bold" }}
@@ -58,9 +52,9 @@ function Services() {
               </div>
             </Carousel.Item>
             <Carousel.Item>
-              <div className="grid grid-cols-1 md:grid-cols-2">
+              <div className="grid h-full grid-cols-1 md:grid-cols-2">
                 <div
-                  className="h-96 w-full"
+                  className="w-full"
                   style={{
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",
@@ -84,9 +78,9 @@ function Services() {
               </div>
             </Carousel.Item>
             <Carousel.Item>
-              <div className="grid grid-cols-1 md:grid-cols-2">
+              <div className="grid grid-cols-1 h-full md:grid-cols-2">
                 <div
-                  className="h-96 w-full"
+                  className=" w-full"
                   style={{
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",
@@ -113,119 +107,116 @@ function Services() {
           </Carousel>
         </div>
         <div className="max-w-6xl mt-10 w-full m-auto ">
-          <div className="mb-20 relative">
-            <h2
-              style={{ fontFamily: "Opensans-bold" }}
-              className="my-7 text-gray-700"
-            >
-              For Tenant
-            </h2>
-            <p
-              className="text-lg text-gray-700"
-              style={{ fontFamily: "Opensans-regular" }}
-            >
-              Typically, people don't have in-depth knowledge about the real
-              estate markets where they wish to rent homes. They need agents to
-              guide them through neighbourhoods and find homes that best suit
-              their needs. Some agents specialize in working with tenants. They
-              help their clients navigate all aspects of the home renting
-              process, from finding homes to completing the documentation
-              process.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2">
-            <div className="w-full relative">
-              <ul
-                className="text-gray-700"
-                style={{ fontSize: "16px", fontFamily: "Opensans-regular" }}
-              >
-                <li className="flex items-center">
-                  <img src="icons/home/point-icon.png" width="35" height="35" />
-                  <p className="ml-3">
-                    Help the clients to locate and view homes that meet their
-                    requirements.
-                  </p>
-                </li>
-
-                <li className="flex mt-2 items-center">
-                  <img src="icons/home/point-icon.png" width="35" height="35" />
-                  <p className="ml-3">
-                    Help them with securing an appointment.
-                  </p>
-                </li>
-
-                <li className="flex mt-2 items-center">
-                  <img src="icons/home/point-icon.png" width="35" height="35" />
-                  <p className="ml-3">
-                    Advise them on the area, market conditions, and if they
-                    believe that their homes of interest are priced right or
-                    not.
-                  </p>
-                </li>
-
-                <li className="flex mt-2 items-center">
-                  <img src="icons/home/point-icon.png" width="35" height="35" />
-                  <p className="ml-3">
-                    Work with them to craft the initial offer in a rent
-                    agreement.
-                  </p>
-                </li>
-
-                <li className="flex mt-2 items-center">
-                  <img src="icons/home/point-icon.png" width="35" height="35" />
-                  <p className="ml-3">
-                    Work with them through negotiations and counter-offers with
-                    the Rentor(s).
-                  </p>
-                </li>
-
-                <li className="flex mt-2 items-center">
-                  <img src="icons/home/point-icon.png" width="35" height="35" />
-                  <p className="ml-3">
-                    After the rent agreement is executed, coordinate the
-                    transaction process.
-                  </p>
-                </li>
-
-                <li className="flex mt-2 items-center">
-                  <img src="icons/home/point-icon.png" width="35" height="35" />
-                  <p className="ml-3">Deliver and explain all documents.</p>
-                </li>
-                <li className="flex mt-2 items-center">
-                  <img src="icons/home/point-icon.png" width="35" height="35" />
-                  <p className="ml-3">
-                    Work with them through the closing and getting their keys.
-                  </p>
-                </li>
-              </ul>
-            </div>
-            <div
-              style={{
-                backgroundSize: "contain",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center",
-                backgroundImage:
-                  "url(https://media.istockphoto.com/vectors/neighbors-keeping-pets-in-their-flats-vector-id1291922442?k=20&m=1291922442&s=612x612&w=0&h=eLpRSdcrO7ZcHvDra73lDmgT1UFwqcZ52W_8UvrX1PE=)",
-              }}
-            ></div>
-          </div>
-          <div className="text-center mt-20">
-            <h2
-              style={{ fontFamily: "Opensans-bold" }}
-              className="my-7 text-gray-700"
-            >
-              Let’s go find the right home for you
-            </h2>
-            <p className="mt-10">
-              <Link href="/">
-                <a
-                  className="py-3 px-10 text-lg rounded-full text-white"
-                  style={{ background: "var(--blue)" }}
+          <div className="my-20">
+            <div className="max-w-6xl w-full m-auto  grid grid-cols-1 md:grid-cols-2 md:space-x-5">
+              <div className="flex flex-col justify-center">
+                <h2 style={{ fontFamily: "Opensans-bold" }}>For Tenant</h2>
+                <p
+                  className="text-lg mt-5"
+                  style={{ fontFamily: "Opensans-regular" }}
                 >
-                  Search
-                </a>
-              </Link>
-            </p>
+                  Typically, people don't have in-depth knowledge about the real
+                  estate markets where they wish to rent homes. They need agents
+                  to guide them through neighbourhoods and find homes that best
+                  suit their needs. Some agents specialize in working with
+                  tenants. They help their clients navigate all aspects of the
+                  home renting process, from finding homes to completing the
+                  documentation process.
+                </p>
+
+                <div className="mt-10">
+                  <Link href="/signup">
+                    <a
+                      style={{ fontFamily: "Opensans-bold" }}
+                      className="px-5 py-4 rounded-full bg-blue-400 hover:bg-blue-500 text-white"
+                    >
+                      Get Started
+                    </a>
+                  </Link>
+                </div>
+              </div>
+              <div className="rounded-md overflow-hidden">
+                <video
+                  controls
+                  playsinline
+                  loop
+                  data-src="https://d2of6bhnpl91ni.cloudfront.net/cms/1920x1080_Final_2020_Real Estate LP-b2c23b6555.mp4"
+                  src="https://d2of6bhnpl91ni.cloudfront.net/cms/1920x1080_Final_2020_Real Estate LP-b2c23b6555.mp4"
+                ></video>
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="grid grid-cols-1 md:grid-cols-3 md:space-x-10 space-y-5 md:space-y-0"
+            style={{ fontFamily: "Opensans-regular" }}
+          >
+            <div className="flex flex-col items-center">
+              <img
+                className="w-52 h-52 object-cover"
+                src="https://img.freepik.com/free-vector/flat-people-asking-questions_23-2148929673.jpg?w=740"
+              />
+              <p className="text-center text-lg">
+                Help the clients to locate and view homes that meet their
+                requirements.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <img
+                className="w-52 h-52 object-cover"
+                src="https://img.freepik.com/free-vector/appointment-booking-mobile-design_23-2148573175.jpg?w=740"
+              />
+              <p className="text-center text-lg">
+                Help them with securing an appointment.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <img
+                className="w-52 h-52 object-cover"
+                src="https://img.freepik.com/free-vector/document-signing-partnership-deal-business-consultation-work-arrangement-client-assistant-writing-contract-cartoon-characters_335657-2342.jpg?w=740"
+              />
+              <p className="text-center text-lg">
+                Work with them to craft the initial offer in a rent agreement.
+              </p>
+            </div>
+          </div>
+
+          <div
+            className="mt-10 grid grid-cols-1 md:grid-cols-3 md:space-x-10 space-y-5 md:space-y-0"
+            style={{ fontFamily: "Opensans-regular" }}
+          >
+            <div className="flex flex-col items-center">
+              <img
+                className="w-52 h-52 object-cover"
+                src="https://img.freepik.com/free-vector/b2b-strategy-commercial-transaction-partner-agreement-partnership-arrangement-successful-collaboration-businessmen-shaking-hands-cartoon-characters-vector-isolated-concept-metaphor-illustration_335657-2760.jpg?w=740"
+              />
+              <p className="text-center text-lg">
+                After the rent agreement is executed, coordinate the transaction
+                process.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <img
+                className="w-52 h-52 object-cover"
+                src="https://img.freepik.com/free-vector/documents-concept-illustration_114360-138.jpg?w=740"
+              />
+              <p className="text-center text-lg">
+                Deliver and explain all documents.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <img
+                className="w-52 h-52 object-cover"
+                src="https://img.freepik.com/free-vector/realty-agent-holding-keys-standing-near-building-isolated-flat-vector-illustration-cartoon-woman-house-sale_74855-8548.jpg?w=826"
+              />
+              <p className="text-center text-lg">
+                Work with them through the closing and getting their keys.
+              </p>
+            </div>
           </div>
         </div>
       </div>

@@ -244,12 +244,15 @@ function Banner() {
   return (
     <>
       {isLoading && <Loader />}
-      <div className="w-full h-128 bg-gray-500 relative">
-        <img
-          src="/images/website/home-house.jpg"
-          alt="banner"
-          className="w-full h-128 object-cover"
-        />
+      <div
+        className="w-full h-128 bg-gray-500 relative"
+        style={{
+          backgroundImage: "url(/images/website/home-house.jpg)",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+        }}
+      >
         <div className="absolute  max-w-4xl w-full text-center top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
           <div
             className="p-8 rounded-lg"

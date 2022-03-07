@@ -8,7 +8,7 @@ import isAuthenticated, {
 import server, { __d } from "../../server";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import Loader from "../loader";
-import { FaTimes } from "react-icons/fa";
+import { FaSearch, FaTimes } from "react-icons/fa";
 
 const getWebsiteValues = async (key) => {
   let setting = "";
@@ -82,54 +82,73 @@ function Header() {
     <div className="flex flex-col">
       {isLoading && <Loader />}
       {/**header top part */}
-      <div
-        className="flex flex-col items-center sm:flex-row sm:justify-between px-5 py-3 text-white"
-        style={{
-          backgroundColor: "var(--primary-color)",
-          fontFamily: "Opensans-regular",
-        }}
-      >
-        {/**header top left */}
-        <div className="flex flex-col items-center sm:flex-row sm:justify-between max-w-3xl w-full">
-          <div className="flex items-center mb-1 sm:mb-0">
-            <img src="/icons/home/email_icon.png" alt="mail" className="mr-1" />
-            <span>{website?.company_email}</span>
+      {router.pathname === "/" && (
+        <div
+          className="flex flex-col items-center sm:flex-row sm:justify-between px-5 py-3 text-white"
+          style={{
+            backgroundColor: "var(--primary-color)",
+            fontFamily: "Opensans-regular",
+          }}
+        >
+          {/**header top left */}
+          <div className="flex flex-col items-center sm:flex-row sm:justify-between max-w-3xl w-full">
+            <div className="flex items-center mb-1 sm:mb-0">
+              <img
+                src="/icons/home/email_icon.png"
+                alt="mail"
+                className="mr-1"
+              />
+              <span>{website?.company_email}</span>
+            </div>
+            <div className="flex items-center mb-1 sm:mb-0">
+              <img
+                src="/icons/home/phone_icon.png"
+                alt="mail"
+                className="mr-1"
+              />
+              <span>{website?.company_contact}</span>
+            </div>
+            <div className="flex items-center mb-1 sm:mb-0 text-center">
+              <span>
+                Toll Free:{website?.tollfree_number} (7 Days a week from 9:00am
+                to 7:00pm)
+              </span>
+            </div>
           </div>
-          <div className="flex items-center mb-1 sm:mb-0">
-            <img src="/icons/home/phone_icon.png" alt="mail" className="mr-1" />
-            <span>{website?.company_contact}</span>
-          </div>
-          <div className="flex items-center mb-1 sm:mb-0 text-center">
-            <span>
-              Toll Free:{website?.tollfree_number} (7 Days a week from 9:00am to
-              7:00pm)
-            </span>
+          {/**header top right */}
+          <div className="flex items-center mt-2 sm:mt-0">
+            <a href={website?.twitter_url} className="mx-2 hover:text-gray-300">
+              <img src="/icons/home/twitter.png" alt="twitter" />
+            </a>
+            <a
+              href={website?.facebook_url}
+              className="mx-2 hover:text-gray-300"
+            >
+              <img
+                src="/icons/home/fb.png"
+                alt="facebook"
+                className="object-contain h-4"
+              />
+            </a>
+            <a
+              href={website?.instagram_url}
+              className="mx-2 hover:text-gray-300"
+            >
+              <img
+                src="/icons/home/insta.png"
+                alt="instagram"
+                className="object-contain h-4"
+              />
+            </a>
+            <a
+              href={website?.linkedin_url}
+              className="mx-2 hover:text-gray-300"
+            >
+              <img src="/icons/home/in.png" alt="linkedin" />
+            </a>
           </div>
         </div>
-        {/**header top right */}
-        <div className="flex items-center mt-2 sm:mt-0">
-          <a href={website?.twitter_url} className="mx-2 hover:text-gray-300">
-            <img src="/icons/home/twitter.png" alt="twitter" />
-          </a>
-          <a href={website?.facebook_url} className="mx-2 hover:text-gray-300">
-            <img
-              src="/icons/home/fb.png"
-              alt="facebook"
-              className="object-contain h-4"
-            />
-          </a>
-          <a href={website?.instagram_url} className="mx-2 hover:text-gray-300">
-            <img
-              src="/icons/home/insta.png"
-              alt="instagram"
-              className="object-contain h-4"
-            />
-          </a>
-          <a href={website?.linkedin_url} className="mx-2 hover:text-gray-300">
-            <img src="/icons/home/in.png" alt="linkedin" />
-          </a>
-        </div>
-      </div>
+      )}
       {/**header nav part */}
       <div className="px-5 py-2 shadow-sm bg-white flex flex-col sm:flex-row items-center sm:justify-between">
         {/**logo */}
@@ -162,25 +181,45 @@ function Header() {
         >
           <ul className="hidden sm:flex sm:items-center">
             <li className="mx-2 relative parent">
-              <a className="py-2 px-3 border-b-2 border-transparent">
+              <a
+                className={`py-2 px-3 border-b-2 border-transparent ${
+                  router.pathname === "/for-tenant" ||
+                  router.pathname === "/for-homeowner" ||
+                  router.pathname === "/faqs"
+                    ? "text-blue-600"
+                    : ""
+                }`}
+              >
                 Home Renting Resources
               </a>
               <ul className="absolute childs top-6 pt-5 left-0  bg-white px-2 py-1 rounded-md z-40 w-max">
-                <li className="my-2 hover:text-blue-500">
+                <li
+                  className={`my-2 hover:text-blue-500 ${
+                    router.pathname === "/for-tenant" ? "text-blue-500" : ""
+                  }`}
+                >
                   <Link href="/for-tenant">
                     <a className="py-2 px-3 border-b-2 border-transparent">
                       For Tenant
                     </a>
                   </Link>
                 </li>
-                <li className="my-2 hover:text-blue-500">
+                <li
+                  className={`my-2 hover:text-blue-500 ${
+                    router.pathname === "/for-homeowner" ? "text-blue-500" : ""
+                  }`}
+                >
                   <Link href="/for-homeowner">
                     <a className="py-2 px-3 border-b-2 border-transparent">
                       For Homeowner
                     </a>
                   </Link>
                 </li>
-                <li className="my-2 hover:text-blue-500">
+                <li
+                  className={`my-2 hover:text-blue-500 ${
+                    router.pathname === "/faqs" ? "text-blue-500" : ""
+                  }`}
+                >
                   <Link href="/faqs">
                     <a className="py-2 px-3 border-b-2 border-transparent">
                       Faqs
@@ -189,21 +228,33 @@ function Header() {
                 </li>
               </ul>
             </li>
-            <li className="mx-2 parent relative">
+            <li
+              className={`mx-2 parent relative ${
+                router.pathname === "/join-our-team" ? "text-blue-500" : ""
+              }`}
+            >
               <Link href="/join-our-team">
                 <a className="py-2 px-3 border-b-2 border-transparent">
                   Join our Team
                 </a>
               </Link>
             </li>
-            <li className="mx-2">
+            <li
+              className={`mx-2 ${
+                router.pathname === "/our-advantages" ? "text-blue-500" : ""
+              }`}
+            >
               <Link href="/our-advantages">
                 <a className="py-2 px-3 border-b-2 border-transparent">
                   Our Advantages
                 </a>
               </Link>
             </li>
-            <li className="mx-2">
+            <li
+              className={`mx-2 ${
+                router.pathname === "/list-property" ? "text-blue-500" : ""
+              }`}
+            >
               <Link
                 href={
                   user && user?.role !== "tenant"
@@ -218,6 +269,16 @@ function Header() {
             </li>
           </ul>
           <div className="flex ml-5">
+            {router.pathname !== "/" && (
+              <Link href="/">
+                <a
+                  className="py-1 px-4 mr-3 rounded-md text-white flex items-center"
+                  style={{ backgroundColor: "var(--orange)" }}
+                >
+                  <FaSearch className="mr-1" /> Find Property
+                </a>
+              </Link>
+            )}
             {!isAuthenticated() ? (
               <>
                 <Link href="/signup">
@@ -318,18 +379,6 @@ function Header() {
           </div>
         </div>
       </div>
-
-      {router.pathname !== "/" && (
-        <Link href="/">
-          <a
-            style={{ fontFamily: "Opensans-bold" }}
-            className="fixed bottom-20 px-10 py-5
-             rounded-full bg-blue-500 shadow-md text-white hover:bg-blue-400 right-5 z-50"
-          >
-            Find Home
-          </a>
-        </Link>
-      )}
     </div>
   );
 }

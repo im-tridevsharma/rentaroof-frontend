@@ -25,7 +25,7 @@ function Advantages() {
               "url(https://thumbs.dreamstime.com/b/confident-real-estate-agent-financial-advisor-suit-shaking-hands-client-respect-gratitude-gesture-congratulate-property-138034370.jpg)",
           }}
         ></div>
-        <div className="max-w-6xl text-gray-700 w-full m-auto">
+        <div className="max-w-6xl mt-10 text-gray-700 w-full m-auto">
           <h2
             style={{ fontFamily: "Opensans-bold" }}
             className="my-7  px-10 md:px-0"
@@ -176,63 +176,70 @@ function Advantages() {
           </div>
         </div>
 
-        <div className="mt-10 bg-white py-5 px-10 md:px-0">
+        <div className="mt-16 bg-white py-5 px-10 md:px-0">
           <div className="max-w-6xl w-full m-auto relative">
             <h2
               style={{ fontFamily: "Opensans-bold" }}
-              className="my-7 text-gray-700"
+              className="my-7 text-gray-700 text-center"
             >
               Real Estate Agent Administrative Duties
             </h2>
-            <ul
-              className="text-gray-700"
-              style={{ fontSize: "16px", fontFamily: "Opensans-regular" }}
-            >
-              <li className="flex items-center">
-                <img src="icons/home/point-icon.png" width="35" height="35" />
-                <p className="ml-3">
-                  Respond to texts, emails, and phone calls
-                </p>
-              </li>
 
-              <li className="flex mt-2 items-center">
-                <img src="icons/home/point-icon.png" width="35" height="35" />
-                <p className="ml-3">
-                  Process real estate documents, agreements, and lease records
-                </p>
-              </li>
-
-              <li className="flex mt-2 items-center">
-                <img src="icons/home/point-icon.png" width="35" height="35" />
-                <p className="ml-3">
-                  Coordinate appointments, showings, open houses, and meetings
-                </p>
-              </li>
-
-              <li className="flex mt-2 items-center">
-                <img src="icons/home/point-icon.png" width="35" height="35" />
-                <p className="ml-3">Update databases</p>
-              </li>
-            </ul>
-            <p
-              className="text-lg text-gray-700 mt-5"
+            <div
+              className="mt-20 grid grid-cols-1 md:grid-cols-3 md:space-x-10 space-y-5 md:space-y-0"
               style={{ fontFamily: "Opensans-regular" }}
+            >
+              <div className="flex flex-col items-center">
+                <img
+                  className="w-40 h-40 object-cover"
+                  src="https://img.freepik.com/free-vector/messaging-fun-concept-illustration_114360-1870.jpg?w=740"
+                />
+                <p className="text-center text-lg">
+                  Respond to texts, emails, <br />
+                  and phone calls.
+                </p>
+              </div>
+
+              <div className="flex flex-col items-center">
+                <img
+                  className="w-40 h-40 object-cover"
+                  src="https://img.freepik.com/free-vector/document-signing-partnership-deal-business-consultation-work-arrangement-client-assistant-writing-contract-cartoon-characters_335657-2342.jpg?w=740"
+                />
+                <p className="text-center text-lg">
+                  Process real estate documents, agreements, and lease records.
+                </p>
+              </div>
+
+              <div className="flex flex-col items-center">
+                <img
+                  className="w-40 h-40 object-cover"
+                  src="https://img.freepik.com/free-vector/appointment-booking-mobile-design_23-2148573175.jpg?w=740"
+                />
+                <p className="text-center text-lg">
+                  Coordinate appointments, showings, open houses, and meetings.
+                </p>
+              </div>
+            </div>
+
+            <p
+              className="text-lg  mt-16 mx-auto text-center w-full"
+              style={{ fontFamily: "Opensans-regular", maxWidth: "800px" }}
             >
               Because administrative duties can be very time-consuming, we
               provide pre-defined structures and procedures that can be
               initiated through our app.
             </p>
 
-            <p className="my-10">
-              <Link href="/signup">
+            <div className="mt-14 flex justify-center">
+              <Link href="/signup/ibo">
                 <a
-                  className="py-3 px-10 text-lg rounded-full text-white"
-                  style={{ background: "var(--blue)" }}
+                  style={{ fontFamily: "Opensans-bold" }}
+                  className="px-5 py-4 rounded-full bg-blue-400 hover:bg-blue-500 text-white"
                 >
                   Get Started
                 </a>
               </Link>
-            </p>
+            </div>
           </div>
         </div>
       </div>
