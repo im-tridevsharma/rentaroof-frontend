@@ -79,7 +79,7 @@ function Header() {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" style={{ zIndex: "9999" }}>
       {isLoading && <Loader />}
       {/**header top part */}
       {router.pathname === "/" && (

@@ -155,19 +155,19 @@ function Index() {
           </div>
           {/**about content */}
           <div className="flex flex-col mt-20 sm:mt-0 sm:py-10">
-            <b className="text-sm">ABOUT US</b>
             <h1
               className="font-thin text-gray-700 text-3xl w-full sm:w-72 my-3"
-              style={{ fontFamily: "Opensans-light" }}
+              style={{ fontFamily: "Opensans-semi-bold" }}
             >
               {website?.homepage_aboutus_title}
             </h1>
             <p
               className="text-gray-700 text-sm"
               style={{ fontFamily: "Opensans-regular" }}
-            >
-              {website?.homepage_aboutus_description}
-            </p>
+              dangerouslySetInnerHTML={{
+                __html: website?.homepage_aboutus_description,
+              }}
+            ></p>
           </div>
         </div>
 
