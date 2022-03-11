@@ -114,7 +114,7 @@ function Index() {
 
         {/**About us section */}
         <div
-          className="relative grid grid-cols-1 sm:grid-cols-2 sm:space-x-5 px-10 sm:px-32 text-center sm:text-left py-10 h-128
+          className="relative grid grid-cols-1 md:grid-cols-2 sm:space-x-5  text-center sm:text-left overflow-hidden h-128
           "
           style={{
             backgroundImage:
@@ -125,36 +125,14 @@ function Index() {
           }}
         >
           {/**images */}
-          <div className="hidden sm:flex">
-            <div className="flex flex-col mt-20">
-              <div
-                className="w-40 h-32 mb-3"
-                style={{ backgroundColor: "#b9a0ca" }}
-              ></div>
-              <div className="w-40 h-48 bg-red-300 overflow-hidden">
-                <img
-                  src="/images/website/building.jpg"
-                  alt="img1"
-                  className="object-cover h-48"
-                />
-              </div>
-            </div>
-            <div className="flex flex-col mt-3">
-              <div className="w-40 h-48 bg-red-300 mb-3 ml-3">
-                <img
-                  src="/images/website/office-buildings.jpg"
-                  alt="img2"
-                  className="object-cover h-48"
-                />
-              </div>
-              <div
-                className="w-40 h-32 ml-3"
-                style={{ backgroundColor: "#b9a0ca" }}
-              ></div>
-            </div>
+          <div className="">
+            <img
+              src="/images/website/rar.gif"
+              className="h-full md:h-128 object-contain"
+            />
           </div>
           {/**about content */}
-          <div className="flex flex-col mt-20 sm:mt-0 sm:py-10">
+          <div className="flex flex-col md:mt-10 mt-5 sm:py-10 md:pr-32">
             <h1
               className="font-thin text-gray-700 text-3xl w-full sm:w-72 my-3"
               style={{ fontFamily: "Opensans-semi-bold" }}
