@@ -62,7 +62,7 @@ function Index() {
         <Banner />
         {/**counts */}
         <div
-          className="grid grid-cols-1 pr-10 md:grid-cols-4 py-7 text-gray-50"
+          className="flex items-center pb-5 pt-10 justify-evenly"
           style={{ backgroundColor: "var(--primary-color)" }}
         >
           {/**1st */}
@@ -152,30 +152,45 @@ function Index() {
         {/**featured property section */}
         <FeaturedProperty />
 
-        {/**rental section */}
-        <div className="flex flex-col items-center justify-center p-10">
-          <h3
-            className="text-2xl font-semibold text-center"
-            style={{ fontFamily: "Opensans-bold" }}
-          >
-            Are you looking for a rental home?{" "}
-          </h3>
-          <div className="grid sm:grid-cols-3 sm:space-x-10 p-10">
-            <Option
-              Icon={<img src="/icons/home/home_icon4.png" alt="properties" />}
-              title="All Properties in one place"
-              description="To find a property you need to do 20 things, join here and leave Everything to us."
-            />
-            <Option
-              Icon={<img src="/icons/home/home_icon5.png" alt="money" />}
-              title="Compare and Save Money"
-              description="Compare every aspect before renting a home. We offer the best deals for you."
-            />
-            <Option
-              Icon={<img src="/icons/home/home_icon6.png" alt="contact" />}
-              title="Quick Connect"
-              description="Connect easily and set meetings with us to fulfil your renting requirement."
-            />
+        {/**no hidden charges */}
+
+        <div
+          className="border-t"
+          style={{
+            backgroundColor: "var(--primary-color)",
+            borderColor: "#fff",
+          }}
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 text-white">
+            <img src="https://img.freepik.com/free-vector/finance-department-employees-are-calculating-expenses-company-s-business_1150-41782.jpg?w=740" />
+            <div className="relative p-10">
+              <img
+                src="https://animoto.com/static/LowerRightTealYellow-944790b2ec1f2d1d569c799113cbfc41.svg"
+                className="absolute right-0 object-contain h-32 top-0 filter brightness-200"
+              />
+              <h2 className="italic" style={{ fontFamily: "Opensans-bold" }}>
+                No Hidden Charges!
+              </h2>
+              <p
+                className="text-md mt-5"
+                style={{ fontFamily: "Opensans-regular" }}
+              >
+                In publishing and graphic design, Lorem ipsum is a placeholder
+                text commonly used to demonstrate the visual form of a document
+                or a typeface without relying on meaningful content. Lorem ipsum
+                may be used as a placeholder before the final copy is available.
+              </p>
+
+              <p
+                className="text-md mt-5"
+                style={{ fontFamily: "Opensans-regular" }}
+              >
+                In publishing and graphic design, Lorem ipsum is a placeholder
+                text commonly used to demonstrate the visual form of a document
+                or a typeface without relying on meaningful content. Lorem ipsum
+                may be used as a placeholder before the final copy is available.
+              </p>
+            </div>
           </div>
         </div>
 
@@ -257,33 +272,91 @@ function Index() {
           )}
         </div>
 
-        {/**testimonial section */}
-        <Testimonial
-          bgImage="/images/website/night.jpg"
-          title="Our Customer’s Verdict"
-          testimonials={[
-            {
-              author: "Tridev Sharma",
-              subtitle: "-",
-              text: "Rent A Roof has always been a tremendous help to me. Their services are one of the best in town. I love how they provide you with the opportunity to compare prices and other such things. I could find the perfect home for myself. They have prompt support. It allowed me to reach the crucial decision in just a few seconds. ",
-            },
-            {
-              author: "Mithesh Sharma",
-              subtitle: "-",
-              text: "I had to change from my last house because of the landlord. It was quite a hassle. But when I learned about Rent a Roof, it changed my view to get a roof over my head. It was one of the best experiences so far. Thank you, Rent A Roof, for providing such an excellent service for reaching the landlord. It was so comfortable that I forgot how to go to the house to look at it physically. Their assistance is indeed one of the best in Real Estate",
-            },
-          ]}
-        />
+        <div className="bg-white pb-10 pt-20">
+          <div className="max-w-4xl w-full m-auto">
+            <h3 className="text-center" style={{ fontFamily: "Opensans-bold" }}>
+              Let us know about your dream home.
+            </h3>
+            <form className="mt-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5">
+                <div className="form-element">
+                  <label className="form-label">Your Name</label>
+                  <input type="text" name="name" className="form-input" />
+                </div>
+                <div className="form-element">
+                  <label className="form-label">Your Email</label>
+                  <input type="email" name="email" className="form-input" />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5">
+                <div className="form-element">
+                  <label className="form-label">Property Location</label>
+                  <input
+                    type="text"
+                    name="location"
+                    placeholder="eg: Defence Colony, Delhi"
+                    className="form-input"
+                  />
+                </div>
+                <div className="form-element">
+                  <label className="form-label">Your Budget</label>
+                  <input
+                    type="text"
+                    name="budget"
+                    placeholder="eg: 30,000 - 50,000"
+                    className="form-input"
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-5">
+                <div className="form-element">
+                  <label className="form-label">Floor</label>
+                  <input
+                    type="number"
+                    placeholder="eg: -1 or 0 or 1"
+                    name="floor"
+                    className="form-input"
+                  />
+                </div>
+                <div className="form-element">
+                  <label className="form-label">Bedrooms</label>
+                  <input type="number" name="bedroom" className="form-input" />
+                </div>
+                <div className="form-element">
+                  <label className="form-label">Balconies</label>
+                  <input
+                    type="number"
+                    name="balconies"
+                    className="form-input"
+                  />
+                </div>
+              </div>
+              <div className="form-element">
+                <label className="form-label">
+                  Describe about your dream home.
+                </label>
+                <textarea name="amount" className="form-input"></textarea>
+              </div>
+              <button
+                type="button"
+                className="px-5 py-3 float-right bg-blue-400 text-white"
+                style={{ fontFamily: "Opensans-semi-bold" }}
+              >
+                Submit
+              </button>
+            </form>
+          </div>
+        </div>
 
         {/**blogs */}
-        <div className="flex flex-col items-center justify-between bg-white p-10">
-          <h5
+        <div className="flex flex-col items-center justify-between bg-gray-50 p-10">
+          <h3
             className="font-bold mb-5 text-center"
             style={{ fontFamily: "Opensans-bold" }}
           >
             Have you read our real estate blog?
-          </h5>
-          <div className="flex flex-col sm:flex-row">
+          </h3>
+          <div className="flex items-center">
             <Carousel cols={3} rows={1} gap={10} loop>
               {blogs?.length > 0 &&
                 blogs?.map((blog, i) => (

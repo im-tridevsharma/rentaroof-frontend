@@ -17,100 +17,21 @@ function Services() {
       </Head>
 
       <div className=" bg-white">
-        <div className="">
-          <Carousel cols={1} rows={1} gap={0} autoplay={5000} loop>
-            <Carousel.Item>
-              <div
-                className="w-full for-tenant-slider"
-                style={{
-                  backgroundSize: "cover",
-                  backgroundRepeat: "no-repeat",
-                  backgroundImage:
-                    "url(https://c.wallhere.com/photos/25/ed/world_trip_travel_bridge_blue_red_vacation_italy-622499.jpg!d)",
-                }}
-              >
-                <div
-                  className="absolute bottom-1/2 transform translate-y-1/2 left-20 p-5 rounded-md text-white"
-                  style={{ background: "rgba(0,0,0,.3)" }}
-                >
-                  <h2 style={{ fontFamily: "Opensans-bold" }}>
-                    Be first to Rent a Roof
-                  </h2>
-                  <h1 style={{ fontFamily: "Opensans-bold" }}>in Delhi</h1>
-                  <div className="mt-20">
-                    <Link href="/list-property">
-                      <a
-                        style={{ fontFamily: "Opensans-bold" }}
-                        className="px-5 py-4 rounded-full bg-white hover:bg-gray-50 text-gray-700"
-                      >
-                        Get Started
-                      </a>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </Carousel.Item>
-            <Carousel.Item>
-              <div className="grid grid-cols-1 md:grid-cols-2 h-full">
-                <div className="max-w-md w-full flex-col mx-auto text-center flex items-center justify-center">
-                  <h2 style={{ fontFamily: "Opensans-bold" }}>
-                    Advise the homeowner in readying the home for listing and
-                    showings.
-                  </h2>
-                  <p
-                    className="mt-5 text-lg"
-                    style={{ fontFamily: "Opensans-regular" }}
-                  >
-                    They help their clients navigate all aspects of the home
-                    renting process, from finding homes to completing the
-                    documentation process.
-                  </p>
-                </div>
-                <div
-                  className=" w-full"
-                  style={{
-                    backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat",
-                    backgroundImage:
-                      "url(https://img.freepik.com/free-photo/business-brainstorming-graph-chart-report-data-concept_53876-31213.jpg?w=740)",
-                  }}
-                ></div>
-              </div>
-            </Carousel.Item>
-            <Carousel.Item>
-              <div className="grid grid-cols-1 md:grid-cols-2 h-full">
-                <div className="max-w-md w-full flex-col mx-auto text-center flex items-center justify-center">
-                  <h2 style={{ fontFamily: "Opensans-bold" }}>
-                    Determine the home's value in the current market for a
-                    listing price.
-                  </h2>
-                  <p
-                    className="mt-5 text-lg"
-                    style={{ fontFamily: "Opensans-regular" }}
-                  >
-                    They help their clients navigate all aspects of the home
-                    renting process, from finding homes to completing the
-                    documentation process.
-                  </p>
-                </div>
-                <div
-                  className=" w-full"
-                  style={{
-                    backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat",
-                    backgroundImage:
-                      "url(https://img.freepik.com/free-photo/businessman-pointing-place-where-should-sign-document_43919-130.jpg?w=740)",
-                  }}
-                ></div>
-              </div>
-            </Carousel.Item>
-          </Carousel>
-        </div>
         <div className="py-2" style={{ backgroundColor: "#faf8fa" }}>
-          <div className="md:px-20 px-5 grid grid-cols-1 md:grid-cols-2 md:space-x-5 md:space-y-0 space-y-5">
-            <img src="/images/website/rar.gif" />
+          <div className="md:px-20 pb-10 md:pb-28 px-5 grid grid-cols-1 md:grid-cols-2 md:space-x-5 md:space-y-0 space-y-5">
+            <div className="relative p-10 md:pt-24">
+              <img
+                src="https://animoto.com/static/RedSwipe-0a3c66075a383e378d143e27489ce2ca.svg"
+                className="h-32 object-contain absolute left-0"
+              />
+              <img src="https://img.freepik.com/free-photo/sale-handsome-realtor-waiting-visitors-rent-new-home-ownership-confident-man-outside_545934-6596.jpg?w=740" />
+              <img
+                src="https://animoto.com/static/GreenCircle-181444214f6f5a5b89d3a72a75e25732.svg"
+                className="h-32 object-contain absolute right-0 bottom-0"
+              />
+            </div>
 
-            <div className="flex justify-center flex-col">
+            <div className="flex justify-start flex-col md:pt-20 pt-5">
               <h3 style={{ fontFamily: "Opensans-bold" }} className="mb-5">
                 Homeowner Title
               </h3>
@@ -118,10 +39,37 @@ function Services() {
                 When homeowners decide they want to put up their home for
                 rent/sale, the vast majority will call a real estate brokerage
                 firm to work with an agent to get their homes listed on the
-                local Multiple Listing Service. This database is shared among
-                all local brokerage members, who then work to bring in a tenant
-                for the home. In listing a home, the real estate agent will be
-                performing the following duties and activities:
+                local Multiple Listing Service.
+              </p>
+              <p
+                className="text-lg mt-3"
+                style={{ fontFamily: "Opensans-regular" }}
+              >
+                This database is shared among all local brokerage members, who
+                then work to bring in a tenant for the home. In listing a home,
+                the real estate agent will be performing the following duties
+                and activities.
+              </p>
+              <div className="mt-10 mb-5">
+                <Link href="/signup">
+                  <a
+                    style={{ fontFamily: "Opensans-bold" }}
+                    className="px-5 py-4 rounded-full bg-blue-400 hover:bg-blue-500 text-white"
+                  >
+                    Sign Up
+                  </a>
+                </Link>
+              </div>
+              <p style={{ fontFamily: "Opensans-semi-bold" }}>
+                Already joined us?
+                <Link href="/login">
+                  <a
+                    style={{ fontFamily: "Opensans-bold" }}
+                    className="text-blue-500 ml-3"
+                  >
+                    Login
+                  </a>
+                </Link>
               </p>
             </div>
           </div>
@@ -217,6 +165,77 @@ function Services() {
                 data-src="https://d2of6bhnpl91ni.cloudfront.net/cms/1920x1080_Final_2020_Real Estate LP-b2c23b6555.mp4"
                 src="https://d2of6bhnpl91ni.cloudfront.net/cms/1920x1080_Final_2020_Real Estate LP-b2c23b6555.mp4"
               ></video>
+            </div>
+          </div>
+        </div>
+
+        <div className="py-10 bg-white">
+          <div className="max-w-6xl w-full m-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 space-y-5 md:space-y-0">
+              <div className="-mt-10">
+                <img src="https://img.freepik.com/free-vector/coffee-break-concept-illustration_114360-2931.jpg?2&w=740" />
+              </div>
+              <div className="">
+                <h3 style={{ fontFamily: "Opensans-bold" }} className="my-5">
+                  Section Title
+                </h3>
+                <p
+                  className="text-lg mt-3"
+                  style={{ fontFamily: "Opensans-regular" }}
+                >
+                  In publishing and graphic design, Lorem ipsum is a placeholder
+                  text commonly used to demonstrate the visual form of a
+                  document or a typeface without relying on meaningful content.
+                  Lorem ipsum may be used as a placeholder before the final copy
+                  is testing.
+                </p>
+                <div className="mt-10">
+                  <Link href="/signup">
+                    <a
+                      style={{ fontFamily: "Opensans-bold" }}
+                      className="px-5 py-4 rounded-full bg-blue-400 hover:bg-blue-500 text-white"
+                    >
+                      Get Started
+                    </a>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="py-10 bg-gray-50">
+          <div className="max-w-6xl w-full m-auto">
+            <h3 style={{ fontFamily: "Opensans-bold" }} className="mb-5">
+              Section Title
+            </h3>
+            <p
+              className="text-lg mt-3"
+              style={{ fontFamily: "Opensans-regular" }}
+            >
+              In publishing and graphic design, Lorem ipsum is a placeholder
+              text commonly used to demonstrate the visual form of a document or
+              a typeface without relying on meaningful content. Lorem ipsum may
+              be used as a placeholder before the final copy is testing.
+            </p>
+            <p
+              className="text-lg mt-3"
+              style={{ fontFamily: "Opensans-regular" }}
+            >
+              In publishing and graphic design, Lorem ipsum is a placeholder
+              text commonly used to demonstrate the visual form of a document or
+              a typeface without relying on meaningful content. Lorem ipsum may
+              be used as a placeholder before the final copy is testing.
+            </p>
+            <div className="mt-10 mb-5">
+              <Link href="/signup">
+                <a
+                  style={{ fontFamily: "Opensans-bold" }}
+                  className="px-5 py-4 rounded-full bg-blue-400 hover:bg-blue-500 text-white"
+                >
+                  Get Started
+                </a>
+              </Link>
             </div>
           </div>
         </div>

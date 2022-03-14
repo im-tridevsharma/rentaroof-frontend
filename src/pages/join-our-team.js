@@ -25,8 +25,8 @@ function Ibo() {
             src="https://animoto.com/static/YellowCorner-d367eaf0eeff2a90f1d4d374e3b1c3e8.svg"
           />
           <div className="max-w-6xl h-full w-full mx-auto grid grid-cols-1 md:grid-cols-2 md:space-x-5">
-            <div className="flex h-full justify-end flex-col pb-10 md:pr-10">
-              <h1 style={{ fontFamily: "Opensans-bold" }} className="my-4">
+            <div className="flex h-full justify-end md:-mt-10 flex-col pb-10 md:pr-10">
+              <h1 style={{ fontFamily: "Opensans-bold" }} className="mb-4">
                 Join
               </h1>
               <h1 style={{ fontFamily: "Opensans-bold" }}>Our Team</h1>
@@ -51,18 +51,38 @@ function Ibo() {
               </div>
             </div>
             <div className="flex flex-col justify-end pb-20">
-              <video
-                controls
-                playsinline
-                loop
-                data-src="https://d2of6bhnpl91ni.cloudfront.net/cms/1920x1080_Final_2020_Real Estate LP-b2c23b6555.mp4"
-                src="https://d2of6bhnpl91ni.cloudfront.net/cms/1920x1080_Final_2020_Real Estate LP-b2c23b6555.mp4"
-              ></video>
+              <img
+                className="rounded-t-full rounded-b-md"
+                src="https://img.freepik.com/free-vector/business-team-brainstorm-idea-lightbulb-from-jigsaw-working-team-collaboration-enterprise-cooperation-colleagues-mutual-assistance-concept-pinkish-coral-bluevector-isolated-illustration_335657-1651.jpg?w=740"
+              />
             </div>
           </div>
         </div>
+        <div style={{ backgroundColor: "rgba(0,0,0,.01)" }} className="pb-10">
+          <div
+            className="h-128"
+            style={{
+              backgroundImage:
+                "url(https://img.freepik.com/free-vector/real-estate-agency-interior-flat-composition-with-realtor-helping-family-couple-buyers-choosing-first-house_1284-61532.jpg?w=826)",
+            }}
+          />
+          <div className="bg-white shadow-md text-center max-w-6xl w-full m-auto p-10 rounded-3xl -mt-20">
+            <h3 style={{ fontFamily: "Opensans-bold" }} className="my-5">
+              Section Title
+            </h3>
+            <p
+              className="text-lg mt-3"
+              style={{ fontFamily: "Opensans-regular" }}
+            >
+              In publishing and graphic design, Lorem ipsum is a placeholder
+              text commonly used to demonstrate the visual form of a document or
+              a typeface without relying on meaningful content. Lorem ipsum may
+              be used as a placeholder before the final copy is testing.
+            </p>
+          </div>
+        </div>
         <div className="pb-10 pt-5 max-w-6xl w-full m-auto bg-white">
-          <div className="mt-20 text-gray-700">
+          <div className="mt-12 text-gray-700">
             <h3 className="text-center" style={{ fontFamily: "Opensans-bold" }}>
               What are the duties of a Real Estate Agent?
             </h3>
@@ -244,6 +264,44 @@ function Ibo() {
                     platform for maximising it’s potential.
                   </p>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="py-10 bg-white">
+          <div className="max-w-6xl w-full m-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 space-y-5 md:space-y-0">
+              <div className="">
+                <h3 style={{ fontFamily: "Opensans-bold" }} className="my-5">
+                  Section Title
+                </h3>
+                <p
+                  className="text-lg mt-3"
+                  style={{ fontFamily: "Opensans-regular" }}
+                >
+                  In publishing and graphic design, Lorem ipsum is a placeholder
+                  text commonly used to demonstrate the visual form of a
+                  document or a typeface without relying on meaningful content.
+                  Lorem ipsum may be used as a placeholder before the final copy
+                  is testing.
+                </p>
+                <div className="mt-10">
+                  <Link href="/signup/ibo">
+                    <a
+                      style={{ fontFamily: "Opensans-bold" }}
+                      className="px-5 py-4 rounded-full bg-blue-400 hover:bg-blue-500 text-white"
+                    >
+                      Get Started
+                    </a>
+                  </Link>
+                </div>
+              </div>
+              <div className="">
+                <img
+                  src="https://img.freepik.com/free-vector/recruitment-agency-searching-job-applicants_1262-19873.jpg?w=740"
+                  className="rounded-3xl"
+                />
               </div>
             </div>
           </div>

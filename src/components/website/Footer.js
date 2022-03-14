@@ -181,20 +181,16 @@ function Footer() {
     },
     {
       title: "Information",
-      links: [
-        { href: "/", value: "Home" },
-        { href: "/about-us", value: "About Us" },
-        ...pages,
-      ],
+      links: [{ href: "/", value: "Home" }, ...pages],
     },
     {
       title: "Our Services",
       links: [
         { href: "/", value: "Home" },
-        { href: "/about-us", value: "About Us" },
-        { href: "/ibo/add-property", value: "Listing Properties" },
-        { href: "/ibo", value: "IBO" },
-        { href: "/owners", value: "Owners" },
+        { href: "/list-property", value: "Listing Properties" },
+        { href: "/join-our-team", value: "Join Our Team" },
+        { href: "/for-homeowner", value: "Owners" },
+        { href: "/for-tenant", value: "Tenants" },
       ],
     },
   ];

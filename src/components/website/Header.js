@@ -286,7 +286,7 @@ function Header() {
                     className="py-1 px-4 rounded-md text-white"
                     style={{ backgroundColor: "var(--primary-color)" }}
                   >
-                    Signup
+                    Sign Up
                   </a>
                 </Link>
                 <Link href="/login">
