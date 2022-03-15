@@ -87,6 +87,9 @@ function Index({ rcode }) {
           setTimeout(() => {
             setErrors(false);
           }, 3000);
+        } else {
+          setIsLoading(false);
+          setErrors([[response?.message]]);
         }
       })();
     } else {

@@ -9,13 +9,8 @@ import {
 import { __d } from "../../../../server";
 import Loader from "../../../loader";
 import moment from "moment";
-import { FaExclamation, FaExclamationCircle, FaTimes } from "react-icons/fa";
-import {
-  FiCheckCircle,
-  FiMail,
-  FiMessageCircle,
-  FiPhoneCall,
-} from "react-icons/fi";
+import { FaExclamation, FaTimes } from "react-icons/fa";
+import { FiMail, FiMessageCircle, FiPhoneCall } from "react-icons/fi";
 import {
   createConversation,
   saveUserNotication,
@@ -41,6 +36,8 @@ function AppointmentUI() {
   const [agreementMode, setAgreementMode] = useState(false);
   const [rateAndReview, setRateAndReview] = useState(false);
   const [rating, setRating] = useState(0);
+  const [vvcModal, setVvcModal] = useState(false);
+  const [vvcData, setVvcData] = useState({ vvc: "", user: "" });
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -152,14 +149,15 @@ function AppointmentUI() {
     }
   };
 
-  const handleVvc = async (vvc, s, type) => {
+  const handleVvc = async (id, vvc, type) => {
     if (vvc && type) {
       setIsLoading(true);
-      const res = await vvcStatus({ vvc, status: s, type });
+      const res = await vvcStatus({ id, vvc, type });
       if (res?.status) {
         setIsLoading(false);
         setReload(Date.now());
-        toast.success("Status Changed Successfully.");
+        setVvcData({ vvc: "", user: "" });
+        toast.success(res?.message);
       } else {
         toast.error(res?.message);
         setIsLoading(false);
@@ -339,60 +337,27 @@ function AppointmentUI() {
                             onClick={() => startConversation(a?.created_by_id)}
                           />
                         </p>
-                        {a?.vvc && (
-                          <div>
-                            <p className="flex items-center">
-                              <b className="mr-3">
-                                Tenant VVC: {a?.tenant_vvc}
-                              </b>{" "}
-                              {!a?.is_tenant_vvc_verified ? (
-                                <>
-                                  <FiCheckCircle
-                                    onClick={() =>
-                                      handleVvc(a?.vvc, 1, "tenant")
-                                    }
-                                    className="cursor-pointer mr-3 text-green-500"
-                                    data-tip="Verified"
-                                  />{" "}
-                                  <FaExclamationCircle
-                                    onClick={() =>
-                                      handleVvc(a?.vvc, 0, "tenant")
-                                    }
-                                    className="text-red-500 cursor-pointer"
-                                    data-tip="Not Verified"
-                                  />
-                                </>
-                              ) : (
-                                <span className="text-green-500">Verified</span>
+                        <p className="leading-6 flex items-center">
+                          <b className="mr-1">Landlord:</b> {a?.landlord?.first}{" "}
+                          {a?.landlord?.last}
+                          {a?.landlord?.id !== user?.id ? (
+                            <>
+                              <FiMessageCircle
+                                style={{ color: "var(--blue)" }}
+                                className="text-lg cursor-pointer ml-2"
+                                data-tip="Chat with Landlord"
+                                onClick={() =>
+                                  startConversation(a?.landlord?.id)
+                                }
+                              />
+                              {a?.property_added_by == user?.id && (
+                                <i className="ml-3">Added by you</i>
                               )}
-                            </p>
-                            <p className="flex items-center">
-                              <b className="mr-3">
-                                Landlord VVC: {a?.landlord_vvc}
-                              </b>{" "}
-                              {!a?.is_landlord_vvc_verified ? (
-                                <>
-                                  <FiCheckCircle
-                                    onClick={() =>
-                                      handleVvc(a?.vvc, 1, "landlord")
-                                    }
-                                    className="cursor-pointer mr-3 text-green-500"
-                                    data-tip="Verified"
-                                  />{" "}
-                                  <FaExclamationCircle
-                                    onClick={() =>
-                                      handleVvc(a?.vvc, 0, "landlord")
-                                    }
-                                    className="text-red-500 cursor-pointer"
-                                    data-tip="Not Verified"
-                                  />
-                                </>
-                              ) : (
-                                <span className="text-green-500">Verified</span>
-                              )}
-                            </p>
-                          </div>
-                        )}
+                            </>
+                          ) : (
+                            <span>(You)</span>
+                          )}
+                        </p>
                       </td>
                       <td>{moment(a?.start_time).format("DD-MM-YYYY")}</td>
                       <td>{moment(a?.start_time).format("hh:mm A")}</td>
@@ -408,6 +373,10 @@ function AppointmentUI() {
                             Review & Rate
                           </button>
                         )}
+                        {a?.is_landlord_vvc_verified &&
+                          a?.is_tenant_vvc_verified && (
+                            <p className="text-green-500">VVC Verified</p>
+                          )}
                       </td>
                       <td>
                         <div className="flex">
@@ -532,6 +501,16 @@ function AppointmentUI() {
                                 onClick={() => openAgreementMode(a)}
                               >
                                 Create Agreement
+                              </button>
+                            )}
+                          {a?.vvc &&
+                            (!a?.is_landlord_vvc_verified ||
+                              !a?.is_tenant_vvc_verified) && (
+                              <button
+                                onClick={() => setVvcModal(a?.vvc)}
+                                className="bg-green-600  p-2 ml-2 rounded-md text-white"
+                              >
+                                Verify VVC
                               </button>
                             )}
                         </div>
@@ -983,6 +962,65 @@ function AppointmentUI() {
             </div>
           </form>
         </div>
+      )}
+
+      {vvcModal && (
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleVvc(vvcModal, vvcData?.vvc, vvcData?.user);
+          }}
+          style={{ fontFamily: "Opensans-regular" }}
+          className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5 bg-white shadow-md rounded-md z-40 max-w-lg w-full"
+        >
+          <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
+            VVC Verification
+            <FaTimes
+              onClick={() => setVvcModal(false)}
+              data-tip="Close"
+              className="absolute right-1 top-1 text-red-500 cursor-pointer text-lg"
+            />
+            <ReactTooltip />
+          </h5>
+          <hr className="my-1" />
+          <div className="mt- grid grid-cols-1 md:grid-cols-2 md:space-x-5 md:space-y-0 space-y-5">
+            <div className="form-element">
+              <label className="form-label">VVC Code</label>
+              <input
+                required={true}
+                type="text"
+                maxLength={6}
+                minLength={6}
+                value={vvcData.vvc}
+                onChange={(e) =>
+                  setVvcData((prev) => ({ ...prev, vvc: e.target.value }))
+                }
+                className="form-input border-gray-300 h-10 rounded-md"
+              />
+            </div>
+            <div className="form-element">
+              <label className="form-label">Select User</label>
+              <select
+                required={true}
+                className="form-select border-gray-300 rounded-md"
+                value={vvcData.user}
+                onChange={(e) =>
+                  setVvcData((prev) => ({ ...prev, user: e.target.value }))
+                }
+              >
+                <option value="">Select</option>
+                <option value="tenant">Tenant</option>
+                <option value="landlord">Landlord</option>
+              </select>
+            </div>
+          </div>
+          <button
+            style={{ backgroundColor: "var(--blue)" }}
+            className="px-3 rounded-md py-2 float-right text-white"
+          >
+            Verify
+          </button>
+        </form>
       )}
     </>
   );

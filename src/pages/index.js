@@ -148,10 +148,6 @@ function Index() {
             ></p>
           </div>
         </div>
-
-        {/**featured property section */}
-        <FeaturedProperty />
-
         {/**no hidden charges */}
 
         <div
@@ -161,36 +157,114 @@ function Index() {
             borderColor: "#fff",
           }}
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 text-white">
-            <img src="https://img.freepik.com/free-vector/finance-department-employees-are-calculating-expenses-company-s-business_1150-41782.jpg?w=740" />
+          <div className="grid h-80 overflow-hidden grid-cols-1 md:grid-cols-2 text-white">
+            <img
+              className="-mt-10"
+              src="https://img.freepik.com/free-vector/finance-department-employees-are-calculating-expenses-company-s-business_1150-41782.jpg?w=740"
+            />
             <div className="relative p-10">
               <img
                 src="https://animoto.com/static/LowerRightTealYellow-944790b2ec1f2d1d569c799113cbfc41.svg"
                 className="absolute right-0 object-contain h-32 top-0 filter brightness-200"
               />
               <h2 className="italic" style={{ fontFamily: "Opensans-bold" }}>
-                No Hidden Charges!
+                No upfront or hidden service charges
               </h2>
               <p
                 className="text-md mt-5"
                 style={{ fontFamily: "Opensans-regular" }}
               >
-                In publishing and graphic design, Lorem ipsum is a placeholder
-                text commonly used to demonstrate the visual form of a document
-                or a typeface without relying on meaningful content. Lorem ipsum
-                may be used as a placeholder before the final copy is available.
+                As per our policy of no hidden charges and complete transparency
+                with our client’s, there are no hidden or upfront charges for
+                the services provided to you by Rent-a-roof and a service charge
+                will only be levied once we are successful in finding the right
+                home for you. The service charge will be equivalent to the sum
+                of 15 days rent as per your agreement as opposed to the 30-60
+                days rent amount charged by traditional brokers.
               </p>
 
               <p
                 className="text-md mt-5"
                 style={{ fontFamily: "Opensans-regular" }}
               >
-                In publishing and graphic design, Lorem ipsum is a placeholder
-                text commonly used to demonstrate the visual form of a document
-                or a typeface without relying on meaningful content. Lorem ipsum
-                may be used as a placeholder before the final copy is available.
+                We even provide post closure support to our clients in order to
+                guarantee maximum satisfaction and support.
               </p>
             </div>
+          </div>
+        </div>
+
+        {/**featured property section */}
+        <FeaturedProperty />
+
+        <div className="bg-white pb-10 pt-20">
+          <div className="max-w-4xl w-full m-auto">
+            <h3 className="text-center" style={{ fontFamily: "Opensans-bold" }}>
+              Let us know about your dream home.
+            </h3>
+            <form className="mt-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5">
+                <div className="form-element">
+                  <label className="form-label">Your Name</label>
+                  <input type="text" name="name" className="form-input" />
+                </div>
+                <div className="form-element">
+                  <label className="form-label">Mobile Number</label>
+                  <input type="text" name="mobile" className="form-input" />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5">
+                <div className="form-element">
+                  <label className="form-label">Email Id</label>
+                  <input type="email" name="email" className="form-input" />
+                </div>
+                <div className="form-element">
+                  <label className="form-label">
+                    Preferred locations upto 3
+                  </label>
+                  <input
+                    type="text"
+                    name="location"
+                    className="form-input"
+                    placeholder="eg: Defence Colony, Karkardum,..."
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5">
+                <div className="form-element">
+                  <label className="form-label">Bedrooms</label>
+                  <input
+                    type="number"
+                    name="bedrooms"
+                    min={1}
+                    placeholder="eg: 1"
+                    className="form-input"
+                  />
+                </div>
+                <div className="form-element">
+                  <label className="form-label">Your Budget</label>
+                  <input
+                    type="text"
+                    name="budget"
+                    placeholder="eg: 30,000 - 50,000"
+                    className="form-input"
+                  />
+                </div>
+              </div>
+              <div className="form-element">
+                <label className="form-label">
+                  Have any other specific requirements?
+                </label>
+                <textarea name="more_info" className="form-input"></textarea>
+              </div>
+              <button
+                type="button"
+                className="px-5 py-3 float-right bg-blue-400 text-white"
+                style={{ fontFamily: "Opensans-semi-bold" }}
+              >
+                Submit
+              </button>
+            </form>
           </div>
         </div>
 
@@ -270,82 +344,6 @@ function Index() {
               </div>
             </div>
           )}
-        </div>
-
-        <div className="bg-white pb-10 pt-20">
-          <div className="max-w-4xl w-full m-auto">
-            <h3 className="text-center" style={{ fontFamily: "Opensans-bold" }}>
-              Let us know about your dream home.
-            </h3>
-            <form className="mt-10">
-              <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5">
-                <div className="form-element">
-                  <label className="form-label">Your Name</label>
-                  <input type="text" name="name" className="form-input" />
-                </div>
-                <div className="form-element">
-                  <label className="form-label">Your Email</label>
-                  <input type="email" name="email" className="form-input" />
-                </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5">
-                <div className="form-element">
-                  <label className="form-label">Property Location</label>
-                  <input
-                    type="text"
-                    name="location"
-                    placeholder="eg: Defence Colony, Delhi"
-                    className="form-input"
-                  />
-                </div>
-                <div className="form-element">
-                  <label className="form-label">Your Budget</label>
-                  <input
-                    type="text"
-                    name="budget"
-                    placeholder="eg: 30,000 - 50,000"
-                    className="form-input"
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-5">
-                <div className="form-element">
-                  <label className="form-label">Floor</label>
-                  <input
-                    type="number"
-                    placeholder="eg: -1 or 0 or 1"
-                    name="floor"
-                    className="form-input"
-                  />
-                </div>
-                <div className="form-element">
-                  <label className="form-label">Bedrooms</label>
-                  <input type="number" name="bedroom" className="form-input" />
-                </div>
-                <div className="form-element">
-                  <label className="form-label">Balconies</label>
-                  <input
-                    type="number"
-                    name="balconies"
-                    className="form-input"
-                  />
-                </div>
-              </div>
-              <div className="form-element">
-                <label className="form-label">
-                  Describe about your dream home.
-                </label>
-                <textarea name="amount" className="form-input"></textarea>
-              </div>
-              <button
-                type="button"
-                className="px-5 py-3 float-right bg-blue-400 text-white"
-                style={{ fontFamily: "Opensans-semi-bold" }}
-              >
-                Submit
-              </button>
-            </form>
-          </div>
         </div>
 
         {/**blogs */}

@@ -8,7 +8,11 @@ import isAuthenticated, {
 import server, { __d } from "../../server";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import Loader from "../loader";
-import { FaSearch, FaTimes } from "react-icons/fa";
+import { FaSearch, FaTimes, FaTimesCircle } from "react-icons/fa";
+import { MdMyLocation } from "react-icons/md";
+import AutoComplete from "react-google-autocomplete";
+import { toast } from "react-toastify";
+import Geocode from "react-geocode";
 
 const getWebsiteValues = async (key) => {
   let setting = "";
@@ -29,6 +33,8 @@ function Header() {
   const [activeMenu, setActiveMenu] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [searchModal, setSearchModal] = useState(false);
+  const [defaultLocation, setDefaultLocation] = useState("");
   const dispatch = useDispatch();
   useEffect(() => {
     const u = JSON.parse(__d(localStorage.getItem("LU")));
@@ -76,6 +82,107 @@ function Header() {
       setIsLoading(false);
       removeAuthToken();
     }
+  };
+
+  const handleFilter = (e) => {
+    e.preventDefault();
+
+    const location = localStorage.getItem("current-location")
+      ? JSON.parse(localStorage.getItem("current-location"))
+      : false;
+
+    const locationString = location
+      ? Object.keys(location)
+          .map((key) => key + "=" + location[key])
+          .join("&")
+      : "";
+    router.push(
+      "/find-property?" + locationString + "&pagination=yes&search_radius=20"
+    );
+  };
+
+  const getCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((location) => {
+        Geocode.setApiKey(process?.env?.MAP_API_KEY);
+        Geocode.fromLatLng(
+          location?.coords?.latitude,
+          location?.coords?.longitude
+        ).then((response) => {
+          handlePlaceSearch(response?.results[0], true);
+        });
+      });
+    } else {
+      toast.error("Geolocation is not supported by this browser.");
+    }
+  };
+
+  const handlePlaceSearch = (place, fromLatLng = false) => {
+    setIsLoading(true);
+    const components = place?.address_components;
+    let pincode = "";
+    let country = "";
+    let state = "";
+    let city = "";
+    let zone = "";
+    let area = "";
+    let sub_area = "";
+    let route = "";
+    let lat = 0.0;
+    let lng = 0.0;
+
+    components?.forEach((element) => {
+      if (element.types.includes("route")) {
+        route = element?.long_name;
+      }
+      if (element.types.includes("sublocality_level_2")) {
+        sub_area = element?.long_name;
+      }
+      if (element.types.includes("sublocality_level_1")) {
+        area = element?.long_name;
+      }
+      if (element.types.includes("locality")) {
+        city = element?.long_name;
+      }
+      if (element.types.includes("administrative_area_level_2")) {
+        zone = element?.long_name;
+      }
+      if (element.types.includes("administrative_area_level_1")) {
+        state = element?.long_name;
+      }
+      if (element.types.includes("country")) {
+        country = element?.long_name;
+      }
+      if (element.types.includes("postal_code")) {
+        pincode = element?.long_name;
+      }
+    });
+
+    if (fromLatLng) {
+      lat = place.geometry?.location?.lat;
+      lng = place.geometry?.location?.lng;
+    } else {
+      lat = place.geometry?.location?.lat("d");
+      lng = place.geometry?.location?.lng("d");
+    }
+
+    setDefaultLocation(place?.formatted_address);
+    localStorage.setItem(
+      "current-location",
+      JSON.stringify({
+        country,
+        state,
+        city,
+        zone,
+        area,
+        sub_area,
+        pincode,
+        route,
+        lat,
+        lng,
+      })
+    );
+    setIsLoading(false);
   };
 
   return (
@@ -149,6 +256,68 @@ function Header() {
           </div>
         </div>
       )}
+
+      {searchModal && (
+        <div className="p-5 max-w-xl w-full rounded-md fixed top-1 left-1/2 shadow-md z-40 border border-gray-50 transform -translate-x-1/2  bg-white">
+          <h4
+            className="flex items-center"
+            style={{ fontFamily: "Opensans-bold" }}
+          >
+            <FaSearch className="mr-3" />
+            Find your dream home.
+          </h4>
+          <p className="mt-2" style={{ fontFamily: "Opensans-regular" }}>
+            Lorem ipsum, or lipsum as it is sometimes known, is dummy text used
+            in laying out print, graphic or web designs.
+          </p>
+
+          <a
+            onClick={() => setSearchModal(false)}
+            className="text-red-500 text-xl absolute right-5 top-5"
+          >
+            <FaTimesCircle />
+          </a>
+
+          <div className="flex mt-5 flex-col sm:flex-row items-center">
+            <button
+              type="button"
+              className="p-3 border rounded-sm mx-1 bg-white"
+              onClick={getCurrentLocation}
+              data-tip="Current Location"
+            >
+              <MdMyLocation size={22} />
+            </button>
+            <AutoComplete
+              apiKey={process?.env?.MAP_API_KEY}
+              defaultValue={defaultLocation}
+              onPlaceSelected={(place) => handlePlaceSearch(place)}
+              className=" rounded-sm border-gray-200 w-full text-md px-2 h-12"
+              placeholder="Enter Your Location..."
+              style={{ borderWidth: "1px" }}
+              options={{
+                types: ["address"],
+                componentRestrictions: {
+                  country: "in",
+                },
+              }}
+              required
+            />
+            <button
+              type="button"
+              onClick={handleFilter}
+              className="px-8 sm:px-10 py-2 text-white rounded-md ml-2 mr-1 text-xl"
+              style={{ backgroundColor: "var(--primary-color)" }}
+            >
+              <img
+                src="/icons/home/home_search_icon.png"
+                className="h-5 object-contain"
+                alt="search"
+              />
+            </button>
+          </div>
+        </div>
+      )}
+
       {/**header nav part */}
       <div className="px-5 py-2 shadow-sm bg-white flex flex-col sm:flex-row items-center sm:justify-between">
         {/**logo */}
@@ -270,14 +439,13 @@ function Header() {
           </ul>
           <div className="flex ml-5">
             {router.pathname !== "/" && (
-              <Link href="/">
-                <a
-                  className="py-1 px-4 mr-3 rounded-md text-white flex items-center"
-                  style={{ backgroundColor: "var(--orange)" }}
-                >
-                  <FaSearch className="mr-1" /> Find Property
-                </a>
-              </Link>
+              <button
+                onClick={() => setSearchModal(!searchModal)}
+                className="py-1 px-4 mr-3 rounded-md text-white flex items-center"
+                style={{ backgroundColor: "var(--orange)" }}
+              >
+                <FaSearch className="mr-1" /> Find Property
+              </button>
             )}
             {!isAuthenticated() ? (
               <>

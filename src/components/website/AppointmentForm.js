@@ -21,10 +21,10 @@ function AppointmentForm({
     shallowEqual
   );
 
+  console.log(appointment);
+
   const [payamount, setPayAmount] = React.useState(
-    final
-      ? final * parseInt(100 / website?.landlord_commision)
-      : appointment?.property_monthly_rent
+    final ? final : appointment?.property_monthly_rent
   );
   const [nextDue, setNextDue] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
@@ -55,19 +55,13 @@ function AppointmentForm({
     switch (e.target.value) {
       case "monthly":
         setNextDue(moment(d).add(1, "M").format("YYYY-MM-DD"));
-        setPayAmount(
-          final
-            ? final * parseInt(100 / website?.landlord_commision)
-            : appointment?.property_monthly_rent
-        );
+        setPayAmount(final ? final : appointment?.property_monthly_rent);
         break;
       case "quarterly":
         setNextDue(moment(d).add(3, "months").format("YYYY-MM-DD"));
         setPayAmount(
           parseFloat(
-            final
-              ? final * parseInt(100 / website?.landlord_commision) * 3
-              : appointment?.property_monthly_rent * 3
+            final ? final * 3 : appointment?.property_monthly_rent * 3
           ).toFixed(2)
         );
         break;
@@ -75,9 +69,7 @@ function AppointmentForm({
         setNextDue(moment(d).add(6, "months").format("YYYY-MM-DD"));
         setPayAmount(
           parseFloat(
-            final
-              ? final * parseInt(100 / website?.landlord_commision) * 6
-              : appointment?.property_monthly_rent * 6
+            final ? final * 6 : appointment?.property_monthly_rent * 6
           ).toFixed(2)
         );
         break;
@@ -85,19 +77,13 @@ function AppointmentForm({
         setNextDue(moment(d).add(1, "year").format("YYYY-MM-DD"));
         setPayAmount(
           parseFloat(
-            final
-              ? final * parseInt(100 / website?.landlord_commision) * 12
-              : appointment?.property_monthly_rent * 12
+            final ? final * 12 : appointment?.property_monthly_rent * 12
           ).toFixed(2)
         );
         break;
       default:
         setNextDue("");
-        setPayAmount(
-          final
-            ? final * parseInt(100 / website?.landlord_commision)
-            : appointment?.property_monthly_rent
-        );
+        setPayAmount(final ? final : appointment?.property_monthly_rent);
     }
   };
 
@@ -188,12 +174,20 @@ function AppointmentForm({
               className="form-input rounded-md border-gray-200"
             ></textarea>
           </div>
+          <input type="hidden" name="agreement_type" defaultValue="Rental" />
           <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
             <div className="form-element mt-3">
-              <label className="form-label">Agreement Type</label>
+              <label className="form-label">Adavance Month Amount</label>
               <input
                 type="text"
-                name="agreement_type"
+                name="advance_payment"
+                defaultValue={`${appointment?.advance_payment} - Rs. ${
+                  appointment?.advance_payment.split(" ")[0]
+                    ? appointment?.advance_payment.split(" ")[0] *
+                      (final ? final : appointment?.property_monthly_rent)
+                    : 0
+                }`}
+                readOnly
                 className="form-input rounded-md border-gray-200"
               />
             </div>
@@ -208,27 +202,21 @@ function AppointmentForm({
               />
             </div>
             <div className="form-element mt-3">
-              <label className="form-label">IBO Calculated Fee (Rs)</label>
+              <label className="form-label">Service Charges (Rs)</label>
               <input
                 type="text"
                 name="fee_amount"
                 readOnly
                 defaultValue={parseFloat(
                   parseFloat(
-                    (final
-                      ? final * parseInt(100 / website?.landlord_commision)
-                      : appointment?.property_monthly_rent *
-                        website?.landlord_commision) / 100
+                    final ? final : appointment?.property_monthly_rent
                   ) -
                     parseFloat(
-                      (((final
-                        ? final * parseInt(100 / website?.landlord_commision)
-                        : appointment?.property_monthly_rent *
-                          website?.landlord_commision) /
-                        100) *
+                      ((final ? final : appointment?.property_monthly_rent) *
                         website?.ibo_commision) /
                         100
-                    )
+                    ) +
+                    parseFloat(website?.documentation_cost)
                 ).toFixed(2)}
                 className="form-input rounded-md border-gray-200"
               />
@@ -266,16 +254,34 @@ function AppointmentForm({
               />
             </div>
           </div>
+          <input
+            type="hidden"
+            name="first_month_payment"
+            defaultValue={parseFloat(
+              parseFloat(final ? final : appointment?.property_monthly_rent) -
+                parseFloat(
+                  ((final ? final : appointment?.property_monthly_rent) *
+                    website?.ibo_commision) /
+                    100
+                ) +
+                parseFloat(website?.documentation_cost) +
+                parseFloat(appointment?.property_monthly_rent) +
+                parseFloat(appointment?.property_security_amount) +
+                parseFloat(
+                  appointment?.advance_payment.split(" ")[0]
+                    ? appointment?.advance_payment.split(" ")[0] *
+                        (final ? final : appointment?.property_monthly_rent)
+                    : 0
+                )
+            ).toFixed(2)}
+          />
           <div className="grid grid-cols-1 md:grid-cols-4 md:space-x-3">
             <div className="form-element mt-3">
-              <label className="form-label">Payment Amount (Rs)</label>
+              <label className="form-label">Monthly Payment (Rs)</label>
               <input
                 type="text"
                 name="payment_amount"
-                value={parseFloat(
-                  parseFloat((payamount * website?.landlord_commision) / 100) +
-                    parseFloat(website?.documentation_cost)
-                ).toFixed(2)}
+                value={parseFloat(payamount).toFixed(2)}
                 onChange={() => {}}
                 readOnly
                 className="form-input rounded-md border-gray-200"

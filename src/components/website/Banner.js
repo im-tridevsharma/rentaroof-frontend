@@ -4,7 +4,6 @@ import Search from "./forms/Search";
 import Loader from "../../components/loader";
 import { useSelector, shallowEqual } from "react-redux";
 import { MdMyLocation } from "react-icons/md";
-import Cookies from "universal-cookie";
 import Geocode from "react-geocode";
 import { toast } from "react-toastify";
 import AutoComplete from "react-google-autocomplete";
@@ -110,8 +109,6 @@ function Banner() {
   );
   const [defaultLocation, setDefaultLocation] = useState("");
 
-  const cookies = new Cookies();
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!defaultLocation) {
@@ -124,14 +121,18 @@ function Banner() {
     const bed = document.forms.findProperty.bed_type.value;
     const budget = document.forms.findProperty.budget.value;
     const search_radius = document.forms.findProperty.search_radius.value;
-    const location = cookies.get("user-location");
+    const location = JSON.parse(localStorage.getItem("current-location"));
     const queryString = defaultLocation
       ? Object.keys(location)
           .map((key) => key + "=" + location[key])
           .join("&")
       : "";
     router.push(
-      `find-property?pagination=yes&ptype=${ptype}&bed=${bed}&budget=${budget}&search_radius=${search_radius}&${queryString}`
+      `find-property?search=${location?.zone},${location?.area},${
+        location?.city
+      }&pagination=yes&ptype=${ptype}&bed=${bed}&budget=${budget}&search_radius=${
+        search_radius || 10
+      }&${queryString}`
     );
   };
 
@@ -184,21 +185,6 @@ function Banner() {
       lng = place.geometry?.location?.lng("d");
     }
 
-    cookies.set(
-      "user-location",
-      JSON.stringify({
-        country,
-        state,
-        city,
-        zone,
-        area,
-        sub_area,
-        pincode,
-        route,
-        lat,
-        lng,
-      })
-    );
     setDefaultLocation(city);
     localStorage.setItem(
       "current-location",
@@ -219,7 +205,7 @@ function Banner() {
   };
 
   React.useEffect(() => {
-    const location = cookies.get("user-location");
+    const location = localStorage.getItem("current-location");
     if (!location) {
       getCurrentLocation();
     }

@@ -634,11 +634,8 @@ function ProfileUI() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-3 text-gray-500">
               <div className="form-element">
-                <div className="form-label" style={{ marginBottom: "0px" }}>
-                  Latitude
-                </div>
                 <input
-                  type="text"
+                  type="hidden"
                   name="lat"
                   className="form-input border-gray-300"
                   value={profile?.address?.lat || ""}
@@ -654,11 +651,8 @@ function ProfileUI() {
                 />
               </div>
               <div className="form-element">
-                <div className="form-label" style={{ marginBottom: "0px" }}>
-                  Longitude
-                </div>
                 <input
-                  type="text"
+                  type="hidden"
                   name="long"
                   className="form-input border-gray-300"
                   value={profile?.address?.long || ""}
