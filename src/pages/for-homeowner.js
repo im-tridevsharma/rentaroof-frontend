@@ -33,22 +33,25 @@ function Services() {
 
             <div className="flex justify-start flex-col md:pt-20 pt-5">
               <h3 style={{ fontFamily: "Opensans-bold" }} className="mb-5">
-                Homeowner Title
+                Need to get your home rented?
               </h3>
               <p className="text-lg" style={{ fontFamily: "Opensans-regular" }}>
                 When homeowners decide they want to put up their home for
                 rent/sale, the vast majority will call a real estate brokerage
                 firm to work with an agent to get their homes listed on the
-                local Multiple Listing Service.
+                local Listing Services. You can easily list your home on
+                Rent-a-roof for free!
               </p>
               <p
                 className="text-lg mt-3"
                 style={{ fontFamily: "Opensans-regular" }}
               >
-                This database is shared among all local brokerage members, who
-                then work to bring in a tenant for the home. In listing a home,
-                the real estate agent will be performing the following duties
-                and activities.
+                This database is shared among all local brokerage members of
+                Rent-A-Roof, who then work to bring in a tenant for the home. In
+                listing a home, the real estate agent will be performing the
+                various duties and activities in volved in the renting process
+                such as facilitating house showing, processing documents and
+                closing the deal.
               </p>
               <div className="mt-10 mb-5">
                 <Link href="/signup">
@@ -76,7 +79,7 @@ function Services() {
         </div>
 
         <div className="text-center mt-10">
-          <h2 style={{ fontFamily: "Opensans-bold" }}>How we process?</h2>
+          <h2 style={{ fontFamily: "Opensans-bold" }}>Why choose us?</h2>
           <p
             className="text-lg mt-5"
             style={{ fontFamily: "Opensans-regular" }}
@@ -95,11 +98,10 @@ function Services() {
               src="https://img.freepik.com/free-vector/online-document-form-digital-agreement-electronic-contract-internet-questionnaire-list-note-voting-ballot-poll-flat-design-element_335657-2667.jpg?w=740"
             />
             <h3 style={{ fontFamily: "Opensans-bold" }} className="my-5">
-              Renting title
+              Free Listing
             </h3>
             <p className="text-center text-lg">
-              Determine the home's value in the current market for a listing
-              price.
+              You can easily post your property on R-A-R for free.
             </p>
           </div>
 
@@ -109,24 +111,25 @@ function Services() {
               src="https://img.freepik.com/free-vector/real-estate-business-concept-choosing-finding-home-flat-vector-illustration_566886-1053.jpg?w=740"
             />
             <h3 style={{ fontFamily: "Opensans-bold" }} className="my-5">
-              Renting title
+              Home Showings
             </h3>
             <p className="text-center text-lg">
-              Advise the homeowner in readying the home for listing and
-              showings.
+              Our agent will Supervise and schedule home showings.
             </p>
           </div>
 
           <div className="flex flex-col items-center p-5 border shadow-sm rounded-sm pt-3">
             <img
               className="w-52 h-52 object-cover"
-              src="https://img.freepik.com/free-vector/flat-design-concept-sales-social-media-digital-marketing_18660-487.jpg?w=740"
+              src="https://img.freepik.com/free-vector/satisfied-businessmen-shake-hands-against-signed-agreement_107791-69.jpg?1&t=st=1647417790~exp=1647418390~hmac=72c6ca1d2e1182161ed7a6973822376dd9f35e9ff88bf73a743aa0fdd5cbff85&w=740"
             />
             <h3 style={{ fontFamily: "Opensans-bold" }} className="my-5">
-              Renting title
+              Closing the deal
             </h3>
             <p className="text-center text-lg">
-              Market the home to other agents and brokerage members of R-A-R.
+              Coordinate the process from signing the contract to closing the
+              deal along with preparing documents and other items necessary to
+              close.
             </p>
           </div>
         </div>
@@ -134,16 +137,20 @@ function Services() {
           <div className="max-w-6xl w-full m-auto  grid grid-cols-1 md:grid-cols-2 md:space-x-5">
             <div className="flex flex-col justify-center">
               <h2 style={{ fontFamily: "Opensans-bold" }}>
-                Reting your house is an ease.
+                Leave all your worries to us!
               </h2>
               <p
                 className="text-lg mt-5"
                 style={{ fontFamily: "Opensans-regular" }}
               >
-                In publishing and graphic design, Lorem ipsum is a placeholder
-                text commonly used to demonstrate the visual form of a document
-                or a typeface without relying on meaningful content. Lorem ipsum
-                may be used as a placeholder before the final copy is testing.
+                If you’ve ever rented out a home then you surely know about the
+                various steps and hassles that come with it. Things like keeping
+                in touch and screening various applications, keeping up with
+                appointments and home showings, negotiations and paperwork. We
+                at Rent-A-Roof understand these hassles very clearly and provide
+                a very easy interface where all these various tasks are handled
+                directly by us making it possible for renting your home with
+                ease.
               </p>
 
               <div className="mt-10">
@@ -177,17 +184,18 @@ function Services() {
               </div>
               <div className="">
                 <h3 style={{ fontFamily: "Opensans-bold" }} className="my-5">
-                  Section Title
+                  Any questions? Get in touch with your agent.
                 </h3>
                 <p
                   className="text-lg mt-3"
                   style={{ fontFamily: "Opensans-regular" }}
                 >
-                  In publishing and graphic design, Lorem ipsum is a placeholder
-                  text commonly used to demonstrate the visual form of a
-                  document or a typeface without relying on meaningful content.
-                  Lorem ipsum may be used as a placeholder before the final copy
-                  is testing.
+                  All properties that are listed on Rent-A-Roof are treated as a
+                  responsibility towards our clients. All properties are
+                  assigned dedicated R-A-R agents who stay in touch with the
+                  homeowners, giving them regular updates and help them through
+                  any query they might have. You can learn more about the
+                  process below.
                 </p>
                 <div className="mt-10">
                   <Link href="/signup">
@@ -203,42 +211,43 @@ function Services() {
             </div>
           </div>
         </div>
-
-        <div className="py-10 bg-gray-50">
-          <div className="max-w-6xl w-full m-auto">
-            <h3 style={{ fontFamily: "Opensans-bold" }} className="mb-5">
-              Section Title
-            </h3>
-            <p
-              className="text-lg mt-3"
-              style={{ fontFamily: "Opensans-regular" }}
-            >
-              In publishing and graphic design, Lorem ipsum is a placeholder
-              text commonly used to demonstrate the visual form of a document or
-              a typeface without relying on meaningful content. Lorem ipsum may
-              be used as a placeholder before the final copy is testing.
-            </p>
-            <p
-              className="text-lg mt-3"
-              style={{ fontFamily: "Opensans-regular" }}
-            >
-              In publishing and graphic design, Lorem ipsum is a placeholder
-              text commonly used to demonstrate the visual form of a document or
-              a typeface without relying on meaningful content. Lorem ipsum may
-              be used as a placeholder before the final copy is testing.
-            </p>
-            <div className="mt-10 mb-5">
-              <Link href="/signup">
-                <a
-                  style={{ fontFamily: "Opensans-bold" }}
-                  className="px-5 py-4 rounded-full bg-blue-400 hover:bg-blue-500 text-white"
-                >
-                  Get Started
-                </a>
-              </Link>
+        {false && (
+          <div className="py-10 bg-gray-50">
+            <div className="max-w-6xl w-full m-auto">
+              <h3 style={{ fontFamily: "Opensans-bold" }} className="mb-5">
+                Section Title
+              </h3>
+              <p
+                className="text-lg mt-3"
+                style={{ fontFamily: "Opensans-regular" }}
+              >
+                In publishing and graphic design, Lorem ipsum is a placeholder
+                text commonly used to demonstrate the visual form of a document
+                or a typeface without relying on meaningful content. Lorem ipsum
+                may be used as a placeholder before the final copy is testing.
+              </p>
+              <p
+                className="text-lg mt-3"
+                style={{ fontFamily: "Opensans-regular" }}
+              >
+                In publishing and graphic design, Lorem ipsum is a placeholder
+                text commonly used to demonstrate the visual form of a document
+                or a typeface without relying on meaningful content. Lorem ipsum
+                may be used as a placeholder before the final copy is testing.
+              </p>
+              <div className="mt-10 mb-5">
+                <Link href="/signup">
+                  <a
+                    style={{ fontFamily: "Opensans-bold" }}
+                    className="px-5 py-4 rounded-full bg-blue-400 hover:bg-blue-500 text-white"
+                  >
+                    Get Started
+                  </a>
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
       <Footer />
     </>

@@ -61,16 +61,16 @@ function ChatUI() {
 
     const fetchDealable = async () => {
       const res = await getDealableProperty({
-        tenant_id : profile?.id,
-        ibo_id: selectedUser?.id
+        tenant_id: profile?.id,
+        ibo_id: selectedUser?.id,
       });
 
-      if(res?.status){
+      if (res?.status) {
         setIsDeal(res?.data);
-      }else{
+      } else {
         setIsDeal(false);
       }
-    }
+    };
 
     fetchMessages();
     fetchDealable();
@@ -528,7 +528,7 @@ function ChatUI() {
                     } bg-white border`}
                     style={{ fontFamily: "Opensans-semi-bold" }}
                   >
-                    {isOffer && isDeal &&(
+                    {isOffer && isDeal && (
                       <>
                         <h5
                           className="flex items-center justify-between"
@@ -541,22 +541,21 @@ function ChatUI() {
                           />
                         </h5>
                         <div className="flex items-center my-2">
-                          <img src={isDeal?.front_image} className="w-10 h-10 rounded-md"/>
-                        <p className="flex flex-col ml-3">
-                        <b className=" block text-xl">
-                          {
-                            isDeal?.property_code 
-                          } ({isDeal?.name})
-                        </b>
-                        <b>Monthly Rent : {isDeal?.monthly_rent}</b>
-                        </p>
+                          <img
+                            src={isDeal?.front_image}
+                            className="w-10 h-10 rounded-md"
+                          />
+                          <p className="flex flex-col ml-3">
+                            <b className=" block text-xl">
+                              {isDeal?.property_code} ({isDeal?.name})
+                            </b>
+                            <b>Monthly Rent : {isDeal?.monthly_rent}</b>
+                          </p>
                         </div>
                         <input
                           type="hidden"
                           name="property_id"
-                          value={
-                            isDeal?.id
-                          }
+                          value={isDeal?.id}
                         />
                         <input
                           type="hidden"
@@ -570,24 +569,6 @@ function ChatUI() {
                               type="text"
                               name="offer_price"
                               placeholder="Price per month"
-                              className="form-input border-gray-100 rounded-md"
-                            />
-                          </div>
-                          <div className="form-element mx-2">
-                            <label className="form-label">
-                              Offer Expires - Date
-                            </label>
-                            <input
-                              type="date"
-                              name="offer_expires_date"
-                              className="form-input border-gray-100 rounded-md"
-                            />
-                          </div>
-                          <div className="form-element mx-2">
-                            <label className="form-label">Time</label>
-                            <input
-                              type="time"
-                              name="offer_expires_time"
                               className="form-input border-gray-100 rounded-md"
                             />
                           </div>
@@ -627,15 +608,15 @@ function ChatUI() {
                         data-tip="Send Media"
                       />
                       {isDeal?.id && (
-                          <>
-                            <MdLocalOffer
-                              onClick={() => setIsOffer(true)}
-                              className="text-2xl ml-3 cursor-pointer"
-                              data-tip={`Deal for property : ${isDeal?.property_code}`}
-                            />
-                            <ReactTooltip />
-                          </>
-                        )}
+                        <>
+                          <MdLocalOffer
+                            onClick={() => setIsOffer(true)}
+                            className="text-2xl ml-3 cursor-pointer"
+                            data-tip={`Deal for property : ${isDeal?.property_code}`}
+                          />
+                          <ReactTooltip />
+                        </>
+                      )}
                     </div>
                     <button>
                       <img

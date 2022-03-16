@@ -21,8 +21,6 @@ function AppointmentForm({
     shallowEqual
   );
 
-  console.log(appointment);
-
   const [payamount, setPayAmount] = React.useState(
     final ? final : appointment?.property_monthly_rent
   );
@@ -178,6 +176,21 @@ function AppointmentForm({
           <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
             <div className="form-element mt-3">
               <label className="form-label">Adavance Month Amount</label>
+              <input
+                type="hidden"
+                name="advance_amount"
+                value={
+                  appointment?.advance_payment.split(" ")[0]
+                    ? appointment?.advance_payment.split(" ")[0] *
+                      (final ? final : appointment?.property_monthly_rent)
+                    : 0
+                }
+              />
+              <input
+                type="hidden"
+                name="advance_period"
+                value={appointment?.advance_payment}
+              />
               <input
                 type="text"
                 name="advance_payment"

@@ -319,7 +319,7 @@ function DashboardUI() {
                 Deals Offered To Renter
               </p>
               <div
-                className="flex flex-col"
+                className="flex flex-col overflow-y-auto h-44"
                 style={{ fontFamily: "Opensans-regular" }}
               >
                 {/**map deals */}

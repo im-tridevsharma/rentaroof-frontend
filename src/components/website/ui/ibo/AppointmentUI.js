@@ -373,8 +373,8 @@ function AppointmentUI() {
                             Review & Rate
                           </button>
                         )}
-                        {a?.is_landlord_vvc_verified &&
-                          a?.is_tenant_vvc_verified && (
+                        {a?.is_landlord_vvc_verified === 1 &&
+                          a?.is_tenant_vvc_verified === 1 && (
                             <p className="text-green-500">VVC Verified</p>
                           )}
                       </td>

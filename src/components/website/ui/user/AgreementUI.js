@@ -12,6 +12,7 @@ import ReactTooltip from "react-tooltip";
 import { __d } from "../../../../server";
 import { useSelector, shallowEqual } from "react-redux";
 import { toast } from "react-toastify";
+import { FaQuestionCircle } from "react-icons/fa";
 
 function AgreementUI() {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -40,10 +41,14 @@ function AgreementUI() {
     });
   };
 
-  const displayRazorpay = async (data) => {
+  const displayRazorpay = async (data, first = false) => {
     setIsLoading(true);
     const postdata = {
-      amount: data.payment_amount,
+      amount: first
+        ? data?.first_payment != 0
+          ? data?.first_payment
+          : data?.payment_amount
+        : data?.payment_amount,
       type: "rent",
       type_id: data.id,
       message:
@@ -170,10 +175,25 @@ function AgreementUI() {
                   {moment(p?.start_date).add(1, "M").format("MM-YYYY") ===
                     moment(p?.next_due).format("MM-YYYY") && (
                     <button
-                      onClick={() => displayRazorpay(p)}
+                      onClick={() => displayRazorpay(p, true)}
                       className="p-2 text-white rounded-md bg-green-400 mr-4"
                     >
-                      Make First Payment {`(Rs. ${p?.payment_amount})`}
+                      Make First Payment{" "}
+                      {`(Rs. ${
+                        p?.first_payment != 0
+                          ? p?.first_payment
+                          : p?.payment_amount
+                      })`}
+                      {p?.first_payment != 0 && (
+                        <FaQuestionCircle
+                          className="ml-2 inline"
+                          data-tip={`Advance Payment : Rs. ${p?.advance_amount}
+                           + Security Deposit: Rs. ${p?.security_amount}
+                           + Services Charges: Rs. ${p?.fee_amount}
+                           + Monthly Payment: Rs. ${p?.payment_amount} `}
+                        />
+                      )}
+                      <ReactTooltip />
                     </button>
                   )}
 

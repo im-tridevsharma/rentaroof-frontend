@@ -12,7 +12,6 @@ import { FiMail, FiMessageCircle, FiPhoneCall } from "react-icons/fi";
 import ReactTooltip from "react-tooltip";
 import {
   createConversation,
-  getDeal,
   saveUserNotication,
 } from "../../../../lib/frontend/share";
 import { toast } from "react-toastify";
@@ -31,7 +30,6 @@ function AppointmentUI() {
   const [showDetail, setShowDetail] = useState(false);
   const [agreementMode, setAgreementMode] = useState(false);
   const [reschedule, setReschedule] = useState(false);
-  const [finalRent, setFinalRent] = useState(false);
 
   useEffect(() => {
     const fetchAppointments = async (id) => {
@@ -39,7 +37,6 @@ function AppointmentUI() {
       const response = await getLandlordMeetings(id);
       if (response?.status) {
         setAppointments(response?.data);
-        checkForDeal(response?.data);
 
         response?.data?.length > 0
           ? setTodayAppointment(
@@ -61,10 +58,12 @@ function AppointmentUI() {
 
         response?.data?.length > 0
           ? setAppointmentHistory(
-              response?.data.filter((d) => {
-                const history = JSON.parse(d.meeting_history);
-                return history.length > 0;
-              })
+              response?.data
+                .filter((d) => {
+                  const history = JSON.parse(d.meeting_history);
+                  return history.length > 0;
+                })
+                .reverse()
             )
           : setAppointmentHistory([]);
         setIsLoading(false);
@@ -81,26 +80,6 @@ function AppointmentUI() {
       setUser(u);
       fetchAppointments(u?.id);
     }
-
-    const checkForDeal = async (_appointments) => {
-      setIsLoading(true);
-      if (Router.query.deal) {
-        const res = await getDeal(Router.query.deal);
-        if (res?.status) {
-          setIsLoading(false);
-          const ap = _appointments.filter(
-            (a) => a?.property_id === res?.data?.property_id
-          );
-          setFinalRent(res?.data?.offer_price);
-          if (ap[0] && !ap[0].agreement) {
-            setAgreementMode(ap[0]);
-          }
-        } else {
-          toast.error(res?.error || res?.message);
-          setIsLoading(false);
-        }
-      }
-    };
   }, [reload]);
 
   const startConversation = async (receiver) => {
@@ -479,6 +458,14 @@ function AppointmentUI() {
                             >
                               <FiMail className="mx-1" />
                             </a>
+                            {a.meeting_status === "closed" && !a?.agreement && (
+                              <button
+                                className="text-green-600 px-2 mr-2"
+                                onClick={() => openAgreementMode(a)}
+                              >
+                                Create Agreement
+                              </button>
+                            )}
                           </p>
                         </td>
                         <td>{moment(a?.start_time).format("DD-MM-YYYY")}</td>
@@ -538,7 +525,7 @@ function AppointmentUI() {
             setAgreementMode={setAgreementMode}
             setReload={setReload}
             handleUserNotification={handleUserNotification}
-            final={finalRent}
+            final={agreementMode?.final}
           />
         )}
       </div>

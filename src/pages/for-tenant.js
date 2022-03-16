@@ -40,7 +40,7 @@ function Services() {
                 <div className="flex  justify-center items-center">
                   <div className="flex justify-center flex-col max-w-md w-full">
                     <h2 style={{ fontFamily: "Opensans-bold" }}>
-                      Renting a roof title
+                      Renting with R-A-R is simple.
                     </h2>
                     <p
                       className="text-lg mt-3"
@@ -289,20 +289,122 @@ function Services() {
         <div className="bg-blue-50 pt-5 pb-10">
           <div className="max-w-6xl w-full m-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 md:space-y-0 space-y-5">
-              <div className="flex justify-center flex-col">
+              <div>
                 <h2 style={{ fontFamily: "Opensans-bold" }} className="my-5">
-                  Renting a house is simple.
+                  Renting with R-A-R is simple.
                 </h2>
-                <p
-                  style={{ fontFamily: "Opensans-regular" }}
-                  className="text-lg"
+                <Carousel
+                  cols={1}
+                  rows={1}
+                  gap={0}
+                  autoplay={10000}
+                  hideArrow={true}
+                  loop
                 >
-                  They need agents to guide them through neighbourhoods and find
-                  homes that best suit their needs. Some agents specialize in
-                  working with tenants. They help their clients navigate all
-                  aspects of the home renting process, from finding homes to
-                  completing the documentation process.
-                </p>
+                  <Carousel.Item>
+                    <div className="flex justify-center flex-col">
+                      <h6
+                        style={{ fontFamily: "Opensans-bold" }}
+                        className="my-5"
+                      >
+                        Visit Rentaroof.com
+                      </h6>
+                      <p
+                        style={{ fontFamily: "Opensans-regular" }}
+                        className="text-lg"
+                      >
+                        You can easily search through the various agent verified
+                        properties on our database and save them in your
+                        favorites. There are several filters that you can use to
+                        refine your search drastically. In you case you are
+                        having trouble finding the right home simply share us
+                        your requirements and one of our agents will connect
+                        with you.
+                      </p>
+                    </div>
+                  </Carousel.Item>
+                  <Carousel.Item>
+                    <div className="flex justify-center flex-col">
+                      <h6
+                        style={{ fontFamily: "Opensans-bold" }}
+                        className="my-5"
+                      >
+                        Schedule a visit
+                      </h6>
+                      <p
+                        style={{ fontFamily: "Opensans-regular" }}
+                        className="text-lg"
+                      >
+                        We understand that just images don’t justify the real
+                        feel of a home and so scheduling a visit to any of the
+                        verified properties listed on Rent-A-Roof is very
+                        simple. All you need to do is schedule a visit with your
+                        preferred time and one of our agents will connect with
+                        you and guide you through the entire visit answering any
+                        and all questions you may have.
+                      </p>
+                    </div>
+                  </Carousel.Item>
+                  <Carousel.Item>
+                    <div className="flex justify-center flex-col">
+                      <h6
+                        style={{ fontFamily: "Opensans-bold" }}
+                        className="my-5"
+                      >
+                        Make an offer
+                      </h6>
+                      <p
+                        style={{ fontFamily: "Opensans-regular" }}
+                        className="text-lg"
+                      >
+                        After scheduling visits once you find the perfect home
+                        that meets all your requirements you can go on to make
+                        an offer through the chat feature in our app with your
+                        assigned agent who facilitate the entire negotiation
+                        aspect for the final deal.
+                      </p>
+                    </div>
+                  </Carousel.Item>
+                  <Carousel.Item>
+                    <div className="flex justify-center flex-col">
+                      <h6
+                        style={{ fontFamily: "Opensans-bold" }}
+                        className="my-5"
+                      >
+                        Documentation process
+                      </h6>
+                      <p
+                        style={{ fontFamily: "Opensans-regular" }}
+                        className="text-lg"
+                      >
+                        Once all things have been set in place your agent will
+                        move forward with assisting you with the entire
+                        documentation process. All aspects of the documentation
+                        work have been smartly integrated within our platform
+                        including the final rent agreement delivered to you by
+                        your agent upon completion.
+                      </p>
+                    </div>
+                  </Carousel.Item>
+                  <Carousel.Item>
+                    <div className="flex justify-center flex-col">
+                      <h6
+                        style={{ fontFamily: "Opensans-bold" }}
+                        className="my-5"
+                      >
+                        Getting your keys
+                      </h6>
+                      <p
+                        style={{ fontFamily: "Opensans-regular" }}
+                        className="text-lg"
+                      >
+                        With all aspects of the renting process covered our
+                        Rent-A-Roof executive will then move forward to handover
+                        the keys to your next dream home.
+                      </p>
+                    </div>
+                  </Carousel.Item>
+                </Carousel>
               </div>
               <div className="flex items-center justify-center ">
                 <div className="max-w-sm w-full">
@@ -322,33 +424,24 @@ function Services() {
                         className="h-80 object-cover rounded-full"
                       />
                     </Carousel.Item>
-                    <Carousel.Item>
-                      <img
-                        src="https://img.freepik.com/free-vector/select-house-concept-illustration_114360-4098.jpg?w=740"
-                        className="h-80 object-cover rounded-full"
-                      />
-                    </Carousel.Item>
+
                     <Carousel.Item>
                       <img
                         src="https://img.freepik.com/free-vector/appointment-booking-with-smartphone_23-2148554313.jpg?w=740"
                         className="h-80 object-cover rounded-full"
                       />
                     </Carousel.Item>
-                    <Carousel.Item>
-                      <img
-                        src="https://img.freepik.com/free-vector/people-visiting-new-apartment-office_18660-985.jpg?w=740"
-                        className="h-80 object-cover rounded-full"
-                      />
-                    </Carousel.Item>
-                    <Carousel.Item>
-                      <img
-                        src="https://img.freepik.com/free-vector/concept-creating-financial-agreement-flat-design_130740-1759.jpg?w=740"
-                        className="h-80 object-cover rounded-full"
-                      />
-                    </Carousel.Item>
+
                     <Carousel.Item>
                       <img
                         src="https://img.freepik.com/free-vector/contract-billing-deal-terms-fulfillment-successful-transaction-money-transfer-rent-lease-payment-payer-cash-receiver-cartoon-characters-vector-isolated-concept-metaphor-illustration_335657-2871.jpg?w=740"
+                        className="h-80 object-cover rounded-full"
+                      />
+                    </Carousel.Item>
+
+                    <Carousel.Item>
+                      <img
+                        src="https://img.freepik.com/free-vector/concept-creating-financial-agreement-flat-design_130740-1759.jpg?w=740"
                         className="h-80 object-cover rounded-full"
                       />
                     </Carousel.Item>
@@ -363,7 +456,7 @@ function Services() {
               </div>
             </div>
 
-            <div className="mt-10 text-center">
+            <div className="mt-16 text-center">
               <Link href="/signup">
                 <a
                   style={{

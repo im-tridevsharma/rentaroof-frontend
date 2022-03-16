@@ -90,10 +90,7 @@ function ChatMessage({ reverse, message, user, conversationId }) {
                   chatMessage?.deal?.status === "pending" && (
                     <span className="text-xs text-red-500">Expired</span>
                   )}
-                {moment(chatMessage?.deal?.offer_expires_time).isAfter(
-                  moment()
-                ) &&
-                chatMessage?.deal?.offer_for === liu?.id &&
+                {chatMessage?.deal?.offer_for === liu?.id &&
                 chatMessage?.deal?.status === "pending" &&
                 !chatMessage?.deal?.is_closed ? (
                   <div>
@@ -168,12 +165,6 @@ function ChatMessage({ reverse, message, user, conversationId }) {
                     {chatMessage?.deal?.property?.monthly_rent}
                   </p>
                   <h5>Offer Price: Rs. {chatMessage?.deal?.offer_price}</h5>
-                  <p>
-                    Expires at:{" "}
-                    {moment(chatMessage?.deal?.offer_expires_time).format(
-                      "DD/MM/YYY hh:mm a"
-                    )}
-                  </p>
                 </div>
               </div>
               <p className="mt-2">{chatMessage?.message}</p>
