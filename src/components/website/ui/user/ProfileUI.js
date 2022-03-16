@@ -6,11 +6,13 @@ import {
   updateProfile,
 } from "../../../../lib/frontend/auth";
 import { FiAlertTriangle, FiCheckCircle } from "react-icons/fi";
+import { FaTimes } from "react-icons/fa";
 import { __e } from "../../../../server";
 import AutoComplete from "react-google-autocomplete";
 import Geocode from "react-geocode";
 import { toast } from "react-toastify";
 import { MdMyLocation } from "react-icons/md";
+import { sendOtp, verifyOtpSent } from "../../../../lib/frontend/share";
 
 function ProfileUI() {
   const [isLoading, setIsLoading] = useState(false);
@@ -24,6 +26,8 @@ function ProfileUI() {
   const [isSaved, setIsSaved] = useState(false);
   const [isUpdated, setIsUpdated] = useState(false);
   const [defaultLocation, setDefaultLocation] = useState("");
+  const [verifyModal, setVerifyModal] = useState(false);
+  const [otp, setOtp] = useState("");
   const [password, setPassword] = useState({
     current_password: "",
     new_password: "",
@@ -48,6 +52,40 @@ function ProfileUI() {
       }
     })();
   }, []);
+
+  const handleSendOtp = async (type) => {
+    if (profile) {
+      setIsLoading(true);
+      const res = await sendOtp(type);
+      if (res?.status) {
+        setIsLoading(false);
+        setVerifyModal(type);
+      } else {
+        setIsLoading(false);
+        toast.error(res?.message);
+      }
+    } else {
+      toast.error("Something went wrong!");
+    }
+  };
+
+  const verifyOTP = async (type, otp) => {
+    if (profile) {
+      setIsLoading(true);
+      const res = await verifyOtpSent({ type, otp });
+      if (res?.status) {
+        setIsLoading(false);
+        setVerifyModal(false);
+        setOtp("");
+        setProfile((prev) => ({ ...prev, [type + "_verified"]: 1 }));
+      } else {
+        setIsLoading(false);
+        toast.error(res?.message);
+      }
+    } else {
+      toast.error("Something went wrong!");
+    }
+  };
 
   const handleFileChange = (e) => {
     e.preventDefault();
@@ -264,6 +302,9 @@ function ProfileUI() {
     } else if (response?.error) {
       setIsLoading(false);
       setErrors(response.error);
+    } else {
+      setIsLoading(false);
+      setErrors([[response?.message]]);
     }
   };
 
@@ -668,6 +709,36 @@ function ProfileUI() {
                 />
               </div>
             </div>
+            <div className="flex items-center">
+              <p>
+                <b>Mobile Status:</b>{" "}
+                {profile?.mobile_verified === 1 ? (
+                  <span className="text-green-400">Verified</span>
+                ) : (
+                  <button
+                    onClick={() => handleSendOtp("mobile")}
+                    type="button"
+                    className="px-3 ml-3 py-2 rounded-md bg-green-500 text-white"
+                  >
+                    Verify
+                  </button>
+                )}
+              </p>
+              <p className="ml-5">
+                <b>Email Status:</b>{" "}
+                {profile?.email_verified === 1 ? (
+                  <span className="text-green-400">Verified</span>
+                ) : (
+                  <button
+                    onClick={() => handleSendOtp("email")}
+                    type="button"
+                    className="px-3 ml-3 py-2 rounded-md bg-green-500 text-white"
+                  >
+                    Verify
+                  </button>
+                )}
+              </p>
+            </div>
           </div>
           <div className="leading-3 mb-3">
             {perrors && (
@@ -764,6 +835,52 @@ function ProfileUI() {
           </div>
         </form>
       </div>
+
+      {verifyModal && (
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            verifyOTP(verifyModal, otp);
+          }}
+          style={{ fontFamily: "Opensans-regular" }}
+          className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5 bg-white shadow-md rounded-md z-40 max-w-lg w-full"
+        >
+          <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
+            OTP Verification
+            <FaTimes
+              onClick={() => setVerifyModal(false)}
+              data-tip="Close"
+              className="absolute right-1 top-1 text-red-500 cursor-pointer text-lg"
+            />
+          </h5>
+          <hr className="my-1" />
+          <p className="text-green-500 mt-2">
+            {verifyModal == "email"
+              ? "OTP has been sent on you email."
+              : "OTP has been sent on your mobile."}
+          </p>
+          <div className="mt-5">
+            <div className="form-element">
+              <label className="form-label">OTP</label>
+              <input
+                required={true}
+                type="text"
+                maxLength={6}
+                minLength={6}
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                className="form-input border-gray-300 h-10 rounded-md"
+              />
+            </div>
+          </div>
+          <button
+            style={{ backgroundColor: "var(--blue)" }}
+            className="px-3 rounded-md py-2 float-right text-white"
+          >
+            Verify
+          </button>
+        </form>
+      )}
     </>
   );
 }

@@ -269,39 +269,232 @@ function Ibo() {
           </div>
         </div>
 
-        <div className="py-10 bg-white">
+        <div className="pb-10 bg-white">
           <div className="max-w-6xl w-full m-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 space-y-5 md:space-y-0">
-              <div className="">
-                <h3 style={{ fontFamily: "Opensans-bold" }} className="my-5">
-                  Section Title
-                </h3>
-                <p
-                  className="text-lg mt-3"
-                  style={{ fontFamily: "Opensans-regular" }}
-                >
-                  In publishing and graphic design, Lorem ipsum is a placeholder
-                  text commonly used to demonstrate the visual form of a
-                  document or a typeface without relying on meaningful content.
-                  Lorem ipsum may be used as a placeholder before the final copy
-                  is testing.
-                </p>
-                <div className="mt-10">
-                  <Link href="/signup/ibo">
-                    <a
-                      style={{ fontFamily: "Opensans-bold" }}
-                      className="px-5 py-4 rounded-full bg-blue-400 hover:bg-blue-500 text-white"
+            <div>
+              <h3 className="my-10" style={{ fontFamily: "Opensans-bold" }}>
+                Learn more about our process
+              </h3>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 pr-5  border-r border-dotted">
+                  <img
+                    className="h-48 w-full object-cover border border-gray-50 rounded-md"
+                    src="https://img.freepik.com/free-vector/mobile-login-concept-illustration_114360-83.jpg?t=st=1647429955~exp=1647430555~hmac=595d778a3f770ce6001794409c8cf93c840f8a09b83b33b1312583ecd7d08c60&w=740"
+                  />
+                  <div>
+                    <h6 style={{ fontFamily: "Opensans-semi-bold" }}>
+                      Sign up on Rent-A-Roof as agent
+                    </h6>
+                    <p
+                      className="mt-3"
+                      style={{
+                        fontFamily: "Opensans-regular",
+                        fontSize: "15px",
+                        lineHeight: "1.5",
+                      }}
                     >
-                      Get Started
-                    </a>
-                  </Link>
+                      Signing up as an agent is easy simply click the sign in
+                      button and enter your details.
+                    </p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5">
+                  <div>
+                    <h6 style={{ fontFamily: "Opensans-semi-bold" }}>
+                      Mobile & email verification
+                    </h6>
+                    <p
+                      className="mt-3"
+                      style={{
+                        fontFamily: "Opensans-regular",
+                        fontSize: "15px",
+                        lineHeight: "1.5",
+                      }}
+                    >
+                      After signing up you’ll be sent an otp on your mobile and
+                      email for verification & official purposes.
+                    </p>
+                  </div>
+                  <img
+                    className="h-48 w-full object-cover border border-gray-50 rounded-md"
+                    src="https://img.freepik.com/free-vector/two-factor-authentication-concept-illustration_114360-5488.jpg?t=st=1647428895~exp=1647429495~hmac=65640e67ad10995f23ac79b0416667ef9c070156504a142cd00a76a871d3abf0&w=740"
+                  />
                 </div>
               </div>
-              <div className="">
-                <img
-                  src="https://img.freepik.com/free-vector/recruitment-agency-searching-job-applicants_1262-19873.jpg?w=740"
-                  className="rounded-3xl"
-                />
+
+              <div className="grid grid-cols-1 pt-6 md:grid-cols-2 md:space-x-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 pr-5  border-r border-dotted">
+                  <img
+                    className="h-48 w-full object-cover border border-gray-50 rounded-md"
+                    src="https://img.freepik.com/free-vector/verified-concept-illustration_114360-5138.jpg?t=st=1647427515~exp=1647428115~hmac=357de46eb98106b4b4f98d78bcf733d22b084b1e15b256b12aff694fad68d27d&w=740"
+                  />
+                  <div>
+                    <h6 style={{ fontFamily: "Opensans-semi-bold" }}>
+                      KYC verification
+                    </h6>
+                    <p
+                      className="mt-3"
+                      style={{
+                        fontFamily: "Opensans-regular",
+                        fontSize: "15px",
+                        lineHeight: "1.5",
+                      }}
+                    >
+                      As we have to hold a certain standard and wish to provide
+                      trust to our clients, we facilitate KYC procedure for all
+                      our agents in order to improve not only the services we
+                      provide to our customers but also better support for our
+                      agents.
+                    </p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5">
+                  <div>
+                    <h6 style={{ fontFamily: "Opensans-semi-bold" }}>
+                      Post new properties
+                    </h6>
+                    <p
+                      className="mt-3"
+                      style={{
+                        fontFamily: "Opensans-regular",
+                        fontSize: "15px",
+                        lineHeight: "1.5",
+                      }}
+                    >
+                      Once your account has been setup and approved from the
+                      backend you can easily start posting properties which will
+                      then be needed to be verified and upon verifying every new
+                      property. Agents can earn points which they can exchange
+                      for various vouchers and coupons from our redeemable
+                      sections.
+                    </p>
+                  </div>
+                  <img
+                    className="h-48 w-full object-cover border border-gray-50 rounded-md"
+                    src="https://img.freepik.com/free-vector/man-standing-flipchart-with-list_1262-19830.jpg?t=st=1647430161~exp=1647430761~hmac=4196e612c41ff05f34791bde9d6f2b219230dd97f36d999dbda22b0c6b0030c7&w=740"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 pt-6 md:grid-cols-2 md:space-x-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 pr-5  border-r border-dotted">
+                  <img
+                    className="h-48 w-full object-cover border border-gray-50 rounded-md"
+                    src="https://img.freepik.com/free-vector/businessman-planning-events-deadlines-agenda_74855-6274.jpg?t=st=1647427876~exp=1647428476~hmac=8f7423372acaa60fec71a58a736cb4daf209046687a9d624f32069affa86c62b&w=740"
+                  />
+                  <div>
+                    <h6 style={{ fontFamily: "Opensans-semi-bold" }}>
+                      Manage upcoming appointments
+                    </h6>
+                    <p
+                      className="mt-3"
+                      style={{
+                        fontFamily: "Opensans-regular",
+                        fontSize: "15px",
+                        lineHeight: "1.5",
+                      }}
+                    >
+                      All verified properties will be viewable through our
+                      website and app allowing clients to easily book house
+                      showings and appointments. You can easily manage all your
+                      upcoming appointments right from your dashboard. All
+                      agents will have to show up on time of the appointment and
+                      guide their client’s throughout their visit answering any
+                      questions that they might have.
+                    </p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5">
+                  <div>
+                    <h6 style={{ fontFamily: "Opensans-semi-bold" }}>
+                      Facilitating negotiations
+                    </h6>
+                    <p
+                      className="mt-3"
+                      style={{
+                        fontFamily: "Opensans-regular",
+                        fontSize: "15px",
+                        lineHeight: "1.5",
+                      }}
+                    >
+                      If any client makes an offer, it will be your
+                      responsibility to connect with both the owner and client
+                      in order to facilitate the entire negotiation process
+                      until the final deal. To make this process easier we have
+                      provided integrated feature in the chat box where clients
+                      can easily make their offer and the agent can either
+                      accept it or reject it after consulting with the
+                      homeowner.
+                    </p>
+                  </div>
+                  <img
+                    className="h-48 w-full object-cover border border-gray-50 rounded-md"
+                    src="https://img.freepik.com/free-vector/business-deal_52683-6262.jpg?t=st=1647427568~exp=1647428168~hmac=a3813dfaf1081f4bf6d9fb3600a5bb1ce1e0cb7b2ccaf38d7a7d4781f3ae2e62&w=740"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 pt-6 md:grid-cols-2 md:space-x-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 pr-5  border-r border-dotted">
+                  <img
+                    className="h-48 w-full object-cover border border-gray-50 rounded-md"
+                    src="https://img.freepik.com/free-vector/online-document-concept-illustration_114360-5563.jpg?t=st=1647429488~exp=1647430088~hmac=ee8d7c9d87485129fec67bbcceb05148d52fd53b30802e202740bbbd7c3b2bc6&w=740"
+                  />
+                  <div>
+                    <h6 style={{ fontFamily: "Opensans-semi-bold" }}>
+                      Manage documents
+                    </h6>
+                    <p
+                      className="mt-3"
+                      style={{
+                        fontFamily: "Opensans-regular",
+                        fontSize: "15px",
+                        lineHeight: "1.5",
+                      }}
+                    >
+                      After the final offer price has been decided all agents
+                      will need to go forward with helping their client’s and
+                      homeowners through the documentation process. KYC, Police
+                      verification & final rent agreement can be processed
+                      through our dashboard providing pre-defined formats to
+                      make the entire process easy flowing and quick.
+                    </p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5">
+                  <div>
+                    <h6 style={{ fontFamily: "Opensans-semi-bold" }}>
+                      Closing the deal
+                    </h6>
+                    <p
+                      className="mt-3"
+                      style={{
+                        fontFamily: "Opensans-regular",
+                        fontSize: "15px",
+                        lineHeight: "1.5",
+                      }}
+                    >
+                      Once the final rent agreement has been formed and the
+                      client has made the first payment through our gateway.
+                    </p>
+                  </div>
+                  <img
+                    className="h-48 w-full object-cover border border-gray-50 rounded-md"
+                    src="https://img.freepik.com/free-vector/payment-information-concept-illustration_114360-2886.jpg?t=st=1647428102~exp=1647428702~hmac=36dc8301aa44e8629d0ace171ac716db19d10cefd1ffa5f9f2e8ef9f33fb23b6&w=740"
+                  />
+                </div>
+              </div>
+
+              <div className="mt-10 flex items-center justify-center">
+                <Link href="/signup/ibo">
+                  <a
+                    style={{ fontFamily: "Opensans-bold" }}
+                    className="px-5 py-4 rounded-full bg-blue-400 hover:bg-blue-500 text-white"
+                  >
+                    Get Started
+                  </a>
+                </Link>
               </div>
             </div>
           </div>

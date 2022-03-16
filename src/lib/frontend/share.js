@@ -910,6 +910,42 @@ export const getDealableProperty = async (data) => {
   return status;
 };
 
+//verify otp
+export const verifyOtpSent = async (data) => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let status = false;
+  await server
+    .post(`/verify-otp`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      status = response?.data;
+    })
+    .catch((error) => {
+      status = error?.response?.data;
+    });
+  return status;
+};
+
+//send otp
+export const sendOtp = async (data) => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let status = false;
+  await server
+    .get(`/send-otp?type=${data}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      status = response?.data;
+    })
+    .catch((error) => {
+      status = error?.response?.data;
+    });
+  return status;
+};
+
 //new landlord
 export const newLandlord = async (data) => {
   const token = __d(cookies.get("_SYNC_"));
