@@ -184,7 +184,7 @@ function Services() {
               </div>
               <div className="">
                 <h3 style={{ fontFamily: "Opensans-bold" }} className="my-5">
-                  Any questions? Get in touch with your agent.
+                  Let us manage your home for you!
                 </h3>
                 <p
                   className="text-lg mt-3"
@@ -211,43 +211,188 @@ function Services() {
             </div>
           </div>
         </div>
-        {false && (
-          <div className="py-10 bg-gray-50">
-            <div className="max-w-6xl w-full m-auto">
-              <h3 style={{ fontFamily: "Opensans-bold" }} className="mb-5">
-                Section Title
-              </h3>
-              <p
-                className="text-lg mt-3"
-                style={{ fontFamily: "Opensans-regular" }}
-              >
-                In publishing and graphic design, Lorem ipsum is a placeholder
-                text commonly used to demonstrate the visual form of a document
-                or a typeface without relying on meaningful content. Lorem ipsum
-                may be used as a placeholder before the final copy is testing.
-              </p>
-              <p
-                className="text-lg mt-3"
-                style={{ fontFamily: "Opensans-regular" }}
-              >
-                In publishing and graphic design, Lorem ipsum is a placeholder
-                text commonly used to demonstrate the visual form of a document
-                or a typeface without relying on meaningful content. Lorem ipsum
-                may be used as a placeholder before the final copy is testing.
-              </p>
-              <div className="mt-10 mb-5">
-                <Link href="/signup">
-                  <a
-                    style={{ fontFamily: "Opensans-bold" }}
-                    className="px-5 py-4 rounded-full bg-blue-400 hover:bg-blue-500 text-white"
-                  >
-                    Get Started
-                  </a>
-                </Link>
+
+        <div className="py-10 bg-gray-50">
+          <div className="max-w-6xl w-full m-auto">
+            <h3 style={{ fontFamily: "Opensans-bold" }} className="mb-10">
+              It’s simple to get your home rented
+            </h3>
+            <div className="flex items-start justify-start">
+              <img
+                className="h-52 w-52 md:mr-10 object-cover rounded-md"
+                src="https://img.freepik.com/free-vector/real-estate-floor-plan-abstract-concept-vector-illustration-floor-plan-online-services-real-estate-marketing-house-listing-interactive-property-layout-virtual-staging-abstract-metaphor_335657-4236.jpg?t=st=1647667542~exp=1647668142~hmac=ad1707257e414ec47360a85a3e3d5c11d294ac93c24d70c4f03d0577792f5636&w=740"
+              />
+              <div className="">
+                <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
+                  List your property for free
+                </h5>
+                <p
+                  className=" mt-3"
+                  style={{
+                    fontSize: "16px",
+                    lineHeight: 1.8,
+                    fontFamily: "Opensans-regular",
+                  }}
+                >
+                  You can easily list your property for free on Rentaroof with
+                  all the necessary details required to attract clients.
+                </p>
               </div>
             </div>
+            <div className="flex items-start mt-10 justify-start">
+              <div className="">
+                <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
+                  Connect with agent
+                </h5>
+                <p
+                  className=" mt-3"
+                  style={{
+                    fontSize: "16px",
+                    lineHeight: 1.8,
+                    fontFamily: "Opensans-regular",
+                  }}
+                >
+                  An agent will be assigned to manage all the tasks required in
+                  the renting process. An easy chat feature integrated In our
+                  app, your agent will easily be able to share regular updates
+                  regarding applications.
+                </p>
+              </div>
+              <img
+                className="h-52 w-52 md:ml-10 object-cover rounded-md"
+                src="https://img.freepik.com/free-vector/connected-world-concept-illustration_114360-3027.jpg?t=st=1647667662~exp=1647668262~hmac=2a26c1d5a54d766189634645c69ef45a8a124fc9180c17d242bdc4da2c94c1ee&w=740"
+              />
+            </div>
+            <div className="flex mt-10 items-start justify-start">
+              <img
+                className="h-52 w-52 md:mr-10 object-cover rounded-md"
+                src="https://img.freepik.com/free-vector/appointment-booking-with-smartphone_23-2148554946.jpg?t=st=1647667723~exp=1647668323~hmac=6e5ebf12eb8fe50e8a18687198abb4b3916f5420c959e0911fcd95a745c0dec6&w=740"
+              />
+              <div className="">
+                <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
+                  Manage appointments
+                </h5>
+                <p
+                  className=" mt-3"
+                  style={{
+                    fontSize: "16px",
+                    lineHeight: 1.8,
+                    fontFamily: "Opensans-regular",
+                  }}
+                >
+                  All Rent-A-Roof agents are well mannered and qualified
+                  executives of Rent-A-Roof. They will manage all the
+                  applications and fix appointments as per your instructions.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start mt-10 justify-start">
+              <div className="">
+                <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
+                  Negotiations
+                </h5>
+                <p
+                  className=" mt-3"
+                  style={{
+                    fontSize: "16px",
+                    lineHeight: 1.8,
+                    fontFamily: "Opensans-regular",
+                  }}
+                >
+                  All offers of potential client’s will be conveyed to you by
+                  our agent and upon finalizing the deal. Our agents will then
+                  move on to facilitate the documentation process.
+                </p>
+              </div>
+              <img
+                className="h-52 w-52 md:ml-10 object-cover rounded-md"
+                src="https://img.freepik.com/free-vector/successful-partnership-negotiation-partners-handshaking_335657-2453.jpg?t=st=1647667775~exp=1647668375~hmac=335c04ae06f1150cc1bcec9cfe380fb7edbffa8d12a83d6dac4be65c81700262&w=740"
+              />
+            </div>
+            <div className="flex mt-10 items-start justify-start">
+              <img
+                className="h-52 w-52 md:mr-10 object-cover rounded-md"
+                src="https://img.freepik.com/free-vector/expert-checking-business-leader-order_74855-10624.jpg?t=st=1647665214~exp=1647665814~hmac=40aa847c688bd620323ff12ba212adad7e6eca3ab4f43babfba4e2e4e263196c&w=740"
+              />
+              <div className="">
+                <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
+                  Processing documents
+                </h5>
+                <p
+                  className=" mt-3"
+                  style={{
+                    fontSize: "16px",
+                    lineHeight: 1.8,
+                    fontFamily: "Opensans-regular",
+                  }}
+                >
+                  All the documents like the written and signed offer, rent
+                  agreement and police verification will be carried out by your
+                  agent using our pre-defined guidelines and process.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start mt-10 justify-start">
+              <div className="">
+                <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
+                  Closing the deal
+                </h5>
+                <p
+                  className=" mt-3"
+                  style={{
+                    fontSize: "16px",
+                    lineHeight: 1.8,
+                    fontFamily: "Opensans-regular",
+                  }}
+                >
+                  When you are close to closing the deal any hindrance or
+                  problem could prove problematic and that’s where our agents
+                  come through. Your R-A-R agent will make sure that everything
+                  is on the given timeline and that the process flows smoothly
+                  for a swifter experience.
+                </p>
+              </div>
+              <img
+                className="h-52 w-52 md:ml-10 object-cover rounded-md"
+                src="https://img.freepik.com/free-vector/satisfied-businessmen-shake-hands-against-signed-agreement_107791-69.jpg?1&t=st=1647667887~exp=1647668487~hmac=8ca765a4bb1eea533a15a2b5b4859e8cadf84dc6ce9f478d09bb7382cb580361&w=740"
+              />
+            </div>
+            <div className="flex mt-10 items-start justify-start">
+              <img
+                className="h-52 w-52 md:mr-10 object-cover rounded-md"
+                src="https://img.freepik.com/free-vector/business-man-has-idea-with-gold-coin-his-hand_1150-35033.jpg?t=st=1647667950~exp=1647668550~hmac=4b88da2e9fc99f69b69081f3ae5c733f51f520ead9e2d4124e1d4c09d694b5e0&w=740"
+              />
+              <div className="">
+                <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
+                  Service charge
+                </h5>
+                <p
+                  className=" mt-3"
+                  style={{
+                    fontSize: "16px",
+                    lineHeight: 1.8,
+                    fontFamily: "Opensans-regular",
+                  }}
+                >
+                  Upon closure as per our policy we only levy a fee equivalent
+                  to the sum of 15 days rent as per the signed agreement for the
+                  services provided by the Agent as opposed to the traditional
+                  30-60 day rent amount charged by traditional brokers.
+                </p>
+              </div>
+            </div>
+            <div className="mt-10 mb-5 text-center">
+              <Link href="/signup">
+                <a
+                  style={{ fontFamily: "Opensans-bold" }}
+                  className="px-5 py-4 rounded-full bg-blue-400 hover:bg-blue-500 text-white"
+                >
+                  Get Started
+                </a>
+              </Link>
+            </div>
           </div>
-        )}
+        </div>
       </div>
       <Footer />
     </>

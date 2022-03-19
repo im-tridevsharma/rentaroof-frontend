@@ -158,10 +158,12 @@ function Index() {
           }}
         >
           <div className="grid h-80 overflow-hidden grid-cols-1 md:grid-cols-2 text-white">
-            <img
-              className="-mt-10"
-              src="https://img.freepik.com/free-vector/finance-department-employees-are-calculating-expenses-company-s-business_1150-41782.jpg?w=740"
-            />
+            <div className="bg-white flex items-center justify-center">
+              <img
+                className="object-contain h-80"
+                src="https://img.freepik.com/free-vector/finance-department-employees-are-calculating-expenses-company-s-business_1150-41782.jpg?w=740"
+              />
+            </div>
             <div className="relative p-10">
               <img
                 src="https://animoto.com/static/LowerRightTealYellow-944790b2ec1f2d1d569c799113cbfc41.svg"

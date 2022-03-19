@@ -81,58 +81,7 @@ function Ibo() {
             </p>
           </div>
         </div>
-        <div className="pb-10 pt-5 max-w-6xl w-full m-auto bg-white">
-          <div className="mt-12 text-gray-700">
-            <h3 className="text-center" style={{ fontFamily: "Opensans-bold" }}>
-              What are the duties of a Real Estate Agent?
-            </h3>
-            <div
-              className="mt-20 grid grid-cols-1 md:grid-cols-3 md:space-x-10 space-y-5 md:space-y-0"
-              style={{ fontFamily: "Opensans-regular" }}
-            >
-              <div className="flex flex-col items-center">
-                <img
-                  className="w-40 h-40 object-cover"
-                  src="https://img.freepik.com/free-vector/messaging-fun-concept-illustration_114360-1870.jpg?w=740"
-                />
-                <p className="text-center text-lg">
-                  Respond to texts, emails, <br />
-                  and phone calls.
-                </p>
-              </div>
 
-              <div className="flex flex-col items-center">
-                <img
-                  className="w-40 h-40 object-cover"
-                  src="https://img.freepik.com/free-vector/document-signing-partnership-deal-business-consultation-work-arrangement-client-assistant-writing-contract-cartoon-characters_335657-2342.jpg?w=740"
-                />
-                <p className="text-center text-lg">
-                  Process real estate documents, agreements, and lease records.
-                </p>
-              </div>
-
-              <div className="flex flex-col items-center">
-                <img
-                  className="w-40 h-40 object-cover"
-                  src="https://img.freepik.com/free-vector/appointment-booking-mobile-design_23-2148573175.jpg?w=740"
-                />
-                <p className="text-center text-lg">
-                  Coordinate appointments, showings, open houses, and meetings.
-                </p>
-              </div>
-            </div>
-            <div className="mt-14 flex justify-center">
-              <Link href="/signup/ibo">
-                <a
-                  style={{ fontFamily: "Opensans-bold" }}
-                  className="px-5 py-4 rounded-full bg-blue-400 hover:bg-blue-500 text-white"
-                >
-                  Get Started
-                </a>
-              </Link>
-            </div>
-          </div>
-        </div>
         <div style={{ backgroundColor: "#faf8fa" }} className="py-10">
           <div className="max-w-6xl w-full mx-auto">
             <h3
@@ -268,18 +217,69 @@ function Ibo() {
             </div>
           </div>
         </div>
+        <div className="pb-10 pt-5 max-w-6xl w-full m-auto bg-white">
+          <div className="mt-12 text-gray-700">
+            <h3 className="text-center" style={{ fontFamily: "Opensans-bold" }}>
+              What are the duties of a Real Estate Agent?
+            </h3>
+            <div
+              className="mt-20 grid grid-cols-1 md:grid-cols-3 md:space-x-10 space-y-5 md:space-y-0"
+              style={{ fontFamily: "Opensans-regular" }}
+            >
+              <div className="flex flex-col items-center">
+                <img
+                  className="w-40 h-40 object-cover"
+                  src="https://img.freepik.com/free-vector/messaging-fun-concept-illustration_114360-1870.jpg?w=740"
+                />
+                <p className="text-center text-lg">
+                  Respond to texts, emails, <br />
+                  and phone calls.
+                </p>
+              </div>
 
-        <div className="pb-10 bg-white">
+              <div className="flex flex-col items-center">
+                <img
+                  className="w-40 h-40 object-cover"
+                  src="https://img.freepik.com/free-vector/document-signing-partnership-deal-business-consultation-work-arrangement-client-assistant-writing-contract-cartoon-characters_335657-2342.jpg?w=740"
+                />
+                <p className="text-center text-lg">
+                  Process real estate documents, agreements, and lease records.
+                </p>
+              </div>
+
+              <div className="flex flex-col items-center">
+                <img
+                  className="w-40 h-40 object-cover"
+                  src="https://img.freepik.com/free-vector/appointment-booking-mobile-design_23-2148573175.jpg?w=740"
+                />
+                <p className="text-center text-lg">
+                  Coordinate appointments, showings, open houses, and meetings.
+                </p>
+              </div>
+            </div>
+            <div className="mt-14 flex justify-center">
+              <Link href="/signup/ibo">
+                <a
+                  style={{ fontFamily: "Opensans-bold" }}
+                  className="px-5 py-4 rounded-full bg-blue-400 hover:bg-blue-500 text-white"
+                >
+                  Get Started
+                </a>
+              </Link>
+            </div>
+          </div>
+        </div>
+        <div className="pb-10 bg-gray-50">
           <div className="max-w-6xl w-full m-auto">
-            <div>
+            <div className="pt-3">
               <h3 className="my-10" style={{ fontFamily: "Opensans-bold" }}>
                 Learn more about our process
               </h3>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5">
+              <div className="grid grid-cols-1 mt-3 md:grid-cols-2 md:space-x-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 pr-5  border-r border-dotted">
                   <img
-                    className="h-48 w-full object-cover border border-gray-50 rounded-md"
+                    className="h-48 w-full object-cover border border-white-50 rounded-md"
                     src="https://img.freepik.com/free-vector/mobile-login-concept-illustration_114360-83.jpg?t=st=1647429955~exp=1647430555~hmac=595d778a3f770ce6001794409c8cf93c840f8a09b83b33b1312583ecd7d08c60&w=740"
                   />
                   <div>
@@ -317,7 +317,7 @@ function Ibo() {
                     </p>
                   </div>
                   <img
-                    className="h-48 w-full object-cover border border-gray-50 rounded-md"
+                    className="h-48 w-full object-cover border border-white-50 rounded-md"
                     src="https://img.freepik.com/free-vector/two-factor-authentication-concept-illustration_114360-5488.jpg?t=st=1647428895~exp=1647429495~hmac=65640e67ad10995f23ac79b0416667ef9c070156504a142cd00a76a871d3abf0&w=740"
                   />
                 </div>
@@ -326,7 +326,7 @@ function Ibo() {
               <div className="grid grid-cols-1 pt-6 md:grid-cols-2 md:space-x-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 pr-5  border-r border-dotted">
                   <img
-                    className="h-48 w-full object-cover border border-gray-50 rounded-md"
+                    className="h-48 w-full object-cover border border-white-50 rounded-md"
                     src="https://img.freepik.com/free-vector/verified-concept-illustration_114360-5138.jpg?t=st=1647427515~exp=1647428115~hmac=357de46eb98106b4b4f98d78bcf733d22b084b1e15b256b12aff694fad68d27d&w=740"
                   />
                   <div>
@@ -371,7 +371,7 @@ function Ibo() {
                     </p>
                   </div>
                   <img
-                    className="h-48 w-full object-cover border border-gray-50 rounded-md"
+                    className="h-48 w-full object-cover border border-white-50 rounded-md"
                     src="https://img.freepik.com/free-vector/man-standing-flipchart-with-list_1262-19830.jpg?t=st=1647430161~exp=1647430761~hmac=4196e612c41ff05f34791bde9d6f2b219230dd97f36d999dbda22b0c6b0030c7&w=740"
                   />
                 </div>
@@ -380,7 +380,7 @@ function Ibo() {
               <div className="grid grid-cols-1 pt-6 md:grid-cols-2 md:space-x-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 pr-5  border-r border-dotted">
                   <img
-                    className="h-48 w-full object-cover border border-gray-50 rounded-md"
+                    className="h-48 w-full object-cover border border-white-50 rounded-md"
                     src="https://img.freepik.com/free-vector/businessman-planning-events-deadlines-agenda_74855-6274.jpg?t=st=1647427876~exp=1647428476~hmac=8f7423372acaa60fec71a58a736cb4daf209046687a9d624f32069affa86c62b&w=740"
                   />
                   <div>
@@ -429,7 +429,7 @@ function Ibo() {
                     </p>
                   </div>
                   <img
-                    className="h-48 w-full object-cover border border-gray-50 rounded-md"
+                    className="h-48 w-full object-cover border border-white-50 rounded-md"
                     src="https://img.freepik.com/free-vector/business-deal_52683-6262.jpg?t=st=1647427568~exp=1647428168~hmac=a3813dfaf1081f4bf6d9fb3600a5bb1ce1e0cb7b2ccaf38d7a7d4781f3ae2e62&w=740"
                   />
                 </div>
@@ -438,7 +438,7 @@ function Ibo() {
               <div className="grid grid-cols-1 pt-6 md:grid-cols-2 md:space-x-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 pr-5  border-r border-dotted">
                   <img
-                    className="h-48 w-full object-cover border border-gray-50 rounded-md"
+                    className="h-48 w-full object-cover border border-white-50 rounded-md"
                     src="https://img.freepik.com/free-vector/online-document-concept-illustration_114360-5563.jpg?t=st=1647429488~exp=1647430088~hmac=ee8d7c9d87485129fec67bbcceb05148d52fd53b30802e202740bbbd7c3b2bc6&w=740"
                   />
                   <div>
@@ -480,7 +480,7 @@ function Ibo() {
                     </p>
                   </div>
                   <img
-                    className="h-48 w-full object-cover border border-gray-50 rounded-md"
+                    className="h-48 w-full object-cover border border-white-50 rounded-md"
                     src="https://img.freepik.com/free-vector/payment-information-concept-illustration_114360-2886.jpg?t=st=1647428102~exp=1647428702~hmac=36dc8301aa44e8629d0ace171ac716db19d10cefd1ffa5f9f2e8ef9f33fb23b6&w=740"
                   />
                 </div>
