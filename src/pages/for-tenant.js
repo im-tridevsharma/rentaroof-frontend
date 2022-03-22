@@ -40,15 +40,16 @@ function Services() {
                 <div className="flex  justify-center items-center">
                   <div className="flex justify-center flex-col max-w-md w-full">
                     <h2 style={{ fontFamily: "Opensans-bold" }}>
-                      Renting with R-A-R is simple.
+                      Sit back and relax
                     </h2>
                     <p
                       className="text-lg mt-3"
                       style={{ fontFamily: "Opensans-regular" }}
                     >
-                      They need agents to guide them through neighbourhoods and
-                      find homes that best suit their needs. Some agents
-                      specialize in working with tenants.
+                      Easily search through the various listings available on
+                      our database to find the right home that meets your
+                      requirement. All properties on Rentaroof are verified by
+                      our agents providing a more solid and updated database.
                     </p>
 
                     <div className="mt-10">
@@ -88,15 +89,16 @@ function Services() {
                 <div className="flex  justify-center items-center">
                   <div className="flex justify-center flex-col max-w-md w-full">
                     <h2 style={{ fontFamily: "Opensans-bold" }}>
-                      Renting a roof title
+                      Feeling confused or have any questions?
                     </h2>
                     <p
                       className="text-lg mt-3"
                       style={{ fontFamily: "Opensans-regular" }}
                     >
-                      They need agents to guide them through neighbourhoods and
-                      find homes that best suit their needs. Some agents
-                      specialize in working with tenants.
+                      If you wish to know more about a neighbourhood or need
+                      specific information related to a property you have
+                      shortlisted. you can easily connect with one of our agents
+                      who will try their best to answer all your queries.
                     </p>
 
                     <div className="mt-10">
@@ -122,15 +124,18 @@ function Services() {
                 <div className="flex  justify-center items-center">
                   <div className="flex justify-center flex-col max-w-md w-full">
                     <h2 style={{ fontFamily: "Opensans-bold" }}>
-                      Renting a roof title
+                      Processing documents & Payments
                     </h2>
                     <p
                       className="text-lg mt-3"
                       style={{ fontFamily: "Opensans-regular" }}
                     >
-                      They need agents to guide them through neighbourhoods and
-                      find homes that best suit their needs. Some agents
-                      specialize in working with tenants.
+                      Not only does Rent-A-Roof help their clients by providing
+                      a well-structured documentation process like the final
+                      rent agreement but also aim to provide greater levels of
+                      safety by processing the initial payment through our
+                      platform which will be directly transferred to the
+                      landlords registered account.
                     </p>
 
                     <div className="mt-10">

@@ -33,9 +33,9 @@ function Advantages() {
             Our Advantages
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 mt-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 mt-10 mb-20">
             <div
-              className="rounded-md h-96"
+              className="h-80 md:mr-10"
               style={{
                 backgroundRepeat: "no-repeat",
                 backgroundImage: "url(images/website/screening.jpg)",
@@ -60,7 +60,7 @@ function Advantages() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 mt-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 mt-10 mb-20">
             <div className="md:pr-10">
               <h3 style={{ fontFamily: "Opensans-bold" }}>
                 Being able to notice the intricate details
@@ -78,7 +78,7 @@ function Advantages() {
               </p>
             </div>
             <div
-              className="rounded-md h-96"
+              className="h-80 ml-5"
               style={{
                 backgroundRepeat: "no-repeat",
                 backgroundImage:
@@ -89,9 +89,9 @@ function Advantages() {
             ></div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 mt-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 mt-10 mb-20">
             <div
-              className="rounded-md h-96"
+              className="h-80 mr-5"
               style={{
                 backgroundRepeat: "no-repeat",
                 backgroundImage: "url(images/website/paperwork.jpg)",
@@ -121,7 +121,7 @@ function Advantages() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 mt-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 mt-10 mb-20">
             <div className="md:pr-10">
               <h3 style={{ fontFamily: "Opensans-bold" }}>
                 Avoiding Closing Problems
@@ -138,7 +138,7 @@ function Advantages() {
               </p>
             </div>
             <div
-              className="rounded-md h-96"
+              className="h-80 mr-5"
               style={{
                 backgroundRepeat: "no-repeat",
                 backgroundImage: "url(images/website/property-waiting.jpg)",
@@ -150,7 +150,7 @@ function Advantages() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 mt-10">
             <div
-              className="rounded-md h-96"
+              className="h-80 mr-5"
               style={{
                 backgroundRepeat: "no-repeat",
                 backgroundImage: "url(images/website/payment.jpg)",
@@ -185,44 +185,8 @@ function Advantages() {
               Real Estate Agent Administrative Duties
             </h2>
 
-            <div
-              className="mt-20 grid grid-cols-1 md:grid-cols-3 md:space-x-10 space-y-5 md:space-y-0"
-              style={{ fontFamily: "Opensans-regular" }}
-            >
-              <div className="flex flex-col items-center">
-                <img
-                  className="w-40 h-40 object-cover"
-                  src="https://img.freepik.com/free-vector/messaging-fun-concept-illustration_114360-1870.jpg?w=740"
-                />
-                <p className="text-center text-lg">
-                  Respond to texts, emails, <br />
-                  and phone calls.
-                </p>
-              </div>
-
-              <div className="flex flex-col items-center">
-                <img
-                  className="w-40 h-40 object-cover"
-                  src="https://img.freepik.com/free-vector/document-signing-partnership-deal-business-consultation-work-arrangement-client-assistant-writing-contract-cartoon-characters_335657-2342.jpg?w=740"
-                />
-                <p className="text-center text-lg">
-                  Process real estate documents, agreements, and lease records.
-                </p>
-              </div>
-
-              <div className="flex flex-col items-center">
-                <img
-                  className="w-40 h-40 object-cover"
-                  src="https://img.freepik.com/free-vector/appointment-booking-mobile-design_23-2148573175.jpg?w=740"
-                />
-                <p className="text-center text-lg">
-                  Coordinate appointments, showings, open houses, and meetings.
-                </p>
-              </div>
-            </div>
-
             <p
-              className="text-lg  mt-16 mx-auto text-center w-full"
+              className="text-lg  mt-5 mx-auto text-center w-full"
               style={{ fontFamily: "Opensans-regular", maxWidth: "800px" }}
             >
               Because administrative duties can be very time-consuming, we

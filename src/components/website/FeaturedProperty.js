@@ -16,15 +16,11 @@ function FeaturedProperty() {
   }, []);
 
   return (
-    <div className="py-10 px-5">
+    <div className="py-10 mt-10 px-5">
       <div className="max-w-2xl w-full mx-auto text-center">
         <h3 style={{ fontFamily: "Opensans-bold" }}>
-          Our Featured Properties for You
+          Have a look at some of our featured listing
         </h3>
-        <p class="text-lg mt-3">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum is simply dummy text.
-        </p>
       </div>
       <div className="mt-20">
         <Carousel rows={1} cols={4} gap={10}>

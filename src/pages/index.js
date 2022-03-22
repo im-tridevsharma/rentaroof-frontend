@@ -199,77 +199,6 @@ function Index() {
         {/**featured property section */}
         <FeaturedProperty />
 
-        <div className="bg-white pb-10 pt-20">
-          <div className="max-w-4xl w-full m-auto">
-            <h3 className="text-center" style={{ fontFamily: "Opensans-bold" }}>
-              Let us know about your dream home.
-            </h3>
-            <form className="mt-10">
-              <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5">
-                <div className="form-element">
-                  <label className="form-label">Your Name</label>
-                  <input type="text" name="name" className="form-input" />
-                </div>
-                <div className="form-element">
-                  <label className="form-label">Mobile Number</label>
-                  <input type="text" name="mobile" className="form-input" />
-                </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5">
-                <div className="form-element">
-                  <label className="form-label">Email Id</label>
-                  <input type="email" name="email" className="form-input" />
-                </div>
-                <div className="form-element">
-                  <label className="form-label">
-                    Preferred locations upto 3
-                  </label>
-                  <input
-                    type="text"
-                    name="location"
-                    className="form-input"
-                    placeholder="eg: Defence Colony, Karkardum,..."
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5">
-                <div className="form-element">
-                  <label className="form-label">Bedrooms</label>
-                  <input
-                    type="number"
-                    name="bedrooms"
-                    min={1}
-                    placeholder="eg: 1"
-                    className="form-input"
-                  />
-                </div>
-                <div className="form-element">
-                  <label className="form-label">Your Budget</label>
-                  <input
-                    type="text"
-                    name="budget"
-                    placeholder="eg: 30,000 - 50,000"
-                    className="form-input"
-                  />
-                </div>
-              </div>
-              <div className="form-element">
-                <label className="form-label">
-                  Have any other specific requirements?
-                </label>
-                <textarea name="more_info" className="form-input"></textarea>
-              </div>
-              <button
-                type="button"
-                className="px-5 py-3 float-right bg-blue-400 text-white"
-                style={{ fontFamily: "Opensans-semi-bold" }}
-              >
-                Submit
-              </button>
-            </form>
-          </div>
-        </div>
-
         {/**video section */}
         <div className="h-128 w-full bg-white flex flex-col items-center relative">
           <div className="h-1/2 w-full bg-gray-100 flex flex-col items-center p-7">
@@ -349,24 +278,26 @@ function Index() {
         </div>
 
         {/**blogs */}
-        <div className="flex flex-col items-center justify-between bg-gray-50 p-10">
-          <h3
-            className="font-bold mb-5 text-center"
-            style={{ fontFamily: "Opensans-bold" }}
-          >
-            Have you read our real estate blog?
-          </h3>
-          <div className="flex items-center">
-            <Carousel cols={3} rows={1} gap={10} loop>
-              {blogs?.length > 0 &&
-                blogs?.map((blog, i) => (
-                  <Carousel.Item key={i}>
-                    <BlogItem data={blog} />
-                  </Carousel.Item>
-                ))}
-            </Carousel>
+        {false && (
+          <div className="flex flex-col items-center justify-between bg-gray-50 p-10">
+            <h3
+              className="font-bold mb-5 text-center"
+              style={{ fontFamily: "Opensans-bold" }}
+            >
+              Have you read our real estate blog?
+            </h3>
+            <div className="flex items-center">
+              <Carousel cols={3} rows={1} gap={10} loop>
+                {blogs?.length > 0 &&
+                  blogs?.map((blog, i) => (
+                    <Carousel.Item key={i}>
+                      <BlogItem data={blog} />
+                    </Carousel.Item>
+                  ))}
+              </Carousel>
+            </div>
           </div>
-        </div>
+        )}
         {/**footer */}
         <Footer />
       </div>

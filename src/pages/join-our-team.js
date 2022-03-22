@@ -58,31 +58,8 @@ function Ibo() {
             </div>
           </div>
         </div>
-        <div style={{ backgroundColor: "rgba(0,0,0,.01)" }} className="pb-10">
-          <div
-            className="h-128"
-            style={{
-              backgroundImage:
-                "url(https://img.freepik.com/free-vector/real-estate-agency-interior-flat-composition-with-realtor-helping-family-couple-buyers-choosing-first-house_1284-61532.jpg?w=826)",
-            }}
-          />
-          <div className="bg-white shadow-md text-center max-w-6xl w-full m-auto p-10 rounded-3xl -mt-20">
-            <h3 style={{ fontFamily: "Opensans-bold" }} className="my-5">
-              Section Title
-            </h3>
-            <p
-              className="text-lg mt-3"
-              style={{ fontFamily: "Opensans-regular" }}
-            >
-              In publishing and graphic design, Lorem ipsum is a placeholder
-              text commonly used to demonstrate the visual form of a document or
-              a typeface without relying on meaningful content. Lorem ipsum may
-              be used as a placeholder before the final copy is testing.
-            </p>
-          </div>
-        </div>
 
-        <div style={{ backgroundColor: "#faf8fa" }} className="py-10">
+        <div className="py-10" style={{ backgroundColor: "#ffcc3314" }}>
           <div className="max-w-6xl w-full mx-auto">
             <h3
               className=" text-gray-700"
@@ -93,10 +70,6 @@ function Ibo() {
             </h3>
             <div className="grid mt-16 grid-cols-1 md:grid-cols-3 md:space-x-5 md:space-y-5 space-y-5">
               <div className="flex items-start justify-between mt-5">
-                <img
-                  className="h-20 object-contain"
-                  src="https://cdn-icons-png.flaticon.com/512/1253/1253323.png?w=740"
-                />
                 <div className="ml-5">
                   <h4 style={{ fontFamily: "Opensans-semi-bold" }}>
                     Brand Name
@@ -112,10 +85,6 @@ function Ibo() {
               </div>
 
               <div className="flex items-start justify-between">
-                <img
-                  className="h-20 object-contain"
-                  src="https://cdn-icons-png.flaticon.com/512/852/852967.png?w=740"
-                />
                 <div className="ml-5">
                   <h4 style={{ fontFamily: "Opensans-semi-bold" }}>
                     Pre-defined documentation process
@@ -131,10 +100,6 @@ function Ibo() {
               </div>
 
               <div className="flex items-start justify-between">
-                <img
-                  className="h-20 object-contain"
-                  src="https://cdn-icons-png.flaticon.com/512/1255/1255740.png?w=740"
-                />
                 <div className="ml-5">
                   <h4 style={{ fontFamily: "Opensans-semi-bold" }}>
                     Payment gateway
@@ -152,11 +117,7 @@ function Ibo() {
               </div>
 
               <div className="flex items-start justify-between">
-                <img
-                  className="h-20 object-contain"
-                  src="https://cdn-icons-png.flaticon.com/512/1118/1118193.png?w=740"
-                />
-                <div className="ml-5">
+                <div className="">
                   <h4 style={{ fontFamily: "Opensans-semi-bold" }}>
                     Service Charges
                   </h4>
@@ -172,10 +133,6 @@ function Ibo() {
               </div>
 
               <div className="flex items-start justify-between">
-                <img
-                  className="h-20 object-contain"
-                  src="https://cdn-icons-png.flaticon.com/512/1245/1245813.png?w=740"
-                />
                 <div className="ml-5">
                   <h4 style={{ fontFamily: "Opensans-semi-bold" }}>
                     New properties
@@ -194,10 +151,6 @@ function Ibo() {
               </div>
 
               <div className="flex items-start justify-between">
-                <img
-                  className="h-20 object-contain"
-                  src="https://cdn-icons-png.flaticon.com/512/1241/1241603.png?w=740"
-                />
                 <div className="ml-5">
                   <h4 style={{ fontFamily: "Opensans-semi-bold" }}>
                     Support & Training
@@ -219,51 +172,141 @@ function Ibo() {
         </div>
         <div className="pb-10 pt-5 max-w-6xl w-full m-auto bg-white">
           <div className="mt-12 text-gray-700">
-            <h3 className="text-center" style={{ fontFamily: "Opensans-bold" }}>
-              What are the duties of a Real Estate Agent?
-            </h3>
-            <div
-              className="mt-20 grid grid-cols-1 md:grid-cols-3 md:space-x-10 space-y-5 md:space-y-0"
-              style={{ fontFamily: "Opensans-regular" }}
-            >
-              <div className="flex flex-col items-center">
+            <div class="grid grid-cols-1 md:grid-cols-2">
+              <div className="relative">
                 <img
-                  className="w-40 h-40 object-cover"
-                  src="https://img.freepik.com/free-vector/messaging-fun-concept-illustration_114360-1870.jpg?w=740"
+                  src="https://animoto.com/static/GreenCircle-181444214f6f5a5b89d3a72a75e25732.svg"
+                  className="h-32 object-contain -bottom-10 absolute right-3"
+                  style={{ zIndex: 2 }}
                 />
-                <p className="text-center text-lg">
-                  Respond to texts, emails, <br />
-                  and phone calls.
-                </p>
+                <img
+                  className="h-72 object-cover mx-auto relative"
+                  style={{ zIndex: 10 }}
+                  src="https://img.freepik.com/free-photo/closeup-smiling-business-woman-supporting-colleague-cafe_1262-12282.jpg?t=st=1647950417~exp=1647951017~hmac=ea5a2a3c65d221fb11b3135004238a354d2b35135635ddb4c387842295c9d07d&w=740"
+                />
               </div>
-
-              <div className="flex flex-col items-center">
-                <img
-                  className="w-40 h-40 object-cover"
-                  src="https://img.freepik.com/free-vector/document-signing-partnership-deal-business-consultation-work-arrangement-client-assistant-writing-contract-cartoon-characters_335657-2342.jpg?w=740"
-                />
-                <p className="text-center text-lg">
-                  Process real estate documents, agreements, and lease records.
-                </p>
-              </div>
-
-              <div className="flex flex-col items-center">
-                <img
-                  className="w-40 h-40 object-cover"
-                  src="https://img.freepik.com/free-vector/appointment-booking-mobile-design_23-2148573175.jpg?w=740"
-                />
-                <p className="text-center text-lg">
-                  Coordinate appointments, showings, open houses, and meetings.
+              <div className="md:pr-10">
+                <h3 style={{ fontFamily: "Opensans-bold" }}>
+                  Encouraging{" "}
+                  <h1
+                    className="inline"
+                    style={{ fontFamily: "Opensans-bold" }}
+                  >
+                    Women
+                  </h1>{" "}
+                  representation in the Real Estate Sector
+                </h3>
+                <p
+                  className="text-lg mt-5"
+                  style={{ fontFamily: "Opensans-regular" }}
+                >
+                  In India women are undoubtedly under-represented in the field
+                  on real estate. Not knowing the true potential and the skills
+                  necessary to monetize this sector.
                 </p>
               </div>
             </div>
+
+            <div className="mt-10 md:mt-32 py-10 bg-gray-50 rounded-md overflow-hidden">
+              <h3
+                className="text-center relative"
+                style={{ fontFamily: "Opensans-bold" }}
+              >
+                Offering skill development
+                <img
+                  src="https://animoto.com/static/wavy-e1cf461e1a9e7fed09a8a00a53c93f7f.svg"
+                  className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 h-3 object-contain"
+                />
+              </h3>
+              <p
+                className="text-lg mt-10 max-w-5xl w-full mx-auto text-center"
+                style={{ fontFamily: "Opensans-regular" }}
+              >
+                We offer support and training to women and students who wish to
+                earn a livelihood by providing the necessary knowledge, skills &
+                guidance to make a career out of it. The structural format of
+                Rentaroof is easy to understand and the guides can be accessed
+                through our website and app. Assistance will be provided
+                throughout the entire process until you are ready to go out and
+                perform the necessary real estate agent administrative duties.
+              </p>
+
+              <h5
+                className="text-center mt-5 md:mt-10"
+                style={{ fontFamily: "Opensans-bold" }}
+              >
+                Is real estate the right field for you?
+              </h5>
+              <p
+                className="text-lg mt-5 max-w-3xl w-full mx-auto text-center"
+                style={{ fontFamily: "Opensans-regular" }}
+              >
+                Do you know your locality well? Are you aware of any vacant
+                houses in your area? Do you have good interpersonal skills? All
+                you need is these three things to start!
+              </p>
+
+              <div className="mt-10 max-w-xl w-full mx-auto text-center">
+                <p
+                  style={{ fontFamily: "Opensans-regular" }}
+                  className="text-lg mb-3"
+                >
+                  <b>Step 1:</b> Go through the guides and training provided by
+                  our team
+                </p>
+                <p
+                  style={{ fontFamily: "Opensans-regular" }}
+                  className="text-lg mb-3"
+                >
+                  <b>Step 2:</b> Register as a verified agent with R-A_-R
+                </p>
+                <p
+                  style={{ fontFamily: "Opensans-regular" }}
+                  className="text-lg mb-3"
+                >
+                  <b>Step 3:</b> Easily List properties as an agent
+                </p>
+                <p
+                  style={{ fontFamily: "Opensans-regular" }}
+                  className="text-lg mb-3"
+                >
+                  <b>Step 4:</b> Connect with potential clients through
+                  Rentaroof
+                </p>
+                <p
+                  style={{ fontFamily: "Opensans-regular" }}
+                  className="text-lg mb-3"
+                >
+                  <b>Step 5:</b> Manage appointments through your dashboard
+                </p>
+                <p
+                  style={{ fontFamily: "Opensans-regular" }}
+                  className="text-lg mb-3"
+                >
+                  <b>Step 6:</b> Follow our documentation process
+                </p>
+                <p
+                  style={{ fontFamily: "Opensans-regular" }}
+                  className="text-lg mb-3"
+                >
+                  <b>Step 7:</b> Close the deal
+                </p>
+                <p
+                  style={{ fontFamily: "Opensans-regular" }}
+                  className="text-lg mb-3"
+                >
+                  <b>Step 8:</b> Get your commission!
+                </p>
+              </div>
+            </div>
+
             <div className="mt-14 flex justify-center">
               <Link href="/signup/ibo">
                 <a
                   style={{ fontFamily: "Opensans-bold" }}
                   className="px-5 py-4 rounded-full bg-blue-400 hover:bg-blue-500 text-white"
                 >
-                  Get Started
+                  Sign up to learn more
                 </a>
               </Link>
             </div>
