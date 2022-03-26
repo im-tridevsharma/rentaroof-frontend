@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import isAuthenticated, {
+  getUserSavedProperties,
   logoutUser,
   removeAuthToken,
 } from "../../lib/frontend/auth";
@@ -13,6 +14,7 @@ import { MdMyLocation } from "react-icons/md";
 import AutoComplete from "react-google-autocomplete";
 import { toast } from "react-toastify";
 import Geocode from "react-geocode";
+import ReactTooltip from "react-tooltip";
 
 const getWebsiteValues = async (key) => {
   let setting = "";
@@ -35,6 +37,9 @@ function Header() {
   const [isMobile, setIsMobile] = useState(false);
   const [searchModal, setSearchModal] = useState(false);
   const [defaultLocation, setDefaultLocation] = useState("");
+  const [favoriteProperties, setFavoriteProperties] = useState([]);
+  const [savedProperties, setSavedProperties] = useState([]);
+
   const dispatch = useDispatch();
   useEffect(() => {
     const u = JSON.parse(__d(localStorage.getItem("LU")));
@@ -45,6 +50,20 @@ function Header() {
       );
       if (res?.status) {
         dispatch({ type: "SET_WEBSITE", values: res.data });
+      }
+
+      if (u) {
+        const response = await getUserSavedProperties(u.id);
+        if (response?.status) {
+          setIsLoading(false);
+          const saved = response?.data.filter((p) => p.type === "saved");
+          const favorite = response?.data.filter((p) => p.type === "favorite");
+          setFavoriteProperties(favorite);
+          setSavedProperties(saved);
+        } else {
+          setIsLoading(false);
+          toast.error(response?.error || response?.message);
+        }
       }
     })();
   }, []);
@@ -437,7 +456,7 @@ function Header() {
               </Link>
             </li>
           </ul>
-          <div className="flex ml-5">
+          <div className="flex items-center ml-5">
             {router.pathname !== "/" && (
               <button
                 onClick={() => setSearchModal(!searchModal)}
@@ -447,6 +466,49 @@ function Header() {
                 <FaSearch className="mr-1" /> Find Property
               </button>
             )}
+
+            {user && user?.role == "tenant" && savedProperties && (
+              <Link href={`/${user?.role}/properties?type=saved`}>
+                <a
+                  className="h-4 w-4 rounded-full mr-5 ml-3 relative"
+                  data-tip="Saved Properties"
+                >
+                  <img
+                    className="object-contain"
+                    src="/icons/user-dashboard/icon5.png"
+                  />
+                  <b
+                    style={{ backgroundColor: "var(--primary-color)" }}
+                    className="absolute -top-3 -right-2 w-4 h-4 text-xs text-white rounded-full flex items-center justify-center"
+                  >
+                    {savedProperties?.length}
+                  </b>
+                  <ReactTooltip />
+                </a>
+              </Link>
+            )}
+
+            {user && user?.role == "tenant" && favoriteProperties && (
+              <Link href={`/${user?.role}/properties?type=favorite`}>
+                <a
+                  className="h-4 w-4 rounded-full mr-5 relative"
+                  data-tip="Favorite Properties"
+                >
+                  <img
+                    className="object-contain"
+                    src="/icons/user-dashboard/favorite.png"
+                  />
+                  <b
+                    style={{ backgroundColor: "var(--primary-color)" }}
+                    className="absolute -top-3 -right-2 w-4 h-4 text-xs text-white rounded-full flex items-center justify-center"
+                  >
+                    {favoriteProperties?.length}
+                  </b>
+                  <ReactTooltip />
+                </a>
+              </Link>
+            )}
+
             {!isAuthenticated() ? (
               <>
                 <Link href="/signup">
@@ -469,7 +531,7 @@ function Header() {
             ) : (
               <div className="relative">
                 <img
-                  src={user?.profile_pic || "/images/website/no_photo.png"}
+                  src={user?.profile_pic || "/images/faces/icon-user.png"}
                   className="w-6 h-6 object-cover rounded-full cursor-pointer"
                   alt="user"
                   onClick={() => setActiveMenu(!activeMenu)}
@@ -483,7 +545,7 @@ function Header() {
                   } top-56 sm:top-11 sm:w-60 h-auto fixed w-screen z-40`}
                 >
                   <img
-                    src={user?.profile_pic || "/images/website/no_photo.png"}
+                    src={user?.profile_pic || "/images/faces/icon-user.png"}
                     className="w-12 h-12 object-cover rounded-full cursor-pointer"
                     alt="user"
                   />

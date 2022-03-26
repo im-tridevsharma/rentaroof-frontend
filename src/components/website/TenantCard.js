@@ -73,7 +73,7 @@ function TenantCard({ a, info }) {
               onClick={policeVerification}
               className="p-2 rounded-md text-white bg-red-500"
             >
-              Police Verification
+              Generate Police Verification
             </button>
           )}
         </div>

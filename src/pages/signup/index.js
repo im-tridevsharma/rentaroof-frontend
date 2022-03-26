@@ -8,8 +8,10 @@ import {
   emailVerity,
   mobileVerity,
   registerUser,
+  setAuthToken,
 } from "../../lib/frontend/auth";
-import server from "../../server";
+import server, { __e } from "../../server";
+import Cookies from "universal-cookie";
 
 const getWebsiteValues = async (key) => {
   let setting = "";
@@ -31,6 +33,7 @@ function Index({ rcode, a }) {
   const [mobileotp, setMobileOtp] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [user, setUser] = useState(false);
+  const cookies = new Cookies();
 
   const [logo, setLogo] = useState("");
   const [state, setState] = useState({
@@ -75,7 +78,7 @@ function Index({ rcode, a }) {
           setIsLoading(false);
           setState({ role: "", name: "", email: "", password: "" });
           document.forms.signup.reset();
-          setIsSubmitted("email");
+          setIsSubmitted("mobile");
           setUser(response?.user);
           setTimeout(() => {
             setSuccess(false);
@@ -123,13 +126,45 @@ function Index({ rcode, a }) {
       setErrors([["Please enter OTP sent on your mobile."]]);
     } else {
       setIsLoading(true);
-      const res = await mobileVerity({ user_id: user?.id, otp: mobileotp });
-      if (res?.status) {
-        setSuccess(res?.message);
+      const response = await mobileVerity({
+        user_id: user?.id,
+        otp: mobileotp,
+      });
+      if (response?.status) {
+        setSuccess(response?.message);
         setIsLoading(false);
+        setAuthToken(response.token);
+        cookies.set("surole", __e(response?.user?.role), { path: "/" });
+        Echo.connector.options.auth.headers["Authorization"] =
+          "Bearer " + response.access_token;
+        //save user
+        localStorage.setItem("LU", __e(JSON.stringify(response?.user)));
         setTimeout(() => {
-          router.push("/login");
-        }, 2000);
+          if (response?.user?.role) {
+            const redirect = localStorage.getItem("redirect");
+
+            if (redirect) {
+              localStorage.removeItem("redirect");
+              router.push(redirect);
+            } else {
+              if (response?.user?.role === "tenant") {
+                router.push(`/`);
+              } else if (response?.user?.is_property_updated) {
+                const blogin = localStorage.getItem("beforeLoginAdded")
+                  ? JSON.parse(localStorage.getItem("beforeLoginAdded"))
+                  : false;
+                if (blogin) {
+                  localStorage.removeItem("beforeLoginAdded");
+                  router.push(
+                    `/${response?.user?.role}/update-property?step=next&next=GALLERY&id=${blogin?.code}-${blogin?.id}&mode=update`
+                  );
+                }
+              } else {
+                router.push(`/${response.user.role}/dashboard`);
+              }
+            }
+          }
+        }, 1000);
       } else {
         setIsLoading(false);
         setErrors([[res?.message]]);

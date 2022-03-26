@@ -2,16 +2,19 @@ import { FiDelete } from "react-icons/fi";
 import Image from "next/image";
 import moment from "moment";
 import { useEffect, useState } from "react";
-import { updateKycIbo } from "../../lib/ibos";
+import { iboRatings, updateKycIbo } from "../../lib/ibos";
 import { updateKycLandlord } from "../../lib/landlords";
 import Loader from "../loader";
 import ReactTooltip from "react-tooltip";
 import { ToastContainer, toast } from "react-toastify";
+import { FaTimes } from "react-icons/fa";
 
 function Index(props) {
   const [action, setAction] = useState("");
   const [issue, setIssue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showReviews, setShowReviews] = useState(false);
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     if (props?.kyc) {
@@ -19,6 +22,24 @@ function Index(props) {
       setIssue(props.kyc?.verification_issues);
     }
   }, []);
+
+  useEffect(() => {
+    if (showReviews) {
+      setIsLoading(true);
+      (async function () {
+        const res = await iboRatings(props?.user?.id);
+        console.log(res);
+        if (res?.status) {
+          setIsLoading(false);
+          setReviews(res?.data);
+          console.log(res?.data);
+        } else {
+          toast.error(res?.message);
+          setIsLoading(false);
+        }
+      })();
+    }
+  }, [showReviews]);
 
   const updateStatus = async (s, reason) => {
     setIsLoading(true);
@@ -108,11 +129,12 @@ function Index(props) {
                     <td>Account Status</td>
                     <td>{props.user.account_status.toUpperCase()}</td>
                   </tr>
-                  {props.user.account_status == 'deactivated' &&
-                  <tr>
-                    <td>Deactivate Reason</td>
-                    <td>{props.user.deactivate_reason}</td>
-                  </tr>}
+                  {props.user.account_status == "deactivated" && (
+                    <tr>
+                      <td>Deactivate Reason</td>
+                      <td>{props.user.deactivate_reason}</td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </>
@@ -163,25 +185,26 @@ function Index(props) {
             {props.address && (
               <table className="table-auto w-full mb-2 mt-2">
                 <tbody>
-                {props?.user?.role === 'ibo' &&
-                  <>
-                  <tr>
-                    <td>Present Address</td>
-                    <td>{props?.kyc?.present_address}</td>
-                  </tr>
-                  <tr>
-                    <td>Permanent Address</td>
-                    <td>{props?.kyc?.permanent_address}</td>
-                  </tr>
-                  <tr>
-                    <td>Reference User</td>
-                    <td><p>{props?.kyc?.ref_user_name}</p> 
-                    <p>{props?.kyc?.ref_user_email}</p>
-                    <p>{props?.kyc?.ref_user_address}</p>
-                    </td>
-                  </tr>
-                  </>
-                  }
+                  {props?.user?.role === "ibo" && (
+                    <>
+                      <tr>
+                        <td>Present Address</td>
+                        <td>{props?.kyc?.present_address}</td>
+                      </tr>
+                      <tr>
+                        <td>Permanent Address</td>
+                        <td>{props?.kyc?.permanent_address}</td>
+                      </tr>
+                      <tr>
+                        <td>Reference User</td>
+                        <td>
+                          <p>{props?.kyc?.ref_user_name}</p>
+                          <p>{props?.kyc?.ref_user_email}</p>
+                          <p>{props?.kyc?.ref_user_address}</p>
+                        </td>
+                      </tr>
+                    </>
+                  )}
                   <tr>
                     <td>Document Type</td>
                     <td>{props.kyc.document_type}</td>
@@ -207,7 +230,7 @@ function Index(props) {
                       </a>
                     </td>
                   </tr>
-                  
+
                   <tr>
                     <td>Action</td>
                     <td className="pt-5 pb-2">
@@ -271,6 +294,56 @@ function Index(props) {
                 </tbody>
               </table>
             )}
+          </div>
+        )}
+
+        {props?.user?.role === "ibo" && (
+          <button
+            onClick={() => setShowReviews(Date.now())}
+            className="px-3 py-2 rounded-md bg-blue-400 text-white"
+          >
+            Show Reviews
+          </button>
+        )}
+
+        {showReviews && (
+          <div className="fixed top-0 min-h-screen left-0  p-5 bg-white shadow-md rounded-md z-40 w-full">
+            <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
+              Reviews
+              <FaTimes
+                onClick={() => setShowReviews(false)}
+                data-tip="Close"
+                className="absolute right-5 top-5 text-red-500 cursor-pointer text-lg"
+              />
+            </h5>
+            <table className="table table-striped mt-3">
+              <thead>
+                <tr>
+                  <th>User Name</th>
+                  <th>Role</th>
+                  <th>Email</th>
+                  <th>Rating</th>
+                  <th>Review</th>
+                </tr>
+              </thead>
+              <tbody>
+                {reviews?.length > 0 ? (
+                  reviews.map((item, i) => (
+                    <tr key={i}>
+                      <td>{item?.name || ""}</td>
+                      <td>{item?.user_role || ""}</td>
+                      <td>{item?.email || ""}</td>
+                      <td>{item?.rating || ""}</td>
+                      <td>{item?.review || ""}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={7}>No records found!</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
         )}
       </div>

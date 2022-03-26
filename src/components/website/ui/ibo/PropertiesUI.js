@@ -286,7 +286,7 @@ function PropertiesUI() {
                             onClick={() => policeVerification(a)}
                             className="p-2 ml-2 rounded-md text-white bg-red-500"
                           >
-                            Police Verification
+                            Generate Police Verification
                           </button>
                         )}
                       </>

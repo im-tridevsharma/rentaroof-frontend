@@ -782,7 +782,7 @@ function Index({ id }) {
             </div>
           </div>
           {/**right */}
-          <div className="flex flex-col flex-grow md:ml-5 md:mt-0 mt-5">
+          <div className="flex flex-col flex-grow md:ml-5 md:mt-0 mt-5 w-96">
             {/**markated by */}
             <div
               className="p-6 border-gray-200 text-gray-700 flex flex-col items-start"
@@ -1014,78 +1014,82 @@ function Index({ id }) {
               </div>
             </div>
             {/**review */}
-            <div className=" border-gray-200 flex text-center flex-col mt-3 pb-5 overflow-hidden border-2 shadow-md">
-              <p
-                className="text-gray-600 pb-3 mt-2 border-gray-200 mx-3"
-                style={{
-                  borderBottomWidth: "1px",
-                  fontSize: "1rem",
-                  fontFamily: "Opensans-bold",
-                }}
-              >
-                Rate & Review this Property
-              </p>
-              <p
-                className="pt-3 uppercase text-gray-600"
-                style={{
-                  fontFamily: "Opensans-bold",
-                  fontSize: "1rem",
-                }}
-              >
-                Rate Us
-              </p>
-              <div
-                className="flex items-center justify-center my-2 border-gray-200 pb-4 mx-3"
-                style={{ color: "var(--orange)", borderBottomWidth: "1px" }}
-              >
-                <StarRatings
-                  changeRating={(newRating) => setRating(newRating)}
-                  rating={rating}
-                  numberOfStars={5}
-                  starRatedColor="var(--orange)"
-                  starDimension="25px"
-                  starSpacing="12px"
-                  starHoverColor="var(--orange)"
-                />
-              </div>
-              <div
-                className="flex flex-col mx-4 flex-grow md:mt-3 mt-5"
-                style={{ fontFamily: "Opensans-bold", fontSize: "1rem" }}
-              >
-                <p className="flex flex-col">
-                  <b style={{ fontFamily: "Opensans-bold" }}>Write a Review</b>
-                  <span
-                    className="text-gray-600 max-w-sm mx-auto mt-2"
-                    style={{
-                      fontFamily: "opensans-regular",
-                      fontSize: ".9rem",
-                    }}
-                  >
-                    Share your thoughts with another customer after visiting
-                    this property.
-                  </span>
-                </p>
-                <form
-                  name="review"
-                  className="w-full mt-5"
-                  onSubmit={addReview}
+            {false && (
+              <div className=" border-gray-200 flex text-center flex-col mt-3 pb-5 overflow-hidden border-2 shadow-md">
+                <p
+                  className="text-gray-600 pb-3 mt-2 border-gray-200 mx-3"
+                  style={{
+                    borderBottomWidth: "1px",
+                    fontSize: "1rem",
+                    fontFamily: "Opensans-bold",
+                  }}
                 >
-                  <div className="form-element">
-                    <textarea
-                      className="h-40 border-gray-200 rounded-md text-sm"
-                      name="review"
-                      required
-                    ></textarea>
-                  </div>
-                  <button
-                    className="px-5 py-3 text-white rounded-md text-sm"
-                    style={{ backgroundColor: "var(--blue)" }}
+                  Rate & Review this Property
+                </p>
+                <p
+                  className="pt-3 uppercase text-gray-600"
+                  style={{
+                    fontFamily: "Opensans-bold",
+                    fontSize: "1rem",
+                  }}
+                >
+                  Rate Us
+                </p>
+                <div
+                  className="flex items-center justify-center my-2 border-gray-200 pb-4 mx-3"
+                  style={{ color: "var(--orange)", borderBottomWidth: "1px" }}
+                >
+                  <StarRatings
+                    changeRating={(newRating) => setRating(newRating)}
+                    rating={rating}
+                    numberOfStars={5}
+                    starRatedColor="var(--orange)"
+                    starDimension="25px"
+                    starSpacing="12px"
+                    starHoverColor="var(--orange)"
+                  />
+                </div>
+                <div
+                  className="flex flex-col mx-4 flex-grow md:mt-3 mt-5"
+                  style={{ fontFamily: "Opensans-bold", fontSize: "1rem" }}
+                >
+                  <p className="flex flex-col">
+                    <b style={{ fontFamily: "Opensans-bold" }}>
+                      Write a Review
+                    </b>
+                    <span
+                      className="text-gray-600 max-w-sm mx-auto mt-2"
+                      style={{
+                        fontFamily: "opensans-regular",
+                        fontSize: ".9rem",
+                      }}
+                    >
+                      Share your thoughts with another customer after visiting
+                      this property.
+                    </span>
+                  </p>
+                  <form
+                    name="review"
+                    className="w-full mt-5"
+                    onSubmit={addReview}
                   >
-                    Post a review
-                  </button>
-                </form>
+                    <div className="form-element">
+                      <textarea
+                        className="h-40 border-gray-200 rounded-md text-sm"
+                        name="review"
+                        required
+                      ></textarea>
+                    </div>
+                    <button
+                      className="px-5 py-3 text-white rounded-md text-sm"
+                      style={{ backgroundColor: "var(--blue)" }}
+                    >
+                      Post a review
+                    </button>
+                  </form>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

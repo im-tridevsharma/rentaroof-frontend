@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import router from "next/router";
 import Link from "next/link";
 import Card from "../../Card";
 import { BsStarFill } from "react-icons/bs";
@@ -51,6 +52,8 @@ function PropertiesUI() {
           setIsLoading(false);
           toast.error(res?.error || res?.message);
         }
+
+        setTabMode(router?.query?.type || "visited");
       })();
     }
   }, []);

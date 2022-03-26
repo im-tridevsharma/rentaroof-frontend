@@ -75,7 +75,7 @@ function Index({ rcode }) {
           setIsLoading(false);
           setState({ role: "", name: "", email: "", password: "" });
           document.forms.signup.reset();
-          setIsSubmitted("email");
+          setIsSubmitted("mobile");
           setUser(response?.user);
           setSuccess(response?.message);
           setTimeout(() => {

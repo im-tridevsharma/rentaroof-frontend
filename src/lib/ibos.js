@@ -66,6 +66,28 @@ export const banIboProfile = async (id) => {
   return ibo;
 };
 
+export const iboRatings = async (id) => {
+  const token = getToken();
+  let ibo = false;
+
+  if (id && token) {
+    await server
+      .get(`/admin/ibos/ratings/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        if (response.data) {
+          ibo = response.data;
+        }
+      })
+      .catch((error) => {
+        ibo = error.response?.data;
+      });
+  }
+
+  return ibo;
+};
+
 export const activateIboProfile = async (id) => {
   const token = getToken();
   let ibo = false;

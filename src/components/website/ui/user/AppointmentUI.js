@@ -409,33 +409,23 @@ function AppointmentUI() {
                           >
                             Details
                           </button>
-                          {a.meeting_status === "pending" ? (
-                            <button
-                              onClick={() => changeStatus("approved", a.id)}
-                              className="border-gray-300 border-r-2 px-2 mr-2 text-green-500"
-                            >
-                              Accept
-                            </button>
-                          ) : (
+
+                          {!["visited", "closed"].includes(
+                            a?.meeting_status
+                          ) && (
                             <>
-                              {!["visited", "closed"].includes(
-                                a?.meeting_status
-                              ) && (
-                                <>
-                                  <button
-                                    onClick={() =>
-                                      setReschedule(
-                                        upcomingAppointments.find(
-                                          (p) => p.id === a.id
-                                        )
-                                      )
-                                    }
-                                    className="border-gray-300 border-r-2 px-2 mr-2 text-yellow-500"
-                                  >
-                                    Reschedule
-                                  </button>
-                                </>
-                              )}
+                              <button
+                                onClick={() =>
+                                  setReschedule(
+                                    upcomingAppointments.find(
+                                      (p) => p.id === a.id
+                                    )
+                                  )
+                                }
+                                className="border-gray-300 border-r-2 px-2 mr-2 text-yellow-500"
+                              >
+                                Reschedule
+                              </button>
                             </>
                           )}
                           {a?.meeting_status === "pending" && (

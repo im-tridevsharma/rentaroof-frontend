@@ -654,32 +654,40 @@ function ProfileUI() {
               </div>
             </div>
             <div className="flex items-center">
-              <p>
-                <b>Mobile Status:</b>{" "}
+              <p className="flex items-center">
+                <b className="mr-2">Mobile Status:</b>
                 {profile?.mobile_verified === 1 ? (
-                  <span className="text-green-400">Verified</span>
+                  <span className="text-green-500">Verified</span>
                 ) : (
-                  <button
-                    onClick={() => handleSendOtp("mobile")}
-                    type="button"
-                    className="px-3 ml-3 py-2 rounded-md bg-green-500 text-white"
-                  >
-                    Verify
-                  </button>
+                  <div className="flex items-center">
+                    <span className="text-red-500 mr-2">Not Verified</span>
+                    <button
+                      onClick={() => handleSendOtp("mobile")}
+                      type="button"
+                      style={{ backgroundColor: "var(--blue)" }}
+                      className="px-3 ml-3 py-2 rounded-md text-white"
+                    >
+                      Verify
+                    </button>
+                  </div>
                 )}
               </p>
-              <p className="ml-5">
-                <b>Email Status:</b>{" "}
+              <p className="flex items-center ml-5">
+                <b className="mr-2">Email Status:</b>
                 {profile?.email_verified === 1 ? (
-                  <span className="text-green-400">Verified</span>
+                  <span className="text-green-500">Verified</span>
                 ) : (
-                  <button
-                    onClick={() => handleSendOtp("email")}
-                    type="button"
-                    className="px-3 ml-3 py-2 rounded-md bg-green-500 text-white"
-                  >
-                    Verify
-                  </button>
+                  <div className="flex items-center">
+                    <span className="text-red-500 mr-2">Not Verified</span>
+                    <button
+                      onClick={() => handleSendOtp("email")}
+                      type="button"
+                      style={{ backgroundColor: "var(--blue)" }}
+                      className="px-3 ml-3 py-2 rounded-md text-white"
+                    >
+                      Verify
+                    </button>
+                  </div>
                 )}
               </p>
             </div>

@@ -223,7 +223,7 @@ function Header({
               </div>
               <div className="relative">
                 <img
-                  src={user?.profile_pic || "/images/website/no_photo.png"}
+                  src={user?.profile_pic || "/images/faces/icon-user.png"}
                   className="object-cover cursor-pointer rounded-full"
                   style={{ maxWidth: "24px", width: "24px", height: "24px" }}
                   alt="user"
@@ -239,7 +239,7 @@ function Header({
                   } top-14 sm:top-11 sm:w-60 h-auto fixed w-screen z-40`}
                 >
                   <img
-                    src={user?.profile_pic || "/images/website/no_photo.png"}
+                    src={user?.profile_pic || "/images/faces/icon-user.png"}
                     className="w-12 h-12 object-cover rounded-full cursor-pointer"
                     alt="user"
                   />
