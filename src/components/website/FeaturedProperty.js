@@ -19,7 +19,7 @@ function FeaturedProperty() {
     <div className="py-10 mt-10 px-5">
       <div className="max-w-2xl w-full mx-auto text-center">
         <h3 style={{ fontFamily: "Opensans-bold" }}>
-          Have a look at some of our featured listing
+          Have a peak at some of our featured listings!
         </h3>
       </div>
       <div className="mt-20">

@@ -48,8 +48,9 @@ function Services() {
                     >
                       Easily search through the various listings available on
                       our database to find the right home that meets your
-                      requirement. All properties on Rentaroof are verified by
-                      our agents providing a more solid and updated database.
+                      requirements. All properties on Rentaroof are verified by
+                      our agents providing a more dependable and updated
+                      database.
                     </p>
 
                     <div className="mt-10">
@@ -214,7 +215,7 @@ function Services() {
               className="text-center mb-10"
               style={{ fontFamily: "Opensans-bold" }}
             >
-              What we offeres?
+              What we offer?
             </h2>
             <div
               className="grid grid-cols-1 md:grid-cols-3 md:space-x-10 space-y-5 md:space-y-0"
@@ -322,8 +323,8 @@ function Services() {
                         >
                           You can easily search through the various agent
                           verified properties on our database and save them in
-                          your favorites. There are several filters that you can
-                          use to refine your search drastically. In you case you
+                          your favourite’s. There are several filters that you
+                          can use to refine your search drastically. In case you
                           are having trouble finding the right home simply share
                           us your requirements and one of our agents will
                           connect with you.
@@ -380,11 +381,12 @@ function Services() {
                           style={{ fontFamily: "Opensans-regular" }}
                           className="text-lg"
                         >
-                          After scheduling visits once you find the perfect home
-                          that meets all your requirements you can go on to make
-                          an offer through the chat feature in our app with your
-                          assigned agent who facilitate the entire negotiation
-                          aspect for the final deal.
+                          After scheduling visits, once you find the perfect
+                          home that meets all your requirements! You can go on
+                          to make an offer through the chat feature in our app
+                          with your assigned agent who will facilitate the
+                          entire negotiation aspect with the landlord for the
+                          final deal.
                         </p>
                       </div>
                       <div className="flex items-center justify-center">
@@ -408,12 +410,13 @@ function Services() {
                           style={{ fontFamily: "Opensans-regular" }}
                           className="text-lg"
                         >
-                          Once all things have been set in place your agent will
+                          Once the final offer is agreed upon, your agent will
                           move forward with assisting you with the entire
                           documentation process. All aspects of the
                           documentation work have been smartly integrated within
-                          our platform including the final rent agreement
-                          delivered to you by your agent upon completion.
+                          our platform including the formation of the final rent
+                          agreement by your assigned agent making things even
+                          simpler.
                         </p>
                       </div>
                       <div className="flex items-center justify-center">
@@ -437,9 +440,9 @@ function Services() {
                           style={{ fontFamily: "Opensans-regular" }}
                           className="text-lg"
                         >
-                          With all aspects of the renting process covered our
+                          With all aspects of the renting process covered. Our
                           Rent-A-Roof executive will then move forward to
-                          handover the keys to your next dream home.
+                          handover the keys to your new home!
                         </p>
                       </div>
                       <div className="flex items-center justify-center">

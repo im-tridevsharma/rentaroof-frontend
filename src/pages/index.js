@@ -151,46 +151,50 @@ function Index() {
         {/**no hidden charges */}
 
         <div
-          className="border-t"
+          className=""
           style={{
             backgroundColor: "var(--primary-color)",
             borderColor: "#fff",
           }}
         >
-          <div className="grid h-80 overflow-hidden grid-cols-1 md:grid-cols-2 text-white">
+          <div className="grid overflow-hidden grid-cols-1 md:grid-cols-2 text-white">
             <div className="bg-white flex items-center justify-center">
               <img
-                className="object-contain h-80"
-                src="https://img.freepik.com/free-vector/finance-department-employees-are-calculating-expenses-company-s-business_1150-41782.jpg?w=740"
+                className="object-cover h-full"
+                src="https://img.freepik.com/free-photo/torn-paper-strip-yellow-background-with-text-no-hidden-fees_301012-4158.jpg?w=826"
               />
             </div>
             <div className="relative p-10">
-              <img
-                src="https://animoto.com/static/LowerRightTealYellow-944790b2ec1f2d1d569c799113cbfc41.svg"
-                className="absolute right-0 object-contain h-32 top-0 filter brightness-200"
-              />
               <h2 className="italic" style={{ fontFamily: "Opensans-bold" }}>
-                No upfront or hidden service charges
+                No hidden upfront service charges!
               </h2>
               <p
                 className="text-md mt-5"
                 style={{ fontFamily: "Opensans-regular" }}
               >
-                As per our policy of no hidden charges and complete transparency
-                with our client’s, there are no hidden or upfront charges for
-                the services provided to you by Rent-a-roof and a service charge
-                will only be levied once we are successful in finding the right
-                home for you. The service charge will be equivalent to the sum
-                of 15 days rent as per your agreement as opposed to the 30-60
-                days rent amount charged by traditional brokers.
+                After researching into the current renting sites that claim to
+                eliminate the need of a Real Estate Agent from the equation do
+                so by having hidden service charges. Not just that, we also went
+                through all the major sites ourselves noticing that when a
+                listing was actually free to interact with. In a lot of these
+                cases were actually posted by local real estate agents who will
+                still ask you for a brokerage amount, ranging usually from 30-60
+                days amount of rent as per Agreement.
               </p>
 
               <p
                 className="text-md mt-5"
                 style={{ fontFamily: "Opensans-regular" }}
               >
-                We even provide post closure support to our clients in order to
-                guarantee maximum satisfaction and support.
+                Rent-a-Roof wants to eliminate this incoherence in the renting
+                sector by being transparent and systemized with our process. As
+                per our policy unless and until our clients find the right home
+                that fits their requirements with full assistance through the
+                entire process to make the already hectic process of shifting
+                and renting a new home much easier. A service charge of amount
+                equivalent to 15 days rent as per agreement will only be levied
+                once the Rent agreement has been signed and our clients are
+                happy with our services!
               </p>
             </div>
           </div>
