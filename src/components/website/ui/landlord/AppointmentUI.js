@@ -51,7 +51,9 @@ function AppointmentUI() {
         response?.data?.length > 0
           ? setUpcomingAppointments(
               response?.data.filter(
-                (d) => moment(Date.now()).add(1, "day") <= moment(d.start_time)
+                (d) =>
+                  moment(Date.now()).add(1, "day").format("DD-MM-YYYY") <=
+                  moment(d.start_time).format("DD-MM-YYYY")
               )
             )
           : setUpcomingAppointments([]);
@@ -266,12 +268,17 @@ function AppointmentUI() {
                             <FiMail className="mx-1" />
                           </a>
                         </p>
+                        <p>
+                          <b className="mr-1">Ibo:</b> {a?.ibo || "Pending..."}
+                        </p>
                       </td>
                       <td>{moment(a?.start_time).format("DD-MM-YYYY")}</td>
                       <td>{moment(a?.start_time).format("hh:mm A")}</td>
                       <td>
                         <p className=" text-green-600 capitalize">
-                          {a?.meeting_status}
+                          {a?.meeting_status === "cancelled"
+                            ? "Pending"
+                            : a?.meeting_status}
                         </p>
                       </td>
                       <td>
@@ -371,12 +378,17 @@ function AppointmentUI() {
                             <FiMail className="mx-1" />
                           </a>
                         </p>
+                        <p>
+                          <b className="mr-1">Ibo:</b> {a?.ibo || "Pending..."}
+                        </p>
                       </td>
                       <td>{moment(a?.start_time).format("DD-MM-YYYY")}</td>
                       <td>{moment(a?.start_time).format("hh:mm A")}</td>
                       <td>
                         <p className=" text-green-600 capitalize">
-                          {a?.meeting_status}
+                          {a?.meeting_status === "cancelled"
+                            ? "Pending"
+                            : a?.meeting_status}
                         </p>
                       </td>
                       <td>
@@ -546,13 +558,15 @@ function AppointmentUI() {
           </h5>
           <hr className="my-1" />
           <p className="leading-6 flex items-center">
-            <b className="mr-1">Ibo:</b> {showDetail?.ibo}
-            <FiMessageCircle
-              style={{ color: "var(--blue)" }}
-              className="text-lg cursor-pointer ml-2"
-              data-tip="Chat with IBO"
-              onClick={() => startConversation(showDetail?.ibo_id)}
-            />
+            <b className="mr-1">Ibo:</b> {showDetail?.ibo || "Pending..."}
+            {showDetail?.ibo_id !== 0 && (
+              <FiMessageCircle
+                style={{ color: "var(--blue)" }}
+                className="text-lg cursor-pointer ml-2"
+                data-tip="Chat with IBO"
+                onClick={() => startConversation(showDetail?.ibo_id)}
+              />
+            )}
           </p>
           <p className="leading-6">
             <b>Property:</b> {showDetail?.property_data}
@@ -563,7 +577,10 @@ function AppointmentUI() {
           </p>
           <hr className="my-1" />
           <p className="leading-6 capitalize">
-            <b>Status:</b> {showDetail?.meeting_status}
+            <b>Status:</b>{" "}
+            {showDetail?.meeting_status === "cancelled"
+              ? "Pending"
+              : showDetail?.meeting_status}
           </p>
           <p className="leading-6">
             <b>Date:</b> {moment(showDetail?.start_time).format("DD-MM-YYYY")}

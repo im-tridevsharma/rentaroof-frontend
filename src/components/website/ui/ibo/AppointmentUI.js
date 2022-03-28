@@ -58,7 +58,9 @@ function AppointmentUI() {
         response?.data?.length > 0
           ? setUpcomingAppointments(
               response?.data.filter(
-                (d) => moment(d.start_time) >= moment(Date.now()).add(1, "day")
+                (d) =>
+                  moment(Date.now()).add(1, "day").format("DD-MM-YYYY") <=
+                  moment(d.start_time).format("DD-MM-YYYY")
               )
             )
           : setUpcomingAppointments([]);
@@ -407,7 +409,18 @@ function AppointmentUI() {
                               </button>
                               <button
                                 className="text-red-600 ml-2"
-                                onClick={() => changeStatus("cancelled", a.id)}
+                                onClick={() => {
+                                  if (a?.property_added_by == user?.id) {
+                                    const res = confirm(
+                                      "If you cancel this appointment, it will be assigned to other nearby agents and will give you some share!"
+                                    );
+                                    if (res) {
+                                      changeStatus("cancelled", a.id);
+                                    }
+                                  } else {
+                                    changeStatus("cancelled", a.id);
+                                  }
+                                }}
                               >
                                 Cancel
                               </button>
