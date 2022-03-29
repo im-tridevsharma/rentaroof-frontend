@@ -359,6 +359,7 @@ function AppointmentUI() {
                           ) : (
                             <span>(You)</span>
                           )}
+                          <b className="ml-2">Status: {a?.landlord_status}</b>
                         </p>
                       </td>
                       <td>{moment(a?.start_time).format("DD-MM-YYYY")}</td>
@@ -397,11 +398,6 @@ function AppointmentUI() {
                               <button
                                 onClick={() => {
                                   changeStatus("approved", a.id);
-                                  handleUserNotification(
-                                    a?.created_by_id,
-                                    a?.property_data,
-                                    "approved"
-                                  );
                                 }}
                                 className="border-gray-300 border-r-2 px-2 mr-2 text-green-500"
                               >
@@ -608,6 +604,9 @@ function AppointmentUI() {
                             onClick={() => startConversation(a?.created_by_id)}
                           />
                           <ReactTooltip />
+                          <b className="ml-2">
+                            Landlord Status: {a?.landlord_status}
+                          </b>
                         </p>
                       </td>
                       <td>{moment(a?.start_time).format("DD-MM-YYYY")}</td>

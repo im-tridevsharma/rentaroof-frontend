@@ -122,7 +122,7 @@ function View() {
             </div>
             <div className="grid sm:grid-cols-2">
               <div className="flex flex-col my-1">
-                <small className="text-blue-500">Ibo/Landlord</small>
+                <small className="text-blue-500">Agent</small>
                 <p>{meeting?.user_id}</p>
               </div>
               <div className="flex flex-col my-1">
@@ -137,7 +137,12 @@ function View() {
               </div>
               <div className="flex flex-col my-1">
                 <small className="text-blue-500">Status</small>
-                <p>{meeting?.meeting_status}</p>
+                <p>
+                  Agent Side: <b>{meeting?.meeting_status}</b>
+                </p>
+                <p>
+                  Landlord Side: <b> {meeting?.landlord_status}</b>
+                </p>
               </div>
             </div>
             <div className="flex flex-col my-1">

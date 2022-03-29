@@ -3,6 +3,7 @@ import Card from "../../Card";
 import {
   getLandlordMeetings,
   rescheduleMetting,
+  updateMeetingStatus,
 } from "../../../../lib/frontend/meetings";
 import { __d } from "../../../../server";
 import Loader from "../../../loader";
@@ -176,6 +177,18 @@ function AppointmentUI() {
     }
   };
 
+  const changeStatus = async (status, id) => {
+    setIsLoading(true);
+    const response = await updateMeetingStatus(id, { status });
+    if (response?.status) {
+      setReload(Date.now());
+      setIsLoading(false);
+    } else {
+      toast.error(response?.error || response?.data);
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       {isLoading && <Loader />}
@@ -276,7 +289,9 @@ function AppointmentUI() {
                       <td>{moment(a?.start_time).format("hh:mm A")}</td>
                       <td>
                         <p className=" text-green-600 capitalize">
-                          {a?.meeting_status === "cancelled"
+                          {a?.landlord_status !== "approved"
+                            ? "(You) " + a?.landlord_status
+                            : a?.meeting_status === "cancelled"
                             ? "Pending"
                             : a?.meeting_status}
                         </p>
@@ -312,6 +327,48 @@ function AppointmentUI() {
                             </button>
                           )}
                         </div>
+                        {(a?.landlord_status === "pending" ||
+                          a?.landlord_status === "cancelled") && (
+                          <>
+                            <button
+                              onClick={() => {
+                                changeStatus("approved", a.id);
+                              }}
+                              className="border-gray-300 border-r-2 px-2 mr-2 text-green-500"
+                            >
+                              Accept
+                            </button>
+                            {a?.landlord_status !== "cancelled" && (
+                              <button
+                                className="text-red-600 ml-2"
+                                onClick={() => {
+                                  changeStatus("cancelled", a.id);
+                                }}
+                              >
+                                Cancel
+                              </button>
+                            )}
+                          </>
+                        )}
+                        {![
+                          "visited",
+                          "closed",
+                          "on the way",
+                          "pending",
+                        ].includes(a?.meeting_status) && (
+                          <>
+                            <button
+                              onClick={() =>
+                                setReschedule(
+                                  appointments.find((p) => p.id === a.id)
+                                )
+                              }
+                              className=" px-2 text-yellow-500"
+                            >
+                              Reschedule
+                            </button>
+                          </>
+                        )}
                       </td>
                     </tr>
                   ))
@@ -386,7 +443,9 @@ function AppointmentUI() {
                       <td>{moment(a?.start_time).format("hh:mm A")}</td>
                       <td>
                         <p className=" text-green-600 capitalize">
-                          {a?.meeting_status === "cancelled"
+                          {a?.landlord_status !== "approved"
+                            ? "(You) " + a?.landlord_status
+                            : a?.meeting_status === "cancelled"
                             ? "Pending"
                             : a?.meeting_status}
                         </p>
@@ -404,6 +463,49 @@ function AppointmentUI() {
                             Details
                           </button>
                         </div>
+                        {a?.meeting_status === "pending" &&
+                          (a?.landlord_status === "pending" ||
+                            a?.landlord_status === "cancelled") && (
+                            <>
+                              <button
+                                onClick={() => {
+                                  changeStatus("approved", a.id);
+                                }}
+                                className="border-gray-300 border-r-2 px-2 mr-2 text-green-500"
+                              >
+                                Accept
+                              </button>
+                              {a?.landlord_status !== "cancelled" && (
+                                <button
+                                  className="text-red-600 ml-2"
+                                  onClick={() => {
+                                    changeStatus("cancelled", a.id);
+                                  }}
+                                >
+                                  Cancel
+                                </button>
+                              )}
+                            </>
+                          )}
+                        {![
+                          "visited",
+                          "closed",
+                          "on the way",
+                          "pending",
+                        ].includes(a?.meeting_status) && (
+                          <>
+                            <button
+                              onClick={() =>
+                                setReschedule(
+                                  appointments.find((p) => p.id === a.id)
+                                )
+                              }
+                              className=" px-2 text-yellow-500"
+                            >
+                              Reschedule
+                            </button>
+                          </>
+                        )}
                       </td>
                     </tr>
                   ))

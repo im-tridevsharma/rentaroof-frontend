@@ -277,7 +277,10 @@ function AppointmentUI() {
                       <td>{moment(a?.start_time).format("hh:mm A")}</td>
                       <td>
                         <p className=" text-green-600 capitalize">
-                          {a?.meeting_status}
+                          {a?.meeting_status !== "pending" &&
+                          a?.landlord_status === "approved"
+                            ? a?.meeting_status
+                            : "Pending"}
                         </p>
                         {a.meeting_status === "visited" && (
                           <button
@@ -290,26 +293,29 @@ function AppointmentUI() {
                       </td>
                       <td>
                         <div className="flex">
-                          <button
-                            onClick={() =>
-                              setShowDetail(
-                                todayAppointment.find((p) => p.id === a.id)
-                              )
-                            }
-                            className="border-gray-300 border-r-2 px-2 text-green-500"
-                          >
-                            Details
-                          </button>
-                          {!["visited", "closed", "on the way"].includes(
-                            a?.meeting_status
-                          ) && (
+                          {a?.meeting_status !== "pending" && (
+                            <button
+                              onClick={() =>
+                                setShowDetail(
+                                  todayAppointment.find((p) => p.id === a.id)
+                                )
+                              }
+                              className="border-gray-300 border-r-2 px-2 text-green-500"
+                            >
+                              Details
+                            </button>
+                          )}
+                          {![
+                            "visited",
+                            "closed",
+                            "on the way",
+                            "pending",
+                          ].includes(a?.meeting_status) && (
                             <>
                               <button
                                 onClick={() =>
                                   setReschedule(
-                                    upcomingAppointments.find(
-                                      (p) => p.id === a.id
-                                    )
+                                    appointments.find((p) => p.id === a.id)
                                   )
                                 }
                                 className="border-gray-300 border-r-2 px-2 mr-2 text-yellow-500"
@@ -334,7 +340,7 @@ function AppointmentUI() {
                 ) : (
                   <tr>
                     <td colSpan="6" className="text-red-500">
-                      No appointments found or has not been accepted yet!
+                      No appointments found!
                     </td>
                   </tr>
                 )}
@@ -394,23 +400,29 @@ function AppointmentUI() {
                       <td>{moment(a?.start_time).format("hh:mm A")}</td>
                       <td>
                         <p className=" text-green-600 capitalize">
-                          {a?.meeting_status}
+                          {a?.meeting_status !== "pending" &&
+                          a?.landlord_status === "approved"
+                            ? a?.meeting_status
+                            : "Pending"}
                         </p>
                       </td>
                       <td>
                         <div className="flex">
-                          <button
-                            onClick={() =>
-                              setShowDetail(
-                                upcomingAppointments.find((p) => p.id === a.id)
-                              )
-                            }
-                            className="border-gray-300 border-r-2 px-2 text-green-500"
-                          >
-                            Details
-                          </button>
-
-                          {!["visited", "closed"].includes(
+                          {a?.meeting_status !== "pending" && (
+                            <button
+                              onClick={() =>
+                                setShowDetail(
+                                  upcomingAppointments.find(
+                                    (p) => p.id === a.id
+                                  )
+                                )
+                              }
+                              className="border-gray-300 border-r-2 px-2 text-green-500"
+                            >
+                              Details
+                            </button>
+                          )}
+                          {!["visited", "closed", "pending"].includes(
                             a?.meeting_status
                           ) && (
                             <>
@@ -443,7 +455,7 @@ function AppointmentUI() {
                 ) : (
                   <tr>
                     <td colSpan="6" className="text-red-500">
-                      No appointments found or has not been accepted yet!
+                      No appointments found!
                     </td>
                   </tr>
                 )}
