@@ -52,7 +52,9 @@ function AppointmentUI() {
         response?.data?.length > 0
           ? setUpcomingAppointments(
               response?.data.filter(
-                (d) => moment(Date.now()).add(1, "day") <= moment(d.start_time)
+                (d) =>
+                  moment(Date.now()).add(1, "day").format("DD-MM-YYYY") <=
+                  moment(d.start_time).format("DD-MM-YYYY")
               )
             )
           : setUpcomingAppointments([]);
@@ -259,19 +261,21 @@ function AppointmentUI() {
                             )}
                           </b>
                         )}
-                        <p
-                          className="font-semibold text-xs flex items-center"
-                          style={{ color: "var(--orange)" }}
-                        >
-                          With {a?.ibo}
-                          <FiMessageCircle
-                            style={{ color: "var(--blue)" }}
-                            className="text-lg cursor-pointer ml-3"
-                            data-tip="Chat"
-                            onClick={() => startConversation(a?.user_id)}
-                          />
-                          <ReactTooltip />
-                        </p>
+                        {a?.user_id !== 0 && (
+                          <p
+                            className="font-semibold text-xs flex items-center"
+                            style={{ color: "var(--orange)" }}
+                          >
+                            With {a?.ibo}
+                            <FiMessageCircle
+                              style={{ color: "var(--blue)" }}
+                              className="text-lg cursor-pointer ml-3"
+                              data-tip="Chat"
+                              onClick={() => startConversation(a?.user_id)}
+                            />
+                            <ReactTooltip />
+                          </p>
+                        )}
                       </td>
                       <td>{moment(a?.start_time).format("DD-MM-YYYY")}</td>
                       <td>{moment(a?.start_time).format("hh:mm A")}</td>
@@ -382,19 +386,21 @@ function AppointmentUI() {
                             ? a?.property_data.substring(0, 50) + "..."
                             : a?.property_data}
                         </p>
-                        <p
-                          className="font-semibold text-xs flex items-center"
-                          style={{ color: "var(--orange)" }}
-                        >
-                          With {a?.ibo}
-                          <FiMessageCircle
-                            style={{ color: "var(--blue)" }}
-                            className="text-lg cursor-pointer ml-3"
-                            data-tip="Chat"
-                            onClick={() => startConversation(a?.user_id)}
-                          />
-                          <ReactTooltip />
-                        </p>
+                        {a?.user_id !== 0 && (
+                          <p
+                            className="font-semibold text-xs flex items-center"
+                            style={{ color: "var(--orange)" }}
+                          >
+                            With {a?.ibo}
+                            <FiMessageCircle
+                              style={{ color: "var(--blue)" }}
+                              className="text-lg cursor-pointer ml-3"
+                              data-tip="Chat"
+                              onClick={() => startConversation(a?.user_id)}
+                            />
+                            <ReactTooltip />
+                          </p>
+                        )}
                       </td>
                       <td>{moment(a?.start_time).format("DD-MM-YYYY")}</td>
                       <td>{moment(a?.start_time).format("hh:mm A")}</td>
@@ -408,20 +414,17 @@ function AppointmentUI() {
                       </td>
                       <td>
                         <div className="flex">
-                          {a?.meeting_status !== "pending" && (
-                            <button
-                              onClick={() =>
-                                setShowDetail(
-                                  upcomingAppointments.find(
-                                    (p) => p.id === a.id
-                                  )
-                                )
-                              }
-                              className="border-gray-300 border-r-2 px-2 text-green-500"
-                            >
-                              Details
-                            </button>
-                          )}
+                          <button
+                            onClick={() =>
+                              setShowDetail(
+                                upcomingAppointments.find((p) => p.id === a.id)
+                              )
+                            }
+                            className="border-gray-300 border-r-2 px-2 text-green-500"
+                          >
+                            Details
+                          </button>
+
                           {!["visited", "closed", "pending"].includes(
                             a?.meeting_status
                           ) && (
@@ -481,14 +484,18 @@ function AppointmentUI() {
           </h5>
           <hr className="my-1" />
           <p className="leading-6">
-            <b>Ibo Assigned:</b> {showDetail?.ibo}
+            <b>Ibo Assigned:</b> {showDetail?.ibo || "Pending..."}
           </p>
           <p className="leading-6">
             <b>Property:</b> {showDetail?.property_data}
           </p>
           <hr className="my-1" />
           <p className="leading-6 capitalize">
-            <b>Status:</b> {showDetail?.meeting_status}
+            <b>Status:</b>{" "}
+            {showDetail?.meeting_status !== "pending" &&
+            showDetail?.landlord_status === "approved"
+              ? showDetail?.meeting_status
+              : "Pending"}
           </p>
           <p className="leading-6">
             <b>Date:</b> {moment(showDetail?.start_time).format("DD-MM-YYYY")}

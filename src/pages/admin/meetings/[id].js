@@ -65,12 +65,14 @@ function View() {
     setIsLoading(true);
     const ibo = document.querySelector("#ibos").value;
     const payment_split = document.querySelector("#payment_split").value;
+    const percent = document.querySelector("#percent").value;
 
     if (ibo) {
       const res = await assignMeetingToIBO({
         meeting_id: meeting?.id,
         ibo_id: ibo,
         payment_split,
+        percent,
       });
       if (res?.status) {
         toast.success("Assinged Successfully.");
@@ -188,7 +190,7 @@ function View() {
               moment(meeting?.created_at) < moment()) && (
               <div className="mb-3">
                 <h5 className="text-red-400 my-2">Assign to IBO</h5>
-                <div className="grid grid-cols-1 md:grid-cols-2 space-x-2">
+                <div className="grid grid-cols-1 md:grid-cols-3 space-x-2">
                   <div className="form-element">
                     <select name="ibos" className="form-select" id="ibos">
                       <option value="">Select</option>
@@ -211,6 +213,15 @@ function View() {
                       <option value="yes">Yes</option>
                       <option value="no">No</option>
                     </select>
+                  </div>
+                  <div className="form-element">
+                    <input
+                      type="number"
+                      className="form-select"
+                      id="percent"
+                      placeholder="Split Percentage eg: 10"
+                      name="percent"
+                    />
                   </div>
                 </div>
                 <button
