@@ -3,17 +3,19 @@ import Head from "next/head";
 import Footer from "../components/website/Footer";
 import Header from "../components/website/Header";
 import Link from "next/link";
-import { FiCheck } from "react-icons/fi";
 
 function Ibo() {
   return (
     <>
       <Header />
       <Head>
-        <title>IBO</title>
-        <meta name="title" content="IBO" />
-        <meta name="keywords" content="About IBO, Our Star IBOs" />
-        <meta name="description" content="Our IBOs" />
+        <title>Join Our Team</title>
+        <meta name="title" content="Join Our Team" />
+        <meta name="keywords" content="rent a roof, join our team, agents" />
+        <meta
+          name="description"
+          content="Join Our Team and starts your journey with Rent a Roof."
+        />
       </Head>
       <>
         <div

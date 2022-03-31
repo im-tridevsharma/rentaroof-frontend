@@ -34,10 +34,9 @@ function PropertiesUI() {
 
         if (response?.status) {
           setIsLoading(false);
-          const saved = response?.data.filter((p) => p.type === "saved");
           const favorite = response?.data.filter((p) => p.type === "favorite");
           setFavoriteProperties(favorite);
-          setSavedProperties(saved);
+          setSavedProperties([]);
         } else {
           setIsLoading(false);
           toast.error(response?.error || response?.message);
@@ -112,13 +111,13 @@ function PropertiesUI() {
             textcolor="white"
           />
           <Card
-            label="Saved Properties"
+            label="Saved Searches"
             onClick={() => setTabMode("saved")}
             icon={
               <img
-                src="/icons/user-dashboard/icon5.png"
+                src="/icons/user-dashboard/search-icon.png"
                 style={{ maxWidth: "32px", width: "32px", height: "32px" }}
-                className="object-contain"
+                className="object-contain brightness-0 filter"
                 alt="icon"
               />
             }
@@ -127,7 +126,7 @@ function PropertiesUI() {
             textcolor="gray"
           />
           <Card
-            label="Favorite Properties"
+            label="Shortlisted Properties"
             onClick={() => setTabMode("favorite")}
             icon={
               <img
@@ -151,9 +150,6 @@ function PropertiesUI() {
               style={{ fontFamily: "Opensans-semi-bold" }}
             >
               <span>Visited Properties</span>
-              <Link href="/">
-                <a>Show All</a>
-              </Link>
             </p>
             <div className="mt-5">
               {visitedProperties?.length > 0 ? (
@@ -220,7 +216,7 @@ function PropertiesUI() {
                   </div>
                 ))
               ) : (
-                <p className="text-red-500">No properties found!</p>
+                <p className="text-red-500">No searches found!</p>
               )}
             </div>
           </div>
@@ -232,10 +228,7 @@ function PropertiesUI() {
               className="flex items-center justify-between"
               style={{ fontFamily: "Opensans-semi-bold" }}
             >
-              <span>Saved Properties</span>
-              <Link href="/">
-                <a>Show All</a>
-              </Link>
+              <span>Saved Searches</span>
             </p>
             <div className="mt-5">
               {savedProperties?.length > 0 ? (
@@ -307,10 +300,7 @@ function PropertiesUI() {
               className="flex items-center justify-between"
               style={{ fontFamily: "Opensans-semi-bold" }}
             >
-              <span>Favorite Properties</span>
-              <Link href="/">
-                <a>Show All</a>
-              </Link>
+              <span>Shortlisted Properties</span>
             </p>
             <div className="mt-5">
               {favoriteProperties?.length > 0 ? (

@@ -467,32 +467,11 @@ function Header() {
               </button>
             )}
 
-            {user && user?.role == "tenant" && savedProperties && (
-              <Link href={`/${user?.role}/properties?type=saved`}>
-                <a
-                  className="h-4 w-4 rounded-full mr-5 ml-3 relative"
-                  data-tip="Saved Properties"
-                >
-                  <img
-                    className="object-contain"
-                    src="/icons/user-dashboard/icon5.png"
-                  />
-                  <b
-                    style={{ backgroundColor: "var(--primary-color)" }}
-                    className="absolute -top-3 -right-2 w-4 h-4 text-xs text-white rounded-full flex items-center justify-center"
-                  >
-                    {savedProperties?.length}
-                  </b>
-                  <ReactTooltip />
-                </a>
-              </Link>
-            )}
-
             {user && user?.role == "tenant" && favoriteProperties && (
               <Link href={`/${user?.role}/properties?type=favorite`}>
                 <a
                   className="h-4 w-4 rounded-full mr-5 relative"
-                  data-tip="Favorite Properties"
+                  data-tip="Shortlisted Properties"
                 >
                   <img
                     className="object-contain"

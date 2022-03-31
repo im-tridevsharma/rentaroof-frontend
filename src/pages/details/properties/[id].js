@@ -234,7 +234,7 @@ function Index({ id }) {
         property_code: property?.property_code,
         front_image: property?.front_image,
         rating: "",
-        type: "saved",
+        type: "favorite",
         property_name: property?.name,
         property_short_description: property?.short_description,
         property_posted_by: property?.posted_by_data.first,
@@ -243,7 +243,6 @@ function Index({ id }) {
       if (sres?.status) {
         setIsLoading(false);
         setIsSaved(true);
-        alert("Property saved successfully.");
       } else {
         toast.error(sres?.error || sres.message);
         setIsLoading(false);
@@ -288,6 +287,14 @@ function Index({ id }) {
     <>
       <Head>
         <title>Property - {id}</title>
+        <meta name="title" content={property?.name} />
+        <meta name="og:title" content={property?.name} />
+        <meta name="description" content={property?.short_description} />
+        <meta name="og:description" content={property?.short_description} />
+        <meta name="og:type" content="website" />
+        <meta name="og:url" content={location?.hostname || ""} />
+        <meta name="og:site_name" content="RentaRoof" />
+        <meta name="og:image" content={property?.front_image} />
       </Head>
       <ToastContainer />
       {isLoading && <Loader />}
@@ -351,7 +358,9 @@ function Index({ id }) {
                   alt="bookmark"
                   className="w-7 h-7 object-contain cursor-pointer"
                   onClick={saveProperty}
-                  data-tip={isSaved ? "Saved Already" : "Save Property"}
+                  data-tip={
+                    isSaved ? "Shortlisted Already" : "Shortlist Property"
+                  }
                 />
                 <ReactTooltip />
                 {isSaved && (
