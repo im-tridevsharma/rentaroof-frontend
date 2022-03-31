@@ -61,23 +61,28 @@ function Ibo() {
           </div>
         </div>
 
-        <div className="py-10" style={{ backgroundColor: "#ffcc3314" }}>
+        <div
+          className="py-10 relative"
+          style={{
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundImage:
+              "linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.9)), url(https://img.freepik.com/free-photo/team-unity-friends-meeting-partnership-concept_53876-23043.jpg?t=st=1648723421~exp=1648724021~hmac=3d64d02dd212a140b8b1347b7588220b717d651d171e23c713a564fbd032a221&w=740)",
+          }}
+        >
           <div className="max-w-6xl w-full mx-auto">
-            <h3
-              className=" text-gray-700"
-              style={{ fontFamily: "Opensans-bold" }}
-            >
+            <h3 style={{ fontFamily: "Opensans-bold" }}>
               What are the benefits of joining
               <br /> our team?
             </h3>
             <div className="grid mt-16 grid-cols-1 md:grid-cols-3 md:space-x-5 md:space-y-5 space-y-5">
               <div className="flex items-start justify-between mt-5">
-                <div className="ml-5">
+                <div className="ml-5 text-gray-700">
                   <h4 style={{ fontFamily: "Opensans-semi-bold" }}>
                     Brand Name
                   </h4>
                   <p
-                    className="text-lg mt-2"
+                    className="text-lg mt-2 text-gray-700"
                     style={{ fontFamily: "Opensans-regular" }}
                   >
                     When you join our team you will be given R-A-R gear
@@ -87,12 +92,12 @@ function Ibo() {
               </div>
 
               <div className="flex items-start justify-between">
-                <div className="ml-5">
+                <div className="ml-5 text-gray-700">
                   <h4 style={{ fontFamily: "Opensans-semi-bold" }}>
                     Pre-defined documentation process
                   </h4>
                   <p
-                    className="text-lg mt-2"
+                    className="text-lg mt-2 text-gray-700"
                     style={{ fontFamily: "Opensans-regular" }}
                   >
                     One of the biggest benefits of joining R-A-R has to be our
@@ -102,12 +107,12 @@ function Ibo() {
               </div>
 
               <div className="flex items-start justify-between">
-                <div className="ml-5">
+                <div className="ml-5 text-gray-700">
                   <h4 style={{ fontFamily: "Opensans-semi-bold" }}>
                     Payment gateway
                   </h4>
                   <p
-                    className="text-lg mt-2"
+                    className="text-lg mt-2 text-gray-700"
                     style={{ fontFamily: "Opensans-regular" }}
                   >
                     To provide greater trust to clients & customers we have the
@@ -118,13 +123,13 @@ function Ibo() {
                 </div>
               </div>
 
-              <div className="flex items-start justify-between">
+              <div className="flex items-start justify-between text-gray-700">
                 <div className="">
                   <h4 style={{ fontFamily: "Opensans-semi-bold" }}>
                     Service Charges
                   </h4>
                   <p
-                    className="text-lg mt-2"
+                    className="text-lg mt-2 text-gray-700"
                     style={{ fontFamily: "Opensans-regular" }}
                   >
                     Service Charges will be deposited to all agents who work
@@ -135,12 +140,12 @@ function Ibo() {
               </div>
 
               <div className="flex items-start justify-between">
-                <div className="ml-5">
+                <div className="ml-5 text-gray-700">
                   <h4 style={{ fontFamily: "Opensans-semi-bold" }}>
                     New properties
                   </h4>
                   <p
-                    className="text-lg mt-2"
+                    className="text-lg mt-2 text-gray-700"
                     style={{ fontFamily: "Opensans-regular" }}
                   >
                     One disadvantage of being a local Real estate agent is
@@ -153,12 +158,12 @@ function Ibo() {
               </div>
 
               <div className="flex items-start justify-between">
-                <div className="ml-5">
+                <div className="ml-5 text-gray-700">
                   <h4 style={{ fontFamily: "Opensans-semi-bold" }}>
                     Support & Training
                   </h4>
                   <p
-                    className="text-lg mt-2"
+                    className="text-lg mt-2 text-gray-700"
                     style={{ fontFamily: "Opensans-regular" }}
                   >
                     Special support will be provided to all agents who join our
@@ -209,19 +214,19 @@ function Ibo() {
               </div>
             </div>
 
-            <div className="mt-10 md:mt-32 py-10 bg-gray-50 rounded-md overflow-hidden">
+            <div className="mt-10 md:mt-32  py-10 bg-gray-50 rounded-md overflow-hidden">
               <h3
-                className="text-center relative"
+                className="max-w-5xl w-full mx-auto relative"
                 style={{ fontFamily: "Opensans-bold" }}
               >
                 Offering skill development
                 <img
                   src="https://animoto.com/static/wavy-e1cf461e1a9e7fed09a8a00a53c93f7f.svg"
-                  className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 h-3 object-contain"
+                  className="absolute -bottom-5 h-3 object-contain"
                 />
               </h3>
               <p
-                className="text-lg mt-10 max-w-5xl w-full mx-auto text-center"
+                className="text-lg mt-10 max-w-5xl w-full mx-auto"
                 style={{ fontFamily: "Opensans-regular" }}
               >
                 We offer support and training to women and students who wish to
@@ -234,13 +239,13 @@ function Ibo() {
               </p>
 
               <h5
-                className="text-center mt-5 md:mt-10"
+                className="max-w-5xl w-full mx-auto mt-5 md:mt-10"
                 style={{ fontFamily: "Opensans-bold" }}
               >
                 Is real estate the right field for you?
               </h5>
               <p
-                className="text-lg mt-5 max-w-3xl w-full mx-auto text-center"
+                className="text-lg mt-5 max-w-5xl w-full mx-auto"
                 style={{ fontFamily: "Opensans-regular" }}
               >
                 Do you know your locality well? Are you aware of any vacant
@@ -248,7 +253,7 @@ function Ibo() {
                 you need is these three things to start!
               </p>
 
-              <div className="mt-10 max-w-xl w-full mx-auto text-center">
+              <div className="mt-10 max-w-5xl w-full mx-auto">
                 <p
                   style={{ fontFamily: "Opensans-regular" }}
                   className="text-lg mb-3"
