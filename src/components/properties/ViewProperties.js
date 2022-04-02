@@ -33,6 +33,7 @@ function ViewProperties({ property }) {
   const [isVerified, setIsVerified] = useState(false);
   const [viewModal, setViewModal] = useState(false);
   const [ibos, setIbos] = useState([]);
+  const [inspection, setInspection] = useState(false);
 
   const { config } = useSelector(
     (state) => ({
@@ -368,6 +369,7 @@ function ViewProperties({ property }) {
               </p>
             </div>
           )}
+
           <p>
             {(!property?.verification ||
               property?.verification?.is_verifiable === 0) && (
@@ -380,7 +382,16 @@ function ViewProperties({ property }) {
               </button>
             )}
           </p>
+          {property?.inspection && (
+            <button
+              onClick={() => setInspection(property?.inspection)}
+              className="px-3 ml-5 py-2 rounded-md text-white capitalize bg-green-600"
+            >
+              View Inspection Report
+            </button>
+          )}
         </div>
+
         {property?.is_deleted === 1 && (
           <div className="flex items-center mb-5 px-2">
             <b>Property Delete Request : </b>
@@ -697,6 +708,377 @@ function ViewProperties({ property }) {
               </button>
             </div>
           </form>
+        </div>
+      )}
+
+      {inspection && (
+        <div
+          style={{ fontFamily: "Opensans-regular" }}
+          className="p-5 bg-white shadow-md rounded-md z-40 w-full absolute h-screen left-0 top-0"
+        >
+          <h5 style={{ fontFamily: "Opensans-semi-bold" }} className="mb-5">
+            Inspection Report
+            <FaTimes
+              onClick={() => setInspection(false)}
+              data-tip="Close"
+              className="absolute right-1 top-1 text-red-500 cursor-pointer text-lg"
+            />
+            <ReactTooltip />
+          </h5>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 md:space-x-10">
+            <div className="form-element p-5 bg-gray-50 rounded-md">
+              <label className="font-bold form-label">Property Address</label>
+              <div className="flex items-center justify-between">
+                <label htmlFor="av">
+                  <input
+                    type="radio"
+                    id="av"
+                    name="address"
+                    value="verified"
+                    disabled
+                    checked={inspection?.address === "verified"}
+                  />{" "}
+                  Verified
+                </label>
+                <label htmlFor="anv">
+                  <input
+                    type="radio"
+                    id="anv"
+                    name="address"
+                    value="not-verified"
+                    disabled
+                    checked={inspection?.address === "not-verified"}
+                  />{" "}
+                  Not Verified
+                </label>
+              </div>
+            </div>
+
+            <div className="form-element  p-5 bg-gray-50 rounded-md">
+              <label className="form-label font-bold">Super Area</label>
+              <div className="flex items-center justify-between">
+                <label htmlFor="superav">
+                  <input
+                    type="radio"
+                    id="superav"
+                    disabled
+                    name="super_area"
+                    value="verified"
+                    checked={inspection?.super_area === "verified"}
+                  />{" "}
+                  Verified
+                </label>
+                <label htmlFor="superanv">
+                  <input
+                    type="radio"
+                    id="superanv"
+                    name="super_area"
+                    value="not-verified"
+                    disabled
+                    checked={inspection?.super_area === "not-verified"}
+                  />{" "}
+                  Not Verified
+                </label>
+              </div>
+            </div>
+
+            <div className="form-element  p-5 bg-gray-50 rounded-md">
+              <label className="form-label font-bold">Carpet Area</label>
+              <div className="flex items-center justify-between">
+                <label htmlFor="carpetav">
+                  <input
+                    type="radio"
+                    id="carpetav"
+                    name="carpet_area"
+                    disabled
+                    value="verified"
+                    checked={inspection?.carpet_area === "verified"}
+                  />{" "}
+                  Verified
+                </label>
+                <label htmlFor="carpetanv">
+                  <input
+                    type="radio"
+                    id="carpetanv"
+                    disabled
+                    name="carpet_area"
+                    value="not-verified"
+                    checked={inspection?.carpet_area === "not-verified"}
+                  />{" "}
+                  Not Verified
+                </label>
+              </div>
+            </div>
+
+            <div className="form-element  p-5 bg-gray-50 rounded-md">
+              <label className="form-label font-bold">Bedrooms</label>
+              <div className="flex items-center justify-between">
+                <label htmlFor="bedroomsv">
+                  <input
+                    type="radio"
+                    id="bedroomsv"
+                    disabled
+                    name="bedrooms"
+                    value="verified"
+                    checked={inspection?.bedrooms === "verified"}
+                  />{" "}
+                  Verified
+                </label>
+                <label htmlFor="bedroomsnv">
+                  <input
+                    type="radio"
+                    id="bedroomsnv"
+                    name="bedrooms"
+                    disabled
+                    value="not-verified"
+                    checked={inspection?.bedrooms === "not-verified"}
+                  />{" "}
+                  Not Verified
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 md:space-x-10 mt-5">
+            <div className="form-element  p-5 bg-gray-50 rounded-md">
+              <label className="font-bold form-label">Bathrooms</label>
+              <div className="flex items-center justify-between">
+                <label htmlFor="bathroomsv">
+                  <input
+                    type="radio"
+                    id="bathroomsv"
+                    disabled
+                    name="bathrooms"
+                    value="verified"
+                    checked={inspection?.bathrooms === "verified"}
+                  />{" "}
+                  Verified
+                </label>
+                <label htmlFor="bathroomsnv">
+                  <input
+                    type="radio"
+                    disabled
+                    id="bathroomsnv"
+                    name="bathrooms"
+                    value="not-verified"
+                    checked={inspection?.bathrooms === "not-verified"}
+                  />{" "}
+                  Not Verified
+                </label>
+              </div>
+            </div>
+
+            <div className="form-element  p-5 bg-gray-50 rounded-md">
+              <label className="form-label font-bold">Balconies</label>
+              <div className="flex items-center justify-between">
+                <label htmlFor="balconiesv">
+                  <input
+                    type="radio"
+                    id="balconiesv"
+                    name="balconies"
+                    disabled
+                    value="verified"
+                    checked={inspection?.balconies === "verified"}
+                  />{" "}
+                  Verified
+                </label>
+                <label htmlFor="balconiesnv">
+                  <input
+                    type="radio"
+                    id="balconiesnv"
+                    name="balconies"
+                    value="not-verified"
+                    disabled
+                    checked={inspection?.balconies === "not-verified"}
+                  />{" "}
+                  Not Verified
+                </label>
+              </div>
+            </div>
+
+            <div className="form-element  p-5 bg-gray-50 rounded-md">
+              <label className="form-label font-bold">Floors</label>
+              <div className="flex items-center justify-between">
+                <label htmlFor="floorsv">
+                  <input
+                    type="radio"
+                    id="floorsv"
+                    name="floors"
+                    disabled
+                    value="verified"
+                    checked={inspection?.floors === "verified"}
+                  />{" "}
+                  Verified
+                </label>
+                <label htmlFor="floorsnv">
+                  <input
+                    type="radio"
+                    id="floorsnv"
+                    name="floors"
+                    value="not-verified"
+                    disabled
+                    checked={inspection?.floors === "not-verified"}
+                  />{" "}
+                  Not Verified
+                </label>
+              </div>
+            </div>
+
+            <div className="form-element  p-5 bg-gray-50 rounded-md">
+              <label className="form-label font-bold">Renting Amount</label>
+              <div className="flex items-center justify-between">
+                <label htmlFor="rav">
+                  <input
+                    type="radio"
+                    id="rav"
+                    name="renting_amount"
+                    value="verified"
+                    checked={inspection?.renting_amount === "verified"}
+                  />{" "}
+                  Verified
+                </label>
+                <label htmlFor="ranv">
+                  <input
+                    type="radio"
+                    id="ranv"
+                    name="renting_amount"
+                    value="not-verified"
+                    disabled
+                    checked={inspection?.renting_amount === "not-verified"}
+                  />{" "}
+                  Not Verified
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 md:space-x-10 mt-5">
+            <div className="form-element  p-5 bg-gray-50 rounded-md">
+              <label className="font-bold form-label">Images/Gallery</label>
+              <div className="flex items-center justify-between">
+                <label htmlFor="imgv">
+                  <input
+                    type="radio"
+                    id="imgv"
+                    name="images"
+                    value="verified"
+                    disabled
+                    checked={inspection?.images === "verified"}
+                  />{" "}
+                  Verified
+                </label>
+                <label htmlFor="imgnv">
+                  <input
+                    type="radio"
+                    id="imgnv"
+                    name="images"
+                    value="not-verified"
+                    disabled
+                    checked={inspection?.images === "not-verified"}
+                  />{" "}
+                  Not Verified
+                </label>
+              </div>
+            </div>
+
+            <div className="form-element  p-5 bg-gray-50 rounded-md">
+              <label className="form-label font-bold">Amenities</label>
+              <div className="flex items-center justify-between">
+                <label htmlFor="amv">
+                  <input
+                    type="radio"
+                    id="amv"
+                    name="amenities"
+                    disabled
+                    value="verified"
+                    checked={inspection?.amenities === "verified"}
+                  />{" "}
+                  Verified
+                </label>
+                <label htmlFor="amnv">
+                  <input
+                    type="radio"
+                    id="amnv"
+                    name="amenities"
+                    value="not-verified"
+                    disabled
+                    checked={inspection?.amenities === "not-verified"}
+                  />{" "}
+                  Not Verified
+                </label>
+              </div>
+            </div>
+
+            <div className="form-element  p-5 bg-gray-50 rounded-md">
+              <label className="form-label font-bold">Preferences</label>
+              <div className="flex items-center justify-between">
+                <label htmlFor="prefv">
+                  <input
+                    type="radio"
+                    id="prefv"
+                    name="preferences"
+                    value="verified"
+                    disabled
+                    checked={inspection?.preferences === "verified"}
+                  />{" "}
+                  Verified
+                </label>
+                <label htmlFor="prefnv">
+                  <input
+                    type="radio"
+                    id="prefnv"
+                    name="preferences"
+                    value="not-verified"
+                    disabled
+                    checked={inspection?.preferences === "not-verified"}
+                  />{" "}
+                  Not Verified
+                </label>
+              </div>
+            </div>
+
+            <div className="form-element  p-5 bg-gray-50 rounded-md">
+              <label className="form-label font-bold">
+                Essentials/Nearby Places
+              </label>
+              <div className="flex items-center justify-between">
+                <label htmlFor="ev">
+                  <input
+                    type="radio"
+                    id="ev"
+                    name="essentials"
+                    value="verified"
+                    disabled
+                    checked={inspection?.essentials === "verified"}
+                  />{" "}
+                  Verified
+                </label>
+                <label htmlFor="env">
+                  <input
+                    type="radio"
+                    id="env"
+                    name="essentials"
+                    value="not-verified"
+                    disabled
+                    checked={inspection?.essentials === "not-verified"}
+                  />{" "}
+                  Not Verified
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div className="form-element">
+            <label className="form-label">Inspection Note</label>
+            <textarea
+              className="form-input"
+              name="inspection_note"
+              disabled
+              style={{ height: "200px" }}
+              value={inspection?.inspection_note}
+            ></textarea>
+          </div>
         </div>
       )}
     </>

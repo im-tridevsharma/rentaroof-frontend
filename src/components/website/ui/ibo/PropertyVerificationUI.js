@@ -28,6 +28,7 @@ function PropertyVerificationUI() {
   const [issue, setIssue] = React.useState(false);
   const [status, setStatus] = React.useState(false);
   const [user, setUser] = React.useState(false);
+  const [inspection, setInspection] = React.useState(false);
 
   React.useEffect(() => {
     const u = localStorage.getItem("LU")
@@ -112,11 +113,18 @@ function PropertyVerificationUI() {
           return p.id === res?.data?.id ? res?.data : p;
         })
       );
+      setInspection(false);
       toast.success("Status changed successfully.");
     } else {
       setIsLoading(false);
       toast.error(res?.message || res?.error);
     }
+  };
+
+  const handleInspection = async (e) => {
+    e.preventDefault();
+    const data = new FormData(document.forms.inspection_form);
+    changeStatus(inspection, data);
   };
 
   const startConversation = async (receiver) => {
@@ -234,9 +242,7 @@ function PropertyVerificationUI() {
                         <button
                           className="px-2 text-white rounded-md inline-block text-sm mr-2"
                           style={{ backgroundColor: "var(--blue)" }}
-                          onClick={() =>
-                            changeStatus(p?.id, { status: 1, issue: "" })
-                          }
+                          onClick={() => setInspection(p?.id)}
                         >
                           Mark Verified
                         </button>
@@ -344,6 +350,353 @@ function PropertyVerificationUI() {
                 Submit
               </button>
             </div>
+          </form>
+        </div>
+      )}
+
+      {inspection && (
+        <div
+          style={{ fontFamily: "Opensans-regular" }}
+          className="p-5 bg-white shadow-md rounded-md z-40 w-full absolute left-0 top-0"
+        >
+          <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
+            Inspection Report
+            <FaTimes
+              onClick={() => setInspection(false)}
+              data-tip="Close"
+              className="absolute right-1 top-1 text-red-500 cursor-pointer text-lg"
+            />
+            <ReactTooltip />
+          </h5>
+
+          <form
+            className="mt-3"
+            name="inspection_form"
+            onSubmit={handleInspection}
+          >
+            <input type="hidden" name="status" value="1" />
+            <input type="hidden" name="inspection" value="yes" />
+            <div className="grid grid-cols-1 md:grid-cols-4 md:space-x-10">
+              <div className="form-element p-5 bg-gray-50 rounded-md">
+                <label className="font-bold form-label">Property Address</label>
+                <div className="flex items-center justify-between">
+                  <label htmlFor="av">
+                    <input
+                      type="radio"
+                      id="av"
+                      name="address"
+                      value="verified"
+                    />{" "}
+                    Verified
+                  </label>
+                  <label htmlFor="anv">
+                    <input
+                      type="radio"
+                      id="anv"
+                      name="address"
+                      value="not-verified"
+                      checked
+                    />{" "}
+                    Not Verified
+                  </label>
+                </div>
+              </div>
+
+              <div className="form-element  p-5 bg-gray-50 rounded-md">
+                <label className="form-label font-bold">Super Area</label>
+                <div className="flex items-center justify-between">
+                  <label htmlFor="superav">
+                    <input
+                      type="radio"
+                      id="superav"
+                      name="super_area"
+                      value="verified"
+                    />{" "}
+                    Verified
+                  </label>
+                  <label htmlFor="superanv">
+                    <input
+                      type="radio"
+                      id="superanv"
+                      name="super_area"
+                      value="not-verified"
+                      checked
+                    />{" "}
+                    Not Verified
+                  </label>
+                </div>
+              </div>
+
+              <div className="form-element  p-5 bg-gray-50 rounded-md">
+                <label className="form-label font-bold">Carpet Area</label>
+                <div className="flex items-center justify-between">
+                  <label htmlFor="carpetav">
+                    <input
+                      type="radio"
+                      id="carpetav"
+                      name="carpet_area"
+                      value="verified"
+                    />{" "}
+                    Verified
+                  </label>
+                  <label htmlFor="carpetanv">
+                    <input
+                      type="radio"
+                      id="carpetanv"
+                      name="carpet_area"
+                      value="not-verified"
+                      checked
+                    />{" "}
+                    Not Verified
+                  </label>
+                </div>
+              </div>
+
+              <div className="form-element  p-5 bg-gray-50 rounded-md">
+                <label className="form-label font-bold">Bedrooms</label>
+                <div className="flex items-center justify-between">
+                  <label htmlFor="bedroomsv">
+                    <input
+                      type="radio"
+                      id="bedroomsv"
+                      name="bedrooms"
+                      value="verified"
+                    />{" "}
+                    Verified
+                  </label>
+                  <label htmlFor="bedroomsnv">
+                    <input
+                      type="radio"
+                      id="bedroomsnv"
+                      name="bedrooms"
+                      value="not-verified"
+                      checked
+                    />{" "}
+                    Not Verified
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-4 md:space-x-10 mt-5">
+              <div className="form-element  p-5 bg-gray-50 rounded-md">
+                <label className="font-bold form-label">Bathrooms</label>
+                <div className="flex items-center justify-between">
+                  <label htmlFor="bathroomsv">
+                    <input
+                      type="radio"
+                      id="bathroomsv"
+                      name="bathrooms"
+                      value="verified"
+                    />{" "}
+                    Verified
+                  </label>
+                  <label htmlFor="bathroomsnv">
+                    <input
+                      type="radio"
+                      id="bathroomsnv"
+                      name="bathrooms"
+                      value="not-verified"
+                      checked
+                    />{" "}
+                    Not Verified
+                  </label>
+                </div>
+              </div>
+
+              <div className="form-element  p-5 bg-gray-50 rounded-md">
+                <label className="form-label font-bold">Balconies</label>
+                <div className="flex items-center justify-between">
+                  <label htmlFor="balconiesv">
+                    <input
+                      type="radio"
+                      id="balconiesv"
+                      name="balconies"
+                      value="verified"
+                    />{" "}
+                    Verified
+                  </label>
+                  <label htmlFor="balconiesnv">
+                    <input
+                      type="radio"
+                      id="balconiesnv"
+                      name="balconies"
+                      value="not-verified"
+                      checked
+                    />{" "}
+                    Not Verified
+                  </label>
+                </div>
+              </div>
+
+              <div className="form-element  p-5 bg-gray-50 rounded-md">
+                <label className="form-label font-bold">Floors</label>
+                <div className="flex items-center justify-between">
+                  <label htmlFor="floorsv">
+                    <input
+                      type="radio"
+                      id="floorsv"
+                      name="floors"
+                      value="verified"
+                    />{" "}
+                    Verified
+                  </label>
+                  <label htmlFor="floorsnv">
+                    <input
+                      type="radio"
+                      id="floorsnv"
+                      name="floors"
+                      value="not-verified"
+                      checked
+                    />{" "}
+                    Not Verified
+                  </label>
+                </div>
+              </div>
+
+              <div className="form-element  p-5 bg-gray-50 rounded-md">
+                <label className="form-label font-bold">Renting Amount</label>
+                <div className="flex items-center justify-between">
+                  <label htmlFor="rav">
+                    <input
+                      type="radio"
+                      id="rav"
+                      name="renting_amount"
+                      value="verified"
+                    />{" "}
+                    Verified
+                  </label>
+                  <label htmlFor="ranv">
+                    <input
+                      type="radio"
+                      id="ranv"
+                      name="renting_amount"
+                      value="not-verified"
+                      checked
+                    />{" "}
+                    Not Verified
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-4 md:space-x-10 mt-5">
+              <div className="form-element  p-5 bg-gray-50 rounded-md">
+                <label className="font-bold form-label">Images/Gallery</label>
+                <div className="flex items-center justify-between">
+                  <label htmlFor="imgv">
+                    <input
+                      type="radio"
+                      id="imgv"
+                      name="images"
+                      value="verified"
+                    />{" "}
+                    Verified
+                  </label>
+                  <label htmlFor="imgnv">
+                    <input
+                      type="radio"
+                      id="imgnv"
+                      name="images"
+                      value="not-verified"
+                      checked
+                    />{" "}
+                    Not Verified
+                  </label>
+                </div>
+              </div>
+
+              <div className="form-element  p-5 bg-gray-50 rounded-md">
+                <label className="form-label font-bold">Amenities</label>
+                <div className="flex items-center justify-between">
+                  <label htmlFor="amv">
+                    <input
+                      type="radio"
+                      id="amv"
+                      name="amenities"
+                      value="verified"
+                    />{" "}
+                    Verified
+                  </label>
+                  <label htmlFor="amnv">
+                    <input
+                      type="radio"
+                      id="amnv"
+                      name="amenities"
+                      value="not-verified"
+                      checked
+                    />{" "}
+                    Not Verified
+                  </label>
+                </div>
+              </div>
+
+              <div className="form-element  p-5 bg-gray-50 rounded-md">
+                <label className="form-label font-bold">Preferences</label>
+                <div className="flex items-center justify-between">
+                  <label htmlFor="prefv">
+                    <input
+                      type="radio"
+                      id="prefv"
+                      name="preferences"
+                      value="verified"
+                    />{" "}
+                    Verified
+                  </label>
+                  <label htmlFor="prefnv">
+                    <input
+                      type="radio"
+                      id="prefnv"
+                      name="preferences"
+                      value="not-verified"
+                      checked
+                    />{" "}
+                    Not Verified
+                  </label>
+                </div>
+              </div>
+
+              <div className="form-element  p-5 bg-gray-50 rounded-md">
+                <label className="form-label font-bold">
+                  Essentials/Nearby Places
+                </label>
+                <div className="flex items-center justify-between">
+                  <label htmlFor="ev">
+                    <input
+                      type="radio"
+                      id="ev"
+                      name="essentials"
+                      value="verified"
+                    />{" "}
+                    Verified
+                  </label>
+                  <label htmlFor="env">
+                    <input
+                      type="radio"
+                      id="env"
+                      name="essentials"
+                      value="not-verified"
+                      checked
+                    />{" "}
+                    Not Verified
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div className="form-element">
+              <label className="form-label">Inspection Note</label>
+              <textarea
+                className="form-input"
+                name="inspection_note"
+              ></textarea>
+            </div>
+            <button
+              className="px-4 py-3 rounded-md text-white float-right"
+              style={{ background: "var(--blue)" }}
+            >
+              Submit
+            </button>
           </form>
         </div>
       )}
