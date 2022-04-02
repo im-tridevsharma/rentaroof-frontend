@@ -283,6 +283,26 @@ function Index({ id }) {
     }
   };
 
+  const share = async function (shareimg, shareurl, sharetitle, sharetext) {
+    if ("canShare" in navigator) {
+      try {
+        const type = shareimg?.split(".").reverse()[0];
+        const response = await fetch(shareimg);
+        const blob = await response.blob();
+        const file = new File([blob], "property." + type, { type: blob.type });
+
+        await navigator.share({
+          url: shareurl,
+          title: sharetitle,
+          text: sharetext,
+          files: [file],
+        });
+      } catch (err) {
+        console.log(err.name, err.message);
+      }
+    }
+  };
+
   return (
     <>
       <Head>
@@ -343,6 +363,14 @@ function Index({ id }) {
               </p>
               <p className="flex items-center relative">
                 <img
+                  onClick={() => {
+                    share(
+                      property?.front_image,
+                      location.href,
+                      property?.name,
+                      property?.short_description
+                    );
+                  }}
                   src="/icons/proprtydetls/icon_1.png"
                   alt="share"
                   data-tip="Share"

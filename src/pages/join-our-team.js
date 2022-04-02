@@ -3,6 +3,16 @@ import Head from "next/head";
 import Footer from "../components/website/Footer";
 import Header from "../components/website/Header";
 import Link from "next/link";
+import { RiTeamLine } from "react-icons/ri";
+import {
+  FaCalendarAlt,
+  FaFileAlt,
+  FaLink,
+  FaListUl,
+  FaPercent,
+  FaRegEdit,
+} from "react-icons/fa";
+import { MdDoneOutline } from "react-icons/md";
 
 function Ibo() {
   return (
@@ -61,29 +71,30 @@ function Ibo() {
           </div>
         </div>
 
-        <div
-          className="py-10 relative"
-          style={{
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            backgroundImage:
-              "linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.9)), url(https://img.freepik.com/free-photo/team-unity-friends-meeting-partnership-concept_53876-23043.jpg?t=st=1648723421~exp=1648724021~hmac=3d64d02dd212a140b8b1347b7588220b717d651d171e23c713a564fbd032a221&w=740)",
-          }}
-        >
-          <div className="max-w-6xl w-full mx-auto">
-            <h3 style={{ fontFamily: "Opensans-bold" }}>
+        <div className="relative flex">
+          <div
+            className="w-96 "
+            style={{
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              backgroundImage:
+                "url(https://img.freepik.com/free-photo/businesspeople-celebrating-victory_1098-3085.jpg?t=st=1648879493~exp=1648880093~hmac=f3722b784a40f3bfd6495e827b8444c6df438861b67ecac9e10df1c6d283d1cc&w=360)",
+            }}
+          ></div>
+          <div className="py-4 px-10 flex-1">
+            <h3 className="text-center" style={{ fontFamily: "Opensans-bold" }}>
               What are the benefits of joining
               <br /> our team?
             </h3>
-            <div className="grid mt-16 grid-cols-1 md:grid-cols-3 md:space-x-5 md:space-y-5 space-y-5">
+            <div className="mt-3">
               <div className="flex items-start justify-between mt-5">
-                <div className="ml-5 text-gray-700">
-                  <h4 style={{ fontFamily: "Opensans-semi-bold" }}>
+                <div className=" text-gray-900">
+                  <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
                     Brand Name
-                  </h4>
+                  </h5>
                   <p
-                    className="text-lg mt-2 text-gray-700"
-                    style={{ fontFamily: "Opensans-regular" }}
+                    className=" mb-3 text-gray-900"
+                    style={{ fontSize: 15, fontFamily: "Opensans-regular" }}
                   >
                     When you join our team you will be given R-A-R gear
                     providing greater trust to clients & customers.
@@ -92,13 +103,13 @@ function Ibo() {
               </div>
 
               <div className="flex items-start justify-between">
-                <div className="ml-5 text-gray-700">
-                  <h4 style={{ fontFamily: "Opensans-semi-bold" }}>
+                <div className=" text-gray-900">
+                  <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
                     Pre-defined documentation process
-                  </h4>
+                  </h5>
                   <p
-                    className="text-lg mt-2 text-gray-700"
-                    style={{ fontFamily: "Opensans-regular" }}
+                    className=" mb-3 text-gray-900"
+                    style={{ fontSize: 15, fontFamily: "Opensans-regular" }}
                   >
                     One of the biggest benefits of joining R-A-R has to be our
                     process right through our website and app.
@@ -107,13 +118,13 @@ function Ibo() {
               </div>
 
               <div className="flex items-start justify-between">
-                <div className="ml-5 text-gray-700">
-                  <h4 style={{ fontFamily: "Opensans-semi-bold" }}>
+                <div className=" text-gray-900">
+                  <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
                     Payment gateway
-                  </h4>
+                  </h5>
                   <p
-                    className="text-lg mt-2 text-gray-700"
-                    style={{ fontFamily: "Opensans-regular" }}
+                    className=" mb-3 text-gray-900"
+                    style={{ fontSize: 15, fontFamily: "Opensans-regular" }}
                   >
                     To provide greater trust to clients & customers we have the
                     option of the payment being processed through our payment
@@ -123,14 +134,14 @@ function Ibo() {
                 </div>
               </div>
 
-              <div className="flex items-start justify-between text-gray-700">
+              <div className="flex items-start justify-between text-gray-900">
                 <div className="">
-                  <h4 style={{ fontFamily: "Opensans-semi-bold" }}>
+                  <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
                     Service Charges
-                  </h4>
+                  </h5>
                   <p
-                    className="text-lg mt-2 text-gray-700"
-                    style={{ fontFamily: "Opensans-regular" }}
+                    className=" mb-3 text-gray-900"
+                    style={{ fontSize: 15, fontFamily: "Opensans-regular" }}
                   >
                     Service Charges will be deposited to all agents who work
                     hard and close deals. There is no cap to the incentives you
@@ -140,13 +151,13 @@ function Ibo() {
               </div>
 
               <div className="flex items-start justify-between">
-                <div className="ml-5 text-gray-700">
-                  <h4 style={{ fontFamily: "Opensans-semi-bold" }}>
+                <div className=" text-gray-900">
+                  <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
                     New properties
-                  </h4>
+                  </h5>
                   <p
-                    className="text-lg mt-2 text-gray-700"
-                    style={{ fontFamily: "Opensans-regular" }}
+                    className=" mb-3 text-gray-900"
+                    style={{ fontSize: 15, fontFamily: "Opensans-regular" }}
                   >
                     One disadvantage of being a local Real estate agent is
                     limited number of properties in your personal database but
@@ -158,13 +169,13 @@ function Ibo() {
               </div>
 
               <div className="flex items-start justify-between">
-                <div className="ml-5 text-gray-700">
-                  <h4 style={{ fontFamily: "Opensans-semi-bold" }}>
+                <div className=" text-gray-900">
+                  <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
                     Support & Training
-                  </h4>
+                  </h5>
                   <p
-                    className="text-lg mt-2 text-gray-700"
-                    style={{ fontFamily: "Opensans-regular" }}
+                    className=" mb-3 text-gray-900"
+                    style={{ fontSize: 15, fontFamily: "Opensans-regular" }}
                   >
                     Special support will be provided to all agents who join our
                     team. And all new joining agents will be provided soft
@@ -177,146 +188,221 @@ function Ibo() {
             </div>
           </div>
         </div>
-        <div className="pb-10 pt-5 max-w-6xl w-full m-auto bg-white">
-          <div className="mt-12 text-gray-700">
-            <div class="grid grid-cols-1 md:grid-cols-2">
-              <div className="relative">
-                <img
-                  src="https://animoto.com/static/GreenCircle-181444214f6f5a5b89d3a72a75e25732.svg"
-                  className="h-32 object-contain -bottom-10 absolute right-3"
-                  style={{ zIndex: 2 }}
-                />
-                <img
-                  className="h-72 object-cover mx-auto relative"
-                  style={{ zIndex: 10 }}
-                  src="https://img.freepik.com/free-photo/closeup-smiling-business-woman-supporting-colleague-cafe_1262-12282.jpg?t=st=1647950417~exp=1647951017~hmac=ea5a2a3c65d221fb11b3135004238a354d2b35135635ddb4c387842295c9d07d&w=740"
-                />
-              </div>
-              <div className="md:pr-10">
-                <h3 style={{ fontFamily: "Opensans-bold" }}>
-                  Encouraging{" "}
-                  <h1
-                    className="inline"
-                    style={{ fontFamily: "Opensans-bold" }}
-                  >
-                    Women
-                  </h1>{" "}
-                  representation in the Real Estate Sector
-                </h3>
+        <div
+          className="flex-col h-96 flex items-center justify-center"
+          style={{
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundImage:
+              "linear-gradient(rgba(7, 88, 135, .9), rgba(13, 71, 104, 0.9)), url(https://img.freepik.com/free-photo/team-unity-friends-meeting-partnership-concept_53876-23043.jpg?h=700&w=1000)",
+          }}
+        >
+          <div className="max-w-4xl w-full text-center text-white">
+            <h3 style={{ fontFamily: "Opensans-bold" }}>
+              Encouraging Women
+              <br /> representation in the Real Estate Sector
+            </h3>
+            <p
+              className="text-lg mt-5"
+              style={{ fontFamily: "Opensans-regular" }}
+            >
+              In India women are undoubtedly under-represented in the field on
+              real estate. Not knowing the true potential and the skills
+              necessary to monetize this sector.
+            </p>
+          </div>
+        </div>
+        <div className="px-10 pt-10 bg-white">
+          <div className="">
+            <h3
+              className="text-center relative"
+              style={{ fontFamily: "Opensans-bold", color: "var(--blue)" }}
+            >
+              Offering skill development
+              <img
+                src="https://animoto.com/static/wavy-e1cf461e1a9e7fed09a8a00a53c93f7f.svg"
+                className="absolute -bottom-5 transform left-1/2 -translate-x-1/2 h-3 object-contain"
+              />
+            </h3>
+            <p
+              className="text-lg text-center mt-10 md:px-20 px-10"
+              style={{ fontFamily: "Opensans-regular" }}
+            >
+              We offer support and training to women and students who wish to
+              earn a livelihood by providing the necessary knowledge, skills &
+              guidance to make a career out of it. The structural format of
+              Rentaroof is easy to understand and the guides can be accessed
+              through our website and app. Assistance will be provided
+              throughout the entire process until you are ready to go out and
+              perform the necessary real estate agent administrative duties.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 max-w-7xl w-full mx-auto">
+              <div className="flex items-center justify-center uppercase mt-5">
                 <p
-                  className="text-lg mt-5"
-                  style={{ fontFamily: "Opensans-regular" }}
-                >
-                  In India women are undoubtedly under-represented in the field
-                  on real estate. Not knowing the true potential and the skills
-                  necessary to monetize this sector.
-                </p>
+                  className="w-3 h-3 rounded-full mr-2"
+                  style={{ backgroundColor: "var(--blue)" }}
+                ></p>
+                <h5 style={{ fontFamily: "Opensans-bold" }}>
+                  Is real estate the right field for you?
+                </h5>
+              </div>
+              <div className="flex items-center uppercase mt-5">
+                <p
+                  className="w-3 h-3 rounded-full mr-2"
+                  style={{ backgroundColor: "var(--blue)" }}
+                ></p>
+                <h5 style={{ fontFamily: "Opensans-bold" }}>
+                  Are you aware of any vacant houses in your area?
+                </h5>
               </div>
             </div>
 
-            <div className="mt-10 md:mt-32  py-10 bg-gray-50 rounded-md overflow-hidden">
-              <h3
-                className="max-w-5xl w-full mx-auto relative"
-                style={{ fontFamily: "Opensans-bold" }}
-              >
-                Offering skill development
-                <img
-                  src="https://animoto.com/static/wavy-e1cf461e1a9e7fed09a8a00a53c93f7f.svg"
-                  className="absolute -bottom-5 h-3 object-contain"
-                />
-              </h3>
-              <p
-                className="text-lg mt-10 max-w-5xl w-full mx-auto"
-                style={{ fontFamily: "Opensans-regular" }}
-              >
-                We offer support and training to women and students who wish to
-                earn a livelihood by providing the necessary knowledge, skills &
-                guidance to make a career out of it. The structural format of
-                Rentaroof is easy to understand and the guides can be accessed
-                through our website and app. Assistance will be provided
-                throughout the entire process until you are ready to go out and
-                perform the necessary real estate agent administrative duties.
-              </p>
-
-              <h5
-                className="max-w-5xl w-full mx-auto mt-5 md:mt-10"
-                style={{ fontFamily: "Opensans-bold" }}
-              >
-                Is real estate the right field for you?
+            <div className="grid grid-cols-1 md:grid-cols-2 max-w-6xl w-full mx-auto">
+              <div className="flex items-center justify-center uppercase mt-5">
+                <p
+                  className="w-3 h-3 rounded-full mr-2"
+                  style={{ backgroundColor: "var(--blue)" }}
+                ></p>
+                <h5 style={{ fontFamily: "Opensans-bold" }}>
+                  {" "}
+                  Do you know your locality well?
+                </h5>
+              </div>
+              <div className="flex items-center uppercase mt-5">
+                <p
+                  className="w-3 h-3 rounded-full mr-2"
+                  style={{ backgroundColor: "var(--blue)" }}
+                ></p>
+                <h5 style={{ fontFamily: "Opensans-bold" }}>
+                  Do you have good interpersonal skills?
+                </h5>
+              </div>
+            </div>
+            <div className="flex items-center justify-center uppercase mt-5">
+              <h5 style={{ fontFamily: "Opensans-bold" }}>
+                All you need is these three things to start!
               </h5>
+            </div>
+            <div className="mt-10 grid grid-cols-1 md:grid-cols-4 md:space-x-5">
               <p
-                className="text-lg mt-5 max-w-5xl w-full mx-auto"
-                style={{ fontFamily: "Opensans-regular" }}
+                style={{ fontSize: 15, fontFamily: "Opensans-regular" }}
+                className=" mb-3 flex items-center"
               >
-                Do you know your locality well? Are you aware of any vacant
-                houses in your area? Do you have good interpersonal skills? All
-                you need is these three things to start!
+                <b
+                  className="w-14 h-10 flex items-center justify-center text-white rounded-full"
+                  style={{ background: "var(--blue)" }}
+                >
+                  <RiTeamLine size={22} />
+                </b>
+                <span className="ml-3">
+                  Go through the guides and training provided by our team
+                </span>
               </p>
-
-              <div className="mt-10 max-w-5xl w-full mx-auto">
-                <p
-                  style={{ fontFamily: "Opensans-regular" }}
-                  className="text-lg mb-3"
+              <p
+                style={{ fontSize: 15, fontFamily: "Opensans-regular" }}
+                className="mb-3 flex items-center"
+              >
+                <b
+                  className="w-10 h-10 flex items-center justify-center text-white rounded-full"
+                  style={{ background: "var(--blue)" }}
                 >
-                  <b>Step 1:</b> Go through the guides and training provided by
-                  our team
-                </p>
-                <p
-                  style={{ fontFamily: "Opensans-regular" }}
-                  className="text-lg mb-3"
+                  <FaRegEdit size={22} />
+                </b>{" "}
+                <span className="ml-3">
+                  Register as a verified agent with R-A_-R
+                </span>
+              </p>
+              <p
+                style={{ fontSize: 15, fontFamily: "Opensans-regular" }}
+                className="mb-3 flex items-center"
+              >
+                <b
+                  className="w-10 h-10 flex items-center justify-center text-white rounded-full"
+                  style={{ background: "var(--blue)" }}
                 >
-                  <b>Step 2:</b> Register as a verified agent with R-A_-R
-                </p>
-                <p
-                  style={{ fontFamily: "Opensans-regular" }}
-                  className="text-lg mb-3"
+                  <FaListUl size={22} />
+                </b>{" "}
+                <span className="ml-3">Easily List properties as an agent</span>
+              </p>
+              <p
+                style={{ fontSize: 15, fontFamily: "Opensans-regular" }}
+                className="mb-3 flex items-center"
+              >
+                <b
+                  className="w-14 h-10 flex items-center justify-center text-white rounded-full"
+                  style={{ background: "var(--blue)" }}
                 >
-                  <b>Step 3:</b> Easily List properties as an agent
-                </p>
-                <p
-                  style={{ fontFamily: "Opensans-regular" }}
-                  className="text-lg mb-3"
-                >
-                  <b>Step 4:</b> Connect with potential clients through
-                  Rentaroof
-                </p>
-                <p
-                  style={{ fontFamily: "Opensans-regular" }}
-                  className="text-lg mb-3"
-                >
-                  <b>Step 5:</b> Manage appointments through your dashboard
-                </p>
-                <p
-                  style={{ fontFamily: "Opensans-regular" }}
-                  className="text-lg mb-3"
-                >
-                  <b>Step 6:</b> Follow our documentation process
-                </p>
-                <p
-                  style={{ fontFamily: "Opensans-regular" }}
-                  className="text-lg mb-3"
-                >
-                  <b>Step 7:</b> Close the deal
-                </p>
-                <p
-                  style={{ fontFamily: "Opensans-regular" }}
-                  className="text-lg mb-3"
-                >
-                  <b>Step 8:</b> Get your commission!
-                </p>
-              </div>
+                  <FaLink size={22} />
+                </b>{" "}
+                <span className="ml-3">
+                  Connect with potential clients through Rentaroof
+                </span>
+              </p>
             </div>
-
-            <div className="mt-14 flex justify-center">
-              <Link href="/signup/ibo">
-                <a
-                  style={{ fontFamily: "Opensans-bold" }}
-                  className="px-5 py-4 rounded-full bg-blue-400 hover:bg-blue-500 text-white"
+            <div className="grid grid-cols-1 md:grid-cols-4 md:space-x-5">
+              <p
+                style={{ fontSize: 15, fontFamily: "Opensans-regular" }}
+                className="mb-3 flex items-center"
+              >
+                <b
+                  className="w-12 h-10 flex items-center justify-center text-white rounded-full"
+                  style={{ background: "var(--blue)" }}
                 >
-                  Sign up to learn more
-                </a>
-              </Link>
+                  <FaCalendarAlt size={22} />
+                </b>{" "}
+                <span className="ml-3">
+                  Manage appointments through your dashboard
+                </span>
+              </p>
+              <p
+                style={{ fontSize: 15, fontFamily: "Opensans-regular" }}
+                className="mb-3 flex items-center"
+              >
+                <b
+                  className="w-10 h-10 flex items-center justify-center text-white rounded-full"
+                  style={{ background: "var(--blue)" }}
+                >
+                  <FaFileAlt size={22} />
+                </b>{" "}
+                <span className="ml-3">Follow our documentation process</span>
+              </p>
+              <p
+                style={{ fontSize: 15, fontFamily: "Opensans-regular" }}
+                className=" mb-3 flex items-center"
+              >
+                <b
+                  className="w-10 h-10 flex items-center justify-center text-white rounded-full"
+                  style={{ background: "var(--blue)" }}
+                >
+                  <MdDoneOutline size={22} />
+                </b>{" "}
+                <span className="ml-3"> Close the deal</span>
+              </p>
+              <p
+                style={{ fontSize: 15, fontFamily: "Opensans-regular" }}
+                className=" mb-3 flex items-center"
+              >
+                <b
+                  className="w-10 h-10 flex items-center justify-center text-white rounded-full"
+                  style={{ background: "var(--blue)" }}
+                >
+                  <FaPercent size={22} />
+                </b>
+                <span className="ml-3">Get your commission!</span>
+              </p>
             </div>
+          </div>
+
+          <div className="my-10 flex justify-center">
+            <Link href="/signup/ibo">
+              <a
+                style={{ fontFamily: "Opensans-bold" }}
+                className="px-5 py-4 rounded-full bg-blue-400 hover:bg-blue-500 text-white"
+              >
+                Sign up to learn more
+              </a>
+            </Link>
           </div>
         </div>
         <div className="pb-10 bg-gray-50">

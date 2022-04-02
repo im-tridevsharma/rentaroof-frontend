@@ -466,9 +466,15 @@ function Map() {
                       >
                         <option value="">Select</option>
                         <option value="apartment">Apartment</option>
-                        <option value="individual floor">Individual Floor</option>
-                        <option value="independent house">Independent House</option>
-                        <option value="villa or farm house">Villa/Farm House</option>
+                        <option value="individual floor">
+                          Individual Floor
+                        </option>
+                        <option value="independent house">
+                          Independent House
+                        </option>
+                        <option value="villa or farm house">
+                          Villa/Farm House
+                        </option>
                         <option value="vacation rental">Vacation Rental</option>
                       </select>
                     </label>

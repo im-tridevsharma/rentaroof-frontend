@@ -25,7 +25,7 @@ function FilterProperty({ property, user }) {
         property_code: property?.property_code,
         front_image: property?.front_image,
         rating: "",
-        type: "saved",
+        type: "favorite",
         property_name: property?.name,
         property_short_description: property?.short_description,
         property_posted_by: property?.posted_by,
@@ -56,6 +56,26 @@ function FilterProperty({ property, user }) {
       });
     } else {
       alert("Geolocation is not supported by this browser.");
+    }
+  };
+
+  const share = async function (shareimg, shareurl, sharetitle, sharetext) {
+    if ("canShare" in navigator) {
+      try {
+        const type = shareimg?.split(".").reverse()[0];
+        const response = await fetch(shareimg);
+        const blob = await response.blob();
+        const file = new File([blob], "property." + type, { type: blob.type });
+
+        await navigator.share({
+          url: shareurl,
+          title: sharetitle,
+          text: sharetext,
+          files: [file],
+        });
+      } catch (err) {
+        console.log(err.name, err.message);
+      }
     }
   };
 
@@ -179,7 +199,19 @@ function FilterProperty({ property, user }) {
           <div className="flex items-center justify-between mt-2 px-7">
             <div className="flex items-center">
               <p>{property?.property_code}</p>
-              <span className="flex items-center">
+              <span
+                className="flex items-center cursor-pointer"
+                onClick={() => {
+                  share(
+                    property?.front_image,
+                    location.hostname +
+                      "/detials/properties/" +
+                      property?.property_code,
+                    property?.name,
+                    property?.short_description
+                  );
+                }}
+              >
                 <img
                   src="/icons/proprtydetls/icon_1.png"
                   alt="share"

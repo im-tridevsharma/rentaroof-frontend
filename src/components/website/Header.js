@@ -367,7 +367,7 @@ function Header() {
           className="flex items-center flex-col sm:flex-row"
           style={{ fontFamily: "Opensans-semi-bold" }}
         >
-          <ul className="hidden sm:flex sm:items-center">
+          <ul className="sm:flex sm:items-center">
             <li className="mx-2 relative parent">
               <a
                 className={`py-2 px-3 border-b-2 border-transparent ${
