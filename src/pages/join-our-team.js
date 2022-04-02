@@ -11,8 +11,8 @@ import {
   FaListUl,
   FaPercent,
   FaRegEdit,
+  FaCheckCircle,
 } from "react-icons/fa";
-import { MdDoneOutline } from "react-icons/md";
 
 function Ibo() {
   return (
@@ -375,7 +375,7 @@ function Ibo() {
                   className="w-10 h-10 flex items-center justify-center text-white rounded-full"
                   style={{ background: "var(--blue)" }}
                 >
-                  <MdDoneOutline size={22} />
+                  <FaCheckCircle size={22} />
                 </b>{" "}
                 <span className="ml-3"> Close the deal</span>
               </p>
