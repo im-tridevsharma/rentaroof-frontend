@@ -8,6 +8,7 @@ import {
   createPaymentOrder,
   getWallet,
   getWalletTransactions,
+  sendWidthrawRequest,
   successPayment,
 } from "../../../../lib/frontend/share";
 import moment from "moment";
@@ -171,6 +172,18 @@ function WalletUI() {
     }
   };
 
+  const handleWidthrawRequest = async () => {
+    setIsLoading(true);
+    const res = await sendWidthrawRequest();
+    if (res?.status) {
+      toast.success(res?.message);
+      setIsLoading(false);
+    } else {
+      toast.error(res?.message);
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
       {isLoading && <Loader />}
@@ -225,9 +238,16 @@ function WalletUI() {
             ></span>
             <h6
               style={{ fontFamily: "Opensans-bold" }}
-              className="text-sm mb-2"
+              className="text-sm mb-2 flex items-center justify-between"
             >
               Wallet Topup
+              <button
+                onClick={handleWidthrawRequest}
+                className="px-3 py-2 rounded-md text-white"
+                style={{ backgroundColor: "var(--blue)" }}
+              >
+                Widthdraw Request
+              </button>
             </h6>
             {/** amount info */}
             <form name="wallet_topup" method="POST" onSubmit={handleSubmit}>

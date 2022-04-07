@@ -946,6 +946,24 @@ export const sendOtp = async (data) => {
   return status;
 };
 
+//widthraw request
+export const sendWidthrawRequest = async () => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let status = false;
+  await server
+    .get(`/payout/request`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      status = response?.data;
+    })
+    .catch((error) => {
+      status = error?.response?.data;
+    });
+  return status;
+};
+
 //new landlord
 export const newLandlord = async (data) => {
   const token = __d(cookies.get("_SYNC_"));
