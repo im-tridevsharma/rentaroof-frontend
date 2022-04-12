@@ -21,12 +21,12 @@ function Services() {
           <div className="md:px-20 pb-10 md:pb-28 px-5 grid grid-cols-1 md:grid-cols-2 md:space-x-5 md:space-y-0 space-y-5">
             <div className="relative p-10 md:pt-24">
               <img
-                src="https://animoto.com/static/RedSwipe-0a3c66075a383e378d143e27489ce2ca.svg"
+                src="images/website/fhs1.svg"
                 className="h-32 object-contain absolute left-0"
               />
               <img src="https://img.freepik.com/free-photo/sale-handsome-realtor-waiting-visitors-rent-new-home-ownership-confident-man-outside_545934-6596.jpg?w=740" />
               <img
-                src="https://animoto.com/static/GreenCircle-181444214f6f5a5b89d3a72a75e25732.svg"
+                src="images/website/fhs2.svg"
                 className="h-32 object-contain absolute right-0 bottom-0"
               />
             </div>

@@ -161,7 +161,7 @@ function Index() {
             <div className="bg-white flex items-center justify-center">
               <img
                 className="object-cover h-full"
-                src="https://img.freepik.com/free-photo/torn-paper-strip-yellow-background-with-text-no-hidden-fees_301012-4158.jpg?w=826"
+                src="images/website/hmnohc.webp"
               />
             </div>
             <div className="relative p-10">

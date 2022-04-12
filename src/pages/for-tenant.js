@@ -35,7 +35,7 @@ function Services() {
               >
                 <img
                   className="h-32 object-contain absolute top-2"
-                  src="https://animoto.com/static/TealDots-212c4a91665ce0cc624cdf92514a34d6.svg"
+                  src="images/website/fts1.svg"
                 />
                 <div className="flex  justify-center items-center">
                   <div className="flex justify-center flex-col max-w-md w-full">
@@ -77,7 +77,7 @@ function Services() {
             <Carousel.Item>
               <div className="grid h-full grid-cols-1 md:grid-cols-2 pt-1 relative">
                 <img
-                  src="https://animoto.com/static/LowerRightTealYellow-944790b2ec1f2d1d569c799113cbfc41.svg"
+                  src="images/website/fts2.svg"
                   className="h-32 absolute object-contain right-0"
                 />
                 <div
@@ -119,7 +119,7 @@ function Services() {
             <Carousel.Item>
               <div className="grid h-full grid-cols-1 md:grid-cols-2 pt-1 relative">
                 <img
-                  src="https://animoto.com/static/UpperLeftRedBlue-63b6ee2eca1e536576fa136c918c1c54.svg"
+                  src="images/website/fts1.svg"
                   className="absolute h-32 object-contain"
                 />
                 <div className="flex  justify-center items-center">
