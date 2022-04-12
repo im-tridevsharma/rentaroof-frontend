@@ -168,7 +168,7 @@ function Ibo() {
                 </p>
               </div>
             </div>
-            <div className="mt-10 ml-5">
+            <div className="mt-10">
               <Link href="/list-property">
                 <a
                   style={{ fontFamily: "Opensans-bold" }}
