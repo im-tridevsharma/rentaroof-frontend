@@ -40,7 +40,7 @@ function Index() {
   };
 
   const submitForm = async (email, password) => {
-    const response = await loginUser(email, password);
+    const response = await loginUser(email, password, "admin");
     if (setAuthToken(response?.access_token)) {
       setLoggedIn(true);
       setVError(false);

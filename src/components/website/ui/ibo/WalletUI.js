@@ -241,6 +241,7 @@ function WalletUI() {
               className="text-sm mb-2 flex items-center justify-between"
             >
               Wallet Topup
+              <p>Total Widthdraw Amount: Rs.{wallet?.payout}</p>
               <button
                 onClick={handleWidthrawRequest}
                 className="px-3 py-2 rounded-md text-white"

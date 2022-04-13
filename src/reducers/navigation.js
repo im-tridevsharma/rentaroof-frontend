@@ -8,6 +8,7 @@ import {
   FiSave,
   FiMapPin,
   FiBookOpen,
+  FiCreditCard,
 } from "react-icons/fi";
 import { BiBuildingHouse } from "react-icons/bi";
 import {
@@ -208,7 +209,22 @@ const initialState = [
           },
         ],
       },
-
+      {
+        title: "Payout",
+        icon: <FiCreditCard size={20} />,
+        items: [
+          {
+            url: "/admin/payout/wallet",
+            title: "Wallet",
+            items: [],
+          },
+          {
+            url: "/admin/payout/earning",
+            title: "Earning",
+            items: [],
+          },
+        ],
+      },
       {
         url: "/admin/faqs",
         icon: <RiQuestionAnswerLine size={20} />,
@@ -305,7 +321,6 @@ export default function navigation(state = initialState, action) {
       return state;
   }
 }
-
 
 // {
 //   title: "Location",
