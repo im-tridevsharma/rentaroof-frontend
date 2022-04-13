@@ -21,8 +21,7 @@ function Advantages() {
           style={{
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
-            backgroundImage:
-              "url(https://thumbs.dreamstime.com/b/confident-real-estate-agent-financial-advisor-suit-shaking-hands-client-respect-gratitude-gesture-congratulate-property-138034370.jpg)",
+            backgroundImage: "url(images/website/oadvs.jpg)",
           }}
         ></div>
         <div className="max-w-6xl mt-10 text-gray-700 w-full m-auto">

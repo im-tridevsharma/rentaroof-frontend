@@ -51,11 +51,7 @@ function AppointmentUI() {
 
         response?.data?.length > 0
           ? setUpcomingAppointments(
-              response?.data.filter(
-                (d) =>
-                  moment(Date.now()).add(1, "day").format("DD-MM-YYYY") <=
-                  moment(d.start_time).format("DD-MM-YYYY")
-              )
+              response?.data.filter((d) => moment() <= moment(d.start_time))
             )
           : setUpcomingAppointments([]);
 

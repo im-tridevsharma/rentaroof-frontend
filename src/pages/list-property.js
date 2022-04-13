@@ -119,7 +119,7 @@ function ListProperty() {
         className="flex flex-col relative"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.9)), url(https://img.freepik.com/free-photo/glittering-glass-aluminium-cladded-skyscrapers-during-monsoon-mumbais-lower-parel-worli-areas_469504-19.jpg?t=st=1648723034~exp=1648723634~hmac=3a4e2a39c36890c7a9be327bfd814fb7797c51188a231776de01a9e7e6de0d46&w=740)",
+            "linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.9)), url(images/website/lps.webp)",
         }}
       >
         <div

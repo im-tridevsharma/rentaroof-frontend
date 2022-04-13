@@ -95,7 +95,7 @@ function Services() {
           <div className="flex flex-col items-center p-5 border shadow-sm rounded-sm pt-3">
             <img
               className="w-52 h-52 object-cover"
-              src="https://img.freepik.com/free-vector/online-document-form-digital-agreement-electronic-contract-internet-questionnaire-list-note-voting-ballot-poll-flat-design-element_335657-2667.jpg?w=740"
+              src="images/website/fhomeos1.webp"
             />
             <h3 style={{ fontFamily: "Opensans-bold" }} className="my-5">
               Free Listing
@@ -108,7 +108,7 @@ function Services() {
           <div className="flex flex-col items-center p-5 border shadow-sm rounded-sm pt-3">
             <img
               className="w-52 h-52 object-cover"
-              src="https://img.freepik.com/free-vector/real-estate-business-concept-choosing-finding-home-flat-vector-illustration_566886-1053.jpg?w=740"
+              src="images/website/fhomeos2.webp"
             />
             <h3 style={{ fontFamily: "Opensans-bold" }} className="my-5">
               Home Showings
@@ -121,7 +121,7 @@ function Services() {
           <div className="flex flex-col items-center p-5 border shadow-sm rounded-sm pt-3">
             <img
               className="w-52 h-52 object-cover"
-              src="https://img.freepik.com/free-vector/satisfied-businessmen-shake-hands-against-signed-agreement_107791-69.jpg?1&t=st=1647417790~exp=1647418390~hmac=72c6ca1d2e1182161ed7a6973822376dd9f35e9ff88bf73a743aa0fdd5cbff85&w=740"
+              src="images/website/fhomeos3.webp"
             />
             <h3 style={{ fontFamily: "Opensans-bold" }} className="my-5">
               Closing the deal
@@ -180,7 +180,7 @@ function Services() {
           <div className="max-w-6xl w-full m-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 space-y-5 md:space-y-0">
               <div className="-mt-10">
-                <img src="https://img.freepik.com/free-vector/coffee-break-concept-illustration_114360-2931.jpg?2&w=740" />
+                <img src="images/website/fhomeosm.webp" />
               </div>
               <div className="">
                 <h3 style={{ fontFamily: "Opensans-bold" }} className="my-5">
@@ -220,7 +220,7 @@ function Services() {
             <div className="flex items-start justify-start">
               <img
                 className="h-52 w-52 md:mr-10 object-cover rounded-md"
-                src="https://img.freepik.com/free-vector/real-estate-floor-plan-abstract-concept-vector-illustration-floor-plan-online-services-real-estate-marketing-house-listing-interactive-property-layout-virtual-staging-abstract-metaphor_335657-4236.jpg?t=st=1647667542~exp=1647668142~hmac=ad1707257e414ec47360a85a3e3d5c11d294ac93c24d70c4f03d0577792f5636&w=740"
+                src="images/website/fhomeosr1.webp"
               />
               <div className="">
                 <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
@@ -260,13 +260,13 @@ function Services() {
               </div>
               <img
                 className="h-52 w-52 md:ml-10 object-cover rounded-md"
-                src="https://img.freepik.com/free-vector/connected-world-concept-illustration_114360-3027.jpg?t=st=1647667662~exp=1647668262~hmac=2a26c1d5a54d766189634645c69ef45a8a124fc9180c17d242bdc4da2c94c1ee&w=740"
+                src="images/website/fhomeosr2.webp"
               />
             </div>
             <div className="flex mt-10 items-start justify-start">
               <img
                 className="h-52 w-52 md:mr-10 object-cover rounded-md"
-                src="https://img.freepik.com/free-vector/appointment-booking-with-smartphone_23-2148554946.jpg?t=st=1647667723~exp=1647668323~hmac=6e5ebf12eb8fe50e8a18687198abb4b3916f5420c959e0911fcd95a745c0dec6&w=740"
+                src="images/website/fhomeosr3.webp"
               />
               <div className="">
                 <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
@@ -306,13 +306,13 @@ function Services() {
               </div>
               <img
                 className="h-52 w-52 md:ml-10 object-cover rounded-md"
-                src="https://img.freepik.com/free-vector/successful-partnership-negotiation-partners-handshaking_335657-2453.jpg?t=st=1647667775~exp=1647668375~hmac=335c04ae06f1150cc1bcec9cfe380fb7edbffa8d12a83d6dac4be65c81700262&w=740"
+                src="images/website/fhomeosr4.webp"
               />
             </div>
             <div className="flex mt-10 items-start justify-start">
               <img
                 className="h-52 w-52 md:mr-10 object-cover rounded-md"
-                src="https://img.freepik.com/free-vector/expert-checking-business-leader-order_74855-10624.jpg?t=st=1647665214~exp=1647665814~hmac=40aa847c688bd620323ff12ba212adad7e6eca3ab4f43babfba4e2e4e263196c&w=740"
+                src="images/website/fhomeosr5.webp"
               />
               <div className="">
                 <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
@@ -354,13 +354,13 @@ function Services() {
               </div>
               <img
                 className="h-52 w-52 md:ml-10 object-cover rounded-md"
-                src="https://img.freepik.com/free-vector/satisfied-businessmen-shake-hands-against-signed-agreement_107791-69.jpg?1&t=st=1647667887~exp=1647668487~hmac=8ca765a4bb1eea533a15a2b5b4859e8cadf84dc6ce9f478d09bb7382cb580361&w=740"
+                src="images/website/fhomeosr6.webp"
               />
             </div>
             <div className="flex mt-10 items-start justify-start">
               <img
                 className="h-52 w-52 md:mr-10 object-cover rounded-md"
-                src="https://img.freepik.com/free-vector/business-man-has-idea-with-gold-coin-his-hand_1150-35033.jpg?t=st=1647667950~exp=1647668550~hmac=4b88da2e9fc99f69b69081f3ae5c733f51f520ead9e2d4124e1d4c09d694b5e0&w=740"
+                src="images/website/fhomeosr7.webp"
               />
               <div className="">
                 <h5 style={{ fontFamily: "Opensans-semi-bold" }}>

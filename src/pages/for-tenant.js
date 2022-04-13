@@ -68,8 +68,7 @@ function Services() {
                 <div
                   className="w-full"
                   style={{
-                    backgroundImage:
-                      "url(https://img.freepik.com/free-vector/businessman-character-sitting-relaxed-pose-chair-dreaming-big-house-car_87771-10491.jpg?w=740)",
+                    backgroundImage: "url(images/website/ftslider1.webp)",
                   }}
                 ></div>
               </div>
@@ -83,8 +82,7 @@ function Services() {
                 <div
                   className="w-full"
                   style={{
-                    backgroundImage:
-                      "url(https://img.freepik.com/free-vector/apartment-rent-concept-illustration_114360-2947.jpg?w=740)",
+                    backgroundImage: "url(images/website/ftslider2.webp)",
                   }}
                 ></div>
                 <div className="flex  justify-center items-center">
@@ -157,8 +155,7 @@ function Services() {
                 <div
                   className="w-full"
                   style={{
-                    backgroundImage:
-                      "url(https://img.freepik.com/free-vector/happy-couple-bought-apartment-realtor-agreement_87689-4369.jpg?w=740)",
+                    backgroundImage: "url(images/website/ftslider3.webp)",
                   }}
                 ></div>
               </div>
@@ -224,7 +221,7 @@ function Services() {
               <div className="flex flex-col items-center">
                 <img
                   className="w-52 h-52 object-cover"
-                  src="https://img.freepik.com/free-vector/flat-people-asking-questions_23-2148929673.jpg?w=740"
+                  src="images/website/wweo1.webp"
                 />
                 <p className="text-center text-lg">
                   Help the clients to locate and view homes that meet their
@@ -235,7 +232,7 @@ function Services() {
               <div className="flex flex-col items-center">
                 <img
                   className="w-52 h-52 object-cover"
-                  src="https://img.freepik.com/free-vector/appointment-booking-mobile-design_23-2148573175.jpg?w=740"
+                  src="images/website/wweo2.webp"
                 />
                 <p className="text-center text-lg">
                   Help them with securing an appointment.
@@ -245,7 +242,7 @@ function Services() {
               <div className="flex flex-col items-center">
                 <img
                   className="w-52 h-52 object-cover"
-                  src="https://img.freepik.com/free-vector/document-signing-partnership-deal-business-consultation-work-arrangement-client-assistant-writing-contract-cartoon-characters_335657-2342.jpg?w=740"
+                  src="images/website/wweo3.webp"
                 />
                 <p className="text-center text-lg">
                   Work with them to craft the initial offer in a rent agreement.
@@ -260,7 +257,7 @@ function Services() {
               <div className="flex flex-col items-center">
                 <img
                   className="w-52 h-52 object-cover"
-                  src="https://img.freepik.com/free-vector/b2b-strategy-commercial-transaction-partner-agreement-partnership-arrangement-successful-collaboration-businessmen-shaking-hands-cartoon-characters-vector-isolated-concept-metaphor-illustration_335657-2760.jpg?w=740"
+                  src="images/website/wweo4.webp"
                 />
                 <p className="text-center text-lg">
                   After the rent agreement is executed, coordinate the
@@ -271,7 +268,7 @@ function Services() {
               <div className="flex flex-col items-center">
                 <img
                   className="w-52 h-52 object-cover"
-                  src="https://img.freepik.com/free-vector/documents-concept-illustration_114360-138.jpg?w=740"
+                  src="images/website/wweo5.webp"
                 />
                 <p className="text-center text-lg">
                   Deliver and explain <br />
@@ -282,7 +279,7 @@ function Services() {
               <div className="flex flex-col items-center">
                 <img
                   className="w-52 h-52 object-cover"
-                  src="https://img.freepik.com/free-vector/realty-agent-holding-keys-standing-near-building-isolated-flat-vector-illustration-cartoon-woman-house-sale_74855-8548.jpg?w=826"
+                  src="images/website/wweo6.webp"
                 />
                 <p className="text-center text-lg">
                   Work with them through the closing and getting their keys.
@@ -332,7 +329,7 @@ function Services() {
                       </div>
                       <div className="flex items-center justify-center">
                         <img
-                          src="https://img.freepik.com/free-vector/www-concept-illustration_114360-2143.jpg?w=740"
+                          src="images/website/rslider1.webp"
                           className="h-80 object-cover rounded-full"
                         />
                       </div>
@@ -362,7 +359,7 @@ function Services() {
                       </div>
                       <div className="flex items-center justify-center">
                         <img
-                          src="https://img.freepik.com/free-vector/appointment-booking-with-smartphone_23-2148554313.jpg?w=740"
+                          src="images/website/rslider2.webp"
                           className="h-80 object-cover rounded-full"
                         />
                       </div>
@@ -391,7 +388,7 @@ function Services() {
                       </div>
                       <div className="flex items-center justify-center">
                         <img
-                          src="https://img.freepik.com/free-vector/contract-billing-deal-terms-fulfillment-successful-transaction-money-transfer-rent-lease-payment-payer-cash-receiver-cartoon-characters-vector-isolated-concept-metaphor-illustration_335657-2871.jpg?w=740"
+                          src="images/website/rslider3.webp"
                           className="h-80 object-cover rounded-full"
                         />
                       </div>
@@ -421,7 +418,7 @@ function Services() {
                       </div>
                       <div className="flex items-center justify-center">
                         <img
-                          src="https://img.freepik.com/free-vector/concept-creating-financial-agreement-flat-design_130740-1759.jpg?w=740"
+                          src="images/website/rslider4.webp"
                           className="h-80 object-cover rounded-full"
                         />
                       </div>
@@ -447,7 +444,7 @@ function Services() {
                       </div>
                       <div className="flex items-center justify-center">
                         <img
-                          src="https://img.freepik.com/free-vector/apartment-rent-concept-illustration_114360-2947.jpg?w=740"
+                          src="images/website/rslider5.webp"
                           className="h-80 object-cover rounded-full"
                         />
                       </div>
