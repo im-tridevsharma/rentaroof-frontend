@@ -2,8 +2,12 @@ import React from "react";
 import Card from "../../Card";
 import BarChart from "../../../dashboard/bar-chart";
 import Loader from "../../../loader";
-import { getIboCards, getIboDeals, getIboForYear } from "../../../../lib/frontend/share";
-import moment from 'moment'
+import {
+  getIboCards,
+  getIboDeals,
+  getIboForYear,
+} from "../../../../lib/frontend/share";
+import moment from "moment";
 
 function EarningUI() {
   const [cards, setCards] = React.useState(null);
@@ -86,10 +90,10 @@ function EarningUI() {
       {/**income chart */}
       <div className="border-2 border-gray-200 rounded-md px-3 py-1 bg-white mt-3">
         <p style={{ fontFamily: "Opensans-semi-bold" }} className="mb-3">
-          Monthly earnings (Year : {moment().format('YYYY')})
+          Monthly earnings (Year : {moment().format("YYYY")})
         </p>
         <div className="max-w-4xl mx-auto">
-          <BarChart yeardata={foryear}/>
+          <BarChart yeardata={foryear} />
         </div>
       </div>
       {/**other information */}
@@ -107,10 +111,14 @@ function EarningUI() {
             {deals?.length > 0 ? (
               deals.map((d, i) => (
                 <tr key={i}>
-                  <td>{d?.user || '-'}</td>
-                  <td>{d?.is_closed ? 'Closed' : '-' }</td>
-                  <td>{moment(d?.created_at).format('dd-mm-YYYY')}</td>
-                  <td>Rs.{ d?.amount }</td>
+                  <td>{d?.user || "-"}</td>
+                  <td>{d?.is_closed ? "Closed" : "-"}</td>
+                  <td>
+                    {moment(
+                      d?.created_at.replace("T", " ").replace(".000000Z", "")
+                    ).format("DD-MM-YYYY")}
+                  </td>
+                  <td>Rs.{d?.amount}</td>
                 </tr>
               ))
             ) : (

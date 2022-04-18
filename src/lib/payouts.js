@@ -111,4 +111,114 @@ export const deleteWalletPayout = async (id) => {
   return res;
 };
 
+export const getEarningPayouts = async () => {
+  const token = getToken();
+  let locations = false;
+
+  if (token) {
+    await server
+      .get("/admin/payouts/earning", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        if (response.data) {
+          locations = response.data;
+        } else {
+          locations = false;
+        }
+      })
+      .catch((error) => {
+        if (error) {
+          locations = false;
+        }
+      });
+  }
+
+  return locations;
+};
+
+export const getEarningPayout = async (id) => {
+  const token = getToken();
+  let res = false;
+
+  if (id) {
+    if (token) {
+      await server
+        .get(`/admin/payouts/earning/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          if (response.data) {
+            res = response.data;
+          } else {
+            res = false;
+          }
+        })
+        .catch((error) => {
+          if (error) {
+            res = false;
+          }
+        });
+    }
+  }
+
+  return res;
+};
+
+export const releaseEarningPayout = async (id, data) => {
+  const token = getToken();
+  let res = false;
+
+  if (id) {
+    if (token) {
+      await server
+        .post(`/admin/payouts/earning/release/${id}`, data, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          if (response.data) {
+            res = response.data;
+          } else {
+            res = false;
+          }
+        })
+        .catch((error) => {
+          if (error) {
+            res = false;
+          }
+        });
+    }
+  }
+
+  return res;
+};
+
+export const deleteEarningPayout = async (id) => {
+  const token = getToken();
+  let res = false;
+
+  if (id) {
+    if (token) {
+      await server
+        .delete(`/admin/payouts/earning/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          if (response.data) {
+            res = response.data.data;
+          } else {
+            res = false;
+          }
+        })
+        .catch((error) => {
+          if (error) {
+            res = false;
+          }
+        });
+    }
+  }
+
+  return res;
+};
+
 export default getWalletPayouts;
