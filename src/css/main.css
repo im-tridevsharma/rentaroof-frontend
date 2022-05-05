@@ -156,6 +156,24 @@ button {
   height: calc(100vh - 70px);
 }
 
+.joinot-video {
+  height: 550px;
+  max-width: 950px;
+  width: 100%;
+  margin: 5px auto;
+}
+
+.joinot-video::after {
+  position: absolute;
+  content: "";
+  background-color: #006ec9;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: .5;
+}
+
 @media screen and (max-width: 767px) {
   .for-tenant-slider {
     height: auto;

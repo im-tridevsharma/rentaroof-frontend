@@ -114,7 +114,7 @@ function Index() {
 
         {/**About us section */}
         <div
-          className="relative grid grid-cols-1 md:grid-cols-2 sm:space-x-5  text-center sm:text-left overflow-hidden h-128
+          className="relative grid grid-cols-1 md:grid-cols-2 sm:space-x-5  text-center sm:text-left overflow-hidden 
           "
           style={{
             backgroundImage:
@@ -125,22 +125,21 @@ function Index() {
           }}
         >
           {/**images */}
-          <div className="">
-            <img
-              src="/images/website/rar.gif"
-              className="h-full md:h-128 object-contain"
-            />
-          </div>
+          <img
+            src="https://testspacefile.fra1.cdn.digitaloceanspaces.com/rargif.gif"
+            className="h-full object-contain"
+          />
+
           {/**about content */}
-          <div className="flex flex-col md:mt-10 mt-5 sm:py-10 md:pr-32">
+          <div className="flex flex-col sm:py-10 md:pr-32">
             <h1
-              className="font-thin text-gray-700 text-3xl w-full sm:w-72 my-3"
+              className="font-thin text-gray-700 text-3xl w-full -mt-3 sm:w-72"
               style={{ fontFamily: "Opensans-semi-bold" }}
             >
               {website?.homepage_aboutus_title}
             </h1>
             <p
-              className="text-gray-700 text-sm"
+              className="text-gray-700 text-sm mt-5"
               style={{ fontFamily: "Opensans-regular" }}
               dangerouslySetInnerHTML={{
                 __html: website?.homepage_aboutus_description,
