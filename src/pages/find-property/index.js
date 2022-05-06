@@ -9,7 +9,11 @@ import Slider from "react-input-slider";
 import { getAmenities } from "../../lib/frontend/share";
 import { useRouter } from "next/router";
 import FilterProperty from "../../components/website/FilterProperty";
-import { saveSearch, searchProperties } from "../../lib/frontend/properties";
+import {
+  savePropertyRequirement,
+  saveSearch,
+  searchProperties,
+} from "../../lib/frontend/properties";
 import { GrLinkPrevious, GrLinkNext } from "react-icons/gr";
 import { __d } from "../../server";
 import { FaTimes } from "react-icons/fa";
@@ -18,7 +22,7 @@ import { toast, ToastContainer } from "react-toastify";
 import Cookies from "universal-cookie";
 
 function Index({ query }) {
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
   const [user, setUser] = React.useState(false);
   const [filters, setFilters] = React.useState({
     search_radius: "",
@@ -42,6 +46,7 @@ function Index({ query }) {
   const [filterMode, setFilterMode] = useState(false);
   const [min_price, setMinPrice] = useState(1000);
   const [max_price, setMaxPrice] = useState(1000);
+  const [isReq, setIsReq] = useState(false);
   const router = useRouter();
   const cookies = new Cookies();
 
@@ -183,6 +188,14 @@ function Index({ query }) {
   }, [router.query]);
 
   useEffect(() => {
+    if (properties?.length === 0 && !isLoading) {
+      setIsReq(true);
+    } else {
+      setIsReq(false);
+    }
+  }, [properties, isLoading]);
+
+  useEffect(() => {
     const fetchAmenities = async () => {
       setIsLoading(true);
       const res = await getAmenities();
@@ -231,6 +244,24 @@ function Index({ query }) {
     router.push("/find-property?" + queryString);
   };
 
+  const handleSaveReqs = async (e) => {
+    e.preventDefault();
+    const formdata = new FormData(document.forms.requirement);
+    setIsLoading(true);
+    const res = await savePropertyRequirement(formdata);
+
+    if (res?.status) {
+      toast.success(
+        "We've received your requirment information. We'll be back to you asap."
+      );
+      setIsLoading(false);
+      setIsReq(false);
+    } else {
+      setIsLoading(false);
+      toast.error(res?.message);
+    }
+  };
+
   const tagline = `Listing property for your search "${filters?.search}"`;
 
   return (
@@ -240,7 +271,6 @@ function Index({ query }) {
           Find Property {filters?.search ? "for " + filters?.search : ""}
         </title>
       </Head>
-      <ToastContainer />
       {isLoading && <Loader />}
       <Header />
       <Breadcrumb tagline={tagline} path="Home / property list / search" />
@@ -868,7 +898,16 @@ function Index({ query }) {
                 <FilterProperty key={i} property={p} user={user} />
               ))
             ) : (
-              <p className="text-red-500 p-3">Properties not found!</p>
+              <div className="text-red-400">
+                <p>Properties not found!</p>
+                <button
+                  className="px-3 py-2 mt-5 text-white rounded-md"
+                  style={{ background: "var(--blue)" }}
+                  onClick={() => setIsReq(true)}
+                >
+                  Send Your Requirement
+                </button>
+              </div>
             )}
           </div>
           <div className="flex items-end justify-end">
@@ -897,6 +936,115 @@ function Index({ query }) {
           </div>
         </div>
       </div>
+
+      {isReq && (
+        <div
+          className=" fixed top-0 left-0 w-full h-screen z-40"
+          style={{ background: "rgba(0,0,0,.4)" }}
+        >
+          <div className="rounded-md p-5 max-w-4xl w-full bg-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <h4
+              style={{ fontFamily: "Opensans-bold" }}
+              className="text-xl flex items-center justify-between"
+            >
+              Let us know your requirement!
+              <FaTimes
+                color="red"
+                className="cursor-pointer"
+                onClick={() => setIsReq(false)}
+              />
+            </h4>
+            <hr className="my-3" />
+
+            <form method="POST" onSubmit={handleSaveReqs} name="requirement">
+              <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-4">
+                <div className="form-element">
+                  <label className="form-label">Your Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    className="form-input rounded-md border-gray-400"
+                  />
+                </div>
+                <div className="form-element">
+                  <label className="form-label">Your Email</label>
+                  <input
+                    type="email"
+                    required
+                    name="email"
+                    className="form-input rounded-md border-gray-400"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-4">
+                <div className="form-element">
+                  <label className="form-label">Your Number</label>
+                  <input
+                    type="text"
+                    name="mobile"
+                    required
+                    className="form-input rounded-md border-gray-400"
+                  />
+                </div>
+                <div className="form-element">
+                  <label className="form-label">Your Location</label>
+                  <input
+                    type="text"
+                    name="location"
+                    required
+                    className="form-input rounded-md border-gray-400"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-4">
+                <div className="form-element">
+                  <label className="form-label">Property Type</label>
+                  <select
+                    name="property_type"
+                    required
+                    className="form-input border-gray-400 rounded-md"
+                  >
+                    <option value="">Select</option>
+                    <option value="apartment">Apartment</option>
+                    <option value="individual floor">Individual Floor</option>
+                    <option value="independent house">Independent House</option>
+                    <option value="villa or farm house">
+                      Villa/Farm House
+                    </option>
+                    <option value="vacation rental">Vacation Rental</option>
+                  </select>
+                </div>
+                <div className="form-element">
+                  <label className="form-label">Society Name</label>
+                  <input
+                    type="text"
+                    required
+                    name="society_name"
+                    className="form-input rounded-md border-gray-400"
+                  />
+                </div>
+              </div>
+              <div className="form-element">
+                <label className="form-label">Your Message</label>
+                <textarea
+                  name="message"
+                  className="form-input rounded-md border-gray-400"
+                ></textarea>
+              </div>
+
+              <button
+                className="px-3 py-2 float-right text-white rounded-md"
+                style={{ background: "var(--blue)" }}
+              >
+                Submit
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
       <Footer />
     </>
   );

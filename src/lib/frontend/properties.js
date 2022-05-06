@@ -211,6 +211,22 @@ export const getPropertyByCode = async (code) => {
   return property;
 };
 
+export const savePropertyRequirement = async (data) => {
+  let property = false;
+
+  if (data) {
+    await server
+      .post(`/properties/requirement`, data)
+      .then((response) => {
+        property = response?.data;
+      })
+      .catch((error) => {
+        property = error?.response?.data;
+      });
+  }
+  return property;
+};
+
 export const saveSearch = async (data) => {
   const token = getToken();
   let res = false;

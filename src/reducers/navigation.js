@@ -18,7 +18,7 @@ import {
 } from "react-icons/ri";
 import { CgTrack, CgWebsite } from "react-icons/cg";
 import { GiWalk } from "react-icons/gi";
-import { GrCompliance } from "react-icons/gr";
+import { GrCompliance, GrFormAdd } from "react-icons/gr";
 import { MdEditLocation, MdLocalMall } from "react-icons/md";
 
 const initialState = [
@@ -253,6 +253,12 @@ const initialState = [
         url: "/admin/complains",
         icon: <GrCompliance size={20} />,
         title: "Complains",
+        items: [],
+      },
+      {
+        url: "/admin/property-queries",
+        icon: <GrFormAdd size={20} />,
+        title: "Property Queries",
         items: [],
       },
       {
