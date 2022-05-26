@@ -369,17 +369,15 @@ function Header() {
         >
           <ul className="sm:flex sm:items-center">
             <li className="mx-2 relative parent">
-              <a
-                className={`py-2 px-3 border-b-2 border-transparent ${
-                  router.pathname === "/for-tenant" ||
-                  router.pathname === "/for-homeowner" ||
-                  router.pathname === "/faqs"
-                    ? "text-blue-600"
-                    : ""
-                }`}
-              >
-                Home Renting Resources
-              </a>
+              <Link href="/">
+                <a
+                  className={`py-2 px-3 border-b-2 border-transparent ${
+                    router.pathname === "/for-tenant" ? "text-blue-600" : ""
+                  }`}
+                >
+                  Rent
+                </a>
+              </Link>
               <ul className="absolute childs top-6 pt-5 left-0  bg-white px-2 py-1 rounded-md z-40 w-max">
                 <li
                   className={`my-2 hover:text-blue-500 ${
@@ -388,29 +386,7 @@ function Header() {
                 >
                   <Link href="/for-tenant">
                     <a className="py-2 px-3 border-b-2 border-transparent">
-                      For Tenant
-                    </a>
-                  </Link>
-                </li>
-                <li
-                  className={`my-2 hover:text-blue-500 ${
-                    router.pathname === "/for-homeowner" ? "text-blue-500" : ""
-                  }`}
-                >
-                  <Link href="/for-homeowner">
-                    <a className="py-2 px-3 border-b-2 border-transparent">
-                      For Homeowner
-                    </a>
-                  </Link>
-                </li>
-                <li
-                  className={`my-2 hover:text-blue-500 ${
-                    router.pathname === "/faqs" ? "text-blue-500" : ""
-                  }`}
-                >
-                  <Link href="/faqs">
-                    <a className="py-2 px-3 border-b-2 border-transparent">
-                      Faqs
+                      Guide for tenants
                     </a>
                   </Link>
                 </li>
@@ -423,23 +399,13 @@ function Header() {
             >
               <Link href="/join-our-team">
                 <a className="py-2 px-3 border-b-2 border-transparent">
-                  Join our Team
+                  Agents portal
                 </a>
               </Link>
             </li>
+
             <li
-              className={`mx-2 ${
-                router.pathname === "/our-advantages" ? "text-blue-500" : ""
-              }`}
-            >
-              <Link href="/our-advantages">
-                <a className="py-2 px-3 border-b-2 border-transparent">
-                  Our Advantages
-                </a>
-              </Link>
-            </li>
-            <li
-              className={`mx-2 ${
+              className={`mx-2 parent relative ${
                 router.pathname === "/list-property" ? "text-blue-500" : ""
               }`}
             >
@@ -450,8 +416,39 @@ function Header() {
                     : "/list-property"
                 }
               >
-                <a className="py-2 px-3 border-b-2 border-transparent">
+                <a
+                  className={`py-2 px-3 border-b-2 border-transparent ${
+                    router.pathname === "/for-homeowner" ||
+                    router.pathname === "/list-property"
+                      ? "text-blue-600"
+                      : ""
+                  }`}
+                >
                   List Property
+                </a>
+              </Link>
+              <ul className="absolute childs top-6 pt-5 left-0  bg-white px-2 py-1 rounded-md z-40 w-max">
+                <li
+                  className={`my-2 hover:text-blue-500 ${
+                    router.pathname === "/for-tenant" ? "text-blue-500" : ""
+                  }`}
+                >
+                  <Link href="/for-homeowner">
+                    <a className="py-2 px-3 border-b-2 border-transparent">
+                      Guide for landlords
+                    </a>
+                  </Link>
+                </li>
+              </ul>
+            </li>
+            <li
+              className={`mx-2 ${
+                router.pathname === "/our-advantages" ? "text-blue-500" : ""
+              }`}
+            >
+              <Link href="/our-advantages">
+                <a className="py-2 px-3 border-b-2 border-transparent">
+                  Our Advantages
                 </a>
               </Link>
             </li>
