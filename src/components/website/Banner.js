@@ -7,6 +7,7 @@ import { MdMyLocation } from "react-icons/md";
 import Geocode from "react-geocode";
 import { toast } from "react-toastify";
 import AutoComplete from "react-google-autocomplete";
+import { FaSearch } from "react-icons/fa";
 
 const ptype_options = [
   { value: "", label: "Property Type" },
@@ -230,49 +231,37 @@ function Banner() {
   return (
     <>
       {isLoading && <Loader />}
-      <div
-        className="w-full h-128 bg-gray-500 relative"
-        style={{
-          backgroundImage: "url(/images/website/home-house.jpg)",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-        }}
-      >
-        <div className="absolute  max-w-4xl w-full text-center top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+      <div className="w-full banner relative">
+        <div className="absolute  max-w-5xl w-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <p
+            className="text-2xl mt-20 mb-5 text-white"
+            style={{ fontFamily: "Opensans-regular" }}
+          >
+            {website?.homepage_search_title}
+          </p>
           <div
-            className="p-8 rounded-lg"
+            className="p-4"
             style={{
-              backgroundColor: "rgba(0,0,0,.3)",
+              backgroundColor: "rgba(255,255,255,.2)",
               fontFamily: "Opensans-regular",
             }}
           >
-            <h2
-              className="font-bold text-2xl mb-5 text-white drop-shadow-lg"
-              style={{
-                fontFamily: "Opensans-bold",
-                textShadow: "0px 2px 1px rgba(0,0,0,.8)",
-              }}
-            >
-              {website?.homepage_search_title}
-            </h2>
             <form name="findProperty" method="POST" onSubmit={handleSubmit}>
               <div className="flex flex-col sm:flex-row items-center">
                 <button
                   type="button"
-                  className="p-3 border rounded-sm mx-1 bg-white"
+                  className="p-1 border rounded-md mx-1 text-blue-500 bg-white"
                   onClick={getCurrentLocation}
                   data-tip="Current Location"
                 >
-                  <MdMyLocation size={22} />
+                  <MdMyLocation size={30} />
                 </button>
                 <AutoComplete
                   apiKey={process?.env?.MAP_API_KEY}
                   onPlaceSelected={(place) => handlePlaceSearch(place)}
                   defaultValue={defaultLocation}
-                  className=" rounded-sm border-gray-200 w-full text-md px-2 h-12"
+                  className=" rounded-md border-gray-100 mx-1 w-60 text-md px-2 py-2 border-2 h-10"
                   placeholder="Enter Your Location..."
-                  style={{ borderWidth: "1px" }}
                   options={{
                     types: ["address"],
                     componentRestrictions: {
@@ -290,34 +279,30 @@ function Banner() {
                     className="rounded-sm text-gray-500 sm:flex-grow border-none px-2 h-12 ml-1 text-sm mb-1 sm:mb-0"
                   />
                 )}
-                <button
-                  type="submit"
-                  className="px-8 sm:px-10 py-2 text-white rounded-md ml-2 mr-1 text-xl"
-                  style={{ backgroundColor: "var(--primary-color)" }}
-                >
-                  <img
-                    src="/icons/home/home_search_icon.png"
-                    className="h-5 object-contain"
-                    alt="search"
+
+                <div className="flex flex-col sm:flex-row">
+                  <Search
+                    label="Search Radius"
+                    name="search_radius"
+                    options={radius}
                   />
-                </button>
-              </div>
-              <div className="flex mt-1 flex-col sm:flex-row">
-                <Search
-                  label="Search Radius"
-                  name="search_radius"
-                  options={radius}
-                />
-                <Search
-                  label="Property Type"
-                  name="property_type"
-                  options={ptype_options}
-                />
-                <Search
-                  name="bed_type"
-                  options={[{ value: "", label: "Bed" }, ...counts]}
-                />
-                <Search name="budget" options={budget_options} />
+                  <Search
+                    label="Property Type"
+                    name="property_type"
+                    options={ptype_options}
+                  />
+                  <Search
+                    name="bed_type"
+                    options={[{ value: "", label: "Bed" }, ...counts]}
+                  />
+                  <Search name="budget" options={budget_options} />
+                  <button
+                    type="submit"
+                    className="py-1 px-3 text-white rounded-md ml-2 mr-1 bg-yellow-500 hover:bg-yellow-600"
+                  >
+                    <FaSearch size={22} />
+                  </button>
+                </div>
               </div>
             </form>
           </div>

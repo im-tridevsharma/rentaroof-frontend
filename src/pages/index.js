@@ -55,98 +55,117 @@ function Index() {
       <Head>
         <title>Home</title>
       </Head>
-      <div className="w-full h-auto flex flex-col">
+      <div className="w-full h-auto flex flex-col bg-gray-50">
         {/**header */}
         <Header />
         {/**banner */}
         <Banner />
         {/**counts */}
-        <div
-          className="flex items-center pb-5 pt-10 justify-evenly"
-          style={{ backgroundColor: "var(--primary-color)" }}
-        >
-          {/**1st */}
-          <CountIcon
-            Icon={
-              <img
-                src="/icons/home/property-verified.png"
-                className="filter invert w-16 h-16 object-cover"
-                alt="property"
-              />
-            }
-            title="Agent verified properties"
-          />
-          {/**2nd */}
-          <CountIcon
-            Icon={
-              <img
-                src="/icons/home/pay.png"
-                alt="websites"
-                className="filter invert w-16 h-16 object-cover"
-              />
-            }
-            title="Pay rent securely with our platfform"
-          />
-          {/**3rd*/}
-          <CountIcon
-            Icon={
-              <img
-                src="/icons/home/documentation.png"
-                alt="websites"
-                className="filter invert w-16 h-16 object-cover"
-              />
-            }
-            title="Well-defined documentation process like rent agreement & police verification"
-          />
+        <div className="p-10" style={{ backgroundColor: "#e5eff8" }}>
+          <div className="max-w-5xl w-full py-5 mx-auto flex items-center justify-between">
+            <CountIcon
+              Icon={
+                <img
+                  src="/theme/icons/icon1.png"
+                  className="filter w-16 h-16 object-cover"
+                  alt="property"
+                />
+              }
+              title="Agent verified properties"
+            />
+            {/**2nd */}
+            <CountIcon
+              Icon={
+                <img
+                  src="/theme/icons/icon2.png"
+                  alt="websites"
+                  className="filter w-16 h-16 object-cover"
+                />
+              }
+              title="Pay rent securely with our platfform"
+            />
+            {/**3rd*/}
+            <CountIcon
+              Icon={
+                <img
+                  src="/theme/icons/icon3.png"
+                  alt="websites"
+                  className="filter w-16 h-16 object-cover"
+                />
+              }
+              title="Well-defined documentation process like rent agreement & police verification"
+            />
 
-          {/**4th */}
-          <CountIcon
-            Icon={
-              <img
-                src="/icons/home/chat.png"
-                alt="support"
-                className="filter invert w-16 h-16 object-cover"
-              />
-            }
-            title="Integrated chat feature with agent"
-          />
+            {/**4th */}
+            <CountIcon
+              Icon={
+                <img
+                  src="/theme/icons/icon4.png"
+                  alt="support"
+                  className="filter w-16 h-16 object-cover"
+                />
+              }
+              title="Integrated chat feature with agent"
+            />
+          </div>
+        </div>
+
+        {/**featured property section */}
+        <FeaturedProperty />
+
+        <div className="register-sec">
+          <p
+            className="text-gray-100 text-lg"
+            style={{ fontFamily: "Opensans-regular" }}
+          >
+            Are you looking
+          </p>
+          <h2
+            style={{ fontFamily: "Opensans-semi-bold" }}
+            className="text-white"
+          >
+            to rent out ?
+          </h2>
+          <div className="mt-6">
+            <Link href="list-property">
+              <a className="bg-yellow-500 hover:bg-yellow-600 rounded-full text-xl text-white px-10 py-2">
+                LIST NOW
+              </a>
+            </Link>
+          </div>
         </div>
 
         {/**About us section */}
-        <div
-          className="relative grid grid-cols-1 md:grid-cols-2 sm:space-x-5  text-center sm:text-left overflow-hidden 
-          "
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.9)), url(http://cdn.cnn.com/cnnnext/dam/assets/200310023921-dubai-buildings-skyline.jpg)",
-            backgroundPosition: "top",
-            backgroundSize: "cover",
-            backgroundRepeat: "no-repeat",
-          }}
-        >
-          {/**images */}
-          <img
-            src="https://testspacefile.fra1.cdn.digitaloceanspaces.com/rargif.gif"
-            className="h-full object-contain"
-          />
-
-          {/**about content */}
-          <div className="flex flex-col sm:py-10 md:pr-32">
-            <h1
-              className="font-thin text-gray-700 text-3xl w-full -mt-3 sm:w-72"
-              style={{ fontFamily: "Opensans-semi-bold" }}
+        <section className="bg-white">
+          <div className="max-w-5xl w-full mx-auto py-10">
+            <div
+              className="relative grid grid-cols-1 md:grid-cols-2 sm:space-x-5  text-center sm:text-left overflow-hidden 
+            "
             >
-              {website?.homepage_aboutus_title}
-            </h1>
-            <p
-              className="text-gray-700 text-sm mt-5"
-              style={{ fontFamily: "Opensans-regular" }}
-              dangerouslySetInnerHTML={{
-                __html: website?.homepage_aboutus_description,
-              }}
-            ></p>
+              {/**images */}
+              <div className="">
+                <img src="/theme/images/about.png" alt="about us" />
+              </div>
+              {/**about content */}
+              <div className="flex flex-col justify-start mt-12">
+                <h1
+                  className=" text-gray-900 text-3xl"
+                  style={{ fontFamily: "Opensans-bold" }}
+                >
+                  The Ease of Renting <br />
+                  with <span className="text-blue-500">Rent a Roof</span>
+                </h1>
+                <p
+                  className="text-gray-700 text-sm mt-5"
+                  style={{ fontFamily: "Opensans-regular" }}
+                  dangerouslySetInnerHTML={{
+                    __html: website?.homepage_aboutus_description,
+                  }}
+                ></p>
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
         {/**no hidden charges */}
 
         <div
@@ -198,9 +217,6 @@ function Index() {
             </div>
           </div>
         </div>
-
-        {/**featured property section */}
-        <FeaturedProperty />
 
         {/**video section */}
         <div className="h-128 w-full bg-white flex flex-col items-center relative">
