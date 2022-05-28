@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import {
   FiAlertTriangle,
   FiCheckCircle,
@@ -64,6 +64,8 @@ function Footer() {
   const [isClosed, setIsClosed] = useState(true);
   const [user, setUser] = useState(false);
   const [isSos, setIsSos] = useState(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     //if user is logged in fill their details
@@ -219,7 +221,7 @@ function Footer() {
   const handleFindAgent = (e) => {
     e.preventDefault();
     const search = document.forms.agentFinder.agent.value;
-    Router.push(`/find-an-agent?search=${search}`);
+    router.push(`/find-an-agent?search=${search}`);
   };
 
   return (
@@ -440,14 +442,32 @@ function Footer() {
           </button>
         </form>
       )}
+      <section style={{ backgroundColor: "#21201c" }}>
+        <div className="max-w-3xl w-full bg-blue-500 p-6 mx-auto -mt-14 flex items-center justify-between">
+          <div className="">
+            <h2 style={{ fontFamily: "Opensans-bold" }} className="text-white">
+              Looking for a dream home?
+            </h2>
+            <p className="text-gray-50 mt-2">
+              We can help you realize your dream of new home.
+            </p>
+          </div>
+          <button
+            onClick={() =>
+              document
+                .querySelector("#banner")
+                .scrollIntoView({ behaviour: "smooth" })
+            }
+            className="px-5 py-3 rounded-full bg-yellow-500 hover:bg-yellow-600 text-white"
+          >
+            Explore Properties
+          </button>
+        </div>
+      </section>
       <div
-        className="flex items-center justify-center p-3"
-        style={{
-          backgroundColor: "var(--primary-color)",
-          fontFamily: "Opensans-regular",
-        }}
-      ></div>
-      <div className="flex flex-col p-10 pb-0">
+        className="flex flex-col p-10 pb-0"
+        style={{ backgroundColor: "#21201c" }}
+      >
         <div className="grid grid-cols-2 sm:grid-cols-5 sm:space-x-5 pb-6">
           {links?.length > 0 &&
             links.map((item, i) => (
@@ -455,14 +475,10 @@ function Footer() {
             ))}
 
           {/**payment */}
-          <div className="flex flex-col mt-3 sm:mt-0">
-            <b
-              className="uppercase text-gray-500"
-              style={{ fontFamily: "Opensans-bold" }}
-            >
-              Secure Payments
-            </b>
-            <div className="grid grid-cols-2">
+          <div className="flex flex-col mt-3 sm:mt-0 text-white">
+            <h5 style={{ fontFamily: "Opensans-bold" }}>Secure Payments</h5>
+            <span className="w-12 h-1 rounded-full bg-yellow-500"></span>
+            <div className="grid grid-cols-2 mt-3">
               <div className="my-1 mr-1 flex items-center justify-center">
                 <img src="/icons/home/razorpay.png" alt="razorpay" />
               </div>
@@ -478,27 +494,23 @@ function Footer() {
             </div>
           </div>
           {/**questions */}
-          <div className="flex flex-col sm:pl-20 mt-3 sm:mt-0">
-            <b
-              className="uppercase text-gray-500"
-              style={{ fontFamily: "Opensans-bold" }}
-            >
-              Have questions?
-            </b>
+          <div className="flex flex-col sm:pl-20 mt-3 sm:mt-0 text-white">
+            <h5 style={{ fontFamily: "Opensans-bold" }}>Have questions?</h5>
+            <span className="w-12 h-1 rounded-full bg-yellow-500"></span>
             <div
-              className="flex flex-col items-start mt-2"
+              className="flex flex-col items-start mt-3"
               style={{ fontFamily: "Opensans-regular" }}
             >
-              <div className="flex text-gray-700">
+              <div className="flex text-white">
                 <FiPhoneCall className="mt-1" />
                 <p className="flex flex-col ml-2 leading-3">
                   <span>Toll Free</span>
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-white">
                     {website?.tollfree_number}
                   </span>
                 </p>
               </div>
-              <div className="flex text-gray-700 mt-3">
+              <div className="flex text-white mt-3">
                 <FiMail className="mt-1" />
                 <p className="flex flex-col ml-2 leading-3">
                   <span>Email</span>
@@ -509,12 +521,12 @@ function Footer() {
               </div>
               <div className="mt-3 flex flex-col">
                 <b
-                  className="uppercase text-gray-500"
+                  className="uppercase text-white"
                   style={{ fontFamily: "Opensans-bold" }}
                 >
                   Follow Us
                 </b>
-                <div className="flex text-xl text-gray-500 mt-1">
+                <div className="flex text-xl text-white mt-1">
                   <a href={website?.facebook_url}>
                     <img src="/icons/home/fb_grey.png" alt="fb" />
                   </a>
@@ -529,12 +541,9 @@ function Footer() {
             </div>
           </div>
         </div>
-        <div
-          className="text-center p-5 border-gray-300"
-          style={{ borderTopWidth: "1px" }}
-        >
+        <div className="text-center p-5 bg-black -mx-10">
           <p
-            className="uppercase text-gray-500"
+            className="uppercase text-white"
             style={{ fontFamily: "Opensans-regular" }}
           >
             &copy; 2021 Rent a Roof | All Rights Reserved.

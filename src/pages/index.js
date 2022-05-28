@@ -3,12 +3,9 @@ import React from "react";
 import Link from "next/link";
 import Banner from "../components/website/Banner";
 import Header from "../components/website/Header";
-import { FiPlayCircle } from "react-icons/fi";
 import CountIcon from "../components/website/CountIcon";
-import Option from "../components/website/Option";
 import { GrClose } from "react-icons/gr";
 import { useState } from "react";
-import Testimonial from "../components/website/Testimonial";
 import BlogItem from "../components/website/BlogItem";
 import Footer from "../components/website/Footer";
 import { shallowEqual, useSelector } from "react-redux";
@@ -33,6 +30,7 @@ const getBlogs = async () => {
 function Index() {
   const [play, setPlay] = useState(false);
   const [blogs, setBlogs] = useState([]);
+  const [dtype, setDType] = useState("tenant");
 
   const { website } = useSelector(
     (state) => ({
@@ -58,8 +56,10 @@ function Index() {
       <div className="w-full h-auto flex flex-col bg-gray-50">
         {/**header */}
         <Header />
-        {/**banner */}
-        <Banner />
+        <div id="banner">
+          {/**banner */}
+          <Banner />
+        </div>
         {/**counts */}
         <div className="p-10" style={{ backgroundColor: "#e5eff8" }}>
           <div className="max-w-5xl w-full py-5 mx-auto flex items-center justify-between">
@@ -166,97 +166,131 @@ function Index() {
             </div>
           </div>
         </section>
+
+        <section
+          style={{ backgroundColor: "#f6fbff" }}
+          className="flex items-center"
+        >
+          <div className="flex flex-col items-start max-w-sm w-full px-10">
+            <h3
+              style={{ fontFamily: "Opensans-bold" }}
+              className="text-gray-900"
+            >
+              Rent a Roof
+              <br />
+              Map Listing
+            </h3>
+            <p
+              className="text-gray-500 mt-4 mb-5"
+              style={{ fontFamily: "Opensans-regular" }}
+            >
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text
+              ever since the 1500s, when an unknown printer took a galley of
+              type and scrambled it to make a type specimen book. It has
+              survived not only five centuries, but also the leap into
+              electronic typesetting.
+            </p>
+            <button className="px-5 py-3 rounded-full bg-yellow-500 hover:bg-yellow-600 text-white">
+              Read More
+            </button>
+          </div>
+          <div className="flex-1">
+            <img src="/theme/images/map-image.png" alt="map" />
+          </div>
+        </section>
         {/**no hidden charges */}
 
-        <div
-          className=""
-          style={{
-            backgroundColor: "var(--primary-color)",
-            borderColor: "#fff",
-          }}
-        >
-          <div className="grid overflow-hidden grid-cols-1 md:grid-cols-2 text-white">
-            <div className="bg-white flex items-center justify-center">
-              <img
-                className="object-cover h-full"
-                src="images/website/hmnohc.webp"
-              />
-            </div>
-            <div className="relative p-10">
-              <h2 className="italic" style={{ fontFamily: "Opensans-bold" }}>
-                No hidden upfront service charges!
-              </h2>
-              <p
-                className="text-md mt-5"
-                style={{ fontFamily: "Opensans-regular" }}
-              >
-                After researching into the current renting sites that claim to
-                eliminate the need of a Real Estate Agent from the equation do
-                so by having hidden service charges. Not just that, we also went
-                through all the major sites ourselves noticing that when a
-                listing was actually free to interact with. In a lot of these
-                cases were actually posted by local real estate agents who will
-                still ask you for a brokerage amount, ranging usually from 30-60
-                days amount of rent as per Agreement.
-              </p>
-
-              <p
-                className="text-md mt-5"
-                style={{ fontFamily: "Opensans-regular" }}
-              >
-                Rent-a-Roof wants to eliminate this incoherence in the renting
-                sector by being transparent and systemized with our process. As
-                per our policy unless and until our clients find the right home
-                that fits their requirements with full assistance through the
-                entire process to make the already hectic process of shifting
-                and renting a new home much easier. A service charge of amount
-                equivalent to 15 days rent as per agreement will only be levied
-                once the Rent agreement has been signed and our clients are
-                happy with our services!
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/**video section */}
-        <div className="h-128 w-full bg-white flex flex-col items-center relative">
-          <div className="h-1/2 w-full bg-gray-100 flex flex-col items-center p-7">
-            <h5 className="font-semibold max-w-2xl w-full text-center text-gray-700">
-              {website?.homepage_video_title}
-            </h5>
-            <p className="my-2 text-gray-800 text-center">
-              {website?.homepage_video_description}
-            </p>
-          </div>
-          <div
-            className="absolute top-52 sm:top-32 bg-gray-200 overflow-hidden"
-            style={{
-              maxWidth: "800px",
-              width: "100%",
-              height: "350px",
-            }}
-          >
-            <img
-              className="object-cover"
-              style={{ height: "350px", width: "100%" }}
-              src="/images/website/playvideo.jpg"
-              alt="support"
-            />
-            <FiPlayCircle
-              className="absolute  transform -translate-x-1/2 -translate-y-1/2
-            top-1/2 left-1/2 text-white text-6xl z-20 cursor-pointer"
-              onClick={() => setPlay(true)}
-            />
+        <section className="bg-white">
+          <div className="max-w-5xl w-full mx-auto py-10">
             <div
-              className="absolute h-128 -left-10 z-10 top-1/2"
-              style={{
-                transform: "rotate(-22deg)",
-                width: "1000px",
-                backgroundColor: "rgba(0,0,0,.3)",
-              }}
-            ></div>
+              className="relative grid grid-cols-1 md:grid-cols-2 sm:space-x-5  text-center sm:text-left overflow-hidden 
+            "
+            >
+              {/**charges content */}
+              <div className="flex flex-col justify-start mt-12">
+                <h1
+                  className=" text-gray-900 text-3xl"
+                  style={{ fontFamily: "Opensans-bold" }}
+                >
+                  No hidden upfront
+                  <br /> <span className="text-blue-500">Service charges!</span>
+                </h1>
+                <p
+                  className="text-gray-700 text-sm mt-5"
+                  style={{ fontFamily: "Opensans-regular" }}
+                >
+                  After researching into the current renting sites that claim to
+                  eliminate the need of a Real Estate Agent from the equation do
+                  so by having hidden service charges. Not just that, we also
+                  went through all the major sites ourselves noticing that when
+                  a listing was actually free to interact with. In a lot of
+                  these cases were actually posted by local real estate agents
+                  who will still ask you for a brokerage amount, ranging usually
+                  from 30-60 days amount of rent as per Agreement.
+                </p>
+              </div>
+              {/**images */}
+              <div className="">
+                <img src="/theme/images/hidden.png" alt="no hidden charges" />
+              </div>
+            </div>
           </div>
+        </section>
 
+        <section className="bg-white">
+          <div className="max-w-sm  shadow-lg w-full bg-white rounded-full px-5 -mt-5 py-1 absolute left-1/2 transform -translate-x-1/2 flex items-center justify-evenly">
+            <button
+              onClick={() => setDType("tenant")}
+              className="px-5 py-3 rounded-full bg-yellow-500 hover:bg-yellow-600 text-white"
+            >
+              For Tenants
+            </button>
+            <button
+              onClick={() => setDType("landlord")}
+              className="px-5 py-3 rounded-full bg-blue-500 hover:bg-blue-600 text-white"
+            >
+              For Landlords
+            </button>
+          </div>
+        </section>
+        {dtype === "tenant" && (
+          <section className="bg-gradient-to-r from-yellow-300 to-yellow-400 p-10"></section>
+        )}
+        {dtype === "landlord" && (
+          <section className="bg-gradient-to-r from-blue-300 to-blue-400 p-10"></section>
+        )}
+
+        <section className="bg-white pb-20">
+          <div className="max-w-5xl w-full mx-auto py-10">
+            <div
+              className="relative grid grid-cols-1 md:grid-cols-2 sm:space-x-5  text-center sm:text-left overflow-hidden 
+            "
+            >
+              {/**images */}
+              <div className="cursor-pointer" onClick={() => setPlay(true)}>
+                <img src="/theme/images/video.png" alt="video" />
+              </div>
+              {/**about content */}
+              <div className="flex flex-col justify-start mt-12">
+                <h1
+                  className=" text-gray-900 text-3xl"
+                  style={{ fontFamily: "Opensans-bold" }}
+                >
+                  They say trust is everything, and for 92 years you've trusted
+                  us to look after your real estate needs.
+                </h1>
+                <p
+                  className="text-gray-700 text-sm mt-5"
+                  style={{ fontFamily: "Opensans-regular" }}
+                >
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum is simply dummy text of the
+                  printing and typesetting industry.
+                </p>
+              </div>
+            </div>
+          </div>
           {/**play video */}
           {play && (
             <div
@@ -294,7 +328,7 @@ function Index() {
               </div>
             </div>
           )}
-        </div>
+        </section>
 
         {/**blogs */}
         {false && (
@@ -317,6 +351,7 @@ function Index() {
             </div>
           </div>
         )}
+
         {/**footer */}
         <Footer />
       </div>
