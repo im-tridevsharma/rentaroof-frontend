@@ -19,7 +19,12 @@ function FeaturedProperty() {
   return (
     <div className="py-10 mt-10 px-5 max-w-5xl w-full mx-auto ">
       <div>
-        <h3 style={{ fontFamily: "Opensans-bold" }}>
+        <h3
+          style={{ fontFamily: "Opensans-bold" }}
+          className=" wow slideInLeft"
+          data-wow-delay="0.1s"
+          data-wow-duration="1s"
+        >
           Have a peak at some of our{" "}
           <span className="text-blue-400">featured listings!</span>
         </h3>
@@ -36,7 +41,11 @@ function FeaturedProperty() {
             properties.map((p, i) => (
               <Carousel.Item key={i}>
                 <Link href={`/details/properties/${p?.property_code}`}>
-                  <div className="flex flex-col bg-white pitem group shadow-md cursor-pointer overflow-hidden">
+                  <div
+                    className="flex flex-col bg-white pitem group shadow-md cursor-pointer overflow-hidden  wow slideInUp"
+                    data-wow-delay="0.1s"
+                    data-wow-duration="1s"
+                  >
                     <img
                       src={p?.front_image || "images/website/no_photo.png"}
                       alt={p?.name}

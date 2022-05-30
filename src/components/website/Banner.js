@@ -234,13 +234,17 @@ function Banner() {
       <div className="w-full banner relative">
         <div className="absolute  max-w-5xl w-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
           <p
-            className="text-2xl mt-20 mb-5 text-white"
+            className="text-2xl mt-20 mb-5 text-white wow slideInLeft"
+            data-wow-delay="0.1s"
+            data-wow-duration="1s"
             style={{ fontFamily: "Opensans-regular" }}
           >
             {website?.homepage_search_title}
           </p>
           <div
-            className="p-4"
+            className="p-4 wow zooIn"
+            data-wow-delay="0.1s"
+            data-wow-duration="1s"
             style={{
               backgroundColor: "rgba(255,255,255,.2)",
               fontFamily: "Opensans-regular",

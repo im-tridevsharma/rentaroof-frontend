@@ -61,7 +61,10 @@ function Index() {
           <Banner />
         </div>
         {/**counts */}
-        <div className="p-10" style={{ backgroundColor: "#e5eff8" }}>
+        <div
+          className="p-10 overflow-hidden pt-20"
+          style={{ backgroundColor: "#e5eff8" }}
+        >
           <div className="max-w-5xl w-full py-5 mx-auto flex items-center justify-between">
             <CountIcon
               Icon={
@@ -115,18 +118,26 @@ function Index() {
 
         <div className="register-sec">
           <p
-            className="text-gray-100 text-lg"
+            className="text-gray-100 text-lg  wow slideInDown"
+            data-wow-delay="0.3s"
+            data-wow-duration="1s"
             style={{ fontFamily: "Opensans-regular" }}
           >
             Are you looking
           </p>
           <h2
             style={{ fontFamily: "Opensans-semi-bold" }}
-            className="text-white"
+            className="text-white  wow slideInLeft"
+            data-wow-delay="0.3s"
+            data-wow-duration="1s"
           >
             to rent out ?
           </h2>
-          <div className="mt-6">
+          <div
+            className="mt-6  wow slideInUp"
+            data-wow-delay="0.3s"
+            data-wow-duration="1s"
+          >
             <Link href="list-property">
               <a className="bg-yellow-500 hover:bg-yellow-600 rounded-full text-xl text-white px-10 py-2">
                 LIST NOW
@@ -143,11 +154,19 @@ function Index() {
             "
             >
               {/**images */}
-              <div className="">
+              <div
+                className=" wow slideInLeft"
+                data-wow-delay="0.3s"
+                data-wow-duration="1s"
+              >
                 <img src="/theme/images/about.png" alt="about us" />
               </div>
               {/**about content */}
-              <div className="flex flex-col justify-start mt-12">
+              <div
+                className="flex flex-col justify-start mt-12  wow slideInRight"
+                data-wow-delay="0.3s"
+                data-wow-duration="1s"
+              >
                 <h1
                   className=" text-gray-900 text-3xl"
                   style={{ fontFamily: "Opensans-bold" }}
@@ -156,7 +175,9 @@ function Index() {
                   with <span className="text-blue-500">Rent a Roof</span>
                 </h1>
                 <p
-                  className="text-gray-700 text-sm mt-5"
+                  className="text-gray-700 text-sm mt-5  wow slideInUp"
+                  data-wow-delay="0.3s"
+                  data-wow-duration="1s"
                   style={{ fontFamily: "Opensans-regular" }}
                   dangerouslySetInnerHTML={{
                     __html: website?.homepage_aboutus_description,
@@ -174,14 +195,18 @@ function Index() {
           <div className="flex flex-col items-start max-w-sm w-full px-10">
             <h3
               style={{ fontFamily: "Opensans-bold" }}
-              className="text-gray-900"
+              className="text-gray-900  wow slideInLeft"
+              data-wow-delay="0.3s"
+              data-wow-duration="1s"
             >
               Rent a Roof
               <br />
               Map Listing
             </h3>
             <p
-              className="text-gray-500 mt-4 mb-5"
+              className="text-gray-500 mt-4 mb-5  wow slideInUp"
+              data-wow-delay="0.3s"
+              data-wow-duration="1s"
               style={{ fontFamily: "Opensans-regular" }}
             >
               Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -191,7 +216,11 @@ function Index() {
               survived not only five centuries, but also the leap into
               electronic typesetting.
             </p>
-            <button className="px-5 py-3 rounded-full bg-yellow-500 hover:bg-yellow-600 text-white">
+            <button
+              className="px-5 py-3 rounded-full bg-yellow-500 hover:bg-yellow-600 text-white  wow slideInUp"
+              data-wow-delay="0.3s"
+              data-wow-duration="1s"
+            >
               Read More
             </button>
           </div>
@@ -210,14 +239,18 @@ function Index() {
               {/**charges content */}
               <div className="flex flex-col justify-start mt-12">
                 <h1
-                  className=" text-gray-900 text-3xl"
+                  className=" text-gray-900 text-3xl  wow slideInLeft"
+                  data-wow-delay="0.3s"
+                  data-wow-duration="1s"
                   style={{ fontFamily: "Opensans-bold" }}
                 >
                   No hidden upfront
                   <br /> <span className="text-blue-500">Service charges!</span>
                 </h1>
                 <p
-                  className="text-gray-700 text-sm mt-5"
+                  className="text-gray-700 text-sm mt-5  wow slideInUp"
+                  data-wow-delay="0.3s"
+                  data-wow-duration="1s"
                   style={{ fontFamily: "Opensans-regular" }}
                 >
                   After researching into the current renting sites that claim to
@@ -231,57 +264,427 @@ function Index() {
                 </p>
               </div>
               {/**images */}
-              <div className="">
+              <div
+                className=" wow slideInRight"
+                data-wow-delay="0.3s"
+                data-wow-duration="1s"
+              >
                 <img src="/theme/images/hidden.png" alt="no hidden charges" />
               </div>
             </div>
           </div>
         </section>
 
-        <section className="bg-white">
-          <div className="max-w-sm  shadow-lg w-full bg-white rounded-full px-5 -mt-5 py-1 absolute left-1/2 transform -translate-x-1/2 flex items-center justify-evenly">
+        <section className="bg-white pt-16 z-40 sticky top-0">
+          <div className="max-w-sm shadow-lg w-full bg-white rounded-full px-5 -mb-6 py-1 mx-auto flex items-center justify-evenly">
             <button
               onClick={() => setDType("tenant")}
-              className="px-5 py-3 rounded-full bg-yellow-500 hover:bg-yellow-600 text-white"
+              className="px-5 py-3 rounded-full bg-yellow-500 hover:bg-yellow-600 text-white  wow zoomIn"
+              data-wow-delay="0.3s"
+              data-wow-duration="1s"
             >
               For Tenants
             </button>
             <button
               onClick={() => setDType("landlord")}
-              className="px-5 py-3 rounded-full bg-blue-500 hover:bg-blue-600 text-white"
+              className="px-5 py-3 rounded-full bg-blue-500 hover:bg-blue-600 text-white  wow zoomIn"
+              data-wow-delay="0.3s"
+              data-wow-duration="1s"
             >
               For Landlords
             </button>
           </div>
         </section>
         {dtype === "tenant" && (
-          <section className="bg-gradient-to-r from-yellow-300 to-yellow-400 p-10"></section>
+          <section className="bg-gradient-to-r from-yellow-300 to-yellow-400 p-10">
+            <div className="max-w-5xl w-full mx-auto mt-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 md:space-y-10 space-y-10">
+                <div className="flex items-center justify-start pt-10">
+                  <img
+                    className="h-72 object-contain p-3 bg-white  rounded-md shadow-lg wow slideInLeft"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                    src="/images/website/rslider1.webp"
+                    alt="visit rent a roof"
+                  />
+                </div>
+                <div className="text-white">
+                  <h1
+                    className="title md:pr-10 wow slideInRight"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                  >
+                    Visit Rentaroof.com
+                  </h1>
+                  <p
+                    className="p text-lg mt-5 wow slideInUp"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                  >
+                    You can easily search through the various agent verified
+                    properties on our database and save them in your
+                    favourite’s. There are several filters that you can use to
+                    refine your search drastically. In case you are having
+                    trouble finding the right home simply share us your
+                    requirements and one of our agents will connect with you.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 md:space-y-10 space-y-10 mt-10">
+                <div className="flex items-center justify-start pt-10">
+                  <img
+                    className="h-72 object-contain p-3 bg-white  rounded-md shadow-lg wow slideInLeft"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                    src="/images/website/rslider2.webp"
+                    alt="Schedule a visit"
+                  />
+                </div>
+                <div className="text-white">
+                  <h1
+                    className="title md:pr-10 wow slideInRight"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                  >
+                    Schedule a visit
+                  </h1>
+                  <p
+                    className="p text-lg mt-5 wow slideInUp"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                  >
+                    We understand that just images don’t justify the real feel
+                    of a home and so scheduling a visit to any of the verified
+                    properties listed on Rent-A-Roof is very simple. All you
+                    need to do is schedule a visit with your preferred time and
+                    one of our agents will connect with you and guide you
+                    through the entire visit answering any and all questions you
+                    may have.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 md:space-y-10 space-y-10 mt-10">
+                <div className="flex items-center justify-start pt-10">
+                  <img
+                    className="h-72 object-contain p-3 bg-white  rounded-md shadow-lg wow slideInLeft"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                    src="/images/website/rslider3.webp"
+                    alt="Make an offer"
+                  />
+                </div>
+                <div className="text-white">
+                  <h1
+                    className="title md:pr-10 wow slideInRight"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                  >
+                    Make an offer
+                  </h1>
+                  <p
+                    className="p text-lg mt-5 wow slideInUp"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                  >
+                    After scheduling visits, once you find the perfect home that
+                    meets all your requirements! You can go on to make an offer
+                    through the chat feature in our app with your assigned agent
+                    who will facilitate the entire negotiation aspect with the
+                    landlord for the final deal.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 md:space-y-10 space-y-10 mt-10">
+                <div className="flex items-center justify-start pt-10">
+                  <img
+                    className="h-72 w-72 object-contain p-3 bg-white  rounded-md shadow-lg wow slideInLeft"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                    src="/images/website/rslider4.webp"
+                    alt="Documentation"
+                  />
+                </div>
+                <div className="text-white">
+                  <h1
+                    className="title md:pr-10 wow slideInRight"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                  >
+                    Documentation process
+                  </h1>
+                  <p
+                    className="p text-lg mt-5 wow slideInUp"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                  >
+                    Once the final offer is agreed upon, your agent will move
+                    forward with assisting you with the entire documentation
+                    process. All aspects of the documentation work have been
+                    smartly integrated within our platform including the
+                    formation of the final rent agreement by your assigned agent
+                    making things even simpler.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 md:space-y-10 space-y-10 mt-10">
+                <div className="flex items-center justify-start pt-10">
+                  <img
+                    className="h-72 object-contain p-3 bg-white  rounded-md shadow-lg wow slideInLeft"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                    src="/images/website/rslider5.webp"
+                    alt="Getting your keys"
+                  />
+                </div>
+                <div className="text-white">
+                  <h1
+                    className="title md:pr-10 wow slideInRight"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                  >
+                    Getting your keys
+                  </h1>
+                  <p
+                    className="p text-lg mt-5 wow slideInUp"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                  >
+                    With all aspects of the renting process covered. Our
+                    Rent-A-Roof executive will then move forward to handover the
+                    keys to your new home!
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
         )}
         {dtype === "landlord" && (
-          <section className="bg-gradient-to-r from-blue-300 to-blue-400 p-10"></section>
+          <section className="bg-gradient-to-r from-blue-300 to-blue-400 p-10">
+            <div className="max-w-5xl w-full mx-auto mt-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 md:space-y-10 space-y-10">
+                <div className="flex items-center justify-start pt-10">
+                  <img
+                    className="h-72 object-contain p-3 bg-white  rounded-md shadow-lg wow slideInLeft"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                    src="/images/website/fhomeosr1.webp"
+                    alt="List your property for free"
+                  />
+                </div>
+                <div className="text-white">
+                  <h1
+                    className="title md:pr-10 wow slideInRight"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                  >
+                    List your property for free
+                  </h1>
+                  <p
+                    className="p text-lg mt-5 wow slideInUp"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                  >
+                    You can easily list your property for free on Rentaroof with
+                    all the necessary details required to attract clients. An
+                    agent will be assigned to manage all the tasks required in
+                    the renting process. An easy chat feature integrated In our
+                    app, your agent will easily be able to share regular updates
+                    regarding applications.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 md:space-y-10 space-y-10 mt-10">
+                <div className="flex items-center justify-start pt-10">
+                  <img
+                    className="h-72 object-contain p-3 bg-white  rounded-md shadow-lg wow slideInLeft"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                    src="/images/website/fhomeosr3.webp"
+                    alt="Manage appointments"
+                  />
+                </div>
+                <div className="text-white">
+                  <h1
+                    className="title md:pr-10 wow slideInRight"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                  >
+                    Manage appointments
+                  </h1>
+                  <p
+                    className="p text-lg mt-5 wow slideInUp"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                  >
+                    All Rent-A-Roof agents are well mannered and qualified
+                    executives of Rent-A-Roof. They will manage all the
+                    applications and fix appointments as per your instructions.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 md:space-y-10 space-y-10 mt-10">
+                <div className="flex items-center justify-start pt-10">
+                  <img
+                    className="h-72 w-72 object-contain p-3 bg-white  rounded-md shadow-lg wow slideInLeft"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                    src="/images/website/fhomeosr4.webp"
+                    alt="Negotiations"
+                  />
+                </div>
+                <div className="text-white">
+                  <h1
+                    className="title md:pr-10 wow slideInRight"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                  >
+                    Negotiations
+                  </h1>
+                  <p
+                    className="p text-lg mt-5 wow slideInUp"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                  >
+                    All offers of potential client’s will be conveyed to you by
+                    our agent and upon finalizing the deal. Our agents will then
+                    move on to facilitate the documentation process.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 md:space-y-10 space-y-10 mt-10">
+                <div className="flex items-center justify-start pt-10">
+                  <img
+                    className="h-72 w-72 object-contain p-3 bg-white  rounded-md shadow-lg wow slideInLeft"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                    src="/images/website/fhomeosr5.webp"
+                    alt="Processing documents"
+                  />
+                </div>
+                <div className="text-white">
+                  <h1
+                    className="title md:pr-10 wow slideInRight"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                  >
+                    Processing documents
+                  </h1>
+                  <p
+                    className="p text-lg mt-5 wow slideInUp"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                  >
+                    All the documents like the written and signed offer, rent
+                    agreement and police verification will be carried out by
+                    your agent using our pre-defined guidelines and process.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 md:space-y-10 space-y-10 mt-10">
+                <div className="flex items-center justify-start pt-10">
+                  <img
+                    className="h-72 object-contain p-3 bg-white  rounded-md shadow-lg wow slideInLeft"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                    src="/images/website/fhomeosr6.webp"
+                    alt="Closing the deal"
+                  />
+                </div>
+                <div className="text-white">
+                  <h1
+                    className="title md:pr-10 wow slideInRight"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                  >
+                    Closing the deal
+                  </h1>
+                  <p
+                    className="p text-lg mt-5 wow slideInUp"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                  >
+                    When you are close to closing the deal any hindrance or
+                    problem could prove problematic and that’s where our agents
+                    come through. Your R-A-R agent will make sure that
+                    everything is on the given timeline and that the process
+                    flows smoothly for a swifter experience.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 md:space-y-10 space-y-10 mt-10">
+                <div className="flex items-center justify-start pt-10">
+                  <img
+                    className="h-72 object-contain p-3 bg-white  rounded-md shadow-lg wow slideInLeft"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                    src="/images/website/fhomeosr7.webp"
+                    alt="Service charge"
+                  />
+                </div>
+                <div className="text-white">
+                  <h1
+                    className="title md:pr-10 wow slideInRight"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                  >
+                    Service charge
+                  </h1>
+                  <p
+                    className="p text-lg mt-5 wow slideInUp"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                  >
+                    Upon closure as per our policy we only levy a fee equivalent
+                    to the sum of 15 days rent as per the signed agreement for
+                    the services provided by the Agent as opposed to the
+                    traditional 30-60 day rent amount charged by traditional
+                    brokers.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
         )}
 
-        <section className="bg-white pb-20">
+        <section className="bg-white pb-20 pt-16">
           <div className="max-w-5xl w-full mx-auto py-10">
             <div
               className="relative grid grid-cols-1 md:grid-cols-2 sm:space-x-5  text-center sm:text-left overflow-hidden 
             "
             >
               {/**images */}
-              <div className="cursor-pointer" onClick={() => setPlay(true)}>
+              <div
+                className="cursor-pointer  wow slideInLeft"
+                data-wow-delay="0.3s"
+                data-wow-duration="1s"
+                onClick={() => setPlay(true)}
+              >
                 <img src="/theme/images/video.png" alt="video" />
               </div>
               {/**about content */}
               <div className="flex flex-col justify-start mt-12">
                 <h1
-                  className=" text-gray-900 text-3xl"
+                  className=" text-gray-900 text-3xl  wow slideInUp"
+                  data-wow-delay="0.3s"
+                  data-wow-duration="1s"
                   style={{ fontFamily: "Opensans-bold" }}
                 >
                   They say trust is everything, and for 92 years you've trusted
                   us to look after your real estate needs.
                 </h1>
                 <p
-                  className="text-gray-700 text-sm mt-5"
+                  className="text-gray-700 text-sm mt-5  wow slideInUp"
+                  data-wow-delay="0.3s"
+                  data-wow-duration="1s"
                   style={{ fontFamily: "Opensans-regular" }}
                 >
                   Lorem Ipsum is simply dummy text of the printing and

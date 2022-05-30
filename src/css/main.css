@@ -277,8 +277,17 @@ button {
   text-transform: uppercase;
 }
 
+.title {
+  font-family: "Opensans-bold";
+}
 
+.p {
+  font-family: "Opensans-regular";
+}
 
+.subtitle {
+  font-family: "Opensans-semi-bold";
+}
 
 #__next {
   width: 100%;

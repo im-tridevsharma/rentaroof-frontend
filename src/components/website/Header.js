@@ -231,7 +231,11 @@ function Header() {
           }}
         >
           {/**header top left */}
-          <div className="flex items-center">
+          <div
+            className="flex items-center wow slideInLeft"
+            data-wow-delay="0.1s"
+            data-wow-duration="1s"
+          >
             <div className="flex items-center mb-1 sm:mb-0">
               <FaEnvelope className="mr-2" />
               <span>{website?.company_email}</span>
@@ -242,7 +246,11 @@ function Header() {
             </div>
           </div>
           {/**header top right */}
-          <div className="flex items-center">
+          <div
+            className="flex items-center wow slideInRight"
+            data-wow-delay="0.1s"
+            data-wow-duration="1s"
+          >
             <a href={website?.twitter_url} className="mx-2 hover:text-gray-300">
               <FaTwitter />
             </a>
@@ -332,7 +340,11 @@ function Header() {
       {/**header nav part */}
       <div className="py-2 bg-transparent flex flex-col sm:flex-row items-center sm:justify-between">
         {/**logo */}
-        <div>
+        <div
+          className="wow wobble"
+          data-wow-delay="0.1s"
+          data-wow-duration="1s"
+        >
           <Link href="/">
             <a className="flex items-center bg-transparent -ml-5">
               <img
@@ -345,8 +357,10 @@ function Header() {
         </div>
         {/**navigation */}
         <div
-          className="flex items-center flex-col sm:flex-row text-gray-100"
+          className="flex items-center flex-col sm:flex-row text-gray-100 wow slideInDown"
           style={{ fontFamily: "Opensans-regular" }}
+          data-wow-delay="0.1s"
+          data-wow-duration="1s"
         >
           <ul className="sm:flex sm:items-center">
             <li className="mx-2 relative parent">

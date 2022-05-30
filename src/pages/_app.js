@@ -35,6 +35,9 @@ Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
+const isServer = typeof window === "undefined";
+const WOW = !isServer ? require("wow.js") : null;
+
 export default function App({ Component, pageProps }) {
   const store = useStore(pageProps.initialReduxState);
 
@@ -63,6 +66,8 @@ export default function App({ Component, pageProps }) {
         8001
       )}/api/broadcasting/auth`,
     });
+
+    new WOW().init();
   }, []);
 
   return (
@@ -71,6 +76,10 @@ export default function App({ Component, pageProps }) {
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css"
         />
       </Head>
 

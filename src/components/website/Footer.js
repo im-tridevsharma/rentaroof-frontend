@@ -443,8 +443,12 @@ function Footer() {
         </form>
       )}
       <section style={{ backgroundColor: "#21201c" }}>
-        <div className="max-w-3xl w-full bg-blue-500 p-6 mx-auto -mt-14 flex items-center justify-between">
-          <div className="">
+        <div className="max-w-3xl w-full bg-blue-500 p-6 mx-auto -mt-14 flex items-center justify-between overflow-hidden">
+          <div
+            className=" wow slideInLeft"
+            data-wow-delay="0.3s"
+            data-wow-duration="1s"
+          >
             <h2 style={{ fontFamily: "Opensans-bold" }} className="text-white">
               Looking for a dream home?
             </h2>
@@ -458,7 +462,9 @@ function Footer() {
                 .querySelector("#banner")
                 .scrollIntoView({ behaviour: "smooth" })
             }
-            className="px-5 py-3 rounded-full bg-yellow-500 hover:bg-yellow-600 text-white"
+            className="px-5 py-3 rounded-full bg-yellow-500 hover:bg-yellow-600 text-white wow slideInRight"
+            data-wow-delay="0.3s"
+            data-wow-duration="1s"
           >
             Explore Properties
           </button>
