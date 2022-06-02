@@ -246,7 +246,7 @@ const initialState = [
       {
         url: "/admin/meetings",
         icon: <GiWalk size={20} />,
-        title: "Mettings",
+        title: "Meetings",
         items: [],
       },
       {

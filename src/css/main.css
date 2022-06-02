@@ -186,7 +186,7 @@ button {
 .count-item {
   position: relative;
   overflow: hidden;
-  background: #fff;
+  background: #fff4e1;
   width: calc(100% / 4 - 20px);
   height: 210px;
 }
@@ -206,12 +206,13 @@ button {
   height: 100%;
   top: 33%;
   left: -141px;
-  background: #fbf7ee;
+  background: #FFE5B4;
   transform: rotate(43deg);
   z-index: -1;
+  transition: all .4s ease-in-out;
 }
 .count-item:hover {
-  background-color: #f7a420;
+  background-color: #ffd485;
 }
 .count-item img{
   height: 50px;
@@ -221,7 +222,7 @@ button {
   filter: invert(1) brightness(100);
 }
 .count-item:hover::before {
-  background-color: #fbba52;
+  background-color: #FFE5B4;
 }
 
 
@@ -237,28 +238,6 @@ button {
 
 .pitem:hover .image{
   transform: scale(1.2) translateY(-1rem);
-}
-
-.sc-bdVaJa:first-child {
-  position: absolute;
-  top: -85px;
-  right: 45px;
-}
-.sc-bdVaJa:first-child span {
-  background-color: #f7a420!important;
-}
-.bhRnqO::before, .kVtMtA::before{
-  border-top-color: #fff!important;
-  border-right-color: #fff !important;
-}
-
-.sc-bdVaJa:last-child{
-  position: absolute;
-  top: -85px;
-  right: -5px;
-}
-.sc-bdVaJa:last-child span {
-  background-color: #0081e7 !important;
 }
 
 
@@ -287,6 +266,21 @@ button {
 
 .subtitle {
   font-family: "Opensans-semi-bold";
+}
+
+.childs {
+    background-color: rgba(255, 255, 255, .9);
+}
+
+.childs::before {
+  position: absolute;
+  content: "";
+  top: -5px;
+  left: 5px;
+  background-color: rgba(255, 255, 255, .2);
+  width: 20px;
+  height: 20px;
+  transform: rotate(45deg);
 }
 
 #__next {

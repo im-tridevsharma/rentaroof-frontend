@@ -217,61 +217,69 @@ function Header() {
 
   return (
     <div
-      className="flex flex-col py-3 absolute max-w-5xl w-full left-1/2 transform -translate-x-1/2"
+      className="flex flex-col absolute w-full left-1/2 transform -translate-x-1/2"
       style={{ zIndex: "9999" }}
     >
       {isLoading && <Loader />}
       {/**header top part */}
       {router.pathname === "/" && (
         <div
-          className="flex items-center justify-between text-gray-100"
-          style={{
-            backgroundColor: "transparent",
-            fontFamily: "Opensans-regular",
-          }}
+          className=" py-2 px-5 md:px-10"
+          style={{ backgroundColor: "rgba(0,0,0,.8)" }}
         >
-          {/**header top left */}
           <div
-            className="flex items-center wow slideInLeft"
-            data-wow-delay="0.1s"
-            data-wow-duration="1s"
+            className="flex items-center justify-between text-gray-100"
+            style={{
+              backgroundColor: "transparent",
+              fontFamily: "Opensans-regular",
+            }}
           >
-            <div className="flex items-center mb-1 sm:mb-0">
-              <FaEnvelope className="mr-2" />
-              <span>{website?.company_email}</span>
+            {/**header top left */}
+            <div
+              className="flex items-center wow slideInLeft"
+              data-wow-delay="0.1s"
+              data-wow-duration="1s"
+            >
+              <div className="flex items-center mb-1 sm:mb-0">
+                <FaEnvelope className="mr-2" />
+                <span>{website?.company_email}</span>
+              </div>
+              <div className="flex items-center ml-3 sm:mb-0">
+                <FaPhoneAlt className="mr-2" />
+                <span>{website?.company_contact}</span>
+              </div>
             </div>
-            <div className="flex items-center ml-3 sm:mb-0">
-              <FaPhoneAlt className="mr-2" />
-              <span>{website?.company_contact}</span>
+            {/**header top right */}
+            <div
+              className="flex items-center wow slideInRight"
+              data-wow-delay="0.1s"
+              data-wow-duration="1s"
+            >
+              <a
+                href={website?.twitter_url}
+                className="mx-2 hover:text-gray-300"
+              >
+                <FaTwitter />
+              </a>
+              <a
+                href={website?.facebook_url}
+                className="mx-1 hover:text-gray-300"
+              >
+                <FaFacebookF />
+              </a>
+              <a
+                href={website?.instagram_url}
+                className="mx-1 hover:text-gray-300"
+              >
+                <FaInstagram />
+              </a>
+              <a
+                href={website?.linkedin_url}
+                className="mx-1 hover:text-gray-300"
+              >
+                <FaLinkedinIn />
+              </a>
             </div>
-          </div>
-          {/**header top right */}
-          <div
-            className="flex items-center wow slideInRight"
-            data-wow-delay="0.1s"
-            data-wow-duration="1s"
-          >
-            <a href={website?.twitter_url} className="mx-2 hover:text-gray-300">
-              <FaTwitter />
-            </a>
-            <a
-              href={website?.facebook_url}
-              className="mx-1 hover:text-gray-300"
-            >
-              <FaFacebookF />
-            </a>
-            <a
-              href={website?.instagram_url}
-              className="mx-1 hover:text-gray-300"
-            >
-              <FaInstagram />
-            </a>
-            <a
-              href={website?.linkedin_url}
-              className="mx-1 hover:text-gray-300"
-            >
-              <FaLinkedinIn />
-            </a>
           </div>
         </div>
       )}
@@ -338,10 +346,20 @@ function Header() {
       )}
 
       {/**header nav part */}
-      <div className="py-2 bg-transparent flex flex-col sm:flex-row items-center sm:justify-between">
+      <div
+        className={`py-0 px-5 md:px-10 flex flex-col sm:flex-row items-center sm:justify-between ${
+          router.pathname !== "/" ? "shadow-sm sticky top-0" : ""
+        }`}
+        style={{
+          backgroundColor:
+            router.pathname === "/"
+              ? "rgba(255,255,255,.8)"
+              : "rgba(255,255,255,1)",
+        }}
+      >
         {/**logo */}
         <div
-          className="wow wobble"
+          className="wow wobble -ml-2"
           data-wow-delay="0.1s"
           data-wow-duration="1s"
         >
@@ -350,15 +368,15 @@ function Header() {
               <img
                 src={website?.logo || "/images/website/no_photo.png"}
                 alt="logo"
-                className="h-32 object-contain logo"
+                className="h-20 object-contain"
               />
             </a>
           </Link>
         </div>
         {/**navigation */}
         <div
-          className="flex items-center flex-col sm:flex-row text-gray-100 wow slideInDown"
-          style={{ fontFamily: "Opensans-regular" }}
+          className="flex items-center flex-col sm:flex-row text-gray-700 wow slideInDown"
+          style={{ fontFamily: "Opensans-semi-bold" }}
           data-wow-delay="0.1s"
           data-wow-duration="1s"
         >
@@ -367,7 +385,7 @@ function Header() {
               <Link href="/">
                 <a
                   className={`py-2 px-3 border-b-2 border-transparent ${
-                    router.pathname === "/" ? "text-yellow-300" : ""
+                    router.pathname === "/" ? "text-blue-700" : ""
                   }`}
                 >
                   Home
@@ -378,16 +396,16 @@ function Header() {
               <Link href="/">
                 <a
                   className={`py-2 px-3 border-b-2 border-transparent ${
-                    router.pathname === "/for-tenant" ? "text-yellow-300" : ""
+                    router.pathname === "/for-tenant" ? "text-blue-700" : ""
                   }`}
                 >
                   Rent
                 </a>
               </Link>
-              <ul className="absolute childs top-8 pt-2 left-0 text-gray-800  bg-gray-100 px-2 py-1 z-40 w-max">
+              <ul className="absolute childs top-8 left-0 text-gray-800 z-40 w-max">
                 <li
-                  className={`my-2 hover:text-blue-400 ${
-                    router.pathname === "/for-tenant" ? "text-yellow-300" : ""
+                  className={`my-2 hover:text-yellow-400 ${
+                    router.pathname === "/for-tenant" ? "text-blue-700" : ""
                   }`}
                 >
                   <Link href="/for-tenant">
@@ -400,7 +418,7 @@ function Header() {
             </li>
             <li
               className={`mx-2 parent relative ${
-                router.pathname === "/join-our-team" ? "text-yellow-300" : ""
+                router.pathname === "/join-our-team" ? "text-blue-700" : ""
               }`}
             >
               <Link href="/join-our-team">
@@ -412,7 +430,7 @@ function Header() {
 
             <li
               className={`mx-2 parent relative ${
-                router.pathname === "/list-property" ? "text-yellow-300" : ""
+                router.pathname === "/list-property" ? "text-blue-700" : ""
               }`}
             >
               <Link
@@ -426,17 +444,17 @@ function Header() {
                   className={`py-2 px-3 border-b-2 border-transparent ${
                     router.pathname === "/for-homeowner" ||
                     router.pathname === "/list-property"
-                      ? "text-yellow-300"
+                      ? "text-blue-700"
                       : ""
                   }`}
                 >
                   List Property
                 </a>
               </Link>
-              <ul className="absolute childs top-8 pt-2 left-0 text-gray-800 bg-white px-2 py-1 z-40 w-max">
+              <ul className="absolute childs top-8 left-0 text-gray-800  z-40 w-max">
                 <li
-                  className={`my-2 hover:text-blue-400 ${
-                    router.pathname === "/for-tenant" ? "text-yellow-300" : ""
+                  className={`my-2 hover:text-yellow-400 ${
+                    router.pathname === "/for-tenant" ? "text-blue-700" : ""
                   }`}
                 >
                   <Link href="/for-homeowner">
@@ -449,7 +467,7 @@ function Header() {
             </li>
             <li
               className={`mx-2 ${
-                router.pathname === "/our-advantages" ? "text-yellow-300" : ""
+                router.pathname === "/our-advantages" ? "text-blue-700" : ""
               }`}
             >
               <Link href="/our-advantages">
@@ -459,11 +477,11 @@ function Header() {
               </Link>
             </li>
           </ul>
-          <div className="flex items-center ml-5">
+          <div className="flex items-center mx-2">
             {router.pathname !== "/" && (
               <button
                 onClick={() => setSearchModal(!searchModal)}
-                className="py-1 px-4 mr-3 rounded-md text-white flex items-center"
+                className="py-1 px-4 flex mr-2 items-center bg-yellow-400 hover:bg-yellow-500 rounded-full text-white"
                 style={{ backgroundColor: "var(--orange)" }}
               >
                 <FaSearch className="mr-1" /> Find Property

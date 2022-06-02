@@ -192,16 +192,14 @@ function Index() {
           style={{ backgroundColor: "#f6fbff" }}
           className="flex items-center"
         >
-          <div className="flex flex-col items-start max-w-sm w-full px-10">
+          <div className="flex flex-col items-start max-w-xl w-full px-10">
             <h3
               style={{ fontFamily: "Opensans-bold" }}
-              className="text-gray-900  wow slideInLeft"
+              className="text-gray-900  wow slideInLeft pt-5"
               data-wow-delay="0.3s"
               data-wow-duration="1s"
             >
-              Rent a Roof
-              <br />
-              Map Listing
+              Rent a Roof Map Listing
             </h3>
             <p
               className="text-gray-500 mt-4 mb-5  wow slideInUp"
@@ -209,15 +207,24 @@ function Index() {
               data-wow-duration="1s"
               style={{ fontFamily: "Opensans-regular" }}
             >
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting.
+              Delhi is one of the nation's most exciting and best loved cities.
+              At Rent-A-Roof, we recognize that searching for an apartment/home
+              in a highly competitive market, such as Delhi may seem a bit
+              overwhelming at first. Knowledge of what to expect, understanding
+              the process and terminology, and learning about the present Delhi
+              real estate market will be extremely important in helping you to
+              find your perfect home.
+              <br />
+              <br />
+              Our rental agents are trained and ready to help you with all
+              aspects of your search. They understand the needs and requirements
+              of their clients and have in depth knowledge of the intricate
+              details involved in this process such as the tiresome paperwork.
+              Their experience and expertise will guarantee that it will be a
+              successful, rewarding and enjoyable experience.
             </p>
             <button
-              className="px-5 py-3 rounded-full bg-yellow-500 hover:bg-yellow-600 text-white  wow slideInUp"
+              className="px-5 py-3 mb-5 rounded-full bg-yellow-500 hover:bg-yellow-600 text-white  wow slideInUp"
               data-wow-delay="0.3s"
               data-wow-duration="1s"
             >
@@ -225,7 +232,11 @@ function Index() {
             </button>
           </div>
           <div className="flex-1">
-            <img src="/theme/images/map-image.png" alt="map" />
+            <img
+              src="/theme/images/map-image.png"
+              alt="map"
+              className="object-fill"
+            />
           </div>
         </section>
         {/**no hidden charges */}
