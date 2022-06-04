@@ -220,7 +220,9 @@ function AddPropertyUI() {
               }`}
             >
               <div className="form-element">
-                <label className="form-label">Property Title (Name)</label>
+                <label className="form-label">
+                  Property Title (Name)<span style={{ color: "red" }}>*</span>
+                </label>
                 <input
                   type="text"
                   name="name"
@@ -231,7 +233,9 @@ function AddPropertyUI() {
               </div>
               {profile?.role === "ibo" && (
                 <div className="form-element">
-                  <label className="form-label">Landlord</label>
+                  <label className="form-label">
+                    Landlord<span style={{ color: "red" }}>*</span>
+                  </label>
                   <div className="flex items-center">
                     <select
                       className="form-input border-gray-200 rounded-md"
@@ -320,7 +324,9 @@ function AddPropertyUI() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-3">
               <div className="form-element">
-                <label className="form-label">Furnished Status</label>
+                <label className="form-label">
+                  Furnished Status<span style={{ color: "red" }}>*</span>
+                </label>
                 <select
                   name="furnished_status"
                   value={property?.furnished_status}
@@ -398,8 +404,15 @@ function AddPropertyUI() {
               </div>
 
               <div className="form-element">
-                <label className="form-label">Bedroom</label>
+                <label className="form-label">
+                  Bedroom<span style={{ color: "red" }}>*</span>
+                </label>
                 <div className="flex items-center flex-wrap">
+                  <CircleInputRadio
+                    name="bedrooms"
+                    value="0"
+                    state={{ data: bedrooms, setData: setBedrooms }}
+                  />
                   <CircleInputRadio
                     name="bedrooms"
                     value="1"
@@ -440,8 +453,15 @@ function AddPropertyUI() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
               <div className="form-element">
-                <label className="form-label">Bathroom</label>
+                <label className="form-label">
+                  Bathroom<span style={{ color: "red" }}>*</span>
+                </label>
                 <div className="flex items-center flex-wrap">
+                  <CircleInputRadio
+                    name="bathrooms"
+                    value="0"
+                    state={{ data: bathrooms, setData: setBathrooms }}
+                  />
                   <CircleInputRadio
                     name="bathrooms"
                     value="1"
@@ -480,8 +500,15 @@ function AddPropertyUI() {
               </div>
 
               <div className="form-element">
-                <label className="form-label">Balcony</label>
+                <label className="form-label">
+                  Balcony<span style={{ color: "red" }}>*</span>
+                </label>
                 <div className="flex items-center flex-wrap">
+                  <CircleInputRadio
+                    name="balconies"
+                    value="0"
+                    state={{ data: balconies, setData: setBalconies }}
+                  />
                   <CircleInputRadio
                     name="balconies"
                     value="1"
@@ -519,7 +546,9 @@ function AddPropertyUI() {
                 </div>
               </div>
               <div className="form-element">
-                <label className="form-label">Floors</label>
+                <label className="form-label">
+                  Floors<span style={{ color: "red" }}>*</span>
+                </label>
                 <div className="flex items-center flex-wrap">
                   <CircleInputRadio
                     name="floors"
