@@ -230,6 +230,22 @@ button {
   transform: scale(1.2) translateY(-1rem);
 }
 
+.fODaaf, .sc-bxivhb {
+  width: 12px!important;
+  height: 12px!important;
+  border: 1px solid blue!important;
+}
+
+ .jWpUJH{
+  position: absolute !important;
+  display: flex !important;
+  flex-direction: column!important;
+  align-items: end!important;
+  height: 350px!important;
+ }
+ .dLykRX{
+   margin-bottom: 10px!important;
+ }
 
 .register-sec {
   margin-top: 50px;

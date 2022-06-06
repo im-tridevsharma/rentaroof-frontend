@@ -21,16 +21,200 @@ function Services() {
           <h2 className="py-3 mt-3" style={{ fontFamily: "Opensans-bold" }}>
             Guides for tenants
           </h2>
+
+          <div className="mt-10 grid grid-cols-1 md:grid-cols-2 md:space-x-5 space-y-5 md:space-y-0">
+            <img src="/theme/images/tenant-search.png" alt="search" />
+            <div className="">
+              <h2
+                className="text-3xl mt-7"
+                style={{ fontFamily: "Opensans-bold" }}
+              >
+                SEARCHING FOR A RENTAL UNIT
+              </h2>
+              <div
+                className="text-gray-500"
+                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+              >
+                <p className=" mt-5">
+                  Searching for an apartment can be frustrating and exhausting.
+                  However, if you follow a guideline, such as listed below, your
+                  search can go smoothly.
+                </p>
+                <p className=" mt-5">
+                  1. Create a realistic budget. Decide what you can afford in
+                  rent, including monthly utilities. Don’t look at any
+                  apartments out of your price range.
+                </p>
+                <p className=" mt-5">
+                  2. Consider commute times, your lifestyle needs and local
+                  conveniences. Some things to consider when searching for an
+                  apartment:
+                  <br /> • Transportation Bus and rail routes; are they in
+                  walking distance from the rental? <br />• Grocery stores: Is
+                  there a grocery or other convenience store(s) within walking
+                  distance?
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            className="text-gray-500"
+            style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+          >
+            <p className="mt-5">
+              • Schools Do you have a child attending school? What are the local
+              schools like?
+              <br /> • Activity: Are people out and about in the neighbourhood?
+              Are the properties well maintained?
+            </p>
+            <p className="mt-5">
+              3. Look for vacant rental units. You can search for verified
+              available rental units in your area on rentaroof easily by
+              refining your search using our custom filters.
+            </p>
+            <p className="mt-5">
+              4. Keep your housing search organised. You can easily do that on
+              rentaroof by saving your favourite properties to view later making
+              it easier to organise your search.
+            </p>
+            <p className="mt-5">
+              5. Make appointments to see the apartments. We all know that just
+              viewing a property on a website does not justify or portray the
+              reality of the place you’ll be choosing to live in. So we have
+              aimed to make this process much easier; you can easily share your
+              preferred time with the managing agent of the property and he will
+              get in touch with you to schedule a visit as per your convenience
+              and after getting confirmation from the landlord.
+            </p>
+          </div>
+          <div className="mt-20 grid grid-cols-1 md:grid-cols-2 md:space-x-5 space-y-5 md:space-y-0">
+            <div className="">
+              <h2 className="text-3xl" style={{ fontFamily: "Opensans-bold" }}>
+                Scheduling visits and <br />
+                taking notes
+              </h2>
+              <div
+                className="text-gray-500"
+                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+              >
+                <p className=" mt-5">
+                  1. Write down what features are important to you, such as
+                  parking, proximity to public transportation, security, laundry
+                  facilities and number of bedrooms and bathrooms.
+                </p>
+                <p className=" mt-5">
+                  2. Is there parking? If you have a car you’ll want to know if
+                  parking is included in the rent, where it is and how safe it
+                  is.
+                </p>
+                <p className=" mt-5">
+                  3. Check the locks, turn on light switches, look inside
+                  closets, check water pressure and visit the laundry room.
+                </p>
+                <p className=" mt-5">
+                  4. Finally, go over the lease agreement with the landlord.
+                  When is the rent due? How much is the late fee? If you give a
+                  deposit, make sure it is returnable and get a receipt.
+                </p>
+              </div>
+            </div>
+            <img src="/theme/images/tenant-work.png" alt="search" />
+          </div>
+
+          <div className="mt-20 grid grid-cols-1 md:grid-cols-2 md:space-x-5 space-y-5 md:space-y-0">
+            <img src="/theme/images/tenant-sign.png" alt="sign" />
+            <div className="">
+              <h2
+                className="text-3xl mt-7"
+                style={{ fontFamily: "Opensans-bold" }}
+              >
+                SIGNING THE LEASE
+              </h2>
+              <div
+                className="text-gray-500"
+                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+              >
+                <p className=" mt-5">
+                  Congratulations! After looking at apartments and houses you
+                  have found one that you would like to live in. Now, the
+                  landlord has asked you to pay a security deposit and sign the
+                  lease. This section will deal with common questions about
+                  leases.
+                </p>
+                <p className=" mt-5">
+                  <b className="block">What is a Lease? </b>
+                  <br />
+                  <span className="-mt-2 block">
+                    A lease is a binding legal contract for a rental property
+                    between the owner of a property and the tenant. The lease
+                    entitles the tenant(s) to receive exclusive possession of
+                    the rental unit and the owner to receive rent. A lease may
+                    be either verbal or written If the lease is written, it
+                    should be written in plain language so that the tenant can
+                    understand the terms of the lease.
+                  </span>
+                  <br />
+                  <span className="-mt-2 block">
+                    Before you sign a lease, you should make sure that you
+                    understand
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            className="text-gray-500"
+            style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+          >
+            <p className="mt-5">
+              all of the terms in the lease. There are some common parts to a
+              lease with which you should be familiar with.
+            </p>
+            <p className=" mt-5">
+              <b className="block">Security Deposit? </b>
+              <br />
+              <span className="-mt-2 block">
+                The security deposit is money that the tenant gives to the
+                landlord when first renting the unit. A security deposit is
+                intended to cover damages that might be caused by the tenant
+                during the term of the lease. It may also be kept by the
+                landlord to cover unpaid rent. The amount of security deposit
+                paid to the landlord should be written in the lease, and you
+                should get a receipt for the security deposit and keep it in
+                your records.
+              </span>
+            </p>
+            <p className=" mt-5">
+              <b className="block">Term of the Lease </b>
+              <br />
+              <span className="-mt-2 block">
+                A written lease should specify the date on which the lease
+                begins and the date on which the lease ends. You have the right
+                to possession of the unit from the day the lease begins to the
+                day that the lease ends. Be sure you know when those dates are.
+                Some leases provide that they shall automatically renew at the
+                end of the lease term unless one party has given notice to the
+                other party. Look to see the date by which you must give notice
+                if you don’t want to renew your lease. You should put that date
+                in a calendar or other safe place to remind yourself.
+              </span>
+            </p>
+          </div>
         </div>
-        <div className="bg-gray-50 py-5 mt-10">
+        <div className=" py-2 mt-10">
           <div className="max-w-6xl mt-10 w-full m-auto ">
             <div className="my-20">
               <div className="max-w-6xl w-full m-auto  grid grid-cols-1 md:grid-cols-2 md:space-x-5">
                 <div className="flex flex-col justify-center">
-                  <h2 style={{ fontFamily: "Opensans-bold" }}>For Tenant</h2>
+                  <h2
+                    className="text-3xl mt-5"
+                    style={{ fontFamily: "Opensans-bold" }}
+                  >
+                    For Tenant
+                  </h2>
                   <p
-                    className="text-lg mt-5"
-                    style={{ fontFamily: "Opensans-regular" }}
+                    className="mt-5"
+                    style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
                   >
                     Typically, people don't have in-depth knowledge about the
                     real estate markets where they wish to rent homes. They need
@@ -45,14 +229,23 @@ function Services() {
                     <Link href="/signup">
                       <a
                         style={{ fontFamily: "Opensans-bold" }}
-                        className="px-5 py-4 rounded-full bg-blue-400 hover:bg-blue-500 text-white"
+                        className="px-8 py-3 rounded-full bg-yellow-500 hover:bg-yellow-400 text-white"
                       >
                         Get Started
                       </a>
                     </Link>
                   </div>
                 </div>
-                <div className="rounded-md overflow-hidden">
+                <div
+                  className="overflow-hidden"
+                  style={{
+                    backgroundImage: "url(/theme/images/tenant-video.png)",
+                    backgroundPosition: "center",
+                    backgroundSize: "contain",
+                    backgroundRepeat: "no-repeat",
+                    padding: "2rem",
+                  }}
+                >
                   <video
                     controls
                     playsinline
@@ -69,79 +262,81 @@ function Services() {
         <div className="bg-white mb-10">
           <div className="max-w-6xl mt-10 w-full m-auto ">
             <h2
-              className="text-center mb-10"
+              className="text-3xl mb-10 text-center"
               style={{ fontFamily: "Opensans-bold" }}
             >
               What we offer?
             </h2>
             <div
-              className="grid grid-cols-1 md:grid-cols-3 md:space-x-10 space-y-5 md:space-y-0"
-              style={{ fontFamily: "Opensans-regular" }}
+              className="grid grid-cols-1 md:grid-cols-3 md:space-x-0 space-y-5 md:space-y-0"
+              style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
             >
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center md:border-b md:border-r px-3 py-5 border-gray-300">
                 <img
                   className="w-52 h-52 object-cover"
                   src="images/website/wweo1.webp"
                 />
-                <p className="text-center text-lg">
+                <p className="text-center">
                   Help the clients to locate and view homes that meet their
                   requirements.
                 </p>
               </div>
 
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center md:border-b md:border-r px-3 py-5 border-gray-300">
                 <img
                   className="w-52 h-52 object-cover"
                   src="images/website/wweo2.webp"
                 />
-                <p className="text-center text-lg">
+                <p className="text-center">
                   Help them with securing an appointment.
                 </p>
               </div>
 
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center md:border-b px-3 py-5 border-gray-300">
                 <img
                   className="w-52 h-52 object-cover"
                   src="images/website/wweo3.webp"
                 />
-                <p className="text-center text-lg">
+                <p className="text-center">
                   Work with them to craft the initial offer in a rent agreement.
                 </p>
               </div>
             </div>
 
             <div
-              className="mt-10 grid grid-cols-1 md:grid-cols-3 md:space-x-10 space-y-5 md:space-y-0"
-              style={{ fontFamily: "Opensans-regular" }}
+              className="grid grid-cols-1 md:grid-cols-3 md:space-x-0 space-y-5 md:space-y-0"
+              style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
             >
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center md:border-r px-3 py-5 border-gray-300">
                 <img
                   className="w-52 h-52 object-cover"
                   src="images/website/wweo4.webp"
                 />
-                <p className="text-center text-lg">
+                <p className="text-center">
                   After the rent agreement is executed, coordinate the
                   transaction process.
                 </p>
               </div>
 
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center md:border-r px-3 py-5 border-gray-300 relative">
+                <span className="w-6 h-6 rounded-full bg-blue-500 absolute -left-3 -top-3 md:block hidden"></span>
                 <img
                   className="w-52 h-52 object-cover"
                   src="images/website/wweo5.webp"
                 />
-                <p className="text-center text-lg">
+                <p className="text-center">
                   Deliver and explain <br />
                   all documents.
                 </p>
               </div>
 
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center px-3 py-5 relative">
+                <span className="w-6 h-6 rounded-full bg-blue-500 absolute -left-3 -top-3 md:block hidden"></span>
                 <img
                   className="w-52 h-52 object-cover"
                   src="images/website/wweo6.webp"
                 />
-                <p className="text-center text-lg">
+                <p className="text-center">
                   Work with them through the closing and getting their keys.
                 </p>
               </div>
@@ -153,8 +348,12 @@ function Services() {
           <div className="max-w-6xl w-full m-auto">
             <div className="">
               <div>
-                <h2 style={{ fontFamily: "Opensans-bold" }} className="my-5">
-                  Renting with R-A-R is simple.
+                <h2
+                  style={{ fontFamily: "Opensans-bold" }}
+                  className="mt-5 mb-10 text-center text-3xl"
+                >
+                  Renting with
+                  <span className="text-blue-500">R-A-R is simple.</span>
                 </h2>
                 <Carousel
                   cols={1}
@@ -163,6 +362,8 @@ function Services() {
                   autoplay={10000}
                   hideArrow={true}
                   showDots={true}
+                  dotColorActive="blue"
+                  dotColorInactive="white"
                   loop
                 >
                   <Carousel.Item>
@@ -170,7 +371,7 @@ function Services() {
                       <div className="flex items-start justify-start flex-col">
                         <h6
                           style={{ fontFamily: "Opensans-bold" }}
-                          className="my-5"
+                          className="my-5 text-3xl"
                         >
                           Visit Rentaroof.com
                         </h6>
@@ -190,7 +391,7 @@ function Services() {
                       <div className="flex items-center justify-center">
                         <img
                           src="images/website/rslider1.webp"
-                          className="h-80 object-cover rounded-full"
+                          className="h-80 object-cover"
                         />
                       </div>
                     </div>
@@ -200,7 +401,7 @@ function Services() {
                       <div className="flex justify-start items-start flex-col">
                         <h6
                           style={{ fontFamily: "Opensans-bold" }}
-                          className="my-5"
+                          className="my-5 text-3xl"
                         >
                           Schedule a visit
                         </h6>
@@ -220,7 +421,7 @@ function Services() {
                       <div className="flex items-center justify-center">
                         <img
                           src="images/website/rslider2.webp"
-                          className="h-80 object-cover rounded-full"
+                          className="h-80 object-cover"
                         />
                       </div>
                     </div>
@@ -230,7 +431,7 @@ function Services() {
                       <div className="flex justify-start items-start flex-col">
                         <h6
                           style={{ fontFamily: "Opensans-bold" }}
-                          className="my-5"
+                          className="my-5 text-3xl"
                         >
                           Make an offer
                         </h6>
@@ -249,7 +450,7 @@ function Services() {
                       <div className="flex items-center justify-center">
                         <img
                           src="images/website/rslider3.webp"
-                          className="h-80 object-cover rounded-full"
+                          className="h-80 object-cover"
                         />
                       </div>
                     </div>
@@ -259,7 +460,7 @@ function Services() {
                       <div className="flex justify-center flex-col">
                         <h6
                           style={{ fontFamily: "Opensans-bold" }}
-                          className="my-5"
+                          className="my-5 text-3xl"
                         >
                           Documentation process
                         </h6>
@@ -279,7 +480,7 @@ function Services() {
                       <div className="flex items-center justify-center">
                         <img
                           src="images/website/rslider4.webp"
-                          className="h-80 object-cover rounded-full"
+                          className="h-80 object-cover"
                         />
                       </div>
                     </div>
@@ -289,7 +490,7 @@ function Services() {
                       <div className="flex justify-start items-start flex-col">
                         <h6
                           style={{ fontFamily: "Opensans-bold" }}
-                          className="my-5"
+                          className="my-5 text-3xl"
                         >
                           Getting your keys
                         </h6>
@@ -305,7 +506,7 @@ function Services() {
                       <div className="flex items-center justify-center">
                         <img
                           src="images/website/rslider5.webp"
-                          className="h-80 object-cover rounded-full"
+                          className="h-80 object-cover"
                         />
                       </div>
                     </div>
@@ -319,9 +520,8 @@ function Services() {
                 <a
                   style={{
                     fontFamily: "Opensans-bold",
-                    backgroundColor: "var(--primary-color)",
                   }}
-                  className="px-10 py-4 rounded-full transition-all text-white"
+                  className="px-8 py-3 rounded-full bg-yellow-500 hover:bg-yellow-400 transition-all text-white"
                 >
                   Get Started
                 </a>
