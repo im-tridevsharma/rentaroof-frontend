@@ -442,34 +442,40 @@ function Footer() {
           </button>
         </form>
       )}
-      <section style={{ backgroundColor: "#21201c" }}>
-        <div className="max-w-3xl w-full bg-blue-500 p-6 mx-auto -mt-14 flex items-center justify-between overflow-hidden">
-          <div
-            className=" wow slideInLeft"
-            data-wow-delay="0.3s"
-            data-wow-duration="1s"
-          >
-            <h2 style={{ fontFamily: "Opensans-bold" }} className="text-white">
-              Looking for a dream home?
-            </h2>
-            <p className="text-gray-50 mt-2">
-              We can help you realize your dream of new home.
-            </p>
+
+      {router.pathname === "/" && (
+        <section style={{ backgroundColor: "#21201c" }}>
+          <div className="max-w-3xl w-full bg-blue-500 p-6 mx-auto -mt-14 flex items-center justify-between overflow-hidden">
+            <div
+              className=" wow slideInLeft"
+              data-wow-delay="0.3s"
+              data-wow-duration="1s"
+            >
+              <h2
+                style={{ fontFamily: "Opensans-bold" }}
+                className="text-white"
+              >
+                Looking for a dream home?
+              </h2>
+              <p className="text-gray-50 mt-2">
+                We can help you realize your dream of new home.
+              </p>
+            </div>
+            <button
+              onClick={() =>
+                document
+                  .querySelector("#banner")
+                  .scrollIntoView({ behaviour: "smooth" })
+              }
+              className="px-5 py-3 rounded-full bg-yellow-500 hover:bg-yellow-600 text-white wow slideInRight"
+              data-wow-delay="0.3s"
+              data-wow-duration="1s"
+            >
+              Explore Properties
+            </button>
           </div>
-          <button
-            onClick={() =>
-              document
-                .querySelector("#banner")
-                .scrollIntoView({ behaviour: "smooth" })
-            }
-            className="px-5 py-3 rounded-full bg-yellow-500 hover:bg-yellow-600 text-white wow slideInRight"
-            data-wow-delay="0.3s"
-            data-wow-duration="1s"
-          >
-            Explore Properties
-          </button>
-        </div>
-      </section>
+        </section>
+      )}
       <div
         className="flex flex-col p-10 pb-0"
         style={{ backgroundColor: "#21201c" }}

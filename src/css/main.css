@@ -49,7 +49,7 @@
   --primary-color: #7b4a9c;
   --secondary-color: rgb(22 121 178);
   --orange: rgb(248 164 92);
-  --blue: rgb(5 79 138);
+  --blue: rgb(6 226 209);
 }
 
 .css-jrzev6-Slider {
@@ -211,20 +211,10 @@ button {
   z-index: -1;
   transition: all .4s ease-in-out;
 }
-.count-item:hover {
-  background-color: #ffd485;
-}
 .count-item img{
   height: 50px;
   object-fit: contain;
 }
-.count-item:hover img {
-  filter: invert(1) brightness(100);
-}
-.count-item:hover::before {
-  background-color: #FFE5B4;
-}
-
 
 @media screen and (max-width: 767px) {
   .for-tenant-slider {

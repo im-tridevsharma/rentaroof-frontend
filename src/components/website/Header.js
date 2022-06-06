@@ -217,7 +217,9 @@ function Header() {
 
   return (
     <div
-      className="flex flex-col absolute w-full left-1/2 transform -translate-x-1/2"
+      className={`flex flex-col ${
+        router.pathname === "/" ? "absolute" : "relative"
+      } w-full left-1/2 transform -translate-x-1/2`}
       style={{ zIndex: "9999" }}
     >
       {isLoading && <Loader />}
@@ -353,13 +355,13 @@ function Header() {
         style={{
           backgroundColor:
             router.pathname === "/"
-              ? "rgba(255,255,255,.8)"
-              : "rgba(255,255,255,1)",
+              ? "rgba(6, 226, 209,.9)"
+              : "rgba(6, 226, 209,1)",
         }}
       >
         {/**logo */}
         <div
-          className="wow wobble -ml-2"
+          className="wow wobble -ml-2 logo"
           data-wow-delay="0.1s"
           data-wow-duration="1s"
         >
@@ -385,7 +387,7 @@ function Header() {
               <Link href="/">
                 <a
                   className={`py-2 px-3 border-b-2 border-transparent ${
-                    router.pathname === "/" ? "text-blue-700" : ""
+                    router.pathname === "/" ? "text-white" : ""
                   }`}
                 >
                   Home
@@ -393,10 +395,10 @@ function Header() {
               </Link>
             </li>
             <li className="mx-2 relative parent">
-              <Link href="/">
+              <Link href="/find-property/map?search">
                 <a
                   className={`py-2 px-3 border-b-2 border-transparent ${
-                    router.pathname === "/for-tenant" ? "text-blue-700" : ""
+                    router.pathname === "/for-tenant" ? "text-white" : ""
                   }`}
                 >
                   Rent
@@ -405,7 +407,7 @@ function Header() {
               <ul className="absolute childs top-8 left-0 text-gray-800 z-40 w-max">
                 <li
                   className={`my-2 hover:text-yellow-400 ${
-                    router.pathname === "/for-tenant" ? "text-blue-700" : ""
+                    router.pathname === "/for-tenant" ? "text-yellow-400" : ""
                   }`}
                 >
                   <Link href="/for-tenant">
@@ -414,11 +416,18 @@ function Header() {
                     </a>
                   </Link>
                 </li>
+                <li className="my-2 hover:text-yellow-400">
+                  <Link href="/signup">
+                    <a className="py-2 px-3 border-b-2 border-transparent">
+                      Register as tenants
+                    </a>
+                  </Link>
+                </li>
               </ul>
             </li>
             <li
               className={`mx-2 parent relative ${
-                router.pathname === "/join-our-team" ? "text-blue-700" : ""
+                router.pathname === "/join-our-team" ? "text-white" : ""
               }`}
             >
               <Link href="/join-our-team">
@@ -426,11 +435,20 @@ function Header() {
                   Agents portal
                 </a>
               </Link>
+              <ul className="absolute childs top-8 left-0 text-gray-800 z-40 w-max">
+                <li className="my-2 hover:text-yellow-400">
+                  <Link href="/signup/ibo">
+                    <a className="py-2 px-3 border-b-2 border-transparent">
+                      Register as agents
+                    </a>
+                  </Link>
+                </li>
+              </ul>
             </li>
 
             <li
               className={`mx-2 parent relative ${
-                router.pathname === "/list-property" ? "text-blue-700" : ""
+                router.pathname === "/list-property" ? "text-white" : ""
               }`}
             >
               <Link
@@ -444,7 +462,7 @@ function Header() {
                   className={`py-2 px-3 border-b-2 border-transparent ${
                     router.pathname === "/for-homeowner" ||
                     router.pathname === "/list-property"
-                      ? "text-blue-700"
+                      ? "text-white"
                       : ""
                   }`}
                 >
@@ -454,7 +472,7 @@ function Header() {
               <ul className="absolute childs top-8 left-0 text-gray-800  z-40 w-max">
                 <li
                   className={`my-2 hover:text-yellow-400 ${
-                    router.pathname === "/for-tenant" ? "text-blue-700" : ""
+                    router.pathname === "/for-tenant" ? "text-white" : ""
                   }`}
                 >
                   <Link href="/for-homeowner">
@@ -463,11 +481,18 @@ function Header() {
                     </a>
                   </Link>
                 </li>
+                <li className={`my-2 hover:text-yellow-400`}>
+                  <Link href="/signup?a=list-property">
+                    <a className="py-2 px-3 border-b-2 border-transparent">
+                      Register as landlords
+                    </a>
+                  </Link>
+                </li>
               </ul>
             </li>
             <li
               className={`mx-2 ${
-                router.pathname === "/our-advantages" ? "text-blue-700" : ""
+                router.pathname === "/our-advantages" ? "text-white" : ""
               }`}
             >
               <Link href="/our-advantages">

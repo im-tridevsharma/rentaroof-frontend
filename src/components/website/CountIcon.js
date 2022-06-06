@@ -9,7 +9,7 @@ function CountIcon({ Icon, title }) {
     >
       <div className="h-20">{Icon}</div>
       <p
-        className="mt-3 text-gray-700 group-hover:text-white flex flex-col items-center justify-center text-center leading-5"
+        className="mt-3 text-gray-700 flex flex-col items-center justify-center text-center leading-5"
         style={{
           fontSize: "1rem",
           fontFamily: "Opensans-regular",

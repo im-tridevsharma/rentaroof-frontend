@@ -129,7 +129,7 @@ function Banner() {
           .join("&")
       : "";
     router.push(
-      `find-property?search=${location?.zone},${location?.area},${
+      `find-property/map?search=${location?.zone},${location?.area},${
         location?.city
       }&pagination=yes&ptype=${ptype}&bed=${bed}&budget=${budget}&search_radius=${
         search_radius || 10
