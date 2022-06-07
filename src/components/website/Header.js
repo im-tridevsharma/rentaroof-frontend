@@ -472,7 +472,9 @@ function Header() {
               <ul className="absolute childs top-8 left-0 text-gray-800  z-40 w-max">
                 <li
                   className={`my-2 hover:text-yellow-400 ${
-                    router.pathname === "/for-tenant" ? "text-white" : ""
+                    router.pathname === "/for-homeowner"
+                      ? "text-yellow-400"
+                      : ""
                   }`}
                 >
                   <Link href="/for-homeowner">

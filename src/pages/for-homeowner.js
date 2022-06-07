@@ -3,9 +3,11 @@ import Head from "next/head";
 import Link from "next/link";
 import Footer from "../components/website/Footer";
 import Header from "../components/website/Header";
-import Carousel from "react-grid-carousel";
+import { FaMinus, FaPlus } from "react-icons/fa";
 
 function Services() {
+  const [tab, setTab] = React.useState("01");
+
   return (
     <>
       <Header />
@@ -17,193 +19,47 @@ function Services() {
       </Head>
 
       <div className=" bg-white">
-        <div className="py-2" style={{ backgroundColor: "#faf8fa" }}>
-          <div className="md:px-20 pb-10 md:pb-28 px-5 grid grid-cols-1 md:grid-cols-2 md:space-x-5 md:space-y-0 space-y-5">
-            <div className="relative p-10 md:pt-24">
-              <img
-                src="images/website/fhs1.svg"
-                className="h-32 object-contain absolute left-0"
-              />
-              <img src="https://img.freepik.com/free-photo/sale-handsome-realtor-waiting-visitors-rent-new-home-ownership-confident-man-outside_545934-6596.jpg?w=740" />
-              <img
-                src="images/website/fhs2.svg"
-                className="h-32 object-contain absolute right-0 bottom-0"
-              />
-            </div>
+        <div className="max-w-6xl w-full mx-auto">
+          <h2 className="py-3 mt-3" style={{ fontFamily: "Opensans-bold" }}>
+            Guides for landlords
+          </h2>
 
-            <div className="flex justify-start flex-col md:pt-20 pt-5">
-              <h3 style={{ fontFamily: "Opensans-bold" }} className="mb-5">
-                Need to get your home rented?
-              </h3>
-              <p className="text-lg" style={{ fontFamily: "Opensans-regular" }}>
-                When homeowners decide they want to put up their home for
-                rent/sale, the vast majority will call a real estate brokerage
-                firm to work with an agent to get their homes listed on the
-                local Listing Services. You can easily list your home on
-                Rent-a-roof for free!
-              </p>
-              <p
-                className="text-lg mt-3"
-                style={{ fontFamily: "Opensans-regular" }}
+          <div className="mt-10 grid grid-cols-1 md:grid-cols-2 md:space-x-10 space-y-5 md:space-y-0">
+            <img src="/theme/images/landlord-first.png" alt="home rented" />
+            <div className="">
+              <h2
+                className="text-3xl mt-7"
+                style={{ fontFamily: "Opensans-bold" }}
               >
-                This database is shared among all local brokerage members of
-                Rent-A-Roof, who then work to bring in a tenant for the home. In
-                listing a home, the real estate agent will be performing the
-                various duties and activities in volved in the renting process
-                such as facilitating house showing, processing documents and
-                closing the deal.
-              </p>
-              <div className="mt-10 mb-5">
-                <Link href="/signup">
-                  <a
-                    style={{ fontFamily: "Opensans-bold" }}
-                    className="px-5 py-4 rounded-full bg-blue-400 hover:bg-blue-500 text-white"
-                  >
-                    Sign Up
-                  </a>
-                </Link>
-              </div>
-              <p style={{ fontFamily: "Opensans-semi-bold" }}>
-                Already joined us?
-                <Link href="/login">
-                  <a
-                    style={{ fontFamily: "Opensans-bold" }}
-                    className="text-blue-500 ml-3"
-                  >
-                    Login
-                  </a>
-                </Link>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="text-center mt-10">
-          <h2 style={{ fontFamily: "Opensans-bold" }}>Why choose us?</h2>
-          <p
-            className="text-lg mt-5"
-            style={{ fontFamily: "Opensans-regular" }}
-          >
-            When a client makes an offer, agents help the owner to try to get
-            the price they want and to obtain a signed Rent-agreement.
-          </p>
-        </div>
-        <div
-          className="max-w-6xl mt-10 md:mt-20 w-full m-auto  grid grid-cols-1 md:grid-cols-3 md:space-x-10 space-y-5 md:space-y-0"
-          style={{ fontFamily: "Opensans-regular" }}
-        >
-          <div className="flex flex-col items-center p-5 border shadow-sm rounded-sm pt-3">
-            <img
-              className="w-52 h-52 object-cover"
-              src="images/website/fhomeos1.webp"
-            />
-            <h3 style={{ fontFamily: "Opensans-bold" }} className="my-5">
-              Free Listing
-            </h3>
-            <p className="text-center text-lg">
-              You can easily post your property on R-A-R for free.
-            </p>
-          </div>
-
-          <div className="flex flex-col items-center p-5 border shadow-sm rounded-sm pt-3">
-            <img
-              className="w-52 h-52 object-cover"
-              src="images/website/fhomeos2.webp"
-            />
-            <h3 style={{ fontFamily: "Opensans-bold" }} className="my-5">
-              Home Showings
-            </h3>
-            <p className="text-center text-lg">
-              Our agent will Supervise and schedule home showings.
-            </p>
-          </div>
-
-          <div className="flex flex-col items-center p-5 border shadow-sm rounded-sm pt-3">
-            <img
-              className="w-52 h-52 object-cover"
-              src="images/website/fhomeos3.webp"
-            />
-            <h3 style={{ fontFamily: "Opensans-bold" }} className="my-5">
-              Closing the deal
-            </h3>
-            <p className="text-center text-lg">
-              Coordinate the process from signing the contract to closing the
-              deal along with preparing documents and other items necessary to
-              close.
-            </p>
-          </div>
-        </div>
-        <div className="py-10 mt-20" style={{ backgroundColor: "#faf8fa" }}>
-          <div className="max-w-6xl w-full m-auto  grid grid-cols-1 md:grid-cols-2 md:space-x-5">
-            <div className="flex flex-col justify-center">
-              <h2 style={{ fontFamily: "Opensans-bold" }}>
-                Leave all your worries to us!
+                Need to get your{" "}
+                <span className="text-blue-500">home rented?</span>
               </h2>
-              <p
-                className="text-lg mt-5"
-                style={{ fontFamily: "Opensans-regular" }}
+              <div
+                className="text-gray-500"
+                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
               >
-                If you’ve ever rented out a home then you surely know about the
-                various steps and hassles that come with it. Things like keeping
-                in touch and screening various applications, keeping up with
-                appointments and home showings, negotiations and paperwork. We
-                at Rent-A-Roof understand these hassles very clearly and provide
-                a very easy interface where all these various tasks are handled
-                directly by us making it possible for renting your home with
-                ease.
-              </p>
-
-              <div className="mt-10">
-                <Link href="/list-property">
-                  <a
-                    style={{ fontFamily: "Opensans-bold" }}
-                    className="px-5 py-4 rounded-full bg-blue-400 hover:bg-blue-500 text-white"
-                  >
-                    Get Started
-                  </a>
-                </Link>
-              </div>
-            </div>
-            <div className="rounded-md overflow-hidden">
-              <video
-                controls
-                playsinline
-                loop
-                data-src="https://d2of6bhnpl91ni.cloudfront.net/cms/1920x1080_Final_2020_Real Estate LP-b2c23b6555.mp4"
-                src="https://d2of6bhnpl91ni.cloudfront.net/cms/1920x1080_Final_2020_Real Estate LP-b2c23b6555.mp4"
-              ></video>
-            </div>
-          </div>
-        </div>
-
-        <div className="py-10 bg-white">
-          <div className="max-w-6xl w-full m-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5 space-y-5 md:space-y-0">
-              <div className="-mt-10">
-                <img src="images/website/fhomeosm.webp" />
-              </div>
-              <div className="">
-                <h3 style={{ fontFamily: "Opensans-bold" }} className="my-5">
-                  Let us manage your home for you!
-                </h3>
-                <p
-                  className="text-lg mt-3"
-                  style={{ fontFamily: "Opensans-regular" }}
-                >
-                  All properties that are listed on Rent-A-Roof are treated as a
-                  responsibility towards our clients. All properties are
-                  assigned dedicated R-A-R agents who stay in touch with the
-                  homeowners, giving them regular updates and help them through
-                  any query they might have. You can learn more about the
-                  process below.
+                <p className=" mt-5">
+                  When homeowners decide they want to put up their home for
+                  rent/sale, the vast majority will call a real estate brokerage
+                  firm to work with an agent to get their homes listed on the
+                  local Listing Services. You can easily list your home on
+                  Rent-a-roof for free!
+                  <br />
+                  <br />
+                  This database is shared among all local brokerage members of
+                  Rent-A-Roof, who then work to bring in a tenant for the home.
+                  In listing a home, the real estate agent will be performing
+                  the various duties and activities in volved in the renting
+                  process such as facilitating house showing, processing
+                  documents and closing the deal.
                 </p>
-                <div className="mt-10">
+                <div className="mt-10 mb-5">
                   <Link href="/signup">
                     <a
-                      style={{ fontFamily: "Opensans-bold" }}
-                      className="px-5 py-4 rounded-full bg-blue-400 hover:bg-blue-500 text-white"
+                      style={{ fontFamily: "Opensans-regular" }}
+                      className="px-10 py-3 rounded-full bg-yellow-500 hover:bg-yellow-400 text-white"
                     >
-                      Get Started
+                      Sign Up
                     </a>
                   </Link>
                 </div>
@@ -212,185 +68,585 @@ function Services() {
           </div>
         </div>
 
-        <div className="py-10 bg-gray-50">
+        <section className="bg-gray-50 py-10 mt-10">
+          <div className="max-w-6xl w-full mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-10 space-x-0 space-y-10 md:space-y-0">
+              <div
+                className="text-gray-500"
+                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+              >
+                <h2
+                  className="text-3xl mt-10"
+                  style={{ fontFamily: "Opensans-bold" }}
+                >
+                  HOW WE CAN HELP YOU TO
+                  <br />
+                  <span className="text-blue-500">RENT YOUR PROPERTY</span>
+                </h2>
+
+                <p className=" mt-5">
+                  Rentaroof will take a personal approach to meet your
+                  individual needs because we recognise no two landlords are the
+                  same. We’ll do everything we can to help you rent out your
+                  property at the right price and to the right people.
+                </p>
+                <p className=" mt-5">
+                  Our dedicated team of real estate agents are there to help
+                  with any questions you have along the way, from start to
+                  finish.
+                </p>
+
+                <h6 style={{ fontFamily: "Opensans-bold" }} className="mt-5">
+                  VIEWINGS & FEEDBACK
+                </h6>
+
+                <p className=" mt-5">
+                  We will market your property using our online rental platform,
+                  arrange viewings and take potential tenants to see it. These
+                  will be on the days that work for you or your current tenants,
+                  whether on weekdays, evenings or weekends. We will then
+                  provide prompt and honest feedback, together with any
+                  suggestions that may help to speed up the process.
+                </p>
+              </div>
+              <img src="/theme/images/landlord-second.png" alt="homerent" />
+            </div>
+            <div
+              className="text-gray-500"
+              style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+            >
+              <h6 style={{ fontFamily: "Opensans-bold" }} className="mt-5">
+                ONCE AN OFFER HAS BEEN ACCEPTED
+              </h6>
+
+              <p className=" mt-5">
+                The application by the tenant will be dealt with by our
+                appointed agent. Police verification will be carried out and
+                rent agreement details will be agreed upon. Assuming that the
+                tenant(s) pass these thorough checks and is approved by you we
+                will set a move-in date convenient to all parties.
+              </p>
+
+              <h6 style={{ fontFamily: "Opensans-bold" }} className="mt-5">
+                PREPARING THE NEW TENANCY
+              </h6>
+
+              <p className=" mt-5">
+                Our team will then draw up an Assured Legally binded Rent
+                agreement. While much of this is written to be compliant with
+                all current lettings laws to ensure both you and the tenants are
+                protected during the tenancy, we are also able to tailor clauses
+                to suit you and your tenant’s needs.
+                <br />
+                <br />
+                In the run-up to the start of the tenancy, we will help you
+                prepare the property and get everything in place for your
+                tenants. This may include:
+                <ul className="mt-5 list-disc ml-5">
+                  <li>Undertaking Maintenance </li>
+                  <li>Arranging professional cleaning of your property</li>
+                </ul>
+                <br />
+                On move-in day, we’ll make sure that we have received the first
+                month’s rent and relevant security deposit before we release the
+                keys to your tenant. We’ll send you the deposit and first
+                month’s rent, less our commission, within five working days,
+                together with an accounts statement.
+                <br />
+                <br />
+                Once the tenancy has begun, you’ll be your tenants’ contact for
+                any repairs or maintenance. You’ll also be responsible for
+                taking their rental payments.
+                <br />
+                <br />
+                However, if you’d like us to do this on your behalf, then you
+                can choose our full management service instead.
+                <ul className="mt-5 list-disc ml-5">
+                  <li>Contact us for more details</li>
+                  <li>Free listings</li>
+                  <li>
+                    Customized rent agreement according to your requirements
+                  </li>
+                  <li>Custom lock-in period </li>
+                  <li>
+                    Screening tenants - police verification - background check
+                    for greater safety
+                  </li>
+                  <li>Safe and secure payments </li>
+                  <li>Payments managements - during tenancy - free</li>
+                  <li>Property management during tenancy - (Package)</li>
+                  <li>
+                    Third party Services can be provided - movers & packers,
+                    cleaning services, maintenance work.
+                  </li>
+                  <li>Unbiased services section</li>
+                  <li>Commission is only charged after the service is done</li>
+                  <li>No hidden packages</li>
+                </ul>
+              </p>
+            </div>
+          </div>
+        </section>
+        <section className="bg-blue-50 py-10">
+          <div className="text-center ">
+            <h2 className="text-3xl" style={{ fontFamily: "Opensans-bold" }}>
+              Why choose us?
+            </h2>
+            <p
+              className="text-gray-500 max-w-3xl w-full mx-auto mt-3"
+              style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+            >
+              When a client makes an offer, agents help the owner to try to get
+              the price they want and to obtain a signed Rent-agreement.
+            </p>
+          </div>
+          <div
+            className="max-w-6xl mt-10 md:mt-20 w-full m-auto  grid grid-cols-1 md:grid-cols-3 md:space-x-10 space-y-5 md:space-y-0"
+            style={{ fontFamily: "Opensans-regular" }}
+          >
+            <div className="flex flex-col bg-white items-center p-5 pt-3">
+              <img
+                className="w-52 h-52 object-cover"
+                src="images/website/fhomeos1.webp"
+              />
+              <h3 className="text-2xl" style={{ fontFamily: "Opensans-bold" }}>
+                Free Listing
+              </h3>
+              <p
+                className="text-gray-900 text-center mt-2"
+                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+              >
+                You can easily post your property on R-A-R for free.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center p-5 bg-white pt-3">
+              <img
+                className="w-52 h-52 object-cover"
+                src="images/website/fhomeos2.webp"
+              />
+              <h3 className="text-2xl" style={{ fontFamily: "Opensans-bold" }}>
+                Home Showings
+              </h3>
+              <p
+                className="text-gray-900 text-center mt-2"
+                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+              >
+                Our agent will Supervise and schedule home showings.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center p-5 bg-white pt-3">
+              <img
+                className="w-52 h-52 object-cover"
+                src="images/website/fhomeos3.webp"
+              />
+              <h3 className="text-2xl" style={{ fontFamily: "Opensans-bold" }}>
+                Closing the deal
+              </h3>
+              <p
+                className="text-gray-900 text-center mt-2"
+                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+              >
+                Coordinate the process from signing the contract to closing the
+                deal along with preparing documents and other items necessary to
+                close.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <div className=" py-2 mt-10">
+          <div className="max-w-6xl mt-10 w-full m-auto ">
+            <div className="my-20">
+              <div className="max-w-6xl w-full m-auto  grid grid-cols-1 md:grid-cols-2 md:space-x-10">
+                <div
+                  className="overflow-hidden"
+                  style={{
+                    backgroundImage: "url(/theme/images/tenant-video.png)",
+                    backgroundPosition: "center",
+                    backgroundSize: "contain",
+                    backgroundRepeat: "no-repeat",
+                    padding: "2rem",
+                  }}
+                >
+                  <video
+                    controls
+                    playsinline
+                    loop
+                    data-src="https://d2of6bhnpl91ni.cloudfront.net/cms/1920x1080_Final_2020_Real Estate LP-b2c23b6555.mp4"
+                    src="https://d2of6bhnpl91ni.cloudfront.net/cms/1920x1080_Final_2020_Real Estate LP-b2c23b6555.mp4"
+                  ></video>
+                </div>
+                <div className="flex flex-col justify-center">
+                  <h2
+                    className="text-3xl mt-5"
+                    style={{ fontFamily: "Opensans-bold" }}
+                  >
+                    Leave all your worries to us!
+                  </h2>
+                  <p
+                    className="mt-5"
+                    style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+                  >
+                    If you’ve ever rented out a home then you surely know about
+                    the various steps and hassles that come with it. Things like
+                    keeping in touch and screening various applications, keeping
+                    up with appointments and home showings, negotiations and
+                    paperwork. We at Rent-A-Roof understand these hassles very
+                    clearly and provide a very easy interface where all these
+                    various tasks are handled directly by us making it possible
+                    for renting your home with ease.
+                  </p>
+
+                  <div className="mt-10">
+                    <Link href="/list-property">
+                      <a
+                        style={{ fontFamily: "Opensans-bold" }}
+                        className="px-8 py-3 rounded-full bg-yellow-500 hover:bg-yellow-400 text-white"
+                      >
+                        Get Started
+                      </a>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="py-10 bg-blue-50">
           <div className="max-w-6xl w-full m-auto">
-            <h3 style={{ fontFamily: "Opensans-bold" }} className="mb-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-10 space-y-5 md:space-y-0">
+              <div className="">
+                <h2
+                  className="text-3xl mt-10"
+                  style={{ fontFamily: "Opensans-bold" }}
+                >
+                  Let us manage your
+                  <br /> home for you!
+                </h2>
+                <div
+                  className="text-gray-500"
+                  style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+                >
+                  <p className=" mt-5">
+                    All properties that are listed on Rent-A-Roof are treated as
+                    a responsibility towards our clients. All properties are
+                    assigned dedicated R-A-R agents who stay in touch with the
+                    homeowners, giving them regular updates and help them
+                    through any query they might have. You can learn more about
+                    the process below.
+                  </p>
+                </div>
+                <div className="mt-10">
+                  <Link href="/list-property">
+                    <a
+                      style={{ fontFamily: "Opensans-bold" }}
+                      className="px-8 py-3 rounded-full bg-yellow-500 hover:bg-yellow-400 text-white"
+                    >
+                      Get Started
+                    </a>
+                  </Link>
+                </div>
+              </div>
+              <img src="/theme/images/landlord-third.png" alt="search" />
+            </div>
+          </div>
+        </div>
+
+        <div className="py-10 bg-gray-100">
+          <div className="max-w-3xl w-full m-auto">
+            <h3
+              className="text-3xl mt-5 text-center"
+              style={{ fontFamily: "Opensans-bold" }}
+            >
               It’s simple to get your home rented
             </h3>
-            <div className="flex items-start justify-start">
-              <img
-                className="h-52 w-52 md:mr-10 object-cover rounded-md"
-                src="images/website/fhomeosr1.webp"
-              />
-              <div className="">
-                <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
-                  List your property for free
-                </h5>
+            <p
+              className="text-gray-500 text-center mb-5 max-w-3xl w-full mx-auto mt-3"
+              style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+            >
+              When a client makes an offer, agents help the owner to try to get
+              the price they want and to obtain a signed Rent-agreement.
+            </p>
+
+            <div
+              onClick={() => setTab("01")}
+              className="bg-white p-3 mb-3 flex items-center justify-between cursor-pointer"
+            >
+              <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
+                List your property for free
+              </h5>
+              <div>
                 <p
-                  className=" mt-3"
-                  style={{
-                    fontSize: "16px",
-                    lineHeight: 1.8,
-                    fontFamily: "Opensans-regular",
-                  }}
+                  className={`w-8 h-8 ${
+                    tab === "01" ? "hidden" : "flex"
+                  } items-center justify-center rounded-full bg-blue-600 text-white`}
                 >
-                  You can easily list your property for free on Rentaroof with
-                  all the necessary details required to attract clients.
+                  <FaPlus />
+                </p>
+                <p
+                  className={`w-8 h-8 ${
+                    tab === "01" ? "flex" : "hidden"
+                  } items-center justify-center rounded-full bg-yellow-400 text-white`}
+                >
+                  <FaMinus />
                 </p>
               </div>
             </div>
-            <div className="flex items-start mt-10 justify-start">
-              <div className="">
-                <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
-                  Connect with agent
-                </h5>
-                <p
-                  className=" mt-3"
-                  style={{
-                    fontSize: "16px",
-                    lineHeight: 1.8,
-                    fontFamily: "Opensans-regular",
-                  }}
-                >
-                  An agent will be assigned to manage all the tasks required in
-                  the renting process. An easy chat feature integrated In our
-                  app, your agent will easily be able to share regular updates
-                  regarding applications.
-                </p>
+            {tab === "01" && (
+              <div className="flex items-center bg-white p-3">
+                <img
+                  className="h-40 w-40 md:mr-10 object-cover"
+                  src="images/website/fhomeosr1.webp"
+                />
+                <div className="">
+                  <p
+                    className="text-gray-600"
+                    style={{
+                      fontSize: "15px",
+                      fontFamily: "Opensans-regular",
+                    }}
+                  >
+                    You can easily list your property for free on Rentaroof with
+                    all the necessary details required to attract clients.
+                  </p>
+                </div>
               </div>
-              <img
-                className="h-52 w-52 md:ml-10 object-cover rounded-md"
-                src="images/website/fhomeosr2.webp"
-              />
-            </div>
-            <div className="flex mt-10 items-start justify-start">
-              <img
-                className="h-52 w-52 md:mr-10 object-cover rounded-md"
-                src="images/website/fhomeosr3.webp"
-              />
-              <div className="">
-                <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
-                  Manage appointments
-                </h5>
+            )}
+
+            <div
+              onClick={() => setTab("02")}
+              className="bg-white p-3 my-3 flex items-center justify-between cursor-pointer"
+            >
+              <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
+                Connect with agent
+              </h5>
+              <div>
                 <p
-                  className=" mt-3"
-                  style={{
-                    fontSize: "16px",
-                    lineHeight: 1.8,
-                    fontFamily: "Opensans-regular",
-                  }}
+                  className={`w-8 h-8 ${
+                    tab === "02" ? "hidden" : "flex"
+                  } items-center justify-center rounded-full bg-blue-600 text-white`}
                 >
-                  All Rent-A-Roof agents are well mannered and qualified
-                  executives of Rent-A-Roof. They will manage all the
-                  applications and fix appointments as per your instructions.
+                  <FaPlus />
                 </p>
-              </div>
-            </div>
-            <div className="flex items-start mt-10 justify-start">
-              <div className="">
-                <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
-                  Negotiations
-                </h5>
                 <p
-                  className=" mt-3"
-                  style={{
-                    fontSize: "16px",
-                    lineHeight: 1.8,
-                    fontFamily: "Opensans-regular",
-                  }}
+                  className={`w-8 h-8 ${
+                    tab === "02" ? "flex" : "hidden"
+                  } items-center justify-center rounded-full bg-yellow-400 text-white`}
                 >
-                  All offers of potential client’s will be conveyed to you by
-                  our agent and upon finalizing the deal. Our agents will then
-                  move on to facilitate the documentation process.
-                </p>
-              </div>
-              <img
-                className="h-52 w-52 md:ml-10 object-cover rounded-md"
-                src="images/website/fhomeosr4.webp"
-              />
-            </div>
-            <div className="flex mt-10 items-start justify-start">
-              <img
-                className="h-52 w-52 md:mr-10 object-cover rounded-md"
-                src="images/website/fhomeosr5.webp"
-              />
-              <div className="">
-                <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
-                  Processing documents
-                </h5>
-                <p
-                  className=" mt-3"
-                  style={{
-                    fontSize: "16px",
-                    lineHeight: 1.8,
-                    fontFamily: "Opensans-regular",
-                  }}
-                >
-                  All the documents like the written and signed offer, rent
-                  agreement and police verification will be carried out by your
-                  agent using our pre-defined guidelines and process.
+                  <FaMinus />
                 </p>
               </div>
             </div>
-            <div className="flex items-start mt-10 justify-start">
-              <div className="">
-                <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
-                  Closing the deal
-                </h5>
-                <p
-                  className=" mt-3"
-                  style={{
-                    fontSize: "16px",
-                    lineHeight: 1.8,
-                    fontFamily: "Opensans-regular",
-                  }}
-                >
-                  When you are close to closing the deal any hindrance or
-                  problem could prove problematic and that’s where our agents
-                  come through. Your R-A-R agent will make sure that everything
-                  is on the given timeline and that the process flows smoothly
-                  for a swifter experience.
-                </p>
+            {tab === "02" && (
+              <div className="flex items-center bg-white p-3">
+                <img
+                  className="h-40 w-40 md:mr-10 object-cover"
+                  src="images/website/fhomeosr3.webp"
+                />
+                <div className="">
+                  <p
+                    className="text-gray-600"
+                    style={{
+                      fontSize: "15px",
+                      fontFamily: "Opensans-regular",
+                    }}
+                  >
+                    All Rent-A-Roof agents are well mannered and qualified
+                    executives of Rent-A-Roof. They will manage all the
+                    applications and fix appointments as per your instructions.
+                  </p>
+                </div>
               </div>
-              <img
-                className="h-52 w-52 md:ml-10 object-cover rounded-md"
-                src="images/website/fhomeosr6.webp"
-              />
-            </div>
-            <div className="flex mt-10 items-start justify-start">
-              <img
-                className="h-52 w-52 md:mr-10 object-cover rounded-md"
-                src="images/website/fhomeosr7.webp"
-              />
-              <div className="">
-                <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
-                  Service charge
-                </h5>
+            )}
+            <div
+              onClick={() => setTab("03")}
+              className="bg-white p-3 my-3 flex items-center justify-between cursor-pointer"
+            >
+              <h5 style={{ fontFamily: "Opensans-semi-bold" }}>Negotiations</h5>
+              <div>
                 <p
-                  className=" mt-3"
-                  style={{
-                    fontSize: "16px",
-                    lineHeight: 1.8,
-                    fontFamily: "Opensans-regular",
-                  }}
+                  className={`w-8 h-8 ${
+                    tab === "03" ? "hidden" : "flex"
+                  } items-center justify-center rounded-full bg-blue-600 text-white`}
                 >
-                  Upon closure as per our policy we only levy a fee equivalent
-                  to the sum of 15 days rent as per the signed agreement for the
-                  services provided by the Agent as opposed to the traditional
-                  30-60 day rent amount charged by traditional brokers.
+                  <FaPlus />
+                </p>
+                <p
+                  className={`w-8 h-8 ${
+                    tab === "03" ? "flex" : "hidden"
+                  } items-center justify-center rounded-full bg-yellow-400 text-white`}
+                >
+                  <FaMinus />
                 </p>
               </div>
             </div>
-            <div className="mt-10 mb-5 text-center">
-              <Link href="/signup">
-                <a
-                  style={{ fontFamily: "Opensans-bold" }}
-                  className="px-5 py-4 rounded-full bg-blue-400 hover:bg-blue-500 text-white"
+            {tab === "03" && (
+              <div className="flex items-center bg-white p-3">
+                <img
+                  className="h-40 w-40 md:mr-10 object-cover"
+                  src="images/website/fhomeosr4.webp"
+                />
+                <div className="">
+                  <p
+                    className="text-gray-600"
+                    style={{
+                      fontSize: "15px",
+                      fontFamily: "Opensans-regular",
+                    }}
+                  >
+                    All offers of potential client’s will be conveyed to you by
+                    our agent and upon finalizing the deal. Our agents will then
+                    move on to facilitate the documentation process.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            <div
+              onClick={() => setTab("04")}
+              className="bg-white p-3 my-3 flex items-center justify-between cursor-pointer"
+            >
+              <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
+                Processing documents
+              </h5>
+              <div>
+                <p
+                  className={`w-8 h-8 ${
+                    tab === "04" ? "hidden" : "flex"
+                  } items-center justify-center rounded-full bg-blue-600 text-white`}
                 >
-                  Get Started
-                </a>
-              </Link>
+                  <FaPlus />
+                </p>
+                <p
+                  className={`w-8 h-8 ${
+                    tab === "04" ? "flex" : "hidden"
+                  } items-center justify-center rounded-full bg-yellow-400 text-white`}
+                >
+                  <FaMinus />
+                </p>
+              </div>
             </div>
+            {tab === "04" && (
+              <div className="flex items-center bg-white p-3">
+                <img
+                  className="h-40 w-40 md:mr-10 object-cover"
+                  src="images/website/fhomeosr5.webp"
+                />
+                <div className="">
+                  <p
+                    className="text-gray-600"
+                    style={{
+                      fontSize: "15px",
+                      fontFamily: "Opensans-regular",
+                    }}
+                  >
+                    All the documents like the written and signed offer, rent
+                    agreement and police verification will be carried out by
+                    your agent using our pre-defined guidelines and process.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            <div
+              onClick={() => setTab("05")}
+              className="bg-white p-3 my-3 flex items-center justify-between cursor-pointer"
+            >
+              <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
+                Closing the deal
+              </h5>
+              <div>
+                <p
+                  className={`w-8 h-8 ${
+                    tab === "05" ? "hidden" : "flex"
+                  } items-center justify-center rounded-full bg-blue-600 text-white`}
+                >
+                  <FaPlus />
+                </p>
+                <p
+                  className={`w-8 h-8 ${
+                    tab === "05" ? "flex" : "hidden"
+                  } items-center justify-center rounded-full bg-yellow-400 text-white`}
+                >
+                  <FaMinus />
+                </p>
+              </div>
+            </div>
+            {tab === "05" && (
+              <div className="flex items-center bg-white p-3">
+                <img
+                  className="h-40 w-40 md:ml-10 object-cover"
+                  src="images/website/fhomeosr6.webp"
+                />
+                <div className="">
+                  <p
+                    className="text-gray-600"
+                    style={{
+                      fontSize: "15px",
+                      fontFamily: "Opensans-regular",
+                    }}
+                  >
+                    When you are close to closing the deal any hindrance or
+                    problem could prove problematic and that’s where our agents
+                    come through. Your R-A-R agent will make sure that
+                    everything is on the given timeline and that the process
+                    flows smoothly for a swifter experience.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            <div
+              onClick={() => setTab("06")}
+              className="bg-white p-3 my-3 flex items-center justify-between cursor-pointer"
+            >
+              <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
+                Service charge
+              </h5>
+              <div>
+                <p
+                  className={`w-8 h-8 ${
+                    tab === "06" ? "hidden" : "flex"
+                  } items-center justify-center rounded-full bg-blue-600 text-white`}
+                >
+                  <FaPlus />
+                </p>
+                <p
+                  className={`w-8 h-8 ${
+                    tab === "06" ? "flex" : "hidden"
+                  } items-center justify-center rounded-full bg-yellow-400 text-white`}
+                >
+                  <FaMinus />
+                </p>
+              </div>
+            </div>
+
+            {tab === "06" && (
+              <div className="flex items-center bg-white p-3">
+                <img
+                  className="h-40 w-40 md:mr-10 object-cover"
+                  src="images/website/fhomeosr7.webp"
+                />
+                <div className="">
+                  <p
+                    className="text-gray-600"
+                    style={{
+                      fontSize: "15px",
+                      fontFamily: "Opensans-regular",
+                    }}
+                  >
+                    Upon closure as per our policy we only levy a fee equivalent
+                    to the sum of 15 days rent as per the signed agreement for
+                    the services provided by the Agent as opposed to the
+                    traditional 30-60 day rent amount charged by traditional
+                    brokers.
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

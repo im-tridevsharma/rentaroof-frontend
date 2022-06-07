@@ -22,7 +22,7 @@ function Services() {
             Guides for tenants
           </h2>
 
-          <div className="mt-10 grid grid-cols-1 md:grid-cols-2 md:space-x-5 space-y-5 md:space-y-0">
+          <div className="mt-10 grid grid-cols-1 md:grid-cols-2 md:space-x-10 space-y-5 md:space-y-0">
             <img src="/theme/images/tenant-search.png" alt="search" />
             <div className="">
               <h2
@@ -87,7 +87,7 @@ function Services() {
               and after getting confirmation from the landlord.
             </p>
           </div>
-          <div className="mt-20 grid grid-cols-1 md:grid-cols-2 md:space-x-5 space-y-5 md:space-y-0">
+          <div className="mt-20 grid grid-cols-1 md:grid-cols-2 md:space-x-10 space-y-5 md:space-y-0">
             <div className="">
               <h2 className="text-3xl" style={{ fontFamily: "Opensans-bold" }}>
                 Scheduling visits and <br />
@@ -121,7 +121,7 @@ function Services() {
             <img src="/theme/images/tenant-work.png" alt="search" />
           </div>
 
-          <div className="mt-20 grid grid-cols-1 md:grid-cols-2 md:space-x-5 space-y-5 md:space-y-0">
+          <div className="mt-20 grid grid-cols-1 md:grid-cols-2 md:space-x-10 space-y-5 md:space-y-0">
             <img src="/theme/images/tenant-sign.png" alt="sign" />
             <div className="">
               <h2
@@ -204,7 +204,7 @@ function Services() {
         <div className=" py-2 mt-10">
           <div className="max-w-6xl mt-10 w-full m-auto ">
             <div className="my-20">
-              <div className="max-w-6xl w-full m-auto  grid grid-cols-1 md:grid-cols-2 md:space-x-5">
+              <div className="max-w-6xl w-full m-auto  grid grid-cols-1 md:grid-cols-2 md:space-x-10">
                 <div className="flex flex-col justify-center">
                   <h2
                     className="text-3xl mt-5"
@@ -367,7 +367,7 @@ function Services() {
                   loop
                 >
                   <Carousel.Item>
-                    <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-10">
                       <div className="flex items-start justify-start flex-col">
                         <h6
                           style={{ fontFamily: "Opensans-bold" }}
@@ -397,7 +397,7 @@ function Services() {
                     </div>
                   </Carousel.Item>
                   <Carousel.Item>
-                    <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-10">
                       <div className="flex justify-start items-start flex-col">
                         <h6
                           style={{ fontFamily: "Opensans-bold" }}
@@ -427,7 +427,7 @@ function Services() {
                     </div>
                   </Carousel.Item>
                   <Carousel.Item>
-                    <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-10">
                       <div className="flex justify-start items-start flex-col">
                         <h6
                           style={{ fontFamily: "Opensans-bold" }}
@@ -456,7 +456,7 @@ function Services() {
                     </div>
                   </Carousel.Item>
                   <Carousel.Item>
-                    <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-10">
                       <div className="flex justify-center flex-col">
                         <h6
                           style={{ fontFamily: "Opensans-bold" }}
@@ -486,7 +486,7 @@ function Services() {
                     </div>
                   </Carousel.Item>
                   <Carousel.Item>
-                    <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-10">
                       <div className="flex justify-start items-start flex-col">
                         <h6
                           style={{ fontFamily: "Opensans-bold" }}
