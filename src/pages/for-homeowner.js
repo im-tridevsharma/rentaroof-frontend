@@ -161,100 +161,100 @@ function Services() {
                 <br />
                 However, if you’d like us to do this on your behalf, then you
                 can choose our full management service instead.
-                <ul className="mt-5 list-disc ml-5">
-                  <li>Contact us for more details</li>
-                  <li>Free listings</li>
-                  <li>
-                    Customized rent agreement according to your requirements
-                  </li>
-                  <li>Custom lock-in period </li>
-                  <li>
-                    Screening tenants - police verification - background check
-                    for greater safety
-                  </li>
-                  <li>Safe and secure payments </li>
-                  <li>Payments managements - during tenancy - free</li>
-                  <li>Property management during tenancy - (Package)</li>
-                  <li>
-                    Third party Services can be provided - movers & packers,
-                    cleaning services, maintenance work.
-                  </li>
-                  <li>Unbiased services section</li>
-                  <li>Commission is only charged after the service is done</li>
-                  <li>No hidden packages</li>
-                </ul>
               </p>
+
+              <div className="mt-10">
+                <Link href="/?enquiry=yes">
+                  <a
+                    style={{ fontFamily: "Opensans-bold" }}
+                    className="px-8 py-3 rounded-full bg-yellow-500 hover:bg-yellow-400 text-white"
+                  >
+                    Contact us for more details
+                  </a>
+                </Link>
+              </div>
             </div>
           </div>
         </section>
-        <section className="bg-blue-50 py-10">
-          <div className="text-center ">
-            <h2 className="text-3xl" style={{ fontFamily: "Opensans-bold" }}>
-              Why choose us?
-            </h2>
-            <p
-              className="text-gray-500 max-w-3xl w-full mx-auto mt-3"
-              style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+        {false && (
+          <section className="bg-blue-50 py-10">
+            <div className="text-center ">
+              <h2 className="text-3xl" style={{ fontFamily: "Opensans-bold" }}>
+                Why choose us?
+              </h2>
+              <p
+                className="text-gray-500 max-w-3xl w-full mx-auto mt-3"
+                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+              >
+                When a client makes an offer, agents help the owner to try to
+                get the price they want and to obtain a signed Rent-agreement.
+              </p>
+            </div>
+            <div
+              className="max-w-6xl mt-10 md:mt-20 w-full m-auto  grid grid-cols-1 md:grid-cols-3 md:space-x-10 space-y-5 md:space-y-0"
+              style={{ fontFamily: "Opensans-regular" }}
             >
-              When a client makes an offer, agents help the owner to try to get
-              the price they want and to obtain a signed Rent-agreement.
-            </p>
-          </div>
-          <div
-            className="max-w-6xl mt-10 md:mt-20 w-full m-auto  grid grid-cols-1 md:grid-cols-3 md:space-x-10 space-y-5 md:space-y-0"
-            style={{ fontFamily: "Opensans-regular" }}
-          >
-            <div className="flex flex-col bg-white items-center p-5 pt-3">
-              <img
-                className="w-52 h-52 object-cover"
-                src="images/website/fhomeos1.webp"
-              />
-              <h3 className="text-2xl" style={{ fontFamily: "Opensans-bold" }}>
-                Free Listing
-              </h3>
-              <p
-                className="text-gray-900 text-center mt-2"
-                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
-              >
-                You can easily post your property on R-A-R for free.
-              </p>
-            </div>
+              <div className="flex flex-col bg-white items-center p-5 pt-3">
+                <img
+                  className="w-52 h-52 object-cover"
+                  src="images/website/fhomeos1.webp"
+                />
+                <h3
+                  className="text-2xl"
+                  style={{ fontFamily: "Opensans-bold" }}
+                >
+                  Free Listing
+                </h3>
+                <p
+                  className="text-gray-900 text-center mt-2"
+                  style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+                >
+                  You can easily post your property on R-A-R for free.
+                </p>
+              </div>
 
-            <div className="flex flex-col items-center p-5 bg-white pt-3">
-              <img
-                className="w-52 h-52 object-cover"
-                src="images/website/fhomeos2.webp"
-              />
-              <h3 className="text-2xl" style={{ fontFamily: "Opensans-bold" }}>
-                Home Showings
-              </h3>
-              <p
-                className="text-gray-900 text-center mt-2"
-                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
-              >
-                Our agent will Supervise and schedule home showings.
-              </p>
-            </div>
+              <div className="flex flex-col items-center p-5 bg-white pt-3">
+                <img
+                  className="w-52 h-52 object-cover"
+                  src="images/website/fhomeos2.webp"
+                />
+                <h3
+                  className="text-2xl"
+                  style={{ fontFamily: "Opensans-bold" }}
+                >
+                  Home Showings
+                </h3>
+                <p
+                  className="text-gray-900 text-center mt-2"
+                  style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+                >
+                  Our agent will Supervise and schedule home showings.
+                </p>
+              </div>
 
-            <div className="flex flex-col items-center p-5 bg-white pt-3">
-              <img
-                className="w-52 h-52 object-cover"
-                src="images/website/fhomeos3.webp"
-              />
-              <h3 className="text-2xl" style={{ fontFamily: "Opensans-bold" }}>
-                Closing the deal
-              </h3>
-              <p
-                className="text-gray-900 text-center mt-2"
-                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
-              >
-                Coordinate the process from signing the contract to closing the
-                deal along with preparing documents and other items necessary to
-                close.
-              </p>
+              <div className="flex flex-col items-center p-5 bg-white pt-3">
+                <img
+                  className="w-52 h-52 object-cover"
+                  src="images/website/fhomeos3.webp"
+                />
+                <h3
+                  className="text-2xl"
+                  style={{ fontFamily: "Opensans-bold" }}
+                >
+                  Closing the deal
+                </h3>
+                <p
+                  className="text-gray-900 text-center mt-2"
+                  style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+                >
+                  Coordinate the process from signing the contract to closing
+                  the deal along with preparing documents and other items
+                  necessary to close.
+                </p>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         <div className=" py-2 mt-10">
           <div className="max-w-6xl mt-10 w-full m-auto ">

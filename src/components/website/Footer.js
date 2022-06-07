@@ -198,6 +198,12 @@ function Footer() {
   ];
 
   useEffect(() => {
+    if (router?.query?.enquiry) {
+      setIsClosed(false);
+    }
+  }, [router?.query]);
+
+  useEffect(() => {
     (async () => {
       const data = await getPages();
       const bdata = await getBlogs();
@@ -232,7 +238,7 @@ function Footer() {
       <div
         data-tip="Enquiry"
         onClick={() => setIsClosed(false)}
-        className="fixed right-5 cursor-pointer bottom-10 z-40 bg-white shadow-lg drop-shadow-md rounded-full w-10 h-10 flex items-center justify-center"
+        className="fixed right-5 cursor-pointer bottom-10 z-50 bg-white shadow-lg drop-shadow-md rounded-full w-10 h-10 flex items-center justify-center"
       >
         <FaQuestionCircle className="text-2xl" />
         <ReactTooltip backgroundColor="black" textColor="white" />
