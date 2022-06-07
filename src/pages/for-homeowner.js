@@ -164,7 +164,7 @@ function Services() {
               </p>
 
               <div className="mt-10">
-                <Link href="/?enquiry=yes">
+                <Link href="/for-homeowner?enquiry=yes">
                   <a
                     style={{ fontFamily: "Opensans-bold" }}
                     className="px-8 py-3 rounded-full bg-yellow-500 hover:bg-yellow-400 text-white"
