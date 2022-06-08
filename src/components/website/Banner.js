@@ -6,7 +6,6 @@ import { useSelector, shallowEqual } from "react-redux";
 import { MdMyLocation } from "react-icons/md";
 import Geocode from "react-geocode";
 import { toast } from "react-toastify";
-import AutoComplete from "react-google-autocomplete";
 import { FaSearch } from "react-icons/fa";
 
 const ptype_options = [
@@ -112,26 +111,21 @@ function Banner() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!defaultLocation) {
-      e.preventDefault();
-      return false;
-    }
+
     setIsLoading(true);
     // const s_value = document.forms.findProperty.search.value;
     const ptype = document.forms.findProperty.property_type.value;
     const bed = document.forms.findProperty.bed_type.value;
     const budget = document.forms.findProperty.budget.value;
     const search_radius = document.forms.findProperty.search_radius.value;
-    const location = JSON.parse(localStorage.getItem("current-location"));
+    const location = document.forms.findProperty.search.value; //JSON.parse(localStorage.getItem("current-location"));
     const queryString = defaultLocation
       ? Object.keys(location)
           .map((key) => key + "=" + location[key])
           .join("&")
       : "";
     router.push(
-      `find-property/map?search=${location?.zone},${location?.area},${
-        location?.city
-      }&pagination=yes&ptype=${ptype}&bed=${bed}&budget=${budget}&search_radius=${
+      `find-property/map?search=${location}&ptype=${ptype}&bed=${bed}&budget=${budget}&search_radius=${
         search_radius || 10
       }&${queryString}`
     );
@@ -186,7 +180,8 @@ function Banner() {
       lng = place.geometry?.location?.lng("d");
     }
 
-    setDefaultLocation(city);
+    // setDefaultLocation(city);
+    document.forms.findProperty.search.value = city;
     localStorage.setItem(
       "current-location",
       JSON.stringify({
@@ -261,29 +256,14 @@ function Banner() {
                 >
                   <MdMyLocation size={30} />
                 </button>
-                <AutoComplete
-                  apiKey={process?.env?.MAP_API_KEY}
-                  onPlaceSelected={(place) => handlePlaceSearch(place)}
-                  defaultValue={defaultLocation}
-                  className=" rounded-md border-gray-100 mx-1 w-60 text-md px-2 py-2 border-2 h-10"
-                  placeholder="Enter Your Location..."
-                  options={{
-                    types: ["address"],
-                    componentRestrictions: {
-                      country: "in",
-                    },
-                  }}
+
+                <input
+                  type="text"
+                  name="search"
                   required
+                  placeholder="Enter Your Location..."
+                  className="rounded-sm text-gray-500 sm:flex-grow border-none px-2 ml-1 text-sm mb-1 sm:mb-0"
                 />
-                {false && (
-                  <input
-                    type="text"
-                    name="search"
-                    required
-                    placeholder="Search Property..."
-                    className="rounded-sm text-gray-500 sm:flex-grow border-none px-2 h-12 ml-1 text-sm mb-1 sm:mb-0"
-                  />
-                )}
 
                 <div className="flex flex-col sm:flex-row">
                   <Search

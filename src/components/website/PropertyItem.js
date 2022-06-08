@@ -84,31 +84,43 @@ function PropertyItem({ property, overEvent, outEvent, user }) {
     <>
       {isLoading && <Loader />}
       <div
-        className="border-2 border-gray-200 rounded-lg flex p-1 my-1 shadow-sm"
+        className="border-2 border-gray-200 rounded-lg flex items-center p-1 my-1 shadow-sm"
         onMouseOver={overEvent}
         onMouseOut={outEvent}
       >
         {/**small slider */}
-        <div className="mr-5 relative">
-          <Link href={`/details/properties/${property?.property_code}`}>
-            <img
-              src={property?.front_image || "/images/website/no_photo.png"}
-              alt="property"
-              className="h-40 md:w-52 object-cover cursor-pointer"
-            />
-          </Link>
-          <div
-            onClick={addtoFavorite}
-            className="absolute right-1 top-1 text-2xl cursor-pointer text-red-500 w-8 h-8 rounded-full bg-white flex items-center justify-center"
-          >
-            {isFavorite ? (
-              <MdFavorite data-tip="Added to favorite" />
-            ) : (
-              <MdFavoriteBorder data-tip="Add to favorite" />
-            )}
-            <ReactTooltip />
-          </div>
-        </div>
+        <Link href={`/details/properties/${property?.property_code}`}>
+          <>
+            <div
+              style={{
+                height: "160px",
+                overflow: "hidden",
+                borderRadius: "10px",
+                width: "300px",
+                marginRight: "10px",
+                position: "relative",
+              }}
+            >
+              <img
+                src={property?.front_image || "/images/website/no_photo.png"}
+                alt="property"
+                style={{ objectFit: "fill", height: "160px", width: "300px" }}
+                className="cursor-pointer"
+              />
+              <div
+                onClick={addtoFavorite}
+                className="absolute right-1 top-1 text-2xl cursor-pointer text-red-500 w-8 h-8 rounded-full bg-white flex items-center justify-center"
+              >
+                {isFavorite ? (
+                  <MdFavorite data-tip="Added to favorite" />
+                ) : (
+                  <MdFavoriteBorder data-tip="Add to favorite" />
+                )}
+                <ReactTooltip />
+              </div>
+            </div>
+          </>
+        </Link>
         {/**property details */}
         <div className="flex flex-col py-5 items-start">
           <Link href={`/details/properties/${property?.property_code}`}>

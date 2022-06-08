@@ -48,7 +48,6 @@ function Index({ query }) {
   const [max_price, setMaxPrice] = useState(1000);
   const [isReq, setIsReq] = useState(false);
   const router = useRouter();
-  const cookies = new Cookies();
 
   useEffect(() => {
     const u = localStorage.getItem("LU")
@@ -172,7 +171,7 @@ function Index({ query }) {
     setFilters({
       search: query?.search || "",
       ptype: query?.ptype || "",
-      budget: query?.budget,
+      budget: query?.budget === undefined ? "1000-50000" : query?.budget,
       min_size: query?.min_size || 100,
       max_size: query?.max_size || "",
       bed: query?.bed || "",
@@ -403,11 +402,11 @@ function Index({ query }) {
               >
                 <label className="flex flex-col">
                   <b>MIN</b>
-                  <span>Rs.{min_price}</span>
+                  <span>Rs.{min_price === undefined ? 1000 : min_price}</span>
                 </label>
                 <label className="flex flex-col">
                   <b>MAX</b>
-                  <span>Rs. {max_price}</span>
+                  <span>Rs. {max_price || 50000}</span>
                 </label>
               </div>
               <Slider
@@ -418,9 +417,9 @@ function Index({ query }) {
                 onChange={({ x }) => {
                   setFilters((prev) => ({
                     ...prev,
-                    budget: `${min_price}-${x}`,
+                    budget: `${min_price || 1000}-${x}`,
                   }));
-                  setMinPrice(min_price);
+                  setMinPrice(min_price || 1000);
                   setMaxPrice(x);
                   if (min_price > x) {
                     setMinPrice(1000);

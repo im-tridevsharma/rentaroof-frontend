@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Card from "../../Card";
 import PropertyGrid from "../../PropertyGrid";
-import { FaTimes } from "react-icons/fa";
+import { FaArrowCircleDown, FaTimes } from "react-icons/fa";
 import {
   getProperties,
   deleteProperty,
@@ -44,6 +44,8 @@ function PropertiesUI() {
   const [agreements, setAgreements] = useState([]);
   const [deleteReason, setDeleteReason] = useState("");
   const [deleteMode, setDeleteMode] = useState(false);
+
+  const bottom = useRef();
 
   useEffect(() => {
     localStorage.removeItem("next_ap");
@@ -383,6 +385,26 @@ function PropertiesUI() {
           </div>
         </div>
       )}
+      <div
+        style={{
+          position: "fixed",
+          bottom: "5px",
+          right: "200px",
+          width: "50px",
+          height: "50px",
+          borderRadius: "30px",
+          background: "var(--primary-color)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "#fff",
+          cursor: "pointer",
+        }}
+        onClick={() => bottom.current.scrollIntoView({ behaviour: "smooth" })}
+      >
+        <FaArrowCircleDown />
+      </div>
+      <div ref={bottom} />
     </>
   );
 }

@@ -531,8 +531,9 @@ function Map() {
               className="ml-3 text-xl text-gray-700 cursor-pointer"
               data-tip="List View"
               onClick={() => {
-                localStorage.getItem("list-view") &&
-                  router.push(localStorage.getItem("list-view"));
+                router.push(
+                  router.asPath.replace("/map", "") + "&pagination=yes"
+                );
               }}
             />
           </div>
