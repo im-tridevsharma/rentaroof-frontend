@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import Header from "../../components/website/Header";
 import Footer from "../../components/website/Footer";
 import Breadcrumb from "../../components/website/Breadcrumb";
-import { FiFilter, FiSearch } from "react-icons/fi";
+import { FiFilter, FiLoader, FiSearch } from "react-icons/fi";
 import { FaDirections, FaListAlt } from "react-icons/fa";
 import { BiSave } from "react-icons/bi";
 import PropertyItem from "../../components/website/PropertyItem";
@@ -24,6 +24,7 @@ import {
 import { __d } from "../../server";
 import ReactTooltip from "react-tooltip";
 import { toast, ToastContainer } from "react-toastify";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 function Map() {
   const router = useRouter();
@@ -50,6 +51,11 @@ function Map() {
   const [min_price, setMinPrice] = useState(1000);
   const [max_price, setMaxPrice] = useState(0);
 
+  const [total, setTotal] = useState(0);
+  const [propertySkip, setPropertySkip] = useState(0);
+  const [hasMoreProperty, setHasMoreProperty] = useState(false);
+  const [fetching, setFetching] = useState(false);
+
   const [mapObj, setMapObj] = useState(null);
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.MAP_API_KEY, // Add your API key
@@ -63,9 +69,13 @@ function Map() {
       const queryString = Object.keys(router.query)
         .map((key) => key + "=" + router.query[key])
         .join("&");
-      const response = await searchProperties(queryString);
+      const response = await searchProperties(queryString, propertySkip);
       if (response?.status) {
         setProperties(response?.data);
+        if (response?.total > 0) {
+          setHasMoreProperty(true);
+        }
+        setTotal(response?.total);
         setIsLoading(false);
         if (isLoaded && mapObj) handleOnLoad(mapObj);
       } else {
@@ -74,6 +84,25 @@ function Map() {
       }
     })();
   }, [router.query]);
+
+  const fetchNextData = async () => {
+    if (!fetching) {
+      setFetching(true);
+      const queryString = Object.keys(router.query)
+        .map((key) => key + "=" + router.query[key])
+        .join("&");
+      const res = await searchProperties(queryString, propertySkip + 10);
+      if (res?.status) {
+        setProperties((prev) => [...prev, ...res?.data]);
+        setPropertySkip(propertySkip + 10);
+        if (properties.length === total) {
+          setHasMoreProperty(false);
+        }
+
+        setFetching(false);
+      }
+    }
+  };
 
   useEffect(() => {
     const u = localStorage.getItem("LU")
@@ -486,10 +515,20 @@ function Map() {
 
           {/**result count */}
           <p className="font-bold" style={{ fontFamily: "Opensans-bold" }}>
-            {properties?.length} Properties {search ? "for " + search : ""}
+            {total} Properties {search ? "for " + search : ""}
           </p>
           {/**properties */}
-          <div className="flex flex-col mt-3 sm:max-h-128 h-full sm:overflow-hidden sm:overflow-y-auto">
+          <InfiniteScroll
+            dataLength={properties.length} //This is important field to render the next data
+            next={fetchNextData}
+            hasMore={hasMoreProperty}
+            loader={
+              <div className="mt-3 flex items-center justify-center">
+                <FiLoader color="dodgerblue" className="text-xl animate-spin" />
+              </div>
+            }
+            scrollThreshold="300px"
+          >
             {properties?.length > 0 ? (
               properties?.map((p, i) => (
                 <PropertyItem
@@ -505,7 +544,7 @@ function Map() {
                 Properties not found for your search!
               </p>
             )}
-          </div>
+          </InfiniteScroll>
         </div>
         {/**map */}
         <div className="w-full px-5 mb-10 sm:mb-0">
@@ -531,9 +570,7 @@ function Map() {
               className="ml-3 text-xl text-gray-700 cursor-pointer"
               data-tip="List View"
               onClick={() => {
-                router.push(
-                  router.asPath.replace("/map", "") + "&pagination=yes"
-                );
+                router.push(router.asPath.replace("/map", ""));
               }}
             />
           </div>

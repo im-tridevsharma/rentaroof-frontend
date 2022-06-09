@@ -1,12 +1,12 @@
 import { getToken } from "../frontend/auth";
 import server from "../../server";
 
-export const getProperties = async () => {
+export const getProperties = async (skip = 0) => {
   const token = getToken();
   let res = false;
 
   await server
-    .get("/properties", {
+    .get("/properties?skip=" + skip, {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((response) => {
@@ -76,11 +76,11 @@ export const addPropertyAddressPin = async (id, data) => {
   return pin;
 };
 
-export const searchProperties = async (search) => {
+export const searchProperties = async (search, skip) => {
   let res = false;
 
   await server
-    .get("/properties/search?" + search)
+    .get("/properties/search?" + search + "&skip=" + skip)
     .then((response) => {
       res = response?.data;
     })

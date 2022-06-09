@@ -4,7 +4,7 @@ import Breadcrumb from "../../components/website/Breadcrumb";
 import Header from "../../components/website/Header";
 import Footer from "../../components/website/Footer";
 import Loader from "../../components/loader";
-import { FiFilter, FiMapPin, FiSearch } from "react-icons/fi";
+import { FiFilter, FiLoader, FiMapPin, FiSearch } from "react-icons/fi";
 import Slider from "react-input-slider";
 import { getAmenities } from "../../lib/frontend/share";
 import { useRouter } from "next/router";
@@ -20,6 +20,7 @@ import { FaTimes } from "react-icons/fa";
 import ReactTooltip from "react-tooltip";
 import { toast, ToastContainer } from "react-toastify";
 import Cookies from "universal-cookie";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 function Index({ query }) {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -42,11 +43,16 @@ function Index({ query }) {
   });
   const [amenities, setAmenities] = useState([]);
   const [properties, setProperties] = useState([]);
-  const [pagination, setPagination] = useState([]);
   const [filterMode, setFilterMode] = useState(false);
   const [min_price, setMinPrice] = useState(1000);
   const [max_price, setMaxPrice] = useState(1000);
   const [isReq, setIsReq] = useState(false);
+
+  const [total, setTotal] = useState(0);
+  const [propertySkip, setPropertySkip] = useState(0);
+  const [hasMoreProperty, setHasMoreProperty] = useState(false);
+  const [fetching, setFetching] = useState(false);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -102,50 +108,18 @@ function Index({ query }) {
     }
   };
 
-  const previousPage = () => {
-    if (pagination?.current_page !== 1) {
-      let q = router?.query;
-      q["page"] = pagination?.current_page - 1;
-      const queryString = Object.keys(q)
-        .map((key) => key + "=" + q[key])
-        .join("&");
-      router.push("/find-property?" + queryString);
-    }
-  };
-
-  const nextPage = () => {
-    if (pagination?.current_page !== pagination?.last_page) {
-      let q = router?.query;
-      q["page"] = pagination?.current_page + 1;
-      const queryString = Object.keys(q)
-        .map((key) => key + "=" + q[key])
-        .join("&");
-      router.push("/find-property?" + queryString);
-    }
-  };
-
   useEffect(() => {
     setIsLoading(true);
     (async () => {
       const queryString = Object.keys(query)
         .map((key) => key + "=" + query[key])
         .join("&");
-      const response = await searchProperties(queryString);
+      const response = await searchProperties(queryString, propertySkip);
       if (response?.status) {
-        setProperties(
-          router?.query.pagination === "yes"
-            ? response?.data.data
-            : response?.data
-        );
-        if (response?.data?.total) {
-          setPagination({
-            current_page: response?.data.current_page,
-            last_page: response?.data.last_page,
-            per_page: response?.data.per_page,
-            from: response?.data.from,
-            to: response?.data.to,
-            total: response?.data.total,
-          });
+        setProperties(response?.data);
+        if (response?.total > 0) {
+          setTotal(response.total);
+          setHasMoreProperty(true);
         }
         setIsLoading(false);
       } else {
@@ -187,12 +161,31 @@ function Index({ query }) {
   }, [router.query]);
 
   useEffect(() => {
-    if (properties?.length === 0 && !isLoading) {
+    if (total === 0 && !isLoading) {
       setIsReq(true);
     } else {
       setIsReq(false);
     }
   }, [properties, isLoading]);
+
+  const fetchNextData = async () => {
+    if (!fetching) {
+      setFetching(true);
+      const queryString = Object.keys(router.query)
+        .map((key) => key + "=" + router.query[key])
+        .join("&");
+      const res = await searchProperties(queryString, propertySkip + 10);
+      if (res?.status) {
+        setProperties((prev) => [...prev, ...res?.data]);
+        setPropertySkip(propertySkip + 10);
+        if (properties.length === total) {
+          setHasMoreProperty(false);
+        }
+
+        setFetching(false);
+      }
+    }
+  };
 
   useEffect(() => {
     const fetchAmenities = async () => {
@@ -847,9 +840,7 @@ function Index({ query }) {
                 onClick={() => setFilterMode(true)}
               />
               Showing
-              <b className="mx-2">
-                {pagination?.from}-{pagination?.to} of {pagination?.total}
-              </b>
+              <b className="mx-2">{total}</b>
               Properties
             </p>
             <div className="flex items-center">
@@ -877,10 +868,7 @@ function Index({ query }) {
                 onClick={() => {
                   localStorage.setItem("list-view", router.asPath);
                   router.push(
-                    router.asPath
-                      .replace("find-property", "find-property/map")
-                      .replace("&pagination=yes", "")
-                      .replace("pagination=yes&", "")
+                    router.asPath.replace("find-property", "find-property/map")
                   );
                 }}
                 type="button"
@@ -892,46 +880,37 @@ function Index({ query }) {
           </div>
           {/**result */}
           <div className="flex flex-col mt-3">
-            {properties?.length > 0 ? (
-              properties.map((p, i) => (
-                <FilterProperty key={i} property={p} user={user} />
-              ))
-            ) : (
-              <div className="text-red-400">
-                <p>Properties not found!</p>
-                <button
-                  className="px-3 py-2 mt-5 text-white rounded-md"
-                  style={{ background: "var(--blue)" }}
-                  onClick={() => setIsReq(true)}
-                >
-                  Send Your Requirement
-                </button>
-              </div>
-            )}
-          </div>
-          <div className="flex items-end justify-end">
-            <button
-              className={`h-10 w-10 flex items-center justify-center mr-3 hover:bg-gray-100 ${
-                pagination?.current_page === 1 ? "bg-gray-100" : "bg-gray-200"
-              } rounded-full`}
-              onClick={previousPage}
-              data-tip="Previous Page"
+            <InfiniteScroll
+              dataLength={properties.length} //This is important field to render the next data
+              next={fetchNextData}
+              hasMore={hasMoreProperty}
+              loader={
+                <div className="mt-3 flex items-center justify-center">
+                  <FiLoader
+                    color="dodgerblue"
+                    className="text-xl animate-spin"
+                  />
+                </div>
+              }
+              scrollThreshold="600px"
             >
-              <GrLinkPrevious />
-              <ReactTooltip />
-            </button>
-            <button
-              className={`h-10 w-10 flex items-center justify-center hover:bg-gray-100 ${
-                pagination?.current_page === pagination?.last_page
-                  ? "bg-gray-100"
-                  : "bg-gray-200"
-              } rounded-full`}
-              onClick={nextPage}
-              data-tip="Next Page"
-            >
-              <GrLinkNext />
-              <ReactTooltip />
-            </button>
+              {properties?.length > 0 ? (
+                properties.map((p, i) => (
+                  <FilterProperty key={i} property={p} user={user} />
+                ))
+              ) : (
+                <div className="text-red-400">
+                  <p>Properties not found!</p>
+                  <button
+                    className="px-3 py-2 mt-5 text-white rounded-md"
+                    style={{ background: "var(--blue)" }}
+                    onClick={() => setIsReq(true)}
+                  >
+                    Send Your Requirement
+                  </button>
+                </div>
+              )}
+            </InfiniteScroll>
           </div>
         </div>
       </div>

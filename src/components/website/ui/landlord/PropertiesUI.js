@@ -19,7 +19,8 @@ import { MdClose } from "react-icons/md";
 import { BsStarFill } from "react-icons/bs";
 import { getAgreements } from "../../../../lib/frontend/share";
 import ReactTooltip from "react-tooltip";
-import { FiAlertCircle, FiDelete } from "react-icons/fi";
+import { FiAlertCircle, FiDelete, FiLoader } from "react-icons/fi";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const Button = ({ url }) => {
   return (
@@ -44,6 +45,10 @@ function PropertiesUI() {
   const [agreements, setAgreements] = useState([]);
   const [deleteReason, setDeleteReason] = useState("");
   const [deleteMode, setDeleteMode] = useState(false);
+  const [total, setTotal] = useState(0);
+  const [propertySkip, setPropertySkip] = useState(0);
+  const [hasMoreProperty, setHasMoreProperty] = useState(false);
+  const [fetching, setFetching] = useState(false);
 
   const bottom = useRef();
 
@@ -62,10 +67,14 @@ function PropertiesUI() {
     }
     (async () => {
       setIsLoading(true);
-      const res = await getProperties();
+      const res = await getProperties(propertySkip);
       if (res?.status) {
         setProperties(res.data);
         setIsLoading(false);
+        setTotal(res?.total);
+        if (total > 0) {
+          setHasMoreProperty(true);
+        }
       } else {
         console.error(res?.error || res?.message);
         setIsLoading(false);
@@ -84,7 +93,6 @@ function PropertiesUI() {
           setIsLoading(false);
           console.error(response?.error || response?.message);
         }
-        setIsLoading(true);
         const ares = await getAgreements();
         if (ares?.status) {
           setAgreements(ares?.data);
@@ -96,6 +104,22 @@ function PropertiesUI() {
       }
     })();
   }, []);
+
+  const fetchNextData = async () => {
+    if (!fetching) {
+      setFetching(true);
+      const res = await getProperties(propertySkip + 9);
+      if (res?.status) {
+        setProperties((prev) => [...prev, ...res?.data]);
+        setPropertySkip(propertySkip + 9);
+        if (properties.length === total) {
+          setHasMoreProperty(false);
+        }
+
+        setFetching(false);
+      }
+    }
+  };
 
   const deleteProperties = (id) => {
     const go = confirm("It will delete it permanantly!");
@@ -151,7 +175,7 @@ function PropertiesUI() {
         <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3 space-y-3 md:space-y-0">
           <Card
             label="Total properties posted"
-            count={properties?.length}
+            count={total}
             color="var(--orange)"
             textcolor="white"
             icon={
@@ -236,16 +260,31 @@ function PropertiesUI() {
             >
               <p>Posted Properties</p>
             </div>
-            <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-              {properties &&
-                properties.map((p, i) => (
-                  <PostedProperty
-                    key={i}
-                    property={p}
-                    deleteProperties={deleteProperties}
+            <InfiniteScroll
+              dataLength={properties.length} //This is important field to render the next data
+              next={fetchNextData}
+              hasMore={hasMoreProperty}
+              loader={
+                <div className="mt-3 flex items-center justify-center">
+                  <FiLoader
+                    color="dodgerblue"
+                    className="text-xl animate-spin"
                   />
-                ))}
-            </div>
+                </div>
+              }
+              scrollThreshold="600px"
+            >
+              <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                {properties &&
+                  properties.map((p, i) => (
+                    <PostedProperty
+                      key={i}
+                      property={p}
+                      deleteProperties={deleteProperties}
+                    />
+                  ))}
+              </div>
+            </InfiniteScroll>
           </>
         )}
         {cardMode === "rented" && (
