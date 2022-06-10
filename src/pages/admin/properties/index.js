@@ -143,7 +143,7 @@ function Index() {
       {isLoading && <Loader />}
       <SectionTitle
         title="Properties"
-        subtitle="All Properties"
+        subtitle={`All Properties (${properties?.length})`}
         right={<AddProperty />}
       />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">

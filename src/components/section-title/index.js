@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 const SectionTitle = ({ title, subtitle, right = null }) => {
   return (
-    <div className="section-title w-full mb-6 pt-3">
+    <div className="section-title w-full mb-6 pt-3 sticky top-0">
       <div className="flex flex-row items-center justify-between mb-4">
         <div className="flex flex-col">
           <div className="text-xs uppercase font-light text-gray-500">

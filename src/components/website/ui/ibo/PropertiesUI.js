@@ -257,8 +257,9 @@ function PropertiesUI() {
             >
               <p>Posted Properties</p>
             </div>
+            {/* <div style={{ height: "500px", overflow: "auto" }}> */}
             <InfiniteScroll
-              style={{ height: "500px" }}
+              className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
               dataLength={properties.length} //This is important field to render the next data
               next={fetchNextData}
               hasMore={hasMoreProperty}
@@ -270,19 +271,17 @@ function PropertiesUI() {
                   />
                 </div>
               }
-              scrollThreshold="200px"
             >
-              <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                {properties &&
-                  properties.map((p, i) => (
-                    <PostedProperty
-                      key={i}
-                      property={p}
-                      deleteProperties={deleteProperties}
-                    />
-                  ))}
-              </div>
+              {properties &&
+                properties.map((p, i) => (
+                  <PostedProperty
+                    key={i}
+                    property={p}
+                    deleteProperties={deleteProperties}
+                  />
+                ))}
             </InfiniteScroll>
+            {/* </div> */}
           </>
         )}
         {cardMode === "rented" && (

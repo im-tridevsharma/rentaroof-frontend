@@ -29,11 +29,11 @@ function PostedProperty({ property, deleteProperties }) {
           </div>
         )}
 
-        <div className="w-full max-h-48 mb-2 overflow-hidden rounded-md">
+        <div className="w-full h-50 mb-2 overflow-hidden rounded-md">
           <img
             src={property?.front_image || "/images/website/no_photo.png"}
             alt={property?.name}
-            className="w-full min-h-full object-cover"
+            className="w-full h-50 object-fill"
           />
         </div>
         <div className="text-center" style={{ fontFamily: "Opensans-regular" }}>
