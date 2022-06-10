@@ -14,7 +14,7 @@ function Chat() {
       <Head>
         <title>Chat</title>
       </Head>
-      <div>
+      <div className="h-screen overflow-x-hidden overflow-y-auto">
         <UIRenderer UI={ChatUI} role="Landlord" page="Chat" />
       </div>
     </>

@@ -14,7 +14,7 @@ function Properties() {
       <Head>
         <title>Add Property</title>
       </Head>
-      <div>
+      <div className="h-screen overflow-x-hidden overflow-y-auto">
         <UIRenderer UI={PropertiesUI} role="Landlord" page="Add Property" />
       </div>
     </>

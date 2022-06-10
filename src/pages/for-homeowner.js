@@ -20,22 +20,37 @@ function Services() {
 
       <div className=" bg-white">
         <div className="max-w-6xl w-full mx-auto">
-          <h2 className="py-3 mt-3" style={{ fontFamily: "Opensans-bold" }}>
+          <h2
+            className="py-3 mt-3 wow slideInLeft"
+            data-wow-delay="0.1s"
+            data-wow-duration="1s"
+            style={{ fontFamily: "Opensans-bold" }}
+          >
             Guides for landlords
           </h2>
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 md:space-x-10 space-y-5 md:space-y-0">
-            <img src="/theme/images/landlord-first.png" alt="home rented" />
+            <img
+              src="/theme/images/landlord-first.png"
+              alt="home rented"
+              className="wow slideInLeft"
+              data-wow-delay="0.1s"
+              data-wow-duration="1s"
+            />
             <div className="">
               <h2
-                className="text-3xl mt-7"
+                className="text-3xl mt-7 wow slideInRight"
+                data-wow-delay="0.1s"
+                data-wow-duration="1s"
                 style={{ fontFamily: "Opensans-bold" }}
               >
                 Need to get your{" "}
                 <span className="text-blue-500">home rented?</span>
               </h2>
               <div
-                className="text-gray-500"
+                className="text-gray-500 wow fadeInUp"
+                data-wow-delay="0.3s"
+                data-wow-duration="1s"
                 style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
               >
                 <p className=" mt-5">
@@ -53,7 +68,11 @@ function Services() {
                   process such as facilitating house showing, processing
                   documents and closing the deal.
                 </p>
-                <div className="mt-10 mb-5">
+                <div
+                  className="mt-10 mb-5 wow zoomIn"
+                  data-wow-delay="0.5s"
+                  data-wow-duration="1s"
+                >
                   <Link href="/signup">
                     <a
                       style={{ fontFamily: "Opensans-regular" }}
@@ -76,7 +95,9 @@ function Services() {
                 style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
               >
                 <h2
-                  className="text-3xl mt-10"
+                  className="text-3xl mt-10 wow slideInLeft"
+                  data-wow-delay="0.1s"
+                  data-wow-duration="1s"
                   style={{ fontFamily: "Opensans-bold" }}
                 >
                   HOW WE CAN HELP YOU TO
@@ -84,13 +105,21 @@ function Services() {
                   <span className="text-blue-500">RENT YOUR PROPERTY</span>
                 </h2>
 
-                <p className=" mt-5">
+                <p
+                  className=" mt-5 wow fadeInUp"
+                  data-wow-delay="0.2s"
+                  data-wow-duration="1s"
+                >
                   Rentaroof will take a personal approach to meet your
                   individual needs because we recognise no two landlords are the
                   same. We’ll do everything we can to help you rent out your
                   property at the right price and to the right people.
                 </p>
-                <p className=" mt-5">
+                <p
+                  className=" mt-5 wow fadeInUp"
+                  data-wow-delay="0.3s"
+                  data-wow-duration="1s"
+                >
                   Our dedicated team of real estate agents are there to help
                   with any questions you have along the way, from start to
                   finish.
@@ -100,7 +129,11 @@ function Services() {
                   VIEWINGS & FEEDBACK
                 </h6>
 
-                <p className=" mt-5">
+                <p
+                  className=" mt-5 wow fadeInUp"
+                  data-wow-delay="0.4s"
+                  data-wow-duration="1s"
+                >
                   We will market your property using our online rental platform,
                   arrange viewings and take potential tenants to see it. These
                   will be on the days that work for you or your current tenants,
@@ -109,17 +142,32 @@ function Services() {
                   suggestions that may help to speed up the process.
                 </p>
               </div>
-              <img src="/theme/images/landlord-second.png" alt="homerent" />
+              <img
+                src="/theme/images/landlord-second.png"
+                alt="homerent"
+                className="wow slideInRight"
+                data-wow-delay="0.1s"
+                data-wow-duration="1s"
+              />
             </div>
             <div
               className="text-gray-500"
               style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
             >
-              <h6 style={{ fontFamily: "Opensans-bold" }} className="mt-5">
+              <h6
+                style={{ fontFamily: "Opensans-bold" }}
+                className="mt-5 wow fadeInUp"
+                data-wow-delay="0.1s"
+                data-wow-duration="1s"
+              >
                 ONCE AN OFFER HAS BEEN ACCEPTED
               </h6>
 
-              <p className=" mt-5">
+              <p
+                className=" mt-5 wow fadeInUp"
+                data-wow-delay="0.2s"
+                data-wow-duration="1s"
+              >
                 The application by the tenant will be dealt with by our
                 appointed agent. Police verification will be carried out and
                 rent agreement details will be agreed upon. Assuming that the
@@ -127,11 +175,20 @@ function Services() {
                 will set a move-in date convenient to all parties.
               </p>
 
-              <h6 style={{ fontFamily: "Opensans-bold" }} className="mt-5">
+              <h6
+                style={{ fontFamily: "Opensans-bold" }}
+                className="mt-5 wow fadeInUp"
+                data-wow-delay="0.3s"
+                data-wow-duration="1s"
+              >
                 PREPARING THE NEW TENANCY
               </h6>
 
-              <p className=" mt-5">
+              <p
+                className=" mt-5 wow fadeInUp"
+                data-wow-delay="0.4s"
+                data-wow-duration="1s"
+              >
                 Our team will then draw up an Assured Legally binded Rent
                 agreement. While much of this is written to be compliant with
                 all current lettings laws to ensure both you and the tenants are
@@ -163,7 +220,11 @@ function Services() {
                 can choose our full management service instead.
               </p>
 
-              <div className="mt-10">
+              <div
+                className="mt-10 wow zoomIn"
+                data-wow-delay="0.3s"
+                data-wow-duration="1s"
+              >
                 <Link href="/for-homeowner?enquiry=yes">
                   <a
                     style={{ fontFamily: "Opensans-bold" }}
@@ -176,92 +237,15 @@ function Services() {
             </div>
           </div>
         </section>
-        {false && (
-          <section className="bg-blue-50 py-10">
-            <div className="text-center ">
-              <h2 className="text-3xl" style={{ fontFamily: "Opensans-bold" }}>
-                Why choose us?
-              </h2>
-              <p
-                className="text-gray-500 max-w-3xl w-full mx-auto mt-3"
-                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
-              >
-                When a client makes an offer, agents help the owner to try to
-                get the price they want and to obtain a signed Rent-agreement.
-              </p>
-            </div>
-            <div
-              className="max-w-6xl mt-10 md:mt-20 w-full m-auto  grid grid-cols-1 md:grid-cols-3 md:space-x-10 space-y-5 md:space-y-0"
-              style={{ fontFamily: "Opensans-regular" }}
-            >
-              <div className="flex flex-col bg-white items-center p-5 pt-3">
-                <img
-                  className="w-52 h-52 object-cover"
-                  src="images/website/fhomeos1.webp"
-                />
-                <h3
-                  className="text-2xl"
-                  style={{ fontFamily: "Opensans-bold" }}
-                >
-                  Free Listing
-                </h3>
-                <p
-                  className="text-gray-900 text-center mt-2"
-                  style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
-                >
-                  You can easily post your property on R-A-R for free.
-                </p>
-              </div>
-
-              <div className="flex flex-col items-center p-5 bg-white pt-3">
-                <img
-                  className="w-52 h-52 object-cover"
-                  src="images/website/fhomeos2.webp"
-                />
-                <h3
-                  className="text-2xl"
-                  style={{ fontFamily: "Opensans-bold" }}
-                >
-                  Home Showings
-                </h3>
-                <p
-                  className="text-gray-900 text-center mt-2"
-                  style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
-                >
-                  Our agent will Supervise and schedule home showings.
-                </p>
-              </div>
-
-              <div className="flex flex-col items-center p-5 bg-white pt-3">
-                <img
-                  className="w-52 h-52 object-cover"
-                  src="images/website/fhomeos3.webp"
-                />
-                <h3
-                  className="text-2xl"
-                  style={{ fontFamily: "Opensans-bold" }}
-                >
-                  Closing the deal
-                </h3>
-                <p
-                  className="text-gray-900 text-center mt-2"
-                  style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
-                >
-                  Coordinate the process from signing the contract to closing
-                  the deal along with preparing documents and other items
-                  necessary to close.
-                </p>
-              </div>
-            </div>
-          </section>
-        )}
 
         <div className=" py-2 mt-10">
           <div className="max-w-6xl mt-10 w-full m-auto ">
             <div className="my-20">
               <div className="max-w-6xl w-full m-auto  grid grid-cols-1 md:grid-cols-2 md:space-x-10">
                 <div
-                  className="overflow-hidden"
+                  className="overflow-hidden wow slideInLeft"
+                  data-wow-delay="0.1s"
+                  data-wow-duration="1s"
                   style={{
                     backgroundImage: "url(/theme/images/tenant-video.png)",
                     backgroundPosition: "center",
@@ -280,13 +264,17 @@ function Services() {
                 </div>
                 <div className="flex flex-col justify-center">
                   <h2
-                    className="text-3xl mt-5"
+                    className="text-3xl mt-5 wow slideInRight"
+                    data-wow-delay="0.1s"
+                    data-wow-duration="1s"
                     style={{ fontFamily: "Opensans-bold" }}
                   >
                     Leave all your worries to us!
                   </h2>
                   <p
-                    className="mt-5"
+                    className="mt-5 wow fadeInUp"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
                     style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
                   >
                     If you’ve ever rented out a home then you surely know about
@@ -299,7 +287,11 @@ function Services() {
                     for renting your home with ease.
                   </p>
 
-                  <div className="mt-10">
+                  <div
+                    className="mt-10 wow zoomIn"
+                    data-wow-delay="0.5s"
+                    data-wow-duration="1s"
+                  >
                     <Link href="/list-property">
                       <a
                         style={{ fontFamily: "Opensans-bold" }}
@@ -320,7 +312,9 @@ function Services() {
             <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-10 space-y-5 md:space-y-0">
               <div className="">
                 <h2
-                  className="text-3xl mt-10"
+                  className="text-3xl mt-10 wow slideInLeft"
+                  data-wow-delay="0.1s"
+                  data-wow-duration="1s"
                   style={{ fontFamily: "Opensans-bold" }}
                 >
                   Let us manage your
@@ -330,7 +324,11 @@ function Services() {
                   className="text-gray-500"
                   style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
                 >
-                  <p className=" mt-5">
+                  <p
+                    className=" mt-5 wow fadeInUp"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                  >
                     All properties that are listed on Rent-A-Roof are treated as
                     a responsibility towards our clients. All properties are
                     assigned dedicated R-A-R agents who stay in touch with the
@@ -339,7 +337,11 @@ function Services() {
                     the process below.
                   </p>
                 </div>
-                <div className="mt-10">
+                <div
+                  className="mt-10 wow zoomIn"
+                  data-wow-delay="0.5s"
+                  data-wow-duration="1s"
+                >
                   <Link href="/list-property">
                     <a
                       style={{ fontFamily: "Opensans-bold" }}
@@ -350,7 +352,13 @@ function Services() {
                   </Link>
                 </div>
               </div>
-              <img src="/theme/images/landlord-third.png" alt="search" />
+              <img
+                src="/theme/images/landlord-third.png"
+                alt="search"
+                className="wow slideInRight"
+                data-wow-delay="0.1s"
+                data-wow-duration="1s"
+              />
             </div>
           </div>
         </div>
@@ -358,13 +366,17 @@ function Services() {
         <div className="py-10 bg-gray-100">
           <div className="max-w-3xl w-full m-auto">
             <h3
-              className="text-3xl mt-5 text-center"
+              className="text-3xl mt-5 text-center wow fadeInUp"
+              data-wow-delay="0.1s"
+              data-wow-duration="1s"
               style={{ fontFamily: "Opensans-bold" }}
             >
               It’s simple to get your home rented
             </h3>
             <p
-              className="text-gray-500 text-center mb-5 max-w-3xl w-full mx-auto mt-3"
+              className="text-gray-500 text-center mb-5 max-w-3xl w-full mx-auto mt-3 wow fadeInUp"
+              data-wow-delay="0.3s"
+              data-wow-duration="1s"
               style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
             >
               When a client makes an offer, agents help the owner to try to get

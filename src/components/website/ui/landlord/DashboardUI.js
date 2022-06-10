@@ -161,7 +161,7 @@ function DashboardUI() {
             fontFamily: "Opensans-bold",
           }}
         >
-          <p>Total Properties Posted</p>
+          <p>Total Properties Posted ({postedProperties})</p>
           {/**graph */}
           <div className="w-full h-2 bg-white rounded-lg mt-2 relative">
             {/**visited count */}
@@ -169,7 +169,7 @@ function DashboardUI() {
               className="h-full rounded-lg absolute right-0 top-0"
               style={{
                 backgroundColor: "var(--blue)",
-                width: (postedProperties / 10) * 100,
+                width: (postedProperties / 100) * 100,
               }}
             ></span>
           </div>

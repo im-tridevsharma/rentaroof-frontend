@@ -18,34 +18,61 @@ function Services() {
 
       <div className=" bg-white overflow-hidden">
         <div className="max-w-6xl w-full mx-auto">
-          <h2 className="py-3 mt-3" style={{ fontFamily: "Opensans-bold" }}>
+          <h2
+            className="py-3 mt-3 wow slideInLeft"
+            data-wow-delay="0.1s"
+            data-wow-duration="1s"
+            style={{ fontFamily: "Opensans-bold" }}
+          >
             Guides for tenants
           </h2>
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 md:space-x-10 space-y-5 md:space-y-0">
-            <img src="/theme/images/tenant-search.png" alt="search" />
+            <img
+              src="/theme/images/tenant-search.png"
+              alt="search"
+              className="wow slideInLeft"
+              data-wow-delay="0.1s"
+              data-wow-duration="1s"
+            />
             <div className="">
               <h2
-                className="text-3xl mt-7"
+                className="text-3xl mt-7 wow slideInRight"
+                data-wow-delay="0.1s"
+                data-wow-duration="1s"
                 style={{ fontFamily: "Opensans-bold" }}
               >
                 SEARCHING FOR A RENTAL UNIT
               </h2>
               <div
-                className="text-gray-500"
+                className="text-gray-500 wow fadeInUp"
+                data-wow-delay="0.3s"
+                data-wow-duration="1s"
                 style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
               >
-                <p className=" mt-5">
+                <p
+                  className=" mt-5 wow fadeInUp"
+                  data-wow-delay="0.4s"
+                  data-wow-duration="1s"
+                >
                   Searching for an apartment can be frustrating and exhausting.
                   However, if you follow a guideline, such as listed below, your
                   search can go smoothly.
                 </p>
-                <p className=" mt-5">
+                <p
+                  className=" mt-5 wow fadeInUP"
+                  data-wow-delay="0.5s"
+                  data-wow-duration="1s"
+                >
                   1. Create a realistic budget. Decide what you can afford in
                   rent, including monthly utilities. Don’t look at any
                   apartments out of your price range.
                 </p>
-                <p className=" mt-5">
+                <p
+                  className=" mt-5 wow fadeInUp"
+                  data-wow-delay="0.6s"
+                  data-wow-duration="1s"
+                >
                   2. Consider commute times, your lifestyle needs and local
                   conveniences. Some things to consider when searching for an
                   apartment:
@@ -61,23 +88,39 @@ function Services() {
             className="text-gray-500"
             style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
           >
-            <p className="mt-5">
+            <p
+              className="mt-5 wow fadeInUp"
+              data-wow-delay="0.1s"
+              data-wow-duration="1s"
+            >
               • Schools Do you have a child attending school? What are the local
               schools like?
               <br /> • Activity: Are people out and about in the neighbourhood?
               Are the properties well maintained?
             </p>
-            <p className="mt-5">
+            <p
+              className="mt-5 wow fadeInUp"
+              data-wow-delay="0.2s"
+              data-wow-duration="1s"
+            >
               3. Look for vacant rental units. You can search for verified
               available rental units in your area on rentaroof easily by
               refining your search using our custom filters.
             </p>
-            <p className="mt-5">
+            <p
+              className="mt-5 wow fadeInUp"
+              data-wow-delay="0.3s"
+              data-wow-duration="1s"
+            >
               4. Keep your housing search organised. You can easily do that on
               rentaroof by saving your favourite properties to view later making
               it easier to organise your search.
             </p>
-            <p className="mt-5">
+            <p
+              className="mt-5 wow fadeInUp"
+              data-wow-delay="0.4s"
+              data-wow-duration="1s"
+            >
               5. Make appointments to see the apartments. We all know that just
               viewing a property on a website does not justify or portray the
               reality of the place you’ll be choosing to live in. So we have
@@ -89,12 +132,19 @@ function Services() {
           </div>
           <div className="mt-20 grid grid-cols-1 md:grid-cols-2 md:space-x-10 space-y-5 md:space-y-0">
             <div className="">
-              <h2 className="text-3xl" style={{ fontFamily: "Opensans-bold" }}>
+              <h2
+                className="text-3xl wow slideInLeft"
+                data-wow-delay="0.1s"
+                data-wow-duration="1s"
+                style={{ fontFamily: "Opensans-bold" }}
+              >
                 Scheduling visits and <br />
                 taking notes
               </h2>
               <div
-                className="text-gray-500"
+                className="text-gray-500 wow fadeInUp"
+                data-wow-delay="0.3s"
+                data-wow-duration="1s"
                 style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
               >
                 <p className=" mt-5">
@@ -118,20 +168,36 @@ function Services() {
                 </p>
               </div>
             </div>
-            <img src="/theme/images/tenant-work.png" alt="search" />
+            <img
+              src="/theme/images/tenant-work.png"
+              alt="search"
+              className="wow slideInRight"
+              data-wow-delay="0.1s"
+              data-wow-duration="1s"
+            />
           </div>
 
           <div className="mt-20 grid grid-cols-1 md:grid-cols-2 md:space-x-10 space-y-5 md:space-y-0">
-            <img src="/theme/images/tenant-sign.png" alt="sign" />
+            <img
+              src="/theme/images/tenant-sign.png"
+              alt="sign"
+              className="wow slideInLeft"
+              data-wow-delay="0.1s"
+              data-wow-duration="1s"
+            />
             <div className="">
               <h2
-                className="text-3xl mt-7"
+                className="text-3xl mt-7 wow slideInRight"
+                data-wow-delay="0.1s"
+                data-wow-duration="1s"
                 style={{ fontFamily: "Opensans-bold" }}
               >
                 SIGNING THE LEASE
               </h2>
               <div
-                className="text-gray-500"
+                className="text-gray-500 wow fadeInUp"
+                data-wow-delay="0.3s"
+                data-wow-duration="1s"
                 style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
               >
                 <p className=" mt-5">
@@ -163,7 +229,9 @@ function Services() {
             </div>
           </div>
           <div
-            className="text-gray-500"
+            className="text-gray-500 wow fadeInUp"
+            data-wow-delay="0.1s"
+            data-wow-duration="1s"
             style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
           >
             <p className="mt-5">
@@ -207,13 +275,17 @@ function Services() {
               <div className="max-w-6xl w-full m-auto  grid grid-cols-1 md:grid-cols-2 md:space-x-10">
                 <div className="flex flex-col justify-center">
                   <h2
-                    className="text-3xl mt-5"
+                    className="text-3xl mt-5 wow slideInLeft"
+                    data-wow-delay="0.1s"
+                    data-wow-duration="1s"
                     style={{ fontFamily: "Opensans-bold" }}
                   >
                     For Tenant
                   </h2>
                   <p
-                    className="mt-5"
+                    className="mt-5 wow fadeInUp"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
                     style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
                   >
                     Typically, people don't have in-depth knowledge about the
@@ -225,7 +297,11 @@ function Services() {
                     completing the documentation process.
                   </p>
 
-                  <div className="mt-10">
+                  <div
+                    className="mt-10 wow zoomIn"
+                    data-wow-delay="0.5s"
+                    data-wow-duration="1s"
+                  >
                     <Link href="/signup">
                       <a
                         style={{ fontFamily: "Opensans-bold" }}
@@ -237,7 +313,9 @@ function Services() {
                   </div>
                 </div>
                 <div
-                  className="overflow-hidden"
+                  className="overflow-hidden wow slideInRight"
+                  data-wow-delay="0.1s"
+                  data-wow-duration="1s"
                   style={{
                     backgroundImage: "url(/theme/images/tenant-video.png)",
                     backgroundPosition: "center",
@@ -262,7 +340,9 @@ function Services() {
         <div className="bg-white mb-10">
           <div className="max-w-6xl mt-10 w-full m-auto ">
             <h2
-              className="text-3xl mb-10 text-center"
+              className="text-3xl mb-10 text-center wow fadeIn"
+              data-wow-delay="0.1s"
+              data-wow-duration="1s"
               style={{ fontFamily: "Opensans-bold" }}
             >
               What we offer?
@@ -271,7 +351,11 @@ function Services() {
               className="grid grid-cols-1 md:grid-cols-3 md:space-x-0 space-y-5 md:space-y-0"
               style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
             >
-              <div className="flex flex-col items-center md:border-b md:border-r px-3 py-5 border-gray-300">
+              <div
+                className="flex flex-col items-center md:border-b md:border-r px-3 py-5 border-gray-300 wow flipInY"
+                data-wow-delay="0.1s"
+                data-wow-duration="1s"
+              >
                 <img
                   className="w-52 h-52 object-cover"
                   src="images/website/wweo1.webp"
@@ -282,7 +366,11 @@ function Services() {
                 </p>
               </div>
 
-              <div className="flex flex-col items-center md:border-b md:border-r px-3 py-5 border-gray-300">
+              <div
+                className="flex flex-col items-center md:border-b md:border-r px-3 py-5 border-gray-300 wow flipInY"
+                data-wow-delay="0.2s"
+                data-wow-duration="1s"
+              >
                 <img
                   className="w-52 h-52 object-cover"
                   src="images/website/wweo2.webp"
@@ -292,7 +380,11 @@ function Services() {
                 </p>
               </div>
 
-              <div className="flex flex-col items-center md:border-b px-3 py-5 border-gray-300">
+              <div
+                className="flex flex-col items-center md:border-b px-3 py-5 border-gray-300 wow flipInY"
+                data-wow-delay="0.3s"
+                data-wow-duration="1s"
+              >
                 <img
                   className="w-52 h-52 object-cover"
                   src="images/website/wweo3.webp"
@@ -307,7 +399,11 @@ function Services() {
               className="grid grid-cols-1 md:grid-cols-3 md:space-x-0 space-y-5 md:space-y-0"
               style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
             >
-              <div className="flex flex-col items-center md:border-r px-3 py-5 border-gray-300">
+              <div
+                className="flex flex-col items-center md:border-r px-3 py-5 border-gray-300 wow flipInY"
+                data-wow-delay="0.4s"
+                data-wow-duration="1s"
+              >
                 <img
                   className="w-52 h-52 object-cover"
                   src="images/website/wweo4.webp"
@@ -318,7 +414,11 @@ function Services() {
                 </p>
               </div>
 
-              <div className="flex flex-col items-center md:border-r px-3 py-5 border-gray-300 relative">
+              <div
+                className="flex flex-col items-center md:border-r px-3 py-5 border-gray-300 relative wow flipInY"
+                data-wow-delay="0.5s"
+                data-wow-duration="1s"
+              >
                 <span className="w-6 h-6 rounded-full bg-blue-500 absolute -left-3 -top-3 md:block hidden"></span>
                 <img
                   className="w-52 h-52 object-cover"
@@ -330,7 +430,11 @@ function Services() {
                 </p>
               </div>
 
-              <div className="flex flex-col items-center px-3 py-5 relative">
+              <div
+                className="flex flex-col items-center px-3 py-5 relative wow flipInY"
+                data-wow-delay="0.6s"
+                data-wow-duration="1s"
+              >
                 <span className="w-6 h-6 rounded-full bg-blue-500 absolute -left-3 -top-3 md:block hidden"></span>
                 <img
                   className="w-52 h-52 object-cover"
@@ -350,7 +454,9 @@ function Services() {
               <div>
                 <h2
                   style={{ fontFamily: "Opensans-bold" }}
-                  className="mt-5 mb-10 text-center text-3xl"
+                  className="mt-5 mb-10 text-center text-3xl wow fadeIn"
+                  data-wow-delay="0.1s"
+                  data-wow-duration="1s"
                 >
                   Renting with
                   <span className="text-blue-500">R-A-R is simple.</span>

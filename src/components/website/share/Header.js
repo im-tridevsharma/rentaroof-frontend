@@ -131,7 +131,7 @@ function Header({
     <>
       <ReactTooltip />
       {isLoading && <Loader />}
-      <div className="flex flex-col w-full z-30">
+      <div className="flex flex-col w-full z-30 sticky top-0">
         {/**header top */}
         <div
           className="flex items-center justify-between py-2 px-4 w-full"

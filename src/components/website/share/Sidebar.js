@@ -41,7 +41,7 @@ function Sidebar({ name, page, sideBarToggled, isHide, setIsHide }) {
         style={{ minWidth: sideBarToggled ? "64px" : "256px" }}
       >
         {/**logo */}
-        <div>
+        <div className="sticky top-0 bg-white z-40">
           <Link href={`/`}>
             <a
               className="flex items-center py-2 px-4 bg-white"
@@ -64,21 +64,22 @@ function Sidebar({ name, page, sideBarToggled, isHide, setIsHide }) {
               </p>
             </a>
           </Link>
+          {/**dashboard name */}
+          <div
+            className={`flex items-center justify-center text-center text-gray-100 overflow-y-auto uppercase ${
+              sideBarToggled ? "" : "text-xs"
+            } `}
+            style={{
+              backgroundColor: "var(--blue)",
+              fontFamily: "Opensans-bold",
+              fontSize: sideBarToggled && "8px",
+              lineHeight: sideBarToggled && "8px",
+              minHeight: "32px",
+              height: "32px",
+            }}
+          >{`${name} ${page}`}</div>
         </div>
-        {/**dashboard name */}
-        <div
-          className={`flex items-center justify-center text-center text-gray-100 overflow-y-auto uppercase ${
-            sideBarToggled ? "" : "text-xs"
-          }`}
-          style={{
-            backgroundColor: "var(--blue)",
-            fontFamily: "Opensans-bold",
-            fontSize: sideBarToggled && "8px",
-            lineHeight: sideBarToggled && "8px",
-            minHeight: "32px",
-            height: "32px",
-          }}
-        >{`${name} ${page}`}</div>
+
         {/**render navigation */}
         <nav>
           <ul style={{ fontFamily: "Opensans-semi-bold" }}>

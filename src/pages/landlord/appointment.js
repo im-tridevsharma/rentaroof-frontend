@@ -14,7 +14,7 @@ function Appointment() {
       <Head>
         <title>Appointment</title>
       </Head>
-      <div>
+      <div className="h-screen overflow-x-hidden overflow-y-auto">
         <UIRenderer UI={AppointmentUI} role="Landlord" page="Appointment" />
       </div>
     </>

@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Card from "../../Card";
 import PropertyGrid from "../../PropertyGrid";
-import { FaArrowCircleDown, FaTimes } from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
 import {
   getProperties,
   deleteProperty,
@@ -49,8 +49,6 @@ function PropertiesUI() {
   const [propertySkip, setPropertySkip] = useState(0);
   const [hasMoreProperty, setHasMoreProperty] = useState(false);
   const [fetching, setFetching] = useState(false);
-
-  const bottom = useRef();
 
   useEffect(() => {
     localStorage.removeItem("next_ap");
@@ -261,6 +259,7 @@ function PropertiesUI() {
               <p>Posted Properties</p>
             </div>
             <InfiniteScroll
+              style={{ height: "500px" }}
               dataLength={properties.length} //This is important field to render the next data
               next={fetchNextData}
               hasMore={hasMoreProperty}
@@ -272,7 +271,7 @@ function PropertiesUI() {
                   />
                 </div>
               }
-              scrollThreshold="600px"
+              scrollThreshold="200px"
             >
               <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                 {properties &&
@@ -424,26 +423,6 @@ function PropertiesUI() {
           </div>
         </div>
       )}
-      <div
-        style={{
-          position: "fixed",
-          bottom: "5px",
-          right: "200px",
-          width: "50px",
-          height: "50px",
-          borderRadius: "30px",
-          background: "var(--primary-color)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          color: "#fff",
-          cursor: "pointer",
-        }}
-        onClick={() => bottom.current.scrollIntoView({ behaviour: "smooth" })}
-      >
-        <FaArrowCircleDown />
-      </div>
-      <div ref={bottom} />
     </>
   );
 }

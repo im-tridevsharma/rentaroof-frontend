@@ -13,12 +13,9 @@ import {
   FaRegEdit,
   FaCheckCircle,
 } from "react-icons/fa";
-import { FiCheckCircle, FiPlayCircle } from "react-icons/fi";
-import { GrClose } from "react-icons/gr";
+import { FiCheckCircle } from "react-icons/fi";
 
 function Ibo() {
-  const [play, setPlay] = React.useState(false);
-
   return (
     <>
       <Header />
@@ -31,559 +28,588 @@ function Ibo() {
           content="Join Our Team and starts your journey with Rent a Roof."
         />
       </Head>
-      <>
-        <div
-          className="h-96"
-          style={{
-            backgroundImage: "url(images/website/rarimages/careers_bg.jpg)",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-          }}
-        ></div>
-        <div className="relative">
+      <div className="bg-white">
+        <div className="max-w-6xl w-full mx-auto">
+          <h2
+            className="py-3 mt-3 wow slideInLeft"
+            data-wow-delay="0.1s"
+            data-wow-duration="1s"
+            style={{ fontFamily: "Opensans-bold" }}
+          >
+            Maximize Your Full Potential
+          </h2>
+          <p
+            className="wow slideInLeft"
+            data-wow-delay="0.3s"
+            data-wow-duration="1s"
+          >
+            Technical & Sales Training for all those who wish to join the
+            Rentaroof family.
+          </p>
           <div
-            className="joinot-video relative"
-            style={{
-              backgroundImage: "url(logos/logo.png)",
-              backgroundSize: "contain",
-              backgroundPosition: "center",
-            }}
-          ></div>
-          <FiPlayCircle
-            onClick={() => setPlay(true)}
-            className="absolute top-1/2 left-1/2 cursor-pointer transform -translate-x-1/2 -translate-y-1/2"
-            style={{ fontSize: "150px" }}
-          />
-
-          {/**play video */}
-          {play && (
-            <div
-              className="fixed top-0 left-0 w-full h-screen z-20 flex items-center justify-center"
-              style={{
-                backgroundColor: "rgba(0,0,0,.3)",
-              }}
-            >
-              <div
-                className="bg-gray-100 relative"
-                style={{
-                  maxWidth: "800px",
-                  width: "100%",
-                  height: "350px",
-                }}
+            className="mt-10 wow zoomIn"
+            data-wow-delay="0.5s"
+            data-wow-duration="1s"
+          >
+            <Link href="/signup">
+              <a
+                style={{ fontFamily: "Opensans-bold" }}
+                className="px-8 py-3 rounded-full bg-yellow-500 hover:bg-yellow-400 text-white"
               >
-                <iframe
-                  style={{
-                    maxWidth: "800px",
-                    width: "100%",
-                    height: "350px",
-                  }}
-                  src="https://www.youtube.com/embed/A5oVCzik_pA"
-                  title="YouTube video player"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-                <span
-                  onClick={() => setPlay(false)}
-                  className="absolute -right-2 cursor-pointer -top-1 w-10 h-10 bg-white rounded-full flex items-center justify-center"
-                >
-                  <GrClose />
-                </span>
+                Join Now
+              </a>
+            </Link>
+          </div>
+
+          <div className="mt-20 grid grid-cols-1 md:grid-cols-2 md:space-x-10 space-y-5 md:space-y-0">
+            <div className="">
+              <h2
+                className="text-3xl mt-7 wow slideInLeft"
+                data-wow-delay="0.1s"
+                data-wow-duration="1s"
+                style={{ fontFamily: "Opensans-bold" }}
+              >
+                Grow your business with R-A-R
+              </h2>
+              <div
+                className="text-gray-500 wow fadeInUp"
+                data-wow-delay="0.3s"
+                data-wow-duration="1s"
+                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+              >
+                <p className=" mt-5">
+                  Experience a platform focused on resources that lift our
+                  businesses and each other. Like minded supportive brokers with
+                  relevant field insight and values that can make a difference
+                  in our communities. Extensive exposure and connections with
+                  industry experts for the best in class support and training
+                  for helping our associates maximize their potential.
+                </p>
               </div>
             </div>
-          )}
-        </div>
+            <img
+              src="/theme/images/agent-grow.png"
+              className="wow slideInRight"
+              data-wow-delay="0.1s"
+              data-wow-duration="1s"
+              alt="grow your business"
+            />
+          </div>
 
-        <div className="relative flex py-5">
-          <div className="py-4 max-w-6xl w-full mx-auto flex-1">
-            <h2
-              className="text-center text-6xl"
-              style={{ fontFamily: "Opensans-bold", color: "var(--blue)" }}
-            >
-              R-A-R
-            </h2>
-            <h2
-              className="text-center mt-5"
-              style={{ fontFamily: "Opensans-bold", fontSize: "63px" }}
-            >
-              Real Estate Agents Association
-            </h2>
-            <p
-              style={{ fontFamily: "Opensans-regular" }}
-              className="text-3xl mt-10 text-center"
-            >
-              Rent-A-Roof is a revolutionary business plan to give all
-              brokers/real estate agents the platform to join together and form
-              an association of Real Estate Agents throughout Delhi NCR and
-              ultimately all of India. It will be a centralised directory of
-              agents registered and certified by us with the aim to raise the
-              profile of all established agents across Delhi NCR.
-            </p>
+          <div className=" py-2 mt-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-10">
+              <div
+                className="overflow-hidden wow slideInLeft"
+                data-wow-delay="0.1s"
+                data-wow-duration="1s"
+                style={{
+                  backgroundImage: "url(/theme/images/tenant-video.png)",
+                  backgroundPosition: "center",
+                  backgroundSize: "contain",
+                  backgroundRepeat: "no-repeat",
+                  padding: "2rem",
+                }}
+              >
+                <video
+                  controls
+                  playsinline
+                  loop
+                  data-src="https://d2of6bhnpl91ni.cloudfront.net/cms/1920x1080_Final_2020_Real Estate LP-b2c23b6555.mp4"
+                  src="https://d2of6bhnpl91ni.cloudfront.net/cms/1920x1080_Final_2020_Real Estate LP-b2c23b6555.mp4"
+                ></video>
+              </div>
+              <div className="flex flex-col justify-center">
+                <h2
+                  className="text-3xl mt-5 wow slideInRight"
+                  data-wow-delay="0.1s"
+                  data-wow-duration="1s"
+                  style={{ fontFamily: "Opensans-bold" }}
+                >
+                  Be a part of our team & expand your career
+                </h2>
+                <p
+                  className="mt-5 wow fadeInUp"
+                  data-wow-delay="0.3s"
+                  data-wow-duration="1s"
+                  style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+                >
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry's
+                  standard dummy text ever since the 1500s, when an unknown
+                  printer took a galley of type and scrambled it to make a type
+                  specimen book.
+                </p>
+
+                <div
+                  className="mt-10 wow zoomIn"
+                  data-wow-delay="0.5s"
+                  data-wow-duration="1s"
+                >
+                  <Link href="/signup">
+                    <a
+                      style={{ fontFamily: "Opensans-bold" }}
+                      className="px-8 py-3 rounded-full bg-yellow-500 hover:bg-yellow-400 text-white"
+                    >
+                      Join Now
+                    </a>
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="relative flex py-5">
-          <div className="py-4 max-w-7xl mt-5 w-full mx-auto flex-1">
-            <h3
-              className="text-center text-6xl"
-              style={{ fontFamily: "Opensans-bold", lineHeight: "78px" }}
+        <div className="p-10 bg-gradient-to-r from-blue-600 to-red-400 mt-14 text-white text-center">
+          <div className="max-w-6xl w-full mx-auto">
+            <h2
+              className="text-3xl mt-5 wow slideInLeft"
+              data-wow-delay="0.1s"
+              data-wow-duration="1s"
+              style={{ fontFamily: "Opensans-bold" }}
             >
-              How will joining R-A-R make <br />a difference for you?
-            </h3>
-            <div className="grid grid-cols-1 mt-14 md:grid-cols-2 md:space-x-5">
-              <div className="py-5 md:py-1 text-center">
-                <img
-                  src="images/website/rarimages/03.png"
-                  className="object-cover h-96"
-                />
-                <h4
+              Learn about our Platform & what we offer
+            </h2>
+            <p
+              className="mt-5 wow fadeInUp"
+              data-wow-delay="0.3s"
+              data-wow-duration="1s"
+              style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+            >
+              Rent-A-Roof is a first of its kind business plan to give all
+              brokers/real estate agents the platform to join together and form
+              an association of Real Estate Agents throughout Delhi NCR and
+              ultimately all of India. It will be a centralised directory of
+              agents registered and certified by Rentaroof with the aim to raise
+              the profile of all agents/brokers across India. With one of our
+              main focuses being on maximizing the potential of our associate
+              agents by providing them best in class customised sales training
+              and knowledge workshops to ensure a constant growth.
+            </p>
+
+            <div className="mt-10 text-gray-900 grid grid-cols-1 md:grid-cols-3 md:space-x-5 space-y-5 md:space-y-0">
+              <div
+                style={{ backgroundColor: "rgba(255,255,255,.15)" }}
+                className="rounded-md p-5 text-white wow flipInY"
+                data-wow-delay="0.5s"
+                data-wow-duration="1s"
+              >
+                <h2
+                  className="text-3xl mt-5"
                   style={{ fontFamily: "Opensans-bold" }}
-                  className="text-4xl my-4"
                 >
-                  Guaranteed Visibility
-                </h4>
+                  Guaranteed visibility
+                </h2>
                 <p
-                  style={{ fontFamily: "Opensans-regular" }}
-                  className="text-2xl mt-3"
+                  className="mt-5"
+                  style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
                 >
                   Indian online property search activity has reached its
                   historic peak. So post your property with us and don’t miss
                   out on access to countless potential clients!
                 </p>
               </div>
-              <div className="md:px-5 py-5 text-center md:py-1">
-                <img
-                  src="images/website/rarimages/04.png"
-                  className="object-cover h-96"
-                />
-                <h4
+              <div
+                style={{ backgroundColor: "rgba(255,255,255,.15)" }}
+                className="rounded-md p-5 text-white wow flipInY"
+                data-wow-delay="0.6s"
+                data-wow-duration="1s"
+              >
+                <h2
+                  className="text-3xl mt-5"
                   style={{ fontFamily: "Opensans-bold" }}
-                  className="text-4xl my-4"
                 >
                   Better Responses
-                </h4>
+                </h2>
                 <p
-                  style={{ fontFamily: "Opensans-regular" }}
-                  className="text-2xl mt-3"
+                  className="mt-5"
+                  style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
                 >
-                  Our platform is designed in a way that will help agents and
-                  clients to communicate in a much systematic way through our
-                  integrated chat feature being able to easily set appointments
-                  too.
+                  Our platform is designed in a way that will help you connect
+                  and communicate with potential clients right through our app
+                  making it easier to screen tenants.
                 </p>
               </div>
-            </div>
-            <div className="grid grid-cols-1 mt-5 md:grid-cols-2">
-              <div className=" py-5 text-center md:py-1">
-                <img
-                  src="images/website/rarimages/05.png"
-                  className="object-cover h-96"
-                />
-                <h4
+              <div
+                style={{ backgroundColor: "rgba(255,255,255,.15)" }}
+                className="rounded-md p-5 text-white wow flipInY"
+                data-wow-delay="0.7s"
+                data-wow-duration="1s"
+              >
+                <h2
+                  className="text-3xl mt-5"
                   style={{ fontFamily: "Opensans-bold" }}
-                  className="my-4 text-4xl"
                 >
                   Access to new properties
-                </h4>
+                </h2>
                 <p
-                  style={{ fontFamily: "Opensans-regular" }}
-                  className="text-2xl mt-3"
+                  className="mt-5"
+                  style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
                 >
                   Apart from the properties in your personal database. Agents
                   will have the opportunity to show and facilitate unassigned
-                  properties posted by homeowners.
-                </p>
-              </div>
-              <div className="md:px-5 text-center py-5 md:py-1">
-                <img
-                  src="images/website/rarimages/06.png"
-                  className="object-cover h-96"
-                />
-                <h4
-                  style={{ fontFamily: "Opensans-bold" }}
-                  className="my-4 text-4xl"
-                >
-                  Support & Training
-                </h4>
-                <p
-                  style={{ fontFamily: "Opensans-regular" }}
-                  className="text-2xl mt-3"
-                >
-                  All new joining agents will be provided soft skills training
-                  as well as basic guidelines that all R-A-R agents must follow.
-                  There are guides and how to use videos to help agents use our
-                  platform for maximising its potential. In case of any issue
-                  all agents will get special support to resolve their issues.
+                  properties posted by homeowners in their area.
                 </p>
               </div>
             </div>
           </div>
         </div>
-        <div
-          className="flex-col py-32 flex items-center justify-center"
-          style={{
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            backgroundImage: "url(images/website/rarimages/07.png)",
-          }}
-        >
-          <div className="max-w-5xl w-full text-center text-white">
-            <h3 style={{ fontFamily: "Opensans-bold" }} className="text-5xl">
-              Encouraging Women representation in the Real Estate Sector
-            </h3>
-            <p
-              className="text-2xl mt-8"
-              style={{ fontFamily: "Opensans-regular" }}
-            >
-              In India women are undoubtedly under-represented in the field of
-              real estate. Not knowing the true potential and the skills
-              necessary to monetize this sector.
-            </p>
+
+        <div className="max-w-6xl w-full mx-auto">
+          <div className="mt-20 grid grid-cols-1 md:grid-cols-2 space-y-5 md:space-y-0">
+            <img
+              src="/theme/images/agent-women.png"
+              alt="Encouraging female"
+              className="wow slideInLeft"
+              data-wow-delay="0.1s"
+              data-wow-duration="1s"
+            />
+            <div className="">
+              <h2
+                className="text-3xl mt-7 wow slideInRight"
+                data-wow-delay="0.3s"
+                data-wow-duration="1s"
+                style={{ fontFamily: "Opensans-bold" }}
+              >
+                Encouraging female representation in the real estate sector
+              </h2>
+              <div
+                className="text-gray-500"
+                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+              >
+                <p
+                  className=" mt-5 wow fadeInUp"
+                  data-wow-delay="0.5s"
+                  data-wow-duration="1s"
+                >
+                  In India women are undoubtedly under-represented in the field
+                  of real estate. Not knowing the true potential and the skills
+                  necessary to monetize this sector.
+                </p>
+              </div>
+              <div
+                className="mt-10 wow zoomIn"
+                data-wow-delay="0.6s"
+                data-wow-duration="1s"
+              >
+                <Link href="/signup">
+                  <a
+                    style={{ fontFamily: "Opensans-bold" }}
+                    className="px-8 py-3 rounded-full bg-yellow-500 hover:bg-yellow-400 text-white"
+                  >
+                    Join Now
+                  </a>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className=" pt-10 bg-white">
+        <div className="p-10 mt-20" style={{ backgroundColor: "#ecf5fc" }}>
           <div className="max-w-6xl w-full mx-auto">
-            <h3
-              className="text-center text-6xl my-3"
-              style={{ fontFamily: "Opensans-bold" }}
-            >
-              Offering skill development
-            </h3>
-            <div className="grid mt-8 grid-cols-1 md:grid-cols-2 md:space-x-5 space-y-5">
-              <p
-                className="text-2xl mt-5"
-                style={{ fontFamily: "Opensans-regular" }}
-              >
-                We wish to make a difference by offering support and training to
-                women and students who want to earn a livelihood. We provide the
-                necessary knowledge, skills & guidance to be able to make a
-                career in this field. The structural format of Rentaroof is easy
-                to understand and the guides can be accessed through our website
-                and app. Assistance will be provided throughout the entire
-                process until you are ready to go out and perform the necessary
-                real estate agent administrative duties.
-              </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 space-y-5 md:space-y-0">
+              <div className="flex justify-center flex-col">
+                <h2
+                  className="text-3xl mt-7 wow slideInLeft"
+                  data-wow-delay="0.1s"
+                  data-wow-duration="1s"
+                  style={{ fontFamily: "Opensans-bold" }}
+                >
+                  Offering{" "}
+                  <span className="text-blue-500">skill development</span>
+                </h2>
+                <div
+                  className="text-gray-500"
+                  style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+                >
+                  <p
+                    className=" mt-5 wow fadeInUp"
+                    data-wow-delay="0.3s"
+                    data-wow-duration="1s"
+                  >
+                    We offer support and training to women and students who want
+                    to earn a livelihood. We provide the necessary knowledge,
+                    skills & guidance to be able to make a career in this field.
+                    The structural format of Rentaroof is easy to understand and
+                    the guides can be accessed through our website and app.
+                    Assistance will be provided throughout the entire process
+                    until you are ready to go out and perform the necessary real
+                    estate agent administrative duties.
+                  </p>
+                </div>
+              </div>
               <img
-                src="images/website/rarimages/panopto-online-presentations-2400x1600.jpg"
-                alt="offering skill development"
-                className="rounded-md border-2 border-gray-700"
+                src="/theme/images/agent-skill.png"
+                alt="Skill"
+                className="wow slideInRight"
+                data-wow-delay="0.5s"
+                data-wow-duration="1s"
               />
             </div>
           </div>
+        </div>
 
-          <div className="grid p-0 grid-cols-1 mt-10 md:grid-cols-2">
-            <img
-              className="z-30"
-              src="images/website/rarimages/02.png"
-              alt="why rar"
-            />
-            <div
-              className="py-10 pl-5 z-0 -ml-14"
-              style={{ backgroundColor: "#f4f5f4" }}
-            >
-              <h3
-                className="text-5xl -ml-28 px-1"
+        <div className="p-10 bg-gradient-to-r from-blue-600 to-red-400">
+          <div className="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 md:space-x-3 space-y-5 md:space-y-0 mx-auto bg-white rounded-xl p-5">
+            <div>
+              <h2
+                className="text-3xl wow fadeIn"
+                data-wow-delay="0.1s"
+                data-wow-duration="1s"
                 style={{ fontFamily: "Opensans-bold" }}
               >
-                All you need is these three things to start!
-              </h3>
+                Start your Journey with
+                <span className="text-blue-500">R-A-R</span>
+              </h2>
 
-              <div className="pl-10 mt-10">
-                <p
-                  className="text-4xl flex "
-                  style={{ fontFamily: "Opensans-bold" }}
-                >
-                  <FiCheckCircle
-                    size={50}
-                    className="mr-5"
-                    style={{ color: "var(--blue)" }}
-                  />
-                  Is real estate the right
-                  <br /> field for you?
-                </p>
-
-                <p
-                  className="text-4xl my-8 flex"
-                  style={{ fontFamily: "Opensans-bold" }}
-                >
-                  <FiCheckCircle
-                    size={50}
-                    className="mr-5"
-                    style={{ color: "var(--blue)" }}
-                  />
-                  Do you know your
-                  <br /> locality well?
-                </p>
-
-                <p
-                  className="text-4xl flex"
-                  style={{ fontFamily: "Opensans-bold" }}
-                >
-                  <FiCheckCircle
-                    size={50}
-                    className="mr-5"
-                    style={{ color: "var(--blue)" }}
-                  />
-                  Do you have good
-                  <br /> interpersonal skills?
-                </p>
+              <h2
+                className="text-3xl mt-3 flex items-center wow fadeIn"
+                data-wow-delay="0.3s"
+                data-wow-duration="1s"
+                style={{ fontFamily: "Opensans-bold" }}
+              >
+                <span className="text-blue-500">2999/- Rs</span>
+                <span className="text-sm pl-3">One-time registration fees</span>
+              </h2>
+              <p
+                className="text-gray-500 mt-2 wow fadeIn"
+                data-wow-delay="0.4s"
+                data-wow-duration="1s"
+                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+              >
+                Anytime access modules and live workshops
+              </p>
+              <div
+                className="mt-6 wow zoomIn"
+                data-wow-delay="0.5s"
+                data-wow-duration="1s"
+              >
+                <Link href="/signup">
+                  <a
+                    style={{ fontFamily: "Opensans-bold" }}
+                    className="px-8 py-3 rounded-full bg-yellow-500 hover:bg-yellow-400 text-white"
+                  >
+                    Register Now
+                  </a>
+                </Link>
               </div>
+              <p
+                className="text-gray-500 mt-5 wow fadeIn"
+                data-wow-delay="0.6s"
+                data-wow-duration="1s"
+                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+              >
+                Modules on soft skills
+              </p>
+              <p
+                className="text-gray-500 mt-2 wow fadeIn"
+                data-wow-delay="0.7s"
+                data-wow-duration="1s"
+                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+              >
+                Real estate fundamentals
+              </p>
+              <p
+                className="text-gray-500 mt-2 wow fadeIn"
+                data-wow-delay="0.8s"
+                data-wow-duration="1s"
+                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+              >
+                Access to live workshops
+              </p>
+              <p
+                className="text-gray-500 mt-2 wow fadeIn"
+                data-wow-delay="0.8s"
+                data-wow-duration="1s"
+                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+              >
+                Learn the art of selling
+              </p>
+              <p
+                className="text-gray-500 mt-2 wow fadeIn"
+                data-wow-delay="0.8s"
+                data-wow-duration="1s"
+                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+              >
+                Expand your business!
+              </p>
+            </div>
+            <img
+              src="/theme/images/agent-start.png"
+              alt="start"
+              className="wow slideInRight"
+              data-wow-delay="0.3s"
+              data-wow-duration="1s"
+            />
+          </div>
+        </div>
+
+        <div className="max-w-6xl mt-20 w-full mx-auto">
+          <h5
+            className="text-3xl text-center wow slideInBottom"
+            data-wow-delay="0.1s"
+            data-wow-duration="1s"
+            style={{ fontFamily: "Opensans-bold" }}
+          >
+            Want to know <br />
+            how you can join Rentaroof?
+          </h5>
+
+          <div
+            className="mt-20 grid grid-cols-1 md:grid-cols-4 md:space-x-5 mb-10 wow fadeIn"
+            data-wow-delay="0.3s"
+            data-wow-duration="1s"
+          >
+            <div className="flex flex-col items-center text-center">
+              <div className="w-20 h-20 flex items-center justify-center text-white rounded-full  bg-yellow-400">
+                <RiTeamLine size={50} />
+              </div>
+              <p
+                className="text-gray-500 mt-2"
+                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+              >
+                Go through the guides and training provided by our team
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center text-center">
+              <div className="w-20 h-20 flex items-center justify-center text-white rounded-full  bg-yellow-400">
+                <FaRegEdit size={50} />
+              </div>
+              <p
+                className="text-gray-500 mt-2"
+                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+              >
+                Register as a verified agent with R-A-R
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center text-center">
+              <div className="w-20 h-20 flex items-center justify-center text-white rounded-full  bg-yellow-400">
+                <FaListUl size={50} />
+              </div>
+              <p
+                className="text-gray-500 mt-2"
+                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+              >
+                Easily List properties as an agent
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center text-center">
+              <div className="w-20 h-20 flex items-center justify-center text-white rounded-full  bg-yellow-400">
+                <FaLink size={50} />
+              </div>
+              <p
+                className="text-gray-500 mt-2"
+                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+              >
+                Connect with potential clients through Rentaroof
+              </p>
             </div>
           </div>
           <div
-            className="px-10 py-8 flex items-center justify-between"
-            style={{ backgroundColor: "#f29625" }}
+            className="grid grid-cols-1 md:grid-cols-4 md:space-x-5 wow fadeIn"
+            data-wow-delay="0.5s"
+            data-wow-duration="1s"
           >
-            <h1
-              className="text-4xl text-white"
-              style={{ fontFamily: "Opensans-bold" }}
-            >
-              Wondering how to signup with us?
-            </h1>
-            <Link href="/signup/ibo">
-              <a
-                style={{ fontFamily: "Opensans-regular" }}
-                className="px-20 py-5 text-3xl rounded-md uppercase bg-gray-800 hover:bg-gray-700 text-white"
+            <div className="flex flex-col items-center text-center mb-20">
+              <div className="w-20 h-20 flex items-center justify-center text-white rounded-full  bg-yellow-400">
+                <FaCalendarAlt size={50} />
+              </div>
+              <p
+                className="text-gray-500 mt-2"
+                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
               >
-                Signup
-              </a>
-            </Link>
-          </div>
-          <div className="max-w-6xl w-full mx-auto">
-            <h5
-              className="mt-20 text-6xl text-center"
-              style={{ fontFamily: "Opensans-bold" }}
-            >
-              Want to know <br />
-              how you can join Rentaroof?
-            </h5>
-
-            <div className="mt-20 grid grid-cols-1 md:grid-cols-4 md:space-x-5">
-              <div className="flex flex-col items-center">
-                <div
-                  className="w-20 h-20 flex items-center justify-center text-white rounded-full"
-                  style={{ background: "var(--blue)" }}
-                >
-                  <RiTeamLine size={50} />
-                </div>
-                <p
-                  className="mt-5 text-center text-gray-600 text-xl"
-                  style={{ fontFamily: "Opensans-semi-bold" }}
-                >
-                  Go through the guides and training provided by our team
-                </p>
-              </div>
-
-              <div className="flex flex-col items-center">
-                <div
-                  className="w-20 h-20 flex items-center justify-center text-white rounded-full"
-                  style={{ background: "var(--blue)" }}
-                >
-                  <FaRegEdit size={50} />
-                </div>
-                <p
-                  className="mt-5 text-center text-gray-600 text-xl"
-                  style={{ fontFamily: "Opensans-semi-bold" }}
-                >
-                  Register as a verified agent with R-A-R
-                </p>
-              </div>
-
-              <div className="flex flex-col items-center">
-                <div
-                  className="w-20 h-20 flex items-center justify-center text-white rounded-full"
-                  style={{ background: "var(--blue)" }}
-                >
-                  <FaListUl size={50} />
-                </div>
-                <p
-                  className="mt-5 text-center text-gray-600 text-xl"
-                  style={{ fontFamily: "Opensans-semi-bold" }}
-                >
-                  Easily List properties as an agent
-                </p>
-              </div>
-
-              <div className="flex flex-col items-center">
-                <div
-                  className="w-20 h-20 flex items-center justify-center text-white rounded-full"
-                  style={{ background: "var(--blue)" }}
-                >
-                  <FaLink size={50} />
-                </div>
-                <p
-                  className="mt-5 text-center text-gray-600 text-xl"
-                  style={{ fontFamily: "Opensans-semi-bold" }}
-                >
-                  Connect with potential clients through Rentaroof
-                </p>
-              </div>
+                Manage appointments through your dashboard
+              </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 md:space-x-5">
-              <div className="flex flex-col items-center">
-                <div
-                  className="w-20 h-20 flex items-center justify-center text-white rounded-full"
-                  style={{ background: "var(--blue)" }}
-                >
-                  <FaCalendarAlt size={50} />
-                </div>
-                <p
-                  className="mt-5 text-center text-gray-600 text-xl"
-                  style={{ fontFamily: "Opensans-semi-bold" }}
-                >
-                  Manage appointments through your dashboard
-                </p>
-              </div>
 
-              <div className="flex flex-col items-center">
-                <div
-                  className="w-20 h-20 flex items-center justify-center text-white rounded-full"
-                  style={{ background: "var(--blue)" }}
-                >
-                  <FaFileAlt size={50} />
-                </div>
-                <p
-                  className="mt-5 text-center text-gray-600 text-xl"
-                  style={{ fontFamily: "Opensans-semi-bold" }}
-                >
-                  Follow our documentation process
-                </p>
+            <div className="flex flex-col items-center text-center">
+              <div className="w-20 h-20 flex items-center justify-center text-white rounded-full  bg-yellow-400">
+                <FaFileAlt size={50} />
               </div>
+              <p
+                className="text-gray-500 mt-2"
+                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+              >
+                Follow our documentation process
+              </p>
+            </div>
 
-              <div className="flex flex-col items-center">
-                <div
-                  className="w-20 h-20 flex items-center justify-center text-white rounded-full"
-                  style={{ background: "var(--blue)" }}
-                >
-                  <FaCheckCircle size={50} />
-                </div>
-                <p
-                  className="mt-5 text-center text-gray-600 text-xl"
-                  style={{ fontFamily: "Opensans-semi-bold" }}
-                >
-                  Close the deal
-                </p>
+            <div className="flex flex-col items-center text-center">
+              <div className="w-20 h-20 flex items-center justify-center text-white rounded-full  bg-yellow-400">
+                <FaCheckCircle size={50} />
               </div>
+              <p
+                className="text-gray-500 mt-2"
+                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+              >
+                Close the deal
+              </p>
+            </div>
 
-              <div className="flex flex-col items-center">
-                <div
-                  className="w-20 h-20 flex items-center justify-center text-white rounded-full"
-                  style={{ background: "var(--blue)" }}
-                >
-                  <FaPercent size={50} />
-                </div>
-                <p
-                  className="mt-5 text-center text-gray-600 text-xl"
-                  style={{ fontFamily: "Opensans-semi-bold" }}
-                >
-                  Get your commission!
-                </p>
+            <div className="flex flex-col items-center text-center">
+              <div className="w-20 h-20 flex items-center justify-center text-white rounded-full  bg-yellow-400">
+                <FaPercent size={50} />
               </div>
+              <p
+                className="text-gray-500 mt-2"
+                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+              >
+                Get your commission!
+              </p>
             </div>
           </div>
         </div>
 
-        <div className="py-10 mt-10  bg-gray-50">
-          <div className="max-w-6xl w-full m-auto">
-            <div className="flex">
-              <img
-                className="h-48 w-48 object-cover border border-white-50 p-1 rounded-md"
-                src="images/website/screen.png"
-              />
-              <div className="ml-5">
-                <h4 style={{ fontFamily: "Opensans-bold" }}>
-                  Screen Tenants faster!
-                </h4>
-                <p
-                  className="mt-3 text-lg"
-                  style={{
-                    fontFamily: "Opensans-regular",
-                  }}
-                >
-                  All our properties need to be verified by agents which means
-                  only verified properties & details are shared with clients
-                  providing the first layer of screening for potential clients.
-                  Clients can easily share their interests & queries through the
-                  chat feature that will make it easier for agents to respond to
-                  queries and set up appointments.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex mt-5">
-              <img
-                className="h-48 w-48 object-cover border border-white-50 p-1 rounded-md"
-                src="images/website/document.png"
-              />
-              <div className="ml-5">
-                <h4 style={{ fontFamily: "Opensans-bold" }}>
-                  Quick & Easy Documentation process.
-                </h4>
-                <p
-                  className="mt-3 text-lg"
-                  style={{
-                    fontFamily: "Opensans-regular",
-                  }}
-                >
-                  All real estates know about the hassles involved in the
-                  documentation process of renting a home. So to address that
-                  issue, our platform provides a pre-defined and easy to
-                  complete online documentation process saving time for clients
-                  as well as agents providing a higher closure rate.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex mt-5">
-              <img
-                className="h-48 w-48 object-cover border border-white-50 p-1 rounded-md"
-                src="images/website/paid.png"
-              />
-              <div className="ml-5">
-                <h4 style={{ fontFamily: "Opensans-bold" }}>Get paid!</h4>
-                <p
-                  className="mt-3 text-lg"
-                  style={{
-                    fontFamily: "Opensans-regular",
-                  }}
-                >
-                  The more you close the more you get paid! There’s no cap to
-                  the amount of commission you can earn with Rentaroof. When you
-                  successfully close a deal the service charge of 15 days rent
-                  amount, taken from both tenant & owner will be transferred to
-                  your registered account within 7 working days of the payment
-                  made by the client after a small 15% service charge adjustment
-                  for the services provided by Rent-A-Roof.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex mt-5">
-              <img
-                className="h-48 w-48 object-cover border border-white-50 p-1 rounded-md"
-                src="images/website/refer.png"
-              />
-              <div className="ml-5">
-                <h4 style={{ fontFamily: "Opensans-bold" }}>Refer & Earn!</h4>
-                <p
-                  className="mt-3 text-lg"
-                  style={{
-                    fontFamily: "Opensans-regular",
-                  }}
-                >
-                  Every process of Rent-A-Roof has been incentivised. From
-                  referring homeowners & posting properties to referring
-                  clients, you can easily earn points which can later be
-                  exchanged for either cash amount or vouchers & coupons. Even
-                  everytime an agent goes to verify a property he/she gets
-                  incentivized with R-A-R points.
-                </p>
+        <div className="bg-gray-50 p-10">
+          <div className="max-w-6xl w-full mx-auto grid grid-cols-1 md:grid-cols-2 md:space-x-5 space-x-0 space-y-5 md:space-y-0">
+            <img
+              src="/theme/images/agent-refer.png"
+              alt="refer"
+              className="wow slideInLeft"
+              data-wow-delay="0.1s"
+              data-wow-duration="1s"
+            />
+            <div className="pt-5">
+              <h5
+                className="text-3xl wow slideInLeft"
+                data-wow-delay="0.1s"
+                data-wow-duration="1s"
+                style={{ fontFamily: "Opensans-bold" }}
+              >
+                Refer & Earn!
+              </h5>
+              <p
+                className="text-gray-500 mt-4 wow fadeInUp"
+                data-wow-delay="0.3s"
+                data-wow-duration="1s"
+                style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
+              >
+                Every process of Rent-A-Roof has been incentivised. From
+                referring homeowners & posting properties to referring clients,
+                you can easily earn points which can later be exchanged for
+                vouchers & coupons and services. Even everytime an agent goes to
+                verify a property he/she gets incentivized with R-A-R points.
+              </p>
+              <div
+                className="mt-10 wow zoomIn"
+                data-wow-delay="0.5s"
+                data-wow-duration="1s"
+              >
+                <Link href="/signup">
+                  <a
+                    style={{ fontFamily: "Opensans-bold" }}
+                    className="px-8 py-3 rounded-full bg-yellow-500 hover:bg-yellow-400 text-white"
+                  >
+                    Join & Refer
+                  </a>
+                </Link>
               </div>
             </div>
           </div>
         </div>
-      </>
+      </div>
       <Footer />
     </>
   );

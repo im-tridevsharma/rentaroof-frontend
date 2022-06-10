@@ -258,6 +258,7 @@ function PropertiesUI() {
               <p>Posted Properties</p>
             </div>
             <InfiniteScroll
+              style={{ height: "500px" }}
               dataLength={properties.length} //This is important field to render the next data
               next={fetchNextData}
               hasMore={hasMoreProperty}
@@ -269,7 +270,7 @@ function PropertiesUI() {
                   />
                 </div>
               }
-              scrollThreshold="600px"
+              scrollThreshold="200px"
             >
               <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                 {properties &&

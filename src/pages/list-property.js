@@ -582,11 +582,15 @@ function ListProperty() {
               <div className="form-element">
                 <label className="form-label">Inspection Time From</label>
                 <DatePicker
-                  selected={moment(
-                    `${moment().format("YYYY-MM-DD")} ${
-                      property?.inspection_time_from || "9:00 AM"
-                    }`
-                  ).toDate()}
+                  selected={
+                    property?.inspection_time_from
+                      ? moment(
+                          `${moment().format("YYYY-MM-DD")} ${
+                            property?.inspection_time_from || "9:00 AM"
+                          }`
+                        ).toDate()
+                      : ""
+                  }
                   onChange={(date) =>
                     setProperty((prev) => ({
                       ...prev,
@@ -608,11 +612,15 @@ function ListProperty() {
               <div className="form-element">
                 <label className="form-label">Inspection Time To</label>
                 <DatePicker
-                  selected={moment(
-                    `${moment().format("YYYY-MM-DD")} ${
-                      property?.inspection_time_to || "7:00 PM"
-                    }`
-                  ).toDate()}
+                  selected={
+                    property?.inspection_time_to
+                      ? moment(
+                          `${moment().format("YYYY-MM-DD")} ${
+                            property?.inspection_time_to || "7:00 PM"
+                          }`
+                        ).toDate()
+                      : ""
+                  }
                   onChange={(date) =>
                     setProperty((prev) => ({
                       ...prev,
