@@ -6,7 +6,7 @@ import Header from "../../../components/website/Header";
 import Footer from "../../../components/website/Footer";
 import Breadcrumb from "../../../components/website/Breadcrumb";
 import PropertyIbo from "../../../components/website/PropertyIbo";
-import { FiAlertTriangle, FiCheck, FiCheckCircle } from "react-icons/fi";
+import { FiAlertTriangle, FiCheck, FiEdit2 } from "react-icons/fi";
 import {
   addPropertyReview,
   fetchSimilarProperties,
@@ -356,10 +356,20 @@ function Index({ id }) {
           <div className="flex max-w-5xl w-full flex-col">
             <div className="flex items-center justify-between">
               <p
-                className="text-lg text-gray-700"
+                className="text-lg text-gray-700 flex items-center"
                 style={{ fontFamily: "Opensans-bold" }}
               >
                 {property?.name || "-"}
+
+                {profile?.id === property?.posted_by && (
+                  <Link
+                    href={`/${profile?.role}/update-property?step=next&next=UPDATE&id=${property?.property_code}-${property?.id}&skip=false&mode=update`}
+                  >
+                    <a className="ml-5" data-tip="Update Property">
+                      <FiEdit2 className="text-green-500 text-xl mx-1" />
+                    </a>
+                  </Link>
+                )}
               </p>
               <p className="flex items-center relative">
                 <img

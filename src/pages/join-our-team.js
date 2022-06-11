@@ -29,42 +29,58 @@ function Ibo() {
         />
       </Head>
       <div className="bg-white">
-        <div className="max-w-6xl w-full mx-auto">
-          <h2
-            className="py-3 mt-3 wow slideInLeft"
-            data-wow-delay="0.1s"
-            data-wow-duration="1s"
-            style={{ fontFamily: "Opensans-bold" }}
-          >
-            Maximize Your Full Potential
-          </h2>
-          <p
-            className="wow slideInLeft"
-            data-wow-delay="0.3s"
-            data-wow-duration="1s"
-          >
-            Technical & Sales Training for all those who wish to join the
-            Rentaroof family.
-          </p>
-          <div
-            className="mt-10 wow zoomIn"
-            data-wow-delay="0.5s"
-            data-wow-duration="1s"
-          >
-            <Link href="/signup">
-              <a
-                style={{ fontFamily: "Opensans-bold" }}
-                className="px-8 py-3 rounded-full bg-yellow-500 hover:bg-yellow-400 text-white"
-              >
-                Join Now
-              </a>
-            </Link>
+        <div
+          style={{
+            backgroundImage:
+              "linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url(/theme/images/agent-portal-banner.png)",
+            backgroundPosition: "center",
+            height: "90vh",
+          }}
+        >
+          <div className="max-w-6xl w-full mx-auto py-10  px-10 md:px-0">
+            <h2
+              className=" text-4xl md:text-8xl wow slideInLeft uppercase max-w-xl w-full text-gray-200"
+              data-wow-delay="0.1s"
+              data-wow-duration="1s"
+              style={{
+                fontFamily: "Opensans-bold",
+                textShadow: "0px 1px 3px gray",
+              }}
+            >
+              Maximize Your Full Potential.
+            </h2>
+            <p
+              className="wow slideInLeft text-yellow-200 text-3xl mt-3 italic"
+              data-wow-delay="0.3s"
+              style={{
+                textShadow: "0px 1px 3px gray",
+              }}
+              data-wow-duration="1s"
+            >
+              Technical & Sales Training for all those
+              <br /> who wish to join the Rentaroof family.
+            </p>
+            <div
+              className="mt-10 wow zoomIn"
+              data-wow-delay="0.5s"
+              data-wow-duration="1s"
+            >
+              <Link href="/signup">
+                <a
+                  style={{ fontFamily: "Opensans-bold" }}
+                  className="px-12 py-3 rounded-full bg-yellow-500 hover:bg-yellow-400 text-white"
+                >
+                  Join Now
+                </a>
+              </Link>
+            </div>
           </div>
-
-          <div className="mt-20 grid grid-cols-1 md:grid-cols-2 md:space-x-10 space-y-5 md:space-y-0">
-            <div className="">
+        </div>
+        <div className="max-w-6xl w-full mx-auto">
+          <div className="flex pt-5 flex-col md:flex-row">
+            <div className="w-80 pt-5 md:pr-10">
               <h2
-                className="text-3xl mt-7 wow slideInLeft"
+                className="text-3xl wow slideInLeft"
                 data-wow-delay="0.1s"
                 data-wow-duration="1s"
                 style={{ fontFamily: "Opensans-bold" }}
@@ -81,85 +97,54 @@ function Ibo() {
                   Experience a platform focused on resources that lift our
                   businesses and each other. Like minded supportive brokers with
                   relevant field insight and values that can make a difference
-                  in our communities. Extensive exposure and connections with
-                  industry experts for the best in class support and training
-                  for helping our associates maximize their potential.
+                  in our communities. <br /> <br />
+                  Extensive exposure and connections with industry experts for
+                  the best in class support and training for helping our
+                  associates maximize their potential.
                 </p>
               </div>
             </div>
-            <img
-              src="/theme/images/agent-grow.png"
-              className="wow slideInRight"
-              data-wow-delay="0.1s"
-              data-wow-duration="1s"
-              alt="grow your business"
-            />
-          </div>
-
-          <div className=" py-2 mt-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-10">
-              <div
-                className="overflow-hidden wow slideInLeft"
-                data-wow-delay="0.1s"
-                data-wow-duration="1s"
-                style={{
-                  backgroundImage: "url(/theme/images/tenant-video.png)",
-                  backgroundPosition: "center",
-                  backgroundSize: "contain",
-                  backgroundRepeat: "no-repeat",
-                  padding: "2rem",
-                }}
-              >
-                <video
-                  controls
-                  playsinline
-                  loop
-                  data-src="https://d2of6bhnpl91ni.cloudfront.net/cms/1920x1080_Final_2020_Real Estate LP-b2c23b6555.mp4"
-                  src="https://d2of6bhnpl91ni.cloudfront.net/cms/1920x1080_Final_2020_Real Estate LP-b2c23b6555.mp4"
-                ></video>
-              </div>
-              <div className="flex flex-col justify-center">
-                <h2
-                  className="text-3xl mt-5 wow slideInRight"
-                  data-wow-delay="0.1s"
-                  data-wow-duration="1s"
-                  style={{ fontFamily: "Opensans-bold" }}
-                >
-                  Be a part of our team & expand your career
-                </h2>
-                <p
-                  className="mt-5 wow fadeInUp"
-                  data-wow-delay="0.3s"
-                  data-wow-duration="1s"
-                  style={{ fontFamily: "Opensans-regular", fontSize: "15px" }}
-                >
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book.
-                </p>
-
-                <div
-                  className="mt-10 wow zoomIn"
-                  data-wow-delay="0.5s"
-                  data-wow-duration="1s"
-                >
-                  <Link href="/signup">
-                    <a
-                      style={{ fontFamily: "Opensans-bold" }}
-                      className="px-8 py-3 rounded-full bg-yellow-500 hover:bg-yellow-400 text-white"
-                    >
-                      Join Now
-                    </a>
-                  </Link>
-                </div>
-              </div>
-            </div>
+            <div
+              className="flex-1 w-full h-96"
+              style={{
+                backgroundImage: "url(/theme/images/fixed-agent.jpg)",
+                backgroundRepeat: "no-repeat",
+                backgroundAttachment: "fixed",
+                backgroundPosition: "300px 0px",
+                backgroundSize: "contain",
+              }}
+            ></div>
           </div>
         </div>
 
-        <div className="p-10 bg-gradient-to-r from-blue-600 to-red-400 mt-14 text-white text-center">
+        <div className="py-10 mt-10 bg-gray-50">
+          <div className="flex flex-col justify-center">
+            <h2
+              className="text-3xl flex flex-col mt-5 wow slideInRight text-center mb-10"
+              data-wow-delay="0.1s"
+              data-wow-duration="1s"
+              style={{ fontFamily: "Opensans-bold" }}
+            >
+              Be a part of our team & expand your career
+              <span className="w-60 mt-3 h-5 bg-yellow-300 mx-auto"></span>
+            </h2>
+          </div>
+          <div
+            className="overflow-hidden wow slideInLeft max-w-4xl w-full mx-auto"
+            data-wow-delay="0.1s"
+            data-wow-duration="1s"
+          >
+            <video
+              controls
+              playsinline
+              loop
+              data-src="https://d2of6bhnpl91ni.cloudfront.net/cms/1920x1080_Final_2020_Real Estate LP-b2c23b6555.mp4"
+              src="https://d2of6bhnpl91ni.cloudfront.net/cms/1920x1080_Final_2020_Real Estate LP-b2c23b6555.mp4"
+            ></video>
+          </div>
+        </div>
+
+        <div className="p-10 bg-gradient-to-r from-blue-600 to-red-400 text-white text-center">
           <div className="max-w-6xl w-full mx-auto">
             <h2
               className="text-3xl mt-5 wow slideInLeft"

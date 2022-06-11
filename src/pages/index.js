@@ -62,7 +62,7 @@ function Index() {
         </div>
         {/**counts */}
         <div
-          className="p-10 overflow-hidden pt-20"
+          className="p-10 overflow-hidden"
           style={{ backgroundColor: "#e5eff8" }}
         >
           <div className="max-w-5xl w-full py-5 mx-auto flex items-center justify-between">

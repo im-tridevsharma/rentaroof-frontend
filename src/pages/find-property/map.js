@@ -72,8 +72,10 @@ function Map() {
       const response = await searchProperties(queryString, propertySkip);
       if (response?.status) {
         setProperties(response?.data);
-        if (response?.total > 0) {
+        if (response?.data?.length) {
           setHasMoreProperty(true);
+        } else {
+          setHasMoreProperty(false);
         }
         setTotal(response?.total);
         setIsLoading(false);
@@ -96,6 +98,8 @@ function Map() {
         setProperties((prev) => [...prev, ...res?.data]);
         setPropertySkip(propertySkip + 10);
         if (properties.length === total) {
+          setHasMoreProperty(false);
+        } else if (!res?.data?.length) {
           setHasMoreProperty(false);
         }
 
@@ -522,12 +526,12 @@ function Map() {
             dataLength={properties.length} //This is important field to render the next data
             next={fetchNextData}
             hasMore={hasMoreProperty}
+            height={500}
             loader={
               <div className="mt-3 flex items-center justify-center">
                 <FiLoader color="dodgerblue" className="text-xl animate-spin" />
               </div>
             }
-            scrollThreshold="300px"
           >
             {properties?.length > 0 ? (
               properties?.map((p, i) => (

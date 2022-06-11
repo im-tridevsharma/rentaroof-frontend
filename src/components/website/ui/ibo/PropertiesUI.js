@@ -69,9 +69,7 @@ function PropertiesUI() {
         setProperties(res.data);
         setIsLoading(false);
         setTotal(res?.total);
-        if (total > 0) {
-          setHasMoreProperty(true);
-        }
+        setHasMoreProperty(true);
       } else {
         console.error(res?.error || res?.message);
         setIsLoading(false);
@@ -257,12 +255,12 @@ function PropertiesUI() {
             >
               <p>Posted Properties</p>
             </div>
-            {/* <div style={{ height: "500px", overflow: "auto" }}> */}
             <InfiniteScroll
               className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
               dataLength={properties.length} //This is important field to render the next data
               next={fetchNextData}
               hasMore={hasMoreProperty}
+              height={500}
               loader={
                 <div className="mt-3 flex items-center justify-center">
                   <FiLoader
@@ -281,7 +279,6 @@ function PropertiesUI() {
                   />
                 ))}
             </InfiniteScroll>
-            {/* </div> */}
           </>
         )}
         {cardMode === "rented" && (

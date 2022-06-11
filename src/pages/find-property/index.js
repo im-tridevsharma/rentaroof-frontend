@@ -119,7 +119,11 @@ function Index({ query }) {
         setProperties(response?.data);
         if (response?.total > 0) {
           setTotal(response.total);
+        }
+        if (response?.data?.length) {
           setHasMoreProperty(true);
+        } else {
+          setHasMoreProperty(false);
         }
         setIsLoading(false);
       } else {
@@ -179,6 +183,8 @@ function Index({ query }) {
         setProperties((prev) => [...prev, ...res?.data]);
         setPropertySkip(propertySkip + 10);
         if (properties.length === total) {
+          setHasMoreProperty(false);
+        } else if (!res?.data?.length) {
           setHasMoreProperty(false);
         }
 
