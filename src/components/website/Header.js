@@ -419,7 +419,7 @@ function Header() {
                 <li className="my-2 hover:text-yellow-400">
                   <Link href="/signup">
                     <a className="py-2 px-3 border-b-2 border-transparent">
-                      Register as tenants
+                      Sign up as tenant
                     </a>
                   </Link>
                 </li>
@@ -439,7 +439,7 @@ function Header() {
                 <li className="my-2 hover:text-yellow-400">
                   <Link href="/signup/ibo">
                     <a className="py-2 px-3 border-b-2 border-transparent">
-                      Register as agents
+                      Sign up as agent
                     </a>
                   </Link>
                 </li>
@@ -486,7 +486,7 @@ function Header() {
                 <li className={`my-2 hover:text-yellow-400`}>
                   <Link href="/signup?a=list-property">
                     <a className="py-2 px-3 border-b-2 border-transparent">
-                      Register as landlords
+                      Sing up as landlord
                     </a>
                   </Link>
                 </li>
