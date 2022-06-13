@@ -5,9 +5,8 @@ import { GrLinkPrevious } from "react-icons/gr";
 function Breadcrumb({ tagline, path, center, large }) {
   return (
     <div
-      className="flex items-center justify-between py-7 px-6 text-white"
+      className="flex items-center justify-between py-3 px-6 text-white bg-yellow-400"
       style={{
-        backgroundColor: "var(--secondary-color)",
         height: large && "200px",
         fontFamily: "Opensans-regular",
       }}

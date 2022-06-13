@@ -166,7 +166,7 @@ function Index({ id }) {
   useEffect(() => {
     const getSimilarProperties = async () => {
       setIsLoading(true);
-      const response = await fetchSimilarProperties(id, 2);
+      const response = await fetchSimilarProperties(id, 5);
       if (response?.status) {
         setSimilarProperties(response?.data?.data);
         setIsLoading(false);
@@ -810,22 +810,6 @@ function Index({ id }) {
                   Similar Properties not found!
                 </p>
               )}
-
-              <div
-                className="flex items-center cursor-pointer justify-center mt-2 border-gray-200 rounded-md text-center uppercase bg-white py-3 shadow-sm"
-                style={{
-                  borderWidth: "1px",
-                  fontFamily: "Opensans-bold",
-                  color: "var(--primary-color)",
-                }}
-              >
-                View More{" "}
-                <img
-                  src="/icons/ibo_icons/icon16.png"
-                  alt="arrow"
-                  className="ml-1"
-                />
-              </div>
             </div>
           </div>
           {/**right */}

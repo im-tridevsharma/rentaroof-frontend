@@ -224,67 +224,62 @@ function Header() {
     >
       {isLoading && <Loader />}
       {/**header top part */}
-      {router.pathname === "/" && (
+      <div
+        className=" py-2 px-5 md:px-10"
+        style={{ backgroundColor: "rgba(0,0,0,.8)" }}
+      >
         <div
-          className=" py-2 px-5 md:px-10"
-          style={{ backgroundColor: "rgba(0,0,0,.8)" }}
+          className="flex items-center justify-between text-gray-100"
+          style={{
+            backgroundColor: "transparent",
+            fontFamily: "Opensans-regular",
+          }}
         >
+          {/**header top left */}
           <div
-            className="flex items-center justify-between text-gray-100"
-            style={{
-              backgroundColor: "transparent",
-              fontFamily: "Opensans-regular",
-            }}
+            className="flex items-center wow slideInLeft"
+            data-wow-delay="0.1s"
+            data-wow-duration="1s"
           >
-            {/**header top left */}
-            <div
-              className="flex items-center wow slideInLeft"
-              data-wow-delay="0.1s"
-              data-wow-duration="1s"
-            >
-              <div className="flex items-center mb-1 sm:mb-0">
-                <FaEnvelope className="mr-2" />
-                <span>{website?.company_email}</span>
-              </div>
-              <div className="flex items-center ml-3 sm:mb-0">
-                <FaPhoneAlt className="mr-2" />
-                <span>{website?.company_contact}</span>
-              </div>
+            <div className="flex items-center mb-1 sm:mb-0">
+              <FaEnvelope className="mr-2" />
+              <span>{website?.company_email}</span>
             </div>
-            {/**header top right */}
-            <div
-              className="flex items-center wow slideInRight"
-              data-wow-delay="0.1s"
-              data-wow-duration="1s"
-            >
-              <a
-                href={website?.twitter_url}
-                className="mx-2 hover:text-gray-300"
-              >
-                <FaTwitter />
-              </a>
-              <a
-                href={website?.facebook_url}
-                className="mx-1 hover:text-gray-300"
-              >
-                <FaFacebookF />
-              </a>
-              <a
-                href={website?.instagram_url}
-                className="mx-1 hover:text-gray-300"
-              >
-                <FaInstagram />
-              </a>
-              <a
-                href={website?.linkedin_url}
-                className="mx-1 hover:text-gray-300"
-              >
-                <FaLinkedinIn />
-              </a>
+            <div className="flex items-center ml-3 sm:mb-0">
+              <FaPhoneAlt className="mr-2" />
+              <span>{website?.company_contact}</span>
             </div>
           </div>
+          {/**header top right */}
+          <div
+            className="flex items-center wow slideInRight"
+            data-wow-delay="0.1s"
+            data-wow-duration="1s"
+          >
+            <a href={website?.twitter_url} className="mx-2 hover:text-gray-300">
+              <FaTwitter />
+            </a>
+            <a
+              href={website?.facebook_url}
+              className="mx-1 hover:text-gray-300"
+            >
+              <FaFacebookF />
+            </a>
+            <a
+              href={website?.instagram_url}
+              className="mx-1 hover:text-gray-300"
+            >
+              <FaInstagram />
+            </a>
+            <a
+              href={website?.linkedin_url}
+              className="mx-1 hover:text-gray-300"
+            >
+              <FaLinkedinIn />
+            </a>
+          </div>
         </div>
-      )}
+      </div>
 
       {searchModal && (
         <div className="p-5 max-w-xl w-full rounded-md fixed top-1 left-1/2 z-40 transform -translate-x-1/2  bg-white">

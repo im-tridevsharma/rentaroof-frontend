@@ -111,7 +111,10 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="navbar navbar-1 border-b">
+    <div
+      className="navbar navbar-1 border-b z-40"
+      style={{ position: "fixed", top: 0, width: "calc(100% - 256px)" }}
+    >
       <div className="navbar-inner w-full flex items-center justify-start">
         <button
           onClick={() =>

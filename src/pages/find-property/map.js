@@ -22,9 +22,20 @@ import {
   Marker,
 } from "@react-google-maps/api";
 import { __d } from "../../server";
-import ReactTooltip from "react-tooltip";
 import { toast, ToastContainer } from "react-toastify";
 import InfiniteScroll from "react-infinite-scroll-component";
+
+const radius = [
+  { label: "Search Radius", value: "" },
+  { label: "1KM", value: "1" },
+  { label: "2KM", value: "2" },
+  { label: "3KM", value: "3" },
+  { label: "4KM", value: "4" },
+  { label: "5KM", value: "5" },
+  { label: "10KM", value: "10" },
+  { label: "15KM", value: "15" },
+  { label: "20KM", value: "20" },
+];
 
 function Map() {
   const router = useRouter();
@@ -47,6 +58,7 @@ function Map() {
     bed: "",
     bath: "",
     ptype: "",
+    search_radius: 0.2,
   });
   const [min_price, setMinPrice] = useState(1000);
   const [max_price, setMaxPrice] = useState(0);
@@ -65,6 +77,17 @@ function Map() {
     setSearch(router.query.search);
     setIsLoading(true);
     setParams(router.query);
+    setFilterData({
+      search: router.query.search,
+      available_from: router.query.available_from || "",
+      available_to: router.query.available_to || "",
+      budget: router.query.budget,
+      bed: router.query.bed || "",
+      bath: router.query.bath || "",
+      ptype: router.query.ptype || "",
+      search_radius: router?.query?.search_radius || 1,
+    });
+
     (async () => {
       const queryString = Object.keys(router.query)
         .map((key) => key + "=" + router.query[key])
@@ -85,7 +108,17 @@ function Map() {
         toast.error(response?.error || response?.message);
       }
     })();
-  }, [router.query]);
+
+    const budget = router?.query?.budget?.split("-");
+    if (budget) {
+      setMinPrice(budget[0]?.trim() || 0);
+      setMaxPrice(budget[1]?.trim() || 0);
+    }
+  }, [router?.query]);
+
+  React.useEffect(() => {
+    setFilterData((prev) => ({ ...prev, budget: `${min_price}-${max_price}` }));
+  }, [min_price, max_price]);
 
   const fetchNextData = async () => {
     if (!fetching) {
@@ -197,8 +230,13 @@ function Map() {
   };
 
   const renderQuery = () => {
+    setPropertySkip(0);
     const queryString = Object.keys(filterData)
-      .map((key) => key + "=" + filterData[key])
+      .map((key) => {
+        if (filterData[key]) {
+          return key + "=" + filterData[key];
+        }
+      })
       .join("&");
     router.push("/find-property/map?" + queryString);
   };
@@ -300,7 +338,6 @@ function Map() {
               />
               <button type="submit" data-tip="Search">
                 <FiSearch />
-                <ReactTooltip />
               </button>
             </form>
             <FiFilter
@@ -308,7 +345,6 @@ function Map() {
               data-tip="Filter Options"
               onClick={() => setFilterMode(!filterMode)}
             />
-            <ReactTooltip />
           </div>
           {filterMode && (
             <>
@@ -369,6 +405,7 @@ function Map() {
                         bed: "",
                         bath: "",
                         ptype: "",
+                        search_radius: 0.2,
                       }));
                       renderQuery();
                     }}
@@ -412,34 +449,24 @@ function Map() {
                 {filterTab === "price" && (
                   <div className="grid grid-cols-2 w-full">
                     <label className="m-2">
-                      <span className="mr-2">Budget</span>
+                      <span className="mr-2">Budget From</span>
                       <input
                         type="text"
                         name="min"
                         placeholder="eg: 10000"
                         value={min_price}
-                        onChange={(e) =>
-                          setFilterData((prev) => ({
-                            ...prev,
-                            budget: `${e.target.value}-${max_price}`,
-                          }))
-                        }
+                        onChange={(e) => setMinPrice(e.target.value)}
                         className="border-gray-200 text-xs rounded-md"
                         style={{ borderWidth: "1px" }}
                       />
                     </label>
                     <label className="m-2">
-                      <span className="mr-2">-</span>
+                      <span className="mr-2">Budget To</span>
                       <input
                         type="text"
                         name="max"
-                        value={filterData?.max_price}
-                        onChange={(e) =>
-                          setFilterData((prev) => ({
-                            ...prev,
-                            budget: `${min_price}-${e.target.value}`,
-                          }))
-                        }
+                        value={filterData?.max_price || max_price}
+                        onChange={(e) => setMaxPrice(e.target.value)}
                         placeholder="eg: 50000"
                         className="border-gray-200 text-xs rounded-md"
                         style={{ borderWidth: "1px" }}
@@ -448,72 +475,91 @@ function Map() {
                   </div>
                 )}
                 {filterTab === "filters" && (
-                  <div className="grid grid-cols-3 w-full">
-                    <label className="m-2">
-                      <span className="mr-2">Bedrooms</span>
-                      <input
-                        type="text"
-                        name="bedrooms"
-                        placeholder="eg: 2"
-                        className="border-gray-200 text-xs rounded-md w-20"
-                        style={{ borderWidth: "1px" }}
-                        value={filterData?.bed}
-                        onChange={(e) =>
-                          setFilterData((prev) => ({
-                            ...prev,
-                            bed: e.target.value,
-                          }))
-                        }
-                      />
-                    </label>
-                    <label className="m-2">
-                      <span className="mr-2">Bathrooms</span>
-                      <input
-                        type="text"
-                        name="bathrooms"
-                        placeholder="eg: 1"
-                        className="border-gray-200 text-xs rounded-md w-20"
-                        style={{ borderWidth: "1px" }}
-                        value={filterData?.bath}
-                        onChange={(e) =>
-                          setFilterData((prev) => ({
-                            ...prev,
-                            bath: e.target.value,
-                          }))
-                        }
-                      />
-                    </label>
-                    <label className="m-2">
-                      <span className="mr-2">Property Type</span>
-                      <select
-                        name="property_type"
-                        className="border-gray-200 text-xs rounded-md w-24"
-                        style={{ borderWidth: "1px" }}
-                        value={filterData?.ptype}
-                        onChange={(e) =>
-                          setFilterData((prev) => ({
-                            ...prev,
-                            ptype: e.target.value,
-                          }))
-                        }
-                      >
-                        <option value="">Select</option>
-                        <option value="apartment">Apartment</option>
-                        <option value="individual floor">
-                          Individual Floor
+                  <>
+                    <div className="grid grid-cols-3 w-full space-x-2">
+                      <label className="my-2">
+                        <input
+                          type="text"
+                          name="bedrooms"
+                          placeholder="Bedrooms eg: 2"
+                          className="border-gray-200 text-xs rounded-md"
+                          style={{ borderWidth: "1px" }}
+                          value={filterData?.bed}
+                          onChange={(e) =>
+                            setFilterData((prev) => ({
+                              ...prev,
+                              bed: e.target.value,
+                            }))
+                          }
+                        />
+                      </label>
+                      <label className="my-2">
+                        <input
+                          type="text"
+                          name="bathrooms"
+                          placeholder="Bathrooms eg: 1"
+                          className="border-gray-200 text-xs rounded-md"
+                          style={{ borderWidth: "1px" }}
+                          value={filterData?.bath}
+                          onChange={(e) =>
+                            setFilterData((prev) => ({
+                              ...prev,
+                              bath: e.target.value,
+                            }))
+                          }
+                        />
+                      </label>
+                      <label className="my-2">
+                        <select
+                          name="property_type"
+                          className="border-gray-200 text-xs rounded-md"
+                          style={{ borderWidth: "1px" }}
+                          value={filterData?.ptype}
+                          onChange={(e) =>
+                            setFilterData((prev) => ({
+                              ...prev,
+                              ptype: e.target.value,
+                            }))
+                          }
+                        >
+                          <option value="">Property Type</option>
+                          <option value="apartment">Apartment</option>
+                          <option value="individual floor">
+                            Individual Floor
+                          </option>
+                          <option value="independent house">
+                            Independent House
+                          </option>
+                          <option value="villa or farm house">
+                            Villa/Farm House
+                          </option>
+                          <option value="vacation rental">
+                            Vacation Rental
+                          </option>
+                        </select>
+                      </label>
+                    </div>
+                    <select
+                      name="property_type"
+                      className="border-gray-200 text-xs rounded-md"
+                      style={{ borderWidth: "1px" }}
+                      value={filterData?.search_radius}
+                      onChange={(e) =>
+                        setFilterData((prev) => ({
+                          ...prev,
+                          search_radius: e.target.value,
+                        }))
+                      }
+                    >
+                      {radius.map((item, index) => (
+                        <option key={index} value={item.value}>
+                          {item.label}
                         </option>
-                        <option value="independent house">
-                          Independent House
-                        </option>
-                        <option value="villa or farm house">
-                          Villa/Farm House
-                        </option>
-                        <option value="vacation rental">Vacation Rental</option>
-                      </select>
-                    </label>
-                  </div>
+                      ))}
+                    </select>
+                  </>
                 )}
-              </div>{" "}
+              </div>
             </>
           )}
 
@@ -564,8 +610,7 @@ function Map() {
               Search as move map
             </label>
             <button
-              className="px-2 py-1 rounded-md text-white flex items-center"
-              style={{ backgroundColor: "var(--primary-color)" }}
+              className="px-2 py-1 rounded-full text-white flex items-center bg-yellow-500"
               onClick={saveSearchHandle}
             >
               <BiSave className="mr-1" /> Save Search
@@ -646,7 +691,6 @@ function Map() {
                                   data-tip="Get Direction"
                                   title="Get Direction"
                                 >
-                                  <ReactTooltip />
                                   <FaDirections
                                     className="ml-2 text-lg cursor-pointer"
                                     onClick={() =>

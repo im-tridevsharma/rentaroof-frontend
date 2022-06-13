@@ -14,12 +14,9 @@ import {
   saveSearch,
   searchProperties,
 } from "../../lib/frontend/properties";
-import { GrLinkPrevious, GrLinkNext } from "react-icons/gr";
 import { __d } from "../../server";
 import { FaTimes } from "react-icons/fa";
-import ReactTooltip from "react-tooltip";
-import { toast, ToastContainer } from "react-toastify";
-import Cookies from "universal-cookie";
+import { toast } from "react-toastify";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 function Index({ query }) {
@@ -39,7 +36,6 @@ function Index({ query }) {
     readytomove: "",
     amenities: [],
     sorting: "relevance",
-    pagination: "yes",
   });
   const [amenities, setAmenities] = useState([]);
   const [properties, setProperties] = useState([]);
@@ -210,21 +206,12 @@ function Index({ query }) {
 
   const handleFilter = (e) => {
     e.preventDefault();
+    setPropertySkip(0);
     const queryString = Object.keys(filters)
       .map((key) => key + "=" + filters[key])
       .join("&");
 
-    // const location = cookies.get("user-location");
-    const location = localStorage.getItem("current-location")
-      ? JSON.parse(localStorage.getItem("current-location"))
-      : false;
-
-    const locationString = location
-      ? Object.keys(location)
-          .map((key) => key + "=" + location[key])
-          .join("&")
-      : "";
-    router.push("/find-property?" + queryString + "&" + locationString);
+    router.push("/find-property?" + queryString);
   };
 
   const sortBy = (e) => {
@@ -285,6 +272,7 @@ function Index({ query }) {
             name="search"
             onSubmit={(e) => {
               e.preventDefault();
+              setPropertySkip(0);
               router.push(
                 "/find-property?pagination=yes&search=" + filters?.search
               );
@@ -823,6 +811,7 @@ function Index({ query }) {
                       amenities: [],
                       pagination: "yes",
                     });
+                    setPropertySkip(0);
                     router.push(
                       "/find-property?pagination=yes&search=" + filters?.search
                     );
