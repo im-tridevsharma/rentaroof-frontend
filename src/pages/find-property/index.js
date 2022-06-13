@@ -216,6 +216,7 @@ function Index({ query }) {
 
   const sortBy = (e) => {
     e.preventDefault();
+    setPropertySkip(0)
     setFilters((p) => ({ ...p, sorting: e.target.value }));
     const queryString = Object.keys(filters)
       .map((key) => {
