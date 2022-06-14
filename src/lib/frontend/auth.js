@@ -55,7 +55,6 @@ export const sendAuthOTP = async (data) => {
   return otp;
 };
 
-
 export const sendAuthOTPEmail = async (data) => {
   let otp = false;
 
@@ -71,8 +70,6 @@ export const sendAuthOTPEmail = async (data) => {
   }
   return otp;
 };
-
-
 
 export const emailVerity = async (data) => {
   let otp = false;
@@ -90,7 +87,6 @@ export const emailVerity = async (data) => {
   return otp;
 };
 
-
 export const mobileVerity = async (data) => {
   let otp = false;
 
@@ -107,7 +103,6 @@ export const mobileVerity = async (data) => {
   return otp;
 };
 
-
 export const createNewPassword = async (data) => {
   let res = false;
 
@@ -123,7 +118,6 @@ export const createNewPassword = async (data) => {
   }
   return res;
 };
-
 
 export const getProfile = async (allinfo = false) => {
   const token = __d(cookies.get("_SYNC_"));
@@ -142,7 +136,7 @@ export const getProfile = async (allinfo = false) => {
         user = response?.data;
       })
       .catch((error) => {
-        if (error.response.data.message === "Token expired.") {
+        if (error?.response?.data?.message === "Token expired.") {
           removeAuthToken();
         }
         user = error?.response?.data;
@@ -160,7 +154,7 @@ export const getUserByCode = async (code) => {
       user = response?.data;
     })
     .catch((error) => {
-      if (error.response.data.message === "Token expired.") {
+      if (error?.response?.data?.message === "Token expired.") {
         removeAuthToken();
       }
       user = error?.response?.data;
@@ -207,7 +201,7 @@ export const getUserSavedProperties = async (id) => {
         user = response?.data;
       })
       .catch((error) => {
-        if (error.response.data.message === "Token expired.") {
+        if (error?.response?.data?.message === "Token expired.") {
           removeAuthToken();
         }
         user = error?.response?.data;
@@ -230,7 +224,7 @@ export const deleteUserSavedProperties = async (id) => {
         user = response?.data;
       })
       .catch((error) => {
-        if (error.response.data.message === "Token expired.") {
+        if (error?.response?.data?.message === "Token expired.") {
           removeAuthToken();
         }
         user = error?.response?.data;

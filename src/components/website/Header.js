@@ -365,6 +365,7 @@ function Header() {
               <img
                 src={website?.logo || "/images/website/no_photo.png"}
                 alt="logo"
+                style={{padding:"10px"}}
                 className="h-20 object-contain"
               />
             </a>
