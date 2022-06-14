@@ -297,9 +297,8 @@ function DashboardUI() {
                           className="ml-2 text-gray-600"
                           data-tip={txn.message}
                         >
-                          {txn?.message?.length > 50
-                            ? txn.message.substring(0, 50) + "..."
-                            : txn.message}
+                          {txn?.amount} (paid: {txn?.paid}) (pending:{" "}
+                          {txn?.pending})
                         </p>
                         <ReactTooltip />
                       </div>
