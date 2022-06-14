@@ -286,7 +286,10 @@ function AppointmentUI() {
                       <td>
                         <p className=" text-green-600 capitalize">
                           {a?.landlord_status !== "approved"
-                            ? "(You) " + a?.landlord_status || "Pending"
+                            ? "(You) " +
+                              (a?.landlord_status === null
+                                ? "Pending"
+                                : a?.landlord_status)
                             : a?.meeting_status === "cancelled"
                             ? "Pending"
                             : a?.meeting_status}

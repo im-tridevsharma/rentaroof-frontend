@@ -72,9 +72,12 @@ export const saveUserNotication = async (data) => {
 };
 
 export const getIboRating = async (id) => {
+  const token = __d(cookies.get("_SYNC_"));
   let rating = false;
   await server
-    .get("/ratings/ibo/all/" + id)
+    .get("/ratings/ibo/all/" + id, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
     .then((response) => {
       rating = response?.data;
     })
@@ -183,9 +186,12 @@ export const saveUserRating = async (data) => {
 };
 
 export const getLandlordRating = async (id) => {
+  const token = __d(cookies.get("_SYNC_"));
   let rating = false;
   await server
-    .get("/ratings/landlord/all/" + id)
+    .get("/ratings/landlord/all/" + id, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
     .then((response) => {
       rating = response?.data;
     })
@@ -196,9 +202,12 @@ export const getLandlordRating = async (id) => {
 };
 
 export const getUserRating = async (id) => {
+  const token = __d(cookies.get("_SYNC_"));
   let rating = false;
   await server
-    .get("/ratings/tenant/all/" + id)
+    .get("/ratings/tenant/all/" + id, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
     .then((response) => {
       rating = response?.data;
     })
