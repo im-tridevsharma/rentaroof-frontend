@@ -363,9 +363,11 @@ function DashboardUI() {
             {reviews?.length > 0 ? (
               <>
                 <div className="px-3 py-5">
-                  {[0, 1].map((_, i) => (
-                    <Review key={i} rating={reviews[i]} />
-                  ))}
+                  {[0, 1].map((_, i) => {
+                    if (reviews[i]) {
+                      return <Review key={i} rating={reviews[i]} />;
+                    }
+                  })}
                 </div>
                 <div className="text-center">
                   <button
