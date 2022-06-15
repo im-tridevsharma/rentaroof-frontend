@@ -105,17 +105,21 @@ const Index = () => {
                 Properties
                 <b className="ml-5 text-green-400">
                   Verified:{" "}
-                  {Object.values(propertiesStat.verified).reduce(
-                    (b, c) => b + c,
-                    0
-                  )}
+                  {propertiesStat.verified
+                    ? Object.values(propertiesStat.verified).reduce(
+                        (b, c) => b + c,
+                        0
+                      )
+                    : 0}
                 </b>
                 <b className="ml-5 text-red-400">
                   Not Verified:{" "}
-                  {Object.values(propertiesStat.notverified).reduce(
-                    (b, c) => b + c,
-                    0
-                  )}
+                  {propertiesStat.notverified
+                    ? Object.values(propertiesStat.notverified).reduce(
+                        (b, c) => b + c,
+                        0
+                      )
+                    : 0}
                 </b>
               </span>
             }
