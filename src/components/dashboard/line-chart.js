@@ -8,21 +8,20 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
-import { random } from "../../functions/numbers";
 
-const CustomTooltip = ({ active, payload, label }) => {
+const CustomTooltip = ({ active, payload }) => {
   if (active) {
-    let { name, sales, conversions } = { ...payload[0].payload };
+    let { name, Verified, NotVerified } = { ...payload[0].payload };
     return (
       <div className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white shadow-lg rounded-lg p-2 text-xs">
         <div className="font-bold">{name}</div>
         <div>
-          <span className="font-bold">Sales:</span>{" "}
-          <span className="font-normal">{sales}</span>
+          <span className="font-bold">Verified: </span>
+          <span className="font-normal">{Verified}</span>
         </div>
         <div>
-          <span className="font-bold">Conversions:</span>{" "}
-          <span className="font-normal">{conversions}</span>
+          <span className="font-bold">Not Verified: </span>
+          <span className="font-normal">{NotVerified}</span>
         </div>
       </div>
     );
@@ -30,10 +29,10 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
-export const Line1 = () => {
+export const Line1 = ({ payload }) => {
   let colors = [
-    { dataKey: "sales", stroke: getColor("bg-blue-200") },
-    { dataKey: "conversions", stroke: getColor("bg-blue-400") },
+    { dataKey: "Verified", stroke: getColor("bg-green-400") },
+    { dataKey: "NotVerified", stroke: getColor("bg-red-400") },
   ];
   const labels = [
     "Jan",
@@ -49,11 +48,11 @@ export const Line1 = () => {
     "Nov",
     "Dec",
   ];
-  const data = Array.from(Array(12).keys()).map((i) => {
+  const data = Array.from(labels).map((i) => {
     return {
-      name: labels[i],
-      sales: random(100, 200),
-      conversions: random(150, 250),
+      name: i,
+      Verified: payload?.verified ? payload?.verified[i] : 0,
+      NotVerified: payload?.notverified ? payload?.notverified[i] : 0,
     };
   });
 

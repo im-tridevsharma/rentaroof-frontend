@@ -156,7 +156,7 @@ function Index({ rcode }) {
               <img
                 src={logo || "/images/website/no_photo.png"}
                 alt="logo"
-                className="h-full w-full object-cover cursor-pointer"
+                className="h-full w-full object-contain cursor-pointer"
               />
             </Link>
           </div>

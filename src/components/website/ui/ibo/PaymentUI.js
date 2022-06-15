@@ -193,7 +193,7 @@ function PaymentUI() {
               currency: "INR",
             }).format(totalPaid)}
             color="white"
-            textcolor="green"
+            textcolor="rgb(6, 226, 209)"
           />
           <Card
             label="Pending Payment"
@@ -210,7 +210,7 @@ function PaymentUI() {
               currency: "INR",
             }).format(totalPending)}
             color="lightred"
-            textcolor="red"
+            textcolor="#ff000080"
           />
         </div>
 

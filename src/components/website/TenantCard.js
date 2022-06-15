@@ -46,10 +46,15 @@ function TenantCard({ a, info }) {
         </p>
         <p className="text-center text-xs text-gray-500">{a?.description}</p>
 
-        <button onClick={info}>More Info</button>
+        <button
+          onClick={info}
+          className="px-5 py-1 rounded-full my-3 bg-yellow-400 hover:bg-yellow-500"
+        >
+          View Rental Details
+        </button>
 
         <div
-          className="mt-5 flex items-center justify-between w-full"
+          className="mt-2 flex items-center justify-between w-full"
           style={{ fontFamily: "Opensans-semi-bold" }}
         >
           <a

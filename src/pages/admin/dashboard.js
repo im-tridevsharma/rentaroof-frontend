@@ -16,6 +16,7 @@ const Index = () => {
   const [iboCount, setIboCount] = useState(0);
   const [landlordCount, setLandlordCount] = useState(0);
   const [rentedPropertyCount, setRentedPropertyCount] = useState(0);
+  const [propertiesStat, setPropertiesStat] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -27,7 +28,9 @@ const Index = () => {
         setUserCount(user.data);
       }
       if (ibo?.status) {
-        setIboCount(ibo.data);
+        setIboCount(ibo.data?.ibos);
+        setRentedPropertyCount(ibo?.data?.rented);
+        setPropertiesStat(ibo?.data?.properties_stat);
       }
       if (landlord?.status) {
         setLandlordCount(landlord.data);
@@ -87,7 +90,7 @@ const Index = () => {
             <Section
               title="House Rented"
               description={<span>This year</span>}
-              right={<Dropdown1 />}
+              right={<Dropdown1 payload={propertiesStat} />}
             >
               <div className="flex flex-row w-full">
                 <Bar1 />
@@ -97,23 +100,41 @@ const Index = () => {
         )}
         <div className="w-full lg:w-2/3">
           <Section
-            title="Sales"
-            description={<span>This year</span>}
-            right={<Dropdown1 />}
+            description={
+              <span>
+                Properties
+                <b className="ml-5 text-green-400">
+                  Verified:{" "}
+                  {Object.values(propertiesStat.verified).reduce(
+                    (b, c) => b + c,
+                    0
+                  )}
+                </b>
+                <b className="ml-5 text-red-400">
+                  Not Verified:{" "}
+                  {Object.values(propertiesStat.notverified).reduce(
+                    (b, c) => b + c,
+                    0
+                  )}
+                </b>
+              </span>
+            }
           >
             <div className="flex flex-row w-full">
-              <Line1 />
+              <Line1 payload={propertiesStat} />
             </div>
           </Section>
         </div>
         <div className="w-full lg:w-1/3">
-          <Section
-            title="Income"
-            description={<span>By dealers</span>}
-            right={<Dropdown1 />}
-          >
+          <Section title="" description={<span>Users</span>}>
             <div className="flex flex-row w-full">
-              <Donut1 />
+              <Donut1
+                payload={{
+                  ibo: iboCount,
+                  landlord: landlordCount,
+                  tenant: userCount,
+                }}
+              />
             </div>
           </Section>
         </div>

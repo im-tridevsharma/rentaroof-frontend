@@ -13,7 +13,7 @@ const CustomTooltip = ({ active, payload, label }) => {
     return (
       <div className="bg-white text-gray-900 dark:bg-gray-800 dark:text-white shadow-lg rounded-lg p-2 text-xs">
         <div>
-          <span className="font-bold">{payload[0].name}:</span>{" "}
+          <span className="font-bold">{payload[0].name}:</span>
           <span className="font-normal">{payload[0].value}</span>
         </div>
       </div>
@@ -22,11 +22,11 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
-export const Donut1 = () => {
+export const Donut1 = ({ payload }) => {
   const data = [
-    { name: "IBO", value: 400 },
-    { name: "Landlord", value: 300 },
-    { name: "Other", value: 20 },
+    { name: "IBO", value: payload?.ibo },
+    { name: "Landlord", value: payload?.landlord },
+    { name: "Tenant", value: payload?.tenant },
   ];
   let colors = [
     getColor("bg-blue-400"),
