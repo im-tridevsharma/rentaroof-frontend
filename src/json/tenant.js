@@ -1,148 +1,54 @@
+import {
+  FaFile,
+  FaGlobe,
+  FaHeadphonesAlt,
+  FaPaypal,
+  FaShareSquare,
+  FaStopwatch,
+  FaTv,
+} from "react-icons/fa";
+
 const links = [
   {
-    label: "Dashboard",
-    href: `/tenant/dashboard`,
-    icon: (
-      <img
-        src="/icons/user-dashboard/dashboardicon.png"
-        alt="dashboard"
-        className="object-contain"
-        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
-      />
-    ),
-  },
-  {
-    label: "Profile",
-    href: "/tenant/profile",
-    icon: (
-      <img
-        src="/icons/user-dashboard/profile_icon.png"
-        alt="profile"
-        className="object-contain"
-        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
-      />
-    ),
-  },
-  {
-    label: "How to Use",
-    href: "/tenant/how_to_use",
-    icon: (
-      <img
-        src="/icons/ibo_icons/icon_7.png"
-        alt="training"
-        className="object-contain"
-        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
-      />
-    ),
-  },
-  {
-    label: "Notification",
-    href: "/tenant/notification",
-    icon: (
-      <img
-        src="/icons/user-dashboard/notification_icon5.png"
-        alt="notification"
-        className="object-contain"
-        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
-      />
-    ),
-  },
-  {
-    label: "Properties",
-    href: "/tenant/properties",
-    icon: (
-      <img
-        src="/icons/user-dashboard/icon3.png"
-        alt="properties"
-        className="object-contain"
-        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
-      />
-    ),
-  },
-  {
-    label: "Agreements",
-    href: "/tenant/agreements",
-    icon: (
-      <img
-        src="/icons/user-dashboard/agreement.png"
-        alt="properties"
-        className="object-contain"
-        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
-      />
-    ),
-  },
-  {
-    label: "Appointments",
-    href: "/tenant/appointment",
-    icon: (
-      <img
-        src="/icons/ibo_icons/icon_110.png"
-        alt="appointments"
-        className="object-contain"
-        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
-      />
-    ),
-  },
-  {
-    label: "Payment",
-    href: "/tenant/payment",
-    icon: (
-      <img
-        src="/icons/user-dashboard/money_icon.png"
-        alt="payment"
-        className="object-contain"
-        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
-      />
-    ),
-  },
-  {
-    label: "Wallet",
-    href: "/tenant/wallet",
-    icon: (
-      <img
-        src="/icons/user-dashboard/wallet_icon.png"
-        alt="wallet"
-        className="object-contain"
-        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
-      />
-    ),
-  },
-  {
-    label: "KYC",
-    href: "/tenant/kyc",
-    icon: (
-      <img
-        src="/icons/ibo_icons/icon_10.png"
-        alt="kyc"
-        className="object-contain"
-        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
-      />
-    ),
-  },
-  {
-    label: "Refer and Earn",
-    href: "/tenant/refer-and-earn",
-    icon: (
-      <img
-        src="/icons/user-dashboard/refer.png"
-        alt="refer and earn"
-        className="object-contain"
-        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
-      />
-    ),
-  },
-  {
-    label: "Complain Management",
-    href: "/tenant/complain_management",
-    icon: (
-      <img
-        src="/icons/user-dashboard/icon4_grey.png"
-        alt="complain"
-        className="object-contain"
-        style={{ maxWidth: "20px", width: "20px", height: "20px" }}
-      />
-    ),
+    label: "Navigation",
+    navs: [
+      {
+        icon: <FaTv className="mr-2 text-sm opacity-75" size={20} />,
+        title: "Dashboard",
+        href: "/tenant/dashboard",
+      },
+      {
+        icon: <FaStopwatch className="mr-2 text-sm opacity-75" size={20} />,
+        title: "Manage Visit",
+        href: "/tenant/properties",
+      },
+      {
+        icon: <FaFile className="mr-2 text-sm opacity-75" size={20} />,
+        title: "Manage Documents",
+        href: "/tenant/kyc",
+      },
+      {
+        icon: <FaPaypal className="mr-2 text-sm opacity-75" size={20} />,
+        title: "Transaction History",
+        href: "/tenant/payment",
+      },
+      {
+        icon: <FaGlobe className="mr-2 text-sm opacity-75" size={20} />,
+        title: "How to use/Faq",
+        href: "/tenant/how_to_use",
+      },
+      {
+        icon: <FaShareSquare className="mr-2 text-sm opacity-75" size={20} />,
+        title: "Refer & Earn",
+        href: "/tenant/refer-and-earn",
+      },
+      {
+        icon: <FaHeadphonesAlt className="mr-2 text-sm opacity-75" size={20} />,
+        title: "Contact Support",
+        href: "/tenant/complain_management",
+      },
+    ],
   },
 ];
 
-module.exports = links;
+export default links;

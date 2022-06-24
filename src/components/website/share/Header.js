@@ -131,181 +131,199 @@ function Header({
     <>
       <ReactTooltip />
       {isLoading && <Loader />}
-      <div className="flex flex-col w-full z-30 sticky top-0">
-        {/**header top */}
-        <div
-          className="flex items-center justify-between py-2 px-4 w-full"
-          style={{ backgroundColor: "var(--blue)" }}
-        >
-          {/**toggler */}
+      {true && (
+        <div className="flex flex-col w-full z-30 sticky top-0">
+          {/**header top */}
           <div
-            className="mr-10 cursor-pointer"
-            onClick={() => {
-              setSideBarToggled(!sideBarToggled);
-              setIsHide(false);
+            className="flex items-center justify-between py-2 px-4 w-full"
+            style={{ backgroundColor: "var(--blue)" }}
+          >
+            {/**toggler */}
+            <div
+              className="mr-10 cursor-pointer"
+              onClick={() => {
+                setSideBarToggled(!sideBarToggled);
+                setIsHide(false);
+              }}
+            >
+              <img
+                src="/icons/user-dashboard/arrow-slider-icon.png"
+                alt="toggler"
+                className="object-contain"
+                style={{ maxWidth: "20px", width: "20px", height: "20px" }}
+                data-tip="Toggle Sidebar"
+              />
+            </div>
+            {/**search bar */}
+            <div className="flex flex-grow">
+              <div className="flex items-center max-w-sm w-full">
+                <input
+                  type="text"
+                  className="h-7 text-xs focus:ring-0 rounded-lg border-none pl-3 pr-6 my-1 w-full"
+                />
+                <img
+                  src="/icons/user-dashboard/search-icon.png"
+                  alt="search"
+                  className="filter brightness-0 object-contain -ml-5 cursor-pointer"
+                  style={{ maxWidth: "12px", width: "12px", height: "12px" }}
+                  data-tip="Search"
+                />
+              </div>
+            </div>
+            {/**user actions */}
+            <div className="flex items-center">
+              {/**notification */}
+              <div className="relative mx-3">
+                <Link href={`/${user?.role}/notification`}>
+                  <a data-tip="Notifications">
+                    <img
+                      src="/icons/user-dashboard/bell_icon.png"
+                      alt="notification"
+                      className="object-contain cursor-pointer"
+                      style={{
+                        maxWidth: "16px",
+                        width: "16px",
+                        height: "16px",
+                      }}
+                    />
+                    <span
+                      className="absolute -top-1 -right-2 text-3xs text-white rounded-full"
+                      style={{ backgroundColor: "var(--orange)" }}
+                    >
+                      {notifications || 0}
+                    </span>
+                  </a>
+                </Link>
+              </div>
+              {/**chat */}
+              <div className="relative mx-3">
+                <Link href={`/${user?.role}/chat`}>
+                  <a data-tip="Messages">
+                    <img
+                      src="/icons/user-dashboard/chat_icon.png"
+                      alt="chat"
+                      className="object-contain cursor-pointer"
+                      style={{
+                        maxWidth: "16px",
+                        width: "16px",
+                        height: "16px",
+                      }}
+                    />
+                    <span
+                      className="absolute -top-1 -right-2 text-3xs text-white rounded-full"
+                      style={{ backgroundColor: "var(--orange)" }}
+                    >
+                      0
+                    </span>
+                  </a>
+                </Link>
+              </div>
+              {/**user profile */}
+              {true && (
+                <div
+                  className="flex"
+                  style={{ fontFamily: "Opensans-semi-bold" }}
+                >
+                  <div className="flex flex-col items-end justify-center text-white leading-2 px-2 text-3xs">
+                    <p style={{ fontFamily: "Opensans-bold" }}>{`Hi ${
+                      user?.first || "-"
+                    }`}</p>
+                    <p>{user?.email || "-"}</p>
+                  </div>
+                  <div className="relative">
+                    <img
+                      src={user?.profile_pic || "/images/faces/icon-user.png"}
+                      className="object-cover cursor-pointer rounded-full"
+                      style={{
+                        maxWidth: "24px",
+                        width: "24px",
+                        height: "24px",
+                      }}
+                      alt="user"
+                      onClick={() => setActiveMenu(!activeMenu)}
+                      data-tip="Profile"
+                    />
+                    <div
+                      style={{ fontFamily: "Opensans-regular" }}
+                      className={`bg-white flex flex-col py-3 items-center transform duration-300 justify-center sm:absolute ${
+                        activeMenu ? "sm:-right-5" : "sm:-right-96"
+                      } ${
+                        activeMenu ? "right-0" : " -right-full"
+                      } top-14 sm:top-11 sm:w-60 h-auto fixed w-screen z-40`}
+                    >
+                      <img
+                        src={user?.profile_pic || "/images/faces/icon-user.png"}
+                        className="w-12 h-12 object-cover rounded-full cursor-pointer"
+                        alt="user"
+                      />
+                      <h6
+                        className="mt-1"
+                        style={{ fontFamily: "Opensans-bold" }}
+                      >
+                        {user?.first} {user?.last}
+                      </h6>
+                      <p>{user?.email}</p>
+                      <ul className="w-full text-center mt-3">
+                        <li>
+                          <Link href={`/${user?.role}/dashboard`}>
+                            <a className="py-3 bg-gray-50 border-b block hover:bg-gray-200">
+                              Dashboard
+                            </a>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link href={`/${user?.role}/profile`}>
+                            <a className="py-3 bg-gray-50 border-b block hover:bg-gray-200">
+                              Profile
+                            </a>
+                          </Link>
+                        </li>
+                        {user?.role !== "tenant" && (
+                          <li>
+                            <Link href={`/${user?.role}/settings`}>
+                              <a className="py-3 bg-gray-50 border-b block hover:bg-gray-200">
+                                Settings
+                              </a>
+                            </Link>
+                          </li>
+                        )}
+                        <li>
+                          <a
+                            onClick={handleLogout}
+                            className="py-3 bg-gray-50 block hover:bg-gray-200"
+                          >
+                            Logout
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+          {/**breadcrumb */}
+          <div
+            className="flex bg-white shadow-sm items-center justify-between"
+            style={{
+              color: "var(--blue)",
+              fontFamily: "Opensans-semi-bold",
+              padding: "6px 15px",
             }}
           >
-            <img
-              src="/icons/user-dashboard/arrow-slider-icon.png"
-              alt="toggler"
-              className="object-contain"
-              style={{ maxWidth: "20px", width: "20px", height: "20px" }}
-              data-tip="Toggle Sidebar"
-            />
-          </div>
-          {/**search bar */}
-          <div className="flex flex-grow">
-            <div className="flex items-center max-w-sm w-full">
-              <input
-                type="text"
-                className="h-7 text-xs focus:ring-0 rounded-lg border-none pl-3 pr-6 my-1 w-full"
-              />
-              <img
-                src="/icons/user-dashboard/search-icon.png"
-                alt="search"
-                className="filter brightness-0 object-contain -ml-5 cursor-pointer"
-                style={{ maxWidth: "12px", width: "12px", height: "12px" }}
-                data-tip="Search"
-              />
+            <div className="flex items-center">
+              <p>Welcome to</p>
+              <b style={{ fontFamily: "Opensans-bold" }} className="ml-1">
+                {page}
+              </b>
             </div>
-          </div>
-          {/**user actions */}
-          <div className="flex items-center">
-            {/**notification */}
-            <div className="relative mx-3">
-              <Link href={`/${user?.role}/notification`}>
-                <a data-tip="Notifications">
-                  <img
-                    src="/icons/user-dashboard/bell_icon.png"
-                    alt="notification"
-                    className="object-contain cursor-pointer"
-                    style={{ maxWidth: "16px", width: "16px", height: "16px" }}
-                  />
-                  <span
-                    className="absolute -top-1 -right-2 text-3xs text-white rounded-full"
-                    style={{ backgroundColor: "var(--orange)" }}
-                  >
-                    {notifications || 0}
-                  </span>
-                </a>
-              </Link>
-            </div>
-            {/**chat */}
-            <div className="relative mx-3">
-              <Link href={`/${user?.role}/chat`}>
-                <a data-tip="Messages">
-                  <img
-                    src="/icons/user-dashboard/chat_icon.png"
-                    alt="chat"
-                    className="object-contain cursor-pointer"
-                    style={{
-                      maxWidth: "16px",
-                      width: "16px",
-                      height: "16px",
-                    }}
-                  />
-                  <span
-                    className="absolute -top-1 -right-2 text-3xs text-white rounded-full"
-                    style={{ backgroundColor: "var(--orange)" }}
-                  >
-                    0
-                  </span>
-                </a>
-              </Link>
-            </div>
-            {/**user profile */}
-            <div className="flex" style={{ fontFamily: "Opensans-semi-bold" }}>
-              <div className="flex flex-col items-end justify-center text-white leading-2 px-2 text-3xs">
-                <p style={{ fontFamily: "Opensans-bold" }}>{`Hi ${
-                  user?.first || "-"
-                }`}</p>
-                <p>{user?.email || "-"}</p>
-              </div>
-              <div className="relative">
-                <img
-                  src={user?.profile_pic || "/images/faces/icon-user.png"}
-                  className="object-cover cursor-pointer rounded-full"
-                  style={{ maxWidth: "24px", width: "24px", height: "24px" }}
-                  alt="user"
-                  onClick={() => setActiveMenu(!activeMenu)}
-                  data-tip="Profile"
-                />
-                <div
-                  style={{ fontFamily: "Opensans-regular" }}
-                  className={`bg-white flex flex-col py-3 items-center transform duration-300 justify-center sm:absolute ${
-                    activeMenu ? "sm:-right-5" : "sm:-right-96"
-                  } ${
-                    activeMenu ? "right-0" : " -right-full"
-                  } top-14 sm:top-11 sm:w-60 h-auto fixed w-screen z-40`}
-                >
-                  <img
-                    src={user?.profile_pic || "/images/faces/icon-user.png"}
-                    className="w-12 h-12 object-cover rounded-full cursor-pointer"
-                    alt="user"
-                  />
-                  <h6 className="mt-1" style={{ fontFamily: "Opensans-bold" }}>
-                    {user?.first} {user?.last}
-                  </h6>
-                  <p>{user?.email}</p>
-                  <ul className="w-full text-center mt-3">
-                    <li>
-                      <Link href={`/${user?.role}/dashboard`}>
-                        <a className="py-3 bg-gray-50 border-b block hover:bg-gray-200">
-                          Dashboard
-                        </a>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href={`/${user?.role}/profile`}>
-                        <a className="py-3 bg-gray-50 border-b block hover:bg-gray-200">
-                          Profile
-                        </a>
-                      </Link>
-                    </li>
-                    {user?.role !== "tenant" && (
-                      <li>
-                        <Link href={`/${user?.role}/settings`}>
-                          <a className="py-3 bg-gray-50 border-b block hover:bg-gray-200">
-                            Settings
-                          </a>
-                        </Link>
-                      </li>
-                    )}
-                    <li>
-                      <a
-                        onClick={handleLogout}
-                        className="py-3 bg-gray-50 block hover:bg-gray-200"
-                      >
-                        Logout
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+            <div className="flex items-center">
+              <span className="text-gray-400">Dashboard/</span>
+              <b className="text-gray-600 ml-1">{page}</b>
             </div>
           </div>
         </div>
-        {/**breadcrumb */}
-        <div
-          className="flex bg-white shadow-sm items-center justify-between"
-          style={{
-            color: "var(--blue)",
-            fontFamily: "Opensans-semi-bold",
-            padding: "6px 15px",
-          }}
-        >
-          <div className="flex items-center">
-            <p>Welcome to</p>
-            <b style={{ fontFamily: "Opensans-bold" }} className="ml-1">
-              {page}
-            </b>
-          </div>
-          <div className="flex items-center">
-            <span className="text-gray-400">Dashboard/</span>
-            <b className="text-gray-600 ml-1">{page}</b>
-          </div>
-        </div>
-      </div>
+      )}
       {notificationPopup && (
         <div
           className="fixed top-0 right-0 bg-white p-5 max-w-sm w-full z-40 shadow-md border"

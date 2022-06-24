@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FiMessageSquare } from "react-icons/fi";
-import { FaTimes } from "react-icons/fa";
 import {
-  createConversation,
   createSOS,
   getIsSOS,
   getUnseenNotification,
@@ -59,21 +56,6 @@ function UIRenderer({ UI, role, page }) {
     make && fetchUsers();
   }, [make]);
 
-  const handleConversationSubmit = async (e) => {
-    e.preventDefault();
-    const formdata = new FormData(document.forms.conversation);
-    if (formdata) {
-      setMake(false);
-      const res = await createConversation(formdata);
-      if (res?.status) {
-        toast.success("Conversation created successfully.");
-        Router.push(`/${user?.role}/chat`);
-      } else {
-        toast.error(res?.error || res?.message);
-      }
-    }
-  };
-
   const handleSOS = () => {
     setIsLoading(true);
     if (navigator.geolocation) {
@@ -115,7 +97,7 @@ function UIRenderer({ UI, role, page }) {
         setIsHide={setIsHide}
       />
       {/**content */}
-      <div className="flex flex-col flex-grow">
+      <div className="relative md:ml-64 flex-1 bg-blueGray-100">
         {/**header */}
         <Header
           page={page}

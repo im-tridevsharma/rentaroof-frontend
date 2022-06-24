@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { MdClose } from "react-icons/md";
 import Loader from "../../loader";
 import { useSelector, shallowEqual } from "react-redux";
-import ReactTooltip from "react-tooltip";
+import { FaBars } from "react-icons/fa";
 
-function Sidebar({ name, page, sideBarToggled, isHide, setIsHide }) {
+function Sidebar({ name }) {
   const router = useRouter();
   const [links, setLinks] = useState([]);
-  const isHidden = sideBarToggled ? "hidden" : "";
   const role = name.toLowerCase() === "user" ? "tenant" : name.toLowerCase();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -32,94 +30,92 @@ function Sidebar({ name, page, sideBarToggled, isHide, setIsHide }) {
   return (
     <>
       {isLoading && <Loader overlay={true} />}
-      <div
-        className={`sm:relative absolute ${
-          isHide && "hidden"
-        } bg-white flex flex-col transition-all duration-500 ease h-screen  z-40 ${
-          sideBarToggled ? "w-16" : "w-64"
-        }`}
-        style={{ minWidth: sideBarToggled ? "64px" : "256px" }}
-      >
-        {/**logo */}
-        <div className="sticky top-0 bg-white z-40">
-          <Link href={`/`}>
-            <a
-              className="flex items-center justify-center py-2 px-4 bg-white"
-              style={{ height: "52px" }}
-              data-tip={sideBarToggled ? "Home" : "Home"}
-            >
+      <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6">
+        <div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
+          <button
+            className="cursor-pointer text-black opacity-50 md:hidden px-3 py-1 text-xl leading-none bg-transparent rounded border border-solid border-transparent"
+            type="button"
+          >
+            <FaBars />
+          </button>
+          <Link href="/">
+            <a className="md:block text-left text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold px-0">
               <img
                 src={website?.logo || "/images/website/no_photo.png"}
                 alt="logo"
-                style={{ padding: "10px" }}
                 className="h-20 w-20 object-contain"
               />
             </a>
           </Link>
-          {/**dashboard name */}
-          <div
-            className={`flex items-center justify-center text-center text-gray-100 overflow-y-auto uppercase ${
-              sideBarToggled ? "" : "text-xs"
-            } `}
-            style={{
-              backgroundColor: "var(--blue)",
-              fontFamily: "Opensans-bold",
-              fontSize: sideBarToggled && "8px",
-              lineHeight: sideBarToggled && "8px",
-              minHeight: "32px",
-              height: "32px",
-            }}
-          >{`${name} ${page}`}</div>
-        </div>
 
-        {/**render navigation */}
-        <nav>
-          <ul style={{ fontFamily: "Opensans-semi-bold" }}>
-            {links?.length > 0 &&
-              links.map((link, i) => (
-                <li key={i} className="relative">
-                  <Link href={link?.href || "/"}>
-                    <a
-                      className="flex items-center py-3 px-5 border-gray-200 text-gray-500"
-                      style={{
-                        borderBottomWidth: "1px",
-                      }}
-                      data-tip={sideBarToggled ? link.label : ""}
-                    >
-                      <ReactTooltip />
-                      <span
-                        className={`${
-                          router.route === link?.href && "filter brightness-0"
-                        }`}
-                      >
-                        {link?.icon}
-                      </span>
-                      <span
-                        className={`ml-2 ${isHidden} ${
-                          router.route === link?.href && "filter brightness-0"
-                        }`}
-                      >
-                        {link?.label}
-                      </span>
-                    </a>
-                  </Link>
-                  {router.route === link?.href && (
-                    <span
-                      className="absolute w-1 h-full bottom-0"
-                      style={{ backgroundColor: "var(--orange)" }}
-                    ></span>
-                  )}
-                </li>
-              ))}
-          </ul>
-          <span
-            onClick={() => setIsHide(true)}
-            className="sm:hidden inline-block cursor-pointer m-4 p-2 text-white bg-red-400 rounded-full"
-          >
-            <MdClose />
-          </span>
-        </nav>
-      </div>
+          <div className="md:flex md:flex-col md:items-stretch md:opacity-100 md:relative md:shadow-none shadow absolute top-0 left-0 right-0 z-40 overflow-y-auto overflow-x-hidden h-auto items-center flex-1 rounded hidden">
+            <div className="md:min-w-full md:hidden block pb-4 mb-4 border-b border-solid border-blueGray-200">
+              <div className="flex flex-wrap">
+                <div className="w-6/12">
+                  <a
+                    className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
+                    href="#/"
+                  >
+                    Rent a Roof
+                  </a>
+                </div>
+                <div className="w-6/12 flex justify-end">
+                  <button
+                    type="button"
+                    className="cursor-pointer text-black opacity-50 md:hidden px-3 py-1 text-xl leading-none bg-transparent rounded border border-solid border-transparent"
+                  >
+                    <i className="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <form className="mt-6 mb-4 md:hidden">
+              <div className="mb-3 pt-0">
+                <input
+                  type="text"
+                  placeholder="Search"
+                  className="border-0 px-3 py-2 h-12 border border-solid border-blueGray-500 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-base leading-snug shadow-none outline-none focus:outline-none w-full font-normal"
+                />
+              </div>
+            </form>
+            <hr className="my-4 md:min-w-full" />
+            {links?.length > 0 ? (
+              links.map((link, index) => (
+                <div key={index}>
+                  <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
+                    {link?.label}
+                  </h6>
+                  <ul className="md:flex-col md:min-w-full flex flex-col list-none">
+                    {link?.navs?.length > 0 ? (
+                      link.navs.map((nav, i) => (
+                        <li className="items-center" key={i}>
+                          <Link href={nav?.href}>
+                            <a
+                              className={`text-xs uppercase flex items-center py-3 font-bold block ${
+                                router.route === nav?.href
+                                  ? "text-lightBlue-500 hover:text-lightBlue-600"
+                                  : "text-blueGray-700 hover:text-blueGray-500"
+                              } `}
+                            >
+                              {nav.icon}
+                              {nav.title || ""}
+                            </a>
+                          </Link>
+                        </li>
+                      ))
+                    ) : (
+                      <></>
+                    )}
+                  </ul>
+                  <hr className="my-4 md:min-w-full" />
+                </div>
+              ))
+            ) : (
+              <></>
+            )}
+          </div>
+        </div>
+      </nav>
     </>
   );
 }
