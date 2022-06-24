@@ -91,7 +91,7 @@ function UIRenderer({ UI, role, page }) {
       {/**sider bar */}
       <Sidebar
         name={role}
-        page={page}
+        user={user}
         sideBarToggled={sideBarToggled}
         isHide={isHide}
         setIsHide={setIsHide}

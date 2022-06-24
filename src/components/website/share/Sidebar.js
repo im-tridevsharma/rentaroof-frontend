@@ -3,9 +3,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Loader from "../../loader";
 import { useSelector, shallowEqual } from "react-redux";
-import { FaBars } from "react-icons/fa";
+import { FaBars, FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
 
-function Sidebar({ name }) {
+function Sidebar({ name, user }) {
   const router = useRouter();
   const [links, setLinks] = useState([]);
   const role = name.toLowerCase() === "user" ? "tenant" : name.toLowerCase();
@@ -39,12 +39,31 @@ function Sidebar({ name }) {
             <FaBars />
           </button>
           <Link href="/">
-            <a className="md:block text-left text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold px-0">
+            <a className="text-left text-blueGray-600 mr-0 flex whitespace-nowrap text-sm uppercase font-bold px-0">
               <img
-                src={website?.logo || "/images/website/no_photo.png"}
+                src={user?.profile_pic}
                 alt="logo"
-                className="h-20 w-20 object-contain"
+                className="h-10 w-10 rounded-full object-contain"
               />
+              <p className="flex flex-col ml-2">
+                <b>
+                  {user?.first} {user?.last}
+                </b>
+                <span
+                  style={{ fontSize: "10px" }}
+                  className="flex items-center"
+                >
+                  {user?.role}
+                  {user?.account_status === "activated" ? (
+                    <FaCheckCircle className="ml-2 text-green-400" size={16} />
+                  ) : (
+                    <FaExclamationCircle
+                      className="ml-2 text-red-400"
+                      size={16}
+                    />
+                  )}
+                </span>
+              </p>
             </a>
           </Link>
 
