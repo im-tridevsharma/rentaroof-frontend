@@ -3,7 +3,7 @@ import React from "react";
 function Card({ color, icon, label, value, onClick, state, current, col = 3 }) {
   return (
     <div
-      className={`w-full transform transition-all duration-100 ease-in-out lg:w-6/12 xl:w-${col}/12 px-4 ${
+      className={`w-full transform transition-all duration-100 ease-in-out lg:w-${col}/12 xl:w-${col}/12 px-4 ${
         state && state === current ? "scale-110" : ""
       }`}
     >
