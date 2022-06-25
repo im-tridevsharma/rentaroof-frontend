@@ -67,6 +67,18 @@
   --tw-text-opacity: 1;
   color: rgba(14, 165, 233, var(--tw-text-opacity));
 }
+@media (min-width: 1280px){
+.xl\:w-3\/12 {
+  width: 25%;
+}
+  @media (min-width: 1024px) {
+.lg\:w-6\/12 {
+  width: 50%;
+}
+@media (min-width: 1280px){
+.xl\:w-4\/12 {
+  width: 33.333333%;
+}
 .bg-lightBlue-600 {
   --tw-bg-opacity: 1;
   background-color: rgba(2, 132, 199, var(--tw-bg-opacity));
