@@ -12,6 +12,7 @@ import {
 import Card from "../../Card";
 import moment from "moment";
 import { shallowEqual, useSelector } from "react-redux";
+import { FiActivity, FiAlertCircle, FiCheckCircle } from "react-icons/fi";
 
 function PaymentUI() {
   const [user, setUser] = React.useState(false);
@@ -152,66 +153,45 @@ function PaymentUI() {
   return (
     <>
       {isLoading && <Loader />}
-      <div className="relative md:w-full w-screen p-5 shadow-sm border-2 border-gray-200 bg-white rounded-md">
-        {/**left line */}
-        <span
-          className="absolute left-0 w-1 top-1 rounded-lg"
-          style={{ backgroundColor: "var(--blue)", height: "98%" }}
-        ></span>
-
-        <div className="grid grid-cols-1 space-y-3 md:grid-cols-3 md:space-x-3 md:space-y-0">
-          <Card
-            label="Total Points"
-            icon={
-              <img
-                src="/icons/user-dashboard/redem.png"
-                style={{ maxWidth: "32px", width: "32px", height: "32px" }}
-                className="object-contain"
-                alt="icon"
+      <div className="relative bg-lightBlue-600 pb-8">
+        <div className="mx-auto w-full">
+          <div>
+            <div className="flex flex-wrap">
+              <Card
+                col={4}
+                label="Total Points"
+                icon={<FiActivity />}
+                value={points}
+                color="red"
               />
-            }
-            count={points}
-            color="white"
-            textcolor="gray"
-          />
-          <Card
-            label="Successful Payment"
-            icon={
-              <img
-                src="/icons/user-dashboard/paid.png"
-                style={{ maxWidth: "32px", width: "32px", height: "32px" }}
-                className="object-contain"
-                alt="icon"
+              <Card
+                col={4}
+                label="Successful Payment"
+                icon={<FiCheckCircle />}
+                value={new Intl.NumberFormat("en-IN", {
+                  style: "currency",
+                  currency: "INR",
+                }).format(totalPaid)}
+                color="green"
               />
-            }
-            count={new Intl.NumberFormat("en-IN", {
-              style: "currency",
-              currency: "INR",
-            }).format(totalPaid)}
-            color="white"
-            textcolor="rgb(6, 226, 209)"
-          />
-          <Card
-            label="Pending Payment"
-            icon={
-              <img
-                src="/icons/user-dashboard/paid.png"
-                style={{ maxWidth: "32px", width: "32px", height: "32px" }}
-                className="object-contain"
-                alt="icon"
+              <Card
+                col={4}
+                label="Pending Payment"
+                icon={<FiAlertCircle />}
+                value={new Intl.NumberFormat("en-IN", {
+                  style: "currency",
+                  currency: "INR",
+                }).format(totalPending)}
+                color="red"
               />
-            }
-            count={new Intl.NumberFormat("en-IN", {
-              style: "currency",
-              currency: "INR",
-            }).format(totalPending)}
-            color="lightred"
-            textcolor="#ff000080"
-          />
+            </div>
+          </div>
         </div>
+      </div>
 
+      <div className="relative p-5 mx-4 shadow-sm bg-white rounded-md">
         <div
-          className="flex items-center mt-5 md:w-full w-screen overflow-x-auto"
+          className="flex items-center md:w-full w-screen overflow-x-auto"
           style={{ fontFamily: "Opensans-bold" }}
         >
           <button

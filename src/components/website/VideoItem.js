@@ -34,7 +34,7 @@ function VideoItem({ video, onClick }) {
         </p>
         <Link href="/">
           <a
-            style={{ color: "var(--blue)", fontFamily: "Opensans-semi-bold" }}
+            style={{ fontFamily: "Opensans-semi-bold" }}
             className="mt-1 inline-block "
           >
             Learn More{" "}

@@ -15,7 +15,7 @@ function Properties() {
         <title>Properties</title>
       </Head>
       <div>
-        <UIRenderer UI={PropertiesUI} role="User" page="Properties" />
+        <UIRenderer UI={PropertiesUI} role="User" page="Manage Visit" />
       </div>
     </>
   ) : (

@@ -5,28 +5,12 @@ import ReactTooltip from "react-tooltip";
 export default function Pdfs({ bgcolor, pdfs, title }) {
   return (
     <div className="flex flex-col rounded overflow-hidden mt-5 w-full">
-      <div
-        className="px-3 py-2 text-white flex items-center justify-between"
-        style={{ backgroundColor: bgcolor }}
-      >
-        <p className="uppercase" style={{ fontFamily: "Opensans-semi-bold" }}>
+      <div className="py-2 text-white flex items-center justify-between">
+        <h6 className="uppercase" style={{ fontFamily: "Opensans-semi-bold" }}>
           {title}
-        </p>
-        <Link href="/">
-          <a
-            style={{ fontFamily: "Opensans-semi-bold" }}
-            className="inline-block capitalize text-2xs"
-          >
-            Learn More{" "}
-            <img
-              src="/icons/ibo_icons/icon18.png"
-              alt="arrow"
-              className="inline w-2 h-2 object-contain"
-            />
-          </a>
-        </Link>
+        </h6>
       </div>
-      <div className="flex flex-col px-2 max-h-80 h-full overflow-x-hidden overscroll-auto">
+      <div className="flex bg-white rounded-md flex-col px-2 max-h-80 h-full overflow-x-hidden overscroll-auto">
         {pdfs?.length > 0 ? (
           pdfs.map((pdf, i) => (
             <div className="flex my-2 items-center" key={i}>

@@ -105,17 +105,16 @@ function ComplainManagementUI() {
   return (
     <>
       {isLoading && <Loader />}
-      <div className="flex flex-col">
+      <div className="flex flex-col px-4">
         {/**form to add complain */}
         <div
-          className="w-full shadow-sm border-gray-200 bg-white rounded-md overflow-hidden"
+          className="w-full shadow-sm bg-white rounded-md overflow-hidden"
           style={{ borderWidth: "1px", fontFamily: "Opensans-regular" }}
         >
           {/**title */}
           <p
-            className="text-center p-3 text-white"
+            className="text-center p-3 text-gray-800"
             style={{
-              backgroundColor: "var(--blue)",
               fontFamily: "Opensans-semi-bold",
               fontSize: "1rem",
             }}
@@ -197,7 +196,7 @@ function ComplainManagementUI() {
               <button
                 className="px-4 py-3 mt-2 rounded-sm text-white"
                 style={{
-                  backgroundColor: "var(--orange)",
+                  backgroundColor: "var(--blue)",
                   fontFamily: "Opensans-bold",
                 }}
                 type="submit"

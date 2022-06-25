@@ -168,37 +168,56 @@ function PropertiesUI() {
       {isLoading && <Loader />}
       <div className="flex flex-col">
         {/**cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3 space-y-3 md:space-y-0">
-          <Card
-            label="Total properties posted"
-            count={total}
-            color="var(--orange)"
-            textcolor="white"
-            icon={
-              <img src="/icons/owner_dashboard/icon1.png" alt="properties" />
-            }
-            onClick={() => setCardMode("posted")}
-          />
-          <Card
-            label="Total rented properties"
-            count={agreements?.length}
-            color="white"
-            textcolor="gray"
-            icon={<img src="/icons/owner_dashboard/icon2.png" alt="rented" />}
-            onClick={() => setCardMode("rented")}
-          />
-          <Card
-            label="Total visited properties"
-            count={visitedProperties?.length}
-            color="white"
-            textcolor="gray"
-            icon={<img src="/icons/owner_dashboard/icon3.png" alt="visited" />}
-            onClick={() => setCardMode("visited")}
-          />
+        <div className="relative bg-lightBlue-600 pb-8">
+          <div className="mx-auto w-full">
+            <div>
+              <div className="flex flex-wrap">
+                <Card
+                  col={4}
+                  label="Total properties posted"
+                  value={total}
+                  color="red"
+                  icon={
+                    <img
+                      src="/icons/owner_dashboard/icon1.png"
+                      alt="properties"
+                    />
+                  }
+                  state="posted"
+                  current={cardMode}
+                  onClick={() => setCardMode("posted")}
+                />
+                <Card
+                  col={4}
+                  label="Total rented properties"
+                  value={agreements?.length}
+                  color="white"
+                  icon={
+                    <img src="/icons/owner_dashboard/icon2.png" alt="rented" />
+                  }
+                  state="rented"
+                  current={cardMode}
+                  onClick={() => setCardMode("rented")}
+                />
+                <Card
+                  col={4}
+                  label="Total visited properties"
+                  value={visitedProperties?.length || 0}
+                  color="white"
+                  state="visited"
+                  current={cardMode}
+                  icon={
+                    <img src="/icons/owner_dashboard/icon3.png" alt="visited" />
+                  }
+                  onClick={() => setCardMode("visited")}
+                />
+              </div>
+            </div>
+          </div>
         </div>
         {isNewAdded && (
           <div
-            className="my-2 p-2 rounded-md bg-white flex items-center justify-between shadow-md"
+            className="my-2 p-2 px-4 rounded-md bg-white flex items-center justify-between shadow-md"
             style={{
               fontFamily: "Opensans-bold",
             }}

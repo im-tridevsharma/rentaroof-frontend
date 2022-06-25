@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import router from "next/router";
 import Link from "next/link";
 import Card from "../../Card";
-import { BsStarFill } from "react-icons/bs";
 import { MdClose } from "react-icons/md";
+import { FaHeart, FaWalking, FaSearch } from "react-icons/fa";
 import Loader from "../../../loader";
 import {
   deleteUserSavedProperties,
@@ -92,59 +92,50 @@ function PropertiesUI() {
   return (
     <>
       {isLoading && <Loader />}
-      <div className="flex flex-col">
+      <div className="flex flex-col px-4">
         {/**cards */}
-        <div className="grid grid-cols-1 space-y-3 md:grid-cols-3 md:space-x-3 md:space-y-0">
-          <Card
-            label="Visited Properties"
-            icon={
-              <img
-                src="/icons/user-dashboard/user_icon5.png"
-                style={{ maxWidth: "32px", width: "32px", height: "32px" }}
-                className="object-contain"
-                alt="icon"
-              />
-            }
-            onClick={() => setTabMode("visited")}
-            count={visitedProperties?.length}
-            color="var(--orange)"
-            textcolor="white"
-          />
-          <Card
-            label="Saved Searches"
-            onClick={() => setTabMode("saved")}
-            icon={
-              <img
-                src="/icons/user-dashboard/search-icon.png"
-                style={{ maxWidth: "32px", width: "32px", height: "32px" }}
-                className="object-contain brightness-0 filter"
-                alt="icon"
-              />
-            }
-            count={savedProperties?.length}
-            color="white"
-            textcolor="gray"
-          />
-          <Card
-            label="Shortlisted Properties"
-            onClick={() => setTabMode("favorite")}
-            icon={
-              <img
-                src="/icons/user-dashboard/favorite.png"
-                style={{ maxWidth: "32px", width: "32px", height: "32px" }}
-                className="object-contain"
-                alt="icon"
-              />
-            }
-            count={favoriteProperties?.length}
-            color="white"
-            textcolor="gray"
-          />
+        <div className="relative bg-lightBlue-600 pb-8">
+          <div className="mx-auto w-full">
+            <div className="-mx-4">
+              <div className="flex flex-wrap">
+                <Card
+                  col={4}
+                  label="Visited Properties"
+                  icon={<FaWalking />}
+                  onClick={() => setTabMode("visited")}
+                  value={visitedProperties?.length}
+                  state="visited"
+                  current={tabMode}
+                  color="yellow"
+                />
+                <Card
+                  col={4}
+                  label="Saved Searches"
+                  onClick={() => setTabMode("saved")}
+                  icon={<FaSearch />}
+                  state="saved"
+                  current={tabMode}
+                  value={savedProperties?.length}
+                  color="green"
+                />
+                <Card
+                  col={4}
+                  label="Shortlisted Properties"
+                  onClick={() => setTabMode("favorite")}
+                  icon={<FaHeart />}
+                  state="favorite"
+                  current={tabMode}
+                  value={favoriteProperties?.length}
+                  color="red"
+                />
+              </div>
+            </div>
+          </div>
         </div>
 
         {/**visited properties */}
         {tabMode === "visited" && (
-          <div className="flex flex-col mt-5 p-5 bg-white rounded-md border-2 border-gray-200">
+          <div className="flex flex-col  p-5 bg-white rounded-md ">
             <p
               className="flex items-center justify-between"
               style={{ fontFamily: "Opensans-semi-bold" }}
@@ -207,12 +198,6 @@ function PropertiesUI() {
                         </span>
                       </div>
                     </div>
-                    <span className="flex items-center text-lg">
-                      <span className="m-1" style={{ color: "var(--blue)" }}>
-                        {p?.rating}
-                      </span>
-                      <BsStarFill color="orange" />
-                    </span>
                   </div>
                 ))
               ) : (
@@ -223,7 +208,7 @@ function PropertiesUI() {
         )}
         {/**saved properties */}
         {tabMode === "saved" && (
-          <div className="flex flex-col mt-5 p-5 bg-white rounded-md border-2 border-gray-200">
+          <div className="flex flex-col  p-5 bg-white rounded-md ">
             <p
               className="flex items-center justify-between"
               style={{ fontFamily: "Opensans-semi-bold" }}
@@ -279,12 +264,6 @@ function PropertiesUI() {
                         {p?.property_short_description}
                       </p>
                     </div>
-                    <span className="flex items-center text-lg">
-                      <span className="m-1" style={{ color: "var(--blue)" }}>
-                        {p?.rating}
-                      </span>
-                      <BsStarFill color="orange" />
-                    </span>
                   </div>
                 ))
               ) : (
@@ -295,7 +274,7 @@ function PropertiesUI() {
         )}
         {/**favorite properties */}
         {tabMode === "favorite" && (
-          <div className="flex flex-col mt-5 p-5 bg-white rounded-md border-2 border-gray-200">
+          <div className="flex flex-col  p-5 bg-white rounded-md ">
             <p
               className="flex items-center justify-between"
               style={{ fontFamily: "Opensans-semi-bold" }}
@@ -351,12 +330,6 @@ function PropertiesUI() {
                         {p?.property_short_description}
                       </p>
                     </div>
-                    <span className="flex items-center text-lg">
-                      <span className="m-1" style={{ color: "var(--blue)" }}>
-                        {p?.rating}
-                      </span>
-                      <BsStarFill color="orange" />
-                    </span>
                   </div>
                 ))
               ) : (

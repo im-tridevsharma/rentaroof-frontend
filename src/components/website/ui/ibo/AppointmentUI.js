@@ -241,35 +241,53 @@ function AppointmentUI() {
       {isLoading && <Loader />}
       <div className="flex flex-col relative">
         {/**cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
-          <Card
-            label="Today's Appointment"
-            count={todayAppointment?.length}
-            color="var(--orange)"
-            textcolor="white"
-            icon={<img src="/icons/ibo_icons/icon20.png" alt="appointment" />}
-            onClick={() => setCardMode("today")}
-          />
-          <Card
-            label="Upcoming Appointment"
-            count={upcomingAppointments?.length}
-            color="white"
-            textcolor="gray"
-            icon={<img src="/icons/ibo_icons/icon21.png" alt="appointment" />}
-            onClick={() => setCardMode("upcoming")}
-          />
-          <Card
-            label="Appointment History"
-            count={appointmentHistory?.length}
-            color="white"
-            textcolor="gray"
-            icon={<img src="/icons/ibo_icons/icon22.png" alt="appointment" />}
-            onClick={() => setCardMode("history")}
-          />
+        <div className="relative bg-lightBlue-600 pb-8">
+          <div className="mx-auto w-full">
+            <div>
+              <div className="flex flex-wrap">
+                <Card
+                  col={4}
+                  label="Today's Appointment"
+                  value={todayAppointment?.length}
+                  color="green"
+                  current={cardMode}
+                  state="today"
+                  icon={
+                    <img src="/icons/ibo_icons/icon20.png" alt="appointment" />
+                  }
+                  onClick={() => setCardMode("today")}
+                />
+                <Card
+                  col={4}
+                  label="Upcoming Appointment"
+                  value={upcomingAppointments?.length}
+                  color="white"
+                  current={cardMode}
+                  state="upcoming"
+                  icon={
+                    <img src="/icons/ibo_icons/icon21.png" alt="appointment" />
+                  }
+                  onClick={() => setCardMode("upcoming")}
+                />
+                <Card
+                  col={4}
+                  label="Appointment History"
+                  value={appointmentHistory?.length}
+                  color="white"
+                  current={cardMode}
+                  state="history"
+                  icon={
+                    <img src="/icons/ibo_icons/icon22.png" alt="appointment" />
+                  }
+                  onClick={() => setCardMode("history")}
+                />
+              </div>
+            </div>
+          </div>
         </div>
         {/*appointment */}
         {cardMode === "today" && (
-          <div className="flex flex-col mt-5 bg-white border-gray-200 border-2 rounded">
+          <div className="flex flex-col mt-5 mx-4 bg-white   rounded">
             <h5
               className="uppercase px-3 py-2"
               style={{ fontFamily: "Opensans-bold", fontSize: ".9rem" }}
@@ -534,7 +552,7 @@ function AppointmentUI() {
           </div>
         )}
         {cardMode === "upcoming" && (
-          <div className="flex flex-col mt-5 bg-white border-gray-200 border-2 rounded">
+          <div className="flex flex-col mt-5 mx-4 bg-white   rounded">
             <h5
               className="uppercase px-3 py-2"
               style={{ fontFamily: "Opensans-bold", fontSize: ".9rem" }}
@@ -680,7 +698,7 @@ function AppointmentUI() {
         )}
 
         {cardMode === "history" && (
-          <div className="flex flex-col mt-5 bg-white border-gray-200 border-2 rounded">
+          <div className="flex flex-col mt-5 mx-4 bg-white   rounded">
             <h5
               className="uppercase px-3 py-2"
               style={{ fontFamily: "Opensans-bold", fontSize: ".9rem" }}

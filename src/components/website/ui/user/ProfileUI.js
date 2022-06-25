@@ -332,12 +332,7 @@ function ProfileUI() {
   return (
     <>
       {isLoading && <Loader />}
-      <div className="relative p-5 shadow-sm border-2 border-gray-200 bg-white rounded-md">
-        {/**left line */}
-        <span
-          className="absolute left-0 w-1 top-1 rounded-lg"
-          style={{ backgroundColor: "var(--blue)", height: "98%" }}
-        ></span>
+      <div className="relative p-5 shadow-sm mx-4 bg-white rounded-md">
         <form
           name="profile"
           method="POST"

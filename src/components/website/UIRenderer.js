@@ -17,8 +17,6 @@ function UIRenderer({ UI, role, page }) {
   const [isHide, setIsHide] = useState(false);
   const [user, setUser] = useState({});
   const [notifications, setNotifications] = useState([]);
-  const [make, setMake] = useState(false);
-  const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSos, setIsSos] = useState(false);
 
@@ -28,12 +26,6 @@ function UIRenderer({ UI, role, page }) {
     if (data) {
       setUser(data);
     }
-    const fetchUsers = async () => {
-      const res = await getUsersForChat();
-      if (res?.status) {
-        setUsers(res?.data);
-      }
-    };
 
     const fetchNotifications = async () => {
       const res = await getUnseenNotification(data?.role);
@@ -53,8 +45,7 @@ function UIRenderer({ UI, role, page }) {
 
     fetchNotifications();
     _isSos();
-    make && fetchUsers();
-  }, [make]);
+  }, []);
 
   const handleSOS = () => {
     setIsLoading(true);
@@ -110,7 +101,7 @@ function UIRenderer({ UI, role, page }) {
           setNotifications={setNotifications}
         />
         {/**main content */}
-        <div className="w-full relative bg-gray-50 md:p-4">
+        <div className="relative bg-lightBlue-600 md:pt-32 pb-32 pt-12 px-4">
           <UI />
         </div>
         {user && ["ibo", "tenant"].includes(user.role) && isSos === "yes" && (

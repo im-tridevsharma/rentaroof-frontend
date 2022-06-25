@@ -51,7 +51,10 @@ function ChatUI() {
           setIsMsgLoading(false);
           setMessages(res?.data);
           messageBoxRef.current &&
-            messageBoxRef.current.scrollIntoView({ behavior: "smooth" });
+            messageBoxRef.current.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
         } else {
           toast.error(res?.error || res?.message);
           setIsMsgLoading(false);
@@ -124,7 +127,10 @@ function ChatUI() {
 
   useEffect(() => {
     messageBoxRef.current &&
-      messageBoxRef.current.scrollIntoView({ behavior: "smooth" });
+      messageBoxRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
 
     const u = localStorage.getItem("LU")
       ? JSON.parse(__d(localStorage.getItem("LU")))
@@ -263,7 +269,10 @@ function ChatUI() {
               )
             );
             messageBoxRef.current &&
-              messageBoxRef.current.scrollIntoView({ behavior: "smooth" });
+              messageBoxRef.current.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
           })
           .listen("DealUpdated", (e) => console.log(e))
           .listenForWhisper("typing", (user) => {
@@ -331,7 +340,10 @@ function ChatUI() {
     const res = await sendMessage(message);
     if (res?.status) {
       messageBoxRef.current &&
-        messageBoxRef.current.scrollIntoView({ behavior: "smooth" });
+        messageBoxRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
     } else {
       toast.error(res.message);
     }
@@ -341,16 +353,14 @@ function ChatUI() {
     <>
       {isLoading && <Loader />}
       <div
-        className="flex shadow-sm border-gray-300 bg-white"
+        className="flex shadow-sm mx-4 h-128 overflow-hidden rounded-md bg-white"
         style={{
-          borderWidth: "1px",
-          height: "545px",
           fontFamily: "Opensans-regular",
         }}
       >
         {/**left side user list */}
         <div
-          className={`flex flex-col md:max-w-xs md:w-full w-screen ${
+          className={`flex flex-col h-128 overflow-hidden md:max-w-xs md:w-full w-screen ${
             selectedUser && "hidden md:block"
           }`}
         >
@@ -406,7 +416,7 @@ function ChatUI() {
         </div>
         {/**right side chats */}
         <div
-          className={`border-gray-300 p-2 w-full bg-gray-50 ${
+          className={`border-gray-300 h-128 overflow-hidden p-2 w-full bg-gray-50 ${
             !selectedUser && "hidden md:block"
           }`}
           style={{ borderLeftWidth: "1px" }}
@@ -414,7 +424,7 @@ function ChatUI() {
           {selectedUser ? (
             <>
               <div
-                className="p-2 bg-white rounded-sm border-gray-200 flex items-center justify-between"
+                className="p-2 bg-white rounded-sm sticky top-0 z-50 border-gray-200 flex items-center justify-between"
                 style={{ borderWidth: "1px" }}
               >
                 <div className="flex items-center">
@@ -600,13 +610,7 @@ function ChatUI() {
                           <Picker onEmojiClick={onEmojiClick} />
                         </div>
                       )}
-                      <img
-                        src="/icons/user-dashboard/attachment.png"
-                        alt="attachment"
-                        className="ml-2 w-5 h-5 object-contain cursor-pointer"
-                        style={{ maxWidth: "20px" }}
-                        data-tip="Send Media"
-                      />
+
                       {isDeal?.id && (
                         <>
                           <MdLocalOffer

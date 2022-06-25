@@ -68,15 +68,15 @@ function HowToUseUI() {
           ></video>
         </div>
       )}
-      <div className="flex flex-col justify-center">
+      <div className="flex flex-col justify-center px-4">
         {/**videos */}
         <h6
-          className=" text-gray-800"
+          className=" text-white"
           style={{ fontFamily: "Opensans-semi-bold" }}
         >
           How to Use Videos
         </h6>
-        <div className="mt-3 block">
+        <div className="mt-3 block bg-white p-3 rounded-md">
           {videos?.length > 0 ? (
             videos.map((v, i) => (
               <VideoItem key={i} video={v} onClick={setSelectedVideo} />
@@ -88,18 +88,15 @@ function HowToUseUI() {
         {/**pdf files */}
         <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-2 mt-5">
           <div className="flex flex-col rounded overflow-hidden mt-5 w-full">
-            <div
-              className="px-3 py-2 text-white flex items-center justify-between"
-              style={{ backgroundColor: "var(--blue)" }}
-            >
-              <p
+            <div className="py-2 text-white flex items-center justify-between">
+              <h6
                 className="uppercase"
                 style={{ fontFamily: "Opensans-semi-bold" }}
               >
                 FAQs
-              </p>
+              </h6>
             </div>
-            <div className="flex flex-col px-2 max-h-80 h-full overflow-x-hidden overscroll-auto">
+            <div className="flex flex-col bg-white rounded-md px-2 max-h-80 h-full overflow-x-hidden overscroll-auto">
               {faqs?.length > 0 ? (
                 faqs.map((faq, i) => (
                   <div key={i} className="py-3">

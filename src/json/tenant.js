@@ -6,6 +6,7 @@ import {
   FaShareSquare,
   FaStopwatch,
   FaTv,
+  FaUserAlt,
 } from "react-icons/fa";
 
 const links = [
@@ -36,6 +37,11 @@ const links = [
         icon: <FaGlobe className="mr-2 text-sm opacity-75" size={20} />,
         title: "How to use/Faq",
         href: "/tenant/how_to_use",
+      },
+      {
+        icon: <FaUserAlt className="mr-2 text-sm opacity-75" size={20} />,
+        title: "Manage Profile",
+        href: "/tenant/profile",
       },
       {
         icon: <FaShareSquare className="mr-2 text-sm opacity-75" size={20} />,

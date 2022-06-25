@@ -59,13 +59,7 @@ function ReferAndEarnUI() {
     <>
       {isLoading && <Loader />}
       <ToastContainer />
-      <div className="relative flex flex-col items-center justify-center p-5 shadow-sm border-2 border-gray-200 bg-white rounded-md">
-        {/**left line */}
-        <span
-          className="absolute left-0 w-1 top-1 rounded-lg"
-          style={{ backgroundColor: "var(--blue)", height: "98%" }}
-        ></span>
-
+      <div className="relative flex flex-col items-center justify-center p-5 shadow-sm mx-4 bg-white rounded-md">
         <h4 style={{ fontFamily: "Opensans-bold" }}>
           User ID - {user?.system_userid}
         </h4>

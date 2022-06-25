@@ -1,7 +1,6 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { getUserSavedProperties } from "../../../../lib/frontend/auth";
-import DonoughtChart from "../../../charts/doughnut";
 import Review from "../../Review";
 import Loader from "../../../loader";
 import { __d } from "../../../../server";
@@ -9,21 +8,28 @@ import {
   getAgreements,
   getRecentTransactions,
   getUserRating,
+  getVisitedProperties,
 } from "../../../../lib/frontend/share";
-import { FaTimes } from "react-icons/fa";
+import {
+  FaBuilding,
+  FaHeart,
+  FaMoneyBillAlt,
+  FaTimes,
+  FaWalking,
+} from "react-icons/fa";
 import ReactTooltip from "react-tooltip";
+import Card from "../../Card";
 
 function DashboardUI() {
   const [visitedProperties, setVisitedProperties] = useState([]);
   const [favoriteProperties, setFavoriteProperties] = useState([]);
-  const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [reviews, setReviews] = useState([]);
-  const [user, setUser] = useState(false);
   const [viewMore, setViewMore] = useState(false);
   const [agreements, setAgreements] = useState([]);
   const [randomP, setRandomP] = useState({});
   const [recentTransaction, setRecentTransaction] = useState([]);
+  const [paidAmount, setPaidAmount] = useState(0);
 
   useEffect(() => {
     setIsLoading(true);
@@ -32,14 +38,15 @@ function DashboardUI() {
       : false;
     if (u) {
       (async () => {
+        const res = await getVisitedProperties();
+        if (res?.status) {
+          setVisitedProperties(res?.data);
+        }
         const response = await getUserSavedProperties(u.id);
         if (response?.status) {
           setIsLoading(false);
-          setTotal(response?.data.length);
-          const visited = response?.data.filter((p) => p.type === "visited");
           const favorite = response?.data.filter((p) => p.type === "favorite");
           setFavoriteProperties(favorite);
-          setVisitedProperties(visited);
         } else {
           setIsLoading(false);
           console.error(response?.error || response?.message);
@@ -64,6 +71,7 @@ function DashboardUI() {
       if (res?.status) {
         setIsLoading(false);
         setRecentTransaction(res?.data);
+        setPaidAmount(res?.paid);
       } else {
         setIsLoading(false);
         console.log(res?.error || res?.message);
@@ -78,7 +86,6 @@ function DashboardUI() {
         ? JSON.parse(__d(localStorage.getItem("LU")))
         : false;
       if (u) {
-        setUser(u);
         const response = await getUserRating(u?.id);
         if (response?.status) {
           setIsLoading(false);
@@ -92,130 +99,51 @@ function DashboardUI() {
     getReviews();
   }, []);
 
-  const properties_graph = [
-    {
-      label: "Properties for rent",
-      count: agreements?.length,
-      icon: (
-        <img
-          src="/icons/user-dashboard/usericon2.png"
-          alt="rent"
-          className="w-10 h-10 object-contain"
-        />
-      ),
-      data: {
-        key: "properties_chart",
-        colors: ["rgb(5 79 138)", "#F3F3F3"],
-        hoverColors: ["rgb(5 79 138)", "#F3F3F3"],
-        labels: [],
-        values: [agreements?.length, 100],
-        fontcolor: "gray",
-        legend: false,
-        tooltip: false,
-      },
-    },
-    {
-      label: "Favorite Properties",
-      count: favoriteProperties?.length,
-      icon: (
-        <img
-          src="/icons/user-dashboard/favorite.png"
-          alt="favorite"
-          className="w-10 h-10 object-contain"
-        />
-      ),
-      data: {
-        key: "properties_chart",
-        colors: ["orange", "#F3F3F3"],
-        hoverColors: ["orange", "#F3F3F3"],
-        labels: [],
-        values: [favoriteProperties?.length, 100],
-        legend: false,
-        tooltip: false,
-      },
-      fontcolor: "gray",
-    },
-  ];
-
   return (
     <>
       {isLoading && <Loader />}
-      <div className="flex flex-col">
-        {/**total properties */}
-        <div
-          className="p-6 rounded-md text-white"
-          style={{
-            backgroundColor: "var(--orange)",
-            fontFamily: "Opensans-bold",
-          }}
-        >
-          <p>Total Properties Visited</p>
-          {/**graph */}
-          <div className="w-full h-2 bg-white rounded-lg mt-2 relative">
-            {/**visited count */}
-            <span
-              className="h-full rounded-lg absolute right-0 top-0"
-              style={{
-                backgroundColor: "var(--blue)",
-                width: (total / visitedProperties?.length) * 100,
-              }}
-            ></span>
+      <div className="relative bg-lightBlue-600 pb-8">
+        <div className="mx-auto w-full">
+          <div>
+            <div className="flex flex-wrap">
+              <Card
+                color="red"
+                label="Visited Properties"
+                value={visitedProperties?.length}
+                icon={<FaWalking />}
+              />
+              <Card
+                color="green"
+                label="Rented Properties"
+                value={agreements?.length}
+                icon={<FaBuilding />}
+              />
+              <Card
+                color="yellow"
+                label="Shortlisted"
+                value={favoriteProperties?.length}
+                icon={<FaHeart />}
+              />
+              <Card
+                color="red"
+                label="Paid Rent"
+                value={paidAmount}
+                icon={<FaMoneyBillAlt />}
+              />
+            </div>
           </div>
         </div>
+      </div>
 
-        {/**properties graph */}
-        <div className="grid grid-cols-1 space-y-5 md:space-y-0 md:grid-cols-2 md:space-x-2 mt-5 md:pr-2">
-          {properties_graph?.length &&
-            properties_graph.map((p, i) => (
-              <div
-                key={i}
-                className="w-full shadow-sm h-56 bg-white rounded-md border-2 border-gray-200 relative"
-              >
-                {/**sidebar line */}
-                <span
-                  className="absolute left-0 w-1 h-52 top-1 rounded-lg"
-                  style={{ backgroundColor: "var(--blue)" }}
-                ></span>
-                {/**data */}
-                <div className="flex flex-col p-5">
-                  <p
-                    className="text-gray-500"
-                    style={{ fontFamily: "Opensans-semi-bold" }}
-                  >
-                    {p?.label}
-                  </p>
-                  <div className="flex justify-between">
-                    <div
-                      className="flex flex-col text-gray-700 text-xl"
-                      style={{ fontFamily: "Opensans-bold" }}
-                    >
-                      <p className="mb-5">{p?.count}</p>
-                      {p?.icon}
-                    </div>
-                    {/**chart */}
-                    <div className="">
-                      <DonoughtChart height={170} chartdata={p?.data} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-        </div>
-
+      <div className="flex flex-col px-4">
         {/**other information */}
-        <div className="grid grid-cols-1 space-y-5 md:space-y-0 md:grid-cols-2 md:space-x-2 mt-5">
+        <div className="grid">
           {/**part1 */}
           <div className="flex flex-col">
             {/**current rental details */}
-            <div className="flex flex-col shadow-sm border-2 bg-white border-gray-200 rounded-md">
-              <p
-                className="px-3 py-2 text-white rounded-md m-1"
-                style={{
-                  backgroundColor: "var(--orange)",
-                  fontFamily: "Opensans-semi-bold",
-                }}
-              >
-                Current House Rented Details
+            <div className="flex flex-col bg-white rounded-md">
+              <p className="px-3 py-2" style={{ fontFamily: "Opensans-bold" }}>
+                Rented Houses
               </p>
               {agreements?.length > 0 ? (
                 <div
@@ -268,12 +196,8 @@ function DashboardUI() {
               )}
             </div>
             {/**recent transaction */}
-            <div className="w-full mt-5 shadow-sm h-56 bg-white rounded-md border-2 border-gray-200 relative">
-              {/**sidebar line */}
-              <span
-                className="absolute left-0 w-1 h-52 top-1 rounded-lg"
-                style={{ backgroundColor: "var(--blue)" }}
-              ></span>
+
+            <div className="w-full mt-5 shadow-sm  overflow-hidden bg-white rounded-md relative">
               <p style={{ fontFamily: "Opensans-bold" }} className="px-4 py-2">
                 Recent Transactions
               </p>
@@ -285,25 +209,26 @@ function DashboardUI() {
                 {recentTransaction?.length > 0 &&
                   recentTransaction.map((txn, i) => (
                     <div
-                      className="flex items-center justify-between py-2 px-3"
+                      className="flex items-center justify-between py-2 px-3 border-b bg-gray-50 border-gray-200"
                       key={i}
                     >
-                      <div className="flex">
-                        <img
-                          src="/icons/user-dashboard/money_icon_blck.png"
-                          alt="money"
-                        />
-                        <p
-                          className="ml-2 text-gray-600"
-                          data-tip={txn.message}
-                        >
-                          {txn?.amount} (paid: {txn?.paid}) (pending:{" "}
-                          {txn?.pending})
+                      <div className="ml-2 text-gray-600">
+                        <p>
+                          <b>Amount:</b> {txn?.amount}
+                        </p>
+                        <p>
+                          <span className="text-green-600">
+                            Paid: {txn?.paid}
+                          </span>{" "}
+                          /{" "}
+                          <span className="text-red-600">
+                            Pending: {txn?.pending}
+                          </span>
                         </p>
                         <ReactTooltip />
                       </div>
-                      <p className="text-3xs w-16 text-gray-600">
-                        {moment(txn?.created_at).format("h:Ma dddd")}
+                      <p className="text-xs w-16 text-gray-600">
+                        {moment(txn?.created_at).format("h:m A dddd")}
                       </p>
                     </div>
                   ))}
@@ -311,44 +236,47 @@ function DashboardUI() {
             </div>
           </div>
           {/**part2 */}
-          <div className="flex flex-col shadow-sm border-2 bg-white border-gray-200 rounded-md">
-            <p
-              className="px-3 py-2 text-white rounded-md m-1"
-              style={{
-                backgroundColor: "var(--blue)",
-                fontFamily: "Opensans-semi-bold",
-              }}
-            >
-              Ratings & Review
-            </p>
-            {reviews?.length > 0 ? (
-              <>
-                <div className="px-3 py-5">
-                  {[0, 1].map((_, i) => {
-                    if (reviews[i]) {
-                      return <Review key={i} rating={reviews[i]} />;
-                    }
-                  })}
-                </div>
-                <div className="text-center">
-                  <button
-                    style={{
-                      backgroundColor: "var(--orange)",
-                      fontFamily: "Opensans-bold",
-                    }}
-                    className="p-3 rounded-md text-white"
-                    onClick={() => setViewMore(true)}
-                  >
-                    See more reviews
-                  </button>
-                </div>
-              </>
-            ) : (
-              <p className="text-red-500 p-5">No reviews found!</p>
-            )}
-          </div>
+          {false && (
+            <div className="flex flex-col shadow-sm border-2 bg-white border-gray-200 rounded-md">
+              <p
+                className="px-3 py-2 text-white rounded-md m-1"
+                style={{
+                  backgroundColor: "var(--blue)",
+                  fontFamily: "Opensans-semi-bold",
+                }}
+              >
+                Ratings & Review
+              </p>
+              {reviews?.length > 0 ? (
+                <>
+                  <div className="px-3 py-5">
+                    {[0, 1].map((_, i) => {
+                      if (reviews[i]) {
+                        return <Review key={i} rating={reviews[i]} />;
+                      }
+                    })}
+                  </div>
+                  <div className="text-center">
+                    <button
+                      style={{
+                        backgroundColor: "var(--orange)",
+                        fontFamily: "Opensans-bold",
+                      }}
+                      className="p-3 rounded-md text-white"
+                      onClick={() => setViewMore(true)}
+                    >
+                      See more reviews
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <p className="text-red-500 p-5">No reviews found!</p>
+              )}
+            </div>
+          )}
         </div>
       </div>
+
       {viewMore && (
         <div className="fixed max-w-3xl w-full h-screen top-0 left-1/2 transform -translate-x-1/2 py-2 px-5 overflow-y-scroll rounded-md bg-white shadow-sm z-40">
           <h6

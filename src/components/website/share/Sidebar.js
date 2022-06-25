@@ -41,7 +41,7 @@ function Sidebar({ name, user }) {
           <Link href="/">
             <a className="text-left text-blueGray-600 mr-0 flex whitespace-nowrap text-sm uppercase font-bold px-0">
               <img
-                src={user?.profile_pic}
+                src={user?.profile_pic || "/images/faces/icon-user.png"}
                 alt="logo"
                 className="h-10 w-10 rounded-full object-contain"
               />
