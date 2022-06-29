@@ -22,7 +22,7 @@ const SectionTitle = ({ title, subtitle, right = null }) => {
           {right}
         </div>
       </div>
-      <div className="mb-32"></div>
+      <div className="mb-20"></div>
     </>
   );
 };

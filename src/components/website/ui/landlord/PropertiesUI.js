@@ -166,58 +166,61 @@ function PropertiesUI() {
   return (
     <>
       {isLoading && <Loader />}
-      <div className="flex flex-col">
-        {/**cards */}
-        <div className="relative bg-lightBlue-600 pb-8">
-          <div className="mx-auto w-full">
-            <div>
-              <div className="flex flex-wrap">
-                <Card
-                  col={4}
-                  label="Total properties posted"
-                  value={total}
-                  color="red"
-                  icon={
-                    <img
-                      src="/icons/owner_dashboard/icon1.png"
-                      alt="properties"
-                    />
-                  }
-                  state="posted"
-                  current={cardMode}
-                  onClick={() => setCardMode("posted")}
-                />
-                <Card
-                  col={4}
-                  label="Total rented properties"
-                  value={agreements?.length}
-                  color="white"
-                  icon={
-                    <img src="/icons/owner_dashboard/icon2.png" alt="rented" />
-                  }
-                  state="rented"
-                  current={cardMode}
-                  onClick={() => setCardMode("rented")}
-                />
-                <Card
-                  col={4}
-                  label="Total visited properties"
-                  value={visitedProperties?.length || 0}
-                  color="white"
-                  state="visited"
-                  current={cardMode}
-                  icon={
-                    <img src="/icons/owner_dashboard/icon3.png" alt="visited" />
-                  }
-                  onClick={() => setCardMode("visited")}
-                />
-              </div>
+      {/**cards */}
+      <div className="relative bg-lightBlue-600 pb-8">
+        <div className="mx-auto w-full">
+          <div>
+            <div className="flex flex-wrap">
+              <Card
+                col={4}
+                label="Total properties posted"
+                value={total}
+                color="red"
+                icon={
+                  <img
+                    src="/icons/owner_dashboard/icon1.png"
+                    alt="properties"
+                  />
+                }
+                state="posted"
+                current={cardMode}
+                onClick={() => {
+                  setCardMode("posted");
+                  setPropertySkip(0);
+                }}
+              />
+              <Card
+                col={4}
+                label="Total rented properties"
+                value={agreements?.length}
+                color="white"
+                icon={
+                  <img src="/icons/owner_dashboard/icon2.png" alt="rented" />
+                }
+                state="rented"
+                current={cardMode}
+                onClick={() => setCardMode("rented")}
+              />
+              <Card
+                col={4}
+                label="Total visited properties"
+                value={visitedProperties?.length || 0}
+                color="white"
+                state="visited"
+                current={cardMode}
+                icon={
+                  <img src="/icons/owner_dashboard/icon3.png" alt="visited" />
+                }
+                onClick={() => setCardMode("visited")}
+              />
             </div>
           </div>
         </div>
+      </div>
+      <div className="flex flex-col px-4">
         {isNewAdded && (
           <div
-            className="my-2 p-2 px-4 rounded-md bg-white flex items-center justify-between shadow-md"
+            className="my-2 p-2 rounded-md bg-white flex items-center justify-between shadow-md"
             style={{
               fontFamily: "Opensans-bold",
             }}
@@ -243,32 +246,14 @@ function PropertiesUI() {
             />
           </div>
         )}
-        {/**add new property */}
-        <div className="mt-3 p-3 flex items-center justify-between bg-white border-2 border-gray-200 rounded-md">
-          <p className="text-gray-600" style={{ fontFamily: "Opensans-bold" }}>
-            Do you have a new property to list ?
-          </p>
-          <Link href="/landlord/add-property">
-            <a
-              className="py-2 px-3 rounded-md text-white"
-              style={{
-                backgroundColor: "var(--blue)",
-                fontFamily: "Opensans-semi-bold",
-              }}
-            >
-              Add New Property
-            </a>
-          </Link>
-        </div>
+
         {/**properties */}
         {cardMode === "posted" && (
-          <p className="py-3 flex items-center text-red-500">
-            <FiAlertCircle className="mr-3" /> Without verification of your
-            property customer cannot view in website.
-          </p>
-        )}
-        {cardMode === "posted" && (
-          <>
+          <div className="bg-white rounded-md px-4">
+            <p className="py-3 rounded-md flex items-center text-red-500">
+              <FiAlertCircle className="mr-3" size={28} /> Without verification
+              of your property customer cannot view in website.
+            </p>
             <div
               className="py-2 text-lg"
               style={{ fontFamily: "Opensans-bold" }}
@@ -299,10 +284,10 @@ function PropertiesUI() {
                   />
                 ))}
             </InfiniteScroll>
-          </>
+          </div>
         )}
         {cardMode === "rented" && (
-          <>
+          <div className="bg-white px-4 rounded-md">
             <div
               className="py-2 text-lg"
               style={{ fontFamily: "Opensans-bold" }}
@@ -334,10 +319,10 @@ function PropertiesUI() {
                 <p className="text-red-500 p-3">No renting properties found!</p>
               )}
             </div>
-          </>
+          </div>
         )}
         {cardMode === "visited" && (
-          <>
+          <div className="bg-white px-4 rounded-md">
             <div
               className="py-2 text-lg"
               style={{ fontFamily: "Opensans-bold" }}
@@ -398,7 +383,7 @@ function PropertiesUI() {
                   </div>
                 ))}
             </div>
-          </>
+          </div>
         )}
       </div>
       {deleteMode && (

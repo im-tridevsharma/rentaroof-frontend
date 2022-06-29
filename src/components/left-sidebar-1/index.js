@@ -39,7 +39,7 @@ const LeftSidebar = () => {
     shallowEqual
   );
   return (
-    <div className="left-sidebar left-sidebar-1">
+    <div className="left-sidebar left-sidebar-1 h-screen overflow-y-auto">
       <Logo />
       {navigation.map((menu, i) => (
         <React.Fragment key={i}>

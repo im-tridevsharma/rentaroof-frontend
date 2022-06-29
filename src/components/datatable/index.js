@@ -91,7 +91,7 @@ const Datatable = ({ columns, data }) => {
 
   // Render the UI for your table
   return (
-    <>
+    <div className="overflow-y-auto">
       <table {...getTableProps()} className="table">
         <thead>
           {headerGroups.map((headerGroup) => (
@@ -191,7 +191,7 @@ const Datatable = ({ columns, data }) => {
           )}
         </pre>
       )}
-    </>
+    </div>
   );
 };
 

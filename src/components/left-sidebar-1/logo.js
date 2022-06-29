@@ -23,10 +23,10 @@ const Logo = () => {
   const { showLogo } = { ...leftSidebar };
   if (showLogo) {
     return (
-      <div className="logo truncate">
+      <div className="truncate p-2">
         <Link href="/admin/dashboard">
           <a
-            className="flex items-center py-2 bg-white"
+            className="flex items-center justify-center p-2 bg-white"
             style={{ height: "52px" }}
           >
             <img
@@ -34,15 +34,6 @@ const Logo = () => {
               alt="logo"
               className="h-20 w-20 object-contain"
             />
-
-            <p
-              className="uppercase text-xl mt-2"
-              style={{ fontFamily: "Opensans-bold" }}
-            >
-              <span style={{ color: "var(--blue)" }}>
-                {website?.company_name}
-              </span>
-            </p>
           </a>
         </Link>
         <button

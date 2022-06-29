@@ -175,7 +175,11 @@ function Index() {
           toggle={setShowDetail}
         />
       )}
-      <SectionTitle title="Users" subtitle="All Users" right={<AddUser />} />
+      <SectionTitle
+        title="Users"
+        subtitle={"All Users (" + users?.length + ")"}
+        right={<AddUser />}
+      />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
         <table className="table">
           <thead>

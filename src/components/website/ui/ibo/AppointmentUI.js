@@ -261,7 +261,7 @@ function AppointmentUI() {
                   col={4}
                   label="Upcoming Appointment"
                   value={upcomingAppointments?.length}
-                  color="white"
+                  color="red"
                   current={cardMode}
                   state="upcoming"
                   icon={
@@ -273,7 +273,7 @@ function AppointmentUI() {
                   col={4}
                   label="Appointment History"
                   value={appointmentHistory?.length}
-                  color="white"
+                  color="yellow"
                   current={cardMode}
                   state="history"
                   icon={

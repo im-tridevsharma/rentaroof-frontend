@@ -1,10 +1,9 @@
 import {
-  FaCalendarAlt,
-  FaGlobe,
+  FaBuilding,
+  FaHandsHelping,
   FaHeadphonesAlt,
   FaPaypal,
-  FaShareSquare,
-  FaStopwatch,
+  FaShareAltSquare,
   FaTv,
 } from "react-icons/fa";
 
@@ -18,34 +17,31 @@ const links = [
         href: "/ibo/dashboard",
       },
       {
-        icon: <FaStopwatch className="mr-2 text-sm opacity-75" size={20} />,
-        title: "Manage Visit",
-        href: "/ibo/appointment",
+        icon: <FaHandsHelping className="mr-2 text-sm opacity-75" size={20} />,
+        title: "AGENT SUPPORT PROGRAMME",
+        href: "/ibo/agent-support-programme",
       },
       {
-        icon: <FaCalendarAlt className="mr-2 text-sm opacity-75" size={20} />,
-        title: "Manage Application & Documents",
-        href: "/ibo/kyc",
+        icon: <FaBuilding className="mr-2 text-sm opacity-75" size={20} />,
+        title: "MANAGE PROPERTIES/APPLICATION",
+        href: "/ibo/manage-properties",
       },
       {
         icon: <FaPaypal className="mr-2 text-sm opacity-75" size={20} />,
         title: "Transaction History",
-        href: "/ibo/payment",
+        href: "/ibo/transaction-history",
       },
       {
-        icon: <FaGlobe className="mr-2 text-sm opacity-75" size={20} />,
-        title: "How to use & Faq",
-        href: "/ibo/training_management",
-      },
-      {
-        icon: <FaShareSquare className="mr-2 text-sm opacity-75" size={20} />,
+        icon: (
+          <FaShareAltSquare className="mr-2 text-sm opacity-75" size={20} />
+        ),
         title: "Refer & Earn",
         href: "/ibo/refer-and-earn",
       },
       {
         icon: <FaHeadphonesAlt className="mr-2 text-sm opacity-75" size={20} />,
-        title: "Contact Support",
-        href: "/",
+        title: "Support",
+        href: "/ibo/support",
       },
     ],
   },

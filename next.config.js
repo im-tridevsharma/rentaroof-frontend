@@ -1,6 +1,6 @@
 module.exports = {
   images: {
-    domains: [process.env.SRC_DOMAIN1],
+    domains: [process.env.SRC_DOMAIN1, "images.pexels.com"],
   },
   env: {
     BASE_URL: process.env.BASE_URL,

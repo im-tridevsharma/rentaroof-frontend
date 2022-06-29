@@ -83,7 +83,12 @@ const Admin = ({ children }) => {
           <LeftSidebar1 />
           <div className="main w-full bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-white">
             <Navbar1 />
-            <div className="min-h-screen w-full p-4">{children}</div>
+            <div
+              style={{ height: "calc(100vh - 80px)" }}
+              className="overflow-y-auto w-full p-4"
+            >
+              {children}
+            </div>
           </div>
         </div>
       </div>

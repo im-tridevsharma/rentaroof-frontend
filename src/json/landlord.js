@@ -1,11 +1,11 @@
 import {
-  FaCalendarAlt,
   FaGlobe,
   FaHeadphonesAlt,
   FaPaypal,
-  FaShareSquare,
+  FaShareAltSquare,
   FaStopwatch,
   FaTv,
+  FaUserFriends,
 } from "react-icons/fa";
 
 const links = [
@@ -19,26 +19,28 @@ const links = [
       },
       {
         icon: <FaStopwatch className="mr-2 text-sm opacity-75" size={20} />,
-        title: "Manage Visit",
-        href: "/landlord/properties",
+        title: "Manage applications & documents",
+        href: "/landlord/manage-applications-and-documents",
       },
       {
-        icon: <FaCalendarAlt className="mr-2 text-sm opacity-75" size={20} />,
-        title: "Manage Application & Documents",
+        icon: <FaUserFriends className="mr-2 text-sm opacity-75" size={20} />,
+        title: "Tenant Details",
         href: "/landlord/kyc",
       },
       {
         icon: <FaPaypal className="mr-2 text-sm opacity-75" size={20} />,
-        title: "Transaction History",
+        title: "Accounts Statement",
         href: "/landlord/payment",
       },
       {
         icon: <FaGlobe className="mr-2 text-sm opacity-75" size={20} />,
-        title: "How to use/Faq",
+        title: "How to use",
         href: "/landlord/how_to_use",
       },
       {
-        icon: <FaShareSquare className="mr-2 text-sm opacity-75" size={20} />,
+        icon: (
+          <FaShareAltSquare className="mr-2 text-sm opacity-75" size={20} />
+        ),
         title: "Refer & Earn",
         href: "/landlord/refer-and-earn",
       },

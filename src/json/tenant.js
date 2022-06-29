@@ -1,12 +1,11 @@
 import {
-  FaFile,
+  FaFileAlt,
   FaGlobe,
   FaHeadphonesAlt,
   FaPaypal,
-  FaShareSquare,
-  FaStopwatch,
+  FaShareAltSquare,
   FaTv,
-  FaUserAlt,
+  FaWpforms,
 } from "react-icons/fa";
 
 const links = [
@@ -19,39 +18,36 @@ const links = [
         href: "/tenant/dashboard",
       },
       {
-        icon: <FaStopwatch className="mr-2 text-sm opacity-75" size={20} />,
-        title: "Manage Visit",
-        href: "/tenant/properties",
+        icon: <FaGlobe className="mr-2 text-sm opacity-75" size={20} />,
+        title: "How to use/Faqs",
+        href: "/tenant/how-to-use",
       },
       {
-        icon: <FaFile className="mr-2 text-sm opacity-75" size={20} />,
+        icon: <FaWpforms className="mr-2 text-sm opacity-75" size={20} />,
+        title: "Applications & Visit",
+        href: "/tenant/applications-and-visit",
+      },
+      {
+        icon: <FaFileAlt className="mr-2 text-sm opacity-75" size={20} />,
         title: "Manage Documents",
-        href: "/tenant/kyc",
+        href: "/tenant/manage-documents",
       },
       {
         icon: <FaPaypal className="mr-2 text-sm opacity-75" size={20} />,
-        title: "Transaction History",
-        href: "/tenant/payment",
+        title: "Wallet & Transactions",
+        href: "/tenant/wallet-and-transactions",
       },
       {
-        icon: <FaGlobe className="mr-2 text-sm opacity-75" size={20} />,
-        title: "How to use/Faq",
-        href: "/tenant/how_to_use",
-      },
-      {
-        icon: <FaUserAlt className="mr-2 text-sm opacity-75" size={20} />,
-        title: "Manage Profile",
-        href: "/tenant/profile",
-      },
-      {
-        icon: <FaShareSquare className="mr-2 text-sm opacity-75" size={20} />,
+        icon: (
+          <FaShareAltSquare className="mr-2 text-sm opacity-75" size={20} />
+        ),
         title: "Refer & Earn",
         href: "/tenant/refer-and-earn",
       },
       {
         icon: <FaHeadphonesAlt className="mr-2 text-sm opacity-75" size={20} />,
         title: "Contact Support",
-        href: "/tenant/complain_management",
+        href: "/tenant/contact-support",
       },
     ],
   },

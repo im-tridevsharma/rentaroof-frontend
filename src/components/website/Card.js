@@ -3,13 +3,13 @@ import React from "react";
 function Card({ color, icon, label, value, onClick, state, current, col = 3 }) {
   return (
     <div
-      className={`w-full transform transition-all duration-100 ease-in-out lg:w-${col}/12 xl:w-${col}/12 px-4 ${
-        state && state === current ? "scale-110" : ""
-      }`}
+      className={`w-full transform transition-all duration-100 ease-in-out lg:w-${col}/12 xl:w-${col}/12 px-4`}
     >
-      <div className="relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg">
+      <div className="relative overflow-hidden flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg">
         <div
-          className={`flex-auto p-4  ${onClick && "cursor-pointer"}`}
+          className={`flex-auto p-4  ${onClick && "cursor-pointer"}  ${
+            state && state === current ? "border-b-8 border-green-400" : ""
+          }`}
           onClick={onClick}
         >
           <div className="flex flex-wrap">

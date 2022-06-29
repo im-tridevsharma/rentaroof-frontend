@@ -142,15 +142,12 @@ function Header({ page, user, setUser, notifications, setNotifications }) {
                       alt="notification"
                       className="object-contain cursor-pointer"
                       style={{
-                        maxWidth: "22px",
-                        width: "22px",
-                        height: "22px",
+                        maxWidth: "24px",
+                        width: "24px",
+                        height: "24px",
                       }}
                     />
-                    <span
-                      className="absolute -top-1 -right-2 text-3xs text-white rounded-full"
-                      style={{ backgroundColor: "var(--orange)" }}
-                    >
+                    <span className="absolute -top-1 -right-3 text-2xs text-white rounded-full">
                       {notifications || 0}
                     </span>
                   </a>
@@ -165,15 +162,12 @@ function Header({ page, user, setUser, notifications, setNotifications }) {
                       alt="chat"
                       className="object-contain cursor-pointer"
                       style={{
-                        maxWidth: "22px",
-                        width: "22px",
-                        height: "22px",
+                        maxWidth: "24px",
+                        width: "24px",
+                        height: "24px",
                       }}
                     />
-                    <span
-                      className="absolute -top-1 -right-2 text-3xs text-white rounded-full"
-                      style={{ backgroundColor: "var(--orange)" }}
-                    >
+                    <span className="absolute -top-1 -right-3 text-2xs text-white rounded-full">
                       0
                     </span>
                   </a>

@@ -71,16 +71,16 @@ function TrainingManagementUI() {
           ></video>
         </div>
       )}
-      <div className="flex flex-col justify-center">
+      <div className="flex flex-col justify-center mx-4">
         {/**videos */}
         <h6
-          className=" text-gray-800 flex items-center justify-between"
+          className=" text-white flex items-center justify-between"
           style={{ fontFamily: "Opensans-semi-bold" }}
         >
           Training Videos
           <Link href="/ibo/training_mcqs">
             <a
-              className="px-3 py-2 rounded-md text-white text-xs"
+              className="px-3 py-2 rounded-md bg-white text-blue-600 text-xs"
               style={{
                 backgroundColor: "var(--blue)",
                 fontFamily: "Opensans-bold",
@@ -96,16 +96,13 @@ function TrainingManagementUI() {
               <VideoItem key={i} video={v} onClick={setSelectedVideo} />
             ))
           ) : (
-            <p className="text-red-500 py-2">No videos found!</p>
+            <p className="text-white py-2">No videos found!</p>
           )}
         </div>
         {/**pdf files */}
         <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-2 mt-5">
           <div className="flex flex-col rounded overflow-hidden mt-5 w-full">
-            <div
-              className="px-3 py-2 text-white flex items-center justify-between"
-              style={{ backgroundColor: "var(--blue)" }}
-            >
+            <div className="px-3 py-2 bg-white flex items-center justify-between">
               <p
                 className="uppercase"
                 style={{ fontFamily: "Opensans-semi-bold" }}
@@ -137,7 +134,7 @@ function TrainingManagementUI() {
                   </div>
                 ))
               ) : (
-                <p className="text-red-400 px-0 py-3">No FAQs found!</p>
+                <p className="text-white px-0 py-3">No FAQs found!</p>
               )}
             </div>
           </div>

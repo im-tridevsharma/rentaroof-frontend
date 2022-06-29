@@ -35,10 +35,10 @@ const inspectionDays = [
 function AddPropertyUI() {
   const editorRef = useRef(null);
   const [profile, setProfile] = useState(false);
-  const [bedrooms, setBedrooms] = useState(1);
-  const [bathrooms, setBathrooms] = useState(1);
-  const [balconies, setBalconies] = useState(1);
-  const [floors, setFloors] = useState(1);
+  const [bedrooms, setBedrooms] = useState("");
+  const [bathrooms, setBathrooms] = useState("");
+  const [balconies, setBalconies] = useState("");
+  const [floors, setFloors] = useState("");
   const [errors, setErrors] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [propertyCode, setPropertyCode] = useState("");
@@ -342,7 +342,7 @@ function AddPropertyUI() {
                 </select>
               </div>
               <div className="form-element">
-                <label className="form-label">Maintenence Duration</label>
+                <label className="form-label">Maintenance Duration</label>
                 <select
                   name="maintenence_duration"
                   value={property?.maintenence_duration}
@@ -359,7 +359,9 @@ function AddPropertyUI() {
             <hr className=" border-gray-400 my-3" />
             <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
               <div className="form-element">
-                <label className="form-label">Super Area</label>
+                <label className="form-label">
+                  Super Area<span style={{ color: "red" }}>*</span>
+                </label>
                 <div className="flex items-center">
                   <input
                     type="text"
@@ -742,7 +744,9 @@ function AddPropertyUI() {
             <hr className=" border-gray-400 my-3" />
             <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
               <div className="form-element">
-                <label className="form-label">Monthly Rent</label>
+                <label className="form-label">
+                  Monthly Rent<span style={{ color: "red" }}>*</span>
+                </label>
                 <input
                   type="text"
                   name="monthly_rent"
@@ -766,7 +770,7 @@ function AddPropertyUI() {
               </div>
 
               <div className="form-element">
-                <label className="form-label">Maintenence Charge</label>
+                <label className="form-label">Maintenance Charge</label>
                 <input
                   type="text"
                   name="maintenence_charge"

@@ -2,15 +2,15 @@ import React from "react";
 import Link from "next/link";
 import ReactTooltip from "react-tooltip";
 
-export default function Pdfs({ bgcolor, pdfs, title }) {
+export default function Pdfs({ pdfs, title }) {
   return (
     <div className="flex flex-col rounded overflow-hidden mt-5 w-full">
-      <div className="py-2 text-white flex items-center justify-between">
-        <h6 className="uppercase" style={{ fontFamily: "Opensans-semi-bold" }}>
+      <div className="py-2 px-3 bg-white flex items-center justify-between">
+        <p className="uppercase" style={{ fontFamily: "Opensans-semi-bold" }}>
           {title}
-        </h6>
+        </p>
       </div>
-      <div className="flex bg-white rounded-md flex-col px-2 max-h-80 h-full overflow-x-hidden overscroll-auto">
+      <div className="flex rounded-md flex-col px-2 max-h-80 h-full overflow-x-hidden overscroll-auto">
         {pdfs?.length > 0 ? (
           pdfs.map((pdf, i) => (
             <div className="flex my-2 items-center" key={i}>
@@ -37,7 +37,7 @@ export default function Pdfs({ bgcolor, pdfs, title }) {
             </div>
           ))
         ) : (
-          <p className="text-red-500 py-3">No pdfs found!</p>
+          <p className="text-white py-3">No pdfs found!</p>
         )}
       </div>
     </div>
