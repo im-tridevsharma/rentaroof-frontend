@@ -12,16 +12,14 @@ import {
 import Card from "../../Card";
 import moment from "moment";
 import { shallowEqual, useSelector } from "react-redux";
-import { FiActivity, FiAlertCircle, FiCheckCircle } from "react-icons/fi";
+import { FaCalendarAlt, FaListAlt, FaPoundSign } from "react-icons/fa";
 
 function PaymentUI() {
   const [user, setUser] = React.useState(false);
   const [referrals, setReferrals] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [points, setPoints] = React.useState(0);
-  const [tab, setTab] = React.useState("point-history");
-  const [totalPaid, setTotalPaid] = React.useState(0);
-  const [totalPending, setTotalPending] = React.useState(0);
+  const [tab, setTab] = React.useState("points");
   const [transactions, setTransactions] = React.useState([]);
   const [upcomings, setUpcomings] = React.useState([]);
 
@@ -64,14 +62,6 @@ function PaymentUI() {
     if (res?.status) {
       setIsLoading(false);
       setTransactions(res?.data);
-      const paid = res?.data.map((p) => (p?.status === "paid" ? p.paid : 0));
-      const pending = res?.data.map((p) =>
-        p?.status === "pending" ? p.pending : 0
-      );
-      setTotalPaid(paid.reduce((a, b) => parseFloat(a) + parseFloat(b), 0));
-      setTotalPending(
-        pending.reduce((a, b) => parseFloat(a) + parseFloat(b), 0)
-      );
     } else {
       toast.error(res?.message || res?.error);
       setIsLoading(false);
@@ -158,222 +148,207 @@ function PaymentUI() {
           <div>
             <div className="flex flex-wrap">
               <Card
-                col={4}
-                label="Total Points"
-                icon={<FiActivity />}
+                color="yellow"
+                label="RAR Points"
                 value={points}
-                color="red"
+                icon={<FaPoundSign />}
+                onClick={() => setTab("points")}
+                current={tab}
+                state="points"
               />
               <Card
-                col={4}
-                label="Successful Payment"
-                icon={<FiCheckCircle />}
-                value={new Intl.NumberFormat("en-IN", {
-                  style: "currency",
-                  currency: "INR",
-                }).format(totalPaid)}
+                color="red"
+                label="Transaction History"
+                icon={<FaListAlt />}
+                onClick={() => setTab("transaction")}
+                current={tab}
+                state="transaction"
+              />
+              <Card
                 color="green"
-              />
-              <Card
+                label="Pending and Upcoming Payments"
+                icon={<FaCalendarAlt />}
+                onClick={() => setTab("pending")}
+                current={tab}
+                state="pending"
                 col={4}
-                label="Pending Payment"
-                icon={<FiAlertCircle />}
-                value={new Intl.NumberFormat("en-IN", {
-                  style: "currency",
-                  currency: "INR",
-                }).format(totalPending)}
-                color="red"
               />
             </div>
           </div>
         </div>
       </div>
 
-      <div className="relative p-5 mx-4 shadow-sm bg-white rounded-md">
-        <div
-          className="flex items-center md:w-full w-screen overflow-x-auto"
-          style={{ fontFamily: "Opensans-bold" }}
-        >
-          <button
-            className="py-2 border-b-2 mr-4"
-            onClick={() => setTab("point-history")}
-            style={{
-              borderBottomColor:
-                tab === "point-history" ? "var(--blue)" : "transparent",
-            }}
+      {tab === "points" && (
+        <div className="bg-white rounded-md mx-4 overflow-hidden overflow-y-auto">
+          <p
+            className="flex items-center justify-between bg-gray-50 p-4"
+            style={{ fontFamily: "Opensans-semi-bold" }}
           >
-            Point History
-          </button>
-          <button
-            className="py-2 border-b-2 mr-4"
-            onClick={() => setTab("transactions")}
-            style={{
-              borderBottomColor:
-                tab === "transactions" ? "var(--blue)" : "transparent",
-            }}
-          >
-            Transactions
-          </button>
-          <button
-            className="py-2 border-b-2 mr-4"
-            onClick={() => setTab("upcoming")}
-            style={{
-              borderBottomColor:
-                tab === "upcoming" ? "var(--blue)" : "transparent",
-            }}
-          >
-            Upcoming Payments
-          </button>
-        </div>
-
-        <div className="md:w-full w-screen overflow-x-auto">
-          {tab === "point-history" && (
-            <div className="flex flex-col mt-5">
-              {referrals?.length > 0 ? (
-                referrals.map((r, i) => (
-                  <div
-                    key={i}
-                    className={`flex items-center justify-between p-3  mb-1 ${
-                      r?.type === "credit" ? "bg-green-50" : "bg-red-50"
-                    }`}
-                    style={{ fontFamily: "Opensans-regular" }}
-                  >
-                    <div>
-                      <h6
-                        style={{ fontFamily: "Opensans-bold" }}
-                        className="text-sm"
-                      >
-                        {r?.type === "credit"
-                          ? "Points Credited"
-                          : "Points Debited"}
-                      </h6>
-                      <p className="text-gray-700">{r?.title}</p>
-                    </div>
-                    <h2
-                      className={`${
-                        r.type === "credit" ? "text-green-500" : "text-red-500"
-                      }`}
+            <span>RAR Points</span>
+          </p>
+          <div className="mt-5 p-4">
+            {referrals?.length > 0 ? (
+              referrals.map((r, i) => (
+                <div
+                  key={i}
+                  className={`flex items-center justify-between p-3  mb-1 ${
+                    r?.type === "credit" ? "bg-green-50" : "bg-red-50"
+                  }`}
+                  style={{ fontFamily: "Opensans-regular" }}
+                >
+                  <div>
+                    <h6
+                      style={{ fontFamily: "Opensans-bold" }}
+                      className="text-sm"
                     >
-                      {r?.points}
-                    </h2>
+                      {r?.type === "credit"
+                        ? "Points Credited"
+                        : "Points Debited"}
+                    </h6>
+                    <p className="text-gray-700">{r?.title}</p>
                   </div>
-                ))
-              ) : (
-                <p className="text-red-500 p-3">No points history found!</p>
-              )}
-            </div>
-          )}
-          {tab === "transactions" && (
-            <div className="flex flex-col mt-5">
-              <table className="table table-auto">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Amount</th>
-                    <th>Paid</th>
-                    <th>Pending</th>
-                    <th>Type</th>
-                    <th>Order ID</th>
-                    <th>Payment ID</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {transactions?.length > 0 ? (
-                    transactions.map((r, i) => (
-                      <tr
-                        key={i}
-                        className={`${
-                          r?.status === "paid" ? "bg-green-50" : "bg-red-50"
-                        }`}
-                        style={{ fontFamily: "Opensans-regular" }}
-                      >
-                        <td>{i + 1}</td>
-                        <td>
-                          {new Intl.NumberFormat("en-IN", {
-                            style: "currency",
-                            currency: "INR",
-                          }).format(r?.amount)}
-                        </td>
-                        <td>
-                          {new Intl.NumberFormat("en-IN", {
-                            style: "currency",
-                            currency: "INR",
-                          }).format(r?.paid)}
-                        </td>
-                        <td>
-                          {new Intl.NumberFormat("en-IN", {
-                            style: "currency",
-                            currency: "INR",
-                          }).format(r?.pending)}
-                        </td>
-                        <td className="capitalize">{r?.type}</td>
-                        <td>{r?.order_number}</td>
-                        <td>{r?.txn_number}</td>
-                        <td>{moment(r?.created_at).format("DD-MM-YYYY")}</td>
-                        <td className="capitalize">{r?.status}</td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={10} className="text-red-500">
-                        No transaction found!
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          )}
-          {tab === "upcoming" && (
-            <div className="flex flex-col mt-5">
-              <table className="table table-auto">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Amount</th>
-                    <th>Type</th>
-                    <th>Due Date</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {upcomings?.length > 0 ? (
-                    upcomings.map((r, i) => (
-                      <tr key={i} style={{ fontFamily: "Opensans-regular" }}>
-                        <td>{i + 1}</td>
-                        <td>
-                          {new Intl.NumberFormat("en-IN", {
-                            style: "currency",
-                            currency: "INR",
-                          }).format(r?.amount)}
-                        </td>
-                        <td className="capitalize">{r?.type}</td>
-                        <td>{moment(r?.next_due).format("DD-MM-YYYY")}</td>
-                        <td className="capitalize">
-                          <button
-                            onClick={() => displayRazorpay(r)}
-                            className="px-3 py-2 bg-green-500 rounded-md"
-                          >
-                            Pay
-                          </button>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={6} className="text-red-500">
-                        No upcoming payments found!
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          )}
+                  <h2
+                    className={`${
+                      r.type === "credit" ? "text-green-500" : "text-red-500"
+                    }`}
+                  >
+                    {r?.points}
+                  </h2>
+                </div>
+              ))
+            ) : (
+              <p className="text-red-500 p-3">No points history found!</p>
+            )}
+          </div>
         </div>
-      </div>
+      )}
+
+      {tab === "transaction" && (
+        <div className="bg-white rounded-md mx-4 overflow-hidden overflow-y-auto">
+          <p
+            className="flex items-center justify-between bg-gray-50 p-4"
+            style={{ fontFamily: "Opensans-semi-bold" }}
+          >
+            <span>Transactions History</span>
+          </p>
+          <div className="mt-5 p-4">
+            <table className="table table-auto">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Amount</th>
+                  <th>Paid</th>
+                  <th>Pending</th>
+                  <th>Type</th>
+                  <th>Order ID</th>
+                  <th>Payment ID</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {transactions?.length > 0 ? (
+                  transactions.map((r, i) => (
+                    <tr
+                      key={i}
+                      className={`${
+                        r?.status === "paid" ? "bg-green-50" : "bg-red-50"
+                      }`}
+                      style={{ fontFamily: "Opensans-regular" }}
+                    >
+                      <td>{i + 1}</td>
+                      <td>
+                        {new Intl.NumberFormat("en-IN", {
+                          style: "currency",
+                          currency: "INR",
+                        }).format(r?.amount)}
+                      </td>
+                      <td>
+                        {new Intl.NumberFormat("en-IN", {
+                          style: "currency",
+                          currency: "INR",
+                        }).format(r?.paid)}
+                      </td>
+                      <td>
+                        {new Intl.NumberFormat("en-IN", {
+                          style: "currency",
+                          currency: "INR",
+                        }).format(r?.pending)}
+                      </td>
+                      <td className="capitalize">{r?.type}</td>
+                      <td>{r?.order_number}</td>
+                      <td>{r?.txn_number}</td>
+                      <td>{moment(r?.created_at).format("DD-MM-YYYY")}</td>
+                      <td className="capitalize">{r?.status}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={10} className="text-red-500">
+                      No transaction found!
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {tab === "pending" && (
+        <div className="bg-white rounded-md mx-4 overflow-hidden overflow-y-auto">
+          <p
+            className="flex items-center justify-between bg-gray-50 p-4"
+            style={{ fontFamily: "Opensans-semi-bold" }}
+          >
+            <span>Pending and Upcoming Payments</span>
+          </p>
+          <div className="mt-5 p-4">
+            <table className="table table-auto">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Amount</th>
+                  <th>Type</th>
+                  <th>Due Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {upcomings?.length > 0 ? (
+                  upcomings.map((r, i) => (
+                    <tr key={i} style={{ fontFamily: "Opensans-regular" }}>
+                      <td>{i + 1}</td>
+                      <td>
+                        {new Intl.NumberFormat("en-IN", {
+                          style: "currency",
+                          currency: "INR",
+                        }).format(r?.amount)}
+                      </td>
+                      <td className="capitalize">{r?.type}</td>
+                      <td>{moment(r?.next_due).format("DD-MM-YYYY")}</td>
+                      <td className="capitalize">
+                        <button
+                          onClick={() => displayRazorpay(r)}
+                          className="px-3 py-2 bg-green-500 rounded-md"
+                        >
+                          Pay
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={6} className="text-red-500">
+                      No upcoming payments found!
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </>
   );
 }

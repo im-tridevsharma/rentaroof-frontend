@@ -81,7 +81,11 @@ function PropertyAddEssentials({ code }) {
   const nextToProperties = () => {
     localStorage.removeItem("next_ap");
     localStorage.removeItem("recent_ap");
-    router.push(`/${user.role}/properties`);
+    if (user?.role === "ibo") {
+      router.push(`/${user.role}/manage-properties`);
+    } else {
+      router.push(`/${user.role}/manage-applications-and-documents`);
+    }
   };
 
   const handleSubmit = (e) => {

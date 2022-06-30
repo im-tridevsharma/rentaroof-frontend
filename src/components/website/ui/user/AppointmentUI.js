@@ -9,7 +9,7 @@ import {
 import { __d } from "../../../../server";
 import Loader from "../../../loader";
 import moment from "moment";
-import { FaTimes } from "react-icons/fa";
+import { FaCalendarAlt, FaCalendarDay, FaTimes } from "react-icons/fa";
 import { FiMessageCircle } from "react-icons/fi";
 import {
   createConversation,
@@ -194,35 +194,43 @@ function AppointmentUI() {
   return (
     <>
       {isLoading && <Loader />}
-      <div className="flex flex-col relative">
-        {/**cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
-          <Card
-            label="Today's Appointment"
-            count={todayAppointment?.length}
-            color="var(--orange)"
-            textcolor="white"
-            icon={<img src="/icons/ibo_icons/icon20.png" alt="appointment" />}
-            onClick={() => setCardMode("today")}
-          />
-          <Card
-            label="Upcoming Appointment"
-            count={upcomingAppointments?.length}
-            color="white"
-            textcolor="gray"
-            icon={<img src="/icons/ibo_icons/icon21.png" alt="appointment" />}
-            onClick={() => setCardMode("upcoming")}
-          />
+
+      <div className="relative bg-lightBlue-600 pb-8">
+        <div className="mx-auto w-full">
+          <div>
+            <div className="flex flex-wrap">
+              <Card
+                color="green"
+                label="Today'S Appointments"
+                value={todayAppointment?.length}
+                icon={<FaCalendarDay />}
+                onClick={() => setCardMode("today")}
+                current={cardMode}
+                state="today"
+              />
+              <Card
+                color="yellow"
+                label="Upcoming Appointments"
+                value={upcomingAppointments?.length}
+                icon={<FaCalendarAlt />}
+                onClick={() => setCardMode("upcoming")}
+                current={cardMode}
+                state="upcoming"
+              />
+            </div>
+          </div>
         </div>
-        {/*appointment */}
-        {cardMode === "today" && (
-          <div className="flex flex-col mt-5 bg-white border-gray-200 border-2 rounded">
-            <h5
-              className="uppercase px-3 py-2"
-              style={{ fontFamily: "Opensans-bold", fontSize: ".9rem" }}
-            >
-              Today's Appointments
-            </h5>
+      </div>
+
+      {cardMode === "today" && (
+        <div className="bg-white rounded-md mx-4 overflow-hidden overflow-y-auto">
+          <p
+            className="flex items-center justify-between bg-gray-50 p-4"
+            style={{ fontFamily: "Opensans-semi-bold" }}
+          >
+            <span>Today's Appointments</span>
+          </p>
+          <div className="mt-5 p-4">
             <table className="table">
               <thead
                 style={{
@@ -347,15 +355,18 @@ function AppointmentUI() {
               </tbody>
             </table>
           </div>
-        )}
-        {cardMode === "upcoming" && (
-          <div className="flex flex-col mt-5 bg-white border-gray-200 border-2 rounded">
-            <h5
-              className="uppercase px-3 py-2"
-              style={{ fontFamily: "Opensans-bold", fontSize: ".9rem" }}
-            >
-              Upcoming Appointments
-            </h5>
+        </div>
+      )}
+
+      {cardMode === "upcoming" && (
+        <div className="bg-white rounded-md mx-4 overflow-hidden overflow-y-auto">
+          <p
+            className="flex items-center justify-between bg-gray-50 p-4"
+            style={{ fontFamily: "Opensans-semi-bold" }}
+          >
+            <span>Upcoming Appointments</span>
+          </p>
+          <div className="mt-5 p-4">
             <table className="table">
               <thead
                 style={{
@@ -461,8 +472,8 @@ function AppointmentUI() {
               </tbody>
             </table>
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
       {showDetail && (
         <div

@@ -11,6 +11,8 @@ import {
   saveComplains,
 } from "../../../../lib/frontend/share";
 import { FiAlertTriangle } from "react-icons/fi";
+import { FaListAlt, FaPlug } from "react-icons/fa";
+import Card from "../../Card";
 
 function ComplainManagementUI() {
   const [complain, setComplain] = useState({
@@ -23,6 +25,7 @@ function ComplainManagementUI() {
   const [errors, setErrors] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [complains, setComplains] = useState([]);
+  const [tab, setTab] = useState("create");
 
   useEffect(() => {
     let data = localStorage.getItem("LU");
@@ -105,125 +108,140 @@ function ComplainManagementUI() {
   return (
     <>
       {isLoading && <Loader />}
-      <div className="flex flex-col px-4">
-        {/**form to add complain */}
-        <div
-          className="w-full shadow-sm bg-white rounded-md overflow-hidden"
-          style={{ borderWidth: "1px", fontFamily: "Opensans-regular" }}
-        >
-          {/**title */}
-          <p
-            className="text-center p-3 text-gray-800"
-            style={{
-              fontFamily: "Opensans-semi-bold",
-              fontSize: "1rem",
-            }}
-          >
-            Add Complain
-          </p>
-          {/**form */}
-          {errors && (
-            <div className="p-3">
-              {Object.keys(errors).map((index, i) => (
-                <div className="w-full mb-2" key={i}>
-                  <p className="text-red-500 flex items-center">
-                    <FiAlertTriangle className="mr-1" /> {errors[index]}
-                  </p>
-                </div>
-              ))}{" "}
+      <div className="relative bg-lightBlue-600 pb-8">
+        <div className="mx-auto w-full">
+          <div>
+            <div className="flex flex-wrap">
+              <Card
+                color="green"
+                label="Create Support Ticket"
+                icon={<FaPlug />}
+                onClick={() => setTab("create")}
+                current={tab}
+                state="create"
+              />
+              <Card
+                color="yellow"
+                label="Ticket History"
+                icon={<FaListAlt />}
+                onClick={() => setTab("history")}
+                current={tab}
+                state="history"
+              />
             </div>
-          )}
-          <div className="p-10">
-            <form name="complain" method="POST" onSubmit={handleComplainSubmit}>
-              <div className="grid grid-cols-1  sm:grid-cols-2 sm:space-x-5">
-                <div className="form-element">
-                  <div className="form-label text-gray-700">Customer Id</div>
-                  <input
-                    type="text"
-                    name="customer_id"
-                    className="form-input -mt-1 rounded-sm border-gray-200"
-                    defaultValue={complain.customer_id}
-                    readOnly
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="form-element">
-                  <div className="form-label text-gray-700">Full Name</div>
-                  <input
-                    type="text"
-                    name="fullname"
-                    className="form-input -mt-1 rounded-sm border-gray-200"
-                    value={complain.fullname}
-                    onChange={handleInputChange}
-                    readOnly
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 sm:space-x-5 ">
-                <div className="form-element">
-                  <div className="form-label text-gray-700">Subject</div>
-                  <input
-                    type="text"
-                    name="subject"
-                    className="form-input -mt-1 rounded-sm border-gray-200"
-                    value={complain.subject}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="form-element">
-                  <div className="form-label text-gray-700">Email / Phone</div>
-                  <input
-                    type="text"
-                    name="email_or_phone"
-                    className="form-input -mt-1 rounded-sm border-gray-200"
-                    value={complain.email_or_phone}
-                    onChange={handleInputChange}
-                    readOnly
-                  />
-                </div>
-              </div>
-
-              <div className="form-element">
-                <div className="form-label text-gray-700">Details</div>
-                <textarea
-                  name="details"
-                  className="form-input -mt-1 rounded-sm border-gray-200"
-                  value={complain.details}
-                  onChange={handleInputChange}
-                ></textarea>
-              </div>
-              <button
-                className="px-4 py-3 mt-2 rounded-sm text-white"
-                style={{
-                  backgroundColor: "var(--blue)",
-                  fontFamily: "Opensans-bold",
-                }}
-                type="submit"
-              >
-                Submit Complain
-              </button>
-            </form>
           </div>
         </div>
+      </div>
+      {tab === "create" && (
+        <div className="bg-white rounded-md mx-4 overflow-hidden overflow-y-auto">
+          <p
+            className="flex items-center justify-between bg-gray-50 p-4"
+            style={{ fontFamily: "Opensans-semi-bold" }}
+          >
+            <span>Create Support Ticket</span>
+          </p>
+          <div className="mt-5 p-4">
+            {errors && (
+              <div className="p-3">
+                {Object.keys(errors).map((index, i) => (
+                  <div className="w-full mb-2" key={i}>
+                    <p className="text-red-500 flex items-center">
+                      <FiAlertTriangle className="mr-1" /> {errors[index]}
+                    </p>
+                  </div>
+                ))}{" "}
+              </div>
+            )}
+            <div className="p-10">
+              <form
+                name="complain"
+                method="POST"
+                onSubmit={handleComplainSubmit}
+              >
+                <div className="grid grid-cols-1  sm:grid-cols-2 sm:space-x-5">
+                  <div className="form-element">
+                    <div className="form-label text-gray-700">Customer Id</div>
+                    <input
+                      type="text"
+                      name="customer_id"
+                      className="form-input -mt-1 rounded-sm border-gray-200"
+                      defaultValue={complain.customer_id}
+                      readOnly
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="form-element">
+                    <div className="form-label text-gray-700">Full Name</div>
+                    <input
+                      type="text"
+                      name="fullname"
+                      className="form-input -mt-1 rounded-sm border-gray-200"
+                      value={complain.fullname}
+                      onChange={handleInputChange}
+                      readOnly
+                    />
+                  </div>
+                </div>
 
-        {/**complain history */}
-        <div
-          className="flex flex-col p-5 mt-5 bg-white border-gray-200 shadow-sm rounded-md"
-          style={{ borderWidth: "1px", fontFamily: "Opensans-bold" }}
-        >
-          {/**header */}
-          <div className="flex items-center justify-between">
-            <p className="text-gray-700" style={{ fontSize: ".9rem" }}>
-              History
-            </p>
-            <button className="text-gray-700" style={{ fontSize: ".9rem" }}>
-              View All
-            </button>
+                <div className="grid grid-cols-1 sm:grid-cols-2 sm:space-x-5 ">
+                  <div className="form-element">
+                    <div className="form-label text-gray-700">Subject</div>
+                    <input
+                      type="text"
+                      name="subject"
+                      className="form-input -mt-1 rounded-sm border-gray-200"
+                      value={complain.subject}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="form-element">
+                    <div className="form-label text-gray-700">
+                      Email / Phone
+                    </div>
+                    <input
+                      type="text"
+                      name="email_or_phone"
+                      className="form-input -mt-1 rounded-sm border-gray-200"
+                      value={complain.email_or_phone}
+                      onChange={handleInputChange}
+                      readOnly
+                    />
+                  </div>
+                </div>
+
+                <div className="form-element">
+                  <div className="form-label text-gray-700">Details</div>
+                  <textarea
+                    name="details"
+                    className="form-input -mt-1 rounded-sm border-gray-200"
+                    value={complain.details}
+                    onChange={handleInputChange}
+                  ></textarea>
+                </div>
+                <button
+                  className="px-4 py-3 mt-2 rounded-sm text-white"
+                  style={{
+                    backgroundColor: "var(--blue)",
+                    fontFamily: "Opensans-bold",
+                  }}
+                  type="submit"
+                >
+                  Submit Complain
+                </button>
+              </form>
+            </div>
           </div>
-
-          {/**complains */}
-          <div className="mt-3">
+        </div>
+      )}
+      {tab === "history" && (
+        <div className="bg-white rounded-md mx-4 overflow-hidden overflow-y-auto">
+          <p
+            className="flex items-center justify-between bg-gray-50 p-4"
+            style={{ fontFamily: "Opensans-semi-bold" }}
+          >
+            <span>Ticket History</span>
+          </p>
+          <div className="mt-5 p-4">
             {complains?.length > 0 ? (
               complains.map((c, i) => (
                 <div
@@ -271,11 +289,11 @@ function ComplainManagementUI() {
                 </div>
               ))
             ) : (
-              <p className="text-red-500">Complains not found!</p>
+              <p className="text-red-500">No history found!</p>
             )}
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

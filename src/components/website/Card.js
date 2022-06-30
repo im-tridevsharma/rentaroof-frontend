@@ -1,6 +1,15 @@
 import React from "react";
 
-function Card({ color, icon, label, value, onClick, state, current, col = 3 }) {
+function Card({
+  color,
+  icon,
+  label,
+  value = "",
+  onClick,
+  state,
+  current,
+  col = 3,
+}) {
   return (
     <div
       className={`w-full transform transition-all duration-100 ease-in-out lg:w-${col}/12 xl:w-${col}/12 px-4`}
@@ -14,7 +23,11 @@ function Card({ color, icon, label, value, onClick, state, current, col = 3 }) {
         >
           <div className="flex flex-wrap">
             <div className="relative w-full pr-4 max-w-full flex-grow flex-1">
-              <h5 className="text-blueGray-400 uppercase font-bold text-xs mb-2">
+              <h5
+                className={`text-blueGray-400 uppercase font-bold text-xs ${
+                  value === "" ? "mb-5" : "mb-2"
+                }`}
+              >
                 {label}
               </h5>
               <span className="font-semibold text-xl text-blueGray-700">

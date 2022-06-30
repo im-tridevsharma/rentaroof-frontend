@@ -5,11 +5,6 @@ import ReactTooltip from "react-tooltip";
 export default function Pdfs({ pdfs, title }) {
   return (
     <div className="flex flex-col rounded overflow-hidden mt-5 w-full">
-      <div className="py-2 px-3 bg-white flex items-center justify-between">
-        <p className="uppercase" style={{ fontFamily: "Opensans-semi-bold" }}>
-          {title}
-        </p>
-      </div>
       <div className="flex rounded-md flex-col px-2 max-h-80 h-full overflow-x-hidden overscroll-auto">
         {pdfs?.length > 0 ? (
           pdfs.map((pdf, i) => (

@@ -101,7 +101,7 @@ function UIRenderer({ UI, role, page }) {
           setNotifications={setNotifications}
         />
         {/**main content */}
-        <div className="relative bg-lightBlue-600 md:pt-32 pb-8 pt-12 px-4">
+        <div className="relative bg-lightBlue-600 md:pt-32 pb-8 min-h-screen pt-12 px-4">
           <UI />
         </div>
         {user && ["ibo", "tenant"].includes(user.role) && isSos === "yes" && (
