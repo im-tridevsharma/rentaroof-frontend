@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
+import { useRouter } from "next/router";
 import VideoItem from "../../VideoItem";
 import Pdfs from "../../Pdfs";
 import getVideos, {
@@ -10,7 +10,15 @@ import { __d } from "../../../../server";
 import Loader from "../../../loader";
 import { MdClose } from "react-icons/md";
 import ReactTooltip from "react-tooltip";
-import { FaCaretDown, FaCaretUp } from "react-icons/fa";
+import {
+  FaCaretDown,
+  FaCaretUp,
+  FaFilePdf,
+  FaGlobe,
+  FaUserCheck,
+  FaVideo,
+} from "react-icons/fa";
+import Card from "../../Card";
 
 function TrainingManagementUI() {
   const [videos, setVideos] = useState([]);
@@ -19,6 +27,9 @@ function TrainingManagementUI() {
   const [faqs, setFaqs] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState("");
   const [openFaq, setOpenFaq] = useState(false);
+  const [tab, setTab] = useState("videos");
+
+  const router = useRouter();
 
   useEffect(() => {
     let id = "";
@@ -51,6 +62,128 @@ function TrainingManagementUI() {
   return (
     <>
       {isLoading && <Loader />}
+
+      <div className="relative bg-lightBlue-600 pb-8">
+        <div className="mx-auto w-full">
+          <div>
+            <div className="flex flex-wrap">
+              <Card
+                color="green"
+                label="Training Videos"
+                icon={<FaVideo />}
+                onClick={() => setTab("videos")}
+                current={tab}
+                value={videos.length}
+                state="videos"
+              />
+              <Card
+                color="red"
+                label="Web/App Demo"
+                icon={<FaGlobe />}
+                onClick={() => setTab("web")}
+                current={tab}
+                value={faqs.length}
+                state="web"
+              />
+              <Card
+                color="yellow"
+                label="PDF Guidelines"
+                icon={<FaFilePdf />}
+                onClick={() => setTab("pdf")}
+                current={tab}
+                value={personalPdf.length}
+                state="pdf"
+              />
+
+              <Card
+                color="red"
+                label="MCQ Tests"
+                icon={<FaUserCheck />}
+                current={tab}
+                state="test"
+                onClick={() => router.push("training_mcqs")}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {tab === "videos" && (
+        <div className="bg-white rounded-md mx-4 overflow-hidden overflow-y-auto">
+          <p
+            className="flex items-center justify-between bg-gray-50 p-4"
+            style={{ fontFamily: "Opensans-semi-bold" }}
+          >
+            <span>Training Videos</span>
+          </p>
+          <div className="mt-5 p-4">
+            {videos?.length > 0 ? (
+              videos.map((v, i) => (
+                <VideoItem key={i} video={v} onClick={setSelectedVideo} />
+              ))
+            ) : (
+              <p className="text-white py-2">No videos found!</p>
+            )}
+          </div>
+        </div>
+      )}
+
+      {tab === "web" && (
+        <div className="bg-white rounded-md mx-4 overflow-hidden overflow-y-auto">
+          <p
+            className="flex items-center justify-between bg-gray-50 p-4"
+            style={{ fontFamily: "Opensans-semi-bold" }}
+          >
+            <span>Web/App Demo</span>
+          </p>
+          <div className="mt-5 p-4">
+            {faqs?.length > 0 ? (
+              faqs.map((faq, i) => (
+                <div key={i} className="py-3">
+                  <div
+                    className="flex items-center justify-between cursor-pointer"
+                    onClick={() =>
+                      openFaq === faq.id
+                        ? setOpenFaq(false)
+                        : setOpenFaq(faq.id)
+                    }
+                  >
+                    <p>{faq?.title}</p>
+                    {openFaq !== faq.id ? <FaCaretDown /> : <FaCaretUp />}
+                  </div>
+                  {openFaq === faq?.id && (
+                    <div
+                      className="mt-5"
+                      dangerouslySetInnerHTML={{ __html: faq?.faq }}
+                    />
+                  )}
+                </div>
+              ))
+            ) : (
+              <p className="text-white px-0 py-3">No FAQs found!</p>
+            )}
+          </div>
+        </div>
+      )}
+
+      {tab === "pdf" && (
+        <div className="bg-white rounded-md mx-4 overflow-hidden overflow-y-auto">
+          <p
+            className="flex items-center justify-between bg-gray-50 p-4"
+            style={{ fontFamily: "Opensans-semi-bold" }}
+          >
+            <span>PDF Guidelines</span>
+          </p>
+          <div className="mt-5 p-4">
+            <Pdfs
+              bgcolor="var(--orange)"
+              pdfs={personalPdf}
+              title="Training Pdf"
+            />
+          </div>
+        </div>
+      )}
+
       {/**video player */}
       {selectedVideo && (
         <div className="absolute max-h-128 object-contain max-w-lg w-full h-full">
@@ -71,80 +204,6 @@ function TrainingManagementUI() {
           ></video>
         </div>
       )}
-      <div className="flex flex-col justify-center mx-4">
-        {/**videos */}
-        <h6
-          className=" text-white flex items-center justify-between"
-          style={{ fontFamily: "Opensans-semi-bold" }}
-        >
-          Training Videos
-          <Link href="/ibo/training_mcqs">
-            <a
-              className="px-3 py-2 rounded-md bg-white text-blue-600 text-xs"
-              style={{
-                backgroundColor: "var(--blue)",
-                fontFamily: "Opensans-bold",
-              }}
-            >
-              Training MCQs
-            </a>
-          </Link>
-        </h6>
-        <div className="mt-3 block">
-          {videos?.length > 0 ? (
-            videos.map((v, i) => (
-              <VideoItem key={i} video={v} onClick={setSelectedVideo} />
-            ))
-          ) : (
-            <p className="text-white py-2">No videos found!</p>
-          )}
-        </div>
-        {/**pdf files */}
-        <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-2 mt-5">
-          <div className="flex flex-col rounded overflow-hidden mt-5 w-full">
-            <div className="px-3 py-2 bg-white flex items-center justify-between">
-              <p
-                className="uppercase"
-                style={{ fontFamily: "Opensans-semi-bold" }}
-              >
-                FAQs
-              </p>
-            </div>
-            <div className="flex flex-col px-2 max-h-80 h-full overflow-x-hidden overscroll-auto">
-              {faqs?.length > 0 ? (
-                faqs.map((faq, i) => (
-                  <div key={i} className="py-3">
-                    <div
-                      className="flex items-center justify-between cursor-pointer"
-                      onClick={() =>
-                        openFaq === faq.id
-                          ? setOpenFaq(false)
-                          : setOpenFaq(faq.id)
-                      }
-                    >
-                      <p>{faq?.title}</p>
-                      {openFaq !== faq.id ? <FaCaretDown /> : <FaCaretUp />}
-                    </div>
-                    {openFaq === faq?.id && (
-                      <div
-                        className="mt-5"
-                        dangerouslySetInnerHTML={{ __html: faq?.faq }}
-                      />
-                    )}
-                  </div>
-                ))
-              ) : (
-                <p className="text-white px-0 py-3">No FAQs found!</p>
-              )}
-            </div>
-          </div>
-          <Pdfs
-            bgcolor="var(--orange)"
-            pdfs={personalPdf}
-            title="Training Pdf"
-          />
-        </div>
-      </div>
     </>
   );
 }

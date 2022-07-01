@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Card from "../../Card";
+import { useRouter } from "next/router";
 import PropertyGrid from "../../PropertyGrid";
-import { FaTimes } from "react-icons/fa";
+import { FaPlus, FaTimes } from "react-icons/fa";
 import {
   getProperties,
   deleteProperty,
@@ -48,6 +49,7 @@ function PropertiesUI() {
   const [propertySkip, setPropertySkip] = useState(0);
   const [hasMoreProperty, setHasMoreProperty] = useState(false);
   const [fetching, setFetching] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     localStorage.removeItem("next_ap");
@@ -69,7 +71,9 @@ function PropertiesUI() {
         setProperties(res.data);
         setIsLoading(false);
         setTotal(res?.total);
-        setHasMoreProperty(true);
+        if (res?.data?.length < res?.total) {
+          setHasMoreProperty(true);
+        }
       } else {
         console.error(res?.error || res?.message);
         setIsLoading(false);
@@ -173,7 +177,7 @@ function PropertiesUI() {
               <div className="flex flex-wrap">
                 <Card
                   col={4}
-                  label="Total properties posted"
+                  label="Total Listed Properties"
                   value={total}
                   color="green"
                   state="posted"
@@ -184,11 +188,14 @@ function PropertiesUI() {
                       alt="properties"
                     />
                   }
-                  onClick={() => setCardMode("posted")}
+                  onClick={() => {
+                    setCardMode("posted");
+                    setPropertySkip(0);
+                  }}
                 />
                 <Card
                   col={4}
-                  label="Total rented properties"
+                  label="Manage Applications"
                   value={agreements?.length}
                   color="white"
                   icon={
@@ -200,15 +207,10 @@ function PropertiesUI() {
                 />
                 <Card
                   col={4}
-                  label="Total visited properties"
-                  value={visitedProperties?.length}
-                  color="white"
-                  state="visited"
-                  current={cardMode}
-                  icon={
-                    <img src="/icons/owner_dashboard/icon3.png" alt="visited" />
-                  }
-                  onClick={() => setCardMode("visited")}
+                  label="List New Property"
+                  color="yellow"
+                  icon={<FaPlus />}
+                  onClick={() => router.push("add-property")}
                 />
               </div>
             </div>
@@ -216,7 +218,7 @@ function PropertiesUI() {
         </div>
         {isNewAdded && (
           <div
-            className="my-2 p-2 rounded-md bg-white flex items-center justify-between shadow-md"
+            className="my-2 p-4 mx-4 rounded-md bg-white flex items-center justify-between shadow-md"
             style={{
               fontFamily: "Opensans-bold",
             }}
@@ -230,7 +232,7 @@ function PropertiesUI() {
         )}
         {updated && (
           <div
-            className="my-2 p-2 rounded-md bg-white flex items-center justify-between shadow-md"
+            className="my-2 p-4 mx-4 rounded-md bg-white flex items-center justify-between shadow-md"
             style={{
               fontFamily: "Opensans-bold",
             }}
@@ -242,118 +244,106 @@ function PropertiesUI() {
             />
           </div>
         )}
-        {/**add new property */}
-        <div className="mt-3 p-3 flex items-center justify-between bg-white border-2 border-gray-200 rounded-md">
-          <p className="text-gray-600" style={{ fontFamily: "Opensans-bold" }}>
-            Do you have a new property to list ?
-          </p>
-          <Link href="/ibo/add-property">
-            <a
-              className="py-2 px-3 rounded-md text-white"
-              style={{
-                backgroundColor: "var(--blue)",
-                fontFamily: "Opensans-semi-bold",
-              }}
-            >
-              Add New Property
-            </a>
-          </Link>
-        </div>
-        {cardMode === "posted" && (
-          <p className="py-3 flex items-center text-red-500">
-            <FiAlertCircle className="mr-3" /> Without verification of your
-            property customer cannot view in website.
-          </p>
-        )}
+
         {/**properties */}
         {cardMode === "posted" && (
-          <>
+          <div className="bg-white rounded-md mx-4">
+            <p className="p-3 rounded-md flex items-center text-red-500">
+              <FiAlertCircle className="mr-3" size={28} /> Without verification
+              of your property customer cannot view in website.
+            </p>
             <div
-              className="py-2 text-lg"
-              style={{ fontFamily: "Opensans-bold" }}
+              className="flex items-center justify-between bg-gray-50 p-4"
+              style={{ fontFamily: "Opensans-semi-bold" }}
             >
-              <p>Posted Properties</p>
+              <p>Total Listed Properties</p>
             </div>
-            <InfiniteScroll
-              className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-              dataLength={properties.length} //This is important field to render the next data
-              next={fetchNextData}
-              hasMore={hasMoreProperty}
-              height={500}
-              loader={
-                <div className="mt-3 flex items-center justify-center">
-                  <FiLoader
-                    color="dodgerblue"
-                    className="text-xl animate-spin"
-                  />
-                </div>
-              }
-            >
-              {properties &&
-                properties.map((p, i) => (
-                  <PostedProperty
-                    key={i}
-                    property={p}
-                    deleteProperties={deleteProperties}
-                  />
-                ))}
-            </InfiniteScroll>
-          </>
+            <div className="px-4 mt-2">
+              <InfiniteScroll
+                className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+                dataLength={properties.length} //This is important field to render the next data
+                next={fetchNextData}
+                hasMore={hasMoreProperty}
+                height={500}
+                loader={
+                  <div className="mt-3 flex items-center justify-center">
+                    <FiLoader
+                      color="dodgerblue"
+                      className="text-xl animate-spin"
+                    />
+                  </div>
+                }
+              >
+                {properties &&
+                  properties.map((p, i) => (
+                    <PostedProperty
+                      key={i}
+                      property={p}
+                      deleteProperties={deleteProperties}
+                    />
+                  ))}
+              </InfiniteScroll>
+            </div>
+          </div>
         )}
         {cardMode === "rented" && (
-          <>
+          <div className="bg-white rounded-md overflow-hidden mx-4">
             <div
-              className="py-2 text-lg"
-              style={{ fontFamily: "Opensans-bold" }}
+              className="flex items-center justify-between bg-gray-50 p-4"
+              style={{ fontFamily: "Opensans-semi-bold" }}
             >
-              <p>Rent Details</p>
+              Manage Applications
             </div>
-            <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-              {agreements?.length > 0 ? (
-                agreements?.map((a, i) => (
-                  <PropertyGrid
-                    key={i}
-                    image={
-                      <img
-                        src={
-                          a?.property_data?.front_image ||
-                          "/images/website/no_photo.png"
-                        }
-                        alt="property"
-                        className="w-full object-cover"
-                      />
-                    }
-                    title={a?.property_data?.name}
-                    price={`Rs. ${a?.property_data?.monthly_rent}/Month`}
-                    subtitle={`Renter: ${a?.tenant?.first} ${a?.tenant?.last}`}
-                    button={
-                      <>
-                        <Button url={a?.agreement_url} />
-                        {purl || a?.police_verification ? (
-                          <a
-                            target="_blank"
-                            href={a?.police_verification || purl}
-                            className="p-2 ml-2 rounded-md text-white bg-red-500"
-                          >
-                            Police Verification
-                          </a>
-                        ) : (
-                          <button
-                            onClick={() => policeVerification(a)}
-                            className="p-2 ml-2 rounded-md text-white bg-red-500"
-                          >
-                            Generate Police Verification
-                          </button>
-                        )}
-                      </>
-                    }
-                  />
-                ))
-              ) : (
-                <p className="text-red-500 p-3">No renting properties found!</p>
-              )}
+            <div className="px-4">
+              <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                {agreements?.length > 0 ? (
+                  agreements?.map((a, i) => (
+                    <PropertyGrid
+                      key={i}
+                      image={
+                        <img
+                          src={
+                            a?.property_data?.front_image ||
+                            "/images/website/no_photo.png"
+                          }
+                          alt="property"
+                          className="w-full object-cover"
+                        />
+                      }
+                      title={a?.property_data?.name}
+                      price={`Rs. ${a?.property_data?.monthly_rent}/Month`}
+                      subtitle={`Renter: ${a?.tenant?.first} ${a?.tenant?.last}`}
+                      button={
+                        <>
+                          <Button url={a?.agreement_url} />
+                          {purl || a?.police_verification ? (
+                            <a
+                              target="_blank"
+                              href={a?.police_verification || purl}
+                              className="p-2 ml-2 rounded-md text-white bg-red-500"
+                            >
+                              Police Verification
+                            </a>
+                          ) : (
+                            <button
+                              onClick={() => policeVerification(a)}
+                              className="p-2 ml-2 rounded-md text-white bg-red-500"
+                            >
+                              Generate Police Verification
+                            </button>
+                          )}
+                        </>
+                      }
+                    />
+                  ))
+                ) : (
+                  <p className="text-red-500 p-3">
+                    No renting properties found!
+                  </p>
+                )}
+              </div>
             </div>
-          </>
+          </div>
         )}
         {cardMode === "visited" && (
           <>

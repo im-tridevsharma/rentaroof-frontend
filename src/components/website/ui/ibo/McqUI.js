@@ -4,8 +4,14 @@ import {
   saveAnswers,
 } from "../../../../lib/frontend/training_management";
 import Loader from "../../../loader";
+import { useRouter } from "next/router";
 import { toast } from "react-toastify";
-import { FaTimes, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import {
+  FaTimes,
+  FaCheckCircle,
+  FaTimesCircle,
+  FaArrowAltCircleLeft,
+} from "react-icons/fa";
 
 function McqUI() {
   const [mcqs, setMcqs] = React.useState([]);
@@ -22,6 +28,8 @@ function McqUI() {
   const [answers, setAnswers] = React.useState([]);
   const [reload, setReload] = React.useState(null);
   const [viewAnswer, setViewAnswer] = React.useState(false);
+
+  const router = useRouter();
 
   React.useEffect(() => {
     if (start) {
@@ -139,11 +147,20 @@ function McqUI() {
   };
 
   return (
-    <div className="flex items-start flex-col">
+    <div className="flex items-start flex-col px-4">
       {isLoading && <Loader />}
-      <h5 style={{ fontFamily: "Opensans-bold" }}>MCQs</h5>
+      <h5
+        style={{ fontFamily: "Opensans-bold" }}
+        className="text-white flex items-center"
+      >
+        <FaArrowAltCircleLeft
+          className="mr-3 cursor-pointer"
+          onClick={() => router.back()}
+        />
+        MCQ Tests
+      </h5>
 
-      <div className="mt-5 w-full bg-white">
+      <div className="mt-5 w-full bg-white rounded-md overflow-hidden">
         <table className="table">
           <thead style={{ fontFamily: "Opensans-semi-bold" }}>
             <tr>

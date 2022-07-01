@@ -16,7 +16,7 @@ import DatePicker from "react-datepicker";
 import Select from "react-select";
 import moment from "moment";
 import { toast } from "react-toastify";
-import { FaPlus, FaTimes } from "react-icons/fa";
+import { FaArrowAltCircleLeft, FaPlus, FaTimes } from "react-icons/fa";
 import ReactTooltip from "react-tooltip";
 import { getMyLandlords, newLandlord } from "../../../../lib/frontend/share";
 import { __d } from "../../../../server";
@@ -193,7 +193,17 @@ function AddPropertyUI() {
   return (
     <>
       {isLoading && <Loader />}
-      <div className="flex flex-col border-2 border-gray-200 rounded-md shadow-sm p-4 bg-white">
+      <h5
+        style={{ fontFamily: "Opensans-bold" }}
+        className="text-white flex items-center mx-4 mb-3"
+      >
+        <FaArrowAltCircleLeft
+          className="mr-3 cursor-pointer"
+          onClick={() => router.back()}
+        />
+        List New Property
+      </h5>
+      <div className="flex flex-col mx-4 rounded-md shadow-sm p-4 bg-white">
         <div className="mt-4" id="errors">
           {errors && (
             <div className="errors">

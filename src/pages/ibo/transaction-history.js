@@ -15,7 +15,7 @@ function Payment() {
         <title>Payment</title>
       </Head>
       <div>
-        <UIRenderer UI={PaymentUI} role="Ibo" page="Payment" />
+        <UIRenderer UI={PaymentUI} role="Ibo" page="Transactions History" />
       </div>
     </>
   ) : (

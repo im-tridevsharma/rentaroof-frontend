@@ -15,7 +15,7 @@ function TrainingMcqs() {
         <title>MCQs</title>
       </Head>
       <div>
-        <UIRenderer UI={McqUI} role="Ibo" page="Mcq" />
+        <UIRenderer UI={McqUI} role="Ibo" page="MCQ Tests" />
       </div>
     </>
   ) : (

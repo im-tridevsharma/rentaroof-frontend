@@ -223,7 +223,7 @@ function Header({ page, user, setUser, notifications, setNotifications }) {
                       <li>
                         <Link href={`/${user?.role}/profile`}>
                           <a className="py-3 bg-gray-50 border-b block hover:bg-gray-200">
-                            Profile
+                           Manage Profile
                           </a>
                         </Link>
                       </li>
