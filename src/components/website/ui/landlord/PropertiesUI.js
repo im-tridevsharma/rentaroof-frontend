@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Card from "../../Card";
 import PropertyGrid from "../../PropertyGrid";
-import { FaTimes } from "react-icons/fa";
+import { FaCalendarAlt, FaPlus, FaTimes } from "react-icons/fa";
 import {
   getProperties,
   deleteProperty,
@@ -21,6 +21,7 @@ import { getAgreements } from "../../../../lib/frontend/share";
 import ReactTooltip from "react-tooltip";
 import { FiAlertCircle, FiDelete, FiLoader } from "react-icons/fi";
 import InfiniteScroll from "react-infinite-scroll-component";
+import router from "next/router";
 
 const Button = ({ url }) => {
   return (
@@ -39,7 +40,7 @@ function PropertiesUI() {
   const [isNewAdded, setIsNewAdded] = useState(false);
   const [updated, setUpdated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [cardMode, setCardMode] = useState("posted");
+  const [cardMode, setCardMode] = useState("appointment");
   const [properties, setProperties] = useState([]);
   const [visitedProperties, setVisitedProperties] = useState([]);
   const [agreements, setAgreements] = useState([]);
@@ -172,8 +173,31 @@ function PropertiesUI() {
           <div>
             <div className="flex flex-wrap">
               <Card
-                col={4}
-                label="Total properties posted"
+                label="Appointment History"
+                value={0}
+                color="yellow"
+                state="appointment"
+                current={cardMode}
+                icon={<FaCalendarAlt />}
+                onClick={() => setCardMode("appointment")}
+              />
+              <Card
+                label="Manage Applications"
+                value={agreements?.length}
+                color="green"
+                icon={
+                  <img src="/icons/owner_dashboard/icon2.png" alt="rented" />
+                }
+                state="rented"
+                current={cardMode}
+                onClick={() => setCardMode("rented")}
+              />
+              <Card
+                label={
+                  <span>
+                    Manage /<br /> Posted Properties
+                  </span>
+                }
                 value={total}
                 color="red"
                 icon={
@@ -189,34 +213,35 @@ function PropertiesUI() {
                   setPropertySkip(0);
                 }}
               />
+
               <Card
-                col={4}
-                label="Total rented properties"
-                value={agreements?.length}
-                color="white"
-                icon={
-                  <img src="/icons/owner_dashboard/icon2.png" alt="rented" />
+                label={
+                  <span>
+                    Manage /<br /> Add New <br />
+                    Property
+                  </span>
                 }
-                state="rented"
-                current={cardMode}
-                onClick={() => setCardMode("rented")}
-              />
-              <Card
-                col={4}
-                label="Total visited properties"
-                value={visitedProperties?.length || 0}
-                color="white"
-                state="visited"
-                current={cardMode}
-                icon={
-                  <img src="/icons/owner_dashboard/icon3.png" alt="visited" />
-                }
-                onClick={() => setCardMode("visited")}
+                color="green"
+                icon={<FaPlus />}
+                onClick={() => router.push("add-property")}
               />
             </div>
           </div>
         </div>
       </div>
+
+      {cardMode === "appointment" && (
+        <div className="bg-white rounded-md mx-4 overflow-hidden overflow-y-auto">
+          <p
+            className="flex items-center justify-between bg-gray-50 p-4"
+            style={{ fontFamily: "Opensans-semi-bold" }}
+          >
+            <span>Appointment History</span>
+          </p>
+          <div className="mt-5 p-4"></div>
+        </div>
+      )}
+
       <div className="flex flex-col px-4">
         {isNewAdded && (
           <div

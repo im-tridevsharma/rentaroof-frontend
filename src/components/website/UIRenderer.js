@@ -89,7 +89,7 @@ function UIRenderer({ UI, role, page }) {
         setIsHide={setIsHide}
       />
       {/**content */}
-      <div className="relative md:ml-64 flex-1 bg-blueGray-100">
+      <div className="relative md:ml-64 right-section w-full  flex-1 bg-blueGray-100">
         {/**header */}
         <Header
           page={page}

@@ -102,8 +102,8 @@ function NotificationUI() {
     <>
       {isLoading && <Loader />}
       <div
-        className="flex flex-col p-5 mt-5 bg-white border-gray-200 shadow-sm rounded-md"
-        style={{ borderWidth: "1px", fontFamily: "Opensans-bold" }}
+        className="flex flex-col p-5 mx-4 bg-white shadow-sm rounded-md"
+        style={{ fontFamily: "Opensans-bold" }}
       >
         {notifications?.length > 0 ? (
           notifications.map((c, i) => (

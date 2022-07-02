@@ -138,15 +138,7 @@ function SettingUI() {
   return (
     <>
       {isLoading && <Loader />}
-      <div className="relative p-5 shadow-sm border-2 border-gray-200 bg-white rounded-md">
-        {/**left line */}
-        <span
-          className="absolute left-0 w-1 top-1 rounded-lg"
-          style={{ backgroundColor: "var(--blue)", height: "98%" }}
-        ></span>
-        <Link href={`/${profile?.role}/edit-template`}>
-          <a className="px-4 py-2 bg-green-400 rounded-md">Edit Template</a>
-        </Link>
+      <div className="relative p-5 shadow-sm mx-4 bg-white rounded-md">
         <form
           name="password"
           method="POST"
@@ -280,13 +272,19 @@ function SettingUI() {
               />
             </div>
           </div>
+
           {/**deactivate */}
           <div className="text-right">
+            <Link href={`/${profile?.role}/edit-template`}>
+              <a className="px-4 py-2 bg-blue-600 text-white rounded-md">
+                Edit Template
+              </a>
+            </Link>
             {accountStatus === "activated" && (
               <button
                 onClick={() => setShowReason(true)}
                 type="button"
-                className="p-2 text-white rounded-md bg-red-500"
+                className="p-2 ml-5 text-white rounded-md bg-red-500"
               >
                 Deactivate Account
               </button>

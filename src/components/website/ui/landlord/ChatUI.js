@@ -14,8 +14,6 @@ import {
 import Loader from "../../../loader";
 import { __d } from "../../../../server";
 import moment from "moment";
-import ReactTooltip from "react-tooltip";
-import { FaTimes } from "react-icons/fa";
 
 const Picker = dynamic(
   () => import("../../../../../node_modules/emoji-picker-react/dist/index"),
@@ -306,16 +304,14 @@ function ChatUI() {
     <>
       {isLoading && <Loader />}
       <div
-        className="flex shadow-sm border-gray-300 bg-white"
+        className="flex shadow-sm mx-4 h-128 overflow-hidden rounded-md bg-white"
         style={{
-          borderWidth: "1px",
-          height: "545px",
           fontFamily: "Opensans-regular",
         }}
       >
         {/**left side user list */}
         <div
-          className={`flex flex-col md:max-w-xs md:w-full w-screen ${
+          className={`flex flex-col h-128 overflow-hidden md:max-w-xs md:w-full w-screen ${
             selectedUser && "hidden md:block"
           }`}
         >
@@ -371,7 +367,7 @@ function ChatUI() {
         </div>
         {/**right side chats */}
         <div
-          className={`border-gray-300 p-2 w-full bg-gray-50 ${
+          className={`border-gray-300 h-128 overflow-hidden p-2 w-full bg-gray-50 ${
             !selectedUser && "hidden md:block"
           }`}
           style={{ borderLeftWidth: "1px" }}
@@ -379,7 +375,7 @@ function ChatUI() {
           {selectedUser ? (
             <>
               <div
-                className="p-2 bg-white rounded-sm border-gray-200 flex items-center justify-between"
+                className="p-2 bg-white rounded-sm sticky top-0 z-50 border-gray-200 flex items-center justify-between"
                 style={{ borderWidth: "1px" }}
               >
                 <div className="flex items-center">
@@ -485,7 +481,6 @@ function ChatUI() {
                   name="msgForm"
                   className="relative block"
                 >
-                  
                   <div className="flex items-center justify-between">
                     <div className="flex items-center flex-grow mr-5 p-1 bg-gray-200 rounded-sm pr-2">
                       <textarea
@@ -509,14 +504,6 @@ function ChatUI() {
                           <Picker onEmojiClick={onEmojiClick} />
                         </div>
                       )}
-                      <img
-                        src="/icons/user-dashboard/attachment.png"
-                        alt="attachment"
-                        className="ml-2 w-5 h-5 object-contain cursor-pointer"
-                        style={{ maxWidth: "20px" }}
-                        data-tip="Send Media"
-                      />
-                      
                     </div>
                     <button>
                       <img

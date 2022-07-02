@@ -3,12 +3,13 @@ import { useRouter } from "next/router";
 import ImageUploader from "./ImageUploader";
 import Loader from "../../../loader";
 import { addPropertyGallery } from "../../../../lib/frontend/properties";
-import { toast } from "react-toastify";
 import { getPropertyGalleryById } from "../../../../lib/frontend/share";
+import { __d } from "../../../../server";
 
 function PropertyAddGallery({ code }) {
   const [propertyId, setPropertyId] = useState("");
   const [activeTab, setActiveTab] = useState("exterior");
+  const [user, setUser] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [exteriorImages, setExteriorImages] = useState([]);
   const [livingRoomImages, setLivingRoomImages] = useState([]);
@@ -47,7 +48,10 @@ function PropertyAddGallery({ code }) {
     const ids = code.split("-");
     setPropertyId(ids[ids.length - 1]);
     setIsLoading(true);
-
+    const lu = JSON.parse(__d(localStorage.getItem("LU")));
+    if (lu) {
+      setUser(lu);
+    }
     (async () => {
       if (router.query.mode === "update") {
         const gallery = await getPropertyGalleryById(ids[ids.length - 1]);
@@ -119,7 +123,11 @@ function PropertyAddGallery({ code }) {
   const nextToAddress = () => {
     localStorage.setItem("next_ap", "ADDRESS");
     if (back) {
-      router.push("properties");
+      if (user?.role === "ibo") {
+        router.push(`/${user.role}/manage-properties`);
+      } else {
+        router.push(`/${user.role}/manage-applications-and-documents`);
+      }
     } else {
       router.push(
         "?step=next&next=ADDRESS&id=" +

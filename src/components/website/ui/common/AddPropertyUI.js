@@ -190,19 +190,79 @@ function AddPropertyUI() {
     }
   };
 
+  const goToStep = (step) => {
+    if (step && property && router?.query?.id) {
+      const next_step = step === "BASIC" ? "UPDATE" : step;
+      router.push(
+        "update-property?step=next&next=" +
+          next_step +
+          "&id=" +
+          router?.query?.id +
+          (property?.id ? "&mode=update" : "")
+      );
+    }
+  };
+
   return (
     <>
       {isLoading && <Loader />}
-      <h5
-        style={{ fontFamily: "Opensans-bold" }}
-        className="text-white flex items-center mx-4 mb-3"
-      >
-        <FaArrowAltCircleLeft
-          className="mr-3 cursor-pointer"
-          onClick={() => router.back()}
-        />
-        List New Property
-      </h5>
+      <div className="flex items-center justify-between">
+        <h5
+          style={{ fontFamily: "Opensans-bold" }}
+          className="text-white flex items-center mx-4 mb-3"
+        >
+          <FaArrowAltCircleLeft
+            className="mr-3 cursor-pointer"
+            onClick={() => router.back()}
+          />
+          List New Property
+        </h5>
+
+        <div className="flex items-center px-4">
+          <button
+            className={`px-3 py-2 bg-white rounded-md hover:bg-green-400 ${
+              nextStep === undefined || nextStep === "UPDATE"
+                ? "bg-green-400"
+                : ""
+            }`}
+            onClick={() => goToStep("BASIC")}
+          >
+            Basic
+          </button>
+          <button
+            className={`px-3 py-2 bg-white rounded-md hover:bg-green-400 ml-2 ${
+              nextStep === "GALLERY" ? "bg-green-400" : ""
+            }`}
+            onClick={() => goToStep("GALLERY")}
+          >
+            Images
+          </button>
+          <button
+            className={`px-3 py-2 bg-white rounded-md hover:bg-green-400 ml-2 ${
+              nextStep === "ADDRESS" ? "bg-green-400" : ""
+            }`}
+            onClick={() => goToStep("ADDRESS")}
+          >
+            Address
+          </button>
+          <button
+            className={`px-3 py-2 bg-white rounded-md hover:bg-green-400 ml-2 ${
+              nextStep === "AMENITIES" ? "bg-green-400" : ""
+            }`}
+            onClick={() => goToStep("AMENITIES")}
+          >
+            Amenities
+          </button>
+          <button
+            className={`px-3 py-2 bg-white rounded-md hover:bg-green-400 ml-2 ${
+              nextStep === "ESSENTIALS" ? "bg-green-400" : ""
+            }`}
+            onClick={() => goToStep("ESSENTIALS")}
+          >
+            Essentials
+          </button>
+        </div>
+      </div>
       <div className="flex flex-col mx-4 rounded-md shadow-sm p-4 bg-white">
         <div className="mt-4" id="errors">
           {errors && (

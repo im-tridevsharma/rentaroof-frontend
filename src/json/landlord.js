@@ -25,7 +25,7 @@ const links = [
       {
         icon: <FaUserFriends className="mr-2 text-sm opacity-75" size={20} />,
         title: "Tenant Details",
-        href: "/landlord/kyc",
+        href: "/landlord/tenant-details",
       },
       {
         icon: <FaPaypal className="mr-2 text-sm opacity-75" size={20} />,
@@ -35,7 +35,7 @@ const links = [
       {
         icon: <FaGlobe className="mr-2 text-sm opacity-75" size={20} />,
         title: "How to use",
-        href: "/landlord/how_to_use",
+        href: "/landlord/how-to-use",
       },
       {
         icon: (
@@ -47,7 +47,7 @@ const links = [
       {
         icon: <FaHeadphonesAlt className="mr-2 text-sm opacity-75" size={20} />,
         title: "Contact Support",
-        href: "/landlord/complain_management",
+        href: "/landlord/contact-support",
       },
     ],
   },

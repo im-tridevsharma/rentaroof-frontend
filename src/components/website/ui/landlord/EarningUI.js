@@ -57,38 +57,9 @@ function EarningUI() {
   return (
     <div className="flex flex-col">
       {isLoading && <Loader />}
-      <h5
-        className="text-gray-800 text-sm mb-3 px-1"
-        style={{ fontFamily: "Opensans-bold" }}
-      >
-        Your Closed Deal Earnings
-      </h5>
-      {/**cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
-        <Card
-          label="This month earnings"
-          count={`Rs. ${cards?.this_month || 0}`}
-          color="var(--orange)"
-          textcolor="white"
-          icon={<img src="/icons/ibo_icons/icon20.png" alt="earning" />}
-        />
-        <Card
-          label="Per month"
-          count={`Rs. ${cards?.per_month || 0}`}
-          color="white"
-          textcolor="gray"
-          icon={<img src="/icons/ibo_icons/icon22.png" alt="earning2" />}
-        />
-        <Card
-          label="Income breakdown"
-          count={`Rs. ${Math.abs(cards?.breakdown) || 0}`}
-          color={cards?.breakdown_sign === "-" ? "#F44B62" : "#67F776"}
-          textcolor="white"
-          icon={<img src="/icons/ibo_icons/icon24.png" alt="earning3" />}
-        />
-      </div>
+
       {/**income chart */}
-      <div className="border-2 border-gray-200 rounded-md px-3 py-1 bg-white mt-3">
+      <div className="mx-4 rounded-md px-3 py-1 bg-white mt-3">
         <p style={{ fontFamily: "Opensans-semi-bold" }} className="mb-3">
           Monthly earnings (Year : {moment().format("YYYY")})
         </p>
@@ -97,8 +68,8 @@ function EarningUI() {
         </div>
       </div>
       {/**other information */}
-      <div className="flex mt-5 md:flex-row flex-col items-start">
-        <table className="table bg-white border-2 border-gray-200 rounded-md">
+      <div className="flex mt-5 mx-4 md:flex-row flex-col items-start  rounded-md">
+        <table className="table bg-white  rounded-md">
           <thead style={{ fontFamily: "Opensans-bold" }}>
             <tr>
               <th>Name</th>
@@ -124,7 +95,7 @@ function EarningUI() {
             )}
           </tbody>
         </table>
-        <div className="w-128 md:ml-3 bg-white border-2 border-gray-200 rounded-sm p-2">
+        <div className="w-128 md:ml-3 bg-white rounded-md p-2">
           <p
             className="flex justify-between"
             style={{ fontFamily: "Opensans-bold" }}

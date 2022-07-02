@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Loader from "../../../loader";
-import {MdMyLocation} from 'react-icons/md'
+import { MdMyLocation } from "react-icons/md";
 import {
   addPropertyAddress,
   getPropertyByCode,
   updatePropertyAddress,
 } from "../../../../lib/frontend/properties";
-import {
-  useLoadScript,
-  GoogleMap,
-  Marker,
-} from "@react-google-maps/api";
+import { useLoadScript, GoogleMap, Marker } from "@react-google-maps/api";
 import AutoComplete from "react-google-autocomplete";
-import Geocode from 'react-geocode'
+import Geocode from "react-geocode";
+import { __d } from "../../../../server";
 
 function PropertyAddAddress({ code }) {
   const [propertyId, setPropertyId] = useState("");
@@ -21,7 +18,8 @@ function PropertyAddAddress({ code }) {
   const [back, setBack] = useState(false);
   const [skip, setSkip] = useState(true);
   const [address, setAddress] = useState({});
-  const [libraries] = useState(['places']);
+  const [libraries] = useState(["places"]);
+  const [user, setUser] = useState(false);
   const [center, setCenter] = useState({
     lat: 37.869085,
     lng: -122.254775,
@@ -30,19 +28,26 @@ function PropertyAddAddress({ code }) {
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.MAP_API_KEY, // Add your API key
-    libraries
+    libraries,
   });
 
   useEffect(() => {
     const ids = code.split("-");
     setPropertyId(ids[ids.length - 1]);
+    const lu = JSON.parse(__d(localStorage.getItem("LU")));
+    if (lu) {
+      setUser(lu);
+    }
     (async () => {
       if (router.query.mode === "update") {
         setIsLoading(true);
         const prpty = await getPropertyByCode(ids[0] + "-" + ids[1]);
         if (prpty?.status) {
           setAddress(prpty?.data?.address);
-          setCenter({lat: parseFloat(prpty?.data?.address?.lat), lng: parseFloat(prpty?.data?.address?.long)});
+          setCenter({
+            lat: parseFloat(prpty?.data?.address?.lat),
+            lng: parseFloat(prpty?.data?.address?.long),
+          });
           setIsLoading(false);
         } else {
           setIsLoading(false);
@@ -84,7 +89,11 @@ function PropertyAddAddress({ code }) {
     if (response?.status) {
       setIsLoading(false);
       if (back) {
-        router.push("properties");
+        if (user?.role === "ibo") {
+          router.push(`/${user.role}/manage-properties`);
+        } else {
+          router.push(`/${user.role}/manage-applications-and-documents`);
+        }
       } else {
         nextToAmenities();
       }
@@ -99,77 +108,88 @@ function PropertyAddAddress({ code }) {
 
     const components = place?.address_components;
 
-    components.forEach(element => {
-      if(element.types.includes('route')){
-        setAddress(prev => ({...prev, route: element?.long_name}))
+    components.forEach((element) => {
+      if (element.types.includes("route")) {
+        setAddress((prev) => ({ ...prev, route: element?.long_name }));
       }
-      if(element.types.includes('neighborhood')){
-        setAddress(prev => ({...prev, neighborhood: element?.long_name}))
+      if (element.types.includes("neighborhood")) {
+        setAddress((prev) => ({ ...prev, neighborhood: element?.long_name }));
       }
-      if(element.types.includes('sublocality_level_2')){
-        setAddress(prev => ({...prev, sub_area: element?.long_name}))
+      if (element.types.includes("sublocality_level_2")) {
+        setAddress((prev) => ({ ...prev, sub_area: element?.long_name }));
       }
-      if(element.types.includes('sublocality_level_1')){
-        setAddress(prev => ({...prev, area: element?.long_name}))
+      if (element.types.includes("sublocality_level_1")) {
+        setAddress((prev) => ({ ...prev, area: element?.long_name }));
       }
-      if(element.types.includes('locality')){
-        setAddress(prev => ({...prev, city: element?.long_name}))
+      if (element.types.includes("locality")) {
+        setAddress((prev) => ({ ...prev, city: element?.long_name }));
       }
-      if(element.types.includes('administrative_area_level_2')){
-        setAddress(prev => ({...prev, zone: element?.long_name}))
+      if (element.types.includes("administrative_area_level_2")) {
+        setAddress((prev) => ({ ...prev, zone: element?.long_name }));
       }
-      if(element.types.includes('administrative_area_level_1')){
-        setAddress(prev => ({...prev, state: element?.long_name}))
-      }if(element.types.includes('country')){
-        setAddress(prev => ({...prev, country: element?.long_name}))
+      if (element.types.includes("administrative_area_level_1")) {
+        setAddress((prev) => ({ ...prev, state: element?.long_name }));
       }
-      if(element.types.includes('postal_code')){
-        setAddress(prev => ({...prev, pincode: element?.long_name}))
+      if (element.types.includes("country")) {
+        setAddress((prev) => ({ ...prev, country: element?.long_name }));
+      }
+      if (element.types.includes("postal_code")) {
+        setAddress((prev) => ({ ...prev, pincode: element?.long_name }));
       }
     });
 
-    if(fromLatLng){
-      setAddress(prev => ({...prev, lat: place.geometry.location.lat}))
-      setAddress(prev => ({...prev, long: place.geometry.location.lng}))
+    if (fromLatLng) {
+      setAddress((prev) => ({ ...prev, lat: place.geometry.location.lat }));
+      setAddress((prev) => ({ ...prev, long: place.geometry.location.lng }));
       setCenter({
         lat: parseFloat(place.geometry.location.lat),
         lng: parseFloat(place.geometry.location.lng),
       });
-    }else{
-      setAddress(prev => ({...prev, lat: place.geometry.location.lat('d')}))
-      setAddress(prev => ({...prev, long: place.geometry.location.lng('d')}))
+    } else {
+      setAddress((prev) => ({
+        ...prev,
+        lat: place.geometry.location.lat("d"),
+      }));
+      setAddress((prev) => ({
+        ...prev,
+        long: place.geometry.location.lng("d"),
+      }));
       setCenter({
-        lat: parseFloat(place.geometry.location.lat('d')),
-        lng: parseFloat(place.geometry.location.lng('d')),
+        lat: parseFloat(place.geometry.location.lat("d")),
+        lng: parseFloat(place.geometry.location.lng("d")),
       });
     }
 
-    setAddress(prev => ({...prev, place_id: place?.place_id}))
-    setAddress(prev => ({...prev, full_address: place?.formatted_address}))
- 
+    setAddress((prev) => ({ ...prev, place_id: place?.place_id }));
+    setAddress((prev) => ({ ...prev, full_address: place?.formatted_address }));
+
     setIsLoading(false);
   };
 
   const handlePin = (obj) => {
-    if(isLoaded){
-      setIsLoading(true)
+    if (isLoaded) {
+      setIsLoading(true);
       Geocode.setApiKey(process?.env?.MAP_API_KEY);
-      Geocode.fromLatLng(obj?.latLng?.lat(), obj?.latLng?.lng()).then(response => {
-        handlePlaceSearch(response?.results[0], true);
-      }); 
+      Geocode.fromLatLng(obj?.latLng?.lat(), obj?.latLng?.lng()).then(
+        (response) => {
+          handlePlaceSearch(response?.results[0], true);
+        }
+      );
     }
-  }
+  };
 
-  
   const getCurrentLocation = () => {
     setIsLoading(true);
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((location) => {
-        if(isLoaded){
+        if (isLoaded) {
           Geocode.setApiKey(process?.env?.MAP_API_KEY);
-          Geocode.fromLatLng(location?.coords?.latitude, location?.coords?.longitude).then(response => {
+          Geocode.fromLatLng(
+            location?.coords?.latitude,
+            location?.coords?.longitude
+          ).then((response) => {
             handlePlaceSearch(response?.results[0], true);
-          }); 
+          });
         }
       });
     } else {
@@ -206,28 +226,36 @@ function PropertyAddAddress({ code }) {
         </div>
 
         {/**google address search */}
-        <div className="mt-5 flex items-center" style={{ fontFamily: "Opensans-semi-bold" }}>
-        <button className="p-3 border rounded-md mr-2" onClick={getCurrentLocation}>
-          <MdMyLocation />
-        </button>
-        {isLoaded &&
-        <AutoComplete
-            onPlaceSelected={(place) => handlePlaceSearch(place)}
-            className="rounded-md border-gray-200 w-full text-sm p-2"
-            placeholder="Search your property address by pincode, area, route, zone, city, state or full address..."
-            style={{ borderWidth: "1px" }}
-            options={{
-              types: ['address'],
-              componentRestrictions: {
-                country: 'in'
-              }
-            }}
-            
-          />}
+        <div
+          className="mt-5 flex items-center"
+          style={{ fontFamily: "Opensans-semi-bold" }}
+        >
+          <button
+            className="p-3 border rounded-md mr-2"
+            onClick={getCurrentLocation}
+          >
+            <MdMyLocation />
+          </button>
+          {isLoaded && (
+            <AutoComplete
+              onPlaceSelected={(place) => handlePlaceSearch(place)}
+              className="rounded-md border-gray-200 w-full text-sm p-2"
+              placeholder="Search your property address by pincode, area, route, zone, city, state or full address..."
+              style={{ borderWidth: "1px" }}
+              options={{
+                types: ["address"],
+                componentRestrictions: {
+                  country: "in",
+                },
+              }}
+            />
+          )}
         </div>
-        <i className="mt-2">Find address on map and click on location to pin your address.</i>
+        <i className="mt-2">
+          Find address on map and click on location to pin your address.
+        </i>
         <div className="border-2 border-gray-200 rounded-md mb-3 mt-1 h-52">
-        {isLoaded && (
+          {isLoaded && (
             <GoogleMap
               center={center}
               zoom={15}
@@ -252,18 +280,17 @@ function PropertyAddAddress({ code }) {
           method="POST"
           onSubmit={handleSubmit}
         >
-          
           <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
-          <div className="form-element">
-            <label className="form-label">Landmark</label>
-            <input
-              type="text"
-              name="landmark"
-              value={address?.landmark}
-              onChange={inputHandler}
-              className="form-input border-gray-200 rounded-md -mt-1"
-            ></input>
-          </div>
+            <div className="form-element">
+              <label className="form-label">Landmark</label>
+              <input
+                type="text"
+                name="landmark"
+                value={address?.landmark}
+                onChange={inputHandler}
+                className="form-input border-gray-200 rounded-md -mt-1"
+              ></input>
+            </div>
             <div className="form-element">
               <label className="form-label">House number</label>
               <input
@@ -274,52 +301,54 @@ function PropertyAddAddress({ code }) {
                 className="form-input border-gray-200 rounded-md -mt-1"
               ></input>
             </div>
-              <input
-                type="hidden"
-                name="lattitude"
-                value={address?.lat}
-                onChange={inputHandler}
-              />
-              <input
-                type="hidden"
-                name="longitude"
-                value={address?.long}
-                onChange={inputHandler}
-              />
-              <input
-                type="hidden"
-                name="zone"
-                value={address?.zone}
-                onChange={inputHandler}
-              />
-              <input
-                type="hidden"
-                name="area"
-                value={address?.area}
-                onChange={inputHandler}
-              />
-              <input
-                type="hidden"
-                name="sub_area"
-                value={address?.sub_area}
-                onChange={inputHandler}
-              />
-              <input
-                type="hidden"
-                name="neighborhood"
-                value={address?.neighborhood}
-                onChange={inputHandler}
-              /><input
+            <input
+              type="hidden"
+              name="lattitude"
+              value={address?.lat}
+              onChange={inputHandler}
+            />
+            <input
+              type="hidden"
+              name="longitude"
+              value={address?.long}
+              onChange={inputHandler}
+            />
+            <input
+              type="hidden"
+              name="zone"
+              value={address?.zone}
+              onChange={inputHandler}
+            />
+            <input
+              type="hidden"
+              name="area"
+              value={address?.area}
+              onChange={inputHandler}
+            />
+            <input
+              type="hidden"
+              name="sub_area"
+              value={address?.sub_area}
+              onChange={inputHandler}
+            />
+            <input
+              type="hidden"
+              name="neighborhood"
+              value={address?.neighborhood}
+              onChange={inputHandler}
+            />
+            <input
               type="hidden"
               name="route"
               value={address?.route}
               onChange={inputHandler}
-            /><input
-            type="hidden"
-            name="place_id"
-            value={address?.place_id}
-            onChange={inputHandler}
-          />
+            />
+            <input
+              type="hidden"
+              name="place_id"
+              value={address?.place_id}
+              onChange={inputHandler}
+            />
             <div className="form-element">
               <label className="form-label">Pincode</label>
               <input

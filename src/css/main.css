@@ -67,6 +67,10 @@
   --tw-text-opacity: 1;
   color: rgba(14, 165, 233, var(--tw-text-opacity));
 }
+.right-section {
+  max-width: calc(100% - 16rem);
+}
+
 @media (min-width: 1280px) {
   .xl\:w-3\/12 {
     width: 25%;

@@ -7,10 +7,12 @@ import {
   getPropertyByCode,
 } from "../../../../lib/frontend/properties";
 import Loader from "../../../loader";
+import { __d } from "../../../../server";
 
 function PropertyAddAmenities({ code }) {
   const [propertyId, setPropertyId] = useState("");
   const [amenities, setAmenities] = useState([]);
+  const [user, setUser] = useState(false);
   const [preferences, setPreferences] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [skip, setSkip] = useState(true);
@@ -22,6 +24,10 @@ function PropertyAddAmenities({ code }) {
   useEffect(() => {
     const ids = code.split("-");
     setPropertyId(ids[ids.length - 1]);
+    const lu = JSON.parse(__d(localStorage.getItem("LU")));
+    if (lu) {
+      setUser(lu);
+    }
     setIsLoading(true);
     (async () => {
       const response = await getAmenities();
@@ -63,7 +69,11 @@ function PropertyAddAmenities({ code }) {
   const nextToEssentials = () => {
     localStorage.setItem("next_ap", "ESSENTIALS");
     if (back) {
-      router.push("properties");
+      if (user?.role === "ibo") {
+        router.push(`/${user.role}/manage-properties`);
+      } else {
+        router.push(`/${user.role}/manage-applications-and-documents`);
+      }
     } else {
       router.push(
         "?step=next&next=ESSENTIALS&id=" +
