@@ -10,7 +10,7 @@ function PropertyGrid({ image, title, subtitle, price, button }) {
         <p className="text-gray-600">{title}</p>
         <p style={{ fontFamily: "Opensans-bold" }}>Price: {price}</p>
         <p className="text-gray-600">{subtitle}</p>
-        <div className="my-3">{button}</div>
+        <div className="mt-3 flex items-start justify-between">{button}</div>
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import React from "react";
 import { getPoliceVerification } from "../../lib/frontend/share";
 import Loader from "../loader";
 import { toast } from "react-toastify";
+import { FaEye, FaFileDownload } from "react-icons/fa";
 
 function TenantCard({ a, info }) {
   const [purl, setPurl] = React.useState("");
@@ -57,29 +58,58 @@ function TenantCard({ a, info }) {
           className="mt-2 flex items-center justify-between w-full"
           style={{ fontFamily: "Opensans-semi-bold" }}
         >
-          <a
-            href={a?.agreement_url}
-            target="_blank"
-            className="p-2 rounded-md text-white"
-            style={{ backgroundColor: "var(--blue)" }}
-          >
-            Agreement Details
-          </a>
+          <div className="border-t">
+            <p>Agreement Details</p>
+
+            <div className="text-white flex items-center justify-center mt-3">
+              <a
+                href={a?.agreement_url}
+                className="p-3 rounded-md bg-blue-500"
+                target="_blank"
+              >
+                <FaEye />
+              </a>
+              <a
+                href={a?.agreement_url}
+                className="p-3 ml-3 rounded-md bg-blue-500"
+                download
+                target="_blank"
+              >
+                <FaFileDownload />
+              </a>
+            </div>
+          </div>
           {purl || a?.police_verification ? (
-            <a
-              target="_blank"
-              href={a?.police_verification || purl}
-              className="p-2 rounded-md text-white bg-red-500"
-            >
-              Police Verification
-            </a>
+            <div className="border-t">
+              <p>Police Verification</p>
+              <div className="text-white flex items-center justify-center mt-3">
+                <a
+                  href={a?.police_verification || purl}
+                  className="p-3 rounded-md bg-red-500"
+                  target="_blank"
+                >
+                  <FaEye />
+                </a>
+                <a
+                  href={a?.police_verification || purl}
+                  className="p-3 ml-3 rounded-md bg-red-500"
+                  download
+                  target="_blank"
+                >
+                  <FaFileDownload />
+                </a>
+              </div>
+            </div>
           ) : (
-            <button
-              onClick={policeVerification}
-              className="p-2 rounded-md text-white bg-red-500"
-            >
-              Generate Police Verification
-            </button>
+            <div className="border-t">
+              <p>Police Verification</p>
+              <button
+                onClick={policeVerification}
+                className="p-2 mt-3 rounded-md text-white bg-red-500"
+              >
+                Generate
+              </button>
+            </div>
           )}
         </div>
       </div>

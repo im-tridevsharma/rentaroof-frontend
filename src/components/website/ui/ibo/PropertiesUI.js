@@ -3,7 +3,7 @@ import Link from "next/link";
 import Card from "../../Card";
 import { useRouter } from "next/router";
 import PropertyGrid from "../../PropertyGrid";
-import { FaPlus, FaTimes } from "react-icons/fa";
+import { FaEye, FaFileDownload, FaPlus, FaTimes } from "react-icons/fa";
 import {
   getProperties,
   deleteProperty,
@@ -23,14 +23,23 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 const Button = ({ url }) => {
   return (
-    <a
-      href={url}
-      target="_blank"
-      className="p-2 rounded-md text-white"
-      style={{ backgroundColor: "var(--blue)" }}
-    >
-      View Agreement
-    </a>
+    <div className="border-t">
+      <p>Agreement</p>
+
+      <div className="text-white flex items-center justify-center mt-3">
+        <a href={url} className="p-3 rounded-md bg-blue-500" target="_blank">
+          <FaEye />
+        </a>
+        <a
+          href={url}
+          className="p-3 ml-3 rounded-md bg-blue-500"
+          download
+          target="_blank"
+        >
+          <FaFileDownload />
+        </a>
+      </div>
+    </div>
   );
 };
 
@@ -310,27 +319,44 @@ function PropertiesUI() {
                           className="w-full object-cover"
                         />
                       }
-                      title={a?.property_data?.name}
+                      title={a?.property_data?.name.substring(0, 35)}
                       price={`Rs. ${a?.property_data?.monthly_rent}/Month`}
                       subtitle={`Renter: ${a?.tenant?.first} ${a?.tenant?.last}`}
                       button={
                         <>
                           <Button url={a?.agreement_url} />
                           {purl || a?.police_verification ? (
-                            <a
-                              target="_blank"
-                              href={a?.police_verification || purl}
-                              className="p-2 ml-2 rounded-md text-white bg-red-500"
-                            >
-                              Police Verification
-                            </a>
+                            <div className="border-t">
+                              <p>Police Verification</p>
+
+                              <div className="text-white flex items-center justify-center mt-3">
+                                <a
+                                  href={a?.police_verification || purl}
+                                  className="p-3 rounded-md bg-red-500"
+                                  target="_blank"
+                                >
+                                  <FaEye />
+                                </a>
+                                <a
+                                  href={a?.police_verification || purl}
+                                  className="p-3 ml-3 rounded-md bg-red-500"
+                                  download
+                                  target="_blank"
+                                >
+                                  <FaFileDownload />
+                                </a>
+                              </div>
+                            </div>
                           ) : (
-                            <button
-                              onClick={() => policeVerification(a)}
-                              className="p-2 ml-2 rounded-md text-white bg-red-500"
-                            >
-                              Generate Police Verification
-                            </button>
+                            <div className="border-t mt-3">
+                              <p>Police Verification</p>
+                              <button
+                                onClick={() => policeVerification(a)}
+                                className="p-2 ml-2 mt-2 rounded-md text-white bg-red-500"
+                              >
+                                Generate
+                              </button>
+                            </div>
                           )}
                         </>
                       }

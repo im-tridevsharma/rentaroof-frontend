@@ -8,7 +8,6 @@ import {
 import TenantCard from "../../TenantCard";
 import Loader from "../../../loader";
 import {
-  FaHandHolding,
   FaList,
   FaTimes,
   FaTimesCircle,
@@ -39,23 +38,27 @@ function TenantUI() {
         setIsLoading(false);
       }
     };
+
+    fetchAgreements();
+  }, []);
+
+  React.useEffect(() => {
     const fetchPropertiesRentTxn = async () => {
-      setIsLoading(true);
-      const res = await getPropertyRentTransactions(
-        property?.property_code || "all"
-      );
-      if (res?.status) {
-        setRentTxn(res?.data);
-        setIsLoading(false);
-      } else {
-        setIsLoading(false);
-        console.error(res?.message);
+      if (property) {
+        setIsLoading(true);
+        const res = await getPropertyRentTransactions(property?.property_code);
+        if (res?.status) {
+          setRentTxn(res?.data);
+          setIsLoading(false);
+        } else {
+          setIsLoading(false);
+          console.error(res?.message);
+        }
       }
     };
 
     fetchPropertiesRentTxn();
-    fetchAgreements();
-  }, []);
+  }, [property]);
 
   const markClosed = async (code) => {
     if (code) {
@@ -88,62 +91,64 @@ function TenantUI() {
   return (
     <>
       {isLoading && <Loader />}
-      <div className="relative bg-lightBlue-600 pb-8">
-        <div className="mx-auto w-full">
-          <div>
-            <div className="flex flex-wrap">
-              <Card
-                color="green"
-                label={
-                  <span>
-                    Tenant
-                    <br /> Details
-                  </span>
-                }
-                icon={<FaUserFriends />}
-                onClick={() => setTab("tenant")}
-                current={tab}
-                state="tenant"
-              />
-              <Card
-                color="red"
-                label={
-                  <span>
-                    View
-                    <br /> Agreements
-                  </span>
-                }
-                icon={<FaUserTie />}
-                onClick={() => setTab("agreement")}
-                current={tab}
-                state="agreement"
-              />
-              <Card
-                color="yellow"
-                label="Police Verification"
-                icon={<FaUserSecret />}
-                onClick={() => setTab("verification")}
-                current={tab}
-                state="verification"
-              />
+      {false && (
+        <div className="relative bg-lightBlue-600 pb-8">
+          <div className="mx-auto w-full">
+            <div>
+              <div className="flex flex-wrap">
+                <Card
+                  color="green"
+                  label={
+                    <span>
+                      Tenant
+                      <br /> Details
+                    </span>
+                  }
+                  icon={<FaUserFriends />}
+                  onClick={() => setTab("tenant")}
+                  current={tab}
+                  state="tenant"
+                />
+                <Card
+                  color="red"
+                  label={
+                    <span>
+                      View
+                      <br /> Agreements
+                    </span>
+                  }
+                  icon={<FaUserTie />}
+                  onClick={() => setTab("agreement")}
+                  current={tab}
+                  state="agreement"
+                />
+                <Card
+                  color="yellow"
+                  label="Police Verification"
+                  icon={<FaUserSecret />}
+                  onClick={() => setTab("verification")}
+                  current={tab}
+                  state="verification"
+                />
 
-              <Card
-                color="red"
-                label={
-                  <span>
-                    Rent
-                    <br /> Payments
-                  </span>
-                }
-                icon={<FaList />}
-                current={tab}
-                state="rent"
-                onClick={() => setTab("rent")}
-              />
+                <Card
+                  color="red"
+                  label={
+                    <span>
+                      Rent
+                      <br /> Payments
+                    </span>
+                  }
+                  icon={<FaList />}
+                  current={tab}
+                  state="rent"
+                  onClick={() => setTab("rent")}
+                />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
       {property && (
         <div className="flex bg-white mx-4 mb-3 rounded-md p-2 relative">
@@ -182,6 +187,12 @@ function TenantUI() {
                       Mark Property as Live
                     </button>
                   )}
+                  <button
+                    onClick={() => setShowTxn(true)}
+                    className="px-2 py-1 rounded-md bg-green-500 text-white ml-3"
+                  >
+                    Show Transactions
+                  </button>
                 </div>
               )}
             </p>
@@ -291,39 +302,20 @@ function TenantUI() {
         </div>
       )}
 
-      {tab === "agreement" && (
-        <div className="bg-white rounded-md mx-4 overflow-hidden overflow-y-auto">
-          <p
-            className="flex items-center justify-between bg-gray-50 p-4"
-            style={{ fontFamily: "Opensans-semi-bold" }}
+      {showTxn && (
+        <div className="absolute top-0 left-0 w-full h-full bg-white z-40 p-3">
+          <h4
+            style={{ fontFamily: "Opensans-bold" }}
+            className="flex items-center justify-between"
           >
-            <span>View Agreements</span>
-          </p>
-          <div className="mt-5 p-4"></div>
-        </div>
-      )}
+            Rent Transactions
+            <FaTimes
+              className="text-red-500 cursor-pointer"
+              onClick={() => setShowTxn(false)}
+            />
+          </h4>
 
-      {tab === "verification" && (
-        <div className="bg-white rounded-md mx-4 overflow-hidden overflow-y-auto">
-          <p
-            className="flex items-center justify-between bg-gray-50 p-4"
-            style={{ fontFamily: "Opensans-semi-bold" }}
-          >
-            <span>Police Verification</span>
-          </p>
-          <div className="mt-5 p-4"></div>
-        </div>
-      )}
-
-      {tab === "rent" && (
-        <div className="bg-white rounded-md mx-4 overflow-hidden overflow-y-auto">
-          <p
-            className="flex items-center justify-between bg-gray-50 p-4"
-            style={{ fontFamily: "Opensans-semi-bold" }}
-          >
-            <span>Rent Payments</span>
-          </p>
-          <div className="mt-5 p-4">
+          <div className="mt-3">
             <table className="table table-auto">
               <thead>
                 <tr>

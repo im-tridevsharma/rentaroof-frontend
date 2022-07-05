@@ -97,11 +97,11 @@ function TrainingManagementUI() {
 
               <Card
                 color="red"
-                label="MCQ Tests"
+                label="UPCOMING WORKSHOPS"
                 icon={<FaUserCheck />}
                 current={tab}
-                state="test"
-                onClick={() => router.push("training_mcqs")}
+                state="live"
+                onClick={() => setTab("live")}
               />
             </div>
           </div>
@@ -115,6 +115,12 @@ function TrainingManagementUI() {
             style={{ fontFamily: "Opensans-semi-bold" }}
           >
             <span>Training Videos</span>
+            <button
+              className="text-red-500"
+              onClick={() => router.push("training_mcqs")}
+            >
+              Complete Pending Tests
+            </button>
           </p>
           <div className="mt-5 p-4">
             {videos?.length > 0 ? (
@@ -181,6 +187,18 @@ function TrainingManagementUI() {
               title="Training Pdf"
             />
           </div>
+        </div>
+      )}
+
+      {tab === "live" && (
+        <div className="bg-white rounded-md mx-4 overflow-hidden overflow-y-auto">
+          <p
+            className="flex items-center justify-between bg-gray-50 p-4"
+            style={{ fontFamily: "Opensans-semi-bold" }}
+          >
+            <span>UPCOMING SCHEDULED WORKSHOPS</span>
+          </p>
+          <div className="mt-5 p-4"></div>
         </div>
       )}
 
