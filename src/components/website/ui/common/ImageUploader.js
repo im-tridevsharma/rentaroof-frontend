@@ -86,8 +86,7 @@ function ImageUploader({
               {imageList.map((image, index) => (
                 <div
                   key={index}
-                  className="m-1"
-                  className="relative flex flex-col items-center border-2 border-dashed boder-gray-200"
+                  className="m-1 relative flex flex-col items-center border-2 border-dashed boder-gray-200"
                 >
                   <img
                     src={image["data_url"]}
@@ -143,6 +142,14 @@ function ImageUploader({
                   alt={`image-${i}`}
                   className="h-full w-full object-contain"
                 />
+                <label className="absolute left-2 top-2 w-7 h-7 flex items-center justify-center rounded-full bg-gray-50">
+                  <input
+                    type="radio"
+                    name="cover"
+                    value={index}
+                    onChange={(e) => e.target.checked && setCover(g)}
+                  />
+                </label>
                 <div
                   onClick={() => removeImage(i)}
                   className="bg-white cursor-pointer w-10 h-10 flex items-center justify-center rounded-full absolute -right-3 -top-3 border"

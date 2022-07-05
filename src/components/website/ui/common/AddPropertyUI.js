@@ -39,6 +39,7 @@ function AddPropertyUI() {
   const [bathrooms, setBathrooms] = useState("");
   const [balconies, setBalconies] = useState("");
   const [floors, setFloors] = useState("");
+  const [floor_number, setFloorNumber] = useState("");
   const [errors, setErrors] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [propertyCode, setPropertyCode] = useState("");
@@ -93,6 +94,7 @@ function AddPropertyUI() {
           setBathrooms(response?.data.bathrooms);
           setBalconies(response?.data.balconies);
           setFloors(response?.data.floors);
+          setFloorNumber(response?.data.floor_number);
           setIsLoading(false);
         } else {
           setIsLoading(false);
@@ -479,37 +481,21 @@ function AddPropertyUI() {
                 <label className="form-label">
                   Bedroom<span style={{ color: "red" }}>*</span>
                 </label>
-                <div className="flex items-center flex-wrap">
-                  <CircleInputRadio
+                <div className="flex items-center justify-between">
+                  <select
+                    className="form-input border-gray-200 rounded-md"
                     name="bedrooms"
-                    value="0"
-                    state={{ data: bedrooms, setData: setBedrooms }}
-                  />
-                  <CircleInputRadio
-                    name="bedrooms"
-                    value="1"
-                    state={{ data: bedrooms, setData: setBedrooms }}
-                  />
-                  <CircleInputRadio
-                    name="bedrooms"
-                    value="2"
-                    state={{ data: bedrooms, setData: setBedrooms }}
-                  />
-                  <CircleInputRadio
-                    name="bedrooms"
-                    value="3"
-                    state={{ data: bedrooms, setData: setBedrooms }}
-                  />
-                  <CircleInputRadio
-                    name="bedrooms"
-                    value="4"
-                    state={{ data: bedrooms, setData: setBedrooms }}
-                  />
-                  <CircleInputRadio
-                    name="bedrooms"
-                    value="4+"
-                    state={{ data: bedrooms, setData: setBedrooms }}
-                  />
+                    value={bedrooms}
+                    onChange={(e) => setBedrooms(e.target.value)}
+                  >
+                    <option value="">Select</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="4+">4+</option>
+                  </select>
                   <input
                     type="text"
                     name="custom_bedrooms"
@@ -517,48 +503,33 @@ function AddPropertyUI() {
                     style={{
                       borderWidth: "1px",
                       display: bedrooms === "4+" ? "inline" : "none",
+                      padding: "6px",
                     }}
                   />
                 </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
+            <div className="grid grid-cols-1 md:grid-cols-4 md:space-x-3">
               <div className="form-element">
                 <label className="form-label">
                   Bathroom<span style={{ color: "red" }}>*</span>
                 </label>
-                <div className="flex items-center flex-wrap">
-                  <CircleInputRadio
+                <div className="flex items-center justify-between">
+                  <select
+                    className="form-input border-gray-200 rounded-md"
                     name="bathrooms"
-                    value="0"
-                    state={{ data: bathrooms, setData: setBathrooms }}
-                  />
-                  <CircleInputRadio
-                    name="bathrooms"
-                    value="1"
-                    state={{ data: bathrooms, setData: setBathrooms }}
-                  />
-                  <CircleInputRadio
-                    name="bathrooms"
-                    value="2"
-                    state={{ data: bathrooms, setData: setBathrooms }}
-                  />
-                  <CircleInputRadio
-                    name="bathrooms"
-                    value="3"
-                    state={{ data: bathrooms, setData: setBathrooms }}
-                  />
-                  <CircleInputRadio
-                    name="bathrooms"
-                    value="4"
-                    state={{ data: bathrooms, setData: setBathrooms }}
-                  />
-                  <CircleInputRadio
-                    name="bathrooms"
-                    value="4+"
-                    state={{ data: bathrooms, setData: setBathrooms }}
-                  />
+                    value={bathrooms}
+                    onChange={(e) => setBathrooms(e.target.value)}
+                  >
+                    <option value="">Select</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="4+">4+</option>
+                  </select>
                   <input
                     type="text"
                     name="custom_bathrooms"
@@ -566,6 +537,7 @@ function AddPropertyUI() {
                     style={{
                       borderWidth: "1px",
                       display: bathrooms === "4+" ? "inline" : "none",
+                      padding: "6px",
                     }}
                   />
                 </div>
@@ -575,37 +547,21 @@ function AddPropertyUI() {
                 <label className="form-label">
                   Balcony<span style={{ color: "red" }}>*</span>
                 </label>
-                <div className="flex items-center flex-wrap">
-                  <CircleInputRadio
+                <div className="flex items-center justify-between">
+                  <select
+                    className="form-input border-gray-200 rounded-md"
                     name="balconies"
-                    value="0"
-                    state={{ data: balconies, setData: setBalconies }}
-                  />
-                  <CircleInputRadio
-                    name="balconies"
-                    value="1"
-                    state={{ data: balconies, setData: setBalconies }}
-                  />
-                  <CircleInputRadio
-                    name="balconies"
-                    value="2"
-                    state={{ data: balconies, setData: setBalconies }}
-                  />
-                  <CircleInputRadio
-                    name="balconies"
-                    value="3"
-                    state={{ data: balconies, setData: setBalconies }}
-                  />
-                  <CircleInputRadio
-                    name="balconies"
-                    value="4"
-                    state={{ data: balconies, setData: setBalconies }}
-                  />
-                  <CircleInputRadio
-                    name="balconies"
-                    value="4+"
-                    state={{ data: balconies, setData: setBalconies }}
-                  />
+                    value={balconies}
+                    onChange={(e) => setBalconies(e.target.value)}
+                  >
+                    <option value="">Select</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="4+">4+</option>
+                  </select>
                   <input
                     type="text"
                     name="custom_balconies"
@@ -613,6 +569,7 @@ function AddPropertyUI() {
                     style={{
                       borderWidth: "1px",
                       display: balconies === "4+" ? "inline" : "none",
+                      padding: "6px",
                     }}
                   />
                 </div>
@@ -621,42 +578,22 @@ function AddPropertyUI() {
                 <label className="form-label">
                   Floors<span style={{ color: "red" }}>*</span>
                 </label>
-                <div className="flex items-center flex-wrap">
-                  <CircleInputRadio
+                <div className="flex items-center justify-between">
+                  <select
+                    className="form-input border-gray-200 rounded-md"
                     name="floors"
-                    value="-1"
-                    state={{ data: floors, setData: setFloors }}
-                  />
-                  <CircleInputRadio
-                    name="floors"
-                    value="0"
-                    state={{ data: floors, setData: setFloors }}
-                  />
-                  <CircleInputRadio
-                    name="floors"
-                    value="1"
-                    state={{ data: floors, setData: setFloors }}
-                  />
-                  <CircleInputRadio
-                    name="floors"
-                    value="2"
-                    state={{ data: floors, setData: setFloors }}
-                  />
-                  <CircleInputRadio
-                    name="floors"
-                    value="3"
-                    state={{ data: floors, setData: setFloors }}
-                  />
-                  <CircleInputRadio
-                    name="floors"
-                    value="4"
-                    state={{ data: floors, setData: setFloors }}
-                  />
-                  <CircleInputRadio
-                    name="floors"
-                    value="4+"
-                    state={{ data: floors, setData: setFloors }}
-                  />
+                    value={floors}
+                    onChange={(e) => setFloors(e.target.value)}
+                  >
+                    <option value="">Select</option>
+                    <option value="-1">-1</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="4+">4+</option>
+                  </select>
                   <input
                     type="text"
                     name="custom_floors"
@@ -664,8 +601,36 @@ function AddPropertyUI() {
                     style={{
                       borderWidth: "1px",
                       display: floors === "4+" ? "inline" : "none",
+                      padding: "6px",
                     }}
                   />
+                </div>
+              </div>
+              <div className="form-element">
+                <label className="form-label">
+                  Floor Number<span style={{ color: "red" }}>*</span>
+                </label>
+                <div className="flex items-center justify-between">
+                  <select
+                    className="form-input border-gray-200 rounded-md"
+                    name="floor_number"
+                    value={floor_number}
+                    onChange={(e) => setFloorNumber(e.target.value)}
+                  >
+                    <option value="">Select</option>
+                    <option value="Basement">Basement</option>
+                    <option value="Ground">Ground</option>
+                    <option value="1st">1st</option>
+                    <option value="2nd">2nd</option>
+                    <option value="3rd">3rd</option>
+                    <option value="4th">4th</option>
+                    <option value="5th">5th</option>
+                    <option value="6th">6th</option>
+                    <option value="7th">7th</option>
+                    <option value="8th">8th</option>
+                    <option value="9th">9th</option>
+                    <option value="10th">10th</option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -931,14 +896,14 @@ function AddPropertyUI() {
               />
             </div>
 
-            <div>
+            <div className="text-center">
               <button
-                className="text-white rounded-md px-3 py-2 mt-6 w-full"
+                className="text-white rounded-md px-3 py-2 mt-6 w-full max-w-sm"
                 style={{ backgroundColor: "var(--blue)" }}
               >
                 {property?.id
-                  ? "Update and Procced Next"
-                  : "Submit and Procced Next"}
+                  ? "Update and Proceed Next"
+                  : "Submit and Proceed Next"}
               </button>
             </div>
           </form>

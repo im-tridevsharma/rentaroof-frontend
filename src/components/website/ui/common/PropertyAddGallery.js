@@ -20,6 +20,7 @@ function PropertyAddGallery({ code }) {
   const [masterPlanImages, setMasterPlanImages] = useState([]);
   const [locationMapImages, setLocationMapImages] = useState([]);
   const [coverImage, setCoverImage] = useState("");
+
   const [tobeRemoved, setTobeRemoved] = useState({
     exterior_view: [],
     living_room: [],
@@ -179,7 +180,6 @@ function PropertyAddGallery({ code }) {
 
     formdata.append("cover", coverImage);
     formdata.append("propertyId", propertyId);
-
     if (formdata) {
       submitData(formdata);
     } else {

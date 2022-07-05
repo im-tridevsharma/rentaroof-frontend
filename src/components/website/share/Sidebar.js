@@ -30,7 +30,7 @@ function Sidebar({ name, user }) {
   return (
     <>
       {isLoading && <Loader overlay={true} />}
-      <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6">
+      <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10 pt-1 pb-4 px-6">
         <div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
           <button
             className="cursor-pointer text-black opacity-50 md:hidden px-3 py-1 text-xl leading-none bg-transparent rounded border border-solid border-transparent"
@@ -39,11 +39,11 @@ function Sidebar({ name, user }) {
             <FaBars />
           </button>
           <Link href="/">
-            <a className="text-left text-blueGray-600 mr-0 flex whitespace-nowrap text-sm uppercase font-bold px-0">
+            <a className="text-left text-blueGray-600 mr-0 flex items-center whitespace-nowrap text-sm uppercase font-bold px-0">
               <img
                 src={user?.profile_pic || "/images/faces/icon-user.png"}
                 alt="logo"
-                className="h-10 w-10 rounded-full object-contain"
+                className="h-14 w-14 border border-gray-500 rounded-full object-cover"
               />
               <p className="flex flex-col ml-2">
                 <b>

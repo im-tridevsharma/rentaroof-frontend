@@ -24,17 +24,17 @@ const links = [
       },
       {
         icon: <FaWpforms className="mr-2 text-sm opacity-75" size={20} />,
-        title: "Applications & Visit",
+        title: "Application & Visit",
         href: "/tenant/applications-and-visit",
       },
       {
         icon: <FaFileAlt className="mr-2 text-sm opacity-75" size={20} />,
-        title: "Manage Documents",
+        title: "Manage Document",
         href: "/tenant/manage-documents",
       },
       {
         icon: <FaPaypal className="mr-2 text-sm opacity-75" size={20} />,
-        title: "Wallet & Transactions",
+        title: "Wallet & Transaction",
         href: "/tenant/wallet-and-transactions",
       },
       {

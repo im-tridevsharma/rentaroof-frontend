@@ -108,7 +108,7 @@ function PropertyAddAmenities({ code }) {
 
   const handleCheck = (e) => {
     if (!e.target.checked) {
-      setAmenity(amenity.filter((a) => a !== e.target.value));
+      setAmenity(amenity?.filter((a) => a !== e.target.value));
     } else {
       setAmenity((prev) => [...prev, e.target.value]);
     }
@@ -160,7 +160,7 @@ function PropertyAddAmenities({ code }) {
                       name="amenities[]"
                       value={a.id}
                       checked={
-                        amenity.includes(a.id?.toString()) ? true : false
+                        amenity?.includes(a.id?.toString()) ? true : false
                       }
                       onChange={handleCheck}
                       className="mx-2 w-6 h-6 border-gray-200"
@@ -181,7 +181,7 @@ function PropertyAddAmenities({ code }) {
           <b className="mt-2 block">Preferences</b>
           <div className="grid grid-cols-1 md:grid-cols-4 mt-1">
             {preferences?.length > 0 &&
-              preferences.map((a, i) => (
+              preferences?.map((a, i) => (
                 <div
                   className="flex flex-col m-2 overflow-hidden border-dotted border-gray-200 border-2 p-2"
                   key={i}
@@ -193,7 +193,7 @@ function PropertyAddAmenities({ code }) {
                       name="preferences[]"
                       value={a.id}
                       checked={
-                        preference.includes(a.id?.toString()) ? true : false
+                        preference?.includes(a.id?.toString()) ? true : false
                       }
                       onChange={handleCheckP}
                       className="mx-2 w-6 h-6 border-gray-200"

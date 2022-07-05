@@ -19,7 +19,7 @@ const links = [
       },
       {
         icon: <FaStopwatch className="mr-2 text-sm opacity-75" size={20} />,
-        title: "Manage applications & documents",
+        title: "Manage application & document",
         href: "/landlord/manage-applications-and-documents",
       },
       {
@@ -29,7 +29,7 @@ const links = [
       },
       {
         icon: <FaPaypal className="mr-2 text-sm opacity-75" size={20} />,
-        title: "Accounts Statement",
+        title: "Account Statement",
         href: "/landlord/payment",
       },
       {

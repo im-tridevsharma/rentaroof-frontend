@@ -33,7 +33,7 @@ function PostedProperty({ property, deleteProperties }) {
           <img
             src={property?.front_image || "/images/website/no_photo.png"}
             alt={property?.name}
-            className="w-full h-50 object-fill"
+            className="w-full object-contain h-60"
           />
         </div>
         <div className="text-center" style={{ fontFamily: "Opensans-regular" }}>

@@ -331,7 +331,7 @@ function PropertiesUI() {
                           "/images/website/no_photo.png"
                         }
                         alt="property"
-                        className="w-full object-cover"
+                        className="w-full object-contain h-60"
                       />
                     }
                     title={a?.property_data?.name}
