@@ -12,7 +12,8 @@ import {
 import Card from "../../Card";
 import moment from "moment";
 import { shallowEqual, useSelector } from "react-redux";
-import { FaCalendarAlt, FaListAlt, FaPoundSign } from "react-icons/fa";
+import { FaCalendarAlt, FaListAlt, FaPoundSign, FaVideo } from "react-icons/fa";
+import router from "next/router";
 
 function PaymentUI() {
   const [user, setUser] = React.useState(false);
@@ -166,12 +167,17 @@ function PaymentUI() {
               />
               <Card
                 color="green"
-                label="Pending and Upcoming Payments"
+                label="Upcoming Payments"
                 icon={<FaCalendarAlt />}
                 onClick={() => setTab("pending")}
                 current={tab}
                 state="pending"
-                col={4}
+              />
+              <Card
+                color="green"
+                label="How to use/FAQs"
+                icon={<FaVideo />}
+                onClick={() => router.push("how-to-use")}
               />
             </div>
           </div>

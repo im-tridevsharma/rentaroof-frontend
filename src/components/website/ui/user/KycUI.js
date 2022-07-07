@@ -4,8 +4,20 @@ import { getProfile, updateProfile } from "../../../../lib/frontend/auth";
 import { FiAlertTriangle, FiCheckCircle, FiEye, FiInfo } from "react-icons/fi";
 import { GoVerified, GoUnverified } from "react-icons/go";
 import ReactTooltip from "react-tooltip";
-import { FaEdit, FaFingerprint, FaHatCowboy } from "react-icons/fa";
+import { FaEdit, FaFingerprint, FaHome } from "react-icons/fa";
 import Card from "../../Card";
+import {
+  createPaymentOrder,
+  getAgreements,
+  successPayment,
+} from "../../../../lib/frontend/share";
+import moment from "moment";
+import { FcOvertime } from "react-icons/fc";
+import Router from "next/router";
+import { __d } from "../../../../server";
+import { useSelector, shallowEqual } from "react-redux";
+import { toast } from "react-toastify";
+import { FaQuestionCircle } from "react-icons/fa";
 
 function KycUI() {
   const [profilePic, setProfilePic] = useState("");
@@ -15,10 +27,105 @@ function KycUI() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [kyc, setKyc] = useState(false);
-  const [tab, setTab] = useState("kyc");
+  const [tab, setTab] = useState("builder");
+  const [agreements, setAgreements] = useState([]);
+  const [focus, setFocus] = useState(false);
+
+  const { website } = useSelector(
+    (state) => ({
+      website: state.website,
+    }),
+    shallowEqual
+  );
+
+  const loadScript = (src) => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = src;
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+      document.body.appendChild(script);
+    });
+  };
+
+  const displayRazorpay = async (data, first = false) => {
+    setIsLoading(true);
+    const postdata = {
+      amount: first
+        ? data?.first_payment != 0
+          ? data?.first_payment
+          : data?.payment_amount
+        : data?.payment_amount,
+      type: "rent",
+      type_id: data.id,
+      message:
+        "Payment of rent for month " +
+        moment(data.next_due).format("DD-MM-YYYY") +
+        " by user " +
+        profile?.fullname,
+    };
+    const res = await createPaymentOrder(postdata);
+    if (res?.status) {
+      setIsLoading(false);
+      const paymentObject = new window.Razorpay({
+        key: process.env.NEXT_PUBLIC_RAZOR_KEY,
+        currency: res?.data?.currency,
+        amount: res?.data?.amount * 100,
+        name: "Rent A Roof",
+        description: "Pay your first renting amount.",
+        order_id: res?.data?.order_number,
+        image: website?.logo,
+        handler: async function (response) {
+          setIsLoading(true);
+          const res = await successPayment(response);
+          if (res?.status) {
+            setAgreements(
+              agreements.map((a) =>
+                a.id === res?.type.id
+                  ? { ...a, next_due: res?.type?.next_due }
+                  : a
+              )
+            );
+            toast.success("Payment done successfully.");
+            setIsLoading(false);
+          } else {
+            toast.error(res?.message || res?.error);
+            setIsLoading(false);
+          }
+        },
+        prefill: {
+          name: profile?.fullname,
+          email: profile?.email,
+          contact: profile?.mobile,
+        },
+      });
+      paymentObject.open();
+    } else {
+      toast.error(res?.error || res?.message);
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     setIsLoading(true);
+    loadScript("https://checkout.razorpay.com/v1/checkout.js");
+    setFocus(Router.query.a);
+    const fetchAgreements = async () => {
+      setIsLoading(true);
+      const res = await getAgreements();
+      if (res?.status) {
+        setAgreements(res?.data);
+        setIsLoading(false);
+      } else {
+        console.error(res?.error || res?.message);
+        setIsLoading(false);
+      }
+    };
+
     (async () => {
       const response = await getProfile(true);
       if (response?.status) {
@@ -31,6 +138,8 @@ function KycUI() {
         setIsLoading(false);
       }
     })();
+
+    fetchAgreements();
   }, []);
 
   const handleFileChange = (e) => {
@@ -104,28 +213,29 @@ function KycUI() {
           <div>
             <div className="flex flex-wrap">
               <Card
+                color="red"
+                label="Rented Properies"
+                icon={<FaHome />}
+                onClick={() => setTab("builder")}
+                current={tab}
+                state="builder"
+              />
+
+              <Card
+                color="green"
+                label="Closed Deals"
+                icon={<FaEdit />}
+                onClick={() => setTab("deals")}
+                current={tab}
+                state="deals"
+              />
+              <Card
                 color="yellow"
                 label="User Kyc"
                 icon={<FaFingerprint />}
                 onClick={() => setTab("kyc")}
                 current={tab}
                 state="kyc"
-              />
-              <Card
-                color="red"
-                label="Rent Agreement Builder"
-                icon={<FaEdit />}
-                onClick={() => setTab("builder")}
-                current={tab}
-                state="builder"
-              />
-              <Card
-                color="green"
-                label="Police Verification"
-                icon={<FaHatCowboy />}
-                onClick={() => setTab("police")}
-                current={tab}
-                state="police"
               />
             </div>
           </div>
@@ -552,18 +662,133 @@ function KycUI() {
             className="flex items-center justify-between bg-gray-50 p-4"
             style={{ fontFamily: "Opensans-semi-bold" }}
           >
-            <span>Rent Agreement Builder</span>
+            <span>Rented Properies</span>
           </p>
-          <div className="mt-5 p-4"></div>
+          <div className="mt-5 p-4 grid grid-cols-1 md:grid-cols-3 md:space-x-5 space-y-5 md:space-y-0">
+            {agreements?.length > 0 ? (
+              agreements.map((p, i) => (
+                <div
+                  className={`relative border-gray-200 p-2 ${
+                    focus == p?.id
+                      ? "bg-white border border-red-200"
+                      : "bg-white"
+                  }`}
+                  key={i}
+                >
+                  <div className="w-full h-52 overflow-hidden rounded-md">
+                    <img
+                      src={
+                        p?.property_data?.front_image ||
+                        "/images/website/no_photo.png"
+                      }
+                      alt="property"
+                      layout="responsive"
+                      width="100%"
+                      height="100%"
+                    />
+                  </div>
+                  <div
+                    className="flex flex-col flex-grow"
+                    style={{ fontFamily: "Opensans-regular" }}
+                  >
+                    <h6
+                      className="text-gray-800 text-xs my-1"
+                      style={{ fontFamily: "Opensans-bold" }}
+                    >
+                      {p?.property_data?.property_code}
+                    </h6>
+                    <h6
+                      className="text-gray-800"
+                      style={{ fontFamily: "Opensans-bold" }}
+                    >
+                      {String(p?.property_data?.name)?.substring(0, 25) + "..."}
+                    </h6>
+                    <span className="font-bold">
+                      Landlord: {p?.landlord?.first} {p?.landlord?.last}
+                    </span>
+                  </div>
+                  <div className="flex flex-col">
+                    <div className="my-1 flex flex-col">
+                      {moment(p?.start_date).add(1, "M").format("MM-YYYY") ===
+                        moment(p?.next_due).format("MM-YYYY") && (
+                        <button
+                          onClick={() => displayRazorpay(p, true)}
+                          className="p-1 text-white rounded-md bg-green-400"
+                        >
+                          Make First Payment{" "}
+                          {`(Rs. ${
+                            p?.first_payment != 0
+                              ? p?.first_payment
+                              : p?.payment_amount
+                          })`}
+                          {p?.first_payment != 0 && (
+                            <FaQuestionCircle
+                              className="ml-2 inline"
+                              data-tip={`Advance Payment : Rs. ${p?.advance_amount}
+                           + Security Deposit: Rs. ${p?.security_amount}
+                           + Services Charges: Rs. ${p?.fee_amount}
+                           + Monthly Payment: Rs. ${p?.payment_amount} `}
+                            />
+                          )}
+                          <ReactTooltip />
+                        </button>
+                      )}
+
+                      {moment(p?.start_date).add(1, "M").format("MM-YYYY") !==
+                        moment(p?.next_due).format("MM-YYYY") && (
+                        <button
+                          onClick={() => displayRazorpay(p)}
+                          className="p-1 text-white rounded-md bg-green-400"
+                        >
+                          Pay for {moment(p?.next_due).format("DD-MM-YYYY")}{" "}
+                          {`(Rs. ${p?.payment_amount})`}
+                        </button>
+                      )}
+                      <a
+                        href={p?.agreement_url}
+                        target="_blank"
+                        className="p-1 mt-2 text-center text-white rounded-md"
+                        style={{ backgroundColor: "var(--blue)" }}
+                      >
+                        View Agreement
+                      </a>
+                    </div>
+                    <p className="text-gray-500 text-xs mt-2">
+                      {p?.description?.length > 80
+                        ? p?.description.substring(0, 80) + "..."
+                        : p?.description}
+                    </p>
+                    <p className="text-gray-500 mt-1 flex items-center text-xs">
+                      <FcOvertime className="text-xl" />{" "}
+                      {moment(p?.start_date).format("DD-MM-YYYY")}
+                      <span className="mx-2">to</span>
+                      {moment(p?.end_date).format("DD-MM-YYYY")}
+                      <ReactTooltip />
+                    </p>
+                    <p className="text-gray-500 mt-1 flex items-center text-xs">
+                      <span className="capitalize" data-tip="Payment Frequency">
+                        {p?.payment_frequency}
+                      </span>
+                      <span className="capitalize" data-tip="Next Due">
+                        {moment(p?.next_due).format("DD-MM-YYYY")}
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-red-500 p-3">No rented properties found!</p>
+            )}
+          </div>
         </div>
       )}
-      {tab === "police" && (
+      {tab === "deals" && (
         <div className="bg-white rounded-md mx-4 overflow-hidden overflow-y-auto">
           <p
             className="flex items-center justify-between bg-gray-50 p-4"
             style={{ fontFamily: "Opensans-semi-bold" }}
           >
-            <span>Police Verification</span>
+            <span>Closed Deals/Awaiting Documentation</span>
           </p>
           <div className="mt-5 p-4"></div>
         </div>

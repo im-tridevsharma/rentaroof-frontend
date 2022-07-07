@@ -9,12 +9,16 @@ import {
 import { __d } from "../../../../server";
 import Loader from "../../../loader";
 import moment from "moment";
-import { FaCalendarAlt, FaCalendarDay, FaTimes } from "react-icons/fa";
-import { FiMessageCircle } from "react-icons/fi";
+import {
+  FaCalendarAlt,
+  FaCalendarDay,
+  FaCircleNotch,
+  FaTimes,
+} from "react-icons/fa";
+import { FiMail, FiMessageCircle, FiPhoneCall } from "react-icons/fi";
 import {
   createConversation,
   saveIboRating,
-  saveUserNotication,
 } from "../../../../lib/frontend/share";
 import StarRatings from "react-star-ratings";
 import ReactTooltip from "react-tooltip";
@@ -32,10 +36,10 @@ function AppointmentUI() {
   const [reschedule, setReschedule] = useState(false);
   const [rateAndReview, setRateAndReview] = useState(false);
   const [rating, setRating] = useState(0);
+  const [appointmentHistory, setAppointmentHistory] = useState([]);
 
   useEffect(() => {
     const fetchAppointments = async () => {
-      setIsLoading(true);
       const response = await getMeetings();
       if (response?.status) {
         setAppointments(response?.data);
@@ -54,11 +58,16 @@ function AppointmentUI() {
               response?.data.filter((d) => moment() <= moment(d.start_time))
             )
           : setUpcomingAppointments([]);
-
-        setIsLoading(false);
+        response?.data?.length > 0
+          ? setAppointmentHistory(
+              response?.data.filter((d) => {
+                const history = JSON.parse(d.meeting_history);
+                return history.length > 0;
+              })
+            )
+          : setAppointmentHistory([]);
       } else {
         toast.error(response?.error || response?.message);
-        setIsLoading(false);
       }
     };
 
@@ -70,52 +79,6 @@ function AppointmentUI() {
       fetchAppointments();
     }
   }, [reload]);
-
-  const handleUserNotification = async (
-    user_id,
-    property,
-    status,
-    time = null,
-    href = null
-  ) => {
-    setIsLoading(true);
-    const message = {
-      approved: `${user?.fullname} has accepted your appointment for property - ${property}`,
-      visited: `${user?.fullname} has visited property - ${property} with you.`,
-      closed: `${user?.fullname} has closed appointment for property - ${property}.`,
-      agreement: `${user?.fullname} has created an agreement for property - ${property}.`,
-      rescheduled: `${
-        user?.fullname
-      } has rescheduled appointment for property - ${property}. Date - ${
-        time?.date && time.date
-      }, Time: ${time?.time && time.time}`,
-    };
-    const formdata = new FormData();
-    formdata.append(
-      "title",
-      status === "agreement"
-        ? `Agreement Created Successfully🎉`
-        : `Appointment Notification🔔`
-    );
-    formdata.append("type", "Normal");
-    formdata.append("tenant_id", user_id);
-    formdata.append("user_id", user?.id);
-    formdata.append("name", user?.fullname);
-    formdata.append("email", user?.email);
-    formdata.append("mobile", user?.mobile);
-    formdata.append("content", message[status]);
-    if (href) {
-      formdata.append("redirect", href);
-    }
-
-    const res = await saveUserNotication(formdata);
-    if (res?.status) {
-      setIsLoading(false);
-    } else {
-      setIsLoading(false);
-      toast.error(res?.error || res?.message);
-    }
-  };
 
   const openRateAndReview = (a) => {
     setRateAndReview(a);
@@ -216,6 +179,20 @@ function AppointmentUI() {
                 onClick={() => setCardMode("upcoming")}
                 current={cardMode}
                 state="upcoming"
+              />
+              <Card
+                color="red"
+                label={
+                  <span>
+                    All Visit <br />
+                    History
+                  </span>
+                }
+                value={appointmentHistory?.length || 0}
+                icon={<FaCircleNotch />}
+                onClick={() => setCardMode("history")}
+                current={cardMode}
+                state="history"
               />
             </div>
           </div>
@@ -466,6 +443,113 @@ function AppointmentUI() {
                   <tr>
                     <td colSpan="6" className="text-red-500">
                       No appointments found!
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {cardMode === "history" && (
+        <div className="bg-white rounded-md mx-4 overflow-hidden overflow-y-auto">
+          <p
+            className="flex items-center justify-between bg-gray-50 p-4"
+            style={{ fontFamily: "Opensans-semi-bold" }}
+          >
+            <span>All Visit History</span>
+          </p>
+          <div className="mt-5 p-4">
+            <table className="table">
+              <thead
+                style={{
+                  backgroundColor: "var(--blue)",
+                  fontFamily: "Opensans-semi-bold",
+                }}
+                className="text-white"
+              >
+                <tr>
+                  <th>Property</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody style={{ fontFamily: "Opensans-semi-bold" }}>
+                {appointmentHistory?.length > 0 ? (
+                  appointmentHistory.map((a, i) => (
+                    <>
+                      <tr key={i}>
+                        <td>
+                          <p style={{ fontFamily: "Opensans-bold" }}>
+                            {a?.property_data.length > 50
+                              ? a?.property_data.substring(0, 50) + "..."
+                              : a?.property_data}
+                          </p>
+                          <p
+                            className="font-semibold text-xs flex items-center"
+                            style={{ color: "var(--orange)" }}
+                          >
+                            By {a?.name} [{a?.created_by_role}]
+                            <a
+                              href={`tel:${a?.contact}`}
+                              style={{ color: "var(--blue)" }}
+                            >
+                              <FiPhoneCall className="mx-1" />
+                            </a>
+                            <a
+                              href={`mailto:${a?.email}`}
+                              style={{ color: "var(--blue)" }}
+                            >
+                              <FiMail className="mx-1" />
+                            </a>
+                          </p>
+                        </td>
+                        <td>{moment(a?.start_time).format("DD-MM-YYYY")}</td>
+                        <td>{moment(a?.start_time).format("hh:mm A")}</td>
+                        <td>
+                          <p className=" text-green-600 capitalize">
+                            {a?.meeting_status}
+                          </p>
+                        </td>
+                      </tr>
+                      <tr key={`id-${i}`}>
+                        <td colSpan="6">
+                          {a?.meeting_history &&
+                            JSON.parse(a?.meeting_history).map((h, j) => (
+                              <div
+                                key={j}
+                                className="flex items-center border-b-2 border-dashed"
+                              >
+                                <p>
+                                  <b
+                                    className="italic mr-1"
+                                    style={{ color: "var(--blue)" }}
+                                  >
+                                    Date Time:{" "}
+                                  </b>{" "}
+                                  {h?.time}
+                                </p>
+                                <p className="ml-2">
+                                  <b
+                                    className="italic mr-1"
+                                    style={{ color: "var(--blue)" }}
+                                  >
+                                    Message:{" "}
+                                  </b>{" "}
+                                  {h?.message}
+                                </p>
+                              </div>
+                            ))}
+                        </td>
+                      </tr>
+                    </>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="6" className="text-red-500">
+                      No history found!
                     </td>
                   </tr>
                 )}

@@ -23,7 +23,7 @@ const Logo = () => {
   const { showLogo } = { ...leftSidebar };
   if (showLogo) {
     return (
-      <div className="truncate p-2">
+      <div className="truncate p-2 sticky top-0 bg-white z-40">
         <Link href="/admin/dashboard">
           <a
             className="flex items-center justify-center p-2 bg-white"

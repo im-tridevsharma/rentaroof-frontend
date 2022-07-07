@@ -1,6 +1,5 @@
 import {
   FaFileAlt,
-  FaGlobe,
   FaHeadphonesAlt,
   FaPaypal,
   FaShareAltSquare,
@@ -18,19 +17,14 @@ const links = [
         href: "/tenant/dashboard",
       },
       {
-        icon: <FaGlobe className="mr-2 text-sm opacity-75" size={20} />,
-        title: "How to use/Faqs",
-        href: "/tenant/how-to-use",
-      },
-      {
         icon: <FaWpforms className="mr-2 text-sm opacity-75" size={20} />,
-        title: "Application & Visit",
-        href: "/tenant/applications-and-visit",
+        title: "Manage Visits",
+        href: "/tenant/manage-visits",
       },
       {
         icon: <FaFileAlt className="mr-2 text-sm opacity-75" size={20} />,
-        title: "Manage Document",
-        href: "/tenant/manage-documents",
+        title: "Manage Applications",
+        href: "/tenant/manage-applications",
       },
       {
         icon: <FaPaypal className="mr-2 text-sm opacity-75" size={20} />,
