@@ -95,7 +95,11 @@ function Index() {
       </Head>
       <ReactTooltip />
       {isLoading && <Loader />}
-      <SectionTitle title="Mcqs" subtitle="All Mcqs" right={<AllMcq />} />
+      <SectionTitle
+        title="Mcqs"
+        subtitle={`All Mcqs (${mcqs.length})`}
+        right={<AllMcq />}
+      />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
         {mcqs?.length ? (
           <Table mcqs={mcqs} edit={editMcq} del={delMcq} />

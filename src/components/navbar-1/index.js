@@ -155,8 +155,9 @@ const Navbar = () => {
           </Link>
         </div>
         <Dropdown5 />
+        <div className="mx-4"></div>
         <button
-          className="btn-transparent flex items-center justify-center h-16 w-8 mx-4"
+          className="btn-transparent hidden items-center justify-center h-16 w-8 mx-4"
           onClick={() =>
             dispatch({
               type: "SET_CONFIG_KEY",

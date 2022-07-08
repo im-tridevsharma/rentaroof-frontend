@@ -90,7 +90,11 @@ function Index() {
       </Head>
       <ReactTooltip />
       {isLoading && <Loader />}
-      <SectionTitle title="Blogs" subtitle="All Blogs" right={<AddBlog />} />
+      <SectionTitle
+        title="Blogs"
+        subtitle={`All Blogs (${blogs.length})`}
+        right={<AddBlog />}
+      />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
         {blogs?.length ? (
           <Table blogs={blogs} edit={editBlog} del={delBlog} />
@@ -137,14 +141,14 @@ const Table = ({ blogs, edit, del }) => {
       accessor: "status",
       Cell: (props) => {
         return props.value === 1 ? (
-            <span className="px-1 text-xs bg-green-400 rounded-full uppercase">
-              Active
-            </span>
-          ) : (
-            <span className="px-1 text-xs bg-red-400 rounded-full uppercase">
-              De-Active
-            </span>
-          );
+          <span className="px-1 text-xs bg-green-400 rounded-full uppercase">
+            Active
+          </span>
+        ) : (
+          <span className="px-1 text-xs bg-red-400 rounded-full uppercase">
+            De-Active
+          </span>
+        );
       },
     },
     {

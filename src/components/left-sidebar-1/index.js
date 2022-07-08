@@ -39,7 +39,7 @@ const LeftSidebar = () => {
     shallowEqual
   );
   return (
-    <div className="left-sidebar left-sidebar-1 h-screen overflow-y-auto">
+    <div className="left-sidebar uppercase  left-sidebar-1 h-screen overflow-y-auto">
       <Logo />
       {navigation.map((menu, i) => (
         <React.Fragment key={i}>
@@ -52,15 +52,15 @@ const LeftSidebar = () => {
                   {l0.items.map((l1, b) => (
                     <li key={b} className="l1">
                       <Item {...l1} />
-                      <ul>
+                      <ul className="uppercase ">
                         {l1.items.map((l2, c) => (
                           <li key={c} className="l2">
                             <Item {...l2} />
-                            <ul>
+                            <ul className="uppercase ">
                               {l2.items.map((l3, d) => (
                                 <li key={d} className="l3">
                                   <Item {...l3} />
-                                  <ul>
+                                  <ul className="uppercase ">
                                     {l3.items.map((l4, e) => (
                                       <li key={e} className="l4">
                                         <Item {...l4} />

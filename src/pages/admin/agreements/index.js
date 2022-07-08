@@ -44,7 +44,7 @@ function Index() {
       {isLoading && <Loader />}
       <SectionTitle
         title="Agreements"
-        subtitle="All Agreements"
+        subtitle={`All Agreements (${agreements.length})`}
         right={<AddCity />}
       />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">

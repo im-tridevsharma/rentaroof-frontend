@@ -95,7 +95,11 @@ function Index() {
       </Head>
       <ReactTooltip />
       {isLoading && <Loader />}
-      <SectionTitle title="Faqs" subtitle="All Faqs" right={<AllFaq />} />
+      <SectionTitle
+        title="Faqs"
+        subtitle={`All Faqs (${faqs.length})`}
+        right={<AllFaq />}
+      />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
         {faqs?.length ? (
           <Table pages={faqs} edit={editFaq} del={delFaq} />

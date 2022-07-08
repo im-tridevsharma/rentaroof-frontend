@@ -1,30 +1,33 @@
-import Colors from './colors'
-import Toggle from './toggle'
-import Sidebar from './sidebar'
-import Demos from './demos'
-import {useSelector, shallowEqual} from 'react-redux'
+import Colors from "./colors";
+import Toggle from "./toggle";
+import Sidebar from "./sidebar";
+import Demos from "./demos";
+import { useSelector, shallowEqual } from "react-redux";
 
 const RightSidebar = () => {
   const colors = [
-    {bg: 'bg-white', text: 'text-white', name: 'light'},
-    {bg: 'bg-gray-900', text: 'text-gray-900', name: 'dark'}
-  ]
+    { bg: "bg-white", text: "text-white", name: "light" },
+    { bg: "bg-gray-900", text: "text-gray-900", name: "dark" },
+  ];
   const items = [
-    {title: 'Background', key: 'background'},
-    {title: 'Navbar', key: 'navbar'},
-    {title: 'Left sidebar', key: 'leftSidebar'}
-  ]
-  const {config} = useSelector(
-    state => ({
+    { title: "Background", key: "background" },
+    { title: "Navbar", key: "navbar" },
+    { title: "Left sidebar", key: "leftSidebar" },
+  ];
+  const { config } = useSelector(
+    (state) => ({
       config: state.config,
     }),
     shallowEqual
-  )
-  let {rightSidebar} = {...config}
+  );
+  let { rightSidebar } = { ...config };
 
   return (
     <div
-      className={`right-sidebar right-sidebar-1 ${rightSidebar ? 'open' : ''}`}>
+      className={`right-sidebar uppercase font-bold right-sidebar-1 ${
+        rightSidebar ? "open" : ""
+      }`}
+    >
       <div>
         <div>
           <div className="flex flex-col">
@@ -58,7 +61,7 @@ const RightSidebar = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default RightSidebar
+export default RightSidebar;

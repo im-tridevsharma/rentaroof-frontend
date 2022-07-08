@@ -67,7 +67,7 @@ function Index() {
       <ReactTooltip />
       <SectionTitle
         title="Complains"
-        subtitle="All Complains"
+        subtitle={`All Complains (${complains.length})`}
         right={<AddComplain />}
       />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">

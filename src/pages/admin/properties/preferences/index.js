@@ -78,7 +78,7 @@ function Index() {
       {isLoading && <Loader />}
       <SectionTitle
         title="Preferences"
-        subtitle="All Preferences"
+        subtitle={`All Preferences (${preferences?.length})`}
         right={<AddPreference />}
       />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">

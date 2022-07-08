@@ -87,7 +87,7 @@ function Index() {
       {isLoading && <Loader />}
       <SectionTitle
         title="Meeting"
-        subtitle="All Meeting"
+        subtitle={`All Meeting (${meeting.length})`}
         right={<RefreshButton />}
       />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">

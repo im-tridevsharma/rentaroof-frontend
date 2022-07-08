@@ -127,7 +127,7 @@ function Index() {
       )}
       <SectionTitle
         title="Employees"
-        subtitle="All Employees"
+        subtitle={`All Employees (${employees.length})`}
         right={<AddEmployee />}
       />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">

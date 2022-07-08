@@ -83,7 +83,11 @@ function Index() {
       </Head>
       <ReactTooltip />
       {isLoading && <Loader />}
-      <SectionTitle title="Sos" subtitle="All Sos" right={<RefreshButton />} />
+      <SectionTitle
+        title="Sos"
+        subtitle={`All Sos (${sos.length})`}
+        right={<RefreshButton />}
+      />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
         {sos?.length ? (
           <Table pages={sos} view={viewSos} del={delSos} />

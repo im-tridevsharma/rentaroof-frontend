@@ -87,7 +87,7 @@ function Index() {
       {isLoading && <Loader />}
       <SectionTitle
         title="Payouts"
-        subtitle="All Wallet Payout Requests"
+        subtitle={`All Wallet Payout Requests (${walletPayouts.length})`}
         right={<RefreshButton />}
       />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">

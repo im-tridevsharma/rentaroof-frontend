@@ -94,7 +94,7 @@ function Index() {
       {isLoading && <Loader />}
       <SectionTitle
         title="Evaluations"
-        subtitle="All Evaluations"
+        subtitle={`All Evaluations (${evaluations.length})`}
         right={<AllEvaluation />}
       />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">

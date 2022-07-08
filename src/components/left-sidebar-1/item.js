@@ -17,9 +17,9 @@ const Item = ({ url, icon, title, badge, items }) => {
   if (items.length === 0) {
     return (
       <Link href={url}>
-        <a className={`left-sidebar-item ${active ? "active" : ""}`}>
+        <a className={`left-sidebar-item uppercase ${active ? "active" : ""}`}>
           {icon}
-          <span className="title">{title}</span>
+          <span className="title uppercase">{title}</span>
           {badge && (
             <span className={`badge badge-circle badge-sm ${badge.color}`}>
               {badge.text}
@@ -32,7 +32,7 @@ const Item = ({ url, icon, title, badge, items }) => {
   return (
     <button
       onClick={() => setHidden(!hidden)}
-      className={`left-sidebar-item ${active ? "active" : ""} ${
+      className={`left-sidebar-item uppercase ${active ? "active" : ""} ${
         hidden ? "hidden-sibling" : "open-sibling"
       }`}
     >

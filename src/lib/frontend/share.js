@@ -361,6 +361,23 @@ export const getAgreements = async () => {
   return rating;
 };
 
+export const getAwaiting = async () => {
+  const token = __d(cookies.get("_SYNC_"));
+
+  let awaiting = false;
+  await server
+    .get("/properties/awaiting", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((response) => {
+      awaiting = response?.data;
+    })
+    .catch((error) => {
+      awaiting = error?.response?.data;
+    });
+  return awaiting;
+};
+
 export const getPropertiesForVerification = async () => {
   const token = __d(cookies.get("_SYNC_"));
 
