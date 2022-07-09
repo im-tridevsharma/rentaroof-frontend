@@ -312,7 +312,6 @@ function Index({ id }) {
         <meta name="description" content={property?.short_description} />
         <meta name="og:description" content={property?.short_description} />
         <meta name="og:type" content="website" />
-        <meta name="og:url" content={location?.hostname || ""} />
         <meta name="og:site_name" content="RentaRoof" />
         <meta name="og:image" content={property?.front_image} />
       </Head>
@@ -332,17 +331,17 @@ function Index({ id }) {
               src={property?.front_image || "/images/website/no_photo.png"}
               alt="p1"
               id="main-image"
-              className="rounded-sm w-full h-full object-cover"
+              className="rounded-sm w-full h-full object-contain"
             />
           </div>
           {/**images */}
-          <div className="md:w-40 flex md:flex-col flex-row w-full mt-4 md:max-h-128 overflow-hidden md:overflow-y-auto overflow-x-auto md:overflow-x-hidden">
+          <div className="md:w-40 flex md:flex-col flex-row w-full md:max-h-128 overflow-hidden md:overflow-y-auto overflow-x-auto md:overflow-x-hidden">
             {gallery &&
               gallery.map((g, i) => (
                 <img
                   src={g}
                   alt="p1"
-                  className="my-1 mx-1 md:mx-0 h-28 object-cover rounded-sm cursor-pointer"
+                  className="mb-2 mx-1 md:mx-0 h-28 object-cover rounded-sm cursor-pointer"
                   onClick={changeImage}
                   key={i}
                 />
