@@ -12,7 +12,7 @@ import AutoComplete from "react-google-autocomplete";
 import Geocode from "react-geocode";
 import { __d } from "../../../../server";
 
-function PropertyAddAddress({ code }) {
+function PropertyAddAddress({ code, admin }) {
   const [propertyId, setPropertyId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [back, setBack] = useState(false);
@@ -84,12 +84,14 @@ function PropertyAddAddress({ code }) {
   const submitData = async (data) => {
     const response =
       router.query.mode === "update"
-        ? await updatePropertyAddress(address?.id, data)
-        : await addPropertyAddress(data);
+        ? await updatePropertyAddress(address?.id, data, admin)
+        : await addPropertyAddress(data, admin);
     if (response?.status) {
       setIsLoading(false);
       if (back) {
-        if (user?.role === "ibo") {
+        if (admin) {
+          router.push(`/admin/properties`);
+        } else if (user?.role === "ibo") {
           router.push(`/${user.role}/manage-properties`);
         } else {
           router.push(`/${user.role}/manage-applications-and-documents`);

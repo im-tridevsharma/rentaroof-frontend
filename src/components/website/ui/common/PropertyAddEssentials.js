@@ -10,7 +10,7 @@ import {
 import { FiMinus, FiPlus } from "react-icons/fi";
 import ReactTooltip from "react-tooltip";
 
-function PropertyAddEssentials({ code }) {
+function PropertyAddEssentials({ code, admin }) {
   const [propertyId, setPropertyId] = useState("");
   const [user, setUser] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -81,7 +81,9 @@ function PropertyAddEssentials({ code }) {
   const nextToProperties = () => {
     localStorage.removeItem("next_ap");
     localStorage.removeItem("recent_ap");
-    if (user?.role === "ibo") {
+    if (admin) {
+      router.push(`/admin/properties`);
+    } else if (user?.role === "ibo") {
       router.push(`/${user.role}/manage-properties`);
     } else {
       router.push(`/${user.role}/manage-applications-and-documents`);
@@ -104,8 +106,8 @@ function PropertyAddEssentials({ code }) {
   const submitData = async (data) => {
     const response =
       router.query.mode === "update"
-        ? await updatePropertyEssential(essentials?.id, data)
-        : await addPropertyEssential(data);
+        ? await updatePropertyEssential(essentials?.id, data, admin)
+        : await addPropertyEssential(data, admin);
     if (response?.status) {
       setIsLoading(false);
       nextToProperties();

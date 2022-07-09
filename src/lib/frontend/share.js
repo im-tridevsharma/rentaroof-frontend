@@ -991,8 +991,10 @@ export const sendWidthrawRequest = async () => {
 };
 
 //new landlord
-export const newLandlord = async (data) => {
-  const token = __d(cookies.get("_SYNC_"));
+export const newLandlord = async (data, isAdmin = false) => {
+  const token = isAdmin
+    ? __d(cookies.get("__NEXT"))
+    : __d(cookies.get("_SYNC_"));
 
   let status = false;
   await server
@@ -1045,8 +1047,10 @@ export const getPropertyGalleryById = async (id) => {
 };
 
 //getMyLandlords
-export const getMyLandlords = async () => {
-  const token = __d(cookies.get("_SYNC_"));
+export const getMyLandlords = async (isAdmin = false) => {
+  const token = isAdmin
+    ? __d(cookies.get("__NEXT"))
+    : __d(cookies.get("_SYNC_"));
 
   let landlords = false;
   await server

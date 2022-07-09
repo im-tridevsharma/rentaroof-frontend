@@ -32,7 +32,7 @@ const inspectionDays = [
   { value: "sunday", label: "Sunday" },
 ];
 
-function AddPropertyUI() {
+function AddPropertyUI({ admin = false }) {
   const editorRef = useRef(null);
   const [profile, setProfile] = useState(false);
   const [bedrooms, setBedrooms] = useState("");
@@ -57,7 +57,7 @@ function AddPropertyUI() {
   const router = useRouter();
 
   const fetchLandlords = async () => {
-    const res = await getMyLandlords();
+    const res = await getMyLandlords(admin);
     if (res?.status) {
       setLandlords(res.data);
     } else {
@@ -126,8 +126,8 @@ function AddPropertyUI() {
 
   const submitData = async (data) => {
     const response = property?.id
-      ? await updateProperty(property?.id, data)
-      : await addProperty(data);
+      ? await updateProperty(property?.id, data, admin)
+      : await addProperty(data, admin);
 
     if (response?.status) {
       setIsLoading(false);
@@ -166,7 +166,7 @@ function AddPropertyUI() {
       landlord.password
     ) {
       setIsLoading(true);
-      const res = await newLandlord(landlord);
+      const res = await newLandlord(landlord, admin);
       if (res?.status) {
         toast.success(
           "New Landlord added successfully. Verification link sent on email and mobile. Please verify."
@@ -208,17 +208,19 @@ function AddPropertyUI() {
   return (
     <>
       {isLoading && <Loader />}
-      <div className="flex items-center justify-between">
-        <h5
-          style={{ fontFamily: "Opensans-bold" }}
-          className="text-white flex items-center mx-4 mb-3"
-        >
-          <FaArrowAltCircleLeft
-            className="mr-3 cursor-pointer"
-            onClick={() => router.back()}
-          />
-          List New Property
-        </h5>
+      <div className={`flex items-center justify-between ${admin && "mb-3"}`}>
+        {!admin && (
+          <h5
+            style={{ fontFamily: "Opensans-bold" }}
+            className="text-white flex items-center mx-4 mb-3"
+          >
+            <FaArrowAltCircleLeft
+              className="mr-3 cursor-pointer"
+              onClick={() => router.back()}
+            />
+            List New Property
+          </h5>
+        )}
 
         <div className="flex items-center px-4">
           <button
@@ -303,7 +305,7 @@ function AddPropertyUI() {
                   className="form-input border-gray-200 rounded-md"
                 />
               </div>
-              {profile?.role === "ibo" && (
+              {(profile?.role === "ibo" || admin === true) && (
                 <div className="form-element">
                   <label className="form-label">
                     Landlord<span style={{ color: "red" }}>*</span>
@@ -910,22 +912,22 @@ function AddPropertyUI() {
         )}
 
         {propertyCode && nextStep === "GALLERY" && (
-          <PropertyAddGallery code={propertyCode} />
+          <PropertyAddGallery code={propertyCode} admin={admin} />
         )}
         {propertyCode && nextStep === "ADDRESS" && (
-          <PropertyAddAddress code={propertyCode} />
+          <PropertyAddAddress code={propertyCode} admin={admin} />
         )}
         {propertyCode && nextStep === "AMENITIES" && (
-          <PropertyAddAmenities code={propertyCode} />
+          <PropertyAddAmenities code={propertyCode} admin={admin} />
         )}
         {propertyCode && nextStep === "ESSENTIALS" && (
-          <PropertyAddEssentials code={propertyCode} />
+          <PropertyAddEssentials code={propertyCode} admin={admin} />
         )}
       </div>
       {isAddMode && (
         <div
           className="shadow-sm border max-w-lg w-full rounded-xl absolute 
-        left-1/2 transform -translate-x-1/2 top-10 bg-white p-6"
+        left-1/2 transform -translate-x-1/2 top-10 bg-white p-6 z-40"
         >
           <form method="POST" onSubmit={addNewLandlord}>
             <h5

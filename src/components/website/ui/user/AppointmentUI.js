@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Router from "next/router";
-import Card from "../../Card";
 import {
   getMeetings,
   rescheduleMetting,
@@ -9,13 +8,8 @@ import {
 import { __d } from "../../../../server";
 import Loader from "../../../loader";
 import moment from "moment";
-import {
-  FaCalendarAlt,
-  FaCalendarDay,
-  FaCircleNotch,
-  FaTimes,
-} from "react-icons/fa";
-import { FiMail, FiMessageCircle, FiPhoneCall } from "react-icons/fi";
+import { FaTimes } from "react-icons/fa";
+import { FiMessageCircle } from "react-icons/fi";
 import {
   createConversation,
   saveIboRating,
@@ -26,46 +20,19 @@ import { toast } from "react-toastify";
 
 function AppointmentUI() {
   const [appointments, setAppointments] = useState([]);
-  const [upcomingAppointments, setUpcomingAppointments] = useState([]);
   const [user, setUser] = useState(false);
-  const [todayAppointment, setTodayAppointment] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [cardMode, setCardMode] = useState("today");
   const [reload, setReload] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
   const [reschedule, setReschedule] = useState(false);
   const [rateAndReview, setRateAndReview] = useState(false);
   const [rating, setRating] = useState(0);
-  const [appointmentHistory, setAppointmentHistory] = useState([]);
 
   useEffect(() => {
     const fetchAppointments = async () => {
       const response = await getMeetings();
       if (response?.status) {
         setAppointments(response?.data);
-        response?.data?.length > 0
-          ? setTodayAppointment(
-              response?.data.filter(
-                (d) =>
-                  moment(Date.now()).format("DD-MM-YYYY") ===
-                  moment(d.start_time).format("DD-MM-YYYY")
-              )
-            )
-          : setTodayAppointment([]);
-
-        response?.data?.length > 0
-          ? setUpcomingAppointments(
-              response?.data.filter((d) => moment() <= moment(d.start_time))
-            )
-          : setUpcomingAppointments([]);
-        response?.data?.length > 0
-          ? setAppointmentHistory(
-              response?.data.filter((d) => {
-                const history = JSON.parse(d.meeting_history);
-                return history.length > 0;
-              })
-            )
-          : setAppointmentHistory([]);
       } else {
         toast.error(response?.error || response?.message);
       }
@@ -158,131 +125,85 @@ function AppointmentUI() {
     <>
       {isLoading && <Loader />}
 
-      <div className="relative bg-lightBlue-600 pb-8">
-        <div className="mx-auto w-full">
-          <div>
-            <div className="flex flex-wrap">
-              <Card
-                color="green"
-                label="Today'S Appointments"
-                value={todayAppointment?.length}
-                icon={<FaCalendarDay />}
-                onClick={() => setCardMode("today")}
-                current={cardMode}
-                state="today"
-              />
-              <Card
-                color="yellow"
-                label="Upcoming Appointments"
-                value={upcomingAppointments?.length}
-                icon={<FaCalendarAlt />}
-                onClick={() => setCardMode("upcoming")}
-                current={cardMode}
-                state="upcoming"
-              />
-              <Card
-                color="red"
-                label={
-                  <span>
-                    All Visit <br />
-                    History
-                  </span>
-                }
-                value={appointmentHistory?.length || 0}
-                icon={<FaCircleNotch />}
-                onClick={() => setCardMode("history")}
-                current={cardMode}
-                state="history"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {cardMode === "today" && (
-        <div className="bg-white rounded-md mx-4 overflow-hidden overflow-y-auto">
-          <p
-            className="flex items-center justify-between bg-gray-50 p-4"
-            style={{ fontFamily: "Opensans-semi-bold" }}
-          >
-            <span>Today's Appointments</span>
-          </p>
-          <div className="mt-5 p-4">
-            <table className="table">
-              <thead
-                style={{
-                  backgroundColor: "var(--blue)",
-                  fontFamily: "Opensans-semi-bold",
-                }}
-                className="text-white"
-              >
-                <tr>
-                  <th>Property</th>
-                  <th>Date</th>
-                  <th>Time</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody style={{ fontFamily: "Opensans-semi-bold" }}>
-                {todayAppointment?.length > 0 ? (
-                  todayAppointment.map((a, i) => (
-                    <tr key={i}>
-                      <td>
-                        <p style={{ fontFamily: "Opensans-bold" }}>
-                          {a?.property_data.length > 50
-                            ? a?.property_data.substring(0, 50) + "..."
-                            : a?.property_data}
+      <div className="bg-white rounded-md mx-4 overflow-hidden overflow-y-auto">
+        <div className="mt-5 p-4">
+          <table className="table">
+            <thead
+              style={{
+                backgroundColor: "var(--blue)",
+                fontFamily: "Opensans-semi-bold",
+              }}
+              className="text-white"
+            >
+              <tr>
+                <th>Property</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody style={{ fontFamily: "Opensans-semi-bold" }}>
+              {appointments?.length > 0 ? (
+                appointments.map((a, i) => (
+                  <tr key={i}>
+                    <td>
+                      <p style={{ fontFamily: "Opensans-bold" }}>
+                        {a?.property_data.length > 50
+                          ? a?.property_data.substring(0, 50) + "..."
+                          : a?.property_data}
+                      </p>
+                      {a?.vvc && (
+                        <b>
+                          VVC - {a?.vvc}{" "}
+                          {a?.is_tenant_vvc_verified === 1 && (
+                            <span className="text-green-500">Verified</span>
+                          )}
+                        </b>
+                      )}
+                      {a?.user_id !== 0 && (
+                        <p
+                          className="font-semibold text-xs flex items-center"
+                          style={{ color: "var(--orange)" }}
+                        >
+                          With {a?.ibo}
+                          <FiMessageCircle
+                            style={{ color: "var(--blue)" }}
+                            className="text-lg cursor-pointer ml-3"
+                            data-tip="Chat"
+                            onClick={() => startConversation(a?.user_id)}
+                          />
+                          <ReactTooltip />
                         </p>
-                        {a?.vvc && (
-                          <b>
-                            VVC - {a?.vvc}{" "}
-                            {a?.is_tenant_vvc_verified === 1 && (
-                              <span className="text-green-500">Verified</span>
-                            )}
-                          </b>
-                        )}
-                        {a?.user_id !== 0 && (
-                          <p
-                            className="font-semibold text-xs flex items-center"
-                            style={{ color: "var(--orange)" }}
-                          >
-                            With {a?.ibo}
-                            <FiMessageCircle
-                              style={{ color: "var(--blue)" }}
-                              className="text-lg cursor-pointer ml-3"
-                              data-tip="Chat"
-                              onClick={() => startConversation(a?.user_id)}
-                            />
-                            <ReactTooltip />
-                          </p>
-                        )}
-                      </td>
-                      <td>{moment(a?.start_time).format("DD-MM-YYYY")}</td>
-                      <td>{moment(a?.start_time).format("hh:mm A")}</td>
-                      <td>
-                        <p className=" text-green-600 capitalize">
-                          {a?.meeting_status !== "pending" &&
-                          a?.landlord_status === "approved"
-                            ? a?.meeting_status
-                            : "Pending"}
-                        </p>
-                        {a.meeting_status === "visited" && (
-                          <button
-                            style={{ color: "var(--orange)" }}
-                            onClick={() => openRateAndReview(a)}
-                          >
-                            Review & Rate
-                          </button>
-                        )}
-                      </td>
+                      )}
+                    </td>
+                    <td>{moment(a?.start_time).format("DD-MM-YYYY")}</td>
+                    <td>{moment(a?.start_time).format("hh:mm A")}</td>
+                    <td>
+                      <p className=" text-green-600 capitalize">
+                        {a?.meeting_status !== "pending" &&
+                        a?.landlord_status === "approved"
+                          ? a?.meeting_status
+                          : "Pending"}
+                      </p>
+                      {a.meeting_status === "visited" && (
+                        <button
+                          style={{ color: "var(--orange)" }}
+                          onClick={() => openRateAndReview(a)}
+                        >
+                          Review & Rate
+                        </button>
+                      )}
+                    </td>
+                    {moment(Date.now()).format("DD-MM-YYYY") ===
+                    moment(a.start_time).format("DD-MM-YYYY") ? (
                       <td>
                         <div className="flex">
                           {a?.meeting_status !== "pending" && (
                             <button
                               onClick={() =>
                                 setShowDetail(
-                                  todayAppointment.find((p) => p.id === a.id)
+                                  appointments.find((p) => p.id === a.id)
                                 )
                               }
                               className="border-gray-300 border-r-2 px-2 text-green-500"
@@ -320,88 +241,13 @@ function AppointmentUI() {
                           )}
                         </div>
                       </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="6" className="text-red-500">
-                      No appointments found!
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
-
-      {cardMode === "upcoming" && (
-        <div className="bg-white rounded-md mx-4 overflow-hidden overflow-y-auto">
-          <p
-            className="flex items-center justify-between bg-gray-50 p-4"
-            style={{ fontFamily: "Opensans-semi-bold" }}
-          >
-            <span>Upcoming Appointments</span>
-          </p>
-          <div className="mt-5 p-4">
-            <table className="table">
-              <thead
-                style={{
-                  backgroundColor: "var(--blue)",
-                  fontFamily: "Opensans-semi-bold",
-                }}
-                className="text-white"
-              >
-                <tr>
-                  <th>Property</th>
-                  <th>Date</th>
-                  <th>Time</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody style={{ fontFamily: "Opensans-semi-bold" }}>
-                {upcomingAppointments?.length > 0 ? (
-                  upcomingAppointments.map((a, i) => (
-                    <tr key={i}>
-                      <td>
-                        <p style={{ fontFamily: "Opensans-bold" }}>
-                          {a?.property_data.length > 50
-                            ? a?.property_data.substring(0, 50) + "..."
-                            : a?.property_data}
-                        </p>
-                        {a?.user_id !== 0 && (
-                          <p
-                            className="font-semibold text-xs flex items-center"
-                            style={{ color: "var(--orange)" }}
-                          >
-                            With {a?.ibo}
-                            <FiMessageCircle
-                              style={{ color: "var(--blue)" }}
-                              className="text-lg cursor-pointer ml-3"
-                              data-tip="Chat"
-                              onClick={() => startConversation(a?.user_id)}
-                            />
-                            <ReactTooltip />
-                          </p>
-                        )}
-                      </td>
-                      <td>{moment(a?.start_time).format("DD-MM-YYYY")}</td>
-                      <td>{moment(a?.start_time).format("hh:mm A")}</td>
-                      <td>
-                        <p className=" text-green-600 capitalize">
-                          {a?.meeting_status !== "pending" &&
-                          a?.landlord_status === "approved"
-                            ? a?.meeting_status
-                            : "Pending"}
-                        </p>
-                      </td>
+                    ) : (
                       <td>
                         <div className="flex">
                           <button
                             onClick={() =>
                               setShowDetail(
-                                upcomingAppointments.find((p) => p.id === a.id)
+                                appointments.find((p) => p.id === a.id)
                               )
                             }
                             className="border-gray-300 border-r-2 px-2 text-green-500"
@@ -416,9 +262,7 @@ function AppointmentUI() {
                               <button
                                 onClick={() =>
                                   setReschedule(
-                                    upcomingAppointments.find(
-                                      (p) => p.id === a.id
-                                    )
+                                    appointments.find((p) => p.id === a.id)
                                   )
                                 }
                                 className="border-gray-300 border-r-2 px-2 mr-2 text-yellow-500"
@@ -437,127 +281,20 @@ function AppointmentUI() {
                           )}
                         </div>
                       </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="6" className="text-red-500">
-                      No appointments found!
-                    </td>
+                    )}
                   </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
-
-      {cardMode === "history" && (
-        <div className="bg-white rounded-md mx-4 overflow-hidden overflow-y-auto">
-          <p
-            className="flex items-center justify-between bg-gray-50 p-4"
-            style={{ fontFamily: "Opensans-semi-bold" }}
-          >
-            <span>All Visit History</span>
-          </p>
-          <div className="mt-5 p-4">
-            <table className="table">
-              <thead
-                style={{
-                  backgroundColor: "var(--blue)",
-                  fontFamily: "Opensans-semi-bold",
-                }}
-                className="text-white"
-              >
+                ))
+              ) : (
                 <tr>
-                  <th>Property</th>
-                  <th>Date</th>
-                  <th>Time</th>
-                  <th>Status</th>
+                  <td colSpan="6" className="text-red-500">
+                    No appointments found!
+                  </td>
                 </tr>
-              </thead>
-              <tbody style={{ fontFamily: "Opensans-semi-bold" }}>
-                {appointmentHistory?.length > 0 ? (
-                  appointmentHistory.map((a, i) => (
-                    <>
-                      <tr key={i}>
-                        <td>
-                          <p style={{ fontFamily: "Opensans-bold" }}>
-                            {a?.property_data.length > 50
-                              ? a?.property_data.substring(0, 50) + "..."
-                              : a?.property_data}
-                          </p>
-                          <p
-                            className="font-semibold text-xs flex items-center"
-                            style={{ color: "var(--orange)" }}
-                          >
-                            By {a?.name} [{a?.created_by_role}]
-                            <a
-                              href={`tel:${a?.contact}`}
-                              style={{ color: "var(--blue)" }}
-                            >
-                              <FiPhoneCall className="mx-1" />
-                            </a>
-                            <a
-                              href={`mailto:${a?.email}`}
-                              style={{ color: "var(--blue)" }}
-                            >
-                              <FiMail className="mx-1" />
-                            </a>
-                          </p>
-                        </td>
-                        <td>{moment(a?.start_time).format("DD-MM-YYYY")}</td>
-                        <td>{moment(a?.start_time).format("hh:mm A")}</td>
-                        <td>
-                          <p className=" text-green-600 capitalize">
-                            {a?.meeting_status}
-                          </p>
-                        </td>
-                      </tr>
-                      <tr key={`id-${i}`}>
-                        <td colSpan="6">
-                          {a?.meeting_history &&
-                            JSON.parse(a?.meeting_history).map((h, j) => (
-                              <div
-                                key={j}
-                                className="flex items-center border-b-2 border-dashed"
-                              >
-                                <p>
-                                  <b
-                                    className="italic mr-1"
-                                    style={{ color: "var(--blue)" }}
-                                  >
-                                    Date Time:{" "}
-                                  </b>{" "}
-                                  {h?.time}
-                                </p>
-                                <p className="ml-2">
-                                  <b
-                                    className="italic mr-1"
-                                    style={{ color: "var(--blue)" }}
-                                  >
-                                    Message:{" "}
-                                  </b>{" "}
-                                  {h?.message}
-                                </p>
-                              </div>
-                            ))}
-                        </td>
-                      </tr>
-                    </>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="6" className="text-red-500">
-                      No history found!
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+              )}
+            </tbody>
+          </table>
         </div>
-      )}
+      </div>
 
       {showDetail && (
         <div

@@ -9,7 +9,7 @@ import {
 import Loader from "../../../loader";
 import { __d } from "../../../../server";
 
-function PropertyAddAmenities({ code }) {
+function PropertyAddAmenities({ code, admin }) {
   const [propertyId, setPropertyId] = useState("");
   const [amenities, setAmenities] = useState([]);
   const [user, setUser] = useState(false);
@@ -69,7 +69,9 @@ function PropertyAddAmenities({ code }) {
   const nextToEssentials = () => {
     localStorage.setItem("next_ap", "ESSENTIALS");
     if (back) {
-      if (user?.role === "ibo") {
+      if (admin) {
+        router.push(`/admin/properties`);
+      } else if (user?.role === "ibo") {
         router.push(`/${user.role}/manage-properties`);
       } else {
         router.push(`/${user.role}/manage-applications-and-documents`);
@@ -96,7 +98,7 @@ function PropertyAddAmenities({ code }) {
   };
 
   const submitData = async (data) => {
-    const response = await addPropertyAmenities(data);
+    const response = await addPropertyAmenities(data, admin);
     if (response?.status) {
       setIsLoading(false);
       nextToEssentials();

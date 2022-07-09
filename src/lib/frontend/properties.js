@@ -1,5 +1,8 @@
 import { getToken } from "../frontend/auth";
-import server from "../../server";
+import server, { __d } from "../../server";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 export const getProperties = async (skip = 0) => {
   const token = getToken();
@@ -141,8 +144,8 @@ export const getPropertiesCount = async (search) => {
   return res;
 };
 
-const addProperty = async (data) => {
-  const token = getToken();
+const addProperty = async (data, isAdmin = false) => {
+  const token = isAdmin ? __d(cookies.get("__NEXT")) : getToken();
   let res = false;
 
   await server
@@ -159,8 +162,8 @@ const addProperty = async (data) => {
   return res;
 };
 
-export const updateProperty = async (id, data) => {
-  const token = getToken();
+export const updateProperty = async (id, data, isAdmin = false) => {
+  const token = isAdmin ? __d(cookies.get("__NEXT")) : getToken();
   let res = false;
 
   await server
@@ -177,8 +180,9 @@ export const updateProperty = async (id, data) => {
   return res;
 };
 
-export const addPropertyGallery = async (data) => {
-  const token = getToken();
+export const addPropertyGallery = async (data, isAdmin = false) => {
+  const token = isAdmin ? __d(cookies.get("__NEXT")) : getToken();
+
   let res = false;
 
   await server
@@ -281,8 +285,8 @@ export const getUserProperty = async (data) => {
   return res;
 };
 
-export const addPropertyAddress = async (data) => {
-  const token = getToken();
+export const addPropertyAddress = async (data, isAdmin = false) => {
+  const token = isAdmin ? __d(cookies.get("__NEXT")) : getToken();
   let res = false;
 
   await server
@@ -299,8 +303,8 @@ export const addPropertyAddress = async (data) => {
   return res;
 };
 
-export const updatePropertyAddress = async (id, data) => {
-  const token = getToken();
+export const updatePropertyAddress = async (id, data, isAdmin = false) => {
+  const token = isAdmin ? __d(cookies.get("__NEXT")) : getToken();
   let res = false;
 
   await server
@@ -317,8 +321,8 @@ export const updatePropertyAddress = async (id, data) => {
   return res;
 };
 
-export const addPropertyAmenities = async (data) => {
-  const token = getToken();
+export const addPropertyAmenities = async (data, isAdmin = false) => {
+  const token = isAdmin ? __d(cookies.get("__NEXT")) : getToken();
   let res = false;
 
   await server
@@ -335,8 +339,8 @@ export const addPropertyAmenities = async (data) => {
   return res;
 };
 
-export const addPropertyEssential = async (data) => {
-  const token = getToken();
+export const addPropertyEssential = async (data, isAdmin = false) => {
+  const token = isAdmin ? __d(cookies.get("__NEXT")) : getToken();
   let res = false;
 
   await server
@@ -353,8 +357,8 @@ export const addPropertyEssential = async (data) => {
   return res;
 };
 
-export const updatePropertyEssential = async (id, data) => {
-  const token = getToken();
+export const updatePropertyEssential = async (id, data, isAdmin = false) => {
+  const token = isAdmin ? __d(cookies.get("__NEXT")) : getToken();
   let res = false;
 
   await server

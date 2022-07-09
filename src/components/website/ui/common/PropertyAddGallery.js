@@ -6,7 +6,7 @@ import { addPropertyGallery } from "../../../../lib/frontend/properties";
 import { getPropertyGalleryById } from "../../../../lib/frontend/share";
 import { __d } from "../../../../server";
 
-function PropertyAddGallery({ code }) {
+function PropertyAddGallery({ code, admin }) {
   const [propertyId, setPropertyId] = useState("");
   const [activeTab, setActiveTab] = useState("exterior");
   const [user, setUser] = useState(false);
@@ -124,7 +124,9 @@ function PropertyAddGallery({ code }) {
   const nextToAddress = () => {
     localStorage.setItem("next_ap", "ADDRESS");
     if (back) {
-      if (user?.role === "ibo") {
+      if (admin) {
+        router.push(`/admin/properties`);
+      } else if (user?.role === "ibo") {
         router.push(`/${user.role}/manage-properties`);
       } else {
         router.push(`/${user.role}/manage-applications-and-documents`);
@@ -187,8 +189,8 @@ function PropertyAddGallery({ code }) {
     }
   };
 
-  const submitData = async (id, data) => {
-    const response = await addPropertyGallery(id, data);
+  const submitData = async (data) => {
+    const response = await addPropertyGallery(data, admin);
     if (response?.status) {
       setIsLoading(false);
       nextToAddress();
