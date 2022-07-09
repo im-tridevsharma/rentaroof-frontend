@@ -286,12 +286,23 @@ function Map() {
       <ToastContainer />
       {isLoading && <Loader />}
       <Header />
-      <Breadcrumb tagline={tagline} path="Home / property list / search" />
-      <div className="flex flex-col-reverse sm:flex-row p-5">
+      <div
+        className="flex flex-col-reverse sm:flex-row p-5 overflow-hidden"
+        style={{
+          height: "calc(100vh - 120px)",
+        }}
+      >
         {/**property list */}
         <div className="flex flex-col max-w-2xl w-full">
           {/**refine search */}
           <div className="flex items-center mb-2">
+            {/**result count */}
+            <p
+              className="font-bold mr-3"
+              style={{ fontFamily: "Opensans-bold" }}
+            >
+              {total} Properties {search ? "for " + search : ""}
+            </p>
             <h6
               className="font-bold text-sm"
               style={{ fontFamily: "Opensans-bold" }}
@@ -563,10 +574,6 @@ function Map() {
             </>
           )}
 
-          {/**result count */}
-          <p className="font-bold" style={{ fontFamily: "Opensans-bold" }}>
-            {total} Properties {search ? "for " + search : ""}
-          </p>
           {/**properties */}
           <InfiniteScroll
             dataLength={properties.length} //This is important field to render the next data
@@ -578,6 +585,7 @@ function Map() {
                 <FiLoader color="dodgerblue" className="text-xl animate-spin" />
               </div>
             }
+            className="grid grid-cols-1 md:grid-cols-2"
           >
             {properties?.length > 0 ? (
               properties?.map((p, i) => (
@@ -714,7 +722,6 @@ function Map() {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 }

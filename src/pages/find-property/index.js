@@ -216,7 +216,7 @@ function Index({ query }) {
 
   const sortBy = (e) => {
     e.preventDefault();
-    setPropertySkip(0)
+    setPropertySkip(0);
     setFilters((p) => ({ ...p, sorting: e.target.value }));
     const queryString = Object.keys(filters)
       .map((key) => {
@@ -259,7 +259,6 @@ function Index({ query }) {
       </Head>
       {isLoading && <Loader />}
       <Header />
-      <Breadcrumb tagline={tagline} path="Home / property list / search" />
       <div className="flex mt-5 px-5 mb-5">
         {/**filters */}
         <div

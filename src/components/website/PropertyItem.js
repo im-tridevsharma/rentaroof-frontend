@@ -84,7 +84,7 @@ function PropertyItem({ property, overEvent, outEvent, user }) {
     <>
       {isLoading && <Loader />}
       <div
-        className="border-2 border-gray-200 rounded-lg flex items-center p-1 my-1 shadow-sm"
+        className="flex flex-col items-center my-2 px-1"
         onMouseOver={overEvent}
         onMouseOut={outEvent}
       >
@@ -95,17 +95,13 @@ function PropertyItem({ property, overEvent, outEvent, user }) {
               style={{
                 height: "160px",
                 overflow: "hidden",
-                borderRadius: "10px",
-                width: "300px",
-                marginRight: "10px",
                 position: "relative",
               }}
             >
               <img
                 src={property?.front_image || "/images/website/no_photo.png"}
                 alt="property"
-                style={{ objectFit: "fill", height: "160px", width: "300px" }}
-                className="cursor-pointer"
+                className="cursor-pointer object-cover"
               />
               <div
                 onClick={addtoFavorite}
