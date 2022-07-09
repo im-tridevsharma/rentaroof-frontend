@@ -3,6 +3,7 @@ import Router from "next/router";
 import { GrLinkPrevious } from "react-icons/gr";
 
 function Breadcrumb({ tagline, path, center, large }) {
+  return null;
   return (
     <div
       className="flex items-center justify-between py-3 px-6 text-white bg-yellow-400"
