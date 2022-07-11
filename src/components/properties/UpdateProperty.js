@@ -1,10 +1,12 @@
-import React from "react";
+import { ToastContainer } from "react-toastify";
+import AddPropertyUI from "../website/ui/common/AddPropertyUI";
 
 function UpdateProperty() {
   return (
-    <div>
-      <p>Update</p>
-    </div>
+    <>
+      <ToastContainer />
+      <AddPropertyUI admin={true} />
+    </>
   );
 }
 

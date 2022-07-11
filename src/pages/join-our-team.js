@@ -144,7 +144,7 @@ function Ibo() {
           </div>
         </div>
 
-        <div className="p-10 bg-gradient-to-r from-blue-600 to-red-400 text-white text-center">
+        <div className="p-10 bg-gradient-to-r from-blue-600 to-yellow-600 text-white text-center">
           <div className="max-w-6xl w-full mx-auto">
             <h2
               className="text-3xl mt-5 wow slideInLeft"
@@ -334,7 +334,7 @@ function Ibo() {
         </div>
 
         <div className="p-10 bg-gradient-to-r from-blue-600 to-red-400">
-          <div className="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 md:space-x-3 space-y-5 md:space-y-0 mx-auto bg-white rounded-xl p-5">
+          <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 md:space-x-3 space-y-5 md:space-y-0 mx-auto bg-white rounded-xl p-5">
             <div>
               <h2
                 className="text-3xl wow fadeIn"

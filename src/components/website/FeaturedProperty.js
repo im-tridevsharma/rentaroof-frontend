@@ -17,7 +17,7 @@ function FeaturedProperty() {
   }, []);
 
   return (
-    <div className="py-10 mt-10 px-5 max-w-5xl w-full mx-auto ">
+    <div className="py-10 mt-10 px-5 max-w-7xl w-full mx-auto ">
       <div>
         <h3
           style={{ fontFamily: "Opensans-bold" }}
@@ -36,7 +36,7 @@ function FeaturedProperty() {
         </p>
       </div>
       <div className="mt-10">
-        <Carousel rows={1} cols={3} gap={20}>
+        <Carousel rows={1} cols={4} gap={20}>
           {properties?.length > 0 &&
             properties.map((p, i) => (
               <Carousel.Item key={i}>

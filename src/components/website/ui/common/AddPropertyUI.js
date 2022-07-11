@@ -72,6 +72,7 @@ function AddPropertyUI({ admin = false }) {
     }
     const nextap = localStorage.getItem("next_ap") || router.query.next;
     const pcode = localStorage.getItem("recent_ap") || router.query.id;
+
     setNextStep(nextap);
     setPropertyCode(pcode);
 
@@ -196,7 +197,10 @@ function AddPropertyUI({ admin = false }) {
     if (step && property && router?.query?.id) {
       const next_step = step === "BASIC" ? "UPDATE" : step;
       router.push(
-        "update-property?step=next&next=" +
+        (admin
+          ? `${property?.property_code}-${property?.id}`
+          : "update-property") +
+          "?step=next&next=" +
           next_step +
           "&id=" +
           router?.query?.id +

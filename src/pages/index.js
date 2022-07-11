@@ -190,7 +190,7 @@ function Index() {
 
         <section
           style={{ backgroundColor: "#f6fbff" }}
-          className="flex items-center"
+          className="flex items-center px-4"
         >
           <div className="flex flex-col items-start max-w-xl w-full px-10">
             <h3

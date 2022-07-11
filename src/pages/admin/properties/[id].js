@@ -27,17 +27,19 @@ function Id({ id, view }) {
   useEffect(() => {
     const a = view || "view";
     setMode(a);
-    setIsLoading(true);
-    (async () => {
-      const response = await getPropertyById(id);
-      if (response?.status) {
-        setProperty(response.data);
-        setIsLoading(false);
-      } else {
-        toast.error(response?.error || response?.message);
-        setIsLoading(false);
-      }
-    })();
+    if (a === "view") {
+      setIsLoading(true);
+      (async () => {
+        const response = await getPropertyById(id);
+        if (response?.status) {
+          setProperty(response.data);
+          setIsLoading(false);
+        } else {
+          toast.error(response?.error || response?.message);
+          setIsLoading(false);
+        }
+      })();
+    }
   }, []);
 
   return (

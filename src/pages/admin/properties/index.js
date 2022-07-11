@@ -19,6 +19,7 @@ import { useDispatch } from "react-redux";
 import Loader from "../../../components/loader";
 import ReactTooltip from "react-tooltip";
 import { toast, ToastContainer } from "react-toastify";
+import { FaPenAlt } from "react-icons/fa";
 
 function Index() {
   const [properties, setProperties] = useState([]);
@@ -220,6 +221,16 @@ function Index() {
                     >
                       <FiEye />
                     </button>
+                    <Link
+                      href={`/admin/properties/${p?.property_code}-${p?.id}?step=next&next=UPDATE&skip=false&mode=update&a=update`}
+                    >
+                      <a
+                        data-tip="Edit/Update"
+                        className="ml-2 btn px-2 py-1 bg-green-400 rounded-md hover:bg-green-500"
+                      >
+                        <FaPenAlt />
+                      </a>
+                    </Link>
                   </td>
                 </tr>
               ))

@@ -332,17 +332,18 @@ function Header() {
             </li>
           </ul>
           <div className="flex items-center mx-2">
-            {["/", "/find-property", "/find-property/map"].indexOf(
-              router.pathname
-            ) === -1 && (
-              <button
-                onClick={() => router.push("/find-property/map")}
-                className="py-1 px-4 flex mr-2 items-center bg-yellow-400 hover:bg-yellow-500 rounded-full text-white"
-                style={{ backgroundColor: "var(--orange)" }}
-              >
-                <FaSearch className="mr-1" /> Find Property
-              </button>
-            )}
+            {false &&
+              ["/", "/find-property", "/find-property/map"].indexOf(
+                router.pathname
+              ) === -1 && (
+                <button
+                  onClick={() => router.push("/find-property/map")}
+                  className="py-1 px-4 flex mr-2 items-center bg-yellow-400 hover:bg-yellow-500 rounded-full text-white"
+                  style={{ backgroundColor: "var(--orange)" }}
+                >
+                  <FaSearch className="mr-1" /> Find Property
+                </button>
+              )}
 
             {user && user?.role == "tenant" && favoriteProperties && (
               <Link href={`/${user?.role}/properties?type=favorite`}>
