@@ -24,6 +24,7 @@ function Index() {
   const [showDetail, setShowDetail] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isRefresh, setIsRefresh] = useState(false);
+  const [selected, setSelected] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -36,6 +37,8 @@ function Index() {
       }
     })();
   }, [isRefresh]);
+
+  console.log(selected);
 
   const editIBO = (id) => {
     if (id) {
@@ -145,6 +148,7 @@ function Index() {
             view={viewProfile}
             ban={banIbo}
             activate={activateIbo}
+            setSelected={setSelected}
           />
         ) : (
           <p className="mt-5">No ibos found!</p>
@@ -156,7 +160,7 @@ function Index() {
 
 export default Index;
 
-const Table = ({ ibos, edit, del, view, ban, activate }) => {
+const Table = ({ ibos, edit, del, view, ban, activate, setSelected }) => {
   const columns = [
     {
       Header: "Proile Pic",
@@ -289,5 +293,5 @@ const Table = ({ ibos, edit, del, view, ban, activate }) => {
       },
     },
   ];
-  return <Datatable columns={columns} data={ibos} />;
+  return <Datatable columns={columns} data={ibos} onSelect={setSelected} />;
 };

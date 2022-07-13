@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import {
   FiAlertCircle,
   FiCheckCircle,
+  FiEdit,
   FiEye,
   FiInfo,
   FiRefreshCw,
@@ -19,20 +20,20 @@ import { useDispatch } from "react-redux";
 import Loader from "../../../components/loader";
 import ReactTooltip from "react-tooltip";
 import { toast, ToastContainer } from "react-toastify";
-import { FaPenAlt } from "react-icons/fa";
 
 function Index() {
   const [properties, setProperties] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isRefresh, setIsRefresh] = useState(false);
   const [selected, setSelected] = useState([]);
+  const [filterValue, setFilterValue] = useState("");
   const router = useRouter();
   const dispatch = useDispatch();
 
   useEffect(() => {
     setIsLoading(true);
     (async () => {
-      const response = await getProperties();
+      const response = await getProperties(filterValue);
       if (response?.status) {
         setProperties(response.data);
         setIsLoading(false);
@@ -53,7 +54,7 @@ function Index() {
         setIsLoading(false);
       }
     })();
-  }, [isRefresh]);
+  }, [isRefresh, filterValue]);
 
   const viewPage = (id) => {
     if (id) {
@@ -77,11 +78,11 @@ function Index() {
     }
   };
 
-  const selectProperty = (e) => {
-    if (e.target.checked) {
-      setSelected((prev) => [...prev, e.target.value]);
+  const selectProperty = (e, value) => {
+    if (e?.target?.checked) {
+      setSelected((prev) => [...prev, value]);
     } else {
-      setSelected((prev) => prev.filter((s) => s !== e.target.value));
+      setSelected((prev) => prev.filter((s) => s !== value));
     }
   };
 
@@ -107,6 +108,20 @@ function Index() {
   const AddProperty = () => {
     return (
       <div className="flex items-center">
+        <div className="form-group">
+          <select
+            className="form-input"
+            value={filterValue}
+            onChange={(e) => {
+              setFilterValue(e.target.value);
+            }}
+          >
+            <option value="">Filter Options</option>
+            <option value="verified">Verified</option>
+            <option value="not-verified">Not Verified</option>
+            <option value="featured">Featured</option>
+          </select>
+        </div>
         <div className="mr-5">
           <select className="form-select" onChange={performAction}>
             <option value="">Bulk Action</option>
@@ -134,6 +149,16 @@ function Index() {
     );
   };
 
+  const toggleSelect = (e) => {
+    if (e.target.checked) {
+      properties.forEach((u) => {
+        setSelected((prev) => [...prev, u?.id]);
+      });
+    } else {
+      setSelected([]);
+    }
+  };
+
   return (
     <>
       <Head>
@@ -151,7 +176,14 @@ function Index() {
         <table className="table">
           <thead>
             <tr>
-              <th>#</th>
+              <th>
+                {" "}
+                <input
+                  type="checkbox"
+                  onChange={toggleSelect}
+                  checked={selected?.length > 0}
+                />
+              </th>
               <th>Name</th>
               <th>Code</th>
               <th>Owner</th>
@@ -172,8 +204,8 @@ function Index() {
                   <td>
                     <input
                       type="checkbox"
-                      value={p?.id}
-                      onChange={selectProperty}
+                      onChange={(e) => selectProperty(e, p?.id)}
+                      checked={selected.indexOf(p?.id) !== -1}
                     />
                   </td>
                   <td className="">
@@ -224,12 +256,12 @@ function Index() {
                     <Link
                       href={`/admin/properties/${p?.property_code}-${p?.id}?step=next&next=UPDATE&skip=false&mode=update&a=update`}
                     >
-                      <a
-                        data-tip="Edit/Update"
-                        className="ml-2 btn px-2 py-1 bg-green-400 rounded-md hover:bg-green-500"
+                      <button
+                        className="ml-2 btn px-2 py-1 bg-blue-400 rounded-md hover:bg-blue-500"
+                        data-tip="Edit"
                       >
-                        <FaPenAlt />
-                      </a>
+                        <FiEdit />
+                      </button>
                     </Link>
                   </td>
                 </tr>

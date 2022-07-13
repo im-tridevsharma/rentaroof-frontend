@@ -23,7 +23,7 @@ const IndeterminateCheckbox = React.forwardRef(
   }
 );
 
-const Datatable = ({ columns, data }) => {
+const Datatable = ({ columns, data, onSelect }) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -74,19 +74,17 @@ const Datatable = ({ columns, data }) => {
   );
 
   useEffect(() => {
-    //callback goes here to get selected row ids
-    console.log(JSON.stringify(selectedRowIds, null, 2));
-    console.log(
-      JSON.stringify(
-        data.filter((item, index) =>
-          Object.keys(selectedRowIds)
-            .map((i) => parseInt(i, 10))
-            .includes(index)
-        ),
-        null,
-        2
-      )
+    const selectedIds = [];
+
+    const ids = data.filter((item, index) =>
+      Object.keys(selectedRowIds)
+        .map((i) => parseInt(i, 10))
+        .includes(index)
     );
+
+    ids.forEach((id) => selectedIds.push(id?.id));
+
+    onSelect && onSelect(selectedIds);
   }, [selectedRowIds]);
 
   // Render the UI for your table

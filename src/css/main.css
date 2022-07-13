@@ -71,6 +71,10 @@
   max-width: calc(100% - 16rem);
 }
 
+.section-title {
+  width: calc(100% - 256px);
+}
+
 @media (min-width: 1280px) {
   .xl\:w-3\/12 {
     width: 25%;

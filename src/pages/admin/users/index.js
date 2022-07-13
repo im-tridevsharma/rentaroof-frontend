@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { FiCheck, FiEdit, FiEye, FiRefreshCw, FiTrash } from "react-icons/fi";
@@ -128,11 +127,11 @@ function Index() {
     );
   };
 
-  const selectUser = (e) => {
-    if (e.target.checked) {
-      setSelected((prev) => [...prev, e.target.value]);
+  const selectUser = (e, value) => {
+    if (e?.target?.checked) {
+      setSelected((prev) => [...prev, value]);
     } else {
-      setSelected((prev) => prev.filter((s) => s !== e.target.value));
+      setSelected((prev) => prev.filter((s) => s !== value));
     }
   };
 
@@ -155,6 +154,16 @@ function Index() {
       } else {
         toast.warn("Please select users to perform bulk action.");
       }
+    }
+  };
+
+  const toggleSelect = (e) => {
+    if (e.target.checked) {
+      users.forEach((u) => {
+        setSelected((prev) => [...prev, u?.id]);
+      });
+    } else {
+      setSelected([]);
     }
   };
 
@@ -184,7 +193,13 @@ function Index() {
         <table className="table">
           <thead>
             <tr>
-              <th>#</th>
+              <th>
+                <input
+                  type="checkbox"
+                  onChange={toggleSelect}
+                  checked={selected?.length > 0}
+                />
+              </th>
               <th>Name</th>
               <th>Email</th>
               <th>Mobile</th>
@@ -209,8 +224,8 @@ function Index() {
                   <td>
                     <input
                       type="checkbox"
-                      value={p?.id}
-                      onChange={selectUser}
+                      onChange={(e) => selectUser(e, p?.id)}
+                      checked={selected.indexOf(p?.id) !== -1}
                     />
                   </td>
                   <td className="">

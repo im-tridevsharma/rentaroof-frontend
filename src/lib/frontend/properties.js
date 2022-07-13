@@ -4,12 +4,12 @@ import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
 
-export const getProperties = async (skip = 0) => {
+export const getProperties = async (skip = 0, filter = "") => {
   const token = getToken();
   let res = false;
 
   await server
-    .get("/properties?skip=" + skip, {
+    .get("/properties?skip=" + skip + "&type=" + filter, {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((response) => {

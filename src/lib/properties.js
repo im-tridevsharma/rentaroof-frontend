@@ -1,13 +1,13 @@
 import { getToken } from "./authentication";
 import server from "../server";
 
-const getProperties = async () => {
+const getProperties = async (filterValue = "") => {
   const token = getToken();
   let properties = false;
 
   if (token) {
     await server
-      .get("/admin/properties", {
+      .get("/admin/properties?type=" + filterValue, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {

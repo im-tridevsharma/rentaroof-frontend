@@ -58,6 +58,7 @@ function PropertiesUI() {
   const [propertySkip, setPropertySkip] = useState(0);
   const [hasMoreProperty, setHasMoreProperty] = useState(false);
   const [fetching, setFetching] = useState(false);
+  const [filterValue, setFilterValue] = useState("");
   const router = useRouter();
 
   useEffect(() => {
@@ -74,20 +75,6 @@ function PropertiesUI() {
       localStorage.removeItem("updated");
     }
     (async () => {
-      setIsLoading(true);
-      const res = await getProperties();
-      if (res?.status) {
-        setProperties(res.data);
-        setIsLoading(false);
-        setTotal(res?.total);
-        if (res?.data?.length < res?.total) {
-          setHasMoreProperty(true);
-        }
-      } else {
-        console.error(res?.error || res?.message);
-        setIsLoading(false);
-      }
-
       const u = localStorage.getItem("LU")
         ? JSON.parse(__d(localStorage.getItem("LU")))
         : false;
@@ -114,17 +101,36 @@ function PropertiesUI() {
     })();
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      setIsLoading(true);
+      const res = await getProperties(propertySkip, filterValue);
+      if (res?.status) {
+        setProperties(res.data);
+        setIsLoading(false);
+        setTotal(res?.total);
+        if (res?.data?.length > 0) {
+          setHasMoreProperty(true);
+        } else {
+          setHasMoreProperty(false);
+        }
+      } else {
+        console.error(res?.error || res?.message);
+        setIsLoading(false);
+      }
+    })();
+  }, [filterValue]);
+
   const fetchNextData = async () => {
     if (!fetching) {
       setFetching(true);
-      const res = await getProperties(propertySkip + 9);
+      const res = await getProperties(propertySkip + 9, filterValue);
       if (res?.status) {
         setProperties((prev) => [...prev, ...res?.data]);
         setPropertySkip(propertySkip + 9);
         if (properties.length === total) {
           setHasMoreProperty(false);
         }
-
         setFetching(false);
       }
     }
@@ -257,15 +263,35 @@ function PropertiesUI() {
         {/**properties */}
         {cardMode === "posted" && (
           <div className="bg-white rounded-md mx-4">
-            <p className="p-3 rounded-md flex items-center text-red-500">
-              <FiAlertCircle className="mr-3" size={28} /> Without verification
-              of your property customer cannot view in website.
-            </p>
+            <div className="py-3 px-4 rounded-md flex items-center justify-between text-red-500">
+              <p className="flex items-center">
+                <FiAlertCircle className="mr-3" size={28} /> Without
+                verification of your property customer cannot view in website.
+              </p>
+              <div className="form-group">
+                <select
+                  className="form-input"
+                  value={filterValue}
+                  onChange={(e) => {
+                    setFilterValue(e.target.value);
+                    setPropertySkip(0);
+                  }}
+                >
+                  <option value="">Filter Options</option>
+                  <option value="verified">Verified</option>
+                  <option value="not-verified">Not Verified</option>
+                  <option value="featured">Featured</option>
+                </select>
+              </div>
+            </div>
             <div
-              className="flex items-center justify-between bg-gray-50 p-4"
-              style={{ fontFamily: "Opensans-semi-bold" }}
+              className="text-lg px-4"
+              style={{ fontFamily: "Opensans-bold" }}
             >
-              <p>Total Listed Properties</p>
+              <p>
+                Total Posted Properties{" "}
+                {filterValue !== "" ? "(" + properties.length + ")" : ""}
+              </p>
             </div>
             <div className="px-4 mt-2">
               <InfiniteScroll
@@ -275,12 +301,14 @@ function PropertiesUI() {
                 hasMore={hasMoreProperty}
                 height={500}
                 loader={
-                  <div className="mt-3 flex items-center justify-center">
-                    <FiLoader
-                      color="dodgerblue"
-                      className="text-xl animate-spin"
-                    />
-                  </div>
+                  hasMoreProperty ? (
+                    <div className="mt-3 flex items-center justify-center">
+                      <FiLoader
+                        color="dodgerblue"
+                        className="text-xl animate-spin"
+                      />
+                    </div>
+                  ) : null
                 }
               >
                 {properties &&

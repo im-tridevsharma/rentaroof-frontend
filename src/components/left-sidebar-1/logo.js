@@ -1,11 +1,8 @@
-import { FiMenu } from "react-icons/fi";
-import Image from "next/image";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { useSelector, shallowEqual } from "react-redux";
 import Link from "next/link";
 
 const Logo = () => {
-  const dispatch = useDispatch();
-  const { config, leftSidebar } = useSelector(
+  const { leftSidebar } = useSelector(
     (state) => ({
       config: state.config,
       leftSidebar: state.leftSidebar,
@@ -19,7 +16,6 @@ const Logo = () => {
     shallowEqual
   );
 
-  const { collapsed } = { ...config };
   const { showLogo } = { ...leftSidebar };
   if (showLogo) {
     return (
@@ -36,18 +32,6 @@ const Logo = () => {
             />
           </a>
         </Link>
-        <button
-          onClick={() =>
-            dispatch({
-              type: "SET_CONFIG_KEY",
-              key: "collapsed",
-              value: !collapsed,
-            })
-          }
-          className="ml-auto mr-4 block lg:hidden"
-        >
-          <FiMenu size={20} />
-        </button>
       </div>
     );
   }

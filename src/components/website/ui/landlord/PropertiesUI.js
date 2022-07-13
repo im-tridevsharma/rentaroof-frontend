@@ -50,6 +50,7 @@ function PropertiesUI() {
   const [propertySkip, setPropertySkip] = useState(0);
   const [hasMoreProperty, setHasMoreProperty] = useState(false);
   const [fetching, setFetching] = useState(false);
+  const [filterValue, setFilterValue] = useState("");
 
   useEffect(() => {
     localStorage.removeItem("next_ap");
@@ -65,18 +66,6 @@ function PropertiesUI() {
       localStorage.removeItem("updated");
     }
     (async () => {
-      setIsLoading(true);
-      const res = await getProperties(propertySkip);
-      if (res?.status) {
-        setProperties(res.data);
-        setIsLoading(false);
-        setTotal(res?.total);
-        setHasMoreProperty(true);
-      } else {
-        console.error(res?.error || res?.message);
-        setIsLoading(false);
-      }
-
       const u = localStorage.getItem("LU")
         ? JSON.parse(__d(localStorage.getItem("LU")))
         : false;
@@ -102,10 +91,30 @@ function PropertiesUI() {
     })();
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      setIsLoading(true);
+      const res = await getProperties(propertySkip, filterValue);
+      if (res?.status) {
+        setProperties(res.data);
+        setIsLoading(false);
+        setTotal(res?.total);
+        if (res?.data?.length > 0) {
+          setHasMoreProperty(true);
+        } else {
+          setHasMoreProperty(false);
+        }
+      } else {
+        console.error(res?.error || res?.message);
+        setIsLoading(false);
+      }
+    })();
+  }, [filterValue]);
+
   const fetchNextData = async () => {
     if (!fetching) {
       setFetching(true);
-      const res = await getProperties(propertySkip + 9);
+      const res = await getProperties(propertySkip + 9, filterValue);
       if (res?.status) {
         setProperties((prev) => [...prev, ...res?.data]);
         setPropertySkip(propertySkip + 9);
@@ -275,15 +284,35 @@ function PropertiesUI() {
         {/**properties */}
         {cardMode === "posted" && (
           <div className="bg-white rounded-md px-4">
-            <p className="py-3 rounded-md flex items-center text-red-500">
-              <FiAlertCircle className="mr-3" size={28} /> Without verification
-              of your property customer cannot view in website.
-            </p>
+            <div className="py-3 rounded-md flex items-center justify-between text-red-500">
+              <p className="flex items-center">
+                <FiAlertCircle className="mr-3" size={28} /> Without
+                verification of your property customer cannot view in website.
+              </p>
+              <div className="form-group">
+                <select
+                  className="form-input"
+                  value={filterValue}
+                  onChange={(e) => {
+                    setFilterValue(e.target.value);
+                    setPropertySkip(0);
+                  }}
+                >
+                  <option value="">Filter Options</option>
+                  <option value="verified">Verified</option>
+                  <option value="not-verified">Not Verified</option>
+                  <option value="featured">Featured</option>
+                </select>
+              </div>
+            </div>
             <div
               className="py-2 text-lg"
               style={{ fontFamily: "Opensans-bold" }}
             >
-              <p>Posted Properties</p>
+              <p>
+                Posted Properties{" "}
+                {filterValue !== "" ? "(" + properties.length + ")" : ""}
+              </p>
             </div>
             <InfiniteScroll
               className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-3"

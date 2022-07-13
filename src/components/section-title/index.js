@@ -8,7 +8,6 @@ const SectionTitle = ({ title, subtitle, right = null }) => {
         style={{
           position: "fixed",
           top: "60px",
-          width: "calc(100% - 256px)",
           right: 0,
         }}
       >

@@ -44,6 +44,10 @@
       .left-sidebar {
         max-width: calc(theme("spacing.1") * 16);
       }
+
+      .section-title {
+        width: calc(100% - 65px);
+      }
     }
   }
 }
