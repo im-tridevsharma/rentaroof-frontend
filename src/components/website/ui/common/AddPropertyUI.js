@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
-import CircleInputRadio from "../../CircleInputRadio";
 import { FiAlertTriangle } from "react-icons/fi";
 import addProperty, {
   getPropertyByCode,
@@ -20,6 +19,7 @@ import { FaArrowAltCircleLeft, FaPlus, FaTimes } from "react-icons/fa";
 import ReactTooltip from "react-tooltip";
 import { getMyLandlords, newLandlord } from "../../../../lib/frontend/share";
 import { __d } from "../../../../server";
+import { inWords } from "../../../../lib/functions";
 
 const inspectionDays = [
   { value: "all days", label: "All Days" },
@@ -196,15 +196,16 @@ function AddPropertyUI({ admin = false }) {
   const goToStep = (step) => {
     if (step && property && router?.query?.id) {
       const next_step = step === "BASIC" ? "UPDATE" : step;
+      const pid = router.query?.id
+        ? router.query.id
+        : `${property?.property_code}-${property?.id}`;
       router.push(
-        (admin
-          ? `${property?.property_code}-${property?.id}`
-          : "update-property") +
+        (admin ? pid : "update-property") +
           "?step=next&next=" +
           next_step +
           "&id=" +
           router?.query?.id +
-          (property?.id ? "&mode=update" : "")
+          (property?.id ? "&mode=update" : "&a=update")
       );
     }
   };
@@ -582,7 +583,7 @@ function AddPropertyUI({ admin = false }) {
               </div>
               <div className="form-element">
                 <label className="form-label">
-                  Floors<span style={{ color: "red" }}>*</span>
+                  Total Floors<span style={{ color: "red" }}>*</span>
                 </label>
                 <div className="flex items-center justify-between">
                   <select
@@ -592,7 +593,6 @@ function AddPropertyUI({ admin = false }) {
                     onChange={(e) => setFloors(e.target.value)}
                   >
                     <option value="">Select</option>
-                    <option value="-1">-1</option>
                     <option value="0">0</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -614,7 +614,7 @@ function AddPropertyUI({ admin = false }) {
               </div>
               <div className="form-element">
                 <label className="form-label">
-                  Floor Number<span style={{ color: "red" }}>*</span>
+                  Property On Floor<span style={{ color: "red" }}>*</span>
                 </label>
                 <div className="flex items-center justify-between">
                   <select
@@ -626,16 +626,16 @@ function AddPropertyUI({ admin = false }) {
                     <option value="">Select</option>
                     <option value="Basement">Basement</option>
                     <option value="Ground">Ground</option>
-                    <option value="1st">1st</option>
-                    <option value="2nd">2nd</option>
-                    <option value="3rd">3rd</option>
-                    <option value="4th">4th</option>
-                    <option value="5th">5th</option>
-                    <option value="6th">6th</option>
-                    <option value="7th">7th</option>
-                    <option value="8th">8th</option>
-                    <option value="9th">9th</option>
-                    <option value="10th">10th</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
                   </select>
                 </div>
               </div>
@@ -795,7 +795,10 @@ function AddPropertyUI({ admin = false }) {
                   onChange={inputHandler}
                   className="form-input rounded-md border-gray-200"
                   placeholder="Rs."
+                  pattern="[0-9]+([,\.][0-9]+)?"
+                  title="The number input must start with a number and use either comma or a dot as a decimal character."
                 />
+                <span>{inWords(property.monthly_rent)}</span>
               </div>
 
               <div className="form-element">
@@ -807,7 +810,10 @@ function AddPropertyUI({ admin = false }) {
                   onChange={inputHandler}
                   className="form-input rounded-md border-gray-200"
                   placeholder="Rs."
+                  pattern="[0-9]+([,\.][0-9]+)?"
+                  title="The number input must start with a number and use either comma or a dot as a decimal character."
                 />
+                <span>{inWords(property.security_amount)}</span>
               </div>
 
               <div className="form-element">
@@ -819,7 +825,10 @@ function AddPropertyUI({ admin = false }) {
                   onChange={inputHandler}
                   className="form-input rounded-md border-gray-200"
                   placeholder="Rs."
+                  pattern="[0-9]+([,\.][0-9]+)?"
+                  title="The number input must start with a number and use either comma or a dot as a decimal character."
                 />
+                <span>{inWords(property.maintenence_charge)}</span>
               </div>
             </div>
 
@@ -833,7 +842,10 @@ function AddPropertyUI({ admin = false }) {
                   onChange={inputHandler}
                   className="form-input rounded-md border-gray-200"
                   placeholder="Rs."
+                  pattern="[0-9]+([,\.][0-9]+)?"
+                  title="The number input must start with a number and use either comma or a dot as a decimal character."
                 />
+                <span>{inWords(property.offered_price)}</span>
               </div>
 
               <div className="form-element">

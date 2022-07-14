@@ -238,7 +238,9 @@ function PropertiesUI() {
               fontFamily: "Opensans-bold",
             }}
           >
-            <p className="text-green-500"> New property added successfully.</p>
+            <p className="text-green-500">
+              YOU HAVE ADDED A NEW PROPERTY SUCCESSFULLY.
+            </p>
             <FaTimes
               className="cursor-pointer text-red-500"
               onClick={() => setIsNewAdded(false)}

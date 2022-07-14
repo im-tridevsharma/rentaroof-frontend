@@ -1,5 +1,5 @@
 import React from "react";
-import { FaTimes } from "react-icons/fa";
+import { FaTimes, FaTrashAlt } from "react-icons/fa";
 import ImageUploading from "react-images-uploading";
 
 function ImageUploader({
@@ -112,7 +112,7 @@ function ImageUploader({
                       Remove
                     </button>
                   </div>
-                  <label className="absolute right-1 top-1 w-7 h-7 flex items-center justify-center rounded-full bg-gray-50">
+                  <label className="absolute left-0 w-full bottom-12 px-2 h-7 flex items-center justify-center rounded-full bg-gray-50">
                     <input
                       type="radio"
                       name="cover"
@@ -121,6 +121,7 @@ function ImageUploader({
                         e.target.checked && setCover(images[index].file)
                       }
                     />
+                    <span className="text-gray-500 ml-2">Make Cover Photo</span>
                   </label>
                 </div>
               ))}
@@ -142,19 +143,21 @@ function ImageUploader({
                   alt={`image-${i}`}
                   className="h-full w-full object-contain"
                 />
-                <label className="absolute left-2 top-2 w-7 h-7 flex items-center justify-center rounded-full bg-gray-50">
+                <label className="absolute left-2 top-2 px-3 h-7 flex items-center justify-center rounded-full bg-gray-50">
                   <input
                     type="radio"
                     name="cover"
                     value={index}
+                    className="mr-1"
                     onChange={(e) => e.target.checked && setCover(g)}
                   />
+                  <span className="text-gray-500">Make Cover Photo</span>
                 </label>
                 <div
                   onClick={() => removeImage(i)}
-                  className="bg-white cursor-pointer w-10 h-10 flex items-center justify-center rounded-full absolute -right-3 -top-3 border"
+                  className="bg-white cursor-pointer w-8 h-8 flex items-center justify-center rounded-full absolute right-2 bottom-2 border"
                 >
-                  <FaTimes className="text-lg text-red-500" />
+                  <FaTrashAlt className="text-lg text-red-500" />
                 </div>
               </div>
             ))}

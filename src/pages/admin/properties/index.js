@@ -20,6 +20,7 @@ import { useDispatch } from "react-redux";
 import Loader from "../../../components/loader";
 import ReactTooltip from "react-tooltip";
 import { toast, ToastContainer } from "react-toastify";
+import { FaTimes } from "react-icons/fa";
 
 function Index() {
   const [properties, setProperties] = useState([]);
@@ -27,10 +28,22 @@ function Index() {
   const [isRefresh, setIsRefresh] = useState(false);
   const [selected, setSelected] = useState([]);
   const [filterValue, setFilterValue] = useState("");
+  const [isNewAdded, setIsNewAdded] = useState(false);
+  const [isUpdated, setIsUpdated] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const isAdded = localStorage.getItem("newadded");
+    const updated = localStorage.getItem("updated");
+    if (isAdded) {
+      setIsNewAdded(true);
+      localStorage.removeItem("newadded");
+    }
+    if (updated) {
+      setIsUpdated(updated);
+      localStorage.removeItem("updated");
+    }
     setIsLoading(true);
     (async () => {
       const response = await getProperties(filterValue);
@@ -173,6 +186,36 @@ function Index() {
         right={<AddProperty />}
       />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
+        {isNewAdded && (
+          <div
+            className="my-2 p-4 mx-4 rounded-md bg-white flex items-center justify-between shadow-md"
+            style={{
+              fontFamily: "Opensans-bold",
+            }}
+          >
+            <p className="text-green-500">
+              YOU HAVE ADDED A NEW PROPERTY SUCCESSFULLY.
+            </p>
+            <FaTimes
+              className="cursor-pointer text-red-500"
+              onClick={() => setIsNewAdded(false)}
+            />
+          </div>
+        )}
+        {isUpdated && (
+          <div
+            className="my-2 p-4 mx-4 rounded-md bg-white flex items-center justify-between shadow-md"
+            style={{
+              fontFamily: "Opensans-bold",
+            }}
+          >
+            <p className="text-green-500">{isUpdated}</p>
+            <FaTimes
+              className="cursor-pointer text-red-500"
+              onClick={() => setIsUpdated(false)}
+            />
+          </div>
+        )}
         <table className="table">
           <thead>
             <tr>

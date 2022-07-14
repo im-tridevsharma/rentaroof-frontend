@@ -3,15 +3,12 @@ import {
   createSOS,
   getIsSOS,
   getUnseenNotification,
-  getUsersForChat,
 } from "../../lib/frontend/share";
 import { __d } from "../../server";
 import Header from "./share/Header";
 import Sidebar from "./share/Sidebar";
 import { toast, ToastContainer } from "react-toastify";
-import Router from "next/router";
 import Loader from "../loader";
-import { FaPlusCircle } from "react-icons/fa";
 
 function UIRenderer({ UI, role, page }) {
   const [sideBarToggled, setSideBarToggled] = useState(false);
@@ -115,20 +112,6 @@ function UIRenderer({ UI, role, page }) {
               className="p-3 rounded-full bg-red-600 text-white"
             >
               SOS
-            </button>
-          </div>
-        )}
-
-        {user && user?.role !== "tenant" && (
-          <div
-            className="fixed bottom-1 right-8"
-            style={{ fontFamily: "Opensans-bold" }}
-          >
-            <button
-              onClick={() => Router.push(`/${user?.role}/add-property`)}
-              className="p-2 rounded-md flex items-center bg-white hover:bg-gray-200"
-            >
-              Add New Property <FaPlusCircle className="ml-2" />
             </button>
           </div>
         )}

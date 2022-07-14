@@ -8,7 +8,7 @@ import server, { __d } from "../../../server";
 import { useDispatch } from "react-redux";
 import ReactTooltip from "react-tooltip";
 import Cookies from "universal-cookie";
-import { FaTimes } from "react-icons/fa";
+import { FaPlusCircle, FaTimes } from "react-icons/fa";
 
 const getWebsiteValues = async (key) => {
   let setting = "";
@@ -123,7 +123,7 @@ function Header({ page, user, setUser, notifications, setNotifications }) {
       <ReactTooltip />
       {isLoading && <Loader />}
       {true && (
-        <div className="absolute top-0 left-0 w-full z-10 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4">
+        <div className="fixed bg-lightBlue-600 right-section top-0 right-0 w-full z-10 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4">
           {/**header top */}
           <div className="flex items-center justify-between py-2 px-4 w-full">
             <div>
@@ -133,6 +133,16 @@ function Header({ page, user, setUser, notifications, setNotifications }) {
             </div>
             {/**user actions */}
             <div className="flex items-center">
+              {user && user?.role !== "tenant" && (
+                <div className="mr-8" style={{ fontFamily: "Opensans-bold" }}>
+                  <button
+                    onClick={() => router.push(`/${user?.role}/add-property`)}
+                    className="p-2 rounded-md flex items-center bg-white hover:bg-gray-200"
+                  >
+                    Post Property <FaPlusCircle className="ml-2" />
+                  </button>
+                </div>
+              )}
               {/**notification */}
               <div className="relative">
                 <Link href={`/${user?.role}/notification`}>
@@ -223,7 +233,7 @@ function Header({ page, user, setUser, notifications, setNotifications }) {
                       <li>
                         <Link href={`/${user?.role}/profile`}>
                           <a className="py-3 bg-gray-50 border-b block hover:bg-gray-200">
-                           Manage Profile
+                            Manage Profile
                           </a>
                         </Link>
                       </li>
