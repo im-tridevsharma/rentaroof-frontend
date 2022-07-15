@@ -21,6 +21,15 @@ import { getMyLandlords, newLandlord } from "../../../../lib/frontend/share";
 import { __d } from "../../../../server";
 import { inWords } from "../../../../lib/functions";
 
+const onlyDigit = (e, setter) => {
+  let val = e.target.value;
+  if (!/^\d/.test(val)) {
+    setter(e, "");
+  } else {
+    setter(e, val.replace(/[^0-9\.\,]+/, ""));
+  }
+};
+
 const inspectionDays = [
   { value: "all days", label: "All Days" },
   { value: "monday", label: "Monday" },
@@ -153,9 +162,12 @@ function AddPropertyUI({ admin = false }) {
     }
   };
 
-  const inputHandler = (e) => {
-    const { name, value } = e.target;
-    setProperty((prev) => ({ ...prev, [name]: value }));
+  const inputHandler = (e, val = false) => {
+    const { name } = e.target;
+    setProperty((prev) => ({
+      ...prev,
+      [name]: val !== false ? val : e.target.value,
+    }));
   };
 
   const addNewLandlord = async (e) => {
@@ -795,6 +807,7 @@ function AddPropertyUI({ admin = false }) {
                   onChange={inputHandler}
                   className="form-input rounded-md border-gray-200"
                   placeholder="Rs."
+                  onKeyUp={(e) => onlyDigit(e, inputHandler)}
                   pattern="[0-9]+([,\.][0-9]+)?"
                   title="The number input must start with a number and use either comma or a dot as a decimal character."
                 />
@@ -810,6 +823,7 @@ function AddPropertyUI({ admin = false }) {
                   onChange={inputHandler}
                   className="form-input rounded-md border-gray-200"
                   placeholder="Rs."
+                  onKeyUp={(e) => onlyDigit(e, inputHandler)}
                   pattern="[0-9]+([,\.][0-9]+)?"
                   title="The number input must start with a number and use either comma or a dot as a decimal character."
                 />
@@ -825,6 +839,7 @@ function AddPropertyUI({ admin = false }) {
                   onChange={inputHandler}
                   className="form-input rounded-md border-gray-200"
                   placeholder="Rs."
+                  onKeyUp={(e) => onlyDigit(e, inputHandler)}
                   pattern="[0-9]+([,\.][0-9]+)?"
                   title="The number input must start with a number and use either comma or a dot as a decimal character."
                 />
@@ -840,6 +855,7 @@ function AddPropertyUI({ admin = false }) {
                   name="offered_price"
                   value={property?.offered_price}
                   onChange={inputHandler}
+                  onKeyUp={(e) => onlyDigit(e, inputHandler)}
                   className="form-input rounded-md border-gray-200"
                   placeholder="Rs."
                   pattern="[0-9]+([,\.][0-9]+)?"
