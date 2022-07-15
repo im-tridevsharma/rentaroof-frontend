@@ -1,13 +1,13 @@
 import server from "../server";
 import { getToken } from "./authentication";
 
-const getIbos = async () => {
+const getIbos = async (filterValue = "") => {
   const token = getToken();
   let ibos = false;
 
   if (token) {
     await server
-      .get("/admin/ibos", {
+      .get("/admin/ibos?type=" + filterValue, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {

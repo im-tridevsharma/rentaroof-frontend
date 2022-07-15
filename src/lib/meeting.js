@@ -1,13 +1,13 @@
 import server from "../server";
 import { getToken } from "./authentication";
 
-const getMeeting = async () => {
+const getMeeting = async (filterValue = "") => {
   const token = getToken();
   let meetings = false;
 
   if (token) {
     await server
-      .get("/admin/meetings", {
+      .get("/admin/meetings?type=" + filterValue, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {

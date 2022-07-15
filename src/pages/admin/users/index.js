@@ -25,12 +25,13 @@ function Index() {
   const [isLoading, setIsLoading] = useState(false);
   const [isRefresh, setIsRefresh] = useState(false);
   const [selected, setSelected] = useState([]);
+  const [filterValue, setFilterValue] = useState("");
   const router = useRouter();
 
   useEffect(() => {
     setIsLoading(true);
     (async () => {
-      const response = await getUsers();
+      const response = await getUsers(filterValue);
       if (response?.status) {
         setIsLoading(false);
         setUsers(__d(response.data, true));
@@ -38,7 +39,7 @@ function Index() {
         router.push("/admin");
       }
     })();
-  }, [isRefresh]);
+  }, [isRefresh, filterValue]);
 
   const editUser = (id) => {
     if (id) {
@@ -100,6 +101,17 @@ function Index() {
   const AddUser = () => {
     return (
       <div className="flex items-center">
+        <select
+          className="form-select"
+          value={filterValue}
+          onChange={(e) => setFilterValue(e.target.value)}
+        >
+          <option value="">Filter</option>
+          <option value="activated">Activated</option>
+          <option value="banned">Banned</option>
+          <option value="deactivated">Deactivated</option>
+          <option value="not-verified">Not Verified</option>
+        </select>
         <div className="mr-5">
           <select className="form-select" onChange={performAction}>
             <option value="">Bulk Action</option>

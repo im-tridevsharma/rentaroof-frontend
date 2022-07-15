@@ -24,18 +24,19 @@ function Index() {
   const [showDetail, setShowDetail] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isRefresh, setIsRefresh] = useState(false);
+  const [filterValue, setFilterValue] = useState("");
   const router = useRouter();
 
   useEffect(() => {
     setIsLoading(true);
     (async () => {
-      const response = await getLandlords();
+      const response = await getLandlords(filterValue);
       if (response?.status) {
         setLandlords(response.data);
         setIsLoading(false);
       }
     })();
-  }, [isRefresh]);
+  }, [isRefresh, filterValue]);
 
   const editLandlord = (id) => {
     if (id) {
@@ -106,8 +107,19 @@ function Index() {
   const AddLandlord = () => {
     return (
       <div className="flex items-center">
+        <select
+          className="form-select"
+          value={filterValue}
+          onChange={(e) => setFilterValue(e.target.value)}
+        >
+          <option value="">Filter</option>
+          <option value="activated">Activated</option>
+          <option value="banned">Banned</option>
+          <option value="deactivated">Deactivated</option>
+          <option value="not-verified">Not Verified</option>
+        </select>
         <Link href="/admin/landlords/add">
-          <a className="btn btn-default bg-blue-500 text-white rounded-lg hover:bg-blue-400">
+          <a className="btn btn-default ml-3 bg-blue-500 text-white rounded-lg hover:bg-blue-400">
             Add New
           </a>
         </Link>

@@ -13,6 +13,7 @@ function Index() {
   const [isLoading, setIsLoading] = useState(false);
   const [meeting, setMeeting] = useState([]);
   const [isRefresh, setIsRefresh] = useState(false);
+  const [filterValue, setFilterValue] = useState("");
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -20,7 +21,7 @@ function Index() {
   useEffect(() => {
     setIsLoading(true);
     (async () => {
-      const response = await getMeeting();
+      const response = await getMeeting(filterValue);
       if (response?.status) {
         setMeeting(response.data);
         setIsLoading(false);
@@ -41,7 +42,7 @@ function Index() {
         setIsLoading(false);
       }
     })();
-  }, [isRefresh]);
+  }, [isRefresh, filterValue]);
 
   const viewMeeting = (id) => {
     router.push("/admin/meetings/" + id);
@@ -88,7 +89,25 @@ function Index() {
       <SectionTitle
         title="Meeting"
         subtitle={`All Meeting (${meeting.length})`}
-        right={<RefreshButton />}
+        right={
+          <div className="flex items-center">
+            <select
+              className="form-select mr-3"
+              value={filterValue}
+              onChange={(e) => setFilterValue(e.target.value)}
+            >
+              <option value="">Filter</option>
+              <option value="pending">Pending</option>
+              <option value="cancelled">Cancelled</option>
+              <option value="approved">Approved</option>
+              <option value="scheduled">Scheduled</option>
+              <option value="on the way">On the way</option>
+              <option value="visited">Visited</option>
+              <option value="closed">Closed</option>
+            </select>
+            <RefreshButton />
+          </div>
+        }
       />
       <div className="bg-white dark:bg-gray-800 px-2 py-3 rounded-lg border-gray-100 dark:border-gray-900 border-2">
         {meeting?.length ? (

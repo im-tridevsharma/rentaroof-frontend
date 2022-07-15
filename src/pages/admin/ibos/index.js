@@ -25,20 +25,19 @@ function Index() {
   const [isLoading, setIsLoading] = useState(false);
   const [isRefresh, setIsRefresh] = useState(false);
   const [selected, setSelected] = useState([]);
+  const [filterValue, setFilterValue] = useState("");
   const router = useRouter();
 
   useEffect(() => {
     setIsLoading(true);
     (async () => {
-      const response = await getIbos();
+      const response = await getIbos(filterValue);
       if (response?.status) {
         setIsLoading(false);
         setIbos(response.data);
       }
     })();
-  }, [isRefresh]);
-
-  console.log(selected);
+  }, [isRefresh, filterValue]);
 
   const editIBO = (id) => {
     if (id) {
@@ -99,8 +98,19 @@ function Index() {
   const AddIBO = () => {
     return (
       <div className="flex items-center">
+        <select
+          className="form-select"
+          value={filterValue}
+          onChange={(e) => setFilterValue(e.target.value)}
+        >
+          <option value="">Filter</option>
+          <option value="activated">Activated</option>
+          <option value="banned">Banned</option>
+          <option value="deactivated">Deactivated</option>
+          <option value="not-verified">Not Verified</option>
+        </select>
         <Link href="/admin/ibos/add">
-          <a className="btn btn-default bg-blue-500 text-white rounded-lg hover:bg-blue-400">
+          <a className="btn btn-default ml-3 bg-blue-500 text-white rounded-lg hover:bg-blue-400">
             Add New
           </a>
         </Link>
