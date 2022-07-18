@@ -22,6 +22,7 @@ import ReactTooltip from "react-tooltip";
 import Card from "../../Card";
 import { toast } from "react-toastify";
 import { getMeetings } from "../../../../lib/frontend/meetings";
+import { FiMessageCircle } from "react-icons/fi";
 
 function DashboardUI() {
   const [favoriteProperties, setFavoriteProperties] = useState([]);
