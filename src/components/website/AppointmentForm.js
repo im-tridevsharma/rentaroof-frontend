@@ -11,7 +11,7 @@ function AppointmentForm({
   appointment,
   setAgreementMode,
   setReload,
-  handleUserNotification,
+  handleUserNotification = () => {},
   final,
 }) {
   const { website } = useSelector(
@@ -117,7 +117,7 @@ function AppointmentForm({
   return (
     <>
       {isLoading && <Loader />}
-      <div className="absolute top-0 left-0 p-5 bg-white shadow-md rounded-md z-40 w-full">
+      <div className="absolute top-5 h-full max-w-6xl left-1/2 transform -translate-x-1/2 p-5 bg-white shadow-md rounded-md z-40 w-full">
         <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
           Agreement Details
           <FaTimes

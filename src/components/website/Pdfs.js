@@ -5,7 +5,7 @@ import ReactTooltip from "react-tooltip";
 export default function Pdfs({ pdfs, title }) {
   return (
     <div className="flex flex-col rounded overflow-hidden mt-5 w-full">
-      <div className="flex rounded-md flex-col px-2 max-h-80 h-full overflow-x-hidden overscroll-auto">
+      <div className="flex rounded-md flex-col max-h-80 h-full overflow-x-hidden overscroll-auto">
         {pdfs?.length > 0 ? (
           pdfs.map((pdf, i) => (
             <div className="flex my-2 items-center" key={i}>
@@ -32,7 +32,7 @@ export default function Pdfs({ pdfs, title }) {
             </div>
           ))
         ) : (
-          <p className="text-white py-3">No pdfs found!</p>
+          <p className="text-red-400 py-3">No pdfs found!</p>
         )}
       </div>
     </div>

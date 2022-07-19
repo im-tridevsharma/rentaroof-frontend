@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import Image from "next/image";
 import Card from "../../Card";
 import PropertyGrid from "../../PropertyGrid";
-import { FaCalendarAlt, FaPlus, FaTimes } from "react-icons/fa";
+import { FaCalendarAlt, FaTimes } from "react-icons/fa";
 import {
   getProperties,
   deleteProperty,
@@ -17,11 +16,29 @@ import {
 import { __d } from "../../../../server";
 import { MdClose } from "react-icons/md";
 import { BsStarFill } from "react-icons/bs";
-import { getAgreements } from "../../../../lib/frontend/share";
+import {
+  createConversation,
+  getAgreements,
+} from "../../../../lib/frontend/share";
 import ReactTooltip from "react-tooltip";
-import { FiAlertCircle, FiDelete, FiLoader } from "react-icons/fi";
+import {
+  FiAlertCircle,
+  FiDelete,
+  FiLoader,
+  FiMail,
+  FiMessageCircle,
+  FiPhoneCall,
+} from "react-icons/fi";
 import InfiniteScroll from "react-infinite-scroll-component";
-import router from "next/router";
+import {
+  getLandlordMeetings,
+  rescheduleMetting,
+  updateMeetingStatus,
+} from "../../../../lib/frontend/meetings";
+import moment from "moment";
+import { toast } from "react-toastify";
+import AppointmentForm from "../../AppointmentForm";
+import { Router, useRouter } from "next/router";
 
 const Button = ({ url }) => {
   return (
@@ -52,6 +69,14 @@ function PropertiesUI() {
   const [fetching, setFetching] = useState(false);
   const [filterValue, setFilterValue] = useState("");
 
+  const [appointments, setAppointments] = useState([]);
+  const [showDetail, setShowDetail] = useState(false);
+  const [reschedule, setReschedule] = useState(false);
+  const [agreementMode, setAgreementMode] = useState(false);
+  const [reload, setReload] = useState(false);
+
+  const router = useRouter();
+
   useEffect(() => {
     localStorage.removeItem("next_ap");
     localStorage.removeItem("recent_ap");
@@ -70,6 +95,10 @@ function PropertiesUI() {
         ? JSON.parse(__d(localStorage.getItem("LU")))
         : false;
       if (u) {
+        const lresponse = await getLandlordMeetings(u.id);
+        if (lresponse?.status) {
+          setAppointments(lresponse?.data);
+        }
         const response = await getUserSavedProperties(u.id);
         if (response?.status) {
           setIsLoading(false);
@@ -89,7 +118,7 @@ function PropertiesUI() {
         }
       }
     })();
-  }, []);
+  }, [reload]);
 
   useEffect(() => {
     (async () => {
@@ -173,6 +202,62 @@ function PropertiesUI() {
     }
   };
 
+  const startConversation = async (receiver) => {
+    setIsLoading(true);
+    if (receiver) {
+      const formdata = {
+        sender_id: user?.id,
+        receiver_id: receiver,
+      };
+      if (formdata) {
+        const res = await createConversation(formdata);
+        if (res?.status) {
+          setIsLoading(false);
+          toast.success("Redirecting to chat.");
+          router.push(`/${user?.role}/chat#${res?.data?.id}`);
+        } else {
+          setIsLoading(false);
+          toast.error(res?.error || res?.message);
+        }
+      } else {
+        toast.error("Something went wrong!");
+        setIsLoading(true);
+      }
+    } else {
+      setIsLoading(false);
+    }
+  };
+  const openAgreementMode = (appointment) => {
+    setAgreementMode(appointment);
+  };
+
+  const handleReschedule = async (e) => {
+    e.preventDefault();
+    const id = document.forms.reschedule.id.value;
+    const formdata = new FormData(document.forms.reschedule);
+    setIsLoading(true);
+    const response = await rescheduleMetting(id, formdata);
+    if (response?.status) {
+      setReload(Date.now());
+      setIsLoading(false);
+      setReschedule(false);
+    } else {
+      toast.error(response?.error || response?.data);
+      setIsLoading(false);
+    }
+  };
+
+  const changeStatus = async (status, id) => {
+    setIsLoading(true);
+    const response = await updateMeetingStatus(id, { status });
+    if (response?.status) {
+      setReload(Date.now());
+      setIsLoading(false);
+    } else {
+      toast.error(response?.error || response?.data);
+      setIsLoading(false);
+    }
+  };
   return (
     <>
       {isLoading && <Loader />}
@@ -183,7 +268,7 @@ function PropertiesUI() {
             <div className="flex flex-wrap">
               <Card
                 label="Appointment History"
-                value={0}
+                value={appointments?.length}
                 color="yellow"
                 state="appointment"
                 current={cardMode}
@@ -191,7 +276,13 @@ function PropertiesUI() {
                 onClick={() => setCardMode("appointment")}
               />
               <Card
-                label="Manage Applications"
+                label={
+                  <span>
+                    Applications
+                    <br />
+                    <br />
+                  </span>
+                }
                 value={agreements?.length}
                 color="green"
                 icon={
@@ -204,7 +295,8 @@ function PropertiesUI() {
               <Card
                 label={
                   <span>
-                    Manage /<br /> Posted Properties
+                    Manage properties <br />
+                    Edit/Add new property
                   </span>
                 }
                 value={total}
@@ -221,18 +313,7 @@ function PropertiesUI() {
                   setCardMode("posted");
                   setPropertySkip(0);
                 }}
-              />
-
-              <Card
-                label={
-                  <span>
-                    Manage /<br /> Add New <br />
-                    Property
-                  </span>
-                }
-                color="green"
-                icon={<FaPlus />}
-                onClick={() => router.push("add-property")}
+                col={4}
               />
             </div>
           </div>
@@ -247,7 +328,165 @@ function PropertiesUI() {
           >
             <span>Appointment History</span>
           </p>
-          <div className="mt-5 p-4"></div>
+          <div className="mt-5 p-4">
+            <table className="table">
+              <thead
+                style={{
+                  backgroundColor: "var(--blue)",
+                  fontFamily: "Opensans-semi-bold",
+                }}
+                className="text-white"
+              >
+                <tr>
+                  <th>Property</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody style={{ fontFamily: "Opensans-semi-bold" }}>
+                {appointments?.length > 0 ? (
+                  appointments.map((a, i) => (
+                    <tr key={i}>
+                      <td>
+                        <p style={{ fontFamily: "Opensans-bold" }}>
+                          {a?.property_data.length > 50
+                            ? a?.property_data.substring(0, 50) + "..."
+                            : a?.property_data}
+                        </p>
+                        {a?.vvc && (
+                          <b>
+                            VVC - {a?.vvc}{" "}
+                            {a?.is_landlord_vvc_verified === 1 && (
+                              <span className="text-green-500">Verified</span>
+                            )}
+                          </b>
+                        )}
+                        <p
+                          className="font-semibold text-xs flex items-center"
+                          style={{ color: "var(--orange)" }}
+                        >
+                          By {a?.name} [{a?.created_by_role}]
+                          <a
+                            href={`tel:${a?.contact}`}
+                            style={{ color: "var(--blue)" }}
+                          >
+                            <FiPhoneCall className="mx-1" />
+                          </a>
+                          <a
+                            href={`mailto:${a?.email}`}
+                            style={{ color: "var(--blue)" }}
+                          >
+                            <FiMail className="mx-1" />
+                          </a>
+                        </p>
+                        <p>
+                          <b className="mr-1">Ibo:</b> {a?.ibo || "Pending..."}
+                        </p>
+                      </td>
+                      <td>{moment(a?.start_time).format("DD-MM-YYYY")}</td>
+                      <td>{moment(a?.start_time).format("hh:mm A")}</td>
+                      <td>
+                        <p className=" text-green-600 capitalize">
+                          {a?.landlord_status !== "approved"
+                            ? "(You) " +
+                              (a?.landlord_status === null
+                                ? "Pending"
+                                : a?.landlord_status)
+                            : a?.meeting_status === "cancelled"
+                            ? "Pending"
+                            : a?.meeting_status}
+                        </p>
+                      </td>
+                      <td>
+                        <div className="flex items-center">
+                          <button
+                            onClick={() =>
+                              setShowDetail(
+                                appointments.find((p) => p.id === a.id)
+                              )
+                            }
+                            className="px-2 text-green-500 border-gray-300 border-r-2"
+                          >
+                            Details
+                          </button>
+                          {a.agreement && (
+                            <a
+                              href={a.agreement?.agreement_url}
+                              target="_blank"
+                              className="border-gray-300 border-r-2 px-2 mr-2"
+                              style={{ color: "var(--blue)" }}
+                            >
+                              View Agreement
+                            </a>
+                          )}
+                          {a.meeting_status === "closed" && !a?.agreement && (
+                            <button
+                              className="text-green-600 border-gray-300 border-r-2 px-2 mr-2"
+                              onClick={() => openAgreementMode(a)}
+                            >
+                              Create Agreement
+                            </button>
+                          )}
+
+                          {(a?.landlord_status === null ||
+                            a?.landlord_status === "pending" ||
+                            a?.landlord_status === "cancelled") && (
+                            <>
+                              <button
+                                onClick={() => {
+                                  changeStatus("approved", a.id);
+                                }}
+                                className="border-gray-300 border-r-2 px-2 mr-2 text-green-500"
+                              >
+                                Accept
+                              </button>
+                              {a?.landlord_status !== "cancelled" && (
+                                <button
+                                  className="text-red-600 ml-2"
+                                  onClick={() => {
+                                    changeStatus("cancelled", a.id);
+                                  }}
+                                >
+                                  Cancel
+                                </button>
+                              )}
+                            </>
+                          )}
+                          {![
+                            "visited",
+                            "closed",
+                            "on the way",
+                            "pending",
+                          ].includes(a?.meeting_status) && (
+                            <>
+                              <button
+                                onClick={() =>
+                                  setReschedule(
+                                    appointments.find((p) => p.id === a.id)
+                                  )
+                                }
+                                className=" px-2 text-yellow-500"
+                              >
+                                Reschedule
+                              </button>
+                            </>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="6" className="text-red-500">
+                      No appointments found!
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 
@@ -442,6 +681,16 @@ function PropertiesUI() {
           </div>
         )}
       </div>
+
+      {agreementMode && (
+        <AppointmentForm
+          appointment={agreementMode}
+          setAgreementMode={setAgreementMode}
+          setReload={setReload}
+          final={agreementMode?.final}
+        />
+      )}
+
       {deleteMode && (
         <div
           className="fixed w-full h-screen top-0 left-0"
@@ -477,6 +726,102 @@ function PropertiesUI() {
               </div>
             </form>
           </div>
+        </div>
+      )}
+      {showDetail && (
+        <div
+          style={{ fontFamily: "Opensans-regular" }}
+          className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5 bg-white shadow-md rounded-md z-40 max-w-lg w-full"
+        >
+          <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
+            Appointment Details
+            <FaTimes
+              onClick={() => setShowDetail(false)}
+              data-tip="Close"
+              className="absolute right-1 top-1 text-red-500 cursor-pointer text-lg"
+            />
+            <ReactTooltip />
+          </h5>
+          <hr className="my-1" />
+          <p className="leading-6 flex items-center">
+            <b className="mr-1">Ibo:</b> {showDetail?.ibo || "Pending..."}
+            {showDetail?.ibo_id !== 0 && (
+              <FiMessageCircle
+                style={{ color: "var(--blue)" }}
+                className="text-lg cursor-pointer ml-2"
+                data-tip="Chat with IBO"
+                onClick={() => startConversation(showDetail?.ibo_id)}
+              />
+            )}
+          </p>
+          <p className="leading-6">
+            <b>Property:</b> {showDetail?.property_data}
+          </p>
+          <hr className="my-1" />
+          <p className="leading-6">
+            <b>User:</b> {showDetail?.name}
+          </p>
+          <hr className="my-1" />
+          <p className="leading-6 capitalize">
+            <b>Status:</b>{" "}
+            {showDetail?.meeting_status === "cancelled"
+              ? "Pending"
+              : showDetail?.meeting_status}
+          </p>
+          <p className="leading-6">
+            <b>Date:</b> {moment(showDetail?.start_time).format("DD-MM-YYYY")}
+          </p>
+          <p className="leading-6">
+            <b>Time:</b> {moment(showDetail?.start_time).format("hh:mm A")}
+          </p>
+        </div>
+      )}
+      {reschedule && (
+        <div
+          style={{ fontFamily: "Opensans-regular" }}
+          className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5 bg-white shadow-md rounded-md z-40 max-w-lg w-full"
+        >
+          <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
+            Reschedule Details
+            <FaTimes
+              data-tip="Close"
+              onClick={() => setReschedule(false)}
+              className="absolute right-1 top-1 text-red-500 cursor-pointer text-lg"
+            />
+            <ReactTooltip />
+          </h5>
+          <hr className="my-1" />
+          <form name="reschedule" onSubmit={handleReschedule}>
+            <input type="hidden" name="id" value={reschedule?.id} />
+            <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-2">
+              <div className="form-element">
+                <label className="form-label">Date</label>
+                <input
+                  type="date"
+                  name="date"
+                  required
+                  className="form-input border-gray-200 rounded-md"
+                />
+              </div>
+              <div className="form-element">
+                <label className="form-label">Time</label>
+                <input
+                  type="time"
+                  name="time"
+                  required
+                  className="form-input border-gray-200 rounded-md"
+                />
+              </div>
+            </div>
+            <div className="flex justify-end">
+              <button
+                className="px-2 py-1 text-white rounded-md right"
+                style={{ backgroundColor: "var(--blue)" }}
+              >
+                Submit
+              </button>
+            </div>
+          </form>
         </div>
       )}
     </>

@@ -77,22 +77,13 @@ function TrainingManagementUI() {
               />
               <Card
                 color="yellow"
-                label="PDF Guidelines"
+                label="How to use pdf/faq"
                 icon={<FaFilePdf />}
                 onClick={() => setTab("pdf")}
                 current={tab}
                 value={personalPdf.length}
                 state="pdf"
-              />
-
-              <Card
-                color="red"
-                label="FAQS"
-                icon={<FaUserCheck />}
-                value={faqs.length}
-                current={tab}
-                onClick={() => setTab("faq")}
-                state="faq"
+                col={4}
               />
             </div>
           </div>
@@ -106,27 +97,27 @@ function TrainingManagementUI() {
           >
             <span>Web/App Demo</span>
           </p>
-          <div className="mt-5 p-4">
+          <div className="mt-2 p-4">
             {videos?.length > 0 ? (
               videos.map((v, i) => (
                 <VideoItem key={i} video={v} onClick={setSelectedVideo} />
               ))
             ) : (
-              <p className="text-white py-2">No videos found!</p>
+              <p className="text-red-400 py-2">No videos found!</p>
             )}
           </div>
         </div>
       )}
 
-      {tab === "faq" && (
+      {tab === "pdf" && (
         <div className="bg-white rounded-md mx-4 overflow-hidden overflow-y-auto">
           <p
             className="flex items-center justify-between bg-gray-50 p-4"
             style={{ fontFamily: "Opensans-semi-bold" }}
           >
-            <span>FAQS</span>
+            <span>How to use pdf/faq</span>
           </p>
-          <div className="mt-5 p-4">
+          <div className="mt-2 p-4">
             {faqs?.length > 0 ? (
               faqs.map((faq, i) => (
                 <div key={i} className="py-3">
@@ -150,21 +141,10 @@ function TrainingManagementUI() {
                 </div>
               ))
             ) : (
-              <p className="text-white px-0 py-3">No FAQs found!</p>
+              <p className="text-red-400 px-0 py-3">No FAQs found!</p>
             )}
           </div>
-        </div>
-      )}
-
-      {tab === "pdf" && (
-        <div className="bg-white rounded-md mx-4 overflow-hidden overflow-y-auto">
-          <p
-            className="flex items-center justify-between bg-gray-50 p-4"
-            style={{ fontFamily: "Opensans-semi-bold" }}
-          >
-            <span>PDF Guidelines</span>
-          </p>
-          <div className="mt-5 p-4">
+          <div className="mt-2 p-4">
             <Pdfs
               bgcolor="var(--orange)"
               pdfs={personalPdf}

@@ -154,14 +154,16 @@ function PaymentUI() {
                 onClick={() => setTab("history")}
                 current={tab}
                 state="history"
+                col={4}
               />
               <Card
                 color="red"
-                label="Wallet/ RAR Points"
+                label="Wallet/ RAR redeemable points"
                 icon={<FaPiggyBank />}
                 onClick={() => setTab("points")}
                 current={tab}
                 state="points"
+                col={4}
               />
               <Card
                 color="yellow"
@@ -170,6 +172,7 @@ function PaymentUI() {
                 onClick={() => setTab("rent")}
                 current={tab}
                 state="rent"
+                col={4}
               />
             </div>
           </div>
