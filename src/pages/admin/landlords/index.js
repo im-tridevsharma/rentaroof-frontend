@@ -9,6 +9,7 @@ import SectionTitle from "../../../components/section-title";
 import getLandlords, {
   activateLandlordProfile,
   banLandlordProfile,
+  bulkActionLandlords,
   deleteLandlord,
   getLandlordById,
 } from "../../../lib/landlords";
@@ -25,6 +26,7 @@ function Index() {
   const [isLoading, setIsLoading] = useState(false);
   const [isRefresh, setIsRefresh] = useState(false);
   const [filterValue, setFilterValue] = useState("");
+  const [selected, setSelected] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -104,6 +106,28 @@ function Index() {
     }
   };
 
+  const performAction = async (e) => {
+    if (e.target.value) {
+      if (selected.length > 0) {
+        setIsLoading(true);
+        const res = await bulkActionLandlords({
+          action: e.target.value,
+          ids: selected,
+        });
+        if (res?.status) {
+          toast.success(res.message);
+          setIsLoading(false);
+          setIsRefresh(!isRefresh);
+        } else {
+          toast.error(res?.message);
+          setIsLoading(false);
+        }
+      } else {
+        toast.warn("Please select users to perform bulk action.");
+      }
+    }
+  };
+
   const AddLandlord = () => {
     return (
       <div className="flex items-center">
@@ -118,6 +142,16 @@ function Index() {
           <option value="deactivated">Deactivated</option>
           <option value="not-verified">Not Verified</option>
         </select>
+        <div className="mr-5">
+          <select className="form-select" onChange={performAction}>
+            <option value="">Bulk Action</option>
+            <option value="mark-activated">Mark Activated</option>
+            <option value="mark-banned">Mark Banned</option>
+            <option value="mark-deactivated">Deactivate</option>
+            <option value="mark-not-verified">Mark Not Verified</option>
+            <option value="remove">Remove</option>
+          </select>
+        </div>
         <Link href="/admin/landlords/add">
           <a className="btn btn-default ml-3 bg-blue-500 text-white rounded-lg hover:bg-blue-400">
             Add New
@@ -167,6 +201,7 @@ function Index() {
             view={viewProfile}
             ban={banLandlord}
             activate={activateLandlord}
+            setSelected={setSelected}
           />
         ) : (
           <p className="mt-5">No landlords found!</p>
@@ -178,7 +213,7 @@ function Index() {
 
 export default Index;
 
-const Table = ({ landlords, edit, del, view, ban, activate }) => {
+const Table = ({ landlords, edit, del, view, ban, activate, setSelected }) => {
   const columns = [
     {
       Header: "Proile Pic",
@@ -312,5 +347,7 @@ const Table = ({ landlords, edit, del, view, ban, activate }) => {
       },
     },
   ];
-  return <Datatable columns={columns} data={landlords} />;
+  return (
+    <Datatable columns={columns} data={landlords} onSelect={setSelected} />
+  );
 };

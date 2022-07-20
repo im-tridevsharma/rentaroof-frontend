@@ -9,10 +9,11 @@ function Card({
   state,
   current,
   col = 3,
+  className = "",
 }) {
   return (
     <div
-      className={`w-full transform transition-all duration-100 ease-in-out lg:w-${col}/12 xl:w-${col}/12 px-4`}
+      className={`w-full ${className} transform transition-all duration-100 ease-in-out lg:w-${col}/12 xl:w-${col}/12 px-4`}
     >
       <div className="relative overflow-hidden flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg">
         <div

@@ -10,6 +10,7 @@ import SectionTitle from "../../../components/section-title";
 import getIbos, {
   activateIboProfile,
   banIboProfile,
+  bulkActionIbos,
   deleteIBO,
   getIBOById,
 } from "../../../lib/ibos";
@@ -95,6 +96,28 @@ function Index() {
     }
   };
 
+  const performAction = async (e) => {
+    if (e.target.value) {
+      if (selected.length > 0) {
+        setIsLoading(true);
+        const res = await bulkActionIbos({
+          action: e.target.value,
+          ids: selected,
+        });
+        if (res?.status) {
+          toast.success(res.message);
+          setIsLoading(false);
+          setIsRefresh(!isRefresh);
+        } else {
+          toast.error(res?.message);
+          setIsLoading(false);
+        }
+      } else {
+        toast.warn("Please select users to perform bulk action.");
+      }
+    }
+  };
+
   const AddIBO = () => {
     return (
       <div className="flex items-center">
@@ -109,6 +132,16 @@ function Index() {
           <option value="deactivated">Deactivated</option>
           <option value="not-verified">Not Verified</option>
         </select>
+        <div className="mr-5">
+          <select className="form-select" onChange={performAction}>
+            <option value="">Bulk Action</option>
+            <option value="mark-activated">Mark Activated</option>
+            <option value="mark-banned">Mark Banned</option>
+            <option value="mark-deactivated">Deactivate</option>
+            <option value="mark-not-verified">Mark Not Verified</option>
+            <option value="remove">Remove</option>
+          </select>
+        </div>
         <Link href="/admin/ibos/add">
           <a className="btn btn-default ml-3 bg-blue-500 text-white rounded-lg hover:bg-blue-400">
             Add New

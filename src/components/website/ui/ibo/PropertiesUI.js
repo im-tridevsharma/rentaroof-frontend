@@ -3,7 +3,15 @@ import Link from "next/link";
 import Card from "../../Card";
 import { useRouter } from "next/router";
 import PropertyGrid from "../../PropertyGrid";
-import { FaEye, FaFileDownload, FaPlus, FaTimes } from "react-icons/fa";
+import {
+  FaCalendarAlt,
+  FaCheckCircle,
+  FaExclamation,
+  FaEye,
+  FaFileDownload,
+  FaPlus,
+  FaTimes,
+} from "react-icons/fa";
 import {
   getProperties,
   deleteProperty,
@@ -13,13 +21,31 @@ import PostedProperty from "../../PostedProperty";
 import { __d } from "../../../../server";
 import { BsStarFill } from "react-icons/bs";
 import {
+  createConversation,
   getAgreements,
   getPoliceVerification,
   getVisitedProperties,
+  saveUserRating,
+  vvcStatus,
 } from "../../../../lib/frontend/share";
-import { FiAlertCircle, FiDelete, FiLoader } from "react-icons/fi";
+import {
+  FiAlertCircle,
+  FiDelete,
+  FiLoader,
+  FiMail,
+  FiMessageCircle,
+  FiPhoneCall,
+} from "react-icons/fi";
 import { toast } from "react-toastify";
 import InfiniteScroll from "react-infinite-scroll-component";
+import ReactTooltip from "react-tooltip";
+import {
+  getMeetings,
+  rescheduleMetting,
+  updateMeetingStatus,
+} from "../../../../lib/frontend/meetings";
+import moment from "moment";
+import AppointmentForm from "../../AppointmentForm";
 
 const Button = ({ url }) => {
   return (
@@ -44,12 +70,11 @@ const Button = ({ url }) => {
 };
 
 function PropertiesUI() {
-  const [isNewAdded, setIsNewAdded] = useState(false);
+  const [user, setUser] = useState(false);
   const [updated, setUpdated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [cardMode, setCardMode] = useState("posted");
   const [properties, setProperties] = useState([]);
-  const [visitedProperties, setVisitedProperties] = useState([]);
   const [agreements, setAgreements] = useState([]);
   const [deleteReason, setDeleteReason] = useState("");
   const [deleteMode, setDeleteMode] = useState(false);
@@ -59,14 +84,27 @@ function PropertiesUI() {
   const [hasMoreProperty, setHasMoreProperty] = useState(false);
   const [fetching, setFetching] = useState(false);
   const [filterValue, setFilterValue] = useState("");
+
+  const [appointments, setAppointments] = useState([]);
+  const [reload, setReload] = useState(false);
+  const [showDetail, setShowDetail] = useState(false);
+  const [reschedule, setReschedule] = useState(false);
+  const [agreementMode, setAgreementMode] = useState(false);
+  const [rateAndReview, setRateAndReview] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [vvcModal, setVvcModal] = useState(false);
+  const [vvcData, setVvcData] = useState({ vvc: "", user: "" });
+
   const router = useRouter();
 
   useEffect(() => {
+    setCardMode(router?.query?.t);
+
     localStorage.removeItem("next_ap");
     localStorage.removeItem("recent_ap");
     const isAdded = localStorage.getItem("newadded");
     if (isAdded) {
-      setIsNewAdded(true);
+      toast.success("New property has been added successfully.");
       localStorage.removeItem("newadded");
     }
     const isUpdated = localStorage.getItem("updated");
@@ -79,15 +117,7 @@ function PropertiesUI() {
         ? JSON.parse(__d(localStorage.getItem("LU")))
         : false;
       if (u) {
-        const response = await getVisitedProperties();
-        if (response?.status) {
-          setIsLoading(false);
-          setVisitedProperties(response?.data);
-        } else {
-          setIsLoading(false);
-          console.error(response?.error || response?.message);
-        }
-
+        setUser(u);
         setIsLoading(true);
         const ares = await getAgreements();
         if (ares?.status) {
@@ -119,7 +149,112 @@ function PropertiesUI() {
         setIsLoading(false);
       }
     })();
-  }, [filterValue]);
+
+    (async () => {
+      const response = await getMeetings();
+      if (response?.status) {
+        setAppointments(response?.data);
+      }
+    })();
+  }, [reload, filterValue]);
+
+  const openRateAndReview = (a) => {
+    setRateAndReview(a);
+  };
+
+  const changeStatus = async (status, id) => {
+    setIsLoading(true);
+    const response = await updateMeetingStatus(id, { status });
+    if (response?.status) {
+      toast.success("Status Changed Successfully.");
+      setReload(Date.now());
+      setIsLoading(false);
+    } else {
+      toast.error(response?.error || response?.data);
+      setIsLoading(false);
+    }
+  };
+
+  const handleVvc = async (id, vvc, type) => {
+    if (vvc && type) {
+      setIsLoading(true);
+      const res = await vvcStatus({ id, vvc, type });
+      if (res?.status) {
+        setIsLoading(false);
+        setReload(Date.now());
+        setVvcData({ vvc: "", user: "" });
+        toast.success(res?.message);
+      } else {
+        toast.error(res?.message);
+        setIsLoading(false);
+      }
+    } else {
+      toast.error("Something went wrong!");
+    }
+  };
+
+  const handleRating = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const formdata = new FormData(document.forms.rating);
+    formdata.append("rating", rating);
+    const res = await saveUserRating(formdata);
+    if (res?.status) {
+      setIsLoading(false);
+      document.forms.rating.reset();
+      setRating(0);
+      toast.success("Review saved successfully.");
+      setRateAndReview(false);
+    } else {
+      toast.error(res?.error || res?.message);
+      setIsLoading(false);
+    }
+  };
+
+  const handleReschedule = async (e) => {
+    e.preventDefault();
+    const id = document.forms.reschedule.id.value;
+    const formdata = new FormData(document.forms.reschedule);
+    setIsLoading(true);
+    const response = await rescheduleMetting(id, formdata);
+    if (response?.status) {
+      const a = appointments.find((ap) => ap.id == id);
+      if (a) {
+        toast.success("Rescheduled Successfully.");
+        setReload(Date.now());
+        setIsLoading(false);
+        setReschedule(false);
+      }
+    } else {
+      toast.error(response?.error || response?.data);
+      setIsLoading(false);
+    }
+  };
+
+  const startConversation = async (receiver) => {
+    setIsLoading(true);
+    if (receiver) {
+      const formdata = {
+        sender_id: user?.id,
+        receiver_id: receiver,
+      };
+      if (formdata) {
+        const res = await createConversation(formdata);
+        if (res?.status) {
+          setIsLoading(false);
+          toast.success("Redirecting to chat.");
+          router.push(`/${user?.role}/chat#${res?.data?.id}`);
+        } else {
+          setIsLoading(false);
+          toast.error(res?.error || res?.message);
+        }
+      }
+    }
+  };
+
+  const openAgreementMode = (appointment) => {
+    setAgreementMode(appointment);
+  };
 
   const fetchNextData = async () => {
     if (!fetching) {
@@ -191,8 +326,12 @@ function PropertiesUI() {
             <div>
               <div className="flex flex-wrap">
                 <Card
-                  col={4}
-                  label="Total Listed Properties"
+                  label={
+                    <span>
+                      Posted <br />
+                      Properties
+                    </span>
+                  }
                   value={total}
                   color="green"
                   state="posted"
@@ -209,7 +348,6 @@ function PropertiesUI() {
                   }}
                 />
                 <Card
-                  col={4}
                   label="Manage Applications"
                   value={agreements?.length}
                   color="white"
@@ -221,32 +359,28 @@ function PropertiesUI() {
                   onClick={() => setCardMode("rented")}
                 />
                 <Card
-                  col={4}
-                  label="List New Property"
-                  color="yellow"
-                  icon={<FaPlus />}
-                  onClick={() => router.push("add-property")}
+                  label="Appointment History"
+                  value={appointments?.length}
+                  color="red"
+                  icon={<FaCalendarAlt />}
+                  state="meetings"
+                  current={cardMode}
+                  onClick={() => setCardMode("meetings")}
+                />
+                <Card
+                  label="Property Verification"
+                  value={0}
+                  color="green"
+                  icon={<FaCheckCircle />}
+                  state="verification"
+                  current={cardMode}
+                  onClick={() => router.push("/ibo/property-verification")}
                 />
               </div>
             </div>
           </div>
         </div>
-        {isNewAdded && (
-          <div
-            className="my-2 p-4 mx-4 rounded-md bg-white flex items-center justify-between shadow-md"
-            style={{
-              fontFamily: "Opensans-bold",
-            }}
-          >
-            <p className="text-green-500">
-              YOU HAVE ADDED A NEW PROPERTY SUCCESSFULLY.
-            </p>
-            <FaTimes
-              className="cursor-pointer text-red-500"
-              onClick={() => setIsNewAdded(false)}
-            />
-          </div>
-        )}
+
         {updated && (
           <div
             className="my-2 p-4 mx-4 rounded-md bg-white flex items-center justify-between shadow-md"
@@ -401,78 +535,295 @@ function PropertiesUI() {
             </div>
           </div>
         )}
-        {cardMode === "visited" && (
-          <>
+
+        {cardMode === "meetings" && (
+          <div className="bg-white rounded-md overflow-hidden mx-4">
             <div
-              className="py-2 text-lg"
-              style={{ fontFamily: "Opensans-bold" }}
+              className="flex items-center justify-between bg-gray-50 p-4"
+              style={{ fontFamily: "Opensans-semi-bold" }}
             >
-              <p>Visited Properties</p>
+              Appointment History/Upcoming
             </div>
-            <div className="flex flex-col">
-              {visitedProperties &&
-                visitedProperties.map((p, i) => (
-                  <div
-                    className="relative border-gray-200 flex items-center justify-between py-2 pl-2 pr-2"
-                    key={i}
-                    style={{ borderTopWidth: "1px" }}
-                  >
-                    <div className="w-24 h-24 overflow-hidden rounded-md">
-                      <img
-                        src={p?.front_image || "/images/website/no_photo.png"}
-                        alt="property"
-                        layout="responsive"
-                        width="80"
-                        height="80"
-                      />
-                    </div>
-                    <div
-                      className="flex flex-col flex-grow px-5 leading-4"
-                      style={{ fontFamily: "Opensans-regular" }}
-                    >
-                      <h6
-                        className="text-gray-800"
-                        style={{ fontFamily: "Opensans-bold" }}
-                      >
-                        {p?.name}
-                      </h6>
-                      <p className="text-gray-400">
-                        {p?.short_description.substring(0, 100) + "..."}
-                      </p>
-                      <div
-                        className="mt-2 flex items-center justify-between"
-                        style={{ fontFamily: "Opensans-bold" }}
-                      >
-                        <span
-                          className="font-bold"
-                          style={{ color: "var(--orange)" }}
-                        >
-                          By {p?.landlord}
-                        </span>
-                        <span>Bedrooms - {p?.bedrooms}</span>
-                        <span>Bathrooms - {p?.bathrooms}</span>
-                        <span>Floors - {p?.floors}</span>
-                        <span>
-                          Monthly Rent -{" "}
-                          {new Intl.NumberFormat("en-IN", {
-                            style: "currency",
-                            currency: "INR",
-                          }).format(p?.monthly_rent)}
-                        </span>
-                      </div>
-                    </div>
-                    <span className="flex items-center text-lg">
-                      <span className="m-1" style={{ color: "var(--blue)" }}>
-                        {p?.rating}
-                      </span>
-                      <BsStarFill color="orange" />
-                    </span>
-                  </div>
-                ))}
+            <div className="px-4">
+              <table className="table">
+                <thead
+                  style={{
+                    backgroundColor: "var(--blue)",
+                    fontFamily: "Opensans-semi-bold",
+                  }}
+                  className="text-white"
+                >
+                  <tr>
+                    <th>Property</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody style={{ fontFamily: "Opensans-semi-bold" }}>
+                  {appointments?.length > 0 ? (
+                    appointments.map((a, i) => (
+                      <tr key={i}>
+                        <td>
+                          <i>
+                            {a?.property_added_by == user?.id && (
+                              <i>Property added by you</i>
+                            )}
+                          </i>
+                          <p style={{ fontFamily: "Opensans-bold" }}>
+                            {a?.property_data.length > 50
+                              ? a?.property_data.substring(0, 50) + "..."
+                              : a?.property_data}
+                          </p>
+                          <p
+                            className="font-semibold text-xs flex items-center"
+                            style={{ color: "var(--orange)" }}
+                          >
+                            Scheduled by- {a?.name}
+                            <a
+                              href={`tel:${a?.contact}`}
+                              style={{ color: "var(--blue)" }}
+                              data-tip="Call"
+                            >
+                              <FiPhoneCall className="mx-1" />
+                              <ReactTooltip />
+                            </a>
+                            <a
+                              href={`mailto:${a?.email}`}
+                              style={{ color: "var(--blue)" }}
+                              data-tip="Mail"
+                            >
+                              <FiMail className="mx-1" />
+                              <ReactTooltip />
+                            </a>
+                            <FiMessageCircle
+                              style={{ color: "var(--blue)" }}
+                              className="text-lg cursor-pointer"
+                              data-tip="Chat"
+                              onClick={() =>
+                                startConversation(a?.created_by_id)
+                              }
+                            />
+                          </p>
+                          <p className="leading-6 flex items-center">
+                            <b className="mr-1">Landlord:</b>{" "}
+                            {a?.landlord?.first} {a?.landlord?.last}
+                            {a?.landlord?.id !== user?.id ? (
+                              <>
+                                <FiMessageCircle
+                                  style={{ color: "var(--blue)" }}
+                                  className="text-lg cursor-pointer ml-2"
+                                  data-tip="Chat with Landlord"
+                                  onClick={() =>
+                                    startConversation(a?.landlord?.id)
+                                  }
+                                />
+                                {a?.property_added_by == user?.id && (
+                                  <i className="ml-3">Added by you</i>
+                                )}
+                              </>
+                            ) : (
+                              <span>(You)</span>
+                            )}
+                            <b className="ml-2">Status: {a?.landlord_status}</b>
+                          </p>
+                        </td>
+                        <td>{moment(a?.start_time).format("DD-MM-YYYY")}</td>
+                        <td>{moment(a?.start_time).format("hh:mm A")}</td>
+                        <td>
+                          <p className=" text-green-600 capitalize">
+                            {a?.meeting_status}
+                          </p>
+                          {a.meeting_status === "visited" && (
+                            <button
+                              style={{ color: "var(--orange)" }}
+                              onClick={() => openRateAndReview(a)}
+                            >
+                              Review & Rate
+                            </button>
+                          )}
+                          {a?.is_landlord_vvc_verified === 1 &&
+                            a?.is_tenant_vvc_verified === 1 && (
+                              <p className="text-green-500">VVC Verified</p>
+                            )}
+                        </td>
+                        <td>
+                          <div className="flex">
+                            <button
+                              onClick={() =>
+                                setShowDetail(
+                                  appointments.find((p) => p.id === a.id)
+                                )
+                              }
+                              className="border-gray-300 border-r-2 px-2 text-green-500"
+                            >
+                              Details
+                            </button>
+                            {a.meeting_status === "pending" ? (
+                              <>
+                                <button
+                                  onClick={() => {
+                                    changeStatus("approved", a.id);
+                                  }}
+                                  className="border-gray-300 border-r-2 px-2 mr-2 text-green-500"
+                                >
+                                  Accept
+                                </button>
+                                <button
+                                  className="text-red-600 ml-2"
+                                  onClick={() => {
+                                    if (a?.property_added_by == user?.id) {
+                                      const res = confirm(
+                                        "If you cancel this appointment, it will be assigned to other nearby agents and will give you some share!"
+                                      );
+                                      if (res) {
+                                        changeStatus("cancelled", a.id);
+                                      }
+                                    } else {
+                                      changeStatus("cancelled", a.id);
+                                    }
+                                  }}
+                                >
+                                  Cancel
+                                </button>
+                              </>
+                            ) : (
+                              <>
+                                {!["visited", "closed", "on the way"].includes(
+                                  a?.meeting_status
+                                ) && (
+                                  <>
+                                    <button
+                                      onClick={() =>
+                                        setReschedule(
+                                          appointments.find(
+                                            (p) => p.id === a.id
+                                          )
+                                        )
+                                      }
+                                      className="border-gray-300 border-r-2 px-2 mr-2 text-yellow-500"
+                                    >
+                                      Reschedule
+                                    </button>
+
+                                    <button
+                                      className="text-green-600 border-gray-300 border-r-2 px-2 mr-2"
+                                      onClick={() => {
+                                        changeStatus("on the way", a.id);
+                                      }}
+                                    >
+                                      On the Way
+                                    </button>
+                                  </>
+                                )}
+
+                                {a.agreement && (
+                                  <a
+                                    href={a.agreement?.agreement_url}
+                                    target="_blank"
+                                    className="border-gray-300 border-r-2 px-2 mr-2"
+                                    style={{ color: "var(--blue)" }}
+                                  >
+                                    View Agreement
+                                  </a>
+                                )}
+                                {a?.meeting_status !== "visited" &&
+                                  a?.meeting_status !== "closed" &&
+                                  a?.is_tenant_vvc_verified === 1 &&
+                                  a?.is_landlord_vvc_verified === 1 && (
+                                    <button
+                                      className="text-green-600 border-gray-300 border-r-2 px-2 mr-2"
+                                      onClick={() => {
+                                        changeStatus("visited", a.id);
+                                        handleUserNotification(
+                                          a?.created_by_id,
+                                          a?.property_data,
+                                          "visited"
+                                        );
+                                      }}
+                                    >
+                                      Visited
+                                    </button>
+                                  )}
+                                {a.meeting_status !== "closed" &&
+                                  a?.is_tenant_vvc_verified === 1 &&
+                                  a?.is_landlord_vvc_verified === 1 && (
+                                    <>
+                                      <button
+                                        className="text-red-600 border-gray-300 border-r-2 px-2 mr-2 flex items-center"
+                                        onClick={() => {
+                                          changeStatus("closed", a.id);
+                                          handleUserNotification(
+                                            a?.created_by_id,
+                                            a?.property_data,
+                                            "closed"
+                                          );
+                                        }}
+                                      >
+                                        Closed{" "}
+                                        <FaExclamation data-tip="Close it when tenant is interested in this property." />
+                                      </button>
+                                    </>
+                                  )}
+                              </>
+                            )}
+
+                            {a.meeting_status === "closed" && !a?.agreement && (
+                              <button
+                                className="text-green-600 border-gray-300 border-r-2 px-2 mr-2"
+                                onClick={() => openAgreementMode(a)}
+                              >
+                                Create Agreement
+                              </button>
+                            )}
+                            {a?.vvc &&
+                              (!a?.is_landlord_vvc_verified ||
+                                !a?.is_tenant_vvc_verified) && (
+                                <button
+                                  onClick={() => setVvcModal(a?.vvc)}
+                                  className="bg-green-600  p-2 ml-2 rounded-md text-white"
+                                >
+                                  Verify VVC
+                                </button>
+                              )}
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="6" className="text-red-500">
+                        No appointments found!
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
-          </>
+          </div>
+        )}
+        {cardMode === "verification" && (
+          <div className="bg-white rounded-md overflow-hidden mx-4">
+            <div
+              className="flex items-center justify-between bg-gray-50 p-4"
+              style={{ fontFamily: "Opensans-semi-bold" }}
+            >
+              Property Verification
+            </div>
+            <div className="px-4"></div>
+          </div>
         )}
       </div>
+
+      {agreementMode && (
+        <AppointmentForm
+          appointment={agreementMode}
+          setAgreementMode={setAgreementMode}
+          setReload={setReload}
+        />
+      )}
+
       {deleteMode && (
         <div
           className="fixed w-full h-screen top-0 left-0"
@@ -509,6 +860,243 @@ function PropertiesUI() {
             </form>
           </div>
         </div>
+      )}
+
+      {showDetail && (
+        <div
+          style={{ fontFamily: "Opensans-regular" }}
+          className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5 bg-white shadow-md rounded-md z-40 max-w-lg w-full"
+        >
+          <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
+            Appointment Details
+            <FaTimes
+              onClick={() => setShowDetail(false)}
+              data-tip="Close"
+              className="absolute right-1 top-1 text-red-500 cursor-pointer text-lg"
+            />
+            <ReactTooltip />
+          </h5>
+          <hr className="my-1" />
+          <p className="leading-6">
+            <b>Property:</b> {showDetail?.property_data}
+          </p>
+          <p className="leading-6">
+            <b>Monthly Rent:</b> Rs.{showDetail?.property_monthly_rent}
+          </p>
+          <p className="leading-6">
+            <b>Security Deposite:</b> Rs.{showDetail?.property_security_amount}
+          </p>
+          <p className="leading-6">
+            <b>Asking Price:</b> Rs.{showDetail?.property_asking_price}
+          </p>
+          <hr className="my-1" />
+          <p className="leading-6">
+            <b>User:</b> {showDetail?.name}
+          </p>
+          <p className="leading-6">
+            <b>Email:</b> {showDetail?.email}
+          </p>
+          <p className="leading-6">
+            <b>Contact:</b> {showDetail?.contact}
+          </p>
+          <hr className="my-1" />
+          <p className="leading-6 flex items-center">
+            <b className="mr-1">Landlord:</b> {showDetail?.landlord?.first}{" "}
+            {showDetail?.landlord?.last}
+            {showDetail?.landlord?.id !== user?.id ? (
+              <>
+                <FiMessageCircle
+                  style={{ color: "var(--blue)" }}
+                  className="text-lg cursor-pointer ml-2"
+                  data-tip="Chat with Landlord"
+                  onClick={() => startConversation(showDetail?.landlord?.id)}
+                />
+                <ReactTooltip />
+                {showDetail?.property_added_by == user?.id && (
+                  <i className="ml-3">Added by you</i>
+                )}
+              </>
+            ) : (
+              <span>(You)</span>
+            )}
+          </p>
+          <p className="leading-6">
+            <b>Email:</b> {showDetail?.landlord?.email}
+          </p>
+          <p className="leading-6">
+            <b>Contact:</b> {showDetail?.landlord?.mobile}
+          </p>
+          <hr className="my-1" />
+          <p className="leading-6 capitalize">
+            <b>Status:</b> {showDetail?.meeting_status}
+          </p>
+          <p className="leading-6">
+            <b>Date:</b> {moment(showDetail?.start_time).format("DD-MM-YYYY")}
+          </p>
+          <p className="leading-6">
+            <b>Time:</b> {moment(showDetail?.start_time).format("hh:mm A")}
+          </p>
+        </div>
+      )}
+      {reschedule && (
+        <div
+          style={{ fontFamily: "Opensans-regular" }}
+          className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5 bg-white shadow-md rounded-md z-40 max-w-lg w-full"
+        >
+          <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
+            Reschedule Details
+            <FaTimes
+              onClick={() => setReschedule(false)}
+              data-tip="Close"
+              className="absolute right-1 top-1 text-red-500 cursor-pointer text-lg"
+            />
+            <ReactTooltip />
+          </h5>
+          <hr className="my-1" />
+          <form name="reschedule" onSubmit={handleReschedule}>
+            <input type="hidden" name="id" value={reschedule?.id} />
+            <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-2">
+              <div className="form-element">
+                <label className="form-label">Date</label>
+                <input
+                  type="date"
+                  name="date"
+                  required
+                  className="form-input border-gray-200 rounded-md"
+                />
+              </div>
+              <div className="form-element">
+                <label className="form-label">Time</label>
+                <input
+                  type="time"
+                  name="time"
+                  required
+                  className="form-input border-gray-200 rounded-md"
+                />
+              </div>
+            </div>
+            <div className="flex justify-end">
+              <button
+                className="px-2 py-1 text-white rounded-md right"
+                style={{ backgroundColor: "var(--blue)" }}
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {rateAndReview && (
+        <div
+          style={{ fontFamily: "Opensans-regular" }}
+          className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5 bg-white shadow-md rounded-md z-40 max-w-lg w-full"
+        >
+          <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
+            Rating and Review
+            <FaTimes
+              onClick={() => setRateAndReview(false)}
+              data-tip="Close"
+              className="absolute right-1 top-1 text-red-500 cursor-pointer text-lg"
+            />
+            <ReactTooltip />
+          </h5>
+          <hr className="my-1" />
+          <form name="rating" onSubmit={handleRating} className="mt-2">
+            <input
+              type="hidden"
+              name="tenant_id"
+              value={rateAndReview?.created_by_id}
+            />
+            <div className="form-element">
+              <label className="form-label">Rating</label>
+              <StarRatings
+                changeRating={(newRating) => setRating(newRating)}
+                numberOfStars={5}
+                rating={rating}
+                starRatedColor="var(--orange)"
+                starDimension="20px"
+                starSpacing="3px"
+                starHoverColor="var(--orange)"
+              />
+            </div>
+            <div className="form-element">
+              <label className="form-label">Review</label>
+              <textarea
+                name="review"
+                required
+                className="form-input border-gray-200 rounded-md"
+              ></textarea>
+            </div>
+            <div className="flex justify-end">
+              <button
+                className="px-2 py-1 text-white rounded-md right"
+                style={{ backgroundColor: "var(--blue)" }}
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {vvcModal && (
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleVvc(vvcModal, vvcData?.vvc, vvcData?.user);
+          }}
+          style={{ fontFamily: "Opensans-regular" }}
+          className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5 bg-white shadow-md rounded-md z-40 max-w-lg w-full"
+        >
+          <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
+            VVC Verification
+            <FaTimes
+              onClick={() => setVvcModal(false)}
+              data-tip="Close"
+              className="absolute right-1 top-1 text-red-500 cursor-pointer text-lg"
+            />
+            <ReactTooltip />
+          </h5>
+          <hr className="my-1" />
+          <div className="mt- grid grid-cols-1 md:grid-cols-2 md:space-x-5 md:space-y-0 space-y-5">
+            <div className="form-element">
+              <label className="form-label">VVC Code</label>
+              <input
+                required={true}
+                type="text"
+                maxLength={6}
+                minLength={6}
+                value={vvcData.vvc}
+                onChange={(e) =>
+                  setVvcData((prev) => ({ ...prev, vvc: e.target.value }))
+                }
+                className="form-input border-gray-300 h-10 rounded-md"
+              />
+            </div>
+            <div className="form-element">
+              <label className="form-label">Select User</label>
+              <select
+                required={true}
+                className="form-select border-gray-300 rounded-md"
+                value={vvcData.user}
+                onChange={(e) =>
+                  setVvcData((prev) => ({ ...prev, user: e.target.value }))
+                }
+              >
+                <option value="">Select</option>
+                <option value="tenant">Tenant</option>
+                <option value="landlord">Landlord</option>
+              </select>
+            </div>
+          </div>
+          <button
+            style={{ backgroundColor: "var(--blue)" }}
+            className="px-3 rounded-md py-2 float-right text-white"
+          >
+            Verify
+          </button>
+        </form>
       )}
     </>
   );

@@ -161,6 +161,26 @@ export const addIBO = async (data) => {
   return ibo;
 };
 
+export const bulkActionIbos = async (data) => {
+  const token = getToken();
+  let ibo = false;
+
+  if (token) {
+    await server
+      .post(`/admin/ibos/bulk_action`, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        ibo = response?.data;
+      })
+      .catch((error) => {
+        ibo = error?.response?.data;
+      });
+  }
+
+  return ibo;
+};
+
 export const updateKycIbo = async (id, data) => {
   const token = getToken();
   let kyc = false;

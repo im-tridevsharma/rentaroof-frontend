@@ -178,7 +178,7 @@ function PropertyVerificationUI() {
   return (
     <>
       {isLoading && <Loader />}
-      <div className="relative p-5 shadow-sm border-2 border-gray-200 bg-white rounded-md">
+      <div className="relative p-5 shadow-sm mx-4 bg-white rounded-md">
         {properties?.length > 0 ? (
           properties.map((p, i) => (
             <div

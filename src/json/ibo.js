@@ -17,15 +17,16 @@ const links = [
         href: "/ibo/dashboard",
       },
       {
+        icon: <FaBuilding className="mr-2 text-sm opacity-75" size={20} />,
+        title: "MANAGE APPLICATION",
+        href: "/ibo/manage-properties",
+      },
+      {
         icon: <FaHandsHelping className="mr-2 text-sm opacity-75" size={20} />,
         title: "AGENT SUPPORT PROGRAMME",
         href: "/ibo/agent-support-programme",
       },
-      {
-        icon: <FaBuilding className="mr-2 text-sm opacity-75" size={20} />,
-        title: "MANAGE PROPERTIES/APPLICATION",
-        href: "/ibo/manage-properties",
-      },
+
       {
         icon: <FaPaypal className="mr-2 text-sm opacity-75" size={20} />,
         title: "Transaction History",

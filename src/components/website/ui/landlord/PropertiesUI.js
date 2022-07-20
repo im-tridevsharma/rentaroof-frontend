@@ -38,7 +38,7 @@ import {
 import moment from "moment";
 import { toast } from "react-toastify";
 import AppointmentForm from "../../AppointmentForm";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 const Button = ({ url }) => {
   return (
@@ -54,10 +54,8 @@ const Button = ({ url }) => {
 };
 
 function PropertiesUI() {
-  const [isNewAdded, setIsNewAdded] = useState(false);
-  const [updated, setUpdated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [cardMode, setCardMode] = useState("appointment");
+  const [cardMode, setCardMode] = useState("posted");
   const [properties, setProperties] = useState([]);
   const [visitedProperties, setVisitedProperties] = useState([]);
   const [agreements, setAgreements] = useState([]);
@@ -82,12 +80,12 @@ function PropertiesUI() {
     localStorage.removeItem("recent_ap");
     const isAdded = localStorage.getItem("newadded");
     if (isAdded) {
-      setIsNewAdded(true);
+      toast.success("New property has been added successfully.");
       localStorage.removeItem("newadded");
     }
     const isUpdated = localStorage.getItem("updated");
     if (isUpdated) {
-      setUpdated(isUpdated);
+      toast.success(`${updated} property has been updated successfully.`);
       localStorage.removeItem("updated");
     }
     (async () => {
@@ -491,37 +489,6 @@ function PropertiesUI() {
       )}
 
       <div className="flex flex-col px-4">
-        {isNewAdded && (
-          <div
-            className="my-2 p-2 rounded-md bg-white flex items-center justify-between shadow-md"
-            style={{
-              fontFamily: "Opensans-bold",
-            }}
-          >
-            <p className="text-green-500">
-              YOU HAVE ADDED A NEW PROPERTY SUCCESSFULLY.
-            </p>
-            <FaTimes
-              className="cursor-pointer text-red-500"
-              onClick={() => setIsNewAdded(false)}
-            />
-          </div>
-        )}
-        {updated && (
-          <div
-            className="my-2 p-2 rounded-md bg-white flex items-center justify-between shadow-md"
-            style={{
-              fontFamily: "Opensans-bold",
-            }}
-          >
-            <p className="text-green-500"> {updated}</p>
-            <FaTimes
-              className="cursor-pointer text-red-500"
-              onClick={() => setUpdated(false)}
-            />
-          </div>
-        )}
-
         {/**properties */}
         {cardMode === "posted" && (
           <div className="bg-white rounded-md px-4">
