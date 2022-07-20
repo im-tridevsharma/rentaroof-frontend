@@ -70,7 +70,7 @@ function ImageUploader({
                 }
                 onClick={onImageUpload}
                 {...dragProps}
-                className="w-full p-5 bg-white rounded-md border-2 border-dotted border-gray-200"
+                className="w-full p-5 bg-white rounded-md border-2 border-dotted border-gray-600"
               >
                 Click or Drop here
               </label>
@@ -86,7 +86,7 @@ function ImageUploader({
               {imageList.map((image, index) => (
                 <div
                   key={index}
-                  className="m-1 relative flex flex-col items-center border-2 border-dashed boder-gray-200"
+                  className="m-1 relative flex flex-col items-center border-2 border-dashed boder-gray-600"
                 >
                   <img
                     src={image["data_url"]}
@@ -137,7 +137,10 @@ function ImageUploader({
           </h6>
           <div className="grid grid-cols-2 md:grid-cols-5 md:space-x-3 mt-3">
             {uploaded.map((g, i) => (
-              <div className="bg-white border p-1 rounded-md relative" key={i}>
+              <div
+                className="bg-white border border-gray-600 p-1 rounded-md relative"
+                key={i}
+              >
                 <img
                   src={g}
                   alt={`image-${i}`}

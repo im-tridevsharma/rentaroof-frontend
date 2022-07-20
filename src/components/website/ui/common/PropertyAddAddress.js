@@ -233,7 +233,7 @@ function PropertyAddAddress({ code, admin }) {
           style={{ fontFamily: "Opensans-semi-bold" }}
         >
           <button
-            className="p-3 border rounded-md mr-2"
+            className="p-3 border border-gray-600  rounded-md mr-2"
             onClick={getCurrentLocation}
           >
             <MdMyLocation />
@@ -241,7 +241,7 @@ function PropertyAddAddress({ code, admin }) {
           {isLoaded && (
             <AutoComplete
               onPlaceSelected={(place) => handlePlaceSearch(place)}
-              className="rounded-md border-gray-200 w-full text-sm p-2"
+              className="rounded-md border-gray-600 w-full text-sm p-2"
               placeholder="Search your property address by pincode, area, route, zone, city, state or full address..."
               style={{ borderWidth: "1px" }}
               options={{
@@ -256,7 +256,7 @@ function PropertyAddAddress({ code, admin }) {
         <i className="mt-2">
           Find address on map and click on location to pin your address.
         </i>
-        <div className="border-2 border-gray-200 rounded-md mb-3 mt-1 h-52">
+        <div className="border-2 border-gray-600 rounded-md mb-3 mt-1 h-52">
           {isLoaded && (
             <GoogleMap
               center={center}
@@ -290,7 +290,7 @@ function PropertyAddAddress({ code, admin }) {
                 name="landmark"
                 value={address?.landmark}
                 onChange={inputHandler}
-                className="form-input border-gray-200 rounded-md -mt-1"
+                className="form-input border-gray-600 rounded-md -mt-1"
               ></input>
             </div>
             <div className="form-element">
@@ -300,7 +300,7 @@ function PropertyAddAddress({ code, admin }) {
                 name="house_number"
                 value={address?.house_number}
                 onChange={inputHandler}
-                className="form-input border-gray-200 rounded-md -mt-1"
+                className="form-input border-gray-600 rounded-md -mt-1"
               ></input>
             </div>
             <input
@@ -359,7 +359,7 @@ function PropertyAddAddress({ code, admin }) {
                 value={address?.pincode}
                 onChange={inputHandler}
                 maxLength="6"
-                className="form-input border-gray-200 rounded-md -mt-1"
+                className="form-input border-gray-600 rounded-md -mt-1"
               ></input>
             </div>
           </div>
@@ -372,7 +372,7 @@ function PropertyAddAddress({ code, admin }) {
                 name="country"
                 value={address?.country}
                 onChange={inputHandler}
-                className="form-input border-gray-200 rounded-md -mt-1"
+                className="form-input border-gray-600 rounded-md -mt-1"
               ></input>
             </div>
             <div className="form-element">
@@ -382,7 +382,7 @@ function PropertyAddAddress({ code, admin }) {
                 name="state"
                 value={address?.state}
                 onChange={inputHandler}
-                className="form-input border-gray-200 rounded-md -mt-1"
+                className="form-input border-gray-600 rounded-md -mt-1"
               ></input>
             </div>
             <div className="form-element">
@@ -392,7 +392,7 @@ function PropertyAddAddress({ code, admin }) {
                 name="city"
                 value={address?.city}
                 onChange={inputHandler}
-                className="form-input border-gray-200 rounded-md -mt-1"
+                className="form-input border-gray-600 rounded-md -mt-1"
               ></input>
             </div>
           </div>
@@ -402,7 +402,7 @@ function PropertyAddAddress({ code, admin }) {
               name="full_address"
               value={address?.full_address}
               onChange={inputHandler}
-              className="form-input border-gray-200 rounded-md -mt-1"
+              className="form-input border-gray-600 rounded-md -mt-1"
             ></textarea>
           </div>
           <div className="text-right w-full">

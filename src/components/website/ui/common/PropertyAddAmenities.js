@@ -152,7 +152,7 @@ function PropertyAddAmenities({ code, admin }) {
             {amenities?.length > 0 &&
               amenities.map((a, i) => (
                 <div
-                  className="flex flex-col m-2 overflow-hidden border-dotted border-gray-200 border-2 p-2"
+                  className="flex flex-col m-2 overflow-hidden border-dotted border-gray-600 border-2 p-2"
                   key={i}
                   style={{ fontFamily: "Opensans-regular" }}
                 >
@@ -165,7 +165,7 @@ function PropertyAddAmenities({ code, admin }) {
                         amenity?.includes(a.id?.toString()) ? true : false
                       }
                       onChange={handleCheck}
-                      className="mx-2 w-6 h-6 border-gray-200"
+                      className="mx-2 w-6 h-6 border-gray-600"
                     />
                     <img
                       src={a.icon}
@@ -185,7 +185,7 @@ function PropertyAddAmenities({ code, admin }) {
             {preferences?.length > 0 &&
               preferences?.map((a, i) => (
                 <div
-                  className="flex flex-col m-2 overflow-hidden border-dotted border-gray-200 border-2 p-2"
+                  className="flex flex-col m-2 overflow-hidden border-dotted border-gray-600 border-2 p-2"
                   key={i}
                   style={{ fontFamily: "Opensans-regular" }}
                 >
@@ -198,7 +198,7 @@ function PropertyAddAmenities({ code, admin }) {
                         preference?.includes(a.id?.toString()) ? true : false
                       }
                       onChange={handleCheckP}
-                      className="mx-2 w-6 h-6 border-gray-200"
+                      className="mx-2 w-6 h-6 border-gray-600"
                     />
                     <p className="ml-2" style={{ fontFamily: "Opensans-bold" }}>
                       {a.title}

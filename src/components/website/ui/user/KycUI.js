@@ -225,7 +225,7 @@ function KycUI() {
             <div className="flex flex-wrap">
               <Card
                 color="red"
-                label="Rented Properies"
+                label="Manage Application"
                 icon={<FaHome />}
                 onClick={() => setTab("builder")}
                 current={tab}
@@ -235,7 +235,7 @@ function KycUI() {
 
               <Card
                 color="green"
-                label="Closed Deals"
+                label="Application"
                 icon={<FaEdit />}
                 onClick={() => setTab("deals")}
                 current={tab}
@@ -675,7 +675,7 @@ function KycUI() {
             className="flex items-center justify-between bg-gray-50 p-4"
             style={{ fontFamily: "Opensans-semi-bold" }}
           >
-            <span>Rented Properies</span>
+            <span>Manage Application</span>
           </p>
           <div className="mt-5 p-4 grid grid-cols-1 md:grid-cols-3 md:space-x-5 space-y-5 md:space-y-0">
             {agreements?.length > 0 ? (
@@ -801,7 +801,7 @@ function KycUI() {
             className="flex items-center justify-between bg-gray-50 p-4"
             style={{ fontFamily: "Opensans-semi-bold" }}
           >
-            <span>Closed Deals/Awaiting Documentation</span>
+            <span>Application</span>
           </p>
           <div className="mt-5 p-4 grid grid-cols-1 md:grid-cols-3 md:space-x-5 space-y-5 md:space-y-0">
             {closedDeals?.length > 0 ? (

@@ -411,7 +411,7 @@ function PropertiesUI() {
                           >
                             Details
                           </button>
-                          {a.agreement && (
+                          {a.agreement && a.meeting_status === "closed" && (
                             <a
                               href={a.agreement?.agreement_url}
                               target="_blank"

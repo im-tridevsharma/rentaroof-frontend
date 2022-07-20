@@ -15,7 +15,7 @@ function Appointment() {
         <title>Appointment</title>
       </Head>
       <div>
-        <UIRenderer UI={AppointmentUI} role="User" page="Appointment" />
+        <UIRenderer UI={AppointmentUI} role="User" page="Manage Visits" />
       </div>
     </>
   ) : (

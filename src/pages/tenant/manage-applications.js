@@ -15,7 +15,7 @@ function Kyc() {
         <title>Kyc</title>
       </Head>
       <div>
-        <UIRenderer UI={KycUI} role="User" page="Manage Documents" />
+        <UIRenderer UI={KycUI} role="User" page="Manage Applications" />
       </div>
     </>
   ) : (

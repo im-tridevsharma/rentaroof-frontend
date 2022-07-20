@@ -203,22 +203,7 @@ function DashboardUI() {
                 current={tab}
                 state="upcoming"
               />
-              <Card
-                color="red"
-                label="Manage Applications"
-                icon={<FaRegEye />}
-                onClick={() => setTab("manage-app")}
-                current={tab}
-                state="manage-app"
-              />
-              <Card
-                color="green"
-                label="Upcoming Rent Payments"
-                icon={<FaListAlt />}
-                onClick={() => setTab("rent")}
-                current={tab}
-                state="rent"
-              />
+
               <Card
                 color="red"
                 label="Manage Profile"

@@ -319,7 +319,7 @@ function AddPropertyUI({ admin = false }) {
                   name="name"
                   value={property?.name}
                   onChange={inputHandler}
-                  className="form-input border-gray-200 rounded-md"
+                  className="form-input border-gray-600 rounded-md"
                 />
               </div>
               {(profile?.role === "ibo" || admin === true) && (
@@ -329,7 +329,7 @@ function AddPropertyUI({ admin = false }) {
                   </label>
                   <div className="flex items-center">
                     <select
-                      className="form-input border-gray-200 rounded-md"
+                      className="form-input border-gray-600 rounded-md"
                       name="landlord"
                     >
                       <option value="">Select Property Owner</option>
@@ -361,7 +361,7 @@ function AddPropertyUI({ admin = false }) {
                   name="for"
                   value={property?.for}
                   onChange={inputHandler}
-                  className="form-input border-gray-200 rounded-md"
+                  className="form-input border-gray-600 rounded-md"
                 >
                   <option value="rent">Rent</option>
                 </select>
@@ -372,7 +372,7 @@ function AddPropertyUI({ admin = false }) {
                   name="type"
                   value={property?.type}
                   onChange={inputHandler}
-                  className="form-input border-gray-200 rounded-md"
+                  className="form-input border-gray-600 rounded-md"
                 >
                   <option value="">Select</option>
                   <option value="apartment">Apartment</option>
@@ -391,7 +391,7 @@ function AddPropertyUI({ admin = false }) {
                   name="posting_as"
                   value={property?.posting_as}
                   onChange={inputHandler}
-                  className="form-input border-gray-200 rounded-md"
+                  className="form-input border-gray-600 rounded-md"
                 >
                   <option value="">Select</option>
                   <option value="full_house">Full House</option>
@@ -404,7 +404,7 @@ function AddPropertyUI({ admin = false }) {
                   name="ownership_type"
                   value={property?.ownership_type}
                   onChange={inputHandler}
-                  className="form-input border-gray-200 rounded-md"
+                  className="form-input border-gray-600 rounded-md"
                 >
                   <option value="">Select</option>
                   <option value="single">Single</option>
@@ -422,7 +422,7 @@ function AddPropertyUI({ admin = false }) {
                   name="furnished_status"
                   value={property?.furnished_status}
                   onChange={inputHandler}
-                  className="form-input border-gray-200 rounded-md"
+                  className="form-input border-gray-600 rounded-md"
                 >
                   <option value="">Select</option>
                   <option value="furnished">Furnished</option>
@@ -438,7 +438,7 @@ function AddPropertyUI({ admin = false }) {
                   name="maintenence_duration"
                   value={property?.maintenence_duration}
                   onChange={inputHandler}
-                  className="form-input border-gray-200 rounded-md"
+                  className="form-input border-gray-600 rounded-md"
                 >
                   <option value="">Select</option>
                   <option value="monthly">Monthly</option>
@@ -459,10 +459,10 @@ function AddPropertyUI({ admin = false }) {
                     name="super_area"
                     value={property?.super_area}
                     onChange={inputHandler}
-                    className="form-input mr-3 border-gray-200 rounded-md"
+                    className="form-input mr-3 border-gray-600 rounded-md"
                   />
                   <select
-                    className="form-input border-gray-200 rounded-md"
+                    className="form-input border-gray-600 rounded-md"
                     name="super_area_unit"
                     value={property?.super_area_unit}
                     onChange={inputHandler}
@@ -481,10 +481,10 @@ function AddPropertyUI({ admin = false }) {
                     name="carpet_area"
                     value={property?.carpet_area}
                     onChange={inputHandler}
-                    className="form-input mr-3 border-gray-200 rounded-md"
+                    className="form-input mr-3 border-gray-600 rounded-md"
                   />
                   <select
-                    className="form-input border-gray-200 rounded-md"
+                    className="form-input border-gray-600 rounded-md"
                     name="carpet_area_unit"
                     value={property?.carpet_area_unit}
                     onChange={inputHandler}
@@ -502,7 +502,7 @@ function AddPropertyUI({ admin = false }) {
                 </label>
                 <div className="flex items-center justify-between">
                   <select
-                    className="form-input border-gray-200 rounded-md"
+                    className="form-input border-gray-600 rounded-md"
                     name="bedrooms"
                     value={bedrooms}
                     onChange={(e) => setBedrooms(e.target.value)}
@@ -518,7 +518,7 @@ function AddPropertyUI({ admin = false }) {
                   <input
                     type="text"
                     name="custom_bedrooms"
-                    className="border-gray-200 rounded-md text-sm w-12"
+                    className="border-gray-600 rounded-md text-sm w-12"
                     style={{
                       borderWidth: "1px",
                       display: bedrooms === "4+" ? "inline" : "none",
@@ -536,7 +536,7 @@ function AddPropertyUI({ admin = false }) {
                 </label>
                 <div className="flex items-center justify-between">
                   <select
-                    className="form-input border-gray-200 rounded-md"
+                    className="form-input border-gray-600 rounded-md"
                     name="bathrooms"
                     value={bathrooms}
                     onChange={(e) => setBathrooms(e.target.value)}
@@ -552,7 +552,7 @@ function AddPropertyUI({ admin = false }) {
                   <input
                     type="text"
                     name="custom_bathrooms"
-                    className="border-gray-200 rounded-md text-sm w-12"
+                    className="border-gray-600 rounded-md text-sm w-12"
                     style={{
                       borderWidth: "1px",
                       display: bathrooms === "4+" ? "inline" : "none",
@@ -568,7 +568,7 @@ function AddPropertyUI({ admin = false }) {
                 </label>
                 <div className="flex items-center justify-between">
                   <select
-                    className="form-input border-gray-200 rounded-md"
+                    className="form-input border-gray-600 rounded-md"
                     name="balconies"
                     value={balconies}
                     onChange={(e) => setBalconies(e.target.value)}
@@ -584,7 +584,7 @@ function AddPropertyUI({ admin = false }) {
                   <input
                     type="text"
                     name="custom_balconies"
-                    className="border-gray-200 rounded-md text-sm w-12"
+                    className="border-gray-600 rounded-md text-sm w-12"
                     style={{
                       borderWidth: "1px",
                       display: balconies === "4+" ? "inline" : "none",
@@ -594,12 +594,10 @@ function AddPropertyUI({ admin = false }) {
                 </div>
               </div>
               <div className="form-element">
-                <label className="form-label">
-                  Total Floors<span style={{ color: "red" }}>*</span>
-                </label>
+                <label className="form-label">Total Floors</label>
                 <div className="flex items-center justify-between">
                   <select
-                    className="form-input border-gray-200 rounded-md"
+                    className="form-input border-gray-600 rounded-md"
                     name="floors"
                     value={floors}
                     onChange={(e) => setFloors(e.target.value)}
@@ -615,7 +613,7 @@ function AddPropertyUI({ admin = false }) {
                   <input
                     type="text"
                     name="custom_floors"
-                    className="border-gray-200 rounded-md text-sm w-12"
+                    className="border-gray-600 rounded-md text-sm w-12"
                     style={{
                       borderWidth: "1px",
                       display: floors === "4+" ? "inline" : "none",
@@ -630,7 +628,7 @@ function AddPropertyUI({ admin = false }) {
                 </label>
                 <div className="flex items-center justify-between">
                   <select
-                    className="form-input border-gray-200 rounded-md"
+                    className="form-input border-gray-600 rounded-md"
                     name="floor_number"
                     value={floor_number}
                     onChange={(e) => setFloorNumber(e.target.value)}
@@ -688,7 +686,7 @@ function AddPropertyUI({ admin = false }) {
                       available_immediately: e.target.checked ? 1 : 0,
                     }))
                   }
-                  className="w-8 h-8 rounded-md border-gray-200"
+                  className="w-8 h-8 rounded-md border-gray-600"
                 />
               </div>
               <div className="form-element">
@@ -698,7 +696,7 @@ function AddPropertyUI({ admin = false }) {
                   name="age_of_construction"
                   value={property?.age_of_construction}
                   onChange={inputHandler}
-                  className="form-input rounded-md border-gray-200"
+                  className="form-input rounded-md border-gray-600"
                   placeholder="eg: 2 years"
                 />
               </div>
@@ -805,7 +803,7 @@ function AddPropertyUI({ admin = false }) {
                   name="monthly_rent"
                   value={property?.monthly_rent}
                   onChange={inputHandler}
-                  className="form-input rounded-md border-gray-200"
+                  className="form-input rounded-md border-gray-600"
                   placeholder="Rs."
                   onKeyUp={(e) => onlyDigit(e, inputHandler)}
                   pattern="[0-9]+([,\.][0-9]+)?"
@@ -821,7 +819,7 @@ function AddPropertyUI({ admin = false }) {
                   name="security_amount"
                   value={property?.security_amount}
                   onChange={inputHandler}
-                  className="form-input rounded-md border-gray-200"
+                  className="form-input rounded-md border-gray-600"
                   placeholder="Rs."
                   onKeyUp={(e) => onlyDigit(e, inputHandler)}
                   pattern="[0-9]+([,\.][0-9]+)?"
@@ -837,7 +835,7 @@ function AddPropertyUI({ admin = false }) {
                   name="maintenence_charge"
                   value={property?.maintenence_charge}
                   onChange={inputHandler}
-                  className="form-input rounded-md border-gray-200"
+                  className="form-input rounded-md border-gray-600"
                   placeholder="Rs."
                   onKeyUp={(e) => onlyDigit(e, inputHandler)}
                   pattern="[0-9]+([,\.][0-9]+)?"
@@ -856,7 +854,7 @@ function AddPropertyUI({ admin = false }) {
                   value={property?.offered_price}
                   onChange={inputHandler}
                   onKeyUp={(e) => onlyDigit(e, inputHandler)}
-                  className="form-input rounded-md border-gray-200"
+                  className="form-input rounded-md border-gray-600"
                   placeholder="Rs."
                   pattern="[0-9]+([,\.][0-9]+)?"
                   title="The number input must start with a number and use either comma or a dot as a decimal character."
@@ -870,7 +868,7 @@ function AddPropertyUI({ admin = false }) {
                   name="lease_period"
                   value={property?.lease_period}
                   onChange={inputHandler}
-                  className="form-input rounded-md border-gray-200"
+                  className="form-input rounded-md border-gray-600"
                 >
                   <option value="">Select</option>
                   <option value="1 year">1 Year</option>
@@ -887,7 +885,7 @@ function AddPropertyUI({ admin = false }) {
                   name="advance_amount_period"
                   value={property?.advance_amount_period}
                   onChange={inputHandler}
-                  className="form-input rounded-md border-gray-200"
+                  className="form-input rounded-md border-gray-600"
                 >
                   <option value="">Select</option>
                   <option value="1 month">1 Month</option>
@@ -912,7 +910,7 @@ function AddPropertyUI({ admin = false }) {
               <label className="form-label">Short Description</label>
               <textarea
                 name="short_description"
-                className="form-input border-gray-200 rounded-md"
+                className="form-input border-gray-600 rounded-md"
                 value={property?.short_description}
                 onChange={inputHandler}
               ></textarea>
@@ -923,7 +921,7 @@ function AddPropertyUI({ admin = false }) {
                 onInit={(e, editor) => (editorRef.current = editor)}
                 init={{
                   height: 300,
-                  menubar: false,
+                  menubar: true,
                 }}
                 initialValue={property?.description}
                 apiKey={process.env.TINY_API_KEY}
@@ -983,7 +981,7 @@ function AddPropertyUI({ admin = false }) {
                     setLandlord((prev) => ({ ...prev, name: e.target.value }))
                   }
                   required={true}
-                  className="form-input border-gray-200 rounded-md"
+                  className="form-input border-gray-600 rounded-md"
                 />
               </div>
               <div className="form-element">
@@ -996,7 +994,7 @@ function AddPropertyUI({ admin = false }) {
                     setLandlord((prev) => ({ ...prev, email: e.target.value }))
                   }
                   required={true}
-                  className="form-input border-gray-200 rounded-md"
+                  className="form-input border-gray-600 rounded-md"
                 />
               </div>
               <div className="form-element">
@@ -1009,7 +1007,7 @@ function AddPropertyUI({ admin = false }) {
                     setLandlord((prev) => ({ ...prev, mobile: e.target.value }))
                   }
                   required={true}
-                  className="form-input border-gray-200 rounded-md"
+                  className="form-input border-gray-600 rounded-md"
                 />
               </div>
               <div className="form-element">
@@ -1025,7 +1023,7 @@ function AddPropertyUI({ admin = false }) {
                     }))
                   }
                   required={true}
-                  className="form-input border-gray-200 rounded-md"
+                  className="form-input border-gray-600 rounded-md"
                 />
               </div>
               <div className="form-element">

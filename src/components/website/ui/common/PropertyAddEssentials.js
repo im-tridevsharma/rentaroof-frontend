@@ -65,7 +65,7 @@ function PropertyAddEssentials({ code, admin }) {
                     defaultValue={lcustoms[key]}
                     onChange={() => {}}
                     placeholder="eg: 1KM"
-                    className="form-input border-gray-200 rounded-md"
+                    className="form-input border-gray-600 rounded-md"
                   />
                 </div>
               ))
@@ -164,7 +164,7 @@ function PropertyAddEssentials({ code, admin }) {
           type="text"
           name="value[]"
           placeholder="eg: 1KM"
-          className="form-input border-gray-200 rounded-md"
+          className="form-input border-gray-600 rounded-md"
         />
       </div>
     );
@@ -206,7 +206,7 @@ function PropertyAddEssentials({ code, admin }) {
                   value={essentials?.school}
                   onChange={inputHandler}
                   placeholder="eg: 1KM"
-                  className="form-input border-gray-200 rounded-md"
+                  className="form-input border-gray-600 rounded-md"
                 />
               </div>
               <div className="form-element md:mr-2">
@@ -217,7 +217,7 @@ function PropertyAddEssentials({ code, admin }) {
                   value={essentials?.hospital}
                   onChange={inputHandler}
                   placeholder="eg: 1KM"
-                  className="form-input border-gray-200 rounded-md"
+                  className="form-input border-gray-600 rounded-md"
                 />
               </div>
               <div className="form-element md:mr-2">
@@ -228,7 +228,7 @@ function PropertyAddEssentials({ code, admin }) {
                   value={essentials?.bus_stop}
                   onChange={inputHandler}
                   placeholder="eg: 1KM"
-                  className="form-input border-gray-200 rounded-md"
+                  className="form-input border-gray-600 rounded-md"
                 />
               </div>
               <div className="form-element md:mr-2">
@@ -239,7 +239,7 @@ function PropertyAddEssentials({ code, admin }) {
                   value={essentials?.airport}
                   onChange={inputHandler}
                   placeholder="eg: 1KM"
-                  className="form-input border-gray-200 rounded-md"
+                  className="form-input border-gray-600 rounded-md"
                 />
               </div>
               <div className="form-element md:mr-2">
@@ -250,7 +250,7 @@ function PropertyAddEssentials({ code, admin }) {
                   value={essentials?.train}
                   onChange={inputHandler}
                   placeholder="eg: 1KM"
-                  className="form-input border-gray-200 rounded-md"
+                  className="form-input border-gray-600 rounded-md"
                 />
               </div>
               <div className="form-element md:mr-2">
@@ -261,7 +261,7 @@ function PropertyAddEssentials({ code, admin }) {
                   value={essentials?.metro}
                   onChange={inputHandler}
                   placeholder="eg: 1KM"
-                  className="form-input border-gray-200 rounded-md"
+                  className="form-input border-gray-600 rounded-md"
                 />
               </div>
               <div className="form-element md:mr-2">
@@ -272,7 +272,7 @@ function PropertyAddEssentials({ code, admin }) {
                   value={essentials?.market}
                   onChange={inputHandler}
                   placeholder="eg: 1KM"
-                  className="form-input border-gray-200 rounded-md"
+                  className="form-input border-gray-600 rounded-md"
                 />
               </div>
               <div className="form-element md:mr-2">
@@ -283,7 +283,7 @@ function PropertyAddEssentials({ code, admin }) {
                   value={essentials?.restaurent}
                   onChange={inputHandler}
                   placeholder="eg: 1KM"
-                  className="form-input border-gray-200 rounded-md"
+                  className="form-input border-gray-600 rounded-md"
                 />
               </div>
               {customs.length > 0 && customs.map((c) => c)}
@@ -291,7 +291,7 @@ function PropertyAddEssentials({ code, admin }) {
                 type="button"
                 data-tip="Add New"
                 onClick={addNewCustom}
-                className="bg-white py-10 rounded-sm border border-gray-200 flex items-center justify-center"
+                className="bg-white py-10 rounded-sm border border-gray-600 flex items-center justify-center"
               >
                 <FiPlus />
                 <ReactTooltip />
