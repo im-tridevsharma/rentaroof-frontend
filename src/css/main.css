@@ -193,12 +193,16 @@ button {
 }
 
 .react-datepicker__input-container input {
-  @apply border-gray-200 rounded-md;
+  @apply border-gray-600 rounded-md;
 
   display: block;
   width: 100%;
   font-size: 0.75rem;
   line-height: 1rem;
+}
+
+.css-1s2u09g-control {
+  border-color: rgba(75, 85, 99, var(--tw-border-opacity)) !important;
 }
 
 .for-tenant-slider {

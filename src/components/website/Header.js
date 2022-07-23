@@ -293,7 +293,7 @@ function Header() {
                       : ""
                   }`}
                 >
-                  List Property
+                  Post Property
                 </a>
               </Link>
               <ul className="absolute childs top-8 left-0 text-gray-800  z-40 w-max">

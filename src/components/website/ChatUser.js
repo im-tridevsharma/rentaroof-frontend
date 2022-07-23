@@ -14,7 +14,6 @@ function ChatUser({
   setConversations,
 }) {
   const [isLoading, setIsLoading] = React.useState(false);
-
   const delConversation = async (id) => {
     if (confirm("Do you want to delete this conversation?")) {
       setIsLoading(true);
@@ -70,7 +69,7 @@ function ChatUser({
             </span>
           </p>
           <p className="text-gray-400 text-xs mt-1 truncate w-52">
-            {message?.message}
+            {message?.isHtml === "yes" ? "Shared a property" : message?.message}
           </p>
           <p style={{ fontFamily: "Opensans-bold" }}>{user?.type}</p>
         </div>

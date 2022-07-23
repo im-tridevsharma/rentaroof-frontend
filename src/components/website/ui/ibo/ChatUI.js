@@ -412,7 +412,7 @@ function ChatUI() {
           {selectedUser ? (
             <>
               <div
-                className="p-2 bg-white rounded-sm sticky top-0 z-50 border-gray-200 flex items-center justify-between"
+                className="p-2 bg-white rounded-sm sticky -top-2 z-50 border-gray-200 flex items-center justify-between"
                 style={{ borderWidth: "1px" }}
               >
                 <div className="flex items-center">
@@ -484,8 +484,8 @@ function ChatUI() {
                           {moment(key).format("DD-MM-YYYY")}
                         </span>
                         {messages[key].length > 0 ? (
-                          messages[key].map((m) => (
-                            <>
+                          messages[key].map((m, index) => (
+                            <div key={index}>
                               {m?.sender_id !== profile?.id ? (
                                 <ChatMessage
                                   key={m?.id}
@@ -502,7 +502,7 @@ function ChatUI() {
                                   conversationId={conversationId}
                                 />
                               )}
-                            </>
+                            </div>
                           ))
                         ) : (
                           <p>No messages found!</p>

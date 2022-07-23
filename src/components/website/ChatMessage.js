@@ -71,9 +71,14 @@ function ChatMessage({ reverse, message, user, conversationId }) {
           } rounded-md max-w-md ${!reverse && "shadow-md"}`}
         >
           {/**text */}
-          {chatMessage?.message_type === "text" && (
-            <p>{chatMessage?.message}</p>
-          )}
+          {chatMessage?.message_type === "text" &&
+            chatMessage?.isHtml === "no" && <p>{chatMessage?.message}</p>}
+          {chatMessage?.message_type === "text" &&
+            chatMessage?.isHtml === "yes" && (
+              <div
+                dangerouslySetInnerHTML={{ __html: chatMessage?.message }}
+              ></div>
+            )}
           {chatMessage?.message_type === "deal" && (
             <div
               className="flex flex-col"

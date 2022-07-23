@@ -202,6 +202,7 @@ function DashboardUI() {
                 onClick={() => setTab("upcoming")}
                 current={tab}
                 state="upcoming"
+                col={12}
               />
 
               <Card
@@ -209,6 +210,8 @@ function DashboardUI() {
                 label="Manage Profile"
                 icon={<FaUser />}
                 onClick={() => router.push("profile")}
+                col={12}
+                className="mt-3"
               />
             </div>
           </div>

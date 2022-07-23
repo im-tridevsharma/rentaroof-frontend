@@ -667,6 +667,7 @@ function AddPropertyUI({ admin = false }) {
                       available_from: moment(date).format("YYYY-MM-DD"),
                     }))
                   }
+                  className="border-gray-600"
                 />
                 <input
                   type="hidden"
@@ -723,6 +724,7 @@ function AddPropertyUI({ admin = false }) {
                   value={inspectionDays?.filter((o) =>
                     property?.inspection_days?.split(",")?.includes(o.value)
                   )}
+                  className="border-gray-600"
                 />
                 <input
                   type="hidden"

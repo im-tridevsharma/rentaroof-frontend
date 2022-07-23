@@ -79,7 +79,7 @@ function DashboardUI() {
                 icon={<FaBuilding />}
                 value={postedProperties || 0}
                 onClick={() => router.push("/ibo/manage-properties?t=posted")}
-                col={4}
+                col={12}
               />
               <Card
                 color="red"
@@ -87,7 +87,8 @@ function DashboardUI() {
                 icon={<FaCalendarAlt />}
                 onClick={() => router.push("/ibo/manage-properties?t=meetings")}
                 value={upcomingAppointments}
-                col={4}
+                col={12}
+                className="mt-3"
               />
               <Card
                 color="yellow"
@@ -95,7 +96,8 @@ function DashboardUI() {
                 icon={<FaTasks />}
                 onClick={() => router.push("/ibo/property-verification")}
                 value={verifications}
-                col={4}
+                col={12}
+                className="mt-3"
               />
               <Card
                 color="green"
@@ -103,8 +105,8 @@ function DashboardUI() {
                 icon={<FaListAlt />}
                 onClick={() => router.push("/ibo/manage-properties?t=rented")}
                 value={applications}
-                col={4}
-                className="mt-4"
+                col={12}
+                className="mt-3"
               />
             </div>
           </div>
