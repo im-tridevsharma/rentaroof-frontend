@@ -4,6 +4,7 @@ import { getProfile, updateProfile } from "../../../../lib/frontend/auth";
 import { FiAlertTriangle, FiCheckCircle, FiEye, FiInfo } from "react-icons/fi";
 import { GoVerified, GoUnverified } from "react-icons/go";
 import ReactTooltip from "react-tooltip";
+import { toast } from "react-toastify";
 
 function KycUI() {
   const [profilePic, setProfilePic] = useState("");
@@ -13,6 +14,7 @@ function KycUI() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [kyc, setKyc] = useState(false);
+  const [fileName, setFileName] = useState("");
 
   useEffect(() => {
     setIsLoading(true);
@@ -50,6 +52,16 @@ function KycUI() {
     }
   };
 
+  const getFileName = (e) => {
+    const file = e.target.files[0] || null;
+    if (file && file.type === "application/pdf") {
+      setFileName(`You selected <b>${file.name}</b>`);
+    } else {
+      document.querySelector("#file").value = "";
+      toast.error("Please select a valid document file.");
+    }
+  };
+
   const inputChangeHandler = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -82,6 +94,7 @@ function KycUI() {
       setTimeout(() => {
         setIsSaved(false);
       }, 3000);
+      toast.success("KYC Information has been updated successfully.");
       document.querySelector("#errors").scrollIntoView();
     } else {
       setErrors(response?.error);
@@ -387,6 +400,7 @@ function KycUI() {
                   </label>
                 )}
               </div>
+              <p dangerouslySetInnerHTML={{ __html: fileName }}></p>
               <div className="max-w-2xl w-full mt-3">
                 <div className="form-element">
                   <label>Document Number</label>

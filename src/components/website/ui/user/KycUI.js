@@ -33,6 +33,7 @@ function KycUI() {
   const [agreements, setAgreements] = useState([]);
   const [focus, setFocus] = useState(false);
   const [closedDeals, setClosedDeals] = useState([]);
+  const [fileName, setFileName] = useState("");
 
   const { website } = useSelector(
     (state) => ({
@@ -208,6 +209,7 @@ function KycUI() {
       setTimeout(() => {
         setIsSaved(false);
       }, 3000);
+      toast.success("KYC Information has been updated successfully.");
       document.querySelector("#errors").scrollIntoView();
     } else {
       setErrors(response?.error);
@@ -216,6 +218,16 @@ function KycUI() {
         setErrors(false);
       }, 3000);
       document.querySelector("#errors").scrollIntoView();
+    }
+  };
+
+  const getFileName = (e) => {
+    const file = e.target.files[0] || null;
+    if (file && file.type === "application/pdf") {
+      setFileName(`You selected <b>${file.name}</b>`);
+    } else {
+      document.querySelector("#file").value = "";
+      toast.error("Please select a valid document file.");
     }
   };
 
@@ -537,7 +549,13 @@ function KycUI() {
                     className="py-2 px-5 rounded-md cursor-pointer"
                     style={{ backgroundColor: "var(--orange)" }}
                   >
-                    <input type="file" id="file" name="document" hidden />
+                    <input
+                      type="file"
+                      id="file"
+                      name="document"
+                      hidden
+                      onChange={getFileName}
+                    />
                     <span>Upload</span>
                   </label>
 
@@ -555,6 +573,8 @@ function KycUI() {
                     </label>
                   )}
                 </div>
+                <p dangerouslySetInnerHTML={{ __html: fileName }}></p>
+
                 <div className="max-w-2xl w-full mt-3">
                   <div className="form-element">
                     <label>Document Number</label>
