@@ -15,6 +15,7 @@ import server, { __e } from "../../server";
 import UseAuthentication from "../../hooks/UseAuthentication";
 import RenderError from "../../components/website/RenderError";
 import { ToastContainer, toast } from "react-toastify";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 const getWebsiteValues = async (key) => {
   let setting = "";
@@ -37,6 +38,7 @@ function Index() {
   const [timerResend, setTimeResend] = useState(60);
   const [showMessage, setShowMessage] = useState(false);
   const [timer, setTimer] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
   const [a, setA] = useState(null);
   const [state, setState] = useState({
     email: "",
@@ -305,17 +307,23 @@ function Index() {
               </div>
               {!optSent && (
                 <div
-                  className="form-element mt-2 text-gray-700"
+                  className="form-element relative mt-2 text-gray-700"
                   style={{ fontFamily: "Opensans-semi-bold" }}
                 >
                   <div className="form-label">Password</div>
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     name="password"
                     className="form-input rounded-md border-2 border-gray-400"
                     value={state?.password ? state.password : ""}
                     onChange={handleChange}
                   />
+                  <p
+                    className="absolute right-3 cursor-pointer top-10"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <FiEye /> : <FiEyeOff />}
+                  </p>
                 </div>
               )}
               {optSent && (

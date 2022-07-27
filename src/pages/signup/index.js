@@ -12,6 +12,7 @@ import {
 } from "../../lib/frontend/auth";
 import server, { __e } from "../../server";
 import Cookies from "universal-cookie";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 const getWebsiteValues = async (key) => {
   let setting = "";
@@ -32,6 +33,7 @@ function Index({ rcode, a }) {
   const [emailotp, setEmailOtp] = useState(false);
   const [mobileotp, setMobileOtp] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [user, setUser] = useState(false);
   const cookies = new Cookies();
 
@@ -331,18 +333,24 @@ function Index({ rcode, a }) {
                     />
                   </div>
                   <div
-                    className="form-element mt-0 text-gray-700 md:ml-2 ml-0"
+                    className="form-element relative mt-0 text-gray-700 md:ml-2 ml-0"
                     style={{ fontFamily: "Opensans-semi-bold" }}
                   >
                     <div className="form-label">Password</div>
                     <input
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       name="password"
                       className="form-input rounded-md border-2 border-gray-400"
                       value={state?.password ? state.password : ""}
                       onChange={handleChange}
                       required={true}
                     />
+                    <p
+                      className="absolute right-3 cursor-pointer top-10"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <FiEye /> : <FiEyeOff />}
+                    </p>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2">

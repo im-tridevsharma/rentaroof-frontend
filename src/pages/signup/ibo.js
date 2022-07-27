@@ -11,6 +11,7 @@ import {
 import server from "../../server";
 import { GrFormPreviousLink } from "react-icons/gr";
 import { useRouter } from "next/router";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 const getWebsiteValues = async (key) => {
   let setting = "";
@@ -33,6 +34,7 @@ function Index({ rcode }) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [user, setUser] = useState(false);
   const [logo, setLogo] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [state, setState] = useState({
     role: "ibo",
     name: "",
@@ -271,18 +273,24 @@ function Index({ rcode }) {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2">
                   <div
-                    className="form-element mt-0 text-gray-700"
+                    className="form-element relative mt-0 text-gray-700"
                     style={{ fontFamily: "Opensans-semi-bold" }}
                   >
                     <div className="form-label">Password</div>
                     <input
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       name="password"
                       className="form-input rounded-md border-2 border-gray-400"
                       value={state?.password ? state.password : ""}
                       onChange={handleChange}
                       required={true}
                     />
+                    <p
+                      className="absolute right-3 cursor-pointer top-10"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <FiEye /> : <FiEyeOff />}
+                    </p>
                   </div>
                   <div
                     className="form-element mt-0 text-gray-700 md:ml-2 ml-0"
