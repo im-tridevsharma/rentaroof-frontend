@@ -216,7 +216,7 @@ function Index({ id }) {
         setIsLoading(false);
         setErrors(response?.error);
       } else {
-        toast.error(response?.message);
+        toast.warn(response?.message);
         setIsLoading(false);
       }
     } else {

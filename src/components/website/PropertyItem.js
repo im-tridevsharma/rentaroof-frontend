@@ -8,7 +8,8 @@ import {
   saveUserProperty,
 } from "../../lib/frontend/properties";
 import ReactTooltip from "react-tooltip";
-import { FaDirections } from "react-icons/fa";
+import { FaDirections, FaShareAlt } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 function PropertyItem({ property, overEvent, outEvent, user }) {
   const router = useRouter();
@@ -55,6 +56,27 @@ function PropertyItem({ property, overEvent, outEvent, user }) {
       });
     } else {
       toast.error("Geolocation is not supported by this browser.");
+    }
+  };
+
+  const shareIt = (title, link, short) => {
+    if (navigator.canShare) {
+      try {
+        navigator
+          .share({
+            title: title,
+            url: link,
+            text: short,
+          })
+          .then((value) => alert(value))
+          .catch((err) => {
+            console.log(err);
+          });
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      toast.error("Sharing is not supported by this browser.");
     }
   };
 
@@ -159,6 +181,16 @@ function PropertyItem({ property, overEvent, outEvent, user }) {
               data-tip="Get Direction"
             />
             <ReactTooltip />
+            <FaShareAlt
+              className="ml-4 text-lg cursor-pointer"
+              onClick={() =>
+                shareIt(
+                  property?.name,
+                  `/details/properties/${property?.property_code}`,
+                  property?.short_description
+                )
+              }
+            />
           </div>
         </div>
       </div>

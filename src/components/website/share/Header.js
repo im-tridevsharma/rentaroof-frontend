@@ -238,13 +238,22 @@ function Header({ page, user, setUser, notifications, setNotifications }) {
                         </Link>
                       </li>
                       {user?.role !== "tenant" && (
-                        <li>
-                          <Link href={`/${user?.role}/settings`}>
-                            <a className="py-3 bg-gray-50 border-b block hover:bg-gray-200">
-                              Settings
-                            </a>
-                          </Link>
-                        </li>
+                        <>
+                          <li>
+                            <Link href={`/${user?.role}/kyc`}>
+                              <a className="py-3 bg-gray-50 border-b block hover:bg-gray-200">
+                                KYC
+                              </a>
+                            </Link>
+                          </li>
+                          <li>
+                            <Link href={`/${user?.role}/settings`}>
+                              <a className="py-3 bg-gray-50 border-b block hover:bg-gray-200">
+                                Settings
+                              </a>
+                            </Link>
+                          </li>
+                        </>
                       )}
                       <li>
                         <a

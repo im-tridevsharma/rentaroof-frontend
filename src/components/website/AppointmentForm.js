@@ -117,7 +117,7 @@ function AppointmentForm({
   return (
     <>
       {isLoading && <Loader />}
-      <div className="absolute top-5 h-full max-w-6xl left-1/2 transform -translate-x-1/2 p-5 bg-white shadow-md rounded-md z-40 w-full">
+      <div className="absolute top-5 h-screen max-w-6xl left-1/2 transform -translate-x-1/2 p-5 bg-white shadow-md rounded-md z-40 w-full">
         <h5 style={{ fontFamily: "Opensans-semi-bold" }}>
           Agreement Details
           <FaTimes
@@ -173,7 +173,7 @@ function AppointmentForm({
             ></textarea>
           </div>
           <input type="hidden" name="agreement_type" defaultValue="Rental" />
-          <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 md:space-x-3">
             <div className="form-element mt-3">
               <label className="form-label">Adavance Month Amount</label>
               <input
@@ -204,32 +204,15 @@ function AppointmentForm({
                 className="form-input rounded-md border-gray-200"
               />
             </div>
+
             <div className="form-element mt-3">
-              <label className="form-label">IBO Fee Percentage (%)</label>
-              <input
-                type="text"
-                name="fee_percentage"
-                defaultValue={website?.ibo_commision}
-                readOnly
-                className="form-input rounded-md border-gray-200"
-              />
-            </div>
-            <div className="form-element mt-3">
-              <label className="form-label">Service Charges (Rs)</label>
+              <label className="form-label">R-A-R Service Charges (Rs)</label>
               <input
                 type="text"
                 name="fee_amount"
                 readOnly
                 defaultValue={parseFloat(
-                  parseFloat(
-                    final ? final : appointment?.property_monthly_rent
-                  ) -
-                    parseFloat(
-                      ((final ? final : appointment?.property_monthly_rent) *
-                        website?.ibo_commision) /
-                        100
-                    ) +
-                    parseFloat(website?.documentation_cost)
+                  appointment?.property_monthly_rent / 2
                 ).toFixed(2)}
                 className="form-input rounded-md border-gray-200"
               />

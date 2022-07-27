@@ -18,6 +18,8 @@ const ptype_options = [
 ];
 
 const counts = [
+  { value: 0.2, label: 0.2 },
+  { value: 0.5, label: 0.5 },
   { value: 1, label: 1 },
   { value: 2, label: 2 },
   { value: 3, label: 3 },

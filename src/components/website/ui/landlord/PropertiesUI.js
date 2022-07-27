@@ -55,7 +55,7 @@ const Button = ({ url }) => {
 
 function PropertiesUI() {
   const [isLoading, setIsLoading] = useState(false);
-  const [cardMode, setCardMode] = useState("posted");
+  const [cardMode, setCardMode] = useState("appointment");
   const [properties, setProperties] = useState([]);
   const [visitedProperties, setVisitedProperties] = useState([]);
   const [agreements, setAgreements] = useState([]);

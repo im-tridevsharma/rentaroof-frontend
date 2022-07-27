@@ -19,6 +19,7 @@ import { __d } from "../../../../server";
 import { useSelector, shallowEqual } from "react-redux";
 import { toast } from "react-toastify";
 import { FaQuestionCircle } from "react-icons/fa";
+import router from "next/router";
 
 function KycUI() {
   const [profilePic, setProfilePic] = useState("");
@@ -151,6 +152,8 @@ function KycUI() {
     })();
     fetchAwaitings();
     fetchAgreements();
+
+    setTab(router?.query?.a);
   }, []);
 
   const handleFileChange = (e) => {

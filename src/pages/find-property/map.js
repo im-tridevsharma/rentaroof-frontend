@@ -301,7 +301,7 @@ function Map() {
               className="font-bold mr-3"
               style={{ fontFamily: "Opensans-bold" }}
             >
-              {total} Properties {search ? "for " + search : ""}
+              {total} Properties
             </p>
             <h6
               className="font-bold text-sm"
@@ -320,6 +320,7 @@ function Map() {
               className="flex-1 flex px-3 ml-3"
               onSubmit={(e) => {
                 e.preventDefault();
+                setPropertySkip(0);
                 setSearch(document.forms.refineSearch.search.value);
                 setFilterData((prev) => ({
                   ...prev,
