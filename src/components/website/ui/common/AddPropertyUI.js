@@ -41,6 +41,21 @@ const inspectionDays = [
   { value: "sunday", label: "Sunday" },
 ];
 
+const floor_numbers_set = [
+  { value: "Basement", label: "Basement" },
+  { value: "Ground", label: "Ground" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" },
+  { value: "5", label: "5" },
+  { value: "6", label: "6" },
+  { value: "7", label: "7" },
+  { value: "8", label: "8" },
+  { value: "9", label: "9" },
+  { value: "10", label: "10" },
+];
+
 function AddPropertyUI({ admin = false }) {
   const editorRef = useRef(null);
   const [profile, setProfile] = useState(false);
@@ -529,7 +544,7 @@ function AddPropertyUI({ admin = false }) {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 md:space-x-3">
+            <div className="grid grid-cols-1 md:grid-cols-3 md:space-x-3">
               <div className="form-element">
                 <label className="form-label">
                   Bathroom<span style={{ color: "red" }}>*</span>
@@ -622,32 +637,32 @@ function AddPropertyUI({ admin = false }) {
                   />
                 </div>
               </div>
-              <div className="form-element">
-                <label className="form-label">
-                  Property On Floor<span style={{ color: "red" }}>*</span>
-                </label>
-                <div className="flex items-center justify-between">
-                  <select
-                    className="form-input border-gray-600 rounded-md"
-                    name="floor_number"
-                    value={floor_number}
-                    onChange={(e) => setFloorNumber(e.target.value)}
-                  >
-                    <option value="">Select</option>
-                    <option value="Basement">Basement</option>
-                    <option value="Ground">Ground</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                  </select>
-                </div>
+            </div>
+
+            <div className="form-element">
+              <label className="form-label">
+                Property On Floor<span style={{ color: "red" }}>*</span>
+              </label>
+              <div className="flex items-center justify-between">
+                <Select
+                  options={floor_numbers_set}
+                  isMulti={true}
+                  closeMenuOnSelect={false}
+                  onChange={(e) =>
+                    setFloorNumber(
+                      e
+                        .map((ele) => {
+                          return ele.value;
+                        })
+                        .join(",")
+                    )
+                  }
+                  value={floor_numbers_set?.filter((o) =>
+                    floor_number?.split(",")?.includes(o.value)
+                  )}
+                  className="border-gray-600 w-full"
+                />
+                <input type="hidden" name="floor_number" value={floor_number} />
               </div>
             </div>
 
