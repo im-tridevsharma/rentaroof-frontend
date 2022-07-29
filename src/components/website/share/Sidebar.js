@@ -30,7 +30,7 @@ function Sidebar({ name, user }) {
   return (
     <>
       {isLoading && <Loader overlay={true} />}
-      <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10 pt-1 pb-4 px-6">
+      <nav className="md:left-0 bg-black md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-x flex flex-wrap items-center justify-between relative md:w-64 z-10 pt-1 pb-4 px-6">
         <div className="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto">
           <button
             className="cursor-pointer text-black opacity-50 md:hidden px-3 py-1 text-xl leading-none bg-transparent rounded border border-solid border-transparent"
@@ -46,12 +46,12 @@ function Sidebar({ name, user }) {
                 className="h-14 w-14 border border-gray-500 rounded-full object-cover"
               />
               <p className="flex flex-col ml-2">
-                <b>
+                <b className="text-white">
                   {user?.first} {user?.last}
                 </b>
                 <span
                   style={{ fontSize: "10px" }}
-                  className="flex items-center"
+                  className="flex items-center text-white"
                 >
                   {user?.role}
                   {user?.account_status === "activated" ? (
@@ -93,7 +93,7 @@ function Sidebar({ name, user }) {
                 <input
                   type="text"
                   placeholder="Search"
-                  className="border-0 px-3 py-2 h-12 border border-solid border-blueGray-500 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-base leading-snug shadow-none outline-none focus:outline-none w-full font-normal"
+                  className="border-0 px-3 py-2 h-12 border-solid border-blueGray-500 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-base leading-snug shadow-none outline-none focus:outline-none w-full font-normal"
                 />
               </div>
             </form>
@@ -101,7 +101,7 @@ function Sidebar({ name, user }) {
             {links?.length > 0 ? (
               links.map((link, index) => (
                 <div key={index}>
-                  <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
+                  <h6 className="md:min-w-full text-gray-300 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
                     {link?.label}
                   </h6>
                   <ul className="md:flex-col md:min-w-full flex flex-col list-none">
@@ -110,7 +110,7 @@ function Sidebar({ name, user }) {
                         <li className="items-center" key={i}>
                           <Link href={nav?.href}>
                             <a
-                              className={`text-xs uppercase flex items-center py-3 font-bold block ${
+                              className={`text-xs uppercase flex items-center py-3 font-bold ${
                                 router.route === nav?.href
                                   ? "text-lightBlue-500 hover:text-lightBlue-600"
                                   : "text-blueGray-700 hover:text-blueGray-500"

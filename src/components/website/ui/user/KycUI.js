@@ -250,7 +250,13 @@ function KycUI() {
 
               <Card
                 color="green"
-                label="Application"
+                label={
+                  <span>
+                    Application
+                    <br />
+                    <br />
+                  </span>
+                }
                 icon={<FaEdit />}
                 onClick={() => setTab("deals")}
                 current={tab}
@@ -259,7 +265,14 @@ function KycUI() {
               />
               <Card
                 color="yellow"
-                label="User Kyc"
+                label={
+                  <span>
+                    User KYC
+                    <br />
+                    <br />
+                    <br />
+                  </span>
+                }
                 icon={<FaFingerprint />}
                 onClick={() => setTab("kyc")}
                 current={tab}

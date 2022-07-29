@@ -18,7 +18,7 @@ function Card({
       <div className="relative overflow-hidden flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg">
         <div
           className={`flex-auto p-4  ${onClick && "cursor-pointer"}  ${
-            state && state === current ? "border-b-8 border-green-400" : ""
+            state && state === current ? "border-b-8 border-black" : ""
           }`}
           onClick={onClick}
         >
